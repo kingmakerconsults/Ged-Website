@@ -1,0 +1,1123 @@
+{
+  "id": "ai_comp_science_1773722687159",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "multipleChoice",
+      "questionText": "A student is studying the orbital characteristics of several planets in our solar system. The data is presented in the table below:<table><thead><tr><th>Celestial Body</th><th>Average Distance from Sun (AU)</th><th>Orbital Period (Earth Years)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>0.24</td></tr><tr><td>Venus</td><td>0.72</td><td>0.62</td></tr><tr><td>Earth</td><td>1.00</td><td>1.00</td></tr><tr><td>Mars</td><td>1.52</td><td>1.88</td></tr></tbody></table>Based on the provided data, approximately how many times longer is the orbital period of Mars compared to that of Mercury?",
+      "answerOptions": [
+        {
+          "text": "Approximately 2 times longer",
+          "isCorrect": false,
+          "rationale": "To compare the orbital periods, divide Mars's orbital period (1.88 years) by Mercury's orbital period (0.24 years). 1.88 / 0.24 ≈ 7.83, which is not approximately 2."
+        },
+        {
+          "text": "Approximately 4 times longer",
+          "isCorrect": false,
+          "rationale": "To compare the orbital periods, divide Mars's orbital period (1.88 years) by Mercury's orbital period (0.24 years). 1.88 / 0.24 ≈ 7.83, which is not approximately 4."
+        },
+        {
+          "text": "Approximately 8 times longer",
+          "isCorrect": true,
+          "rationale": "To find how many times longer Mars's orbital period is than Mercury's, divide Mars's orbital period (1.88 Earth Years) by Mercury's orbital period (0.24 Earth Years). The calculation is 1.88 ÷ 0.24 ≈ 7.83. This value is approximately 8."
+        },
+        {
+          "text": "Approximately 10 times longer",
+          "isCorrect": false,
+          "rationale": "To compare the orbital periods, divide Mars's orbital period (1.88 years) by Mercury's orbital period (0.24 years). 1.88 / 0.24 ≈ 7.83, which is not approximately 10."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "3bd38989546fac8c2adb4ae927b4b083dc6a5f99"
+    },
+    {
+      "questionNumber": 2,
+      "type": "multipleChoice",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 3,
+      "type": "multipleChoice",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 4,
+      "type": "multipleChoice",
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "Diagram showing prevailing winds causing a rain shadow effect over mountains near an ocean, with elevation and distance scales."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "questionNumber": 5,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Plant Group</th><th>Light Intensity (lux)</th><th>Water Volume (mL/day)</th><th>Avg. Height Increase (cm/week)</th></tr></thead><tbody><tr><td>Group A</td><td>1000</td><td>50</td><td>2.5</td></tr><tr><td>Group B</td><td>2000</td><td>50</td><td>4.0</td></tr><tr><td>Group C</td><td>1000</td><td>100</td><td>3.0</td></tr><tr><td>Group D</td><td>2000</td><td>100</td><td>5.5</td></tr></tbody></table>Based on the data provided, if a plant's light intensity is increased from 1000 lux to 2000 lux while its water volume is kept constant at 50 mL/day, what is the approximate percentage increase in its average weekly height?",
+      "answerOptions": [
+        {
+          "text": "37.5%",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The percentage increase is found by dividing the increase in height by the initial height, then multiplying by 100. For Group A to B, the increase is (4.0 - 2.5) = 1.5 cm/week, and the initial height is 2.5 cm/week. So, (1.5 / 2.5) * 100 = 60%."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The percentage increase is found by dividing the increase in height by the initial height, then multiplying by 100. For Group A to B, the increase is (4.0 - 2.5) = 1.5 cm/week, and the initial height is 2.5 cm/week. So, (1.5 / 2.5) * 100 = 60%."
+        },
+        {
+          "text": "60%",
+          "isCorrect": true,
+          "rationale": "To find the percentage increase, first identify the average weekly height for the baseline condition (Group A: 2.5 cm/week) and the new condition (Group B: 4.0 cm/week). Calculate the difference: 4.0 - 2.5 = 1.5 cm/week. Then, divide the difference by the initial height and multiply by 100: (1.5 / 2.5) * 100 = 0.6 * 100 = 60%."
+        },
+        {
+          "text": "75%",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The percentage increase is found by dividing the increase in height by the initial height, then multiplying by 100. For Group A to B, the increase is (4.0 - 2.5) = 1.5 cm/week, and the initial height is 2.5 cm/week. So, (1.5 / 2.5) * 100 = 60%."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "7650e653a643b93d12fe922947f4b5e4f4803275"
+    },
+    {
+      "questionNumber": 6,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Plant Group</th><th>Initial Height (cm)</th><th>Final Height (cm)</th></tr></thead><tbody><tr><td>Control</td><td>10.0</td><td>18.0</td></tr><tr><td>Group X</td><td>10.0</td><td>22.0</td></tr><tr><td>Group Y</td><td>10.0</td><td>20.0</td></tr><tr><td>Group Z</td><td>10.0</td><td>19.0</td></tr></tbody></table>The table above shows the initial and final heights of four groups of plants after three weeks of observation. All groups started with the same average initial height. Based on the data, which plant group showed the largest percentage increase in height?",
+      "answerOptions": [
+        {
+          "text": "Control",
+          "isCorrect": false,
+          "rationale": "The Control group grew from 10.0 cm to 18.0 cm, which is an 80% increase ((18.0 - 10.0) / 10.0 * 100 = 80%)."
+        },
+        {
+          "text": "Group X",
+          "isCorrect": true,
+          "rationale": "Group X grew from 10.0 cm to 22.0 cm. The percentage increase is ((22.0 - 10.0) / 10.0) * 100 = 120%. This is the largest percentage increase among all groups."
+        },
+        {
+          "text": "Group Y",
+          "isCorrect": false,
+          "rationale": "Group Y grew from 10.0 cm to 20.0 cm, which is a 100% increase ((20.0 - 10.0) / 10.0 * 100 = 100%)."
+        },
+        {
+          "text": "Group Z",
+          "isCorrect": false,
+          "rationale": "Group Z grew from 10.0 cm to 19.0 cm, which is a 90% increase ((19.0 - 10.0) / 10.0 * 100 = 90%)."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "cbedadd2bdb39bcda4c73ea302c4d7d5e9b09cae"
+    },
+    {
+      "questionNumber": 7,
+      "type": "multipleChoice",
+      "questionText": "Prokaryotic cells, such as bacteria, differ from eukaryotic cells (like plant and animal cells) in that they lack:",
+      "answerOptions": [
+        {
+          "text": "A cell membrane",
+          "isCorrect": false,
+          "rationale": "All cells have a cell membrane."
+        },
+        {
+          "text": "Ribosomes",
+          "isCorrect": false,
+          "rationale": "All cells have ribosomes to produce proteins."
+        },
+        {
+          "text": "A nucleus and other membrane-bound organelles",
+          "isCorrect": true,
+          "rationale": "Correct. The genetic material in prokaryotes is located in a region called the nucleoid, not enclosed in a nucleus."
+        },
+        {
+          "text": "Genetic material (DNA)",
+          "isCorrect": false,
+          "rationale": "All cells have DNA."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "c0529fa77f94e0d41d721ff04beb8153c18236d4"
+    },
+    {
+      "questionNumber": 8,
+      "type": "passage",
+      "questionText": "According to the passage, what is the core principle guiding the management of natural resources under the concept of conservation?",
+      "answerOptions": [
+        {
+          "text": "Exploiting resources rapidly to maximize immediate economic growth.",
+          "isCorrect": false,
+          "rationale": "The passage states resources should 'not be wasted for the profit of a few' and emphasizes 'greatest good... for the longest time,' which contradicts rapid exploitation for immediate gain."
+        },
+        {
+          "text": "Ensuring that current generations benefit from resources without compromising future generations' access.",
+          "isCorrect": true,
+          "rationale": "The passage defines conservation as 'the greatest good to the greatest number for the longest time' and managing resources so that 'our children and our children’s children may have their share,' directly supporting this principle."
+        },
+        {
+          "text": "Completely preventing human interaction with natural environments to preserve their pristine state.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.'"
+        },
+        {
+          "text": "Transferring ownership of all natural resources from private entities to government control.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions the government as a 'trustee,' its primary focus is on wise use and management, not necessarily a change in ownership structure, and it refers to 'private fault' regarding waste, implying private ownership exists."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "00d7015103e1a1f46c46e55ca6caf254eb9f894f"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "The passage states that if forests 'are cut recklessly, the soil washes away and whole valleys are ruined.' This statement implies which of the following about the ecological role of forests?",
+      "answerOptions": [
+        {
+          "text": "Forests primarily serve as a source of lumber for economic development.",
+          "isCorrect": false,
+          "rationale": "While forests 'furnish lumber,' the passage highlights their role in preventing soil erosion and regulating streams, indicating a broader ecological function beyond just timber."
+        },
+        {
+          "text": "Forests are essential for maintaining soil stability and preventing environmental degradation in surrounding areas.",
+          "isCorrect": true,
+          "rationale": "The direct consequence of reckless cutting (soil washing away, valleys ruined) combined with the functions mentioned ('prevent floods, regulate streams') strongly supports the inference that forests maintain soil stability and prevent degradation."
+        },
+        {
+          "text": "The destruction of forests mainly affects localized private property, not larger public lands.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'whole valleys are ruined' and refers to waste as a 'public crime,' indicating impacts beyond localized private property."
+        },
+        {
+          "text": "The government is solely responsible for preventing soil erosion, regardless of forest management practices.",
+          "isCorrect": false,
+          "rationale": "The passage states that the government 'must see that these resources are used wisely,' implying that wise use practices, including forest management, are crucial in preventing issues like soil erosion, not that the government is solely responsible for reversing effects of poor practices."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "79b9c3bd7716e25227a1e65ce5b02feb4766da99"
+    },
+    {
+      "questionNumber": 10,
+      "type": "shortAnswer",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 11,
+      "type": "multipleChoice",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 12,
+      "type": "multipleChoice",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "According to the passage, what is the role of the rising hot gases in sustaining a candle flame?",
+      "answerOptions": [
+        {
+          "text": "They cool the flame, preventing it from overheating and extinguishing.",
+          "isCorrect": false,
+          "rationale": "The passage states that the rising hot gases draw in fresh air, which supplies oxygen, rather than cooling the flame to prevent overheating."
+        },
+        {
+          "text": "They carry away the products of combustion, like water and carbonic acid, clearing the path for more fuel.",
+          "isCorrect": false,
+          "rationale": "While the rising gases do carry away products, the passage specifically highlights their role in 'drawing in fresh air below, so that the process continues,' emphasizing oxygen supply."
+        },
+        {
+          "text": "They pull fresh air containing oxygen into the flame's base, allowing the combustion process to continue.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'The current of hot gases rises, drawing in fresh air below, so that the process continues,' indicating their role in supplying oxygen for sustained burning."
+        },
+        {
+          "text": "They convert the solid wax directly into a combustible vapor.",
+          "isCorrect": false,
+          "rationale": "The passage states that the wax is first turned into vapor before it burns, but attributes this to the heat of the flame, not the rising hot gases themselves converting it."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "683287342e34c79b369597ad0b26faf21ef0776e"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "Based on the experiments described in the passage, what can be inferred about the role of air in candle combustion?",
+      "answerOptions": [
+        {
+          "text": "Air is merely a medium through which the flame's heat is distributed.",
+          "isCorrect": false,
+          "rationale": "The passage indicates air's crucial role by stating the flame extinguishes when air is cut off and burns brighter with pure oxygen, showing it's more than just a medium for heat distribution."
+        },
+        {
+          "text": "The presence of air is necessary, but the exact composition of gases in the air does not significantly impact the flame.",
+          "isCorrect": false,
+          "rationale": "The passage contradicts this by stating the flame 'burns brighter' with pure oxygen, showing that the composition (specifically oxygen concentration) does impact the flame."
+        },
+        {
+          "text": "Air contains a vital component that acts as a fuel enhancer, as evidenced by the flame's response to its supply.",
+          "isCorrect": true,
+          "rationale": "The passage supports this by explaining that cutting off air extinguishes the flame and supplying pure oxygen makes it burn brighter, demonstrating that a component of air (oxygen) is essential for and enhances combustion."
+        },
+        {
+          "text": "Air acts primarily to dilute the burning wax vapor, preventing the flame from becoming too intense.",
+          "isCorrect": false,
+          "rationale": "The passage shows that increasing the 'air' component (oxygen) makes the flame brighter, which suggests it enhances rather than dilutes the combustion to prevent intensity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "537f13609f53d190cadf7f7aff17722a3a137c8f"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "questionText": "A group of biologists studied the metabolic rates of various organisms, measuring their oxygen consumption. The data collected is shown in the table below:<table><thead><tr><th>Organism</th><th>Mass (kg)</th><th>Oxygen Consumption Rate (mL/kg/hr)</th><th>Total Oxygen Consumption (mL/hr)</th></tr></thead><tbody><tr><td>Mouse</td><td>0.03</td><td>1500</td><td>45</td></tr><tr><td>Rabbit</td><td>2.0</td><td>500</td><td>1000</td></tr><tr><td>Human</td><td>70.0</td><td>200</td><td>14000</td></tr><tr><td>Elephant</td><td>5000.0</td><td>40</td><td>200000</td></tr></tbody></table>Based on the data presented, what is the difference in oxygen consumption rate per kilogram per hour between a mouse and a human?",
+      "answerOptions": [
+        {
+          "text": "100 mL/kg/hr",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. The oxygen consumption rate for a mouse is 1500 mL/kg/hr and for a human is 200 mL/kg/hr. The difference is 1500 - 200 = 1300 mL/kg/hr."
+        },
+        {
+          "text": "1300 mL/kg/hr",
+          "isCorrect": true,
+          "rationale": "The oxygen consumption rate per kilogram per hour for a mouse is 1500 mL/kg/hr, and for a human, it is 200 mL/kg/hr. The difference is calculated as 1500 - 200 = 1300 mL/kg/hr."
+        },
+        {
+          "text": "14800 mL/kg/hr",
+          "isCorrect": false,
+          "rationale": "This value incorrectly calculates the difference using total oxygen consumption or an unrelated value. The question specifically asks for the difference in oxygen consumption rate per kilogram per hour, which is 1500 - 200 = 1300 mL/kg/hr."
+        },
+        {
+          "text": "1500 mL/kg/hr",
+          "isCorrect": false,
+          "rationale": "This value represents the oxygen consumption rate of only the mouse, not the difference between the mouse and the human. The difference is 1500 - 200 = 1300 mL/kg/hr."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "15586bfa23a1e1f0aac626951db0c09dc20ff851"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the primary role of \"germs of microscopic organisms\" in relation to biological processes?",
+      "answerOptions": [
+        {
+          "text": "They are the substances that nourish microscopic organisms.",
+          "isCorrect": false,
+          "rationale": "The passage identifies germs as the cause of fermentation and disease, not as nourishment for organisms."
+        },
+        {
+          "text": "They are the fundamental cause of both fermentation and disease.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"These germs are the cause of fermentation and disease.\""
+        },
+        {
+          "text": "They are components of air that have no impact on living organisms.",
+          "isCorrect": false,
+          "rationale": "The passage clearly states germs cause disease, indicating a significant impact on organisms."
+        },
+        {
+          "text": "They are methods used to exclude unwanted biological processes.",
+          "isCorrect": false,
+          "rationale": "The passage states that *excluding* germs prevents processes, not that germs *are* the methods of exclusion."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "16a225403b7944f69e117fa8c912f74cf838bd82"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "If the claims in the passage are true, what is a logical method to prevent a substance from fermenting?",
+      "answerOptions": [
+        {
+          "text": "Increasing the exposure of the substance to air.",
+          "isCorrect": false,
+          "rationale": "The passage states that \"The air is full of the germs,\" so increasing air exposure would likely increase germ exposure and promote fermentation."
+        },
+        {
+          "text": "Introducing more microscopic organisms to the substance.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that germs of microscopic organisms cause fermentation, so adding more would likely promote it."
+        },
+        {
+          "text": "Creating an environment where germs are prevented from entering the substance.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"By excluding germs, one can prevent both processes from occurring,\" directly implying that preventing germs from entering a substance would prevent fermentation."
+        },
+        {
+          "text": "Changing the temperature of the substance without altering germ presence.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention temperature as a method for prevention; its focus is solely on the exclusion of germs."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "705ea70312c04afbbad140779b305a9da4fa0026"
+    },
+    {
+      "questionNumber": 20,
+      "type": "multipleChoice",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "What was the most significant conclusion drawn from the unexpected observation that some alpha particles were deflected backward during the gold foil experiment?",
+      "answerOptions": [
+        {
+          "text": "The atom's mass is concentrated in a tiny, dense nucleus, with most of the atom being empty space.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'This unexpected result led us to the conclusion that most of the atom is empty space, with a tiny dense nucleus at its center.'"
+        },
+        {
+          "text": "Alpha particles are much larger and heavier than electrons.",
+          "isCorrect": false,
+          "rationale": "While alpha particles are heavier than electrons, this specific observation (deflection backward) primarily led to conclusions about the nucleus and the atom's overall empty space, not merely the relative size/mass of alpha particles and electrons."
+        },
+        {
+          "text": "Gold atoms are fundamentally different from other elements.",
+          "isCorrect": false,
+          "rationale": "The experiment used gold foil, but the conclusions drawn were about the universal structure of 'the atom,' not specific to gold's uniqueness among elements."
+        },
+        {
+          "text": "Atoms are solid spheres throughout their structure.",
+          "isCorrect": false,
+          "rationale": "This option contradicts the passage's main conclusion: 'Thus the atom is not a solid sphere but a miniature solar system,' directly refuting the initial expectation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Structure of the Atom (Excerpt)</strong></p><p><em>Ernest Rutherford, 1911</em></p><p>When we fired alpha particles at thin gold foil, we expected them to pass straight through, but some were deflected backward. It was as if a cannonball had struck a piece of tissue paper and rebounded. This unexpected result led us to the conclusion that most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed. Thus the atom is not a solid sphere but a miniature solar system. The discovery changed our conception of matter and laid the foundation for the structure of the modern atom. It showed that the physical world is both more fragile and more wondrous than we had imagined.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "52bc94913a759e2692c11db5f5ad10157e675162"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "The passage describes the atom as a 'miniature solar system.' What does this analogy primarily suggest about the organization of an atom?",
+      "answerOptions": [
+        {
+          "text": "It has a central, massive component with smaller entities moving rapidly around it.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed,' which directly aligns with the 'miniature solar system' analogy where planets orbit a central sun."
+        },
+        {
+          "text": "The forces holding atoms together are similar to gravitational forces in space.",
+          "isCorrect": false,
+          "rationale": "The analogy specifically describes the structural arrangement (nucleus at center, electrons moving around), not the nature of the forces involved. The passage does not discuss the types of forces."
+        },
+        {
+          "text": "Atoms are incredibly vast and contain many unexplored regions.",
+          "isCorrect": false,
+          "rationale": "While the atom is mostly 'empty space,' the analogy emphasizes the *arrangement* of its components rather than its vastness or unexplored regions."
+        },
+        {
+          "text": "Atoms are composed of various elements found throughout the universe.",
+          "isCorrect": false,
+          "rationale": "The analogy focuses on the internal structure of a single atom, not its composition in terms of elements or its relation to universal composition."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Structure of the Atom (Excerpt)</strong></p><p><em>Ernest Rutherford, 1911</em></p><p>When we fired alpha particles at thin gold foil, we expected them to pass straight through, but some were deflected backward. It was as if a cannonball had struck a piece of tissue paper and rebounded. This unexpected result led us to the conclusion that most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed. Thus the atom is not a solid sphere but a miniature solar system. The discovery changed our conception of matter and laid the foundation for the structure of the modern atom. It showed that the physical world is both more fragile and more wondrous than we had imagined.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "72974be62887eff486f68bbc40a01b9fbe17d625"
+    },
+    {
+      "questionNumber": 23,
+      "type": "multipleChoice",
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionNumber": 24,
+      "type": "multipleChoice",
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionNumber": 25,
+      "type": "shortAnswer",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "According to the passage, what was a key development in transforming chemistry from a mysterious art into a verifiable science?",
+      "answerOptions": [
+        {
+          "text": "The understanding that all chemical operations result in the creation of new substances.",
+          "isCorrect": false,
+          "rationale": "The passage states, \"Nothing is created and nothing is lost in the operations of chemistry.\""
+        },
+        {
+          "text": "The adoption of accurate measurement tools and systematic naming conventions.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly... By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.\""
+        },
+        {
+          "text": "The discovery that burning metals always leads to an increase in their weight.",
+          "isCorrect": false,
+          "rationale": "While mentioned as an example, the increase in weight is a specific observation, not the overarching principle that transformed chemistry into a science."
+        },
+        {
+          "text": "The realization that certain particles can be lost or gained during chemical reactions.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes, \"Nothing is created and nothing is lost in the operations of chemistry.\" imprecise naming conventions."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "0e4e49ea1eb1f2c4a549e3a701e31650cc0888e8"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "Based on the provided definition of the law of conservation of mass, which statement best describes its implication?",
+      "answerOptions": [
+        {
+          "text": "The total weight of all substances involved in a chemical reaction will always remain the same.",
+          "isCorrect": true,
+          "rationale": "The passage defines the law: \"Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles... the weight of the substances before and after remains the same. This is the law of conservation of mass.\""
+        },
+        {
+          "text": "Metals increase in weight when burned in air, demonstrating that mass is created in some reactions.",
+          "isCorrect": false,
+          "rationale": "The passage explains the weight increase as a combination with air, not creation of mass. The total mass (metal + air) remains constant."
+        },
+        {
+          "text": "The production of a gas indicates that some mass has escaped and is therefore lost from the system.",
+          "isCorrect": false,
+          "rationale": "The passage states, \"When a gas is produced, the weight of the substances before and after remains the same,\" contradicting the idea of lost mass."
+        },
+        {
+          "text": "Chemical operations can lead to the creation or loss of particles, but only if observed carefully.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, \"Nothing is created and nothing is lost in the operations of chemistry.\" imprecise naming conventions."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "f43ae4f981c3c3935958fcd008073eea4bb94c05"
+    },
+    {
+      "questionNumber": 28,
+      "type": "multipleChoice",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 29,
+      "type": "shortAnswer",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 30,
+      "type": "multipleChoice",
+      "questionText": "A student conducted an experiment to compare the growth of four different plant groups over several days. The results are shown in the table below.<table><thead><tr><th>Plant Group</th><th>Initial Height (cm)</th><th>Final Height (cm)</th><th>Days Grown</th></tr></thead><tbody><tr><td>Group A</td><td>5.0</td><td>16.0</td><td>10</td></tr><tr><td>Group B</td><td>6.0</td><td>18.0</td><td>12</td></tr><tr><td>Group C</td><td>4.5</td><td>12.5</td><td>8</td></tr><tr><td>Group D</td><td>5.5</td><td>17.5</td><td>10</td></tr></tbody></table>Which plant group had the highest average daily growth rate?",
+      "answerOptions": [
+        {
+          "text": "Group A",
+          "isCorrect": false,
+          "rationale": "Group A's average daily growth rate was (16.0 cm - 5.0 cm) / 10 days = 1.1 cm/day."
+        },
+        {
+          "text": "Group B",
+          "isCorrect": false,
+          "rationale": "Group B's average daily growth rate was (18.0 cm - 6.0 cm) / 12 days = 1.0 cm/day."
+        },
+        {
+          "text": "Group C",
+          "isCorrect": false,
+          "rationale": "Group C's average daily growth rate was (12.5 cm - 4.5 cm) / 8 days = 1.0 cm/day."
+        },
+        {
+          "text": "Group D",
+          "isCorrect": true,
+          "rationale": "Group D's average daily growth rate was (17.5 cm - 5.5 cm) / 10 days = 1.2 cm/day, which is the highest."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "53e8e4e1229c1382455177586206672dc5694dbe"
+    },
+    {
+      "questionNumber": 31,
+      "type": "multipleChoice",
+      "questionText": "A scientist measures the mass and volume of four different substances. The results are shown in the table below.<table><thead><tr><th>Substance</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54.0</td><td>20.0</td></tr><tr><td>Copper</td><td>89.6</td><td>10.0</td></tr><tr><td>Lead</td><td>113.4</td><td>10.0</td></tr><tr><td>Pine Wood</td><td>15.0</td><td>30.0</td></tr></tbody></table>Which substance in the table has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "Aluminum has a density of 54.0 g / 20.0 cm³ = 2.7 g/cm³, which is not the lowest among the options."
+        },
+        {
+          "text": "Copper",
+          "isCorrect": false,
+          "rationale": "Copper has a density of 89.6 g / 10.0 cm³ = 8.96 g/cm³, which is not the lowest among the options."
+        },
+        {
+          "text": "Lead",
+          "isCorrect": false,
+          "rationale": "Lead has a density of 113.4 g / 10.0 cm³ = 11.34 g/cm³, which is not the lowest among the options."
+        },
+        {
+          "text": "Pine Wood",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume (D = \\(\\frac{m}{V}\\)). For Pine Wood, Density = 15.0 g / 30.0 cm³ = 0.5 g/cm³. This is the lowest density compared to Aluminum (2.7 g/cm³), Copper (8.96 g/cm³), and Lead (11.34 g/cm³)."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "dea7a7fca377ae37ea6bd4e78d017863baaf6477"
+    },
+    {
+      "questionNumber": 32,
+      "type": "multipleChoice",
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "Line graph showing relative humidity percentage over eight days, from May 1 to May 8."
+      },
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0007.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionNumber": 33,
+      "type": "passage",
+      "questionText": "According to the passage, what conclusion does the author draw about the nature of electric and magnetic forces?",
+      "answerOptions": [
+        {
+          "text": "They exert instantaneous actions on distant objects.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Electric and magnetic forces are not instantaneous actions at a distance.'"
+        },
+        {
+          "text": "They exist as conditions within a medium that fills space.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space.'"
+        },
+        {
+          "text": "They are a result of light traveling through a vacuum.",
+          "isCorrect": false,
+          "rationale": "The passage identifies them as 'conditions of a medium filling space' and links light to them, but doesn't limit them to a vacuum or state they are direct 'results' of light's travel in this manner."
+        },
+        {
+          "text": "They are distinct phenomena with no relation to each other.",
+          "isCorrect": false,
+          "rationale": "The passage begins by stating, 'The experiments of Faraday have shown that electric and magnetic phenomena are closely related.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "d954a9f7cf94d15760f1045bfe42c3047a838a63"
+    },
+    {
+      "questionNumber": 34,
+      "type": "passage",
+      "questionText": "The author concludes that 'light and magnetism are affections of the same substance' and that 'light is an electromagnetic wave.' What is the broader implication of this conclusion according to the passage?",
+      "answerOptions": [
+        {
+          "text": "It suggests that light travels faster than any known magnetic disturbance.",
+          "isCorrect": false,
+          "rationale": "The passage states the velocity of these waves 'is the same as that of light,' not faster."
+        },
+        {
+          "text": "It indicates that electric and magnetic forces act instantaneously across distances.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly refutes this, stating they 'are not instantaneous actions at a distance.'"
+        },
+        {
+          "text": "It unifies two major branches of physics, electromagnetism and optics.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Thus two great departments of physics are united,' referring to the union resulting from identifying light as an electromagnetic wave and its relation to magnetism."
+        },
+        {
+          "text": "It discredits Faraday's experiments on the relationship between electricity and magnetism.",
+          "isCorrect": false,
+          "rationale": "The passage begins by referencing Faraday's experiments as foundational: 'The experiments of Faraday have shown that electric and magnetic phenomena are closely related.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "cd3aabe3583635669315f4cdcd24a24c83f73a45"
+    },
+    {
+      "questionNumber": 35,
+      "type": "shortAnswer",
+      "questionText": "What coefficient is needed for O₂ in this equation: CH₄ + __O₂ → CO₂ + 2H₂O?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "ba2def90ccf47d90974460bb9f335702685af4df"
+    },
+    {
+      "questionNumber": 36,
+      "type": "shortAnswer",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "66cb138df3295106e3ab31c1e7157463c5cf97c9"
+    },
+    {
+      "questionNumber": 37,
+      "type": "multipleChoice",
+      "questionText": "A scientist recorded the average daily growth and water consumption for several plant types under controlled conditions. <table><thead><tr><th>Plant Type</th><th>Average Daily Growth (cm)</th><th>Water Consumed per Day (mL)</th></tr></thead><tbody><tr><td>Sunflower</td><td>2.5</td><td>500</td></tr><tr><td>Tomato Plant</td><td>1.8</td><td>350</td></tr><tr><td>Corn Stalk</td><td>3.2</td><td>600</td></tr><tr><td>Bean Stalk</td><td>1.5</td><td>200</td></tr></tbody></table> Based on the data, if a Sunflower grows for 10 days and a Bean Stalk grows for 15 days, which plant consumes more total water during its growth period, and by how much?",
+      "answerOptions": [
+        {
+          "text": "The Sunflower consumes 2000 mL more water than the Bean Stalk.",
+          "isCorrect": true,
+          "rationale": "To find the total water consumed by the Sunflower: 500 mL/day * 10 days = 5000 mL. To find the total water consumed by the Bean Stalk: 200 mL/day * 15 days = 3000 mL. The difference is 5000 mL - 3000 mL = 2000 mL. The Sunflower consumes more water."
+        },
+        {
+          "text": "The Bean Stalk consumes 1000 mL more water than the Sunflower.",
+          "isCorrect": false,
+          "rationale": "Total water for Sunflower: 500 mL/day * 10 days = 5000 mL. Total water for Bean Stalk: 200 mL/day * 15 days = 3000 mL. The Sunflower consumes more water than the Bean Stalk, and the difference is 2000 mL, not 1000 mL."
+        },
+        {
+          "text": "The Sunflower consumes 1000 mL more water than the Bean Stalk.",
+          "isCorrect": false,
+          "rationale": "Total water for Sunflower: 500 mL/day * 10 days = 5000 mL. Total water for Bean Stalk: 200 mL/day * 15 days = 3000 mL. The difference is 5000 mL - 3000 mL = 2000 mL, not 1000 mL."
+        },
+        {
+          "text": "The Bean Stalk consumes 2000 mL more water than the Sunflower.",
+          "isCorrect": false,
+          "rationale": "Total water for Sunflower: 500 mL/day * 10 days = 5000 mL. Total water for Bean Stalk: 200 mL/day * 15 days = 3000 mL. The Sunflower consumes more water than the Bean Stalk, not the other way around."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "14968c735b2b54decbc8244921a21dbf8458b660"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 4, expected ~9",
+    "Difficulty \"medium\": 26, expected ~19"
+  ]
+}

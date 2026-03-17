@@ -1,0 +1,1175 @@
+{
+  "id": "ai_comp_science_1773722150429",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Planet</th><th>Average Distance from Sun (AU)</th><th>Orbital Period (Earth Years)</th><th>Average Orbital Speed (km/s)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>0.24</td><td>47.4</td></tr><tr><td>Venus</td><td>0.72</td><td>0.62</td><td>35.0</td></tr><tr><td>Earth</td><td>1.00</td><td>1.00</td><td>29.8</td></tr><tr><td>Mars</td><td>1.52</td><td>1.88</td><td>24.1</td></tr></tbody></table>Based on the data in the table, how much longer, in Earth years, is the orbital period of Mars compared to Mercury?",
+      "answerOptions": [
+        {
+          "text": "0.76 Earth years",
+          "isCorrect": false,
+          "rationale": "This value represents the difference between Earth's orbital period and Mercury's, not Mars and Mercury."
+        },
+        {
+          "text": "1.64 Earth years",
+          "isCorrect": true,
+          "rationale": "To find how much longer Mars's orbital period is than Mercury's, subtract Mercury's orbital period (0.24 Earth years) from Mars's orbital period (1.88 Earth years): 1.88 - 0.24 = 1.64 Earth years."
+        },
+        {
+          "text": "1.88 Earth years",
+          "isCorrect": false,
+          "rationale": "This value is the orbital period of Mars, not the difference between Mars's and Mercury's orbital periods."
+        },
+        {
+          "text": "2.12 Earth years",
+          "isCorrect": false,
+          "rationale": "This value results from adding the orbital periods of Mars and Mercury (1.88 + 0.24), instead of subtracting to find the difference."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "4dc53748dc0b3a5f490e09d735805a2c5106eec4"
+    },
+    {
+      "questionNumber": 2,
+      "type": "passage",
+      "questionText": "Based on the passage, which statement best describes one of the continuous geological roles of the sea?",
+      "answerOptions": [
+        {
+          "text": "It primarily acts as a barrier that prevents land from changing.",
+          "isCorrect": false,
+          "rationale": "The passage describes the sea as actively changing land through erosion, not preventing change."
+        },
+        {
+          "text": "It is a major factor in the erosion and transfer of land material.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The continents themselves dissolve and pass to the sea, in grain after grain of eroded land,' directly indicating its role in erosion and land reshaping and transfer."
+        },
+        {
+          "text": "Its past influence on Earth's geology is no longer relevant today.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the sea 'today it continues to influence climate and sustain life' and that land 'pass to the sea,' contradicting this option."
+        },
+        {
+          "text": "Its main function is to consolidate new landmasses from sediment.",
+          "isCorrect": false,
+          "rationale": "The passage describes the sea receiving dissolved land material, not consolidating new continental landmasses."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "d4479a5d8e2dd67835dccf46640b804d53955266"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "What can be inferred about the sea's long-term interaction with land, according      to the passage?",
+      "answerOptions": [
+        {
+          "text": "The sea's influence on land formation has only recently become significant.",
+          "isCorrect": false,
+          "rationale": "The passage refers to the sea's 'mysterious past' and how it 'has shaped the Earth,' indicating a long history of influence, not a recent start."
+        },
+        {
+          "text": "Landmasses are gradually contributing material to the sea through natural processes.",
+          "isCorrect": true,
+          "rationale": "The phrase 'The continents themselves dissolve and pass to the sea, in grain after grain of eroded land' directly supports the inference that landmasses are gradually contributing material to the sea through erosion."
+        },
+        {
+          "text": "The sea primarily works to create new, larger continents over time.",
+          "isCorrect": false,
+          "rationale": "The passage describes the sea dissolving and receiving land material, not actively creating new or larger continents."
+        },
+        {
+          "text": "Geological processes involving the sea's interaction with land have largely ceased.",
+          "isCorrect": false,
+          "rationale": "The passage states that land 'pass to the sea' and the sea 'continues to influence climate and sustain life,' indicating ongoing geological and environmental processes, not a cessation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "e8932ee100d3ab6dd07712dec26dab0617b7a27d"
+    },
+    {
+      "questionNumber": 4,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Plant Type</th><th>Initial Biomass (g)</th><th>Final Biomass (g)</th><th>Growth Period (days)</th></tr></thead><tbody><tr><td>Sunflower</td><td>25.0</td><td>65.0</td><td>10</td></tr><tr><td>Tomato</td><td>30.0</td><td>80.0</td><td>10</td></tr><tr><td>Lettuce</td><td>15.0</td><td>40.0</td><td>10</td></tr></tbody></table>Based on the data, which plant type showed the greatest average daily biomass increase?",
+      "answerOptions": [
+        {
+          "text": "Sunflower",
+          "isCorrect": false,
+          "rationale": "The average daily biomass increase for Sunflower is calculated as (65.0 g - 25.0 g) / 10 days = 4.0 g/day. This is not the greatest increase among the plant types."
+        },
+        {
+          "text": "Tomato",
+          "isCorrect": true,
+          "rationale": "The average daily biomass increase for Tomato is calculated as (80.0 g - 30.0 g) / 10 days = 5.0 g/day. This is the highest average daily increase compared to the other plant types listed in the table."
+        },
+        {
+          "text": "Lettuce",
+          "isCorrect": false,
+          "rationale": "The average daily biomass increase for Lettuce is calculated as (40.0 g - 15.0 g) / 10 days = 2.5 g/day. This is not the greatest increase among the plant types."
+        },
+        {
+          "text": "All plants had the same average daily biomass increase.",
+          "isCorrect": false,
+          "rationale": "Calculating the average daily biomass increase for each plant type reveals different rates: Sunflower (4.0 g/day), Tomato (5.0 g/day), and Lettuce (2.5 g/day). Therefore, they did not all have the same average daily biomass increase."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "a0b1403b921abb6a6f30260df1c1473d766722ff"
+    },
+    {
+      "questionNumber": 5,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Temperature (°C)</th><th>Enzyme Activity (units/min)</th></tr></thead><tbody><tr><td>10</td><td>2.5</td></tr><tr><td>20</td><td>8.0</td></tr><tr><td>30</td><td>15.0</td></tr><tr><td>40</td><td>12.0</td></tr><tr><td>50</td><td>5.0</td></tr></tbody></table>Based on the data in the table, what is the approximate percentage decrease in enzyme activity when the temperature increases from 30°C to 40°C?",
+      "answerOptions": [
+        {
+          "text": "20%",
+          "isCorrect": true,
+          "rationale": "At 30°C, enzyme activity is 15.0 units/min. At 40°C, enzyme activity is 12.0 units/min. The decrease is 15.0 - 12.0 = 3.0 units/min. The percentage decrease is calculated as (decrease / original activity) * 100 = (3.0 / 15.0) * 100 = 0.20 * 100 = 20%."
+        },
+        {
+          "text": "25%",
+          "isCorrect": false,
+          "rationale": "This calculation incorrectly divides the decrease by the activity at 40°C (3.0 / 12.0 = 0.25), rather than the original activity at 30°C."
+        },
+        {
+          "text": "3%",
+          "isCorrect": false,
+          "rationale": "This answer represents the numerical difference in activity (3 units/min) but does not express it as a percentage of the original activity."
+        },
+        {
+          "text": "15%",
+          "isCorrect": false,
+          "rationale": "This is the activity at 30°C, not the percentage decrease."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "6d0a2e0a191396df0a408acc6abf8d3d12dfce72"
+    },
+    {
+      "questionNumber": 6,
+      "type": "multipleChoice",
+      "questionText": "A science class investigated the effect of different light conditions on the growth of bean plants over one week. The results are shown in the table below.<table><thead><tr><th>Light Condition</th><th>Initial Height (cm)</th><th>Final Height (cm)</th></tr></thead><tbody><tr><td>Full Sunlight</td><td>10.0</td><td>18.5</td></tr><tr><td>Partial Shade</td><td>10.2</td><td>14.8</td></tr><tr><td>Deep Shade</td><td>9.8</td><td>11.2</td></tr><tr><td>Artificial Light</td><td>10.1</td><td>16.0</td></tr></tbody></table>Based on the data, what was the approximate average daily growth (in cm) for the bean plant grown under Full Sunlight during the experiment?",
+      "answerOptions": [
+        {
+          "text": "0.84 cm",
+          "isCorrect": false,
+          "rationale": "This is the approximate average daily growth for the plant under Artificial Light (16.0 cm - 10.1 cm = 5.9 cm growth / 7 days \n 0.84 cm/day). The question asks for Full Sunlight."
+        },
+        {
+          "text": "1.21 cm",
+          "isCorrect": true,
+          "rationale": "For the plant grown under Full Sunlight, the total growth over the week was 18.5 cm - 10.0 cm = 8.5 cm. To find the average daily growth, divide the total growth by the number of days: 8.5 cm / 7 days \n 1.21 cm/day."
+        },
+        {
+          "text": "1.40 cm",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. The total growth for the Full Sunlight plant was 8.5 cm, and the daily average is 8.5 cm / 7 days \n 1.21 cm."
+        },
+        {
+          "text": "8.50 cm",
+          "isCorrect": false,
+          "rationale": "This represents the total growth (18.5 cm - 10.0 cm = 8.5 cm) for the Full Sunlight plant over the entire week, not the average daily growth."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "0d60bee7a5864939501aab0d230786e8419ccba8"
+    },
+    {
+      "questionNumber": 7,
+      "type": "multipleChoice",
+      "questionText": "Based on the data in the table, what is the density of copper?<table><thead><tr><th>Substance</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>27.0</td><td>10.0</td></tr><tr><td>Copper</td><td>89.6</td><td>10.0</td></tr><tr><td>Lead</td><td>113.4</td><td>10.0</td></tr><tr><td>Water</td><td>10.0</td><td>10.0</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "8.96 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume. For copper, 89.6 g / 10.0 cm³ = 8.96 g/cm³."
+        },
+        {
+          "text": "0.896 g/cm³",
+          "isCorrect": false,
+          "rationale": "This calculation would result from dividing 8.96 g by 10.0 cm³, not the correct mass of copper. The correct density is 8.96 g/cm³."
+        },
+        {
+          "text": "89.6 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value represents the mass of copper, not its density. Density is mass divided by volume."
+        },
+        {
+          "text": "10.0 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value represents the volume of copper, not its density. Density is mass divided by volume."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "630da0965f4411331b55f735d78d598e32a1c436"
+    },
+    {
+      "questionNumber": 8,
+      "type": "multipleChoice",
+      "questionText": "The table below shows the mass and volume for four different metal samples. To identify the metal, one must calculate its density (mass/volume).\n<table>\n  <thead>\n    <tr>\n      <th>Metal Sample</th>\n      <th>Mass (g)</th>\n      <th>Volume (cm³)</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>A</td>\n      <td>135</td>\n      <td>50</td>\n    </tr>\n    <tr>\n      <td>B</td>\n      <td>270</td>\n      <td>100</td>\n    </tr>\n    <tr>\n      <td>C</td>\n      <td>445</td>\n      <td>50</td>\n    </tr>\n    <tr>\n      <td>D</td>\n      <td>565</td>\n      <td>50</td>\n    </tr>\n  </tbody>\n</table>\nBased on the provided data, which metal sample most likely represents copper? (The approximate density of copper is 8.9 g/cm³)",
+      "answerOptions": [
+        {
+          "text": "Sample A",
+          "isCorrect": false,
+          "rationale": "To find the density of Sample A, divide its mass by its volume: 135 g / 50 cm³ = 2.7 g/cm³. This density does not match copper."
+        },
+        {
+          "text": "Sample B",
+          "isCorrect": false,
+          "rationale": "To find the density of Sample B, divide its mass by its volume: 270 g / 100 cm³ = 2.7 g/cm³. This density does not match copper."
+        },
+        {
+          "text": "Sample C",
+          "isCorrect": true,
+          "rationale": "To find the density of Sample C, divide its mass by its volume: 445 g / 50 cm³ = 8.9 g/cm³. This density matches the approximate density of copper."
+        },
+        {
+          "text": "Sample D",
+          "isCorrect": false,
+          "rationale": "To find the density of Sample D, divide its mass by its volume: 565 g / 50 cm³ = 11.3 g/cm³. This density does not match copper."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "8d77d8a8b732745c809edc54dc74c7becf75d72c"
+    },
+    {
+      "questionNumber": 9,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl \n FeCl\n + H\n?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": true,
+          "rationale": "To balance the equation, there is 1 Fe on the right side (FeCl\n), so there must be 1 Fe on the left side. The equation becomes 1Fe + 2HCl \n FeCl\n + H\n."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "A coefficient of 2 for Fe would result in an unbalanced equation with 2 Fe atoms on the left and 1 Fe atom on the right."
+        },
+        {
+          "text": "0",
+          "isCorrect": false,
+          "rationale": "A coefficient of 0 would mean no Fe is present, which is incorrect as Fe is a reactant in this equation."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "A coefficient of 3 for Fe would result in an unbalanced equation with 3 Fe atoms on the left and 1 Fe atom on the right."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "4fa1860e588c3fc5da6878fc77d94db717b8437a"
+    },
+    {
+      "questionNumber": 10,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H\n + O\n \n 2H\nO?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "To balance the equation, there are 4 H atoms on the right side (2H\nO), so there must be 4 H atoms on the left side. Placing a coefficient of 2 in front of H\n makes it 2H\n, resulting in 4 H atoms. The oxygen atoms are already balanced with 2 on each side. The balanced equation is 2H\n + O\n \n 2H\nO."
+        },
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "A coefficient of 1 for H\n would leave the hydrogen atoms unbalanced (2 H on left, 4 H on right)."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "A coefficient of 3 for H\n would result in 6 H atoms on the left, unbalancing the equation (4 H on right)."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "A coefficient of 4 for H\n would result in 8 H atoms on the left, unbalancing the equation (4 H on right)."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "6ed896b73f340496dc2ca219fface0dd120451c9"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "Which statement best summarizes the author's fundamental belief about how natural forces operate?",
+      "answerOptions": [
+        {
+          "text": "Each natural force acts independently, without any connection to others.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'I was deeply impressed by the idea that the forces of nature are not independent, but connected,' directly contradicting this option."
+        },
+        {
+          "text": "Forces require an invisible, undefined hand to transmit motion at a distance.",
+          "isCorrect": false,
+          "rationale": "The author states that a magnet acts 'not by an invisible hand, but by a real medium existing between them,' which refutes this option."
+        },
+        {
+          "text": "Space contains real 'lines of force' that serve as a medium for transmitting energy and motion.",
+          "isCorrect": true,
+          "rationale": "The author states, 'I believed that space itself is filled with lines of force. These lines are not imaginary but real\ncapable of transmitting energy and producing motion at a distance,' making this the core belief."
+        },
+        {
+          "text": "The influence of magnets is limited only to other magnetic materials and does not extend to other phenomena.",
+          "isCorrect": false,
+          "rationale": "The author claims, 'I have found that the same lines which pass through the magnet also influence light, heat, and electricity,' indicating a broader influence than just magnetic materials."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Physical Lines of Force (Excerpt)</strong></p><p><em>Michael Faraday, 1852</em></p><p>Before I began my experiments on magnetism and electricity, I was deeply impressed by the idea that the forces of nature are not independent, but connected. The concept of a 'field' was not yet established; yet I believed that space itself is filled with lines of force. These lines are not imaginary but real—capable of transmitting energy and producing motion at a distance. It seemed to me that a magnet acts upon another, not by an invisible hand, but by a real medium existing between them. I have found that the same lines which pass through the magnet also influence light, heat, and electricity. It is a grand and beautiful idea that all forces are manifestations of one universal power.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "72024b4a97bd610b578e74c1ec518a3a56d94175"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "Based on the passage, what can be inferred about the author's contribution to scientific thought?",
+      "answerOptions": [
+        {
+          "text": "The author established the definitive understanding of isolated forces in physics.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes the author's belief in interconnected forces, contradicting the idea of isolated forces."
+        },
+        {
+          "text": "The author's experiments proved that magnetism and electricity are entirely separate phenomena.",
+          "isCorrect": false,
+          "rationale": "The author mentions being impressed by the idea that forces are 'not independent, but connected' and that magnetic lines 'also influence light, heat, and electricity,' suggesting a connection rather than separation."
+        },
+        {
+          "text": "The author's concept of 'lines of force' likely predated or contributed to the later development of the 'field' concept.",
+          "isCorrect": true,
+          "rationale": "The passage notes, 'The concept of a 'field' was not yet established; yet I believed that space itself is filled with lines of force.' This strongly suggests the author's ideas were foundational or a precursor to the field concept."
+        },
+        {
+          "text": "The author's work was limited to theoretical speculation without any experimental basis.",
+          "isCorrect": false,
+          "rationale": "The passage begins with, 'Before I began my experiments on magnetism and electricity...' and later states, 'I have found that the same lines...', indicating that his ideas were informed by experiments."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Physical Lines of Force (Excerpt)</strong></p><p><em>Michael Faraday, 1852</em></p><p>Before I began my experiments on magnetism and electricity, I was deeply impressed by the idea that the forces of nature are not independent, but connected. The concept of a 'field' was not yet established; yet I believed that space itself is filled with lines of force. These lines are not imaginary but real—capable of transmitting energy and producing motion at a distance. It seemed to me that a magnet acts upon another, not by an invisible hand, but by a real medium existing between them. I have found that the same lines which pass through the magnet also influence light, heat, and electricity. It is a grand and beautiful idea that all forces are manifestations of one universal power.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "1e385ab71b6ad9af9e25883d5e65daee4c8dc1aa"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "The author uses the examples of a falling apple and the Moon's motion primarily to illustrate which of the following?",
+      "answerOptions": [
+        {
+          "text": "The distinct differences between earthly and celestial mechanics.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the discovery 'uniting the terrestrial and celestial,' contradicting the idea of distinct differences."
+        },
+        {
+          "text": "The unpredictability of natural phenomena.",
+          "isCorrect": false,
+          "rationale": "The passage notes that these laws secure 'the predictability of the universe,' not unpredictability."
+        },
+        {
+          "text": "The universal applicability of the laws of motion.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The same principle that guides the fall of an apple governs the motion of the Moon,' directly indicating a universal application of these principles to both terrestrial and celestial bodies."
+        },
+        {
+          "text": "The complex nature of gravitational forces.",
+          "isCorrect": false,
+          "rationale": "While gravity is implied, the primary point of these specific examples is to show the *sameness* of the principles, not necessarily the complexity of the forces themselves, especially in the context of 'order and simplicity'."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "0375ecf101e68e252dbf7b9a43b4a38a5239e598"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "Based on the passage, what is presented as the fundamental impact of these laws on understanding the universe?",
+      "answerOptions": [
+        {
+          "text": "They explain how objects naturally come to a stop over time.",
+          "isCorrect": false,
+          "rationale": "The first law explicitly states that a body 'continues in its state of rest, or of uniform motion in a straight line, unless compelled to change,' indicating that bodies do not naturally stop without external force."
+        },
+        {
+          "text": "They introduce a new type of force exclusive to celestial bodies.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes that 'The same principle' governs both terrestrial and celestial motion, not a new, exclusive force."
+        },
+        {
+          "text": "They reveal a unified, predictable, and mechanical order in the cosmos.",
+          "isCorrect": true,
+          "rationale": "The passage concludes that these laws secure 'the harmony of motion and the predictability of the universe' and open the door to 'a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity'."
+        },
+        {
+          "text": "They suggest that terrestrial physics and celestial physics operate under entirely separate rules.",
+          "isCorrect": false,
+          "rationale": "The passage directly contradicts this by stating the discovery 'uniting the terrestrial and celestial into one grand design'."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "79c249cab1f70d6df8b69e393f1fc9ba0b0b064f"
+    },
+    {
+      "questionNumber": 15,
+      "type": "multipleChoice",
+      "questionText": "What is the primary function of a plant's roots?",
+      "answerOptions": [
+        {
+          "text": "To perform photosynthesis.",
+          "isCorrect": false,
+          "rationale": "Photosynthesis primarily occurs in the leaves."
+        },
+        {
+          "text": "To anchor the plant and absorb water and nutrients from the soil.",
+          "isCorrect": true,
+          "rationale": "Correct. Roots provide stability and are the primary site of water and nutrient uptake."
+        },
+        {
+          "text": "To produce flowers for reproduction.",
+          "isCorrect": false,
+          "rationale": "Flowers are typically produced on the stem."
+        },
+        {
+          "text": "To transport water to the leaves.",
+          "isCorrect": false,
+          "rationale": "While roots are part of the transport system, their primary function is absorption."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "b6d06d136ada0ebbc1a2f3d6d17570691f66078e"
+    },
+    {
+      "questionNumber": 16,
+      "type": "multipleChoice",
+      "questionText": "A scientist measures the mass and volume of three different objects. The results are shown in the table below.<table><thead><tr><th>Object</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>A</td><td>150</td><td>50</td></tr><tr><td>B</td><td>200</td><td>80</td></tr><tr><td>C</td><td>120</td><td>60</td></tr></tbody></table>Based on the data, which object has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Object A",
+          "isCorrect": false,
+          "rationale": "Object A has a density of 150 g / 50 cm³ = 3.0 g/cm³."
+        },
+        {
+          "text": "Object B",
+          "isCorrect": false,
+          "rationale": "Object B has a density of 200 g / 80 cm³ = 2.5 g/cm³."
+        },
+        {
+          "text": "Object C",
+          "isCorrect": true,
+          "rationale": "Object C has a density of 120 g / 60 cm³ = 2.0 g/cm³. Comparing the densities (A: 3.0 g/cm³, B: 2.5 g/cm³, C: 2.0 g/cm³), Object C has the lowest density."
+        },
+        {
+          "text": "All objects have the same density.",
+          "isCorrect": false,
+          "rationale": "The calculations show that each object has a different density."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "94c773c235d3ad9eb7164bd5a9e7e5d0c6c7408c"
+    },
+    {
+      "questionNumber": 17,
+      "type": "standalone",
+      "questionText": "The diagram displays the human urinary system, which filters waste from the blood. The process of filtration in the kidneys involves the movement of substances across membranes. This movement is primarily driven by principles related to which of the following physical phenomena?",
+      "answerOptions": [
+        {
+          "text": "Electrical conductivity",
+          "isCorrect": false,
+          "rationale": "Electrical conductivity relates to the flow of charge and is not the primary physical phenomenon driving filtration in the kidneys."
+        },
+        {
+          "text": "Thermal expansion",
+          "isCorrect": false,
+          "rationale": "Thermal expansion refers to the change in volume of matter due to temperature changes, which is not directly responsible for kidney filtration."
+        },
+        {
+          "text": "Pressure differences",
+          "isCorrect": true,
+          "rationale": "Glomerular filtration in the kidneys is primarily driven by differences in hydrostatic pressure between the blood capillaries and Bowman's capsule, forcing fluid and solutes across the filtration membrane."
+        },
+        {
+          "text": "Magnetic fields",
+          "isCorrect": false,
+          "rationale": "Magnetic fields are not involved in the physiological process of blood filtration in the human urinary system."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/human_body_0002.png",
+        "alt": "Diagram of the human urinary system showing kidneys, ureters, bladder, and urethra, with adrenal glands."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "bankFingerprint": "277790ee2a511f29bc2279236dc1c194fce87dea"
+    },
+    {
+      "questionNumber": 18,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54</td><td>20</td></tr><tr><td>Copper</td><td>89</td><td>10</td></tr><tr><td>Iron</td><td>78</td><td>10</td></tr><tr><td>Lead</td><td>113</td><td>10</td></tr></tbody></table>Based on the data in the table, which of the listed materials has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume. For Aluminum, Density = 54 g / 20 cm³ = 2.7 g/cm³. For Copper, Density = 89 g / 10 cm³ = 8.9 g/cm³. For Iron, Density = 78 g / 10 cm³ = 7.8 g/cm³. For Lead, Density = 113 g / 10 cm³ = 11.3 g/cm³. Aluminum has the lowest density among the options."
+        },
+        {
+          "text": "Copper",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume. Copper's density is 89 g / 10 cm³ = 8.9 g/cm³, which is not the lowest among the options."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume. Iron's density is 78 g / 10 cm³ = 7.8 g/cm³, which is not the lowest among the options."
+        },
+        {
+          "text": "Lead",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume. Lead's density is 113 g / 10 cm³ = 11.3 g/cm³, which is the highest among the options, not the lowest."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "cab7fcf30002880fa7d0e6b751a1745f10642595"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "Which statement best summarizes the author's perspective on the relationship between humanity and the ocean, according to the passage?",
+      "answerOptions": [
+        {
+          "text": "Humanity has recently gained complete control over the sea's natural processes.",
+          "isCorrect": false,
+          "rationale": "The passage states that man is 'linked to the sea, not above it,' suggesting a relationship of interconnectedness and respect rather than control."
+        },
+        {
+          "text": "The sea is an eternal and powerful force that humanity is learning to acknowledge as an integral part of Earth's systems.",
+          "isCorrect": true,
+          "rationale": "The passage describes the sea as 'eternity,' having 'shaped the land, governed the climate, and sustained the web of life,' and notes that 'Man has begun to understand that he is linked to the sea, not above it,' all supporting this summary."
+        },
+        {
+          "text": "The primary role of the sea is to provide resources for human consumption and economic growth.",
+          "isCorrect": false,
+          "rationale": "While the sea provides resources, the passage emphasizes its broader roles in shaping land, governing climate, and sustaining life, not solely human consumption."
+        },
+        {
+          "text": "Understanding the sea's tides is sufficient for humanity to manage global climate change effectively.",
+          "isCorrect": false,
+          "rationale": "The passage uses tides as an example of 'change and balance' but does not claim that understanding them alone is sufficient for managing climate change."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "c399cb65425e31f5f1358cbd74a8dd0b031098c3"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "Based on the passage, what can be inferred about the concept of 'change and balance' described as the 'essence of the Earth'?",
+      "answerOptions": [
+        {
+          "text": "They are primarily driven by human activities that alter sea levels and marine ecosystems.",
+          "isCorrect": false,
+          "rationale": "The passage attributes 'change and balance' to 'The rhythm of tides, the endless rising and falling,' implying natural processes rather than human-driven ones."
+        },
+        {
+          "text": "They refer to the constant, natural fluctuations and inherent stability found throughout Earth's fundamental systems.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth,' indicating these are fundamental, natural characteristics of the planet, exemplified by the sea."
+        },
+        {
+          "text": "They are concepts that exclusively apply to the ocean's surface and do not extend to terrestrial environments.",
+          "isCorrect": false,
+          "rationale": "The phrase 'essence of the Earth' indicates a broader application to the entire planet, not just the ocean's surface."
+        },
+        {
+          "text": "They represent environmental problems that humanity must solve to restore the sea to its original, unchanging state.",
+          "isCorrect": false,
+          "rationale": "The passage describes 'change and balance' as the 'essence' of the Earth, suggesting they are fundamental natural characteristics, not problems requiring human intervention to 'solve' or revert to an 'unchanging state.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "71b93ba10859b4b509fd36d3790d2f0648737cfe"
+    },
+    {
+      "questionNumber": 22,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Planet</th><th>Average Distance from Sun (AU)</th><th>Orbital Period (Earth years)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>0.24</td></tr><tr><td>Venus</td><td>0.72</td><td>0.62</td></tr><tr><td>Earth</td><td>1.00</td><td>1.00</td></tr><tr><td>Mars</td><td>1.52</td><td>1.88</td></tr><tr><td>Jupiter</td><td>5.20</td><td>11.86</td></tr></tbody></table>Using the information in the table, approximately how many more Earth years does it take for Jupiter to complete one orbit around the Sun compared to Mars?",
+      "answerOptions": [
+        {
+          "text": "1.00 Earth years",
+          "isCorrect": false,
+          "rationale": "This value represents the orbital period of Earth, not the difference in orbital periods between Jupiter and Mars."
+        },
+        {
+          "text": "9.98 Earth years",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract Mars's orbital period (1.88 Earth years) from Jupiter's orbital period (11.86 Earth years): 11.86 - 1.88 = 9.98 Earth years."
+        },
+        {
+          "text": "10.86 Earth years",
+          "isCorrect": false,
+          "rationale": "This value might be obtained by subtracting Earth's orbital period from Jupiter's (11.86 - 1.00 = 10.86), which is not what the question asked."
+        },
+        {
+          "text": "13.74 Earth years",
+          "isCorrect": false,
+          "rationale": "This value is the sum of Jupiter's and Mars's orbital periods (11.86 + 1.88 = 13.74), not the difference."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "1920d1bf9881b48b886a616be5755bfacd792c41"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output \n input \n 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "For Bioreactor Y, Efficiency = (210 kJ \n 520 kJ) \n 100 \n 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "This is approximately the efficiency for Bioreactor X (182 \n 480 \n 100 \n 37.9%), not Bioreactor Y."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "While 40.38% is closer to 40%, 41% is a common rounding error if rounded up prematurely or if a different calculation was used."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "This is a significantly higher percentage than the actual efficiency of Bioreactor Y."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "07e3b35ce2c3e29ca134e356cfa43056f5b465f0"
+    },
+    {
+      "questionNumber": 24,
+      "type": "multipleChoice",
+      "questionText": "<table>  <thead>    <tr>      <th>Fertilizer Concentration (g/L)</th>      <th>Average Plant Height (cm)</th>      <th>Average Number of Leaves</th>    </tr>  </thead>  <tbody>    <tr>      <td>0</td>      <td>12.0</td>      <td>7</td>    </tr>    <tr>      <td>1</td>      <td>18.5</td>      <td>11</td>    </tr>    <tr>      <td>2</td>      <td>23.0</td>      <td>15</td>    </tr>    <tr>      <td>3</td>      <td>24.5</td>      <td>16</td>    </tr>    <tr>      <td>4</td>      <td>22.0</td>      <td>14</td>    </tr>  </tbody></table><br>Based on the data above, what is the approximate percentage increase in average plant height when plants are grown with the optimal fertilizer concentration compared to plants grown with no fertilizer?",
+      "answerOptions": [
+        {
+          "text": "About 85%",
+          "isCorrect": false,
+          "rationale": "To determine the percentage increase, identify the optimal average plant height from the table (24.5 cm at 3 \\(\\frac{g}{L}\\)) and the baseline height with no fertilizer (12.0 cm at 0 \\(\\frac{g}{L}\\)). The increase in height is 24.5 cm - 12.0 cm = 12.5 cm. The percentage increase is calculated as (increase / original height) * 100% = (12.5 / 12.0) * 100% = 104.16%, which is approximately 104%."
+        },
+        {
+          "text": "About 104%",
+          "isCorrect": true,
+          "rationale": "To determine the percentage increase, identify the optimal average plant height from the table, which is 24.5 cm at a fertilizer concentration of 3 \\(\\frac{g}{L}\\). The average plant height with no fertilizer (0 \\(\\frac{g}{L}\\)) is 12.0 cm. The increase in height is 24.5 cm - 12.0 cm = 12.5 cm. The percentage increase is calculated as (increase / original height) * 100% = (12.5 / 12.0) * 100% = 104.16%, which is approximately 104%."
+        },
+        {
+          "text": "About 125%",
+          "isCorrect": false,
+          "rationale": "To determine the percentage increase, identify the optimal average plant height from the table (24.5 cm at 3 \\(\\frac{g}{L}\\)) and the baseline height with no fertilizer (12.0 cm at 0 \\(\\frac{g}{L}\\)). The increase in height is 24.5 cm - 12.0 cm = 12.5 cm. The percentage increase is calculated as (increase / original height) * 100% = (12.5 / 12.0) * 100% = 104.16%, which is approximately 104%."
+        },
+        {
+          "text": "About 150%",
+          "isCorrect": false,
+          "rationale": "To determine the percentage increase, identify the optimal average plant height from the table (24.5 cm at 3 \\(\\frac{g}{L}\\)) and the baseline height with no fertilizer (12.0 cm at 0 \\(\\frac{g}{L}\\)). The increase in height is 24.5 cm - 12.0 cm = 12.5 cm. The percentage increase is calculated as (increase / original height) * 100% = (12.5 / 12.0) * 100% = 104.16%, which is approximately 104%."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "947025b5a2ae17632c678ddafa5676f129e4dfe7"
+    },
+    {
+      "questionNumber": 25,
+      "type": "standalone",
+      "questionText": "According to the immune-response diagram, which cells are produced after B-lymphocyte activation and release specific antibodies?",
+      "answerOptions": [
+        {
+          "text": "Macrophages",
+          "isCorrect": false,
+          "rationale": "Macrophages engulf pathogens earlier in the response but do not release specific antibodies."
+        },
+        {
+          "text": "Cytotoxic T cells",
+          "isCorrect": false,
+          "rationale": "Cytotoxic T cells destroy infected body cells rather than releasing antibodies."
+        },
+        {
+          "text": "Plasma cells",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows activated B cells producing plasma cells that release antibodies."
+        },
+        {
+          "text": "Memory cells",
+          "isCorrect": false,
+          "rationale": "Memory cells help future responses but are not the cells that release antibodies in the diagram."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/human_body_0003.png",
+        "alt": "A diagram illustrating the steps and cell types involved in the primary immune response."
+      },
+      "imageUrl": "/images/Science/human_body_0003.png",
+      "itemType": "image",
+      "groupId": "sci-img-human_body_0003.png",
+      "category": "Life Science",
+      "bankFingerprint": "0c97c2dab0243c25ec9a4f4d80f0d7e5b9b0f7da"
+    },
+    {
+      "questionNumber": 26,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Celestial Body</th><th>Avg. Distance from Sun (AU)</th><th>Avg. Surface Temp (K)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>440</td></tr><tr><td>Earth</td><td>1.00</td><td>288</td></tr><tr><td>Mars</td><td>1.52</td><td>210</td></tr><tr><td>Jupiter</td><td>5.20</td><td>165</td></tr></tbody></table>Using the data provided, what is the difference in average surface temperature between Mercury and Mars?",
+      "answerOptions": [
+        {
+          "text": "130 K",
+          "isCorrect": false,
+          "rationale": "To find the difference, subtract Mars's average temperature from Mercury's: 440 K - 210 K = 230 K. This option is incorrect."
+        },
+        {
+          "text": "230 K",
+          "isCorrect": true,
+          "rationale": "The average surface temperature of Mercury is 440 K, and for Mars, it is 210 K. The difference is 440 K - 210 K = 230 K."
+        },
+        {
+          "text": "300 K",
+          "isCorrect": false,
+          "rationale": "To find the difference, subtract Mars's average temperature from Mercury's: 440 K - 210 K = 230 K. This option is incorrect."
+        },
+        {
+          "text": "650 K",
+          "isCorrect": false,
+          "rationale": "This value would be the sum of the two temperatures (440 K + 210 K = 650 K), not their difference. To find the difference, subtract Mars's average temperature from Mercury's: 440 K - 210 K = 230 K."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ea37000d60ee6a21e73145cd5d6cf098330dd625"
+    },
+    {
+      "questionNumber": 27,
+      "type": "multipleChoice",
+      "questionText": "The table below provides characteristics for some terrestrial planets.<table><thead><tr><th>Planet</th><th>Mass (\\(10^{24}\\) kg)</th><th>Radius (km)</th><th>Average Density (g/cm³)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.330</td><td>2439</td><td>5.43</td></tr><tr><td>Venus</td><td>4.87</td><td>6052</td><td>5.24</td></tr><tr><td>Earth</td><td>5.97</td><td>6371</td><td>5.51</td></tr><tr><td>Mars</td><td>0.642</td><td>3390</td><td>3.93</td></tr></tbody></table>Based on the data, which of the listed terrestrial planets has the lowest average density?",
+      "answerOptions": [
+        {
+          "text": "Mercury",
+          "isCorrect": false,
+          "rationale": "Mercury has an average density of 5.43 g/cm³, which is not the lowest among the planets listed."
+        },
+        {
+          "text": "Venus",
+          "isCorrect": false,
+          "rationale": "Venus has an average density of 5.24 g/cm³, which is not the lowest among the planets listed."
+        },
+        {
+          "text": "Earth",
+          "isCorrect": false,
+          "rationale": "Earth has an average density of 5.51 g/cm³, which is the highest among the planets listed."
+        },
+        {
+          "text": "Mars",
+          "isCorrect": true,
+          "rationale": "Mars has an average density of 3.93 g/cm³, which is the lowest value provided in the table for these terrestrial planets."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "22ac67873941733bec66444aecf51fad59ffc615"
+    },
+    {
+      "questionNumber": 28,
+      "type": "standalone",
+      "questionText": "If two oceanic plates move away from each other, which feature would most likely form according to the plate-boundary diagram?",
+      "answerOptions": [
+        {
+          "text": "A ridge where new crust forms",
+          "isCorrect": true,
+          "rationale": "Correct. Divergent oceanic boundaries are associated with ridges and the formation of new crust."
+        },
+        {
+          "text": "A folded mountain range caused by compression",
+          "isCorrect": false,
+          "rationale": "Folded mountain ranges are more associated with convergent collisions."
+        },
+        {
+          "text": "A fossil-fuel deposit created by plant decay",
+          "isCorrect": false,
+          "rationale": "That is not the tectonic feature represented by separating oceanic plates."
+        },
+        {
+          "text": "A stationary hotspot volcano unrelated to plate movement",
+          "isCorrect": false,
+          "rationale": "The question asks about a feature caused by plates moving apart, which is a ridge."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0052.png",
+        "alt": "Cross-section diagram illustrating different types of plate tectonic boundaries and associated geological features."
+      },
+      "imageUrl": "/images/Science/unclassified_0052.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0052.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "fbce22017de79d27de16854ddb22a380fb388462"
+    },
+    {
+      "questionNumber": 29,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Moon</th><th>Orbital Period (days)</th><th>Distance from Jupiter (km x \\(10^{3}\\))</th></tr></thead><tbody><tr><td>Io</td><td>1.77</td><td>422</td></tr><tr><td>Europa</td><td>3.55</td><td>671</td></tr><tr><td>Ganymede</td><td>7.15</td><td>1070</td></tr><tr><td>Callisto</td><td>16.69</td><td>1883</td></tr></tbody></table>Based on the data in the table, how much longer, in days, does Callisto take to complete one orbit around Jupiter compared to Europa?",
+      "answerOptions": [
+        {
+          "text": "13.14 days",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract Europa's orbital period from Callisto's orbital period (16.69 days - 3.55 days = 13.14 days)."
+        },
+        {
+          "text": "20.24 days",
+          "isCorrect": false,
+          "rationale": "This answer is obtained by adding the orbital periods of Callisto and Europa, rather than finding the difference."
+        },
+        {
+          "text": "14.92 days",
+          "isCorrect": false,
+          "rationale": "This answer represents the difference between Callisto's and Io's orbital periods, not Callisto's and Europa's."
+        },
+        {
+          "text": "3.60 days",
+          "isCorrect": false,
+          "rationale": "This answer represents the difference between Ganymede's and Europa's orbital periods, not Callisto's and Europa's."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "8c37b6f55c99a44881496119d8bc2bfafef1b2d3"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth\n’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "481621c6dcc336899739f97453bc2e72e0dca2cf"
+    },
+    {
+      "questionNumber": 31,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 32,
+      "type": "passage",
+      "questionText": "Based on the provided passage, what condition increases an individual's likelihood of being \"naturally selected\"?",
+      "answerOptions": [
+        {
+          "text": "Being part of a species with a very large population.",
+          "isCorrect": false,
+          "rationale": "The passage mentions \"many more individuals...are born than can possibly survive\" but does not link natural selection to the absolute size of the species population, but rather to advantageous variations within it."
+        },
+        {
+          "text": "Developing variations that improve its chances of survival.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.\""
+        },
+        {
+          "text": "Successfully eliminating all competitors from its habitat.",
+          "isCorrect": false,
+          "rationale": "While there is a \"struggle for existence,\" the passage emphasizes variations \"profitable to itself\" leading to a \"better chance of surviving,\" not necessarily direct elimination of all competitors."
+        },
+        {
+          "text": "Ensuring the survival of all its offspring.",
+          "isCorrect": false,
+          "rationale": "The passage notes that \"many more individuals...are born than can possibly survive,\" indicating that complete offspring survival is not the norm or a requirement for natural selection in this context."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "d9aa58ea73537842b4b60090c762126fb53c0b4d"
+    },
+    {
+      "questionNumber": 33,
+      "type": "passage",
+      "questionText": "The passage indicates that a \"recurring struggle for existence\" is a consequence of which ecological principle?",
+      "answerOptions": [
+        {
+          "text": "The continuous generation of new advantageous traits within a species.",
+          "isCorrect": false,
+          "rationale": "Advantageous traits are a result of the struggle's outcome (natural selection), not the cause of the struggle itself."
+        },
+        {
+          "text": "The inherent desire of all organisms to reproduce indefinitely.",
+          "isCorrect": false,
+          "rationale": "While reproduction is implied, the passage attributes the struggle to the number of individuals born versus the capacity for survival, not simply the desire to reproduce."
+        },
+        {
+          "text": "An imbalance between the number of offspring produced and the resources available for survival.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence.\" This directly points to overproduction relative to survival capacity."
+        },
+        {
+          "text": "The need for individuals to migrate to new environments.",
+          "isCorrect": false,
+          "rationale": "Migration is not mentioned as the cause of the struggle; the struggle is inherent due to overproduction."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "c36185d6c42d2886e8f223b8213f249d2164e67a"
+    },
+    {
+      "questionNumber": 34,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Object</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>A</td><td>100</td><td>50</td></tr><tr><td>B</td><td>150</td><td>60</td></tr><tr><td>C</td><td>80</td><td>40</td></tr><tr><td>D</td><td>120</td><td>80</td></tr></tbody></table><br>Based on the data in the table, which object has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Object A",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume. For Object A, density = 100 g / 50 cm³ = 2.0 g/cm³. While Object A has a density of 2.0 g/cm³, Object B has a higher density of 2.5 g/cm³."
+        },
+        {
+          "text": "Object B",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume. For Object A, density = 100 g / 50 cm³ = 2.0 g/cm³. For Object B, density = 150 g / 60 cm³ = 2.5 g/cm³. For Object C, density = 80 g / 40 cm³ = 2.0 g/cm³. For Object D, density = 120 g / 80 cm³ = 1.5 g/cm³. Object B has the highest density at 2.5 g/cm³."
+        },
+        {
+          "text": "Object C",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume. For Object C, density = 80 g / 40 cm³ = 2.0 g/cm³. While Object C has a density of 2.0 g/cm³, Object B has a higher density of 2.5 g/cm³."
+        },
+        {
+          "text": "Object D",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume. For Object D, density = 120 g / 80 cm³ = 1.5 g/cm³. This is the lowest density among the given objects. Object B has the highest density at 2.5 g/cm³."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "f281101f2da19a2cc9dcd0dd499cf6a5ef64ea1f"
+    },
+    {
+      "questionNumber": 35,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Substance</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Quartz</td><td>67.5</td><td>25.0</td></tr><tr><td>Aluminum</td><td>81.0</td><td>30.0</td></tr><tr><td>Water</td><td>100.0</td><td>100.0</td></tr><tr><td>Iron</td><td>78.7</td><td>10.0</td></tr></tbody></table>Based on the data in the table, which substance has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Quartz",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. Quartz has a density of 67.5 g / 25.0 cm³ = 2.7 g/cm³, which is not the highest."
+        },
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. Aluminum has a density of 81.0 g / 30.0 cm³ = 2.7 g/cm³, which is not the highest."
+        },
+        {
+          "text": "Water",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. Water has a density of 100.0 g / 100.0 cm³ = 1.0 g/cm³, which is the lowest among the options."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": true,
+          "rationale": "To find density, divide mass by volume. Iron has a density of 78.7 g / 10.0 cm³ = 7.87 g/cm³. Comparing the densities: Quartz (2.7 g/cm³), Aluminum (2.7 g/cm³), Water (1.0 g/cm³), and Iron (7.87 g/cm³), Iron has the highest density."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "7afd5d35f7589d236308bd13bedd3b754f34dd89"
+    },
+    {
+      "questionNumber": 36,
+      "type": "multipleChoice",
+      "questionText": "The table below shows the activity level of a specific enzyme at various temperatures.<table><thead><tr><th>Temperature (\nC)</th><th>Enzyme Activity (units/min)</th></tr></thead><tbody><tr><td>10</td><td>5</td></tr><tr><td>20</td><td>15</td></tr><tr><td>30</td><td>25</td></tr><tr><td>40</td><td>20</td></tr><tr><td>50</td><td>10</td></tr></tbody></table>Based on the data provided, what is the approximate percentage decrease in enzyme activity when the temperature increases from 30\nC to 50\nC?",
+      "answerOptions": [
+        {
+          "text": "25%",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly calculates the decrease or uses an incorrect base for the percentage calculation. The activity decreased from 25 to 10 units/min, a drop of 15 units/min."
+        },
+        {
+          "text": "40%",
+          "isCorrect": false,
+          "rationale": "This percentage represents the activity remaining at 50\nC relative to the activity at 30\nC (10/25 * 100% = 40%), not the percentage decrease."
+        },
+        {
+          "text": "60%",
+          "isCorrect": true,
+          "rationale": "At 30\nC, the enzyme activity is 25 units/min. At 50\nC, it is 10 units/min. The decrease in activity is 25 - 10 = 15 units/min. To find the percentage decrease, divide the decrease by the original activity at 30\nC and multiply by 100: (15/25) * 100% = 0.6 * 100% = 60%."
+        },
+        {
+          "text": "150%",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. A percentage decrease cannot exceed 100% unless the activity becomes negative, which is not the case here."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "b2c6e7d9905f353402060931447074140d36bc90"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the most significant insight gained from using microscopes?",
+      "answerOptions": [
+        {
+          "text": "The true nature of many objects is far more complex and different than what is perceived by the unaided human senses.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'our senses do not reveal the whole of nature' and provides examples of things appearing solid, tiny, or smooth being revealed as cellular, elaborately jointed, or ragged, indicating a deeper, more complex reality."
+        },
+        {
+          "text": "Microscopes prove that the natural world is composed solely of microscopic 'cells'.",
+          "isCorrect": false,
+          "rationale": "While cork cells are mentioned, the passage also highlights complex insects and uneven razor edges, demonstrating a broader range of discoveries beyond just cells."
+        },
+        {
+          "text": "Scientific inquiry is best performed by observing objects that are too small to be seen with the naked eye.",
+          "isCorrect": false,
+          "rationale": "The passage highlights the utility of microscopes for small objects but does not claim this is the *best* or *only* method for all scientific inquiry."
+        },
+        {
+          "text": "All natural objects, when magnified, are found to be imperfect and flawed.",
+          "isCorrect": false,
+          "rationale": "The passage describes observations like an insect's elaborate structure, which implies complexity, not necessarily 'imperfection' or 'flawed' across all natural objects."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "7b8c80573540b16798a973426ff34f9d2b3f04eb"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "According to the passage, what is the dual lesson that 'these observations teach us humility' and 'curiosity'?",
+      "answerOptions": [
+        {
+          "text": "The limitation of our natural senses in perceiving reality, and the ongoing potential for new scientific discoveries.",
+          "isCorrect": true,
+          "rationale": "The passage states that humility comes from realizing 'our senses do not reveal the whole of nature,' and curiosity from wondering 'what other wonders lie hidden beyond the reach of our present instruments?'"
+        },
+        {
+          "text": "The difficulty in accurately describing microscopic objects, and the need for more advanced descriptive language.",
+          "isCorrect": false,
+          "rationale": "The passage provides clear descriptions of microscopic observations, so the difficulty of description is not the lesson. The focus is on discovery rather than descriptive language challenges."
+        },
+        {
+          "text": "The importance of carefully calibrating scientific instruments, and the excitement of inventing new technologies.",
+          "isCorrect": false,
+          "rationale": "While related to science, the passage's conclusion focuses on the *implications* of the observations themselves (limitations of senses, unknown wonders), not instrument maintenance or the act of invention."
+        },
+        {
+          "text": "The inherent flaws in natural objects like cork and razors, and the desire to improve manufacturing processes.",
+          "isCorrect": false,
+          "rationale": "The passage describes complexity and difference, not necessarily 'flaws' in a negative sense. The focus is on natural discovery, not industrial improvement or quality control."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "f2a0726b33e06afe5e4b774896a81d7a12394e92"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"medium\": 24, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}

@@ -4473,8 +4473,8 @@ export const expandedQuizData = {
                   },
                   {
                     questionNumber: 6,
-                    type: 'image',
-                    imageUrl: '/images/Science/ged_scince_fig_8_0001.png',
+                    type: 'multiple-choice-text',
+                    imageUrl: '',
                     question:
                       'If the person pushes the box with a force of 50 Newtons and the box moves 5 meters, how much work has been done?',
                     answerOptions: [
@@ -12884,8 +12884,8 @@ export const expandedQuizData = {
   typeof window !== 'undefined'
     ? window
     : typeof globalThis !== 'undefined'
-    ? globalThis
-    : null
+      ? globalThis
+      : null
 );
 
 if (typeof module !== 'undefined' && module.exports) {

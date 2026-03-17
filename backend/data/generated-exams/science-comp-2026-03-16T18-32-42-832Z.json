@@ -1,0 +1,1123 @@
+{
+  "id": "ai_comp_science_1773685813738",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the most significant implication of identifying germs as the cause of fermentation and disease?",
+      "answerOptions": [
+        {
+          "text": "It suggests that these processes can be controlled by managing germ exposure.",
+          "isCorrect": true,
+          "rationale": "The passage states that 'By excluding germs, one can prevent both processes from occurring,' which directly implies that controlling germ exposure is a method of control."
+        },
+        {
+          "text": "It provides a historical overview of early scientific beliefs about disease.",
+          "isCorrect": false,
+          "rationale": "The passage presents a specific scientific claim about causation and prevention, not a general historical context."
+        },
+        {
+          "text": "It implies that fermentation is always a detrimental process like disease.",
+          "isCorrect": false,
+          "rationale": "While the passage links germs to both processes and suggests preventing both, it does not equate the two in terms of their impact or imply fermentation is always detrimental."
+        },
+        {
+          "text": "It proves that all microscopic organisms are harmful to humans.",
+          "isCorrect": false,
+          "rationale": "The passage links 'germs of microscopic organisms' to fermentation and disease, but does not make a blanket statement about all microscopic organisms being harmful to humans."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "7249d0859866f45edeb97eb0c0b3a5669452a666"
+    },
+    {
+      "questionNumber": 2,
+      "type": "passage",
+      "questionText": "Which statement best describes the central scientific claim presented in the passage?",
+      "answerOptions": [
+        {
+          "text": "The presence of germs in the air directly leads to fermentation and disease.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'These germs are the cause of fermentation and disease,' which is the core scientific claim presented."
+        },
+        {
+          "text": "Microscopic organisms are abundant in the atmosphere.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions that 'The air is full of the germs of microscopic organisms,' this is a descriptive observation, not the central claim about causation and prevention."
+        },
+        {
+          "text": "Preventing disease is primarily achieved by understanding microscopic life.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on identifying germs as the cause and excluding them as the method of prevention, rather than a broader claim about understanding all microscopic life."
+        },
+        {
+          "text": "Fermentation is a natural process that occurs without human intervention.",
+          "isCorrect": false,
+          "rationale": "The passage attributes fermentation to germs and focuses on preventing it by excluding germs, rather than merely stating it is a natural process."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "03873ae3d517d28b3da63076c3d23b6ccab4b7cb"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "According to the author, what pivotal discovery about light resulted from expressing the relationship between electric and magnetic phenomena mathematically?",
+      "answerOptions": [
+        {
+          "text": "Light's velocity is dependent on the observer's motion.",
+          "isCorrect": false,
+          "rationale": "The passage discusses the propagation of light but makes no mention of observer dependence on velocity."
+        },
+        {
+          "text": "Light is a form of instantaneous action at a distance.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that electric and magnetic forces are 'not instantaneous actions at a distance,' and light is an electromagnetic phenomenon, contradicting this option."
+        },
+        {
+          "text": "Light is an electromagnetic wave propagated through a field.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws...Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave.' This directly supports option C."
+        },
+        {
+          "text": "Light and heat are fundamentally different types of energy.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the relationship between light, electricity, and magnetism, without discussing heat."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "68b13e8c7ec58469207ac9b0d502a92a632274b3"
+    },
+    {
+      "questionNumber": 4,
+      "type": "passage",
+      "questionText": "The author states that electric and magnetic forces are 'not instantaneous actions at a distance, but conditions of a medium filling space.' Which of the following best describes the author's view on how these forces exert their influence?",
+      "answerOptions": [
+        {
+          "text": "They act instantly on distant objects without any intermediary.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that these forces are 'not instantaneous actions at a distance.'"
+        },
+        {
+          "text": "They influence objects only when they are physically touching.",
+          "isCorrect": false,
+          "rationale": "The concept of 'a medium filling space' describes a field through which forces propagate, not a requirement for physical contact."
+        },
+        {
+          "text": "They require a physical substance to transmit their effects over a finite time.",
+          "isCorrect": true,
+          "rationale": "The passage states forces are 'conditions of a medium filling space' and that 'when these conditions change, waves are set up which travel with a finite velocity.' This implies that a medium is involved in the transmission of effects over a period of time, rather than instantaneously or by direct contact."
+        },
+        {
+          "text": "Their strength diminishes rapidly with increased distance, preventing long-range interactions.",
+          "isCorrect": false,
+          "rationale": "The passage discusses the mechanism and speed of propagation, but not specifically the rate at which force strength diminishes with distance."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "260502bb20b157bb2b705e480b9786549c956051"
+    },
+    {
+      "questionNumber": 5,
+      "type": "image",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 6,
+      "type": "passage",
+      "questionText": "Based on the passage, what is a primary advantage of alternating current (AC) systems over direct current (DC) systems for transmitting electric power?",
+      "answerOptions": [
+        {
+          "text": "AC systems are more complex, leading to fewer parts that wear out.",
+          "isCorrect": false,
+          "rationale": "The passage states AC allows for motors with 'few parts to wear,' implying simplicity and reliability, not greater complexity."
+        },
+        {
+          "text": "AC systems can be easily modified to higher and lower voltages, allowing for efficient long-distance transmission.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use,' highlighting this key advantage."
+        },
+        {
+          "text": "DC systems do not suffer from energy losses over distance, making them more economical.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'direct current systems would always suffer great losses over distance,' which contradicts this option."
+        },
+        {
+          "text": "DC systems are better suited for harnessing distant energy sources like waterfalls.",
+          "isCorrect": false,
+          "rationale": "The passage states that AC systems will 'make it possible to harness waterfalls and distant sources of energy for the service of cities,' implying DC is less effective for this purpose."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "456ef4d6b2b9b025b60c44974f6dc346c0f77c8e"
+    },
+    {
+      "questionNumber": 7,
+      "type": "passage",
+      "questionText": "The author refers to electricity, managed by alternating current, as a 'universal servant.' What does this phrase reveal about the author's perspective on AC power?",
+      "answerOptions": [
+        {
+          "text": "The author believes AC power will be difficult to control, requiring many skilled technicians to manage it.",
+          "isCorrect": false,
+          "rationale": "The phrase 'so managed' implies successful handling, making it a servant, not difficulty requiring many technicians. The term 'universal' also contradicts this."
+        },
+        {
+          "text": "The author suggests that AC technology will primarily benefit industrial sectors, not individual households.",
+          "isCorrect": false,
+          "rationale": "The passage states it will be 'lighting homes, driving machinery, and improving daily life,' indicating benefits beyond just industry."
+        },
+        {
+          "text": "The author anticipates AC power will have a widespread and transformative positive impact on all aspects of daily life.",
+          "isCorrect": true,
+          "rationale": "The phrase 'universal servant' is immediately followed by examples like 'lighting homes, driving machinery, and improving daily life,' indicating its broad and beneficial influence."
+        },
+        {
+          "text": "The author implies that the implementation of AC systems will be costly and only accessible to wealthy communities.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss cost or accessibility based on wealth; rather, it focuses on the functional benefits and widespread utility."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "c736c14c940d36608e1cc1717709513ec11ddcbc"
+    },
+    {
+      "questionNumber": 8,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Time (hours)</th><th>Bacterial Population (x \\(10^{3}\\) cells)</th></tr></thead><tbody><tr><td>0</td><td>200</td></tr><tr><td>2</td><td>400</td></tr><tr><td>4</td><td>800</td></tr><tr><td>6</td><td>1600</td></tr><tr><td>8</td><td>3200</td></tr></tbody></table>What was the average hourly growth rate (in x \\(10^{3}\\) cells/hour) of the bacterial population between 4 hours and 8 hours?",
+      "answerOptions": [
+        {
+          "text": "400",
+          "isCorrect": false,
+          "rationale": "The population increased by 2400 (x \\(10^{3}\\) cells) over 4 hours, not 1600. The average rate is the total change divided by the time interval."
+        },
+        {
+          "text": "600",
+          "isCorrect": true,
+          "rationale": "At 4 hours, the population was 800 (x \\(10^{3}\\) cells). At 8 hours, it was 3200 (x \\(10^{3}\\) cells). The change in population is 3200 - 800 = 2400 (x \\(10^{3}\\) cells). The time interval is 8 - 4 = 4 hours. The average hourly growth rate is \\(\\frac{2400}{4}\\) = 600 (x \\(10^{3}\\) cells/hour)."
+        },
+        {
+          "text": "800",
+          "isCorrect": false,
+          "rationale": "This is the population at 4 hours or the initial population increase from 0 to 2 hours. The average rate between 4 and 8 hours is different."
+        },
+        {
+          "text": "1200",
+          "isCorrect": false,
+          "rationale": "This would be the result if the time interval was 2 hours (2400/2), but the interval is 4 hours."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "96af7f4c2316308d2c6f3432eb55627c76cba846"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the author's primary scientific claim regarding the cause of fermentation and putrefaction?",
+      "answerOptions": [
+        {
+          "text": "Fermentation and putrefaction are caused by microscopic organisms whose germs are present in the air.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states: 'I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction.'"
+        },
+        {
+          "text": "Fermentation and putrefaction are spontaneous processes that arise from lifeless matter under specific conditions.",
+          "isCorrect": false,
+          "rationale": "The passage refutes this idea, stating: 'The idea that life can arise spontaneously from lifeless matter has no foundation in experiment.'"
+        },
+        {
+          "text": "Liquids become teeming with life only when they are deliberately inoculated with specific cultures.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'If exposed, it becomes teeming with life,' implying exposure to ambient air and its germs, not necessarily deliberate inoculation."
+        },
+        {
+          "text": "All sterile liquids will eventually become contaminated with microscopic life, regardless of protection.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'If a liquid is protected from these germs, it remains pure,' directly contradicting this option."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "9a0a668eb8574fb248e049e64ecc84c1ad38b7a1"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "What 'moral duty' does the author suggest arises from the scientific understanding that 'life comes only from life' and that germs cause disease?",
+      "answerOptions": [
+        {
+          "text": "To fund more research into discovering new forms of spontaneous generation.",
+          "isCorrect": false,
+          "rationale": "The author explicitly refutes spontaneous generation, so this would not be a moral duty derived from their findings."
+        },
+        {
+          "text": "To develop advanced microscopic technology to better observe airborne germs in all environments.",
+          "isCorrect": false,
+          "rationale": "While related to microbiology, the passage focuses on practical applications for health, not solely technological advancement."
+        },
+        {
+          "text": "To utilize scientific knowledge to prevent disease and improve public health through hygiene and sterilization.",
+          "isCorrect": true,
+          "rationale": "The author concludes: 'Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health,' specifically mentioning preventing germs in wounds and sterilizing instruments."
+        },
+        {
+          "text": "To educate the public that fermentation is a purely beneficial process for food preservation.",
+          "isCorrect": false,
+          "rationale": "The passage links fermentation with putrefaction and disease, not solely as a beneficial process, and the moral duty is broader."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "839090806074a063feb3cc283dd85f378e2cf0b5"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 12,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Plant Type</th><th>Water Intake (mL/day)</th><th>Nutrient X Intake (mg/day)</th><th>Biomass Produced (g/week)</th></tr></thead><tbody><tr><td>Sunflower</td><td>500</td><td>20</td><td>15</td></tr><tr><td>Tomato</td><td>450</td><td>18</td><td>12</td></tr><tr><td>Corn</td><td>600</td><td>25</td><td>18</td></tr><tr><td>Lettuce</td><td>300</td><td>10</td><td>8</td></tr></tbody></table><br>Based on the data provided, which plant type is the most efficient at converting Nutrient X into biomass?",
+      "answerOptions": [
+        {
+          "text": "Sunflower",
+          "isCorrect": false,
+          "rationale": "The Sunflower produces 15 g of biomass for 20 mg of Nutrient X, resulting in an efficiency of 0.75 g/mg. This is not the highest efficiency."
+        },
+        {
+          "text": "Tomato",
+          "isCorrect": false,
+          "rationale": "The Tomato plant produces 12 g of biomass for 18 mg of Nutrient X, resulting in an efficiency of approximately 0.67 g/mg. This is not the highest efficiency."
+        },
+        {
+          "text": "Corn",
+          "isCorrect": false,
+          "rationale": "The Corn plant produces 18 g of biomass for 25 mg of Nutrient X, resulting in an efficiency of 0.72 g/mg. This is not the highest efficiency."
+        },
+        {
+          "text": "Lettuce",
+          "isCorrect": true,
+          "rationale": "The Lettuce plant produces 8 g of biomass for 10 mg of Nutrient X, resulting in an efficiency of 0.80 g/mg (8/10 = 0.80). This is the highest efficiency among the options provided."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "fc200f7bc0f1417f92e99ad7482d1faf464aea4e"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "\"The present is the key to the past\" is a foundational idea presented in the passage. Which of the following statements best describes the meaning of this doctrine in the context of geology?",
+      "answerOptions": [
+        {
+          "text": "Geologists can predict future geological events by observing current ones.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes using current observations to understand past events, not to predict future ones."
+        },
+        {
+          "text": "Studying current geological processes allows scientists to understand past changes on Earth.",
+          "isCorrect": true,
+          "rationale": "This option accurately reflects the passage's statement that by studying forces 'now operating,' we 'can study nature as it is today and infer the history of our planet.'"
+        },
+        {
+          "text": "Past catastrophic events are the primary cause of Earth's current geological features.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks,' directly contradicting this option."
+        },
+        {
+          "text": "The Earth's age can only be determined by studying recent geological activity.",
+          "isCorrect": false,
+          "rationale": "While current activity is important, the passage emphasizes 'long, continuous action' and that the Earth is 'far older than many have supposed,' not just determined by recent activity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7fa6aa0d53449715a219b544f763a524af128d66"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "The author argues that \"We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks.\" What is the primary reason the author provides for this assertion?",
+      "answerOptions": [
+        {
+          "text": "Geological features are generally small and do not require large-scale explanations.",
+          "isCorrect": false,
+          "rationale": "The passage refers to 'great changes' and the ability of slow processes to 'raise continents and hollow seas,' indicating significant features, not small ones."
+        },
+        {
+          "text": "Catastrophic events have become less frequent over Earth's history.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the frequency of catastrophic events but rather whether they are necessary to explain geological changes."
+        },
+        {
+          "text": "Observable, slow processes, given enough time, can produce significant geological changes.",
+          "isCorrect": true,
+          "rationale": "The passage states that 'Slow, observable processes, given sufficient time, can raise continents and hollow seas,' which negates the need for sudden catastrophes."
+        },
+        {
+          "text": "Evidence of past catastrophic events is difficult to find in the geological record.",
+          "isCorrect": false,
+          "rationale": "The passage does not address the ease or difficulty of finding evidence for catastrophic events, but instead presents an alternative explanation based on uniform processes."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "30a6d127c615c5913af714abb8f0428780945a15"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "According to the passage, the core principle of conservation emphasizes what primary goal?",
+      "answerOptions": [
+        {
+          "text": "Maximizing the immediate financial gain from natural resources.",
+          "isCorrect": false,
+          "rationale": "The passage states resources are 'not to be wasted for the profit of a few,' directly contradicting this option."
+        },
+        {
+          "text": "Ensuring that resources are available for present and future generations through wise management.",
+          "isCorrect": true,
+          "rationale": "The passage defines conservation as 'the greatest good to the greatest number for the longest time' and managing resources so that 'our children and our children’s children may have their share,' which aligns with wise management for future availability."
+        },
+        {
+          "text": "Completely prohibiting the use of natural resources to protect them indefinitely.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly clarifies, 'Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.'"
+        },
+        {
+          "text": "Allowing private entities to control natural resources without government intervention.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'The government, as trustee for the people, must see that these resources are used wisely,' indicating a governmental role in oversight."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "5f5057f8b9db1d15798d0d71064d3fc5775cf7a9"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "The passage provides an example to illustrate the immediate negative impact of reckless resource management. What is this impact?",
+      "answerOptions": [
+        {
+          "text": "An increase in the overall profit for private companies operating in the affected areas.",
+          "isCorrect": false,
+          "rationale": "The passage describes negative environmental consequences of reckless use, not increased profits for companies."
+        },
+        {
+          "text": "The depletion of all mineral deposits due to over-extraction.",
+          "isCorrect": false,
+          "rationale": "While 'minerals' are mentioned as resources, the specific example of reckless use given is about 'forests' and their impact on 'soil' and 'valleys,' not minerals."
+        },
+        {
+          "text": "Soil erosion and the destruction of entire valleys from unchecked deforestation.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'If they are cut recklessly, the soil washes away and whole valleys are ruined,' directly linking reckless forest cutting to soil erosion and valley destruction."
+        },
+        {
+          "text": "The government losing its authority to manage public lands effectively.",
+          "isCorrect": false,
+          "rationale": "The passage states the government 'must see that these resources are used wisely,' implying its role, but does not describe its loss of authority as an *immediate negative impact of reckless resource use* in the same way as environmental damage."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "d749a257885f15b8cdb9734df916137ad9e465be"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "questionText": "Structures that are similar in different species because they were inherited from a common ancestor are called:",
+      "answerOptions": [
+        {
+          "text": "Analogous structures",
+          "isCorrect": false,
+          "rationale": "Analogous structures have a similar function but evolved independently (e.g., wings of a bird and an insect)."
+        },
+        {
+          "text": "Vestigial structures",
+          "isCorrect": false,
+          "rationale": "Vestigial structures are remnants of features that served a function in an organism's ancestors (e.g., the human appendix)."
+        },
+        {
+          "text": "Homologous structures",
+          "isCorrect": true,
+          "rationale": "Correct. The wing of a bat, the flipper of a whale, and the arm of a human are homologous structures, indicating a shared evolutionary history."
+        },
+        {
+          "text": "Convergent structures",
+          "isCorrect": false,
+          "rationale": "This is not a standard term; convergent evolution leads to analogous structures."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "b61b3a9812f183efa1cd00af5ef0df8f04420e49"
+    },
+    {
+      "questionNumber": 18,
+      "type": "image",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 19,
+      "type": "standalone",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 20,
+      "type": "standalone",
+      "questionText": "A scientist investigated the effect of varying water amounts on plant growth. The table below shows the average weekly growth of four different plant groups, each receiving a specific average daily water amount, while other factors were kept constant. <table><thead><tr><th>Plant Group</th><th>Avg. Daily Water (mL)</th><th>Avg. Weekly Growth (cm)</th><th>Soil pH</th></tr></thead><tbody><tr><td>Group A</td><td>50</td><td>1.2</td><td>6.5</td></tr><tr><td>Group B</td><td>75</td><td>1.8</td><td>6.8</td></tr><tr><td>Group C</td><td>100</td><td>2.5</td><td>7.0</td></tr><tr><td>Group D</td><td>125</td><td>2.0</td><td>6.7</td></tr></tbody></table> Based on the data, which plant group demonstrated the highest average weekly growth per milliliter of water provided daily?",
+      "answerOptions": [
+        {
+          "text": "Group A",
+          "isCorrect": false,
+          "rationale": "Group A had 1.2 cm of growth for 50 mL of water, resulting in a ratio of 0.024 cm/mL (1.2 / 50). This is not the highest ratio."
+        },
+        {
+          "text": "Group B",
+          "isCorrect": false,
+          "rationale": "Group B had 1.8 cm of growth for 75 mL of water, resulting in a ratio of 0.024 cm/mL (1.8 / 75). This is not the highest ratio."
+        },
+        {
+          "text": "Group C",
+          "isCorrect": true,
+          "rationale": "Group C had 2.5 cm of growth for 100 mL of water, resulting in a ratio of 0.025 cm/mL (2.5 / 100). This is the highest growth per milliliter of water compared to the other groups."
+        },
+        {
+          "text": "Group D",
+          "isCorrect": false,
+          "rationale": "Group D had 2.0 cm of growth for 125 mL of water, resulting in a ratio of 0.016 cm/mL (2.0 / 125). This is the lowest ratio among the groups."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "7f1c9f4a4d339a65a408f51e28c460998ad1b068"
+    },
+    {
+      "questionNumber": 21,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 22,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for O<sub>2</sub> in this equation: CH<sub>4</sub> + __O<sub>2</sub> → CO<sub>2</sub> + 2H<sub>2</sub>O?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "47042f967bf5af2a26f4fa75dba39424172776d6"
+    },
+    {
+      "questionNumber": 23,
+      "type": "standalone",
+      "questionText": "Balance this equation: N<sub>2</sub> + __H<sub>2</sub> → 2NH<sub>3</sub>. What coefficient is needed for H<sub>2</sub>?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "3728c3cfde1fae6fe470773a8d9c9f8c00f93ca9"
+    },
+    {
+      "questionNumber": 24,
+      "type": "image",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 25,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Planet</th><th>Mass (\\(10^{24}\\) kg)</th><th>Radius (km)</th><th>Density (g/\\(cm^{3}\\))</th></tr></thead><tbody><tr><td>Earth</td><td>5.97</td><td>6371</td><td>5.51</td></tr><tr><td>Mars</td><td>0.64</td><td>3390</td><td>3.93</td></tr><tr><td>Jupiter</td><td>1898</td><td>69911</td><td>1.33</td></tr><tr><td>Saturn</td><td>568</td><td>58232</td><td>0.69</td></tr></tbody></table>Based on the provided data, which planet is most likely composed primarily of rock and metal?",
+      "answerOptions": [
+        {
+          "text": "Earth",
+          "isCorrect": true,
+          "rationale": "Earth has the highest density (5.51 g/\\(cm^{3}\\)) among the planets listed, which is characteristic of rocky planets composed primarily of silicates and metals."
+        },
+        {
+          "text": "Mars",
+          "isCorrect": false,
+          "rationale": "While Mars is a rocky planet, its density (3.93 g/\\(cm^{3}\\)) is lower than Earth's, suggesting a different internal composition or proportion of materials compared to Earth's high density."
+        },
+        {
+          "text": "Jupiter",
+          "isCorrect": false,
+          "rationale": "Jupiter has a very low density (1.33 g/\\(cm^{3}\\)), which is characteristic of gas giants composed primarily of hydrogen and helium, not rock and metal."
+        },
+        {
+          "text": "Saturn",
+          "isCorrect": false,
+          "rationale": "Saturn has an extremely low density (0.69 g/\\(cm^{3}\\)), even less than water, clearly indicating it is a gas giant composed mainly of hydrogen and helium, not rock and metal."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "5c36b64f84e66db9a42f9171ffcb7c2d65792588"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 28,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 30,
+      "type": "standalone",
+      "questionText": "A group of scientists conducted an experiment to determine the effectiveness of different fertilizers on plant growth. They measured the initial and final heights of identical plants grown with four different fertilizers over a four-week period. The results are shown in the table below.<table><thead><tr><th>Fertilizer Type</th><th>Initial Height (cm)</th><th>Final Height (cm)</th><th>Weeks of Growth</th></tr></thead><tbody><tr><td>Fertilizer A</td><td>10</td><td>25</td><td>4</td></tr><tr><td>Fertilizer B</td><td>12</td><td>30</td><td>4</td></tr><tr><td>Fertilizer C</td><td>8</td><td>20</td><td>4</td></tr><tr><td>Fertilizer D</td><td>11</td><td>28</td><td>4</td></tr></tbody></table>Based on the data, which fertilizer resulted in the greatest average weekly increase in plant height?",
+      "answerOptions": [
+        {
+          "text": "Fertilizer A",
+          "isCorrect": false,
+          "rationale": "For Fertilizer A, the height increase was 25 cm - 10 cm = 15 cm. Over 4 weeks, the average weekly increase was 15 cm / 4 weeks = 3.75 cm/week."
+        },
+        {
+          "text": "Fertilizer B",
+          "isCorrect": true,
+          "rationale": "For Fertilizer B, the height increase was 30 cm - 12 cm = 18 cm. Over 4 weeks, the average weekly increase was 18 cm / 4 weeks = 4.5 cm/week. This is the highest average weekly increase among the options."
+        },
+        {
+          "text": "Fertilizer C",
+          "isCorrect": false,
+          "rationale": "For Fertilizer C, the height increase was 20 cm - 8 cm = 12 cm. Over 4 weeks, the average weekly increase was 12 cm / 4 weeks = 3.0 cm/week."
+        },
+        {
+          "text": "Fertilizer D",
+          "isCorrect": false,
+          "rationale": "For Fertilizer D, the height increase was 28 cm - 11 cm = 17 cm. Over 4 weeks, the average weekly increase was 17 cm / 4 weeks = 4.25 cm/week."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "51c05285e72da4b66c20a1b84e1d50bbaf66ec4c"
+    },
+    {
+      "questionNumber": 31,
+      "type": "standalone",
+      "questionText": "A student investigated the effect of different fertilizers on the growth of bean plants over a three-week period. All plants received the same amount of water and sunlight. The average plant height and leaf count for each group are shown in the table below. <table><thead><tr><th>Fertilizer Type</th><th>Average Plant Height (cm)</th><th>Average Leaf Count</th></tr></thead><tbody><tr><td>Control (No Fertilizer)</td><td>12.5</td><td>4</td></tr><tr><td>Fertilizer A</td><td>18.0</td><td>6</td></tr><tr><td>Fertilizer B</td><td>15.5</td><td>5</td></tr><tr><td>Fertilizer C</td><td>21.0</td><td>7</td></tr></tbody></table> Based on the data, which fertilizer resulted in the greatest increase in average plant height compared to the control group?",
+      "answerOptions": [
+        {
+          "text": "Fertilizer A",
+          "isCorrect": false,
+          "rationale": "Fertilizer A resulted in an increase of 5.5 cm (18.0 cm - 12.5 cm), which is less than the increase from Fertilizer C."
+        },
+        {
+          "text": "Fertilizer B",
+          "isCorrect": false,
+          "rationale": "Fertilizer B resulted in an increase of 3.0 cm (15.5 cm - 12.5 cm), which is the smallest increase among the fertilizers tested."
+        },
+        {
+          "text": "Fertilizer C",
+          "isCorrect": true,
+          "rationale": "Fertilizer C resulted in an increase of 8.5 cm (21.0 cm - 12.5 cm), which is the largest increase in average plant height compared to the control group."
+        },
+        {
+          "text": "Control (No Fertilizer)",
+          "isCorrect": false,
+          "rationale": "The control group serves as a baseline for comparison and did not receive any fertilizer, therefore it did not 'result in an increase' compared to itself."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "32be8a72a31cc7886d035ef69fce21eb6bb4c397"
+    },
+    {
+      "questionNumber": 32,
+      "type": "image",
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionNumber": 33,
+      "type": "standalone",
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionNumber": 34,
+      "type": "image",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 35,
+      "type": "image",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 36,
+      "type": "image",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 37,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Object</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>A</td><td>150</td><td>50</td></tr><tr><td>B</td><td>240</td><td>60</td></tr><tr><td>C</td><td>200</td><td>40</td></tr><tr><td>D</td><td>160</td><td>80</td></tr></tbody></table>Based on the data in the table, which object has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Object A",
+          "isCorrect": false,
+          "rationale": "To determine density, divide mass by volume. Object A's density is 150 g / 50 cm³ = 3.0 g/cm³."
+        },
+        {
+          "text": "Object B",
+          "isCorrect": false,
+          "rationale": "To determine density, divide mass by volume. Object B's density is 240 g / 60 cm³ = 4.0 g/cm³."
+        },
+        {
+          "text": "Object C",
+          "isCorrect": true,
+          "rationale": "To determine density, divide mass by volume. Object C's density is 200 g / 40 cm³ = 5.0 g/cm³. This is the highest density among the objects listed."
+        },
+        {
+          "text": "Object D",
+          "isCorrect": false,
+          "rationale": "To determine density, divide mass by volume. Object D's density is 160 g / 80 cm³ = 2.0 g/cm³."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "7216480bbf39bc1a17203a02d13bcc08bd271381"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 4, expected ~9",
+    "Difficulty \"medium\": 26, expected ~19"
+  ]
+}

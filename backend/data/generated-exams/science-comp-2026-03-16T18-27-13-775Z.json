@@ -1,0 +1,1230 @@
+{
+  "id": "ai_comp_science_1773685504523",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "multipleChoice",
+      "questionText": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi. If a disease were to suddenly wipe out the rabbit population, which organism would be most directly affected?",
+      "answerOptions": [
+        {
+          "text": "The grass",
+          "isCorrect": false,
+          "rationale": "The grass population would likely increase due to the loss of a primary consumer."
+        },
+        {
+          "text": "The foxes",
+          "isCorrect": true,
+          "rationale": "Correct. The foxes rely on the rabbits as a primary food source. A loss of rabbits would directly impact their survival."
+        },
+        {
+          "text": "The owls",
+          "isCorrect": false,
+          "rationale": "While the owls might be indirectly affected if the fox population declines, the most direct impact is on the foxes."
+        },
+        {
+          "text": "The fungi",
+          "isCorrect": false,
+          "rationale": "The fungi decompose all organisms, so they would still have a source of dead organic matter."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "785025e72aaa6b09dd04a4613ca7fbfb2207612a"
+    },
+    {
+      "questionNumber": 2,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Substance</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Substance A</td><td>150</td><td>60</td></tr><tr><td>Substance B</td><td>200</td><td>50</td></tr><tr><td>Substance C</td><td>120</td><td>80</td></tr><tr><td>Substance D</td><td>190</td><td>45</td></tr></tbody></table>Based on the data in the table, which substance has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Substance A",
+          "isCorrect": false,
+          "rationale": "The density of Substance A is calculated as Mass/Volume = 150 g / 60 cm³ = 2.5 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Substance B",
+          "isCorrect": false,
+          "rationale": "The density of Substance B is calculated as Mass/Volume = 200 g / 50 cm³ = 4.0 g/cm³. While high, it is not the greatest density among the options."
+        },
+        {
+          "text": "Substance C",
+          "isCorrect": false,
+          "rationale": "The density of Substance C is calculated as Mass/Volume = 120 g / 80 cm³ = 1.5 g/cm³. This is the lowest density."
+        },
+        {
+          "text": "Substance D",
+          "isCorrect": true,
+          "rationale": "The density of Substance D is calculated as Mass/Volume = 190 g / 45 cm³ = approximately 4.22 g/cm³. This is the highest density among the given substances."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "862f4c9bcbe6ef64875cff91682822bfb6687ac5"
+    },
+    {
+      "questionNumber": 3,
+      "type": "multipleChoice",
+      "questionText": "What coefficient is needed for Fe in: Fe + 2HCl → FeCl₂ + H₂?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": true,
+          "rationale": "To balance the equation Fe + 2HCl → FeCl₂ + H₂, the coefficient for Fe must be 1 on both sides. There is 1 Fe on the right (in FeCl₂), so there must be 1 Fe on the left."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "If the coefficient for Fe was 2, the equation would have 2 Fe on the left but only 1 Fe on the right."
+        },
+        {
+          "text": "0",
+          "isCorrect": false,
+          "rationale": "A coefficient of 0 would mean no Fe is present, which is incorrect as Fe is a reactant."
+        },
+        {
+          "text": "No coefficient is needed",
+          "isCorrect": false,
+          "rationale": "While a '1' is often omitted, it is still the coefficient that balances the atoms."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "0ce175d2eeeb132a6fe591006b723040e5cbf3cb"
+    },
+    {
+      "questionNumber": 4,
+      "type": "multipleChoice",
+      "questionText": "Balance this equation: N₂ + H₂ → 2NH₃. What coefficient is needed for H₂?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "If the coefficient for H₂ was 1, there would be 2 H atoms on the left and 6 H atoms on the right (in 2NH₃), which is unbalanced."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "If the coefficient for H₂ was 2, there would be 4 H atoms on the left and 6 H atoms on the right, which is unbalanced."
+        },
+        {
+          "text": "3",
+          "isCorrect": true,
+          "rationale": "To balance the equation N₂ + H₂ → 2NH₃, we need 2 N atoms on the left (from N₂) and 6 H atoms on the right (from 2NH₃). A coefficient of 3 for H₂ gives 6 H atoms on the left (3 x 2 = 6)."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If the coefficient for H₂ was 4, there would be 8 H atoms on the left and 6 H atoms on the right, which is unbalanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "b27bf7e62b3542388f5a3246a4fd3fdd4ad2cc42"
+    },
+    {
+      "questionNumber": 5,
+      "type": "multipleChoice",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 6,
+      "type": "multipleChoice",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 7,
+      "type": "multipleChoice",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "2.7 mL/min",
+          "isCorrect": true,
+          "rationale": "For the high-speed fan, the water remaining at 20 minutes was 198 mL, and at 60 minutes it was 90 mL. The amount evaporated is 198 mL - 90 mL = 108 mL. The time elapsed is 60 min - 20 min = 40 min. The average evaporation rate is 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value would be half of the actual average evaporation rate calculated from the data."
+        },
+        {
+          "text": "1.8 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is incorrect; it does not match the calculation from the provided data."
+        },
+        {
+          "text": "2.6 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is incorrect; it does not match the calculation from the provided data for the entire interval."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "a033c04837060faea4d5714b7eb57b182adaa4e3"
+    },
+    {
+      "questionNumber": 8,
+      "type": "multipleChoice",
+      "questionText": "According to the passage, what is a key outcome of thoroughly examining the root, stem, leaf, flower, and fruit of plants?",
+      "answerOptions": [
+        {
+          "text": "To appreciate the aesthetic value and decorative uses of various plant species.",
+          "isCorrect": false,
+          "rationale": "The passage states that the flower \"seems to be a mere ornament\" but clarifies its true function, indicating that aesthetic value is not the primary outcome of scientific examination."
+        },
+        {
+          "text": "To comprehend how plants remain stationary and silent within their environment.",
+          "isCorrect": false,
+          "rationale": "While the passage notes plants are \"fixed to the soil and silent,\" the examination of their parts is for understanding their structure and function, not merely their static nature."
+        },
+        {
+          "text": "To identify consistent structural patterns that allow for the classification of plants into families and genera.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"By examining the root, stem, leaf, flower, and fruit, we find constant patterns. ... By attending to these parts, we can distinguish families and genera.\""
+        },
+        {
+          "text": "To determine the exact chemical composition of each plant part for medicinal applications.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on structural patterns and classification, as well as reproduction and practical improvement of crops, but does not mention chemical composition or medicinal applications."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Introduction to Structural Botany (Excerpt)</strong></p><p><em>Asa Gray, 1879</em></p><p>Plants, though fixed to the soil and silent, are not beyond the reach of orderly study. By examining the root, stem, leaf, flower, and fruit, we find constant patterns. The flower, which seems to be a mere ornament, is in fact an apparatus for reproduction. Its sepals, petals, stamens, and pistils are leaves transformed for special ends. By attending to these parts, we can distinguish families and genera as certainly as a zoologist distinguishes mammals from birds. This knowledge is not only for scholars; it enables the farmer and gardener to understand the habits of their crops and to improve them. The Creator has used few ideas in many combinations, and the botanist’s task is to trace these plans through the living green world.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "b10b3fb7b47f8a1e490c66b1294e768ec8024f22"
+    },
+    {
+      "questionNumber": 9,
+      "type": "multipleChoice",
+      "questionText": "The passage challenges a common perception about flowers. Which statement best reflects the author's scientific explanation of a flower's true nature?",
+      "answerOptions": [
+        {
+          "text": "Flowers are primarily decorative elements that contribute to the beauty of the natural world.",
+          "isCorrect": false,
+          "rationale": "The passage introduces this as a common perception (\"seems to be a mere ornament\") but immediately refutes it by stating its true function."
+        },
+        {
+          "text": "Flowers are complex reproductive organs whose parts are specialized transformations of leaves.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"The flower, which seems to be a mere ornament, is in fact an apparatus for reproduction. Its sepals, petals, stamens, and pistils are leaves transformed for special ends.\""
+        },
+        {
+          "text": "Flowers are unique structures distinct from other plant parts, serving to attract insects.",
+          "isCorrect": false,
+          "rationale": "While flowers often attract insects, the passage focuses on their reproductive function and states their parts are \"leaves transformed,\" indicating they are not entirely distinct from other plant parts."
+        },
+        {
+          "text": "Flowers serve as indicators for farmers and gardeners to determine the optimal harvest time for crops.",
+          "isCorrect": false,
+          "rationale": "The passage mentions knowledge enabling farmers to \"understand the habits of their crops and to improve them,\" but it doesn't specify flowers as indicators for harvest time; rather, it identifies them as reproductive apparatuses."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Introduction to Structural Botany (Excerpt)</strong></p><p><em>Asa Gray, 1879</em></p><p>Plants, though fixed to the soil and silent, are not beyond the reach of orderly study. By examining the root, stem, leaf, flower, and fruit, we find constant patterns. The flower, which seems to be a mere ornament, is in fact an apparatus for reproduction. Its sepals, petals, stamens, and pistils are leaves transformed for special ends. By attending to these parts, we can distinguish families and genera as certainly as a zoologist distinguishes mammals from birds. This knowledge is not only for scholars; it enables the farmer and gardener to understand the habits of their crops and to improve them. The Creator has used few ideas in many combinations, and the botanist’s task is to trace these plans through the living green world.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "53278941c348a980e3262f9e76fef0cc42e8bf05"
+    },
+    {
+      "questionNumber": 10,
+      "type": "multipleChoice",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 11,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Plant Group</th><th>Light Intensity (lux)</th><th>Average Height Increase (cm)</th></tr></thead><tbody><tr><td>Group A</td><td>500</td><td>1.5</td></tr><tr><td>Group B</td><td>1000</td><td>2.8</td></tr><tr><td>Group C</td><td>2000</td><td>4.2</td></tr><tr><td>Group D</td><td>0</td><td>0.5</td></tr></tbody></table>The table below shows the average height increase of four groups of a specific plant species after two weeks, each exposed to different light intensities. Based on this data, what is the difference in average height increase between the plants exposed to the highest light intensity and those kept in the dark?",
+      "answerOptions": [
+        {
+          "text": "2.7 cm",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. The difference is found by subtracting the lowest growth (0.5 cm) from the highest growth (4.2 cm)."
+        },
+        {
+          "text": "3.7 cm",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract the average height increase of plants in the dark (0.5 cm) from the average height increase of plants exposed to the highest light intensity (2000 lux, which resulted in 4.2 cm of growth). 4.2 cm - 0.5 cm = 3.7 cm."
+        },
+        {
+          "text": "4.7 cm",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. This appears to be a sum (4.2 + 0.5), not a difference."
+        },
+        {
+          "text": "5.0 cm",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. It does not reflect the difference between the specified plant groups."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "3a2226d83154cdb4baadd7f19eea7830c2f79959"
+    },
+    {
+      "questionNumber": 12,
+      "type": "multipleChoice",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "The efficiency is (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "For Bioreactor Y, the chemical output is 210 kJ and the light input is 520 kJ. Efficiency = (210 / 520) × 100% = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "The efficiency is (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "The efficiency is (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "5263587523f4bec70d3fa6f4644c41c478800f2d"
+    },
+    {
+      "questionNumber": 13,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Temperature (°C)</th><th>Enzyme A Activity (Units/min)</th><th>Enzyme B Activity (Units/min)</th></tr></thead><tbody><tr><td>10</td><td>5</td><td>15</td></tr><tr><td>20</td><td>10</td><td>30</td></tr><tr><td>30</td><td>25</td><td>45</td></tr><tr><td>40</td><td>40</td><td>35</td></tr><tr><td>50</td><td>30</td><td>20</td></tr></tbody></table>A scientist conducted an experiment to observe the activity of two different enzymes, Enzyme A and Enzyme B, at various temperatures. The results are shown in the table below. Based on the data, what is the approximate difference in activity between Enzyme A and Enzyme B at their respective optimal temperatures?",
+      "answerOptions": [
+        {
+          "text": "5 Units/min",
+          "isCorrect": true,
+          "rationale": "The data shows that Enzyme A has its highest activity (optimal temperature) at 40°C with 40 Units/min. Enzyme B has its highest activity (optimal temperature) at 30°C with 45 Units/min. The difference between their optimal activities is |40 - 45| = 5 Units/min."
+        },
+        {
+          "text": "10 Units/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. The difference in activity at their respective optimal temperatures is 5 Units/min, not 10 Units/min."
+        },
+        {
+          "text": "15 Units/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. The difference in activity at their respective optimal temperatures is 5 Units/min, not 15 Units/min."
+        },
+        {
+          "text": "20 Units/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. The difference in activity at their respective optimal temperatures is 5 Units/min, not 20 Units/min."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "98f9073755b142fb17d6a688abdc70db27d43242"
+    },
+    {
+      "questionNumber": 14,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Planet</th><th>Radius (km)</th><th>Mass (\\(10^{24}\\) kg)</th><th>Average Density (g/cm³)</th></tr></thead><tbody><tr><td>Mercury</td><td>2439.7</td><td>0.330</td><td>5.43</td></tr><tr><td>Venus</td><td>6051.8</td><td>4.87</td><td>5.24</td></tr><tr><td>Earth</td><td>6371.0</td><td>5.97</td><td>5.51</td></tr><tr><td>Mars</td><td>3389.5</td><td>0.642</td><td>3.93</td></tr><tr><td>Jupiter</td><td>69911</td><td>1898</td><td>1.33</td></tr></tbody></table>Based on the data, which of the terrestrial planets listed (Mercury, Venus, Earth, Mars) has an average density closest to Jupiter's average density?",
+      "answerOptions": [
+        {
+          "text": "Mercury",
+          "isCorrect": false,
+          "rationale": "Jupiter's average density is 1.33 g/cm³. Mercury's average density is 5.43 g/cm³. The absolute difference is |5.43 - 1.33| = 4.10 g/cm³."
+        },
+        {
+          "text": "Venus",
+          "isCorrect": false,
+          "rationale": "Jupiter's average density is 1.33 g/cm³. Venus's average density is 5.24 g/cm³. The absolute difference is |5.24 - 1.33| = 3.91 g/cm³."
+        },
+        {
+          "text": "Earth",
+          "isCorrect": false,
+          "rationale": "Jupiter's average density is 1.33 g/cm³. Earth's average density is 5.51 g/cm³. The absolute difference is |5.51 - 1.33| = 4.18 g/cm³."
+        },
+        {
+          "text": "Mars",
+          "isCorrect": true,
+          "rationale": "Jupiter's average density is 1.33 g/cm³. Mars's average density is 3.93 g/cm³. The absolute difference is |3.93 - 1.33| = 2.60 g/cm³. Comparing the differences for the terrestrial planets: Mercury (4.10), Venus (3.91), Earth (4.18), and Mars (2.60). Mars has the smallest difference, indicating its average density is closest to Jupiter's."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "44126d6e8a42bbf5b72bfb856ebbac06e43500ed"
+    },
+    {
+      "questionNumber": 15,
+      "type": "multipleChoice",
+      "questionText": "Based on Galileo's observations of objects orbiting Jupiter, what significant scientific idea was challenged by his discovery?",
+      "answerOptions": [
+        {
+          "text": "That the Earth was the only planet with orbiting companions.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that the discovery challenged the idea that all heavenly bodies revolve around Earth, not that Earth was the only planet with companions. The focus was on Earth's central role."
+        },
+        {
+          "text": "That the universe was much larger than previously imagined.",
+          "isCorrect": false,
+          "rationale": "While a telescope might imply a larger universe, the passage focuses on the motion of heavenly bodies and which celestial body they orbit, not the overall size of the universe."
+        },
+        {
+          "text": "That the Sun was the center of the universe for all celestial motion.",
+          "isCorrect": false,
+          "rationale": "The discovery 'gave support to the Copernican idea that the planets circle the Sun,' but it primarily challenged the geocentric view (Earth-centered), not necessarily confirming the Sun as the center of all celestial motion (e.g., moons around Jupiter)."
+        },
+        {
+          "text": "That not all heavenly bodies revolve around the Earth.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth,' which directly challenges the long-held geocentric model."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Galileo Observes Jupiter's Moons</strong></p><p><em>Galileo Galilei, 1610</em></p><p>In January of 1610, I discovered four stars wandering around Jupiter, invisible before my observations. They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea that the planets circle the Sun.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "c49683636ef30289ae3c0167e96d5005d1c99916"
+    },
+    {
+      "questionNumber": 16,
+      "type": "multipleChoice",
+      "questionText": "When Galileo described the 'four stars wandering around Jupiter,' what scientific interpretation of these objects is most supported by the passage?",
+      "answerOptions": [
+        {
+          "text": "They were previously unknown distant galaxies.",
+          "isCorrect": false,
+          "rationale": "The passage describes them as 'companions of the great planet, never departing far from it,' indicating they were close to Jupiter, not distant galaxies."
+        },
+        {
+          "text": "They were new planets orbiting the Sun, just like Jupiter.",
+          "isCorrect": false,
+          "rationale": "The passage states they were 'wandering around Jupiter' and moved 'as companions of the great planet,' indicating they orbited Jupiter, not the Sun independently."
+        },
+        {
+          "text": "They were actually moons orbiting Jupiter.",
+          "isCorrect": true,
+          "rationale": "The description 'wandering around Jupiter' and moving 'as companions of the great planet, never departing far from it' strongly implies they were celestial bodies (moons) gravitationally bound to Jupiter."
+        },
+        {
+          "text": "They were distant, unmoving stars that appeared to shift due to Earth's movement.",
+          "isCorrect": false,
+          "rationale": "The passage describes them as actively 'wandering around Jupiter' and changing 'night after night,' which contradicts the idea of distant, unmoving stars."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Galileo Observes Jupiter's Moons</strong></p><p><em>Galileo Galilei, 1610</em></p><p>In January of 1610, I discovered four stars wandering around Jupiter, invisible before my observations. They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea that the planets circle the Sun.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "f156b5a95bb3d9f9ce514435be6bb521ab4b2624"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "questionText": "The author concludes that 'light and magnetism are affections of the same substance, and that light is an electromagnetic wave.' Which of the following best interprets the significance of this conclusion?",
+      "answerOptions": [
+        {
+          "text": "It demonstrates that light has no relationship with magnetic forces.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that electric and magnetic phenomena are 'closely related' and that light is an 'electromagnetic disturbance,' directly contradicting this option."
+        },
+        {
+          "text": "It suggests that light is a distinct phenomenon that can influence, but not be influenced by, magnetism.",
+          "isCorrect": false,
+          "rationale": "The phrase 'affections of the same substance' and the idea of 'uniting two great departments of physics' indicates a deeper, reciprocal connection rather than a one-way influence."
+        },
+        {
+          "text": "It unifies two previously distinct areas of physics by showing their fundamental interconnection.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Thus two great departments of physics are united,' directly supporting the idea of unification and fundamental interconnection."
+        },
+        {
+          "text": "It proposes that light is merely a visual representation of magnetic field lines.",
+          "isCorrect": false,
+          "rationale": "The passage describes light as an 'electromagnetic disturbance propagated through the field' and an 'electromagnetic wave,' which is a more fundamental and dynamic description than merely a visual representation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "a6c6bdb8c2b7b3cd2287966ecb7f98a100b609de"
+    },
+    {
+      "questionNumber": 18,
+      "type": "multipleChoice",
+      "questionText": "Based on the passage, what critical piece of evidence or reasoning led the author to connect light with electromagnetic phenomena?",
+      "answerOptions": [
+        {
+          "text": "The observation that electric and magnetic forces always act instantaneously at a distance.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Electric and magnetic forces are not instantaneous actions at a distance,' directly contradicting this statement."
+        },
+        {
+          "text": "The mathematical formulation showing that the propagation velocity of electromagnetic waves matches the speed of light.",
+          "isCorrect": true,
+          "rationale": "The passage states the author endeavored to express the relation 'in mathematical form,' and that the 'velocity, as determined from the experiments, is the same as that of light,' which leads to the conclusion."
+        },
+        {
+          "text": "The theory that light can travel through a vacuum without requiring any medium for propagation.",
+          "isCorrect": false,
+          "rationale": "The passage states that electric and magnetic forces are 'conditions of a medium filling space,' implying a medium, not the absence of one."
+        },
+        {
+          "text": "The discovery that light itself can generate strong electric currents.",
+          "isCorrect": false,
+          "rationale": "While light and electromagnetism are related, the passage does not mention light generating electric currents as the critical evidence for this specific connection. The focus is on the wave nature and velocity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "9a2b64cb23e01051312b0c4ff9ad0e63c2de2bb0"
+    },
+    {
+      "questionNumber": 19,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Plant Species</th><th>Light Intensity (lux)</th><th>CO2 Absorbed (mg/hr)</th></tr></thead><tbody><tr><td>Sunflower</td><td>5000</td><td>15.2</td></tr><tr><td>Fern</td><td>1000</td><td>3.8</td></tr><tr><td>Oak Tree Seedling</td><td>5000</td><td>12.5</td></tr><tr><td>Sunflower</td><td>2000</td><td>7.5</td></tr><tr><td>Fern</td><td>500</td><td>1.9</td></tr></tbody></table>Based on the data provided, how much more carbon dioxide (CO2) does a Sunflower absorb per hour when exposed to 5000 lux of light intensity compared to 2000 lux?",
+      "answerOptions": [
+        {
+          "text": "7.7 mg/hr",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract the CO2 absorption rate at 2000 lux from the rate at 5000 lux for the Sunflower: 15.2 mg/hr - 7.5 mg/hr = 7.7 mg/hr."
+        },
+        {
+          "text": "15.2 mg/hr",
+          "isCorrect": false,
+          "rationale": "This value represents the CO2 absorbed by a Sunflower at 5000 lux, not the difference in absorption between two light intensities."
+        },
+        {
+          "text": "3.8 mg/hr",
+          "isCorrect": false,
+          "rationale": "This value corresponds to the CO2 absorbed by a Fern at 1000 lux, which is irrelevant to the question about the Sunflower's absorption difference."
+        },
+        {
+          "text": "22.7 mg/hr",
+          "isCorrect": false,
+          "rationale": "This value would be the sum of the two absorption rates (15.2 + 7.5), not the difference between them as requested."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "e7c2f50a5c01ad61428892737810e2a2274793e9"
+    },
+    {
+      "questionNumber": 20,
+      "type": "multipleChoice",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 21,
+      "type": "multipleChoice",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 22,
+      "type": "multipleChoice",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 23,
+      "type": "multipleChoice",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 24,
+      "type": "multipleChoice",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 25,
+      "type": "multipleChoice",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 26,
+      "type": "multipleChoice",
+      "questionText": "According to the passage, what is a continuous process through which the sea affects the Earth?",
+      "answerOptions": [
+        {
+          "text": "It creates new landmasses through sedimentation.",
+          "isCorrect": false,
+          "rationale": "The passage states that continents 'dissolve and pass to the sea' through erosion, indicating the sea breaks down land, not primarily creates new landmasses in the context described."
+        },
+        {
+          "text": "It causes erosion of land and plays a role in regulating the global climate.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that continents 'dissolve and pass to the sea, in grain after grain of eroded land,' and that the sea 'continues to influence climate,' directly supporting this option."
+        },
+        {
+          "text": "It only shaped the Earth in the past and no longer has geological effects.",
+          "isCorrect": false,
+          "rationale": "The passage indicates the sea 'continues to influence climate and sustain life' today, and the process of land dissolving into the sea is ongoing, contradicting the idea that its effects are only historical."
+        },
+        {
+          "text": "It is the sole source of all life on Earth.",
+          "isCorrect": false,
+          "rationale": "While the passage says the sea 'sustain life,' it does not claim it is the sole source or origin of all life, only that it plays a continuous role in supporting it."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "f397ca3fa6d5da60e94bb801ec49daf430271605"
+    },
+    {
+      "questionNumber": 27,
+      "type": "multipleChoice",
+      "questionText": "The author mentions that the sea 'has shaped the Earth' and 'continues to influence climate and sustain life.' What is the primary implication of these statements about the sea?",
+      "answerOptions": [
+        {
+          "text": "The sea's primary function is to serve as a resource for human consumption.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the sea's geological and biological impacts, not its role as a direct resource for human consumption."
+        },
+        {
+          "text": "The sea has a significant and enduring role in both Earth's physical environment and its biological systems.",
+          "isCorrect": true,
+          "rationale": "The statements highlight the sea's historical geological impact ('shaped the Earth') and its current influence on climate (physical environment) and its role in supporting life (biological systems), making this the best summary of its implication."
+        },
+        {
+          "text": "The sea's influence on Earth is limited to coastal regions.",
+          "isCorrect": false,
+          "rationale": "The passage implies a broad, global influence by stating 'The sea lies all about us' and discussing its impact on climate and life, not just coastal areas."
+        },
+        {
+          "text": "The geological processes of the sea are entirely understood and predictable.",
+          "isCorrect": false,
+          "rationale": "The passage refers to the sea's 'mysterious past,' suggesting that its processes are not entirely understood, contradicting this statement."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "113ec0b3ce2dc172eca0b904ade411e5c1e04d22"
+    },
+    {
+      "questionNumber": 28,
+      "type": "multipleChoice",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 29,
+      "type": "multipleChoice",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 30,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Activity Type</th><th>Duration (hours)</th><th>Energy Rate (Calories/hour)</th></tr></thead><tbody><tr><td>Sleeping</td><td>8</td><td>60</td></tr><tr><td>Light Activity</td><td>6</td><td>120</td></tr><tr><td>Moderate Activity</td><td>3</td><td>250</td></tr><tr><td>Vigorous Activity</td><td>1</td><td>500</td></tr></tbody></table>A 70 kg adult records their daily activities and the corresponding energy expenditure rates. Use the data in the table below to determine the total estimated daily energy expenditure for this individual.",
+      "answerOptions": [
+        {
+          "text": "2300 Calories",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. To find the total daily energy expenditure, multiply the duration by the energy rate for each activity and then sum the results: (8 hours * 60 Cal/hour) + (6 hours * 120 Cal/hour) + (3 hours * 250 Cal/hour) + (1 hour * 500 Cal/hour) = 480 + 720 + 750 + 500 = 2450 Calories."
+        },
+        {
+          "text": "2450 Calories",
+          "isCorrect": true,
+          "rationale": "To find the total daily energy expenditure, multiply the duration by the energy rate for each activity and then sum the results: Sleeping (8 hours * 60 Cal/hour) = 480 Cal; Light Activity (6 hours * 120 Cal/hour) = 720 Cal; Moderate Activity (3 hours * 250 Cal/hour) = 750 Cal; Vigorous Activity (1 hour * 500 Cal/hour) = 500 Cal. Total = 480 + 720 + 750 + 500 = 2450 Calories."
+        },
+        {
+          "text": "1930 Calories",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. To find the total daily energy expenditure, multiply the duration by the energy rate for each activity and then sum the results: (8 hours * 60 Cal/hour) + (6 hours * 120 Cal/hour) + (3 hours * 250 Cal/hour) + (1 hour * 500 Cal/hour) = 480 + 720 + 750 + 500 = 2450 Calories."
+        },
+        {
+          "text": "20 Calories",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. This number represents the sum of the durations only, not the total energy expenditure. To find the total daily energy expenditure, multiply the duration by the energy rate for each activity and then sum the results: (8 hours * 60 Cal/hour) + (6 hours * 120 Cal/hour) + (3 hours * 250 Cal/hour) + (1 hour * 500 Cal/hour) = 480 + 720 + 750 + 500 = 2450 Calories."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "580856495f85409a963ab505302e48f2941b02fb"
+    },
+    {
+      "questionNumber": 31,
+      "type": "multipleChoice",
+      "questionText": "<table><thead><tr><th>Group</th><th>Initial Height (cm)</th><th>Final Height (cm)</th><th>Growth Period (days)</th></tr></thead><tbody><tr><td>Control</td><td>5.0</td><td>15.0</td><td>10</td></tr><tr><td>High Light</td><td>5.0</td><td>25.0</td><td>10</td></tr><tr><td>Low Light</td><td>5.0</td><td>10.0</td><td>10</td></tr><tr><td>High Nutrient</td><td>5.0</td><td>20.0</td><td>10</td></tr></tbody></table>A scientist conducted an experiment to study the effects of different environmental conditions on plant growth. The table below shows the results after a 10-day growth period for four groups of identical plants. Based on the data, which experimental group exhibited the highest average daily growth rate?",
+      "answerOptions": [
+        {
+          "text": "Control",
+          "isCorrect": false,
+          "rationale": "The Control group's average daily growth rate was (15.0 cm - 5.0 cm) / 10 days = 1.0 cm/day."
+        },
+        {
+          "text": "High Light",
+          "isCorrect": true,
+          "rationale": "The High Light group had an average daily growth rate of (25.0 cm - 5.0 cm) / 10 days = 2.0 cm/day, which is the highest among all groups."
+        },
+        {
+          "text": "Low Light",
+          "isCorrect": false,
+          "rationale": "The Low Light group's average daily growth rate was (10.0 cm - 5.0 cm) / 10 days = 0.5 cm/day."
+        },
+        {
+          "text": "High Nutrient",
+          "isCorrect": false,
+          "rationale": "The High Nutrient group's average daily growth rate was (20.0 cm - 5.0 cm) / 10 days = 1.5 cm/day."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "22b066fa7adce4dd4f7a6bed4cbee5b2869a4f3b"
+    },
+    {
+      "questionNumber": 32,
+      "type": "multipleChoice",
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionNumber": 33,
+      "type": "multipleChoice",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density of Sample A = 312 g / 40 cm³ = 7.8 g/cm³. Density of Sample B = 260 g / 35 cm³ ≈ 7.43 g/cm³. The difference in densities is 7.8 - 7.43 = 0.37 g/cm³, which rounds to 0.4 g/cm³ when rounded to the nearest tenth. Note: The passage incorrectly states 'identical volumes', but the calculation relies on the volumes provided in the table."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value is incorrect based on calculations using the provided mass and volume data for Sample A and Sample B."
+        },
+        {
+          "text": "0.7 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value is incorrect based on calculations using the provided mass and volume data for Sample A and Sample B."
+        },
+        {
+          "text": "7.4 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the approximate density of Sample B, not the difference between the two samples."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "13545dfeeb8ca247fa7501181f854c487066df8b"
+    },
+    {
+      "questionNumber": 34,
+      "type": "multipleChoice",
+      "questionText": "According to the passage, how does the gravitational force between two particles change as the distance between their centers increases?",
+      "answerOptions": [
+        {
+          "text": "It increases directly with the distance.",
+          "isCorrect": false,
+          "rationale": "The passage states the force varies 'inversely with the square of the distance,' meaning it decreases as distance increases."
+        },
+        {
+          "text": "It decreases proportionally to the square of the distance.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that the force varies 'inversely with the square of the distance between their centers,' meaning it decreases as the square of the distance increases."
+        },
+        {
+          "text": "It remains constant, regardless of the distance.",
+          "isCorrect": false,
+          "rationale": "The passage indicates the force 'varies' with distance, contradicting the idea that it remains constant."
+        },
+        {
+          "text": "It varies directly with the product of their masses.",
+          "isCorrect": false,
+          "rationale": "This option describes how the force changes with mass, not distance, according to the passage."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "09d8b7eafa2d8e174480ff2e5683a67f351f305d"
+    },
+    {
+      "questionNumber": 35,
+      "type": "multipleChoice",
+      "questionText": "What can be inferred about the significance of the universal law of gravitation, based on the final sentence of the passage?",
+      "answerOptions": [
+        {
+          "text": "The law is primarily applicable to phenomena occurring on Earth's surface.",
+          "isCorrect": false,
+          "rationale": "The passage states the law 'binds the planets in their courses and holds the Moon in her path about the Earth,' indicating its relevance to celestial mechanics, not primarily Earth's surface."
+        },
+        {
+          "text": "Its effects are powerful enough to control the movements of large celestial bodies.",
+          "isCorrect": true,
+          "rationale": "The passage concludes by stating the law 'binds the planets in their courses and holds the Moon in her path about the Earth,' illustrating its profound influence on large-scale cosmic phenomena."
+        },
+        {
+          "text": "The law is a complex scientific concept that is difficult for most to understand.",
+          "isCorrect": false,
+          "rationale": "The passage refers to this as 'This simple law,' which contradicts the idea that it is complex or difficult to understand."
+        },
+        {
+          "text": "It requires advanced technological instruments to detect its presence.",
+          "isCorrect": false,
+          "rationale": "While the law is 'invisible to our senses,' the passage focuses on its observable effects on celestial bodies, not the specific methods of direct detection."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "373f743ff7882eba9ce88af39dabffc91aa44b36"
+    },
+    {
+      "questionNumber": 36,
+      "type": "multipleChoice",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 37,
+      "type": "multipleChoice",
+      "questionText": "What primary realization did the author have regarding species based on his observations in the Galápagos archipelago?",
+      "answerOptions": [
+        {
+          "text": "Species on islands are always completely distinct from those on continents.",
+          "isCorrect": false,
+          "rationale": "The passage states that island birds are 'closely allied to those of the American continent,' indicating a relationship, not complete distinction."
+        },
+        {
+          "text": "Species are immutable and do not change over time or with their environment.",
+          "isCorrect": false,
+          "rationale": "The author was 'deeply impressed with the idea that species may not be immutable,' directly contradicting this option."
+        },
+        {
+          "text": "Species could be modified by their specific living conditions, leading to variations.",
+          "isCorrect": true,
+          "rationale": "The author states that the facts observed 'seemed explicable if species had been modified by their conditions of life,' leading to his later theory."
+        },
+        {
+          "text": "The natural history of isolated islands is inherently less diverse than that of larger landmasses.",
+          "isCorrect": false,
+          "rationale": "The passage highlights the 'remarkable' and 'peculiar' nature of the Galápagos productions, focusing on unique species rather than less diversity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Voyage of the Beagle (Galápagos Excerpt)</strong></p><p><em>Charles Darwin, 1839</em></p><p>The natural history of this archipelago is very remarkable: it seems to be a little world within itself. Most of the organic productions are aboriginal creations, found nowhere else. The birds, though closely allied to those of the American continent, are in many cases peculiar species. So it is with the reptiles and the plants. Seeing this, I was deeply impressed with the idea that species may not be immutable. Why should the Galápagos mockingbirds, for example, differ slightly from island to island, though all resemble the mainland form? Why should the tortoises bear marks by which an inhabitant can tell from which island they came? These facts seemed explicable if species had been modified by their conditions of life. The voyage thus planted in my mind the seeds of that later theory which I called natural selection.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "2fefc3ece1d29747292b5807e1fbd142416df690"
+    },
+    {
+      "questionNumber": 38,
+      "type": "multipleChoice",
+      "questionText": "The author mentions that Galápagos mockingbirds differ slightly from island to island and that tortoises bear marks indicating their island of origin. What is the main purpose of including these specific observations?",
+      "answerOptions": [
+        {
+          "text": "To emphasize the challenges of identifying animal origins for local inhabitants.",
+          "isCorrect": false,
+          "rationale": "While inhabitants can tell the origin, the author's purpose is scientific inquiry, not practical identification for locals."
+        },
+        {
+          "text": "To highlight the unique and varied diet of different species across the islands.",
+          "isCorrect": false,
+          "rationale": "The passage discusses physical differences and origins, not the specific diets of the animals."
+        },
+        {
+          "text": "To provide evidence supporting his emerging idea that species are not fixed but can change.",
+          "isCorrect": true,
+          "rationale": "These examples are presented as 'facts' that 'seemed explicable if species had been modified by their conditions of life,' directly feeding into his theory of natural selection."
+        },
+        {
+          "text": "To document the complete catalog of animal species found within the archipelago.",
+          "isCorrect": false,
+          "rationale": "The examples serve to illustrate a scientific concept, not to create an exhaustive list of all species."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Voyage of the Beagle (Galápagos Excerpt)</strong></p><p><em>Charles Darwin, 1839</em></p><p>The natural history of this archipelago is very remarkable: it seems to be a little world within itself. Most of the organic productions are aboriginal creations, found nowhere else. The birds, though closely allied to those of the American continent, are in many cases peculiar species. So it is with the reptiles and the plants. Seeing this, I was deeply impressed with the idea that species may not be immutable. Why should the Galápagos mockingbirds, for example, differ slightly from island to island, though all resemble the mainland form? Why should the tortoises bear marks by which an inhabitant can tell from which island they came? These facts seemed explicable if species had been modified by their conditions of life. The voyage thus planted in my mind the seeds of that later theory which I called natural selection.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "3090ab8431a37016d9d1ab25b679747649acb5a8"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "1 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 5, expected ~9",
+    "Difficulty \"medium\": 26, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}

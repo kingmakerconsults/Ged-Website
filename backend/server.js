@@ -189,6 +189,38 @@ const AI_LATENCY = {
 // --- in-memory image metadata structures used by image loader section ---
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
+const FRONTEND_PUBLIC_ROOT = path.resolve(
+  __dirname,
+  '..',
+  'frontend',
+  'public'
+);
+
+function resolvePublicAssetPath(webPath) {
+  if (!webPath) return null;
+  const rawPath = String(webPath).split(/[?#]/, 1)[0].trim();
+  if (!rawPath) return null;
+
+  const normalizedWebPath = rawPath.startsWith('/') ? rawPath : `/${rawPath}`;
+  let decodedPath = normalizedWebPath;
+  try {
+    decodedPath = decodeURIComponent(normalizedWebPath);
+  } catch {
+    decodedPath = normalizedWebPath;
+  }
+
+  const relativePath = decodedPath.replace(/^\/+/, '').replace(/\//g, path.sep);
+  const absolutePath = path.resolve(FRONTEND_PUBLIC_ROOT, relativePath);
+  if (!absolutePath.startsWith(FRONTEND_PUBLIC_ROOT)) {
+    return null;
+  }
+  return absolutePath;
+}
+
+function doesPublicAssetExist(webPath) {
+  const absolutePath = resolvePublicAssetPath(webPath);
+  return absolutePath ? fs.existsSync(absolutePath) : false;
+}
 
 function rebuildImagePathIndex() {
   IMAGE_BY_PATH.clear();
@@ -1063,6 +1095,7 @@ async function loadAndAugmentImageMetadata() {
       const subjectPart = (img.subject || 'Misc').replace(/\s+/g, ' ');
       img.filePath = `/images/${subjectPart}/${img.fileName}`;
     }
+    img.__exists = doesPublicAssetExist(img.filePath);
     return img;
   });
 
@@ -1614,22 +1647,57 @@ function pickScienceTemplateByCategory(list, category, excludeIds = new Set()) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-function instantiateScienceNumeracyTemplate(category, excludeIds = new Set()) {
-  let tpl = pickScienceTemplateByCategory(
+function normalizeScienceQuestionReuseText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function buildScienceQuestionReuseKey(question, fallbackPrefix = 'science') {
+  if (!question || typeof question !== 'object') return '';
+
+  const questionText = normalizeScienceQuestionReuseText(
+    question.questionText || question.question || ''
+  );
+  const imagePath =
+    question.stimulusImage?.src ||
+    question.imageUrl ||
+    question.imageURL ||
+    question.image ||
+    '';
+  const templateId =
+    question.templateSourceId || question.bankFingerprint || '';
+
+  if (questionText && imagePath) {
+    return `${fallbackPrefix}:img:${imagePath}:${questionText}`;
+  }
+  if (questionText && templateId) {
+    return `${fallbackPrefix}:tpl:${templateId}:${questionText}`;
+  }
+  if (questionText) {
+    return `${fallbackPrefix}:txt:${questionText}`;
+  }
+  return templateId ? `${fallbackPrefix}:id:${templateId}` : '';
+}
+
+function instantiateScienceNumeracyTemplate(
+  category,
+  excludeIds = new Set(),
+  usedTemplateIds = new Set()
+) {
+  const reservedIds = new Set([...excludeIds, ...usedTemplateIds]);
+  const tpl = pickScienceTemplateByCategory(
     SCI_NUMERIC_TABLE_ITEMS,
     category,
-    excludeIds
+    reservedIds
   );
-  if (!tpl && excludeIds.size > 0) {
-    excludeIds.clear();
-    tpl = pickScienceTemplateByCategory(
-      SCI_NUMERIC_TABLE_ITEMS,
-      category,
-      excludeIds
-    );
-  }
   if (!tpl) return null;
   excludeIds.add(tpl.id);
+  usedTemplateIds.add(tpl.id);
   return buildScienceNumeracyTemplateItem(tpl);
 }
 
@@ -1670,7 +1738,7 @@ function instantiateScienceScenarioClusterForSlot(
 }
 
 const SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS = new Set([
-  '/images/Science/ged_scince_fig_8_0001.png',
+  '/images/Science/ged_scince_fig_13_0001.png',
   '/images/Science/ged_sci_1_1024x847_0001.png',
   '/images/Science/unclassified_0052.png',
   '/images/Science/unclassified_0041.png',
@@ -1678,7 +1746,6 @@ const SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS = new Set([
   '/images/Science/unclassified_0033.png',
   '/images/Science/licensed_image_0009.jpg',
   '/images/Science/unclassified_0007.png',
-  '/images/Science/unclassified_0008.png',
   '/images/Science/unclassified_0027.png',
 ]);
 
@@ -1703,7 +1770,34 @@ function scienceImageEntrySupportsStimulus(entry, stimulusType) {
   return supported.includes(String(stimulusType).toLowerCase());
 }
 
-function pickScienceImageForSlot(slot, usedPaths = new Set()) {
+function countUnusedScienceImageQuestions(
+  image,
+  numQuestions,
+  usedQuestionKeys = new Set()
+) {
+  const entry = getScienceImageBankEntry(image);
+  if (!Array.isArray(entry?.questions) || !entry.questions.length) return 0;
+
+  return entry.questions
+    .filter((question) => {
+      const questionKey = buildScienceQuestionReuseKey(
+        {
+          ...question,
+          imageUrl: image?.filePath,
+          stimulusImage: image?.filePath ? { src: image.filePath } : undefined,
+        },
+        'science-image'
+      );
+      return questionKey && !usedQuestionKeys.has(questionKey);
+    })
+    .slice(0, Math.max(1, numQuestions || 1)).length;
+}
+
+function pickScienceImageForSlot(
+  slot,
+  usedPaths = new Set(),
+  usedQuestionKeys = new Set()
+) {
   const scienceCatalog = getSeededScienceImages(
     Array.isArray(curatedImages) && curatedImages.length
       ? curatedImages
@@ -1715,7 +1809,7 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
     life_genetics: ['/images/Science/dominance_genetics_0001.png'],
     life_image1: ['/images/Science/unclassified_0033.png'],
     phys_image1: ['/images/Science/unclassified_0027.png'],
-    earth_diag1: ['/images/Science/ged_scince_fig_8_0001.png'],
+    earth_diag1: ['/images/Science/ged_scince_fig_13_0001.png'],
   };
 
   const preferredPaths = groupPathMap[slot?.group] || [];
@@ -1724,6 +1818,11 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
       preferredPaths.includes(img.filePath) &&
       !usedPaths.has(img.filePath) &&
       hasHandAuthoredScienceImageQuestions(img) &&
+      countUnusedScienceImageQuestions(
+        img,
+        slot?.questionsNeeded,
+        usedQuestionKeys
+      ) >= Math.max(1, slot?.questionsNeeded || 1) &&
       scienceImageEntrySupportsStimulus(
         getScienceImageBankEntry(img),
         slot?.stimulusType
@@ -1759,7 +1858,13 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
       ) {
         return false;
       }
-      return true;
+      return (
+        countUnusedScienceImageQuestions(
+          img,
+          slot?.questionsNeeded,
+          usedQuestionKeys
+        ) >= Math.max(1, slot?.questionsNeeded || 1)
+      );
     })
     .sort((left, right) => {
       const leftRank = getScienceImageBankEntry(left)?.qualityRank || 999;
@@ -1793,7 +1898,13 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
       ) {
         return false;
       }
-      return true;
+      return (
+        countUnusedScienceImageQuestions(
+          img,
+          slot?.questionsNeeded,
+          usedQuestionKeys
+        ) >= Math.max(1, slot?.questionsNeeded || 1)
+      );
     })
     .sort((left, right) => {
       const leftPreferred = SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS.has(
@@ -1820,7 +1931,11 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
   return fallback || null;
 }
 
-function buildTrustedScienceImageQuestionSet(slot, usedPaths = new Set()) {
+function buildTrustedScienceImageQuestionSet(
+  slot,
+  usedPaths = new Set(),
+  usedQuestionKeys = new Set()
+) {
   if (
     slot?.group === 'life_genetics' ||
     !['image', 'diagram', 'chart', 'table'].includes(slot?.stimulusType)
@@ -1828,7 +1943,7 @@ function buildTrustedScienceImageQuestionSet(slot, usedPaths = new Set()) {
     return [];
   }
 
-  const image = pickScienceImageForSlot(slot, usedPaths);
+  const image = pickScienceImageForSlot(slot, usedPaths, usedQuestionKeys);
   if (!image) return [];
 
   return getHandAuthoredScienceImageQuestions({
@@ -1836,6 +1951,7 @@ function buildTrustedScienceImageQuestionSet(slot, usedPaths = new Set()) {
     category: slot.category,
     numQuestions: slot.questionsNeeded,
     slotStimulusType: slot.stimulusType,
+    usedQuestionKeys,
   }).slice(0, slot.questionsNeeded);
 }
 
@@ -2370,14 +2486,18 @@ const CHEMISTRY_BALANCING_TEMPLATES = [
 /**
  * Get random chemistry balancing question
  */
-function getChemistryBalancingQuestion() {
+function getChemistryBalancingQuestion(usedTemplateIds = new Set()) {
   const eligibleTemplates = CHEMISTRY_BALANCING_TEMPLATES.filter(
-    (template) => !template.answerOptions
+    (template) => !template.answerOptions && !usedTemplateIds.has(template.id)
   );
   const sourcePool = eligibleTemplates.length
     ? eligibleTemplates
-    : CHEMISTRY_BALANCING_TEMPLATES;
+    : CHEMISTRY_BALANCING_TEMPLATES.filter(
+        (template) => !usedTemplateIds.has(template.id)
+      );
+  if (!sourcePool.length) return null;
   const template = sourcePool[Math.floor(Math.random() * sourcePool.length)];
+  usedTemplateIds.add(template.id);
 
   const question = {
     id: `${template.id}_${Date.now()}`,
@@ -3467,12 +3587,18 @@ function findImagesForSubjectTopic(subject, topic, limit = 5) {
 
   // First, try a strict match on both subject and category (topic)
   let pool = IMAGE_DB.filter(
-    (img) => norm(img.subject).includes(s) && norm(img.category).includes(t)
+    (img) =>
+      img &&
+      img.__exists !== false &&
+      norm(img.subject).includes(s) &&
+      norm(img.category).includes(t)
   );
 
   // If no strict matches, fall back to searching keywords within the correct subject
   if (pool.length < limit) {
-    const subjectPool = IMAGE_DB.filter((img) => norm(img.subject).includes(s));
+    const subjectPool = IMAGE_DB.filter(
+      (img) => img && img.__exists !== false && norm(img.subject).includes(s)
+    );
 
     // Score matches by counting how many meaningful topic tokens appear in the image token bag.
     // This avoids over-matching on tiny/common words like "and", "of", etc.
@@ -8843,7 +8969,10 @@ const imageRepositoryPath = path.join(
 
 try {
   const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-  curatedImages = JSON.parse(imageData);
+  curatedImages = JSON.parse(imageData).map((img) => ({
+    ...img,
+    __exists: doesPublicAssetExist(img?.filePath),
+  }));
   console.log(
     `Successfully loaded and parsed ${curatedImages.length} images from the local repository.`
   );
@@ -10437,6 +10566,122 @@ function getSocialStudiesImageQuestionSetEntry(img) {
   return SOCIAL_STUDIES_IMAGE_QUESTION_SETS[img.filePath] || null;
 }
 
+const SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS = Object.freeze({
+  'Civics & Government': [
+    '/images/Social%20Studies/civil_rights_act_of_1964_0001.png',
+    '/images/Social%20Studies/ged_grsph_4_0001.png',
+    '/images/Social%20Studies/this_question_is_based_on_the_following_graph_0001.png',
+    '/images/Social%20Studies/unclassified_0004.png',
+  ],
+  'U.S. History': [
+    '/images/Social%20Studies/join_or_die_0001.png',
+    '/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg',
+    '/images/Social%20Studies/a_new_nation_quiz_2_0001.png',
+    '/images/Social%20Studies/american_civil_war_0002.png',
+    '/images/Social%20Studies/civil_rights_movement_0001.png',
+    '/images/Social%20Studies/great_depression_0001.png',
+  ],
+  Economics: [
+    '/images/Social%20Studies/ged_grsph_2_0001.png',
+    '/images/Social%20Studies/035fa172_2083_4c13_9485_0001.png',
+    '/images/Social%20Studies/this_question_is_based_on_the_following_graph_0001.png',
+    '/images/Social%20Studies/great_depression_0001.png',
+  ],
+  'Geography & the World': [
+    '/images/Social%20Studies/global_conflicts_0002.jpg',
+    '/images/Social%20Studies/colonial_history_of_the_united_states_0003.png',
+    '/images/Social%20Studies/ged_grsph_0001.png',
+    '/images/Social%20Studies/ged_grsph_1_0001.png',
+  ],
+});
+
+function socialStudiesImageSupportsCategory(img, category) {
+  if (!img || !category) return false;
+
+  const preferredPaths = SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS[category] || [];
+  if (img.filePath && preferredPaths.includes(img.filePath)) {
+    return true;
+  }
+
+  if (img.filePath) {
+    const claimedByOtherCategory = Object.entries(
+      SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS
+    ).some(
+      ([entryCategory, paths]) =>
+        entryCategory !== category &&
+        Array.isArray(paths) &&
+        paths.includes(img.filePath)
+    );
+    if (claimedByOtherCategory) {
+      return false;
+    }
+  }
+
+  const categoryText = String(category).toLowerCase();
+  const combined = [
+    img.category || '',
+    img.altText || '',
+    img.detailedDescription || '',
+    getImageUsageDirectives(img),
+    getImageQuestionSeeds(img).join(' '),
+    Array.isArray(img.keywords) ? img.keywords.join(' ') : '',
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  const keywordsByCategory = {
+    'civics & government': [
+      'election',
+      'vote',
+      'voting',
+      'rights',
+      'senate',
+      'congress',
+      'government',
+      'constitution',
+      'tax',
+      'political',
+    ],
+    'u.s. history': [
+      'revolution',
+      'colonial',
+      'civil war',
+      'new deal',
+      'great depression',
+      'world war',
+      'civil rights movement',
+      'historical',
+    ],
+    economics: [
+      'supply',
+      'demand',
+      'market',
+      'spending',
+      'budget',
+      'tax',
+      'receipts',
+      'economic',
+      'depression',
+      'labor',
+    ],
+    'geography & the world': [
+      'map',
+      'world',
+      'river',
+      'drainage',
+      'territory',
+      'continent',
+      'border',
+      'global',
+      'migration',
+      'region',
+    ],
+  };
+
+  const kws = keywordsByCategory[categoryText] || [];
+  return kws.some((kw) => combined.includes(kw));
+}
+
 function getScienceImageBankEntry(img) {
   if (!img?.filePath) return null;
   return SCIENCE_CURATED_IMAGE_BANK[img.filePath] || null;
@@ -10529,7 +10774,33 @@ function getHandAuthoredSocialStudiesImageQuestions({
 }
 
 function hasPremadeImageQuestions(img) {
+  if (img?.__exists === false) return false;
   return getImageQuestionSeeds(img).length > 0;
+}
+
+function reserveScienceQuestionKey(
+  question,
+  usedQuestionKeys = new Set(),
+  fallbackPrefix = 'science'
+) {
+  const questionKey = buildScienceQuestionReuseKey(question, fallbackPrefix);
+  if (!questionKey) return true;
+  if (usedQuestionKeys.has(questionKey)) return false;
+  usedQuestionKeys.add(questionKey);
+  return true;
+}
+
+function dedupeScienceQuestionList(questions = []) {
+  const usedQuestionKeys = new Set();
+  return questions.filter((question) =>
+    reserveScienceQuestionKey(
+      question,
+      usedQuestionKeys,
+      question?.stimulusImage?.src || question?.imageUrl
+        ? 'science-image'
+        : 'science'
+    )
+  );
 }
 
 function getSeededSocialStudiesImages(imageCatalog) {
@@ -10604,15 +10875,46 @@ function getHandAuthoredScienceImageQuestions({
   category,
   numQuestions,
   slotStimulusType,
+  usedQuestionKeys = new Set(),
 }) {
   const entry = getScienceImageBankEntry(image);
   if (!Array.isArray(entry?.questions) || !entry.questions.length) return [];
+
+  const availableQuestions = entry.questions.filter((question) => {
+    const questionKey = buildScienceQuestionReuseKey(
+      {
+        ...question,
+        imageUrl: image?.filePath,
+        stimulusImage: image?.filePath ? { src: image.filePath } : undefined,
+      },
+      'science-image'
+    );
+    return questionKey && !usedQuestionKeys.has(questionKey);
+  });
+
+  const selectedQuestions = availableQuestions.slice(
+    0,
+    Math.max(1, numQuestions)
+  );
+  selectedQuestions.forEach((question) => {
+    const questionKey = buildScienceQuestionReuseKey(
+      {
+        ...question,
+        imageUrl: image?.filePath,
+        stimulusImage: image?.filePath ? { src: image.filePath } : undefined,
+      },
+      'science-image'
+    );
+    if (questionKey) {
+      usedQuestionKeys.add(questionKey);
+    }
+  });
 
   return buildScienceImageQuestionItems({
     image,
     category,
     slotStimulusType,
-    questions: entry.questions.slice(0, Math.max(1, numQuestions)),
+    questions: selectedQuestions,
   });
 }
 
@@ -12715,6 +13017,9 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
     const usedImagePaths = new Set();
 
     generators.bankFill = async (slot) => {
+      if (slot.stimulusType === 'image') {
+        return [];
+      }
       // Try premade bank questions matching slot constraints
       return pickFromPremadeBank('Social Studies', slot, usedPassageIds);
     };
@@ -12774,8 +13079,11 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
 
   // ── Science generators ────────────────────────────────────────────
   if (normalizedSubject === 'Science') {
-    const usedScienceImagePaths = new Set();
+    const usedScienceImagePaths = _usedScienceImagePaths;
     const usedSciencePassageIds = new Set();
+    const usedScienceQuestionKeys = _usedScienceQuestionKeys;
+    const usedScienceNumeracyTemplateIds = new Set();
+    const usedChemistryBalanceIds = new Set();
     const scenarioExcludeByCategory = new Map();
     const numeracyExcludeByCategory = new Map();
 
@@ -12802,13 +13110,14 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
     generators.templateFill = async (slot) => {
       const trustedImages = buildTrustedScienceImageQuestionSet(
         slot,
-        usedScienceImagePaths
+        usedScienceImagePaths,
+        usedScienceQuestionKeys
       );
       if (trustedImages.length) return trustedImages;
 
       // Chemistry balancing uses template generator
       if (slot.group === 'chem_balance') {
-        const q = getChemistryBalancingQuestion();
+        const q = getChemistryBalancingQuestion(usedChemistryBalanceIds);
         return q ? [q] : [];
       }
       if (slot.stimulusType === 'passage/data') {
@@ -12833,10 +13142,15 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         return [];
       }
       if (['chart', 'table'].includes(slot.stimulusType) || slot.numeracy) {
-        const items = buildScienceNumeracyTemplateSet(
+        const items = await buildScienceNumeracyTemplateSet(
           slot.questionsNeeded,
           slot.category,
-          getNumeracyExclude(slot.category)
+          getNumeracyExclude(slot.category),
+          {
+            aiOptions,
+            usedTemplateIds: usedScienceNumeracyTemplateIds,
+            usedQuestionKeys: usedScienceQuestionKeys,
+          }
         );
         if (items.length) return items;
       }
@@ -12855,7 +13169,13 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
             }
           );
           if (Array.isArray(set) && set.length) {
-            return set;
+            return set.filter((item) =>
+              reserveScienceQuestionKey(
+                item,
+                usedScienceQuestionKeys,
+                'science-passage'
+              )
+            );
           }
         }
         const qs = await generatePassageSet(
@@ -12864,7 +13184,14 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
           slot.questionsNeeded,
           opts
         );
-        return Array.isArray(qs) ? qs : qs ? [qs] : [];
+        const sciencePassageItems = Array.isArray(qs) ? qs : qs ? [qs] : [];
+        return sciencePassageItems.filter((item) =>
+          reserveScienceQuestionKey(
+            item,
+            usedScienceQuestionKeys,
+            'science-passage'
+          )
+        );
       }
       if (['chart', 'table', 'diagram', 'image'].includes(slot.stimulusType)) {
         const scienceImages = getSeededScienceImages(curatedImages);
@@ -12875,26 +13202,47 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
           slot.questionsNeeded,
           opts
         );
-        if (imgQs && imgQs.length) return imgQs;
+        if (imgQs && imgQs.length) {
+          const uniqueImageQuestions = imgQs.filter((item) =>
+            reserveScienceQuestionKey(
+              item,
+              usedScienceQuestionKeys,
+              'science-ai-image'
+            )
+          );
+          if (uniqueImageQuestions.length) return uniqueImageQuestions;
+        }
         // Fallback to standalone
         const q = await generateStandaloneQuestion(
           'Science',
           slot.category,
           opts
         );
-        return q ? (Array.isArray(q) ? q : [q]) : [];
+        const standaloneItems = q ? (Array.isArray(q) ? q : [q]) : [];
+        return standaloneItems.filter((item) =>
+          reserveScienceQuestionKey(item, usedScienceQuestionKeys, 'science-ai')
+        );
       }
       // Standalone (possibly numeracy)
       if (slot.numeracy) {
         const q = await generateScienceNumeracyQuestion(slot.category, opts);
-        return q ? [q] : [];
+        if (
+          q &&
+          reserveScienceQuestionKey(q, usedScienceQuestionKeys, 'science-ai')
+        ) {
+          return [q];
+        }
+        return [];
       }
       const q = await generateStandaloneQuestion(
         'Science',
         slot.category,
         opts
       );
-      return q ? (Array.isArray(q) ? q : [q]) : [];
+      const standaloneItems = q ? (Array.isArray(q) ? q : [q]) : [];
+      return standaloneItems.filter((item) =>
+        reserveScienceQuestionKey(item, usedScienceQuestionKeys, 'science-ai')
+      );
     };
   }
 
@@ -13047,9 +13395,12 @@ function buildFallbackGenerators(normalizedSubject) {
   };
 
   if (normalizedSubject === 'Science') {
+    const usedScienceQuestionKeys = _usedScienceQuestionKeys;
+    const usedScienceNumeracyTemplateIds = new Set();
+    const usedChemistryBalanceIds = new Set();
     generators.templateFill = async (slot) => {
       if (slot.group === 'chem_balance') {
-        const q = getChemistryBalancingQuestion();
+        const q = getChemistryBalancingQuestion(usedChemistryBalanceIds);
         return q ? [q] : [];
       }
       if (slot.stimulusType === 'passage/data') {
@@ -13059,7 +13410,15 @@ function buildFallbackGenerators(normalizedSubject) {
           : [];
       }
       if (slot.numeracy) {
-        return buildScienceNumeracyTemplateSet(slot.questionsNeeded);
+        return buildScienceNumeracyTemplateSet(
+          slot.questionsNeeded,
+          null,
+          new Set(),
+          {
+            usedTemplateIds: usedScienceNumeracyTemplateIds,
+            usedQuestionKeys: usedScienceQuestionKeys,
+          }
+        );
       }
       return [];
     };
@@ -13092,7 +13451,10 @@ function buildGuaranteedScienceFilledSlots(plan) {
   const filledSlots = new Map();
   const scenarioExcludeByCategory = new Map();
   const numeracyExcludeByCategory = new Map();
-  const usedScienceImagePaths = new Set();
+  const usedScienceImagePaths = _usedScienceImagePaths;
+  const usedScienceQuestionKeys = _usedScienceQuestionKeys;
+  const usedScienceNumeracyTemplateIds = new Set();
+  const usedChemistryBalanceIds = new Set();
 
   const getScenarioExclude = (category) => {
     const key = category || '__default__';
@@ -13114,7 +13476,8 @@ function buildGuaranteedScienceFilledSlots(plan) {
     const filled = [];
     const trustedImages = buildTrustedScienceImageQuestionSet(
       slot,
-      usedScienceImagePaths
+      usedScienceImagePaths,
+      usedScienceQuestionKeys
     );
 
     if (trustedImages.length) {
@@ -13125,7 +13488,7 @@ function buildGuaranteedScienceFilledSlots(plan) {
       // Trusted local images already satisfied this slot.
     } else if (slot.group === 'chem_balance') {
       while (filled.length < slot.questionsNeeded) {
-        const item = getChemistryBalancingQuestion();
+        const item = getChemistryBalancingQuestion(usedChemistryBalanceIds);
         if (!item) break;
         filled.push(item);
       }
@@ -13145,9 +13508,20 @@ function buildGuaranteedScienceFilledSlots(plan) {
       while (filled.length < slot.questionsNeeded) {
         const item = instantiateScienceNumeracyTemplate(
           slot.category,
-          getNumeracyExclude(slot.category)
+          getNumeracyExclude(slot.category),
+          usedScienceNumeracyTemplateIds
         );
         if (!item) break;
+        const questionKey = buildScienceQuestionReuseKey(
+          item,
+          'science-template'
+        );
+        if (questionKey && usedScienceQuestionKeys.has(questionKey)) {
+          continue;
+        }
+        if (questionKey) {
+          usedScienceQuestionKeys.add(questionKey);
+        }
         filled.push(item);
       }
     } else if (['diagram', 'image'].includes(slot.stimulusType)) {
@@ -13179,17 +13553,49 @@ function buildGuaranteedScienceFilledSlots(plan) {
   return filledSlots;
 }
 
-function buildScienceNumeracyTemplateSet(
+async function buildScienceNumeracyTemplateSet(
   count,
   category,
-  excludeIds = new Set()
+  excludeIds = new Set(),
+  {
+    aiOptions = {},
+    usedTemplateIds = new Set(),
+    usedQuestionKeys = new Set(),
+  } = {}
 ) {
   const items = [];
   while (items.length < count) {
-    const item = instantiateScienceNumeracyTemplate(category, excludeIds);
+    const item = instantiateScienceNumeracyTemplate(
+      category,
+      excludeIds,
+      usedTemplateIds
+    );
     if (!item) break;
+    const questionKey = buildScienceQuestionReuseKey(item, 'science-template');
+    if (questionKey && usedQuestionKeys.has(questionKey)) continue;
+    if (questionKey) {
+      usedQuestionKeys.add(questionKey);
+    }
     items.push(item);
   }
+
+  let attempts = 0;
+  const maxAttempts = Math.max(count * 4, 4);
+  while (items.length < count && attempts < maxAttempts) {
+    attempts += 1;
+    const generated = await generateScienceNumeracyQuestion(
+      category,
+      aiOptions
+    );
+    if (!generated) continue;
+    const questionKey = buildScienceQuestionReuseKey(generated, 'science-ai');
+    if (questionKey && usedQuestionKeys.has(questionKey)) continue;
+    if (questionKey) {
+      usedQuestionKeys.add(questionKey);
+    }
+    items.push(generated);
+  }
+
   return items;
 }
 
@@ -13198,17 +13604,23 @@ function buildScienceNumeracyTemplateSet(
 // Track used premade questions across a single generation run
 const _usedPremadeTexts = new Set();
 const _usedScienceImagePaths = new Set();
+const _usedScienceQuestionKeys = new Set();
 
 function resetPremadeTracker() {
   _usedPremadeTexts.clear();
   _usedScienceImagePaths.clear();
+  _usedScienceQuestionKeys.clear();
 }
 
 function pickFromPremadeBank(subject, slot) {
   const questions = [];
   const trustedImages =
     subject === 'Science'
-      ? buildTrustedScienceImageQuestionSet(slot, _usedScienceImagePaths)
+      ? buildTrustedScienceImageQuestionSet(
+          slot,
+          _usedScienceImagePaths,
+          _usedScienceQuestionKeys
+        )
       : [];
   if (trustedImages.length) {
     return trustedImages.slice(0, slot.questionsNeeded).map((q) => ({
@@ -13283,6 +13695,25 @@ function pickFromPremadeBank(subject, slot) {
         if (_usedPremadeTexts.has(text)) continue;
         if (!questionMatchesSlotStimulus(q, slot)) continue;
 
+        const scienceQuestionKey =
+          subject === 'Science'
+            ? buildScienceQuestionReuseKey(
+                {
+                  ...q,
+                  questionText: text,
+                },
+                q.stimulusImage || q.imageUrl || q.imageURL || q.image
+                  ? 'science-image'
+                  : 'science'
+              )
+            : '';
+        if (
+          scienceQuestionKey &&
+          _usedScienceQuestionKeys.has(scienceQuestionKey)
+        ) {
+          continue;
+        }
+
         // Reject cross-subject contamination (e.g., Social Studies stems in Science banks)
         if (subject === 'Science') {
           if (q.subject && /social.?studies/i.test(q.subject)) continue;
@@ -13316,6 +13747,17 @@ function pickFromPremadeBank(subject, slot) {
   const picked = questions.slice(0, slot.questionsNeeded);
   for (const q of picked) {
     _usedPremadeTexts.add(q.questionText);
+    if (subject === 'Science') {
+      const scienceQuestionKey = buildScienceQuestionReuseKey(
+        q,
+        q.stimulusImage || q.imageUrl || q.imageURL || q.image
+          ? 'science-image'
+          : 'science'
+      );
+      if (scienceQuestionKey) {
+        _usedScienceQuestionKeys.add(scienceQuestionKey);
+      }
+    }
   }
   return picked;
 }
@@ -13448,70 +13890,24 @@ function pickPassageForSlot(passages, category, usedIds) {
  * Pick a curated image matching the category.
  */
 function pickImageForSlot(images, category, usedPaths) {
-  const catLower = category.toLowerCase();
-  const keywords = {
-    'civics & government': [
-      'civics',
-      'government',
-      'political',
-      'election',
-      'suffrage',
-      'constitution',
-      'democracy',
-      'voting',
-      'rights',
-    ],
-    'u.s. history': [
-      'american',
-      'united states',
-      'president',
-      'civil war',
-      'reconstruction',
-      'colonial',
-      'revolution',
-      'founding',
-      'new deal',
-      'civil rights',
-    ],
-    economics: [
-      'econom',
-      'trade',
-      'business',
-      'market',
-      'depression',
-      'industrial',
-      'labor',
-      'graph',
-      'chart',
-      'budget',
-    ],
-    'geography & the world': [
-      'geograph',
-      'world',
-      'map',
-      'region',
-      'territory',
-      'global',
-      'continent',
-      'border',
-      'migration',
-    ],
-  };
-  const kws = keywords[catLower] || [];
-
   const available = images.filter((img) => {
     if (img.filePath && usedPaths.has(img.filePath)) return false;
     if (!hasPremadeImageQuestions(img)) return false;
-    const combined =
-      `${img.category || ''} ${img.altText || ''} ${img.detailedDescription || ''} ${getImageUsageDirectives(img)} ${getImageQuestionSeeds(img).join(' ')} ${Array.isArray(img.keywords) ? img.keywords.join(' ') : ''}`.toLowerCase();
-    return kws.some((kw) => combined.includes(kw));
+    return socialStudiesImageSupportsCategory(img, category);
   });
 
   if (available.length === 0) return null;
   const authoredPool = available.filter(
     hasHandAuthoredSocialStudiesImageQuestions
   );
-  const selectionPool = authoredPool.length ? authoredPool : available;
+  const preferredPaths = SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS[category] || [];
+  const selectionPool = (authoredPool.length ? authoredPool : available).sort(
+    (left, right) => {
+      const leftPreferred = preferredPaths.includes(left.filePath) ? 0 : 1;
+      const rightPreferred = preferredPaths.includes(right.filePath) ? 0 : 1;
+      return leftPreferred - rightPreferred;
+    }
+  );
   const picked =
     selectionPool[Math.floor(Math.random() * selectionPool.length)];
   if (picked.filePath) usedPaths.add(picked.filePath);
@@ -13730,6 +14126,7 @@ app.post('/generate-quiz', async (req, res) => {
 
       // ── SLOT-AWARE FALLBACK ─────────────────────────────────────
       try {
+        resetPremadeTracker();
         const plan = buildComprehensivePlan(normalizedSubject);
         const fallbackGenerators = buildFallbackGenerators(normalizedSubject);
         const { filledSlots, log: fallbackLog } = await fillExamPlan(
@@ -13758,6 +14155,7 @@ app.post('/generate-quiz', async (req, res) => {
 
         if (normalizedSubject === 'Science') {
           try {
+            resetPremadeTracker();
             const plan = buildComprehensivePlan(normalizedSubject);
             const guaranteedSlots = buildGuaranteedScienceFilledSlots(plan);
             const guaranteedQuiz = await finalizeExamPayload(
@@ -13995,12 +14393,22 @@ PASSAGE:\n${picked.text}\n`;
         /chemistry|chemical|reaction|equation/i.test(topic)
       ) {
         const chemCount = 2; // Add 2 chemistry questions for chemistry topics
+        const usedChemistryBalanceIds = new Set();
         console.log(
           `[Science][Chemistry] Adding ${chemCount} chemistry balancing questions to topic quiz.`
         );
         for (let i = 0; i < chemCount; i++) {
-          finalQuestions.push(getChemistryBalancingQuestion());
+          const chemistryQuestion = getChemistryBalancingQuestion(
+            usedChemistryBalanceIds
+          );
+          if (chemistryQuestion) {
+            finalQuestions.push(chemistryQuestion);
+          }
         }
+      }
+
+      if (subject === 'Science') {
+        finalQuestions = dedupeScienceQuestionList(finalQuestions);
       }
 
       // Remove passage-chart mismatches for Science and Math

@@ -123,9 +123,9 @@ function buildSocialStudiesPlan() {
   const slots = [];
 
   // Category counts: Civics 18, History 7, Economics 5, Geography 5
-  // Passage: 14 total  (Civics 5 × ~2-3q, History 3 × ~2q, Econ 2 × ~2q, Geo 2 × ~2q → grouped)
-  // Image:   8 total   (Civics 3, History 2, Econ 2, Geo 1)
-  // Standalone: 13 total (Civics 5, History 2, Econ 1, Geo 2 + leftovers rounded)
+  // Passage: 14 total  (Civics 6, History 4, Econ 2, Geo 2)
+  // Image:   10 total  (Civics 4, History 2, Econ 2, Geo 2)
+  // Standalone: 11 total (Civics 8, History 1, Econ 1, Geo 1)
 
   // We build passage groups (each yields multiple questions) plus individual image/standalone slots.
 
@@ -141,16 +141,15 @@ function buildSocialStudiesPlan() {
     passageSlot(P, 'Civics & Government', 'medium', 2, { group: civicsGroup2 })
   );
   slots.push(
-    passageSlot(P, 'Civics & Government', 'medium', 1, { group: civicsGroup3 })
+    passageSlot(P, 'Civics & Government', 'medium', 2, { group: civicsGroup3 })
   );
-  // Images: 3 image slots × 1q each = 3
+  // Images: 4 image slots × 1q each = 4
   slots.push(imageSlot(P, 'Civics & Government', 'easy', 1));
   slots.push(imageSlot(P, 'Civics & Government', 'medium', 1));
   slots.push(imageSlot(P, 'Civics & Government', 'hard', 1));
-  // Standalone: 10 slots to fill remaining  → 18 - 5(passage) - 3(image) = 10
-  // Actually let me recalculate:
-  //   passage qs: 2+2+1 = 5; image qs: 3; standalone needed: 18-5-3 = 10
-  for (let i = 0; i < 10; i++) {
+  slots.push(imageSlot(P, 'Civics & Government', 'medium', 1));
+  // Standalone: 8 slots to fill remaining  → 18 - 6(passage) - 4(image) = 8
+  for (let i = 0; i < 8; i++) {
     const diff = i < 3 ? 'easy' : i < 7 ? 'medium' : 'hard';
     slots.push(standaloneSlot(P, 'Civics & Government', diff, 1));
   }
@@ -163,21 +162,21 @@ function buildSocialStudiesPlan() {
     passageSlot(P, 'U.S. History', 'medium', 2, { group: histGroup1 })
   );
   slots.push(passageSlot(P, 'U.S. History', 'hard', 2, { group: histGroup2 }));
-  // 1 image slot × 1q
+  // 2 image slots × 1q
   slots.push(imageSlot(P, 'U.S. History', 'medium', 1));
-  // Standalone: 7 - 4 - 1 = 2
+  slots.push(imageSlot(P, 'U.S. History', 'hard', 1));
+  // Standalone: 7 - 4 - 2 = 1
   slots.push(standaloneSlot(P, 'U.S. History', 'easy', 1));
-  slots.push(standaloneSlot(P, 'U.S. History', 'medium', 1));
 
   // --- Economics: 5 questions ---
   // 1 passage group × 2q = 2
   const econGroup1 = `econ_passage_1`;
   slots.push(passageSlot(P, 'Economics', 'medium', 2, { group: econGroup1 }));
-  // 1 image slot
+  // 2 image slots
   slots.push(imageSlot(P, 'Economics', 'hard', 1));
-  // Standalone: 5 - 2 - 1 = 2
+  slots.push(imageSlot(P, 'Economics', 'medium', 1));
+  // Standalone: 5 - 2 - 2 = 1
   slots.push(standaloneSlot(P, 'Economics', 'easy', 1));
-  slots.push(standaloneSlot(P, 'Economics', 'medium', 1));
 
   // --- Geography & the World: 5 questions ---
   // 1 passage group × 2q = 2
@@ -185,10 +184,10 @@ function buildSocialStudiesPlan() {
   slots.push(
     passageSlot(P, 'Geography & the World', 'medium', 2, { group: geoGroup1 })
   );
-  // 1 image slot
+  // 2 image slots
   slots.push(imageSlot(P, 'Geography & the World', 'easy', 1));
-  // Standalone: 5 - 2 - 1 = 2
-  slots.push(standaloneSlot(P, 'Geography & the World', 'medium', 1));
+  slots.push(imageSlot(P, 'Geography & the World', 'medium', 1));
+  // Standalone: 5 - 2 - 2 = 1
   slots.push(standaloneSlot(P, 'Geography & the World', 'hard', 1));
 
   // Verify totals
@@ -225,7 +224,7 @@ function buildSocialStudiesPlan() {
         Economics: 5,
         'Geography & the World': 5,
       },
-      stimulus: { passage: 14, image: 8, standalone: 13 },
+      stimulus: { passage: 14, image: 10, standalone: 11 },
       difficulty: { easy: 10, medium: 17, hard: 8 },
     },
     slots,

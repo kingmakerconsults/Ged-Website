@@ -1,0 +1,1124 @@
+{
+  "id": "ai_comp_social_studies_1773719084543",
+  "title": "Comprehensive Social Studies Exam",
+  "subject": "Social Studies",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "knowledge",
+      "questionText": "The landmark case of Gideon v. Wainwright (1963) affirmed the right of the accused to what?",
+      "answerOptions": [
+        {
+          "text": "The right to a trial by jury.",
+          "isCorrect": false,
+          "rationale": "This right is in the 6th Amendment but was not the subject of this case."
+        },
+        {
+          "text": "The right to legal counsel (a lawyer), even if they cannot afford one.",
+          "isCorrect": true,
+          "rationale": "Correct. The Court ruled that the 6th Amendment's guarantee of counsel is a fundamental right essential to a fair trial and must be provided to indigent defendants in felony cases."
+        },
+        {
+          "text": "The right to remain silent.",
+          "isCorrect": false,
+          "rationale": "This was central to the Miranda v. Arizona case."
+        },
+        {
+          "text": "Protection from unreasonable searches.",
+          "isCorrect": false,
+          "rationale": "This is the focus of the 4th Amendment."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "068ea1567356504c7ec56f8e73363e067ef1e88e"
+    },
+    {
+      "questionNumber": 2,
+      "type": "multipleChoice",
+      "questionText": "Why are Lincoln and Andrew Johnson shown sewing the nation together?",
+      "answerOptions": [
+        {
+          "text": "To portray reunion as a process of repairing the Union after war",
+          "isCorrect": true,
+          "rationale": "Correct. Sewing turns national restoration into a visible act of repair."
+        },
+        {
+          "text": "To suggest the Union should be permanently split into smaller countries",
+          "isCorrect": false,
+          "rationale": "The action of sewing suggests restoration, not permanent breakup."
+        },
+        {
+          "text": "To show that textile production caused the Civil War",
+          "isCorrect": false,
+          "rationale": "The sewing is symbolic, not economic explanation."
+        },
+        {
+          "text": "To represent industrial labor in northern factories",
+          "isCorrect": false,
+          "rationale": "The act is about political reunion, not factory work."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/political_cartoon_0001.jpg",
+        "alt": "A 19th-century political cartoon depicts Abraham Lincoln and Andrew Johnson sewing together a globe representing the divided United States."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-political_cartoon_0001.jpg",
+      "category": "Civics & Government",
+      "bankFingerprint": "b5269c4f7d5902bca375cecdab151dce24f077c4"
+    },
+    {
+      "questionNumber": 3,
+      "type": "multipleChoice",
+      "questionText": "According to the legend, what does a yellow state represent on the Senate vote map?",
+      "answerOptions": [
+        {
+          "text": "The state's senators were split on the bill",
+          "isCorrect": true,
+          "rationale": "Correct. The legend identifies yellow as Split."
+        },
+        {
+          "text": "Both senators voted Yea",
+          "isCorrect": false,
+          "rationale": "Yea is shown with a different color in the legend."
+        },
+        {
+          "text": "Both senators voted Nay",
+          "isCorrect": false,
+          "rationale": "Nay is shown with a different color in the legend."
+        },
+        {
+          "text": "The state had no Senate vote recorded",
+          "isCorrect": false,
+          "rationale": "The legend categories are Yea, Nay, and Split, not missing vote."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/civil_rights_act_of_1964_0001.png",
+        "alt": "Map of US states showing Senator's votes on the Civil Rights Act of 1964 by 'Yea', 'Nay', or 'Split'."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-civil_rights_act_of_1964_0001.png",
+      "category": "Geography & the World",
+      "bankFingerprint": "69c0beb15af4755c88b6eb9bc8cd8ff22ea653e2"
+    },
+    {
+      "questionNumber": 4,
+      "type": "multipleChoice",
+      "questionText": "Based on the data provided, which statement is correct?",
+      "answerOptions": [
+        {
+          "text": "Country A has a trade deficit.",
+          "isCorrect": false,
+          "rationale": "Country A exports more than it imports, so it has a trade surplus."
+        },
+        {
+          "text": "Country B has a trade surplus.",
+          "isCorrect": false,
+          "rationale": "Country B imports more than it exports, so it has a trade deficit."
+        },
+        {
+          "text": "Country A has a trade surplus, and Country B has a trade deficit.",
+          "isCorrect": true,
+          "rationale": "Correct. A trade surplus occurs when exports exceed imports, and a deficit occurs when imports exceed exports."
+        },
+        {
+          "text": "Both countries have a trade deficit.",
+          "isCorrect": false,
+          "rationale": "Only Country B has a trade deficit."
+        }
+      ],
+      "passage": "Country A: Imports (50 billion, Exports )70 billion\nCountry B: Imports (80 billion, Exports )60 billion",
+      "itemType": "passage",
+      "category": "Economics",
+      "bankFingerprint": "37a3eab039f8a0f58755d9c92d819dbf2c7135c6"
+    },
+    {
+      "questionNumber": 5,
+      "type": "text",
+      "questionText": "In this scenario, what is the opportunity cost of buying the video game?",
+      "answerOptions": [
+        {
+          "text": "The $20 you spent.",
+          "isCorrect": false,
+          "rationale": "The money spent is the price, not the opportunity cost. The opportunity cost is what you gave up."
+        },
+        {
+          "text": "The video game itself.",
+          "isCorrect": false,
+          "rationale": "The video game is what you gained, not what you gave up."
+        },
+        {
+          "text": "The enjoyment of going to the movies with a friend.",
+          "isCorrect": true,
+          "rationale": "Correct. The opportunity cost is the value of the next-best alternative you sacrificed, which in this case was the movie outing."
+        },
+        {
+          "text": "There is no opportunity cost because you got what you wanted.",
+          "isCorrect": false,
+          "rationale": "Every choice has an opportunity cost."
+        }
+      ],
+      "passage": "Imagine you have $20. You can either buy a new video game or go to the movies with a friend. You cannot do both. You decide to buy the video game. The experience of going to the movies with your friend is the opportunity cost of your decision.",
+      "itemType": "passage",
+      "category": "Economics",
+      "bankFingerprint": "bba314034c9ca0a4537236db39a38ffa3e822dd5"
+    },
+    {
+      "questionNumber": 6,
+      "type": "knowledge",
+      "questionText": "The process of redrawing legislative district boundaries every 10 years after the census is known as:",
+      "answerOptions": [
+        {
+          "text": "Gerrymandering",
+          "isCorrect": false,
+          "rationale": "Gerrymandering is the manipulation of these boundaries to favor one party, but the process itself is called redistricting."
+        },
+        {
+          "text": "Redistricting",
+          "isCorrect": true,
+          "rationale": "Correct. Redistricting is the process of redrawing electoral district boundaries to account for population shifts."
+        },
+        {
+          "text": "Filibustering",
+          "isCorrect": false,
+          "rationale": "This is a tactic used in the Senate."
+        },
+        {
+          "text": "Lobbying",
+          "isCorrect": false,
+          "rationale": "This is the act of trying to influence lawmakers."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "ccd6dc63453962cc2c0e77a62b92d9a8beb81600"
+    },
+    {
+      "questionNumber": 7,
+      "type": "text",
+      "questionText": "What was the main purpose of the Homestead Act of 1862?",
+      "answerOptions": [
+        {
+          "text": "To create national parks and preserve wilderness.",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "text": "To sell government land to railroad companies.",
+          "isCorrect": false,
+          "rationale": "This is not the correct answer based on the information provided."
+        },
+        {
+          "text": "To encourage the settlement of the American West by individual farmers.",
+          "isCorrect": true,
+          "rationale": "To encourage the settlement of the American West by individual farmers."
+        },
+        {
+          "text": "To establish large, government-owned farms.",
+          "isCorrect": false,
+          "rationale": "While this might seem plausible, it is not supported by the information given."
+        }
+      ],
+      "passage": "The Homestead Act of 1862 was a pivotal piece of legislation that encouraged westward migration. It allowed any adult citizen, or intended citizen, who had never borne arms against the U.S. government to claim 160 acres of surveyed government land. Claimants were required to 'improve' the plot by building a dwelling and cultivating the land for five years before receiving full ownership.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "bbbf350fef370ca32003cbf0a14db15866150ed3"
+    },
+    {
+      "questionNumber": 8,
+      "type": "text",
+      "questionText": "The term 'digital revolution' refers to the shift toward:",
+      "answerOptions": [
+        {
+          "text": "a manufacturing-based economy.",
+          "isCorrect": false,
+          "rationale": "The digital revolution is associated with a shift away from manufacturing towards information and services."
+        },
+        {
+          "text": "new forms of transportation like electric cars.",
+          "isCorrect": false,
+          "rationale": "While a recent technological change, the 'digital revolution' refers more broadly to computing and the internet."
+        },
+        {
+          "text": "technologies based on computers and the internet.",
+          "isCorrect": true,
+          "rationale": "Correct. The passage directly links the digital revolution to personal computers, the internet, and mobile devices."
+        },
+        {
+          "text": "an economy based on agriculture.",
+          "isCorrect": false,
+          "rationale": "The digital revolution is a feature of a post-industrial, not agrarian, economy."
+        }
+      ],
+      "passage": "The late 20th and early 21st centuries have been defined by the digital revolution and the rise of the internet. This technological shift has transformed the economy, communication, and daily life. The growth of personal computers, the internet, and mobile devices has created a globally interconnected society.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "939d3b2538fd5715883676143fc6ba21af8f4929"
+    },
+    {
+      "questionNumber": 9,
+      "type": "knowledge",
+      "questionText": "Powers that are shared by both the federal government and state governments, such as the power to tax and build roads, are known as:",
+      "answerOptions": [
+        {
+          "text": "Concurrent powers",
+          "isCorrect": true,
+          "rationale": "Correct. 'Concurrent' means happening at the same time, and these are powers that both levels of government can exercise."
+        },
+        {
+          "text": "Reserved powers",
+          "isCorrect": false,
+          "rationale": "Reserved powers belong only to the states."
+        },
+        {
+          "text": "Enumerated powers",
+          "isCorrect": false,
+          "rationale": "Enumerated powers belong only to the federal government."
+        },
+        {
+          "text": "Delegated powers",
+          "isCorrect": false,
+          "rationale": "Delegated powers are those specifically granted to the federal government."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "82f93b7d7f42c1f9e0b5e20f8a25ac9852a776ec"
+    },
+    {
+      "questionNumber": 10,
+      "type": "text",
+      "questionText": "What principle was established by the Supreme Court's decision in Tinker v. Des Moines?",
+      "answerOptions": [
+        {
+          "text": "That students have no free speech rights in public schools.",
+          "isCorrect": false,
+          "rationale": "The ruling affirmed the opposite."
+        },
+        {
+          "text": "That schools can ban any form of student expression they disagree with.",
+          "isCorrect": false,
+          "rationale": "The ruling limited the ability of schools to ban expression."
+        },
+        {
+          "text": "That students have a right to symbolic speech at school, as long as it does not substantially disrupt the educational environment.",
+          "isCorrect": true,
+          "rationale": "Correct. This case established that students' symbolic speech (like wearing armbands) is protected under the First Amendment unless it causes a significant disruption."
+        },
+        {
+          "text": "That only spoken speech, not symbolic speech, is protected in schools.",
+          "isCorrect": false,
+          "rationale": "The case specifically protected symbolic speech."
+        }
+      ],
+      "passage": "In the case of Tinker v. Des Moines (1969), the Supreme Court ruled on the free speech rights of students in public schools. Students had worn black armbands to protest the Vietnam War and were suspended. The Court famously stated that students do not 'shed their constitutional rights to freedom of speech or expression at the schoolhouse gate.'",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "8c49fd4e928309dafe57169f201572663dcb5073"
+    },
+    {
+      "questionNumber": 11,
+      "type": "text",
+      "questionText": "How long is the term for a Supreme Court justice?",
+      "answerOptions": [
+        {
+          "text": "A ten-year term.",
+          "isCorrect": false,
+          "rationale": "Justices do not have a fixed term length."
+        },
+        {
+          "text": "For life, or until they choose to retire.",
+          "isCorrect": true,
+          "rationale": "Correct. The phrase 'during good Behaviour' has been interpreted to mean that justices serve for life, ensuring an independent judiciary free from political pressure."
+        },
+        {
+          "text": "A six-year term, the same as a senator.",
+          "isCorrect": false,
+          "rationale": "Senators serve six-year terms, but Supreme Court justices serve for life."
+        },
+        {
+          "text": "They must be re-appointed by each new President.",
+          "isCorrect": false,
+          "rationale": "Once appointed and confirmed, justices do not need to be re-appointed."
+        }
+      ],
+      "passage": "Article III of the Constitution establishes the Judicial Branch of the federal government. It creates the Supreme Court and gives Congress the power to create lower federal courts. Federal judges, including Supreme Court justices, are appointed by the President and confirmed by the Senate. They hold their offices 'during good Behaviour,' which generally means for life.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "61bd0fbb540a10817e9bd4ff0fb5b06c1510eada"
+    },
+    {
+      "questionNumber": 12,
+      "type": "knowledge",
+      "questionText": "The business cycle describes the recurring phases of expansion and contraction in an economy. What is a period of significant economic decline, characterized by falling GDP and rising unemployment, called?",
+      "answerOptions": [
+        {
+          "text": "A peak",
+          "isCorrect": false,
+          "rationale": "A peak is the highest point of an economic expansion."
+        },
+        {
+          "text": "An expansion",
+          "isCorrect": false,
+          "rationale": "An expansion is a period of economic growth."
+        },
+        {
+          "text": "A recession",
+          "isCorrect": true,
+          "rationale": "Correct. A recession is a period of economic downturn, often officially defined as two consecutive quarters of negative GDP growth."
+        },
+        {
+          "text": "A trough",
+          "isCorrect": false,
+          "rationale": "A trough is the lowest point of a recession before recovery begins."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Economics",
+      "bankFingerprint": "1c04633cf9fe51041a43c533f48b320c317ff6c8"
+    },
+    {
+      "questionNumber": 13,
+      "type": "multipleChoice",
+      "questionText": "Which amendment on the timeline lowered the voting age from 21 to 18?",
+      "answerOptions": [
+        {
+          "text": "The Twenty-Sixth Amendment",
+          "isCorrect": true,
+          "rationale": "Correct. The Twenty-Sixth Amendment lowered the voting age to 18."
+        },
+        {
+          "text": "The Fourteenth Amendment",
+          "isCorrect": false,
+          "rationale": "The Fourteenth Amendment addressed citizenship and equal protection, not voting age."
+        },
+        {
+          "text": "The Nineteenth Amendment",
+          "isCorrect": false,
+          "rationale": "That amendment focused on women’s suffrage."
+        },
+        {
+          "text": "The Twenty-Fourth Amendment",
+          "isCorrect": false,
+          "rationale": "That amendment addressed poll taxes, not age requirements."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/ged_grsph_4_0001.png",
+        "alt": "A timeline detailing key voting rights milestones in U.S. history from 1776 to 2000."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-ged_grsph_4_0001.png",
+      "category": "Civics & Government",
+      "bankFingerprint": "b16c971324093df916333c2799a8deb98a900a56"
+    },
+    {
+      "questionNumber": 14,
+      "type": "multipleChoice",
+      "questionText": "What problem of the Great Depression is most directly shown in this photograph?",
+      "answerOptions": [
+        {
+          "text": "Widespread unemployment and poverty",
+          "isCorrect": true,
+          "rationale": "Correct. The lines for free food and aid point to severe unemployment and economic hardship."
+        },
+        {
+          "text": "Overseas military expansion",
+          "isCorrect": false,
+          "rationale": "The photo is about domestic economic struggle, not war."
+        },
+        {
+          "text": "Rapid suburban growth",
+          "isCorrect": false,
+          "rationale": "The image shows hardship, not suburban development."
+        },
+        {
+          "text": "A boom in factory wages",
+          "isCorrect": false,
+          "rationale": "The need for free food suggests the opposite of economic prosperity."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/great_depression_0001.png",
+        "alt": "Black and white photo of many men in a long line on a street during the Great Depression."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-great_depression_0001.png",
+      "category": "Economics",
+      "bankFingerprint": "cb6ff291a297dae4e36dc7bc2fc8fbd8bc5a700c"
+    },
+    {
+      "questionNumber": 15,
+      "type": "multipleChoice",
+      "questionText": "About what percentage of IRS receipts comes from personal income tax and employment taxes combined?",
+      "answerOptions": [
+        {
+          "text": "85.2%",
+          "isCorrect": true,
+          "rationale": "Correct. Adding 50.1% and 35.1% gives 85.2%."
+        },
+        {
+          "text": "62.0%",
+          "isCorrect": false,
+          "rationale": "That total is much lower than the combined share of the two biggest categories."
+        },
+        {
+          "text": "47.0%",
+          "isCorrect": false,
+          "rationale": "This is less than personal income tax alone."
+        },
+        {
+          "text": "92.7%",
+          "isCorrect": false,
+          "rationale": "That would overstate the combined total shown on the chart."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/this_question_is_based_on_the_following_graph_0001.png",
+        "alt": "A pie chart displaying Internal Revenue Service receipts by category in 2010, showing percentages for each tax type."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-this_question_is_based_on_the_following_graph_0001.png",
+      "category": "Economics",
+      "bankFingerprint": "b1b2c1f0ba082919fd2b2373f9092c54882461ca"
+    },
+    {
+      "questionNumber": 16,
+      "type": "multipleChoice",
+      "questionText": "What was the outcome of the Supreme Court's decision in Plessy v. Ferguson (1896)?",
+      "answerOptions": [
+        {
+          "text": "It declared slavery unconstitutional.",
+          "isCorrect": false,
+          "rationale": "Slavery was abolished by the 13th Amendment."
+        },
+        {
+          "text": "It upheld the 'separate but equal' doctrine, providing a legal basis for segregation.",
+          "isCorrect": true,
+          "rationale": "Correct. This decision was later overturned by Brown v. Board of Education."
+        },
+        {
+          "text": "It granted women the right to vote.",
+          "isCorrect": false,
+          "rationale": "This was accomplished through the 19th Amendment."
+        },
+        {
+          "text": "It outlawed segregation in public schools.",
+          "isCorrect": false,
+          "rationale": "It did the opposite; it legalized it."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "2dafadfa8ed68c83e20951c51d8b8e652ab02422"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "questionText": "The Americans with Disabilities Act (ADA) of 1990 is a civil rights law that prohibits discrimination based on disability. Which of the following is a requirement of the ADA?",
+      "answerOptions": [
+        {
+          "text": "All television shows must be broadcast in black and white.",
+          "isCorrect": false,
+          "rationale": "This is unrelated to the ADA."
+        },
+        {
+          "text": "Public accommodations, like restaurants and stores, must be accessible to people with disabilities.",
+          "isCorrect": true,
+          "rationale": "Correct. The ADA mandates things like wheelchair ramps and accessible restrooms in public places."
+        },
+        {
+          "text": "All citizens must pass a physical fitness test to vote.",
+          "isCorrect": false,
+          "rationale": "This is not a law and would be unconstitutional."
+        },
+        {
+          "text": "Employers can refuse to hire someone if they have a disability.",
+          "isCorrect": false,
+          "rationale": "The ADA prohibits this kind of employment discrimination."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "U.S. History",
+      "bankFingerprint": "d0562b0764f56cdf0f9911a8f9a1c9096642c6cd"
+    },
+    {
+      "questionNumber": 18,
+      "type": "multipleChoice",
+      "questionText": "What does this image suggest about how many civil rights activists tried to create change?",
+      "answerOptions": [
+        {
+          "text": "They used organized public marches to draw attention to injustice and demand reform.",
+          "isCorrect": true,
+          "rationale": "Correct. The large crowd, signs, and leaders marching together show coordinated public protest."
+        },
+        {
+          "text": "They relied mainly on secret military operations.",
+          "isCorrect": false,
+          "rationale": "The image shows an open public demonstration, not military action."
+        },
+        {
+          "text": "They avoided public communication with government.",
+          "isCorrect": false,
+          "rationale": "Marches were designed to make demands visible and public."
+        },
+        {
+          "text": "They focused only on local issues instead of national rights.",
+          "isCorrect": false,
+          "rationale": "The signs point to broad national civil-rights goals."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/civil_rights_movement_0001.png",
+        "alt": "Black and white photo of civil rights marchers holding signs, including Martin Luther King Jr. and other leaders."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-civil_rights_movement_0001.png",
+      "category": "U.S. History",
+      "bankFingerprint": "aa25a2ff3580ff35f45cc2b016cfea563d393949"
+    },
+    {
+      "questionNumber": 19,
+      "type": "knowledge",
+      "questionText": "Which chamber of Congress has the exclusive power to initiate all bills related to revenue (taxes)?",
+      "answerOptions": [
+        {
+          "text": "The Senate",
+          "isCorrect": false,
+          "rationale": "The Senate can amend revenue bills, but they must originate in the House."
+        },
+        {
+          "text": "The House of Representatives",
+          "isCorrect": true,
+          "rationale": "Correct. The Constitution (Article I, Section 7) requires that all bills for raising revenue must originate in the House, based on the principle that the chamber closer to the people should control taxation."
+        },
+        {
+          "text": "Both chambers can initiate them equally.",
+          "isCorrect": false,
+          "rationale": "The Constitution gives this specific power to the House."
+        },
+        {
+          "text": "The Supreme Court",
+          "isCorrect": false,
+          "rationale": "The Supreme Court interprets laws; it does not initiate them."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "3b45fbab4a2c93058ecbb80219244286d0a21e77"
+    },
+    {
+      "questionNumber": 20,
+      "type": "knowledge",
+      "questionText": "Which chamber of Congress has the exclusive power of 'advice and consent' on presidential appointments and treaties?",
+      "answerOptions": [
+        {
+          "text": "The House of Representatives",
+          "isCorrect": false,
+          "rationale": "The House does not have this power."
+        },
+        {
+          "text": "The Senate",
+          "isCorrect": true,
+          "rationale": "Correct. The Senate must confirm major presidential appointments (like cabinet members and federal judges) and must ratify treaties negotiated by the President."
+        },
+        {
+          "text": "Both chambers share this power equally.",
+          "isCorrect": false,
+          "rationale": "The Constitution specifically grants this power to the Senate."
+        },
+        {
+          "text": "No chamber has this power; it belongs to the judiciary.",
+          "isCorrect": false,
+          "rationale": "This is a key legislative power."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "a3683fa8572ccf2623d47507159649248ed5d571"
+    },
+    {
+      "questionNumber": 21,
+      "type": "text",
+      "questionText": "What is the primary goal of gerrymandering?",
+      "answerOptions": [
+        {
+          "text": "To create districts of equal population size.",
+          "isCorrect": false,
+          "rationale": "This is the goal of redistricting, but gerrymandering manipulates this process for political gain."
+        },
+        {
+          "text": "To create a political advantage for one party by manipulating district boundaries.",
+          "isCorrect": true,
+          "rationale": "Correct. The passage defines gerrymandering as drawing districts to give one party an 'unfair advantage.'"
+        },
+        {
+          "text": "To make elections more competitive.",
+          "isCorrect": false,
+          "rationale": "Gerrymandering often makes elections less competitive by creating 'safe' districts for one party."
+        },
+        {
+          "text": "To ensure that districts are geographically compact.",
+          "isCorrect": false,
+          "rationale": "Gerrymandered districts are often bizarrely shaped to achieve a political outcome."
+        }
+      ],
+      "passage": "Gerrymandering is the practice of drawing electoral district boundaries in a way that gives one political party an unfair advantage over another. This can be done by 'packing' an opposing party's voters into a few districts or 'cracking' them into many districts where they will be a minority. While redistricting is a normal process, gerrymandering is a controversial and often criticized manipulation of that process.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "5739c9882f7a986862d5fcaf4f5d04a67b6fc9bc"
+    },
+    {
+      "questionNumber": 22,
+      "type": "text",
+      "questionText": "What is the role of a committee in the lawmaking process?",
+      "answerOptions": [
+        {
+          "text": "To introduce the bill on the floor of the House or Senate.",
+          "isCorrect": false,
+          "rationale": "Any member can introduce a bill; the committee's role comes after introduction."
+        },
+        {
+          "text": "To study the bill, hold hearings, and make revisions before it is voted on by the full chamber.",
+          "isCorrect": true,
+          "rationale": "Correct. Committees are where the detailed work of crafting and scrutinizing legislation happens."
+        },
+        {
+          "text": "To sign the bill into law after it has passed both chambers.",
+          "isCorrect": false,
+          "rationale": "The President signs a bill into law."
+        },
+        {
+          "text": "To vote on the final version of the bill after it has been approved by both chambers.",
+          "isCorrect": false,
+          "rationale": "The full chamber votes on the bill after it leaves committee."
+        }
+      ],
+      "passage": "For a bill to become a law, it must be passed by both the House of Representatives and the Senate in identical form. First, a bill is introduced in one chamber, where it is assigned to a committee. The committee studies the bill, holds hearings, and may make changes. If the committee approves it, the bill is debated and voted on by the full chamber. If it passes, it is sent to the other chamber to go through the same process.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "8546de98bcf50c45581530618d2a3117b6388d0e"
+    },
+    {
+      "questionNumber": 23,
+      "type": "knowledge",
+      "questionText": "The first ten amendments to the U.S. Constitution are known as the Bill of Rights. What is their primary purpose?",
+      "answerOptions": [
+        {
+          "text": "To outline the structure of the federal government.",
+          "isCorrect": false,
+          "rationale": "The structure of the government is outlined in the Articles of the Constitution, not the Bill of Rights."
+        },
+        {
+          "text": "To grant specific powers to the federal government.",
+          "isCorrect": false,
+          "rationale": "The Bill of Rights is primarily about limiting the power of the federal government, not granting it."
+        },
+        {
+          "text": "To protect the fundamental rights and liberties of individual citizens.",
+          "isCorrect": true,
+          "rationale": "Correct. The Bill of Rights was added to ensure that the new, powerful federal government could not infringe upon the basic rights of the people."
+        },
+        {
+          "text": "To establish the process for electing the President.",
+          "isCorrect": false,
+          "rationale": "The presidential election process is outlined in Article II and later amendments like the 12th."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "31cf101c4aa90c8e14ccdf0acf5b58b61782bc1a"
+    },
+    {
+      "questionNumber": 24,
+      "type": "multipleChoice",
+      "questionText": "What general pattern of U.S. growth is shown by the sequence of acquisitions on the map?",
+      "answerOptions": [
+        {
+          "text": "The United States expanded mostly westward and southward across the continent.",
+          "isCorrect": true,
+          "rationale": "Correct. The acquisitions extend the country outward from its original eastern base toward the interior, Southwest, and Pacific."
+        },
+        {
+          "text": "The United States expanded mostly eastward into the Atlantic Ocean.",
+          "isCorrect": false,
+          "rationale": "The growth shown is continental, not eastward into the ocean."
+        },
+        {
+          "text": "The United States shrank after 1803.",
+          "isCorrect": false,
+          "rationale": "The map documents expansion, not contraction."
+        },
+        {
+          "text": "The United States gained all of North America by 1853.",
+          "isCorrect": false,
+          "rationale": "The map still shows territory outside U.S. control."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/ged_grsph_1_0001.png",
+        "alt": "Map illustrating the territorial expansion of the United States, showing major acquisitions with names and dates from 1783 to 1853."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-ged_grsph_1_0001.png",
+      "category": "Civics & Government",
+      "bankFingerprint": "eb0256b96d80108bd119fd1037099f8f4bacd3f3"
+    },
+    {
+      "questionNumber": 25,
+      "type": "multipleChoice",
+      "questionText": "Why is the title Hands Off important to the cartoon's message?",
+      "answerOptions": [
+        {
+          "text": "It makes the U.S. warning to Europe direct and unmistakable",
+          "isCorrect": true,
+          "rationale": "Correct. The title turns the entire scene into a blunt warning."
+        },
+        {
+          "text": "It shows Roosevelt refusing involvement in the Caribbean",
+          "isCorrect": false,
+          "rationale": "The scene shows active involvement and threat of force."
+        },
+        {
+          "text": "It suggests Santo Domingo is threatening the United States",
+          "isCorrect": false,
+          "rationale": "The warning is directed at Europe, not at Santo Domingo."
+        },
+        {
+          "text": "It means the Monroe Doctrine had ended by 1904",
+          "isCorrect": false,
+          "rationale": "The cartoon presents it as very much alive."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/monroe_doctrine_0002.jpg",
+        "alt": "Political cartoon from 1904 showing Theodore Roosevelt on a US battleship protecting Santo Domingo from European claims."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-monroe_doctrine_0002.jpg",
+      "category": "Civics & Government",
+      "bankFingerprint": "b3b18b0114da5a8ac223c8143ef72f82933498c3"
+    },
+    {
+      "questionNumber": 26,
+      "type": "multipleChoice",
+      "questionText": "A small island nation, heavily reliant on its pristine beaches for tourism and its surrounding waters for fishing, faces a dual challenge. A recent rise in global sea levels has reduced its viable coastline, while increased international demand for its unique fish species has led to unsustainable fishing practices by both local and foreign vessels. Which economic principle is most directly impacting the island nation's current situation?",
+      "answerOptions": [
+        {
+          "text": "The principle of supply and demand, as reduced coastline affects tourist supply and overfishing affects fish supply.",
+          "isCorrect": true,
+          "rationale": "This option accurately identifies that the reduced coastline directly impacts the supply of land for tourism, and overfishing directly impacts the supply of fish. With demand potentially remaining high or even increasing (for fish), this clearly illustrates the principle of supply and demand where a diminishing supply in key sectors directly affects the island's economy."
+        },
+        {
+          "text": "The concept of absolute advantage, as the island no longer has a unique advantage in either tourism or fishing.",
+          "isCorrect": false,
+          "rationale": "Absolute advantage focuses on producing more of a good or service using the same amount of resources. While the island's unique offerings are threatened, the primary economic principle at play here is about the overall availability (supply) of those resources, not necessarily just their comparative efficiency in production."
+        },
+        {
+          "text": "The law of diminishing returns, as continued investment in tourism and fishing yields fewer benefits.",
+          "isCorrect": false,
+          "rationale": "Diminishing returns describes a point where adding more input yields less output. The scenario describes a reduction in the fundamental resources (land, fish stock) themselves, impacting the overall supply, rather than just the efficiency of adding more effort to a fixed or already shrinking resource."
+        },
+        {
+          "text": "The effect of comparative advantage, as the island could shift to producing goods where it has a lower opportunity cost.",
+          "isCorrect": false,
+          "rationale": "Comparative advantage relates to specializing in production based on lower opportunity cost. While the island might need to adapt, this principle does not directly explain the cause of its current economic challenges related to shrinking resources and overexploitation."
+        }
+      ],
+      "category": "Geography & the World",
+      "bankFingerprint": "ed6b05d422401659954f23abd0ea531ac2750a4f"
+    },
+    {
+      "questionNumber": 27,
+      "type": "text",
+      "questionText": "What is the President's primary role as Commander in Chief?",
+      "answerOptions": [
+        {
+          "text": "To declare war on other countries.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that Congress has the power to declare war."
+        },
+        {
+          "text": "To personally lead troops into battle.",
+          "isCorrect": false,
+          "rationale": "The role is one of supreme command and direction, not personal combat."
+        },
+        {
+          "text": "To exercise ultimate authority and direction over the military.",
+          "isCorrect": true,
+          "rationale": "Correct. The passage identifies the President as having 'supreme command' and being responsible for 'directing military operations.'"
+        },
+        {
+          "text": "To approve the military's budget.",
+          "isCorrect": false,
+          "rationale": "Congress controls the military's budget through its 'power of the purse.'"
+        }
+      ],
+      "passage": "As Commander in Chief of the armed forces, the President has supreme command over the U.S. military. While Congress has the power to declare war, the President is responsible for directing military operations and strategy. This power ensures civilian control over the military.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "937e935d61506f95c83e0c8414560239d6bbeb24"
+    },
+    {
+      "questionNumber": 28,
+      "type": "text",
+      "questionText": "Which of the following is the best example of a power 'reserved to the States' under the Tenth Amendment?",
+      "answerOptions": [
+        {
+          "text": "The power to declare war.",
+          "isCorrect": false,
+          "rationale": "The Constitution explicitly delegates the power to declare war to the national government (Congress)."
+        },
+        {
+          "text": "The power to print money.",
+          "isCorrect": false,
+          "rationale": "The power to coin and print money is an exclusive power of the national government."
+        },
+        {
+          "text": "The power to establish local schools.",
+          "isCorrect": true,
+          "rationale": "Correct. The Constitution does not delegate the power over education to the federal government, nor does it prohibit states from acting. Therefore, it is a power reserved to the states."
+        },
+        {
+          "text": "The power to make treaties with foreign countries.",
+          "isCorrect": false,
+          "rationale": "This power is delegated to the President and the Senate at the national level."
+        }
+      ],
+      "passage": "The Tenth Amendment states: 'The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.' This amendment is the cornerstone of federalism, the principle that power is divided between the national government and the state governments.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "e08e746230a017bea926ea4fb505a2787f9ce845"
+    },
+    {
+      "questionNumber": 29,
+      "type": "knowledge",
+      "questionText": "The First Amendment to the U.S. Constitution protects several fundamental rights. Which of the following is NOT a right guaranteed by the First Amendment?",
+      "answerOptions": [
+        {
+          "text": "Freedom of speech",
+          "isCorrect": false,
+          "rationale": "Freedom of speech is a core protection of the First Amendment."
+        },
+        {
+          "text": "The right to bear arms",
+          "isCorrect": true,
+          "rationale": "Correct. The right to bear arms is guaranteed by the Second Amendment, not the First."
+        },
+        {
+          "text": "Freedom of the press",
+          "isCorrect": false,
+          "rationale": "Freedom of the press is explicitly protected by the First Amendment."
+        },
+        {
+          "text": "The right to peaceably assemble",
+          "isCorrect": false,
+          "rationale": "The right to gather peacefully is one of the key freedoms listed in the First Amendment."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "e5eb755315c8f80cda0ec72da38a6cd65b6c8d0e"
+    },
+    {
+      "questionNumber": 30,
+      "type": "multipleChoice",
+      "questionText": "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
+      "answerOptions": [
+        {
+          "text": "2017",
+          "isCorrect": false,
+          "rationale": "In 2017, profits increased from $1.5M to $1.8M."
+        },
+        {
+          "text": "2018",
+          "isCorrect": true,
+          "rationale": "Correct. In 2018, profits fell to $1.7M from $1.8M in 2017."
+        },
+        {
+          "text": "2019",
+          "isCorrect": false,
+          "rationale": "In 2019, profits increased from $1.7M to $2.1M."
+        },
+        {
+          "text": "2020",
+          "isCorrect": false,
+          "rationale": "In 2020, profits increased from $2.1M to $2.5M."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"/images/Social%20Studies/map_and_data_skills_0004.png\" alt=\"A line graph showing profits over time. 2016: (1.5M, 2017: )1.8M, 2018: (1.7M, 2019: )2.1M, 2020: (2.5M\" class=\"bg-white p-2 rounded\"></div>",
+      "itemType": "passage",
+      "category": "Geography & the World",
+      "bankFingerprint": "1041a41d18e2c305d0b6e8b54654efa882b3184a"
+    },
+    {
+      "questionNumber": 31,
+      "type": "multipleChoice",
+      "questionText": "According to the pie chart, how much money is allocated to Housing each month?",
+      "answerOptions": [
+        {
+          "text": "$700",
+          "isCorrect": false,
+          "rationale": "This would be approximately 23%."
+        },
+        {
+          "text": "$1,050",
+          "isCorrect": true,
+          "rationale": "Correct. Housing accounts for 35% of the budget. 35% of $3,000 is (0.35 * 3000), which equals $1,050."
+        },
+        {
+          "text": "$600",
+          "isCorrect": false,
+          "rationale": "This is 20% of the budget, the amount for Food."
+        },
+        {
+          "text": "$300",
+          "isCorrect": false,
+          "rationale": "This is 10% of the budget, the amount for Savings."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><b>Household Budget (Total: (3,000/month)</b><br><img src=\"/images/Social%20Studies/map_and_data_skills_0001.png\" alt=\"A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%\" class=\"bg-white p-2 rounded\"></div>",
+      "itemType": "passage",
+      "category": "Geography & the World",
+      "bankFingerprint": "ed1706ff06c71204922b7496823a98c411906f31"
+    },
+    {
+      "questionNumber": 32,
+      "type": "multipleChoice",
+      "questionText": "What movement is most clearly shown by the arrows leaving Africa on the triangular trade map?",
+      "answerOptions": [
+        {
+          "text": "The forced transport of enslaved Africans to the Americas",
+          "isCorrect": true,
+          "rationale": "Correct. The map centers on the Atlantic slave trade routes from Africa to destinations in the Americas."
+        },
+        {
+          "text": "The migration of European settlers back to Africa",
+          "isCorrect": false,
+          "rationale": "That is not the movement highlighted by the slave-trade routes on the map."
+        },
+        {
+          "text": "Trade between Asia and South America",
+          "isCorrect": false,
+          "rationale": "The map focuses on the Atlantic world, not Asia-South America trade."
+        },
+        {
+          "text": "Military invasions of Europe by North American colonies",
+          "isCorrect": false,
+          "rationale": "The routes shown are commercial-slavery routes, not colonial invasions of Europe."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg",
+        "alt": "Map illustrating the transatlantic African slave trade from 1500 to 1870, showing routes, origins, and destinations."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-a_map_of_the_triangular_trade_routes_0001.jpg",
+      "category": "U.S. History",
+      "bankFingerprint": "2f9c752540727833f7c52f2c9cf6b8a7bc90f573"
+    },
+    {
+      "questionNumber": 33,
+      "type": "text",
+      "questionText": "Why did the Fugitive Slave Act component of the Compromise of 1850 deepen sectional tensions?",
+      "answerOptions": [
+        {
+          "text": "It required Northern citizens to help capture escaped enslaved people, outraging abolitionists who morally opposed slavery.",
+          "isCorrect": true,
+          "rationale": "The passage states the law \"requiring Northern citizens to assist in the capture and return of escaped enslaved people\" outraged abolitionists \"and deepened the divide between North and South.\""
+        },
+        {
+          "text": "It freed all enslaved people in the Southern states immediately.",
+          "isCorrect": false,
+          "rationale": "The Act strengthened the institution of slavery by requiring the return of escaped people; it did not free anyone."
+        },
+        {
+          "text": "It prevented California from being admitted as a state.",
+          "isCorrect": false,
+          "rationale": "California was admitted as a free state as part of the same compromise."
+        },
+        {
+          "text": "Northern states voluntarily adopted the Act and enforced it enthusiastically.",
+          "isCorrect": false,
+          "rationale": "The passage describes Northern outrage; many Northern states passed personal liberty laws to resist enforcement."
+        }
+      ],
+      "passage": "The Compromise of 1850 was a package of five bills designed to resolve the territorial and slavery disputes arising from the Mexican-American War. California was admitted as a free state, satisfying the North. The territories of New Mexico and Utah were organized under popular sovereignty, allowing settlers to decide the slavery question for themselves. The slave trade (but not slavery itself) was abolished in Washington, D.C. Most controversially, the Fugitive Slave Act was strengthened, requiring Northern citizens to assist in the capture and return of escaped enslaved people and denying accused fugitives the right to a jury trial. This provision outraged abolitionists and deepened the divide between North and South.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "21156b83ed07698e19cbeec43e3760be8d324d53"
+    },
+    {
+      "questionNumber": 34,
+      "type": "text",
+      "questionText": "What was the long-term consequence of the Native American victory at Little Bighorn?",
+      "answerOptions": [
+        {
+          "text": "It intensified the U.S. government’s military campaigns to crush Native resistance across the Plains.",
+          "isCorrect": true,
+          "rationale": "The passage states the victory \"intensified the U.S. government’s determination to crush Native resistance, leading to increased military campaigns across the Plains.\""
+        },
+        {
+          "text": "The U.S. government agreed to return all Native lands and signed a lasting peace treaty.",
+          "isCorrect": false,
+          "rationale": "The passage describes the opposite: the government escalated military operations after the battle."
+        },
+        {
+          "text": "Custer was promoted to general for his bravery during the engagement.",
+          "isCorrect": false,
+          "rationale": "Custer and his \"entire command was killed\" at Little Bighorn; he could not be promoted."
+        },
+        {
+          "text": "Native American nations united into a single permanent government.",
+          "isCorrect": false,
+          "rationale": "The passage does not describe permanent political unification; the battle was a military event, not the founding of a government."
+        }
+      ],
+      "passage": "In 1876, the Battle of Little Bighorn became one of the most famous confrontations between Native Americans and the U.S. Army. Lieutenant Colonel George Armstrong Custer led approximately 210 soldiers of the 7th Cavalry against a combined force of Lakota Sioux, Northern Cheyenne, and Arapaho warriors led by Sitting Bull and Crazy Horse. Custer, who had divided his forces and underestimated the size of the Native encampment, was surrounded and his entire command was killed. The victory was a stunning achievement for the Native forces, but it also intensified the U.S. government’s determination to crush Native resistance, leading to increased military campaigns across the Plains.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "37427dfb9c5636b27350d5e34727795bfa3c3d6d"
+    },
+    {
+      "questionNumber": 35,
+      "type": "multipleChoice",
+      "questionText": "Which continent would a student look at to find Brazil on the political world map?",
+      "answerOptions": [
+        {
+          "text": "South America",
+          "isCorrect": true,
+          "rationale": "Correct. Brazil is located on the South American continent."
+        },
+        {
+          "text": "Europe",
+          "isCorrect": false,
+          "rationale": "Brazil is not in Europe."
+        },
+        {
+          "text": "Africa",
+          "isCorrect": false,
+          "rationale": "Brazil is across the Atlantic from Africa, not on that continent."
+        },
+        {
+          "text": "Australia",
+          "isCorrect": false,
+          "rationale": "Brazil is not part of Australia or Oceania."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/global_conflicts_0002.jpg",
+        "alt": "A colorful political world map showing all continents and many countries with their names labeled."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-global_conflicts_0002.jpg",
+      "category": "Geography & the World",
+      "bankFingerprint": "82c200e33efe664c7e8f8a1e7fa0c69f555efc8b"
+    }
+  ],
+  "validationWarnings": [
+    "Difficulty \"easy\": 7, expected ~10",
+    "Difficulty \"medium\": 21, expected ~17"
+  ]
+}

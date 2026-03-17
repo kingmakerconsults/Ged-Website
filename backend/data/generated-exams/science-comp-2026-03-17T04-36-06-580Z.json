@@ -1,0 +1,1195 @@
+{
+  "id": "ai_comp_science_1773722085876",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 2,
+      "type": "passage",
+      "questionText": "According to the passage, what is the main realization gained from using microscopes to examine seemingly simple objects?",
+      "answerOptions": [
+        {
+          "text": "Our basic tools are poorly constructed and inefficient.",
+          "isCorrect": false,
+          "rationale": "The passage uses the razor example to show how our perception of smoothness is limited by the naked eye, not to critique the quality of the tool itself."
+        },
+        {
+          "text": "The true nature of small objects often contradicts what our naked eyes perceive.",
+          "isCorrect": true,
+          "rationale": "The passage details how cork appears solid but has cells, insects seem like specks but are complex, and a razor's edge seems smooth but is ragged. These examples collectively demonstrate that our unaided senses can be deceiving compared to what microscopes reveal."
+        },
+        {
+          "text": "All living things are made up of structures resembling a honeycomb.",
+          "isCorrect": false,
+          "rationale": "The passage only mentions a 'slice of cork' appearing 'like a honeycomb,' not that all living things share this characteristic."
+        },
+        {
+          "text": "Microscopes are primarily useful for proving existing scientific theories.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes discovering a 'new visible world' and challenging previous perceptions, rather than simply proving existing theories."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "1bd0706ea2e646c8be5c6701ad62a41541f30247"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "The author states that microscopic observations 'teach us humility' and 'teach us curiosity.' What is the underlying reason for these two lessons, according to the passage?",
+      "answerOptions": [
+        {
+          "text": "They show that the natural world is vastly more complex than human imagination can conceive.",
+          "isCorrect": false,
+          "rationale": "While the passage reveals complexity, the specific reasons given for humility and curiosity are about the limitations of our senses and the potential for new discoveries, which are more precise interpretations of the text."
+        },
+        {
+          "text": "They demonstrate that our natural senses are limited in revealing the full extent of nature, and much remains undiscovered.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that humility comes from showing 'our senses do not reveal the whole of nature,' and curiosity comes from wondering 'what other wonders lie hidden beyond the reach of our present instruments.'"
+        },
+        {
+          "text": "They encourage scientists to doubt all previous scientific findings and start anew.",
+          "isCorrect": false,
+          "rationale": "The passage inspires further inquiry and challenges previous perceptions, but it does not suggest wholesale rejection of all prior knowledge."
+        },
+        {
+          "text": "They suggest that instruments are always more reliable than direct human observation.",
+          "isCorrect": false,
+          "rationale": "The passage highlights the utility of instruments for revealing details beyond human senses, but it does not make a blanket statement about the absolute reliability of instruments over all human observation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "01a285369dd98d1e0924667aa3d440528dc69c29"
+    },
+    {
+      "questionNumber": 4,
+      "type": "standalone",
+      "questionText": "The table below shows the mass and volume for samples of four different substances. Which substance has the greatest density?<table><thead><tr><th>Substance</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Copper</td><td>89.6</td><td>10.0</td></tr><tr><td>Aluminum</td><td>27.0</td><td>10.0</td></tr><tr><td>Titanium</td><td>45.0</td><td>10.0</td></tr><tr><td>Magnesium</td><td>17.4</td><td>10.0</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "Copper",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume (D = \\(\\frac{M}{V}\\)). For Copper, D = 89.6 g / 10.0 cm³ = 8.96 g/cm³. This is the highest density among the given substances."
+        },
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume (D = \\(\\frac{M}{V}\\)). For Aluminum, D = 27.0 g / 10.0 cm³ = 2.70 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Titanium",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume (D = \\(\\frac{M}{V}\\)). For Titanium, D = 45.0 g / 10.0 cm³ = 4.50 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Magnesium",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume (D = \\(\\frac{M}{V}\\)). For Magnesium, D = 17.4 g / 10.0 cm³ = 1.74 g/cm³. This is the lowest density among the given substances."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "9ac4eae34f72c92c6ea1e67cffcad577c6c79ff0"
+    },
+    {
+      "questionNumber": 5,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54.0</td><td>20.0</td></tr><tr><td>Copper</td><td>89.6</td><td>10.0</td></tr><tr><td>Iron</td><td>78.7</td><td>10.0</td></tr><tr><td>Lead</td><td>113.4</td><td>10.0</td></tr></tbody></table>A student measures a sample of an unknown material. The sample has a mass of 108.0 g and a volume of 40.0 cm³. Based on the data in the table, what material is the unknown sample most likely made of?",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": true,
+          "rationale": "To determine the material, calculate the density of the unknown sample: Density = Mass / Volume. For the unknown sample, Density = 108.0 g / 40.0 cm³ = 2.7 g/cm³. Now, calculate the densities for the materials in the table: Aluminum = 54.0 g / 20.0 cm³ = 2.7 g/cm³; Copper = 89.6 g / 10.0 cm³ = 8.96 g/cm³; Iron = 78.7 g / 10.0 cm³ = 7.87 g/cm³; Lead = 113.4 g / 10.0 cm³ = 11.34 g/cm³. The density of the unknown sample matches that of Aluminum."
+        },
+        {
+          "text": "Copper",
+          "isCorrect": false,
+          "rationale": "The unknown sample has a density of 2.7 g/cm³ (108.0 g / 40.0 cm³). Copper has a density of 8.96 g/cm³ (89.6 g / 10.0 cm³), which does not match the unknown sample."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": false,
+          "rationale": "The unknown sample has a density of 2.7 g/cm³ (108.0 g / 40.0 cm³). Iron has a density of 7.87 g/cm³ (78.7 g / 10.0 cm³), which does not match the unknown sample."
+        },
+        {
+          "text": "Lead",
+          "isCorrect": false,
+          "rationale": "The unknown sample has a density of 2.7 g/cm³ (108.0 g / 40.0 cm³). Lead has a density of 11.34 g/cm³ (113.4 g / 10.0 cm³), which does not match the unknown sample."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "ab86dac24746ec57747a113df9eb3e9ae52bd13a"
+    },
+    {
+      "questionNumber": 6,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the primary consequence of destroying forests in the Sierra Nevada?",
+      "answerOptions": [
+        {
+          "text": "Animal populations would increase due to more open land.",
+          "isCorrect": false,
+          "rationale": "The passage indicates animals \"keep the balance,\" suggesting that disrupting the ecosystem by destroying forests would negatively impact, rather than increase, overall healthy animal populations."
+        },
+        {
+          "text": "The soil would become more fertile from lack of trees.",
+          "isCorrect": false,
+          "rationale": "The passage describes \"soil made by ancient ice\" and directly links forest destruction to drying water sources, not to an increase in soil fertility."
+        },
+        {
+          "text": "Water sources in the valleys would diminish.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"To destroy the forests is to dry the fountains that feed the valleys,\" clearly indicating that water sources would diminish."
+        },
+        {
+          "text": "Glacier-meadows would expand due to less shade.",
+          "isCorrect": false,
+          "rationale": "The passage does not provide any information to support the idea that glacier-meadows would expand; instead, it emphasizes the negative consequences of disrupting the natural harmony."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Mountains of California (Excerpt)</strong></p><p><em>John Muir, 1894</em></p><p>When we try to pick out anything by itself, we find it hitched to everything else in the universe. Nowhere is this more visible than in the Sierra Nevada, where glacier-meadows, forests, and streams are bound together in one harmonious whole. The pines draw their life from the soil made by ancient ice; the waterfalls feed the ferns and lilies; the animals in their turn scatter seeds and keep the balance. To destroy the forests is to dry the fountains that feed the valleys. Nature’s beauty is not mere decoration, but a sign of health. I would have people go to the mountains not only for recreation but for instruction, to learn that man is only one of the Creator’s creatures and must live in sympathy with all the rest.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "46c40a82f45180a6c7212d3e427c0c96a277d467"
+    },
+    {
+      "questionNumber": 7,
+      "type": "passage",
+      "questionText": "The author states, \"Nature’s beauty is not mere decoration, but a sign of health.\" What can be inferred from this statement within the context of the passage?",
+      "answerOptions": [
+        {
+          "text": "The primary role of nature's beauty is to attract tourists to the mountains for recreation.",
+          "isCorrect": false,
+          "rationale": "While recreation is mentioned as a reason to visit mountains, the author emphasizes \"instruction\" and the deeper meaning of beauty as a \"sign of health,\" not just its role in attracting tourists."
+        },
+        {
+          "text": "The aesthetic appeal of nature indicates a robust and functioning ecosystem.",
+          "isCorrect": true,
+          "rationale": "The statement \"Nature’s beauty is not mere decoration, but a sign of health\" directly implies that a visually pleasing environment is an indicator of a thriving and well-balanced ecosystem."
+        },
+        {
+          "text": "Efforts to conserve nature should focus solely on preserving visually appealing landscapes.",
+          "isCorrect": false,
+          "rationale": "The passage stresses the interconnectedness of all elements in nature, implying that conservation efforts should encompass the entire ecosystem's health, not just its visual components."
+        },
+        {
+          "text": "Natural beauty is a fragile quality that is easily lost through human interaction.",
+          "isCorrect": false,
+          "rationale": "The statement itself describes beauty as an indicator of current health, not primarily as a quality that is fragile or easily lost, although the passage does warn against destructive actions."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Mountains of California (Excerpt)</strong></p><p><em>John Muir, 1894</em></p><p>When we try to pick out anything by itself, we find it hitched to everything else in the universe. Nowhere is this more visible than in the Sierra Nevada, where glacier-meadows, forests, and streams are bound together in one harmonious whole. The pines draw their life from the soil made by ancient ice; the waterfalls feed the ferns and lilies; the animals in their turn scatter seeds and keep the balance. To destroy the forests is to dry the fountains that feed the valleys. Nature’s beauty is not mere decoration, but a sign of health. I would have people go to the mountains not only for recreation but for instruction, to learn that man is only one of the Creator’s creatures and must live in sympathy with all the rest.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "5feb62207070674b823cc8d81e9ceba0c658ece8"
+    },
+    {
+      "questionNumber": 8,
+      "type": "standalone",
+      "questionText": "The table below shows the average weekly growth of two different plant species (Plant A and Plant B) under varying light intensities.<table><thead><tr><th>Light Intensity (lux)</th><th>Plant A Growth (cm/week)</th><th>Plant B Growth (cm/week)</th></tr></thead><tbody><tr><td>1000</td><td>0.5</td><td>0.3</td></tr><tr><td>2000</td><td>1.2</td><td>0.8</td></tr><tr><td>3000</td><td>1.8</td><td>1.5</td></tr><tr><td>4000</td><td>2.0</td><td>1.9</td></tr><tr><td>5000</td><td>1.9</td><td>2.1</td></tr></tbody></table>Which plant species had the greatest increase in weekly growth when the light intensity increased from 2000 lux to 3000 lux, and by how much?",
+      "answerOptions": [
+        {
+          "text": "Plant A, by 0.6 cm/week",
+          "isCorrect": false,
+          "rationale": "Plant A's growth increased from 1.2 cm/week to 1.8 cm/week (an increase of 0.6 cm/week). However, Plant B had a greater increase during the same light intensity change."
+        },
+        {
+          "text": "Plant B, by 0.7 cm/week",
+          "isCorrect": true,
+          "rationale": "Plant B's growth increased from 0.8 cm/week at 2000 lux to 1.5 cm/week at 3000 lux, which is an increase of 0.7 cm/week (1.5 - 0.8 = 0.7). Plant A increased by 0.6 cm/week (1.8 - 1.2 = 0.6), making Plant B's increase greater."
+        },
+        {
+          "text": "Plant A, by 0.7 cm/week",
+          "isCorrect": false,
+          "rationale": "Plant A's growth increased by 0.6 cm/week (1.8 - 1.2). Plant B had an increase of 0.7 cm/week, not Plant A."
+        },
+        {
+          "text": "Plant B, by 0.6 cm/week",
+          "isCorrect": false,
+          "rationale": "Plant B's growth increased from 0.8 cm/week to 1.5 cm/week, which is an increase of 0.7 cm/week, not 0.6 cm/week."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "9743cf4663199b079406c4927695a77ca507420b"
+    },
+    {
+      "questionNumber": 9,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Plant Species</th><th>Light Condition</th><th>Avg. Height Growth (cm)</th><th>Avg. Biomass Gain (g)</th></tr></thead><tbody><tr><td>Species A</td><td>High Light</td><td>18.5</td><td>9.2</td></tr><tr><td>Species B</td><td>High Light</td><td>14.2</td><td>7.8</td></tr><tr><td>Species A</td><td>Low Light</td><td>9.3</td><td>4.5</td></tr><tr><td>Species B</td><td>Low Light</td><td>7.1</td><td>3.8</td></tr></tbody></table><br>Based on the data, what is the approximate percentage increase in average biomass gain for Plant Species A when grown under High Light compared to Low Light?",
+      "answerOptions": [
+        {
+          "text": "51%",
+          "isCorrect": false,
+          "rationale": "This calculation reflects the percentage change if you were to divide the difference by the high light biomass, not the low light biomass as required for an increase from low to high."
+        },
+        {
+          "text": "104%",
+          "isCorrect": true,
+          "rationale": "To calculate the percentage increase, first find the difference in biomass gain (9.2 g - 4.5 g = 4.7 g). Then, divide this difference by the original (Low Light) biomass gain (4.7 g / 4.5 g ≈ 1.0444). Multiply by 100 to get the percentage: 1.0444 * 100 = 104.44%, which approximates to 104%."
+        },
+        {
+          "text": "142%",
+          "isCorrect": false,
+          "rationale": "This value does not result from the correct calculation for the percentage increase in biomass gain for Plant Species A using the provided data."
+        },
+        {
+          "text": "204%",
+          "isCorrect": false,
+          "rationale": "This value does not result from the correct calculation for the percentage increase in biomass gain for Plant Species A using the provided data."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "ece7efe057d5aee76bfe797051d3af6bad40edb5"
+    },
+    {
+      "questionNumber": 10,
+      "type": "image",
+      "questionText": "Which change would most directly increase the amount of carbon dioxide entering the atmosphere in the diagram?",
+      "answerOptions": [
+        {
+          "text": "An increase in auto and factory emissions",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram explicitly shows emissions from cars and factories sending carbon dioxide into the atmosphere."
+        },
+        {
+          "text": "An increase in plant photosynthesis",
+          "isCorrect": false,
+          "rationale": "Photosynthesis removes carbon dioxide from the air instead of increasing it."
+        },
+        {
+          "text": "Greater ocean uptake of carbon dioxide",
+          "isCorrect": false,
+          "rationale": "Ocean uptake reduces atmospheric carbon dioxide."
+        },
+        {
+          "text": "A decrease in animal respiration",
+          "isCorrect": false,
+          "rationale": "A decrease in respiration would not increase carbon dioxide entering the atmosphere."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "e2c7a99389cc353544702deeaf126694eb8a4188"
+    },
+    {
+      "questionNumber": 11,
+      "type": "image",
+      "questionText": "Which statement about a transform plate boundary is best supported by the diagram?",
+      "answerOptions": [
+        {
+          "text": "Two plates slide past each other, often causing earthquakes.",
+          "isCorrect": true,
+          "rationale": "Correct. A transform boundary involves sideways motion, which commonly produces earthquakes."
+        },
+        {
+          "text": "Magma rises and creates a mid-ocean ridge between separating plates.",
+          "isCorrect": false,
+          "rationale": "That describes a divergent boundary, not a transform boundary."
+        },
+        {
+          "text": "One plate sinks beneath another and forms a trench.",
+          "isCorrect": false,
+          "rationale": "That describes a convergent subduction boundary."
+        },
+        {
+          "text": "Both plates stop moving once they touch.",
+          "isCorrect": false,
+          "rationale": "The diagram shows that plate boundaries are places of ongoing movement, not complete stillness."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0052.png",
+        "alt": "Cross-section diagram illustrating different types of plate tectonic boundaries and associated geological features."
+      },
+      "imageUrl": "/images/Science/unclassified_0052.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0052.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "dc15cfd762dd90223b5b537b104d018a0f58e029"
+    },
+    {
+      "questionNumber": 12,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Light Condition</th><th>Avg. Height (cm)</th><th>Avg. Leaf Area (cm²)</th></tr></thead><tbody><tr><td>Full Sun</td><td>35.2</td><td>12.5</td></tr><tr><td>Partial Shade</td><td>28.7</td><td>10.8</td></tr><tr><td>Deep Shade</td><td>15.1</td><td>7.2</td></tr><tr><td>No Light</td><td>5.8</td><td>2.1</td></tr></tbody></table>Based on the data presented, what is the approximate percentage decrease in average plant height when moving from Full Sun to Deep Shade conditions?",
+      "answerOptions": [
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This option represents the height in deep shade as a percentage of full sun height (15.1 / 35.2 * 100% approx 43%), not the percentage decrease."
+        },
+        {
+          "text": "57%",
+          "isCorrect": true,
+          "rationale": "The average height in Full Sun is 35.2 cm, and in Deep Shade it is 15.1 cm. The decrease in height is 35.2 cm - 15.1 cm = 20.1 cm. To find the percentage decrease, divide the decrease by the initial height: (20.1 cm / 35.2 cm) * 100% = 57.10%, which is approximately 57%."
+        },
+        {
+          "text": "71%",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect and does not reflect the accurate percentage decrease based on the provided data."
+        },
+        {
+          "text": "85%",
+          "isCorrect": false,
+          "rationale": "This option incorrectly calculates the percentage decrease, potentially by misinterpreting the initial or final values."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "fb96a6a5833255aa5e498053ec278962f8e96f54"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "According to the passage, what is the primary reason alternating current (AC) is preferred over direct current (DC) for transmitting electric power over long distances?",
+      "answerOptions": [
+        {
+          "text": "AC systems inherently use fewer components, leading to less wear and tear during transmission.",
+          "isCorrect": false,
+          "rationale": "The passage states AC motors have few parts to wear, but this is not given as the primary reason for AC's advantage in long-distance transmission over DC."
+        },
+        {
+          "text": "AC can be easily converted to higher voltages for long-distance transmission and then lowered for practical use.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use.'"
+        },
+        {
+          "text": "DC systems are incompatible with harnessing energy from distant sources like waterfalls, unlike AC.",
+          "isCorrect": false,
+          "rationale": "While AC enables harnessing distant energy, the passage frames this as a consequence of AC's transmission capabilities, not the fundamental reason for its preference over DC for long-distance transmission itself."
+        },
+        {
+          "text": "AC allows for the construction of polyphase systems, which directly reduce transmission losses.",
+          "isCorrect": false,
+          "rationale": "Polyphase systems are mentioned in the context of constructing efficient and reliable motors, not directly as the mechanism for reducing transmission losses over distance."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "02c446fa1dd548fcc4bc57bfe6376caa6e3f65b7"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "Based on the author's statements, what is the most significant anticipated societal impact of the widespread adoption of alternating current systems?",
+      "answerOptions": [
+        {
+          "text": "It will enable the construction of more reliable and efficient motors for industrial applications.",
+          "isCorrect": false,
+          "rationale": "While efficient motors are mentioned as a benefit, the passage presents this as a technical advantage contributing to the broader societal impact, not the ultimate societal impact itself."
+        },
+        {
+          "text": "Electricity will transition from a novel invention to an indispensable utility for improving daily life.",
+          "isCorrect": true,
+          "rationale": "The passage concludes, 'Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life,' directly indicating this as the major societal shift."
+        },
+        {
+          "text": "It will allow for the exclusive use of local energy sources to power cities efficiently.",
+          "isCorrect": false,
+          "rationale": "The passage states AC will make it possible 'to harness waterfalls and distant sources of energy,' which contradicts the idea of exclusive local sources."
+        },
+        {
+          "text": "It will eliminate all energy losses during the transmission of electric power.",
+          "isCorrect": false,
+          "rationale": "The passage implies AC reduces losses compared to DC by enabling high-voltage transmission, but it does not claim to eliminate all losses, stating DC would 'always suffer great losses' without making an absolute claim for AC."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "78e30a7f7682cc267e405a6a0099b4a88122080d"
+    },
+    {
+      "questionNumber": 15,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Fertilizer Type</th><th>Week 1 Height (cm)</th><th>Week 2 Height (cm)</th><th>Week 3 Height (cm)</th></tr></thead><tbody><tr><td>Control</td><td>5.2</td><td>7.8</td><td>10.1</td></tr><tr><td>Fertilizer A</td><td>6.1</td><td>9.5</td><td>13.2</td></tr><tr><td>Fertilizer B</td><td>5.5</td><td>8.3</td><td>11.5</td></tr></tbody></table>Based on the data, which fertilizer resulted in the greatest average weekly growth rate between Week 1 and Week 3?",
+      "answerOptions": [
+        {
+          "text": "Control",
+          "isCorrect": false,
+          "rationale": "The average weekly growth for the Control group from Week 1 to Week 3 was (10.1 cm - 5.2 cm) / 2 weeks = 2.45 cm/week."
+        },
+        {
+          "text": "Fertilizer A",
+          "isCorrect": true,
+          "rationale": "The average weekly growth for Fertilizer A from Week 1 to Week 3 was (13.2 cm - 6.1 cm) / 2 weeks = 3.55 cm/week. This is the highest growth rate among the options."
+        },
+        {
+          "text": "Fertilizer B",
+          "isCorrect": false,
+          "rationale": "The average weekly growth for Fertilizer B from Week 1 to Week 3 was (11.5 cm - 5.5 cm) / 2 weeks = 3.00 cm/week."
+        },
+        {
+          "text": "The growth rates are all equal",
+          "isCorrect": false,
+          "rationale": "The calculated average weekly growth rates for Control, Fertilizer A, and Fertilizer B are 2.45 cm/week, 3.55 cm/week, and 3.00 cm/week, respectively, indicating they are not equal."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "f6dec8bef222fa0af1ec69b7f1c67c71bb9f976e"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "According to the author, what is the most significant consequence of understanding that \"the present is the key to the past\" in geology?",
+      "answerOptions": [
+        {
+          "text": "It proves that violent catastrophes were the only forces shaping the Earth.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks,' contradicting this option."
+        },
+        {
+          "text": "It establishes that Earth's features are the result of long, continuous actions over vast periods.",
+          "isCorrect": true,
+          "rationale": "The passage concludes, 'Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action,' directly linking the doctrine to the nature of geological change."
+        },
+        {
+          "text": "It suggests that current geological processes are entirely different from ancient ones.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes that the forces 'now operating upon the Earth’s surface… are the very same forces that have acted for countless ages,' making this option incorrect."
+        },
+        {
+          "text": "It limits the study of Earth's history to only recent geological events.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'we can study nature as it is today and infer the history of our planet,' indicating that current observations allow for understanding the past, not limiting study to the present."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "dffd230b41a3b5cbde2a1aa68760b5ce0e8cc169"
+    },
+    {
+      "questionNumber": 17,
+      "type": "passage",
+      "questionText": "Based on the passage, why does the author believe geologists \"need not imagine sudden, violent catastrophes\" to explain Earth's changes?",
+      "answerOptions": [
+        {
+          "text": "Because modern geological forces are much more intense than past ones, causing different effects.",
+          "isCorrect": false,
+          "rationale": "The passage states the forces 'now operating...are the very same forces that have acted for countless ages,' implying consistency in type, not intensity differences that would negate past forces."
+        },
+        {
+          "text": "Because current observable processes, given sufficient time, are capable of accounting for significant geological formations.",
+          "isCorrect": true,
+          "rationale": "The passage directly supports this by stating, 'Slow, observable processes, given sufficient time, can raise continents and hollow seas,' presenting an alternative to catastrophes."
+        },
+        {
+          "text": "Because the Earth's surface has remained largely unchanged for countless ages, preventing major shifts.",
+          "isCorrect": false,
+          "rationale": "The passage refers to 'great changes recorded in the rocks' and 'raise continents and hollow seas,' indicating that significant changes have indeed occurred, contradicting the idea of an unchanged surface."
+        },
+        {
+          "text": "Because ancient geological events left no discernible traces or records in the rocks.",
+          "isCorrect": false,
+          "rationale": "The passage mentions 'great changes recorded in the rocks,' implying that traces exist and are used to understand Earth's history, making this option incorrect."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "f388be7288a03573e1e96ef043a485cdbd610b69"
+    },
+    {
+      "questionNumber": 18,
+      "type": "standalone",
+      "questionText": "<h3>Planetary Data for Inner Solar System</h3><table><thead><tr><th>Planet</th><th>Diameter (km)</th><th>Avg. Orbital Speed (km/s)</th><th>Distance from Sun (million km)</th></tr></thead><tbody><tr><td>Mercury</td><td>4879</td><td>47.4</td><td>57.9</td></tr><tr><td>Venus</td><td>12104</td><td>35.0</td><td>108.2</td></tr><tr><td>Earth</td><td>12742</td><td>29.8</td><td>149.6</td></tr><tr><td>Mars</td><td>6779</td><td>24.1</td><td>227.9</td></tr></tbody></table>Based on the data, approximately how much faster, in kilometers per second, is Mercury's average orbital speed compared to Mars's average orbital speed?",
+      "answerOptions": [
+        {
+          "text": "12.3 km/s",
+          "isCorrect": false,
+          "rationale": "This value is obtained by incorrectly subtracting Mars's speed from Earth's speed, or a similar error. The correct difference between Mercury and Mars's speeds is 23.3 km/s."
+        },
+        {
+          "text": "23.3 km/s",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract Mars's average orbital speed from Mercury's average orbital speed: 47.4 km/s (Mercury) - 24.1 km/s (Mars) = 23.3 km/s."
+        },
+        {
+          "text": "35.0 km/s",
+          "isCorrect": false,
+          "rationale": "This value is Venus's average orbital speed, not the difference between Mercury and Mars's orbital speeds."
+        },
+        {
+          "text": "71.5 km/s",
+          "isCorrect": false,
+          "rationale": "This value is the sum of Mercury's and Mars's average orbital speeds (47.4 + 24.1 = 71.5), not their difference."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "184fcc5463327149e557286c30f9fd3b828528ed"
+    },
+    {
+      "questionNumber": 19,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 1, the equation becomes H₂ + O₂ → 2H₂O, which has 2 hydrogen atoms on the left and 4 on the right, making it unbalanced."
+        },
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "Correct. To balance the equation, there are 4 hydrogen atoms and 2 oxygen atoms on the right side (2H₂O). On the left, O₂ has 2 oxygen atoms. To get 4 hydrogen atoms, H₂ needs a coefficient of 2. So, 2H₂ + O₂ → 2H₂O."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 3, the equation becomes 3H₂ + O₂ → 2H₂O, which has 6 hydrogen atoms on the left and 4 on the right, making it unbalanced."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 4, the equation becomes 4H₂ + O₂ → 2H₂O, which has 8 hydrogen atoms on the left and 4 on the right, making it unbalanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "e1a61f2a57da68541cddd2d35273d54338a36efc"
+    },
+    {
+      "questionNumber": 20,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for O₂ in this equation: CH₄ + __O₂ → CO₂ + 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "If the coefficient for O₂ is 1, the equation becomes CH₄ + O₂ → CO₂ + 2H₂O. There are 2 oxygen atoms on the left and 4 on the right (2 from CO₂ and 2 from 2H₂O), making it unbalanced."
+        },
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "Correct. To balance the equation, there is 1 carbon atom, 4 hydrogen atoms, and 4 oxygen atoms on the right side (CO₂ has 1 C, 2 O; 2H₂O has 4 H, 2 O, total 1 C, 4 H, 4 O). On the left, CH₄ has 1 carbon and 4 hydrogen atoms. To get 4 oxygen atoms, O₂ needs a coefficient of 2. So, CH₄ + 2O₂ → CO₂ + 2H₂O."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "If the coefficient for O₂ is 3, the equation becomes CH₄ + 3O₂ → CO₂ + 2H₂O. There are 6 oxygen atoms on the left and 4 on the right, making it unbalanced."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If the coefficient for O₂ is 4, the equation becomes CH₄ + 4O₂ → CO₂ + 2H₂O. There are 8 oxygen atoms on the left and 4 on the right, making it unbalanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "c734e4cfbba6bdf42a76201ce2b55a68f0aa9601"
+    },
+    {
+      "questionNumber": 21,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 22,
+      "type": "image",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 23,
+      "type": "standalone",
+      "questionText": "Why is this graph useful for studying weather over the eight-day period?",
+      "answerOptions": [
+        {
+          "text": "It makes it easier to see changes and trends in humidity from day to day.",
+          "isCorrect": true,
+          "rationale": "Correct. A line graph is useful because it shows how a measured quantity changes over time."
+        },
+        {
+          "text": "It proves that humidity never changes during a week.",
+          "isCorrect": false,
+          "rationale": "The point of the graph is to show variation, not no change."
+        },
+        {
+          "text": "It identifies the chemical composition of the atmosphere.",
+          "isCorrect": false,
+          "rationale": "The graph tracks humidity, not atmospheric composition."
+        },
+        {
+          "text": "It measures how deep groundwater is below the surface.",
+          "isCorrect": false,
+          "rationale": "Groundwater depth is unrelated to the graph’s axes."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "Line graph showing relative humidity percentage over eight days, from May 1 to May 8."
+      },
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0007.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "17757310bb8b6858747d2cbcd6140df21d8d8d15"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 26,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Planet</th><th>Avg. Distance from Sun (AU)</th><th>Orbital Period (Earth Years)</th><th>Avg. Surface Temp (K)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>0.24</td><td>440</td></tr><tr><td>Venus</td><td>0.72</td><td>0.62</td><td>737</td></tr><tr><td>Earth</td><td>1.00</td><td>1.00</td><td>288</td></tr><tr><td>Mars</td><td>1.52</td><td>1.88</td><td>210</td></tr><tr><td>Jupiter</td><td>5.20</td><td>11.86</td><td>165</td></tr></tbody></table>Using the data provided in the table, calculate how much longer, in Earth years, is Jupiter's orbital period compared to Mars' orbital period.",
+      "answerOptions": [
+        {
+          "text": "9.98 Earth Years",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract Mars' orbital period from Jupiter's orbital period: 11.86 Earth Years - 1.88 Earth Years = 9.98 Earth Years."
+        },
+        {
+          "text": "10.86 Earth Years",
+          "isCorrect": false,
+          "rationale": "This calculation incorrectly uses Earth's orbital period (1.00 Earth Years) instead of Mars' orbital period when comparing with Jupiter."
+        },
+        {
+          "text": "13.74 Earth Years",
+          "isCorrect": false,
+          "rationale": "This calculation incorrectly adds the orbital periods of Jupiter and Mars instead of finding the difference between them."
+        },
+        {
+          "text": "1.88 Earth Years",
+          "isCorrect": false,
+          "rationale": "This value represents Mars' orbital period only, not the difference in orbital periods between Jupiter and Mars."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "430426219c6cc95e847dc0933470ced74214083d"
+    },
+    {
+      "questionNumber": 27,
+      "type": "standalone",
+      "questionText": "The diagram illustrates a fishing boat using ultrasonic waves to determine the depth of the seabed. What physical principle is primarily demonstrated by the return of these waves as an 'echo'?",
+      "answerOptions": [
+        {
+          "text": "Refraction of sound waves, where they bend as they pass through different densities of water.",
+          "isCorrect": false,
+          "rationale": "Refraction involves the bending of waves as they pass from one medium to another or through different densities within the same medium, which is not the primary principle illustrated for depth measurement in this diagram."
+        },
+        {
+          "text": "Reflection of sound waves, where they bounce off the seabed and return to the boat.",
+          "isCorrect": true,
+          "rationale": "The diagram explicitly shows the ultrasonic waves hitting the seabed and bouncing back as an echo, which is the definition of reflection. This principle is used by sonar to measure depth."
+        },
+        {
+          "text": "Diffraction of sound waves, where they spread out around obstacles on the seabed.",
+          "isCorrect": false,
+          "rationale": "Diffraction refers to the spreading of waves as they pass through an opening or around an obstacle. While sound waves can diffract, it's not the primary principle by which the 'echo' returns to measure depth."
+        },
+        {
+          "text": "Absorption of sound waves, where they are taken in by the seabed.",
+          "isCorrect": false,
+          "rationale": "Absorption would mean the waves are taken in by the seabed and do not return, which would prevent an echo and depth measurement. Some absorption does occur, but the fundamental principle for detection is reflection."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_2_0001.png",
+        "alt": "A diagram shows a fishing boat using ultrasonic waves to detect the seabed, illustrating the concept of echo."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "bankFingerprint": "9c82cf3057b7c1eaae79e3eee1dab089a21f33b9"
+    },
+    {
+      "questionNumber": 28,
+      "type": "passage",
+      "questionText": "According to the passage, which property is attributed to the substance proposed to be named 'radium'?",
+      "answerOptions": [
+        {
+          "text": "It is capable of neutralizing charged objects and passing through materials.",
+          "isCorrect": true,
+          "rationale": "The passage states that the new substance \"emits rays which are capable of discharging electrified bodies and of penetrating various substances.\" This directly supports that it can neutralize charged objects ('discharging electrified bodies') and pass through materials ('penetrating various substances')."
+        },
+        {
+          "text": "It causes other substances to become electrified and emit rays.",
+          "isCorrect": false,
+          "rationale": "The passage states that radium 'discharges electrified bodies' and it emits rays, not that it causes other substances to become electrified or emit rays."
+        },
+        {
+          "text": "It loses its remarkable activity when it discharges electrified bodies.",
+          "isCorrect": false,
+          "rationale": "The passage does not indicate that radium's activity is diminished or lost after discharging electrified bodies; it simply describes its capabilities."
+        },
+        {
+          "text": "It exclusively interacts with electrified bodies, preventing ray emission.",
+          "isCorrect": false,
+          "rationale": "The passage states it 'penetrates various substances' in addition to discharging electrified bodies. Furthermore, it emits rays, it does not prevent their emission."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Research on Radioactive Substances (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>The new substance emits rays which are capable of discharging electrified bodies and of penetrating various substances. I propose to call this new element 'radium.' Its remarkable activity suggests it may reveal new laws of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "475fcf21753f0998ab72de8860efd9fb36e5e454"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "The author's statement, \"Its remarkable activity suggests it may reveal new laws of matter,\" primarily implies what about the discovery of radium?",
+      "answerOptions": [
+        {
+          "text": "Radium's properties are typical for elements discovered during that era.",
+          "isCorrect": false,
+          "rationale": "The phrase 'may reveal new laws of matter' suggests that radium's properties are atypical and groundbreaking, not typical or ordinary."
+        },
+        {
+          "text": "The understanding of fundamental scientific principles could be transformed by this new element.",
+          "isCorrect": true,
+          "rationale": "The idea of revealing 'new laws of matter' directly implies a potential for fundamental change and transformation in the basic understanding of how matter and the universe work."
+        },
+        {
+          "text": "Future research will primarily focus on finding practical uses for radium.",
+          "isCorrect": false,
+          "rationale": "While practical uses might be explored, the primary implication highlighted by the author is about the potential for theoretical advancement and revealing 'new laws of matter,' not immediate application."
+        },
+        {
+          "text": "Radium is likely to be the last new element to be discovered for some time.",
+          "isCorrect": false,
+          "rationale": "The passage provides no information or suggestion about the timing or likelihood of future element discoveries."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Research on Radioactive Substances (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>The new substance emits rays which are capable of discharging electrified bodies and of penetrating various substances. I propose to call this new element 'radium.' Its remarkable activity suggests it may reveal new laws of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "5af55b00c50dae56308cd27d86907a22a33e2a26"
+    },
+    {
+      "questionNumber": 30,
+      "type": "standalone",
+      "questionText": "A student measures the mass and volume of four different metal samples to determine their densities. The results are shown in the table below. Based on this data, which metal has the greatest density?<table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54.0</td><td>20.0</td></tr><tr><td>Iron</td><td>78.7</td><td>10.0</td></tr><tr><td>Copper</td><td>89.6</td><td>10.0</td></tr><tr><td>Lead</td><td>113.4</td><td>10.0</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Aluminum, 54.0 g / 20.0 cm³ = 2.7 g/cm³, which is not the greatest density."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Iron, 78.7 g / 10.0 cm³ = 7.87 g/cm³, which is not the greatest density."
+        },
+        {
+          "text": "Copper",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Copper, 89.6 g / 10.0 cm³ = 8.96 g/cm³, which is not the greatest density."
+        },
+        {
+          "text": "Lead",
+          "isCorrect": true,
+          "rationale": "To find density, divide mass by volume. For Lead, 113.4 g / 10.0 cm³ = 11.34 g/cm³. Comparing this to Aluminum (2.7 g/cm³), Iron (7.87 g/cm³), and Copper (8.96 g/cm³), Lead has the greatest density."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "36909080655750597db99fdffb9748f0ae6d3fdf"
+    },
+    {
+      "questionNumber": 31,
+      "type": "standalone",
+      "questionText": "A scientist investigated the effect of light intensity on the daily biomass gain of two different plant species. The results are shown in the table below.<table><thead><tr><th>Plant Species</th><th>Light Intensity (lux)</th><th>Daily Biomass Gain (g)</th></tr></thead><tbody><tr><td>Species A</td><td>1000</td><td>0.4</td></tr><tr><td>Species A</td><td>5000</td><td>1.2</td></tr><tr><td>Species B</td><td>1000</td><td>0.9</td></tr><tr><td>Species B</td><td>5000</td><td>1.8</td></tr></tbody></table>Based on this data, which plant species showed a greater absolute increase in daily biomass gain when the light intensity increased from 1000 lux to 5000 lux, and what was that increase?",
+      "answerOptions": [
+        {
+          "text": "Species A, with an increase of 0.8 g",
+          "isCorrect": false,
+          "rationale": "For Species A, the increase was 1.2 g - 0.4 g = 0.8 g. For Species B, the increase was 1.8 g - 0.9 g = 0.9 g. Species B had the greater increase."
+        },
+        {
+          "text": "Species B, with an increase of 0.9 g",
+          "isCorrect": true,
+          "rationale": "For Species A, the increase was 1.2 g - 0.4 g = 0.8 g. For Species B, the increase was 1.8 g - 0.9 g = 0.9 g. Therefore, Species B showed a greater absolute increase, which was 0.9 g."
+        },
+        {
+          "text": "Species A, with an increase of 0.6 g",
+          "isCorrect": false,
+          "rationale": "The calculation for Species A's increase is incorrect. It was 1.2 g - 0.4 g = 0.8 g. Species B also had a greater overall increase."
+        },
+        {
+          "text": "Species B, with an increase of 0.7 g",
+          "isCorrect": false,
+          "rationale": "The calculation for Species B's increase is incorrect. It was 1.8 g - 0.9 g = 0.9 g."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "1bf409b78f5115177150cc8bd7dbb3c376ca3074"
+    },
+    {
+      "questionNumber": 32,
+      "type": "standalone",
+      "questionText": "A scientist studied the activity of an enzyme at various temperatures. The results are shown in the table below. <table><thead><tr><th>Temperature (°C)</th><th>Reaction Rate (units/minute)</th></tr></thead><tbody><tr><td>20</td><td>5</td></tr><tr><td>30</td><td>12</td></tr><tr><td>40</td><td>25</td></tr><tr><td>50</td><td>18</td></tr><tr><td>60</td><td>8</td></tr></tbody></table> Based on the data, what is the approximate percentage increase in the enzyme's reaction rate when the temperature increases from 20°C to 40°C?",
+      "answerOptions": [
+        {
+          "text": "100%",
+          "isCorrect": false,
+          "rationale": "This would mean the rate doubled from 5 to 10 units/minute, but it increased from 5 to 25 units/minute."
+        },
+        {
+          "text": "200%",
+          "isCorrect": false,
+          "rationale": "This would mean the rate tripled from 5 to 15 units/minute, but it increased from 5 to 25 units/minute."
+        },
+        {
+          "text": "400%",
+          "isCorrect": true,
+          "rationale": "The reaction rate increased from 5 units/minute at 20°C to 25 units/minute at 40°C. The absolute increase is 25 - 5 = 20 units/minute. The percentage increase is (increase / original rate) * 100 = (20 / 5) * 100 = 400%."
+        },
+        {
+          "text": "500%",
+          "isCorrect": false,
+          "rationale": "This would mean the rate increased by 5 times the original rate, reaching 30 units/minute, but it only increased from 5 to 25 units/minute."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "2dd662732546e6134f29797b211c7ff5b1faaf96"
+    },
+    {
+      "questionNumber": 33,
+      "type": "standalone",
+      "questionText": "A reflex arc (like pulling your hand away from a hot object) is a rapid, involuntary response to a stimulus. What is the typical pathway of the nerve signal in a reflex arc?",
+      "answerOptions": [
+        {
+          "text": "Sensory neuron -> Brain -> Motor neuron",
+          "isCorrect": false,
+          "rationale": "In many simple reflexes, the signal does not travel all the way to the brain for processing before a response is initiated."
+        },
+        {
+          "text": "Sensory neuron -> Spinal cord -> Motor neuron",
+          "isCorrect": true,
+          "rationale": "Correct. To ensure a rapid response, the signal goes from a sensory neuron to the spinal cord, which immediately sends a signal back via a motor neuron to cause a muscle contraction."
+        },
+        {
+          "text": "Motor neuron -> Brain -> Sensory neuron",
+          "isCorrect": false,
+          "rationale": "This reverses the direction of the signal flow."
+        },
+        {
+          "text": "Brain -> Spinal cord -> Sensory neuron",
+          "isCorrect": false,
+          "rationale": "This pathway is incorrect for a reflex response to a stimulus."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "d3be78bf1a0c1f65bc6b8bc3c84b66d7d708cb06"
+    },
+    {
+      "questionNumber": 34,
+      "type": "standalone",
+      "questionText": "Observe the data provided for different materials in the table below. Determine which material possesses the highest density. <table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54.0</td><td>20.0</td></tr><tr><td>Iron</td><td>156.0</td><td>20.0</td></tr><tr><td>Water</td><td>100.0</td><td>100.0</td></tr><tr><td>Wood</td><td>45.0</td><td>50.0</td></tr></tbody></table>Based on the data, which material has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Aluminum: 54.0 g / 20.0 cm³ = 2.7 g/cm³. This is not the highest density among the options."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": true,
+          "rationale": "To find density, divide mass by volume. For Iron: 156.0 g / 20.0 cm³ = 7.8 g/cm³. This is the highest density among all the materials listed in the table."
+        },
+        {
+          "text": "Water",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Water: 100.0 g / 100.0 cm³ = 1.0 g/cm³. This is not the highest density among the options."
+        },
+        {
+          "text": "Wood",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Wood: 45.0 g / 50.0 cm³ = 0.9 g/cm³. This is not the highest density among the options."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "2bc7d5c31a64123247b6c72fd7db1a755b2905fc"
+    },
+    {
+      "questionNumber": 35,
+      "type": "standalone",
+      "questionText": "A student measures the mass and volume of four different metal samples. The results are shown in the table below. <table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54.0</td><td>20.0</td></tr><tr><td>Copper</td><td>89.6</td><td>10.0</td></tr><tr><td>Iron</td><td>156.0</td><td>20.0</td></tr><tr><td>Lead</td><td>113.4</td><td>10.0</td></tr></tbody></table>Based on the data, which material has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Aluminum: 54.0 g / 20.0 cm³ = 2.7 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Copper",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Copper: 89.6 g / 10.0 cm³ = 8.96 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume. For Iron: 156.0 g / 20.0 cm³ = 7.8 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Lead",
+          "isCorrect": true,
+          "rationale": "To find density, divide mass by volume. For Lead: 113.4 g / 10.0 cm³ = 11.34 g/cm³. Comparing all calculated densities (Aluminum: 2.7 g/cm³, Copper: 8.96 g/cm³, Iron: 7.8 g/cm³, Lead: 11.34 g/cm³), Lead has the greatest density."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "7e7b8d34decf0c8c645e75b8847fce8e9becfdec"
+    },
+    {
+      "questionNumber": 36,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Object</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>A</td><td>150</td><td>50</td></tr><tr><td>B</td><td>240</td><td>80</td></tr><tr><td>C</td><td>120</td><td>30</td></tr></tbody></table>Based on the data in the table, which object has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Object A",
+          "isCorrect": false,
+          "rationale": "Object A has a density of 3.0 g/cm³ (150 g / 50 cm³), which is not the highest among the given objects."
+        },
+        {
+          "text": "Object B",
+          "isCorrect": false,
+          "rationale": "Object B has a density of 3.0 g/cm³ (240 g / 80 cm³), which is not the highest among the given objects."
+        },
+        {
+          "text": "Object C",
+          "isCorrect": true,
+          "rationale": "Object C has a density of 4.0 g/cm³ (120 g / 30 cm³), which is the highest density among the given objects."
+        },
+        {
+          "text": "Objects A and B have the same density, which is higher than Object C.",
+          "isCorrect": false,
+          "rationale": "Objects A and B both have a density of 3.0 g/cm³. Object C has a density of 4.0 g/cm³, which is higher than A and B."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "e149967073eb45f61db3ee1f7d9a508ae51232fa"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "According to the passage, what is the primary characteristic that distinguishes humans from 'lower animals'?",
+      "answerOptions": [
+        {
+          "text": "Their physical structure and bodily frame.",
+          "isCorrect": false,
+          "rationale": "The passage states that man's body is 'plainly related to that of the lower animals', indicating a similarity, not a distinction."
+        },
+        {
+          "text": "Their moral sense and social instincts.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'his moral sense and social instincts are what distinguish him most.'"
+        },
+        {
+          "text": "Their ability to form small tribes and communities.",
+          "isCorrect": false,
+          "rationale": "While humans form communities, the passage presents this as a stage of civilizational advancement, not the core distinguishing characteristic itself."
+        },
+        {
+          "text": "Their lowly origin and evolutionary history.",
+          "isCorrect": false,
+          "rationale": "The passage mentions man's 'lowly origin' as something he still bears the stamp of, implying a connection to other animals, not a distinguishing feature."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Descent of Man (Excerpt)</strong></p><p><em>Charles Darwin, 1871</em></p><p>Man still bears in his bodily frame the indelible stamp of his lowly origin. His body is plainly related to that of the lower animals, but his moral sense and social instincts are what distinguish him most. These instincts lead him to sympathize with others, to aid the weak, and to repress his own selfish impulses. As man advances in civilization, and small tribes unite into larger communities, the simplest reason would tell each individual that he ought to extend his social instincts and sympathies to all members of the same nation, even to all nations and races. Thus the social instincts, the prime principle of man’s moral constitution, would gradually extend and be strengthened, till they became the ruling power.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "8381ca4b63154d1687f57c0a999b338e3382a4a8"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "Based on the author's perspective, what is the ultimate outcome envisioned for humanity's 'social instincts' as civilization advances?",
+      "answerOptions": [
+        {
+          "text": "They will regress, leading to a return to more selfish impulses.",
+          "isCorrect": false,
+          "rationale": "The passage states that social instincts 'would gradually extend and be strengthened', contradicting the idea of regression."
+        },
+        {
+          "text": "They will become less important as individuals become more independent.",
+          "isCorrect": false,
+          "rationale": "The passage suggests they will become 'the ruling power', indicating increased importance, not less."
+        },
+        {
+          "text": "They will primarily serve to unite small tribes, but not extend further.",
+          "isCorrect": false,
+          "rationale": "The passage states that they would extend 'to all members of the same nation, even to all nations and races,' going beyond small tribes."
+        },
+        {
+          "text": "They will expand to encompass all people and become the dominant principle of moral behavior.",
+          "isCorrect": true,
+          "rationale": "The passage indicates social instincts would 'extend and be strengthened, till they became the ruling power,' applying to 'all nations and races.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Descent of Man (Excerpt)</strong></p><p><em>Charles Darwin, 1871</em></p><p>Man still bears in his bodily frame the indelible stamp of his lowly origin. His body is plainly related to that of the lower animals, but his moral sense and social instincts are what distinguish him most. These instincts lead him to sympathize with others, to aid the weak, and to repress his own selfish impulses. As man advances in civilization, and small tribes unite into larger communities, the simplest reason would tell each individual that he ought to extend his social instincts and sympathies to all members of the same nation, even to all nations and races. Thus the social instincts, the prime principle of man’s moral constitution, would gradually extend and be strengthened, till they became the ruling power.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "b99e48aa1a1f19a86ead604263b99f7e3c81add4"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 6, expected ~9",
+    "Difficulty \"medium\": 24, expected ~19"
+  ]
+}

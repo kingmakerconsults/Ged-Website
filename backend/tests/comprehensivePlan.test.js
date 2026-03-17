@@ -138,6 +138,28 @@ test('Social Studies plan has correct category counts', () => {
   assert.equal(catCounts['Geography & the World'], 5);
 });
 
+test('Social Studies plan limits standalone questions', () => {
+  const plan = buildComprehensivePlan('Social Studies');
+  const standaloneCount = plan.slots
+    .filter((slot) => slot.stimulusType === 'standalone')
+    .reduce((sum, slot) => sum + slot.questionsNeeded, 0);
+
+  assert.equal(standaloneCount, 11);
+  assert.equal(plan.invariants.stimulus.standalone, 11);
+});
+
+test('Social Studies economics relies mostly on non-standalone slots', () => {
+  const plan = buildComprehensivePlan('Social Studies');
+  const economicsSlots = plan.slots.filter(
+    (slot) => slot.category === 'Economics'
+  );
+  const nonStandaloneCount = economicsSlots
+    .filter((slot) => slot.stimulusType !== 'standalone')
+    .reduce((sum, slot) => sum + slot.questionsNeeded, 0);
+
+  assert.equal(nonStandaloneCount, 4);
+});
+
 test('Science plan has exactly 38 questions', () => {
   const plan = buildComprehensivePlan('Science');
   const total = plan.slots.reduce((s, sl) => s + sl.questionsNeeded, 0);

@@ -1,0 +1,1230 @@
+{
+  "id": "ai_comp_science_1773685234042",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "standalone",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 2,
+      "type": "standalone",
+      "questionText": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which is absorbed by algae. Small fish eat the algae, larger fish eat the small fish, and a bird of prey eats the larger fish. The process described in the passage, where the concentration of a toxin increases at higher trophic levels in a food web, is called:",
+      "answerOptions": [
+        {
+          "text": "Eutrophication",
+          "isCorrect": false,
+          "rationale": "Eutrophication is the enrichment of a body of water with nutrients."
+        },
+        {
+          "text": "Biomagnification",
+          "isCorrect": true,
+          "rationale": "Correct. This is the specific term for the increasing concentration of a substance in organisms at successively higher levels in a food chain."
+        },
+        {
+          "text": "Natural selection",
+          "isCorrect": false,
+          "rationale": "Natural selection is the process by which organisms better adapted to their environment tend to survive and reproduce."
+        },
+        {
+          "text": "Succession",
+          "isCorrect": false,
+          "rationale": "Ecological succession is the process of change in the species structure of an ecological community over time."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "67e42441817dc9c5365e9797d293a91cbaa8d083"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the most significant implication of the observation of \"four planets revolving about Jupiter\"?",
+      "answerOptions": [
+        {
+          "text": "It confirmed that Jupiter is the largest planet in our solar system.",
+          "isCorrect": false,
+          "rationale": "The passage does not provide information about the size of Jupiter, nor is this the primary implication highlighted by the author's observation."
+        },
+        {
+          "text": "It demonstrated that telescopes could make distant objects appear brighter.",
+          "isCorrect": false,
+          "rationale": "While the telescope made the planets visible, the passage emphasizes the revolving aspect and its contradiction to prior beliefs, not merely the brightness enhancement."
+        },
+        {
+          "text": "It provided evidence that contradicted the belief that all heavenly bodies revolve around Earth.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed,' making this the direct and most significant implication."
+        },
+        {
+          "text": "It showed that there are more planets in the universe than previously thought.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the orbital mechanics around Jupiter and Earth, not the total number of planets in the entire universe."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "e17bc1ba104c5cecedc05d5d239db88151b2c8b3"
+    },
+    {
+      "questionNumber": 4,
+      "type": "passage",
+      "questionText": "The author's statement, \"invisible without the aid of a glass,\" primarily serves to emphasize which point?",
+      "answerOptions": [
+        {
+          "text": "The advanced technology required for space exploration in that era.",
+          "isCorrect": false,
+          "rationale": "The phrase refers specifically to the telescope ('glass') and the visibility of the planets, rather than the broader concept of advanced space exploration technology."
+        },
+        {
+          "text": "The limitations of human sight in observing certain celestial phenomena.",
+          "isCorrect": true,
+          "rationale": "The statement directly indicates that these planets could not be seen with the naked eye, highlighting that unassisted human vision has limits when observing the cosmos."
+        },
+        {
+          "text": "The discovery of new materials used in creating powerful lenses.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the materials or construction of the telescope's lenses, only its effect on visibility."
+        },
+        {
+          "text": "The difficulty of identifying planets orbiting distant stars.",
+          "isCorrect": false,
+          "rationale": "The passage is about planets revolving around Jupiter, not distant stars, and the emphasis is on their invisibility without aid, not the general difficulty of identification."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "3fce182c7069481df75a65040328d6f6abd94115"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 6,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Plant Group</th><th>Avg Daily Water Intake (mL)</th><th>Number of Plants Studied</th></tr></thead><tbody><tr><td>Ferns</td><td>25</td><td>10</td></tr><tr><td>Succulents</td><td>8</td><td>12</td></tr><tr><td>Flowering Plants</td><td>40</td><td>15</td></tr><tr><td>Conifers</td><td>18</td><td>8</td></tr></tbody></table>Based on the data provided, what is the total amount of water taken in by all Flowering Plants over a one-week period?",
+      "answerOptions": [
+        {
+          "text": "600 mL",
+          "isCorrect": false,
+          "rationale": "This is the total daily water intake for all flowering plants, not the total for a week."
+        },
+        {
+          "text": "280 mL",
+          "isCorrect": false,
+          "rationale": "This is the average weekly water intake for a single flowering plant, not for all plants studied in that group."
+        },
+        {
+          "text": "4200 mL",
+          "isCorrect": true,
+          "rationale": "To find the total water intake, multiply the average daily intake per plant (40 mL) by the number of flowering plants studied (15), then multiply that result by 7 days: 40 mL/plant * 15 plants * 7 days = 4200 mL."
+        },
+        {
+          "text": "1750 mL",
+          "isCorrect": false,
+          "rationale": "This is the total weekly water intake for the Ferns group, not the Flowering Plants group."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "838fef7de7428c435432a39ce56e408d8d5edab5"
+    },
+    {
+      "questionNumber": 7,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Time (hours)</th><th>Bacterial Population (millions)</th></tr></thead><tbody><tr><td>0</td><td>10</td></tr><tr><td>1</td><td>20</td></tr><tr><td>2</td><td>40</td></tr><tr><td>3</td><td>80</td></tr><tr><td>4</td><td>160</td></tr></tbody></table>Based on the data, what was the average hourly increase in bacterial population (in millions) between 2 hours and 4 hours?",
+      "answerOptions": [
+        {
+          "text": "40 million",
+          "isCorrect": false,
+          "rationale": "This value represents the population at 2 hours, or the increase in population between 1 and 2 hours, not the average hourly increase between 2 and 4 hours."
+        },
+        {
+          "text": "60 million",
+          "isCorrect": true,
+          "rationale": "At 2 hours, the population was 40 million. At 4 hours, it was 160 million. The total increase over this 2-hour period is 160 - 40 = 120 million. The average hourly increase is 120 million / 2 hours = 60 million per hour."
+        },
+        {
+          "text": "80 million",
+          "isCorrect": false,
+          "rationale": "This value represents the increase in population between 3 and 4 hours, or the population at 3 hours, not the average hourly increase between 2 and 4 hours."
+        },
+        {
+          "text": "120 million",
+          "isCorrect": false,
+          "rationale": "This value represents the total increase in population between 2 hours and 4 hours, not the average hourly increase over that period."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "bc899ffabaf8a2f7d75b940c9b89648a4e028655"
+    },
+    {
+      "questionNumber": 8,
+      "type": "standalone",
+      "questionText": "A scientist recorded the growth of a bean plant over a 21-day period, as shown in the table. <table><thead><tr><th>Day</th><th>Plant Height (cm)</th><th>Number of Leaves</th></tr></thead><tbody><tr><td>1</td><td>2.5</td><td>2</td></tr><tr><td>7</td><td>4.8</td><td>4</td></tr><tr><td>14</td><td>8.1</td><td>7</td></tr><tr><td>21</td><td>12.3</td><td>10</td></tr></tbody></table>Based on the data, what was the approximate average daily growth rate in plant height between Day 7 and Day 21?",
+      "answerOptions": [
+        {
+          "text": "0.36 cm/day",
+          "isCorrect": false,
+          "rationale": "This calculation incorrectly divides the height difference (12.3 cm - 4.8 cm = 7.5 cm) by the total number of days observed (21 days) instead of the number of days in the specified interval (14 days)."
+        },
+        {
+          "text": "0.49 cm/day",
+          "isCorrect": false,
+          "rationale": "This calculation finds the average daily growth rate over the entire 20-day observation period (from Day 1 to Day 21), not specifically between Day 7 and Day 21 as requested."
+        },
+        {
+          "text": "0.54 cm/day",
+          "isCorrect": true,
+          "rationale": "To find the average daily growth rate between Day 7 and Day 21, subtract the plant height on Day 7 from the height on Day 21 (12.3 cm - 4.8 cm = 7.5 cm). Then divide this difference by the number of days in that period (21 days - 7 days = 14 days). So, 7.5 cm / 14 days ≈ 0.54 cm/day."
+        },
+        {
+          "text": "0.47 cm/day",
+          "isCorrect": false,
+          "rationale": "This calculation finds the average daily growth rate between Day 7 and Day 14 (8.1 cm - 4.8 cm = 3.3 cm; 14 days - 7 days = 7 days; 3.3 cm / 7 days ≈ 0.47 cm/day), which is not the interval requested."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "2642df0445c8e572663838741be4a6fa04bb1ca5"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density of Sample A = 312g / 40cm³ = 7.8 g/cm³. Density of Sample B = 260g / 35cm³ ≈ 7.428 g/cm³. The difference is 7.8 - 7.428 ≈ 0.372 g/cm³, which rounds to 0.4 g/cm³."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value is incorrect based on the provided table data. Recheck calculations for densities and their difference."
+        },
+        {
+          "text": "0.3 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. Recheck calculations for densities and their difference."
+        },
+        {
+          "text": "7.8 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the density of Sample A only, not the difference between Sample A and Sample B."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "4da1b641d0e6d967386021fb66439068dfd5e901"
+    },
+    {
+      "questionNumber": 10,
+      "type": "standalone",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 11,
+      "type": "standalone",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 12,
+      "type": "standalone",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency of Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output / Light Input) × 100 = (210 kJ / 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency of Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "520%",
+          "isCorrect": false,
+          "rationale": "Efficiency should be less than 100% for this type of conversion. Check your division."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "1bb4d8a5274c9dde52f67f749a4877a2cbc9b148"
+    },
+    {
+      "questionNumber": 14,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Plant Group</th><th>Height Day 1 (cm)</th><th>Height Day 7 (cm)</th><th>Height Day 14 (cm)</th></tr></thead><tbody><tr><td>Group X (High Light)</td><td>5.0</td><td>12.0</td><td>20.0</td></tr><tr><td>Group Y (Medium Light)</td><td>5.0</td><td>10.0</td><td>16.0</td></tr><tr><td>Group Z (Low Light)</td><td>5.0</td><td>7.0</td><td>10.0</td></tr></tbody></table>Based on the data, which plant group experienced the largest increase in height between Day 7 and Day 14, and what was that increase?",
+      "answerOptions": [
+        {
+          "text": "Group X, 8.0 cm",
+          "isCorrect": true,
+          "rationale": "Group X grew from 12.0 cm to 20.0 cm, an increase of 8.0 cm (20.0 - 12.0). Group Y grew 6.0 cm (16.0 - 10.0). Group Z grew 3.0 cm (10.0 - 7.0). Therefore, Group X had the largest increase in height during this period."
+        },
+        {
+          "text": "Group Y, 6.0 cm",
+          "isCorrect": false,
+          "rationale": "Group Y grew 6.0 cm, but Group X showed a larger increase of 8.0 cm during the same period."
+        },
+        {
+          "text": "Group X, 15.0 cm",
+          "isCorrect": false,
+          "rationale": "15.0 cm represents the total growth of Group X from Day 1 to Day 14 (20.0 - 5.0), not the growth between Day 7 and Day 14."
+        },
+        {
+          "text": "Group Z, 5.0 cm",
+          "isCorrect": false,
+          "rationale": "Group Z grew 3.0 cm between Day 7 and Day 14 (10.0 - 7.0). The value 5.0 cm is its initial height, not the growth between Day 7 and Day 14."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "4ec34765918537d85be0be5f30005ecf22d0a653"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "According to the passage, what is the fundamental process that drives natural selection?",
+      "answerOptions": [
+        {
+          "text": "The preservation of individuals that vary in a manner profitable to themselves, increasing their chance of survival and propagation.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected. It is the preservation of favorable variations and the rejection of injurious variations.'"
+        },
+        {
+          "text": "The conscious decision of species to adapt to their environment by developing new traits.",
+          "isCorrect": false,
+          "rationale": "The passage describes natural selection as a 'gradual process, acting silently but surely,' not a conscious decision by species."
+        },
+        {
+          "text": "The equal survival and reproduction rates of all individuals within a given species, ensuring stability.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly mentions 'many more individuals of each species are born than can possibly survive, and as there is consequently a frequent struggle for existence,' contradicting equal survival rates."
+        },
+        {
+          "text": "The rejection of all variations within a population to maintain a pure and consistent species form.",
+          "isCorrect": false,
+          "rationale": "The passage states 'preservation of favorable variations and the rejection of injurious variations,' indicating that some variations are preserved, not all rejected."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Long Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive, and as there is consequently a frequent struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected. It is the preservation of favorable variations and the rejection of injurious variations. From the strong principle of inheritance, any selected variety will tend to propagate its new and modified form. The theory of natural selection, though simple in statement, carries profound consequences: it unites all forms of life in one long, unbroken chain of descent. No longer can we consider species as fixed creations; rather, they are the results of a gradual process, acting silently but surely over vast ages. The grandeur of this view of life lies in the unity of its origin and the endless forms most beautiful that have been, and are being, evolved.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "80d2e9365de1dce3d070adcf95a2ec5fa685c22b"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "The passage describes 'profound consequences' of the theory of natural selection. Which of the following best summarizes one of these consequences?",
+      "answerOptions": [
+        {
+          "text": "It establishes that each species is a fixed creation, entirely separate from others.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'No longer can we consider species as fixed creations; rather, they are the results of a gradual process,' directly contradicting this option."
+        },
+        {
+          "text": "It proposes that all forms of life share a common ancestry, linking them together.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that natural selection 'unites all forms of life in one long, unbroken chain of descent' and refers to 'the unity of its origin'."
+        },
+        {
+          "text": "It emphasizes that environmental changes instantly generate new, complex species.",
+          "isCorrect": false,
+          "rationale": "The passage describes natural selection as a 'gradual process, acting silently but surely over vast ages,' not an instant generation of new species."
+        },
+        {
+          "text": "It suggests that only the strongest and most aggressive individuals survive to reproduce.",
+          "isCorrect": false,
+          "rationale": "The passage refers to variations that are 'profitable to itself' and 'favorable,' not necessarily implying only strength or aggression, but traits that enhance survival and reproduction."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Long Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive, and as there is consequently a frequent struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected. It is the preservation of favorable variations and the rejection of injurious variations. From the strong principle of inheritance, any selected variety will tend to propagate its new and modified form. The theory of natural selection, though simple in statement, carries profound consequences: it unites all forms of life in one long, unbroken chain of descent. No longer can we consider species as fixed creations; rather, they are the results of a gradual process, acting silently but surely over vast ages. The grandeur of this view of life lies in the unity of its origin and the endless forms most beautiful that have been, and are being, evolved.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "0d917a86152ecbb613e52801f5450283ed0f7dcc"
+    },
+    {
+      "questionNumber": 17,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Fertilizer Concentration (%)</th><th>Average Plant Height Increase (cm)</th><th>Average Leaf Area Increase (cm²)</th></tr></thead><tbody><tr><td>0</td><td>5.2</td><td>15.8</td></tr><tr><td>1</td><td>8.5</td><td>28.1</td></tr><tr><td>2</td><td>11.3</td><td>37.5</td></tr><tr><td>3</td><td>9.8</td><td>32.4</td></tr><tr><td>4</td><td>7.1</td><td>21.0</td></tr></tbody></table>What is the difference in average plant height increase between plants treated with 2% fertilizer and those with no fertilizer (0%) after 3 weeks?",
+      "answerOptions": [
+        {
+          "text": "6.1 cm",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract the average height increase for 0% fertilizer (5.2 cm) from the average height increase for 2% fertilizer (11.3 cm): 11.3 cm - 5.2 cm = 6.1 cm."
+        },
+        {
+          "text": "11.3 cm",
+          "isCorrect": false,
+          "rationale": "11.3 cm is the average plant height increase for plants treated with 2% fertilizer, not the difference between 2% and 0%."
+        },
+        {
+          "text": "5.2 cm",
+          "isCorrect": false,
+          "rationale": "5.2 cm is the average plant height increase for plants treated with 0% fertilizer, not the difference between 2% and 0%."
+        },
+        {
+          "text": "4.6 cm",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. The difference is calculated by subtracting 5.2 cm (0% fertilizer) from 11.3 cm (2% fertilizer), which equals 6.1 cm."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "03b4852fcef535d9a9f303871a7d9b350f12a96d"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "Based on the passage, what is a fundamental implication of Newton's law of universal gravitation?",
+      "answerOptions": [
+        {
+          "text": "The force of attraction only applies to objects within Earth's atmosphere.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Every particle of matter in the universe attracts every other particle,' indicating a universal scope, not just Earth's atmosphere."
+        },
+        {
+          "text": "Gravitational force can be directly observed and felt by humans.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that this law is 'though invisible to our senses.'"
+        },
+        {
+          "text": "All matter in the cosmos exerts an attractive force on every other piece of matter.",
+          "isCorrect": true,
+          "rationale": "The passage begins by stating, 'Every particle of matter in the universe attracts every other particle,' which is the core principle of universal gravitation."
+        },
+        {
+          "text": "The Moon's orbit is independent of Earth's gravitational pull.",
+          "isCorrect": false,
+          "rationale": "The passage states that the law 'holds the Moon in her path about the Earth,' indicating dependence on gravitational pull."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "13d1ca528b255b38b28ab5477243528938b012a7"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "If two celestial bodies were to move farther apart from each other, how would the gravitational force between them change, according to the passage?",
+      "answerOptions": [
+        {
+          "text": "The force would increase because distance enhances gravitational pull.",
+          "isCorrect": false,
+          "rationale": "The passage states the force varies 'inversely with the square of the distance,' meaning as distance increases, the force decreases."
+        },
+        {
+          "text": "The force would remain constant, as distance does not affect gravitational attraction.",
+          "isCorrect": false,
+          "rationale": "The passage clearly identifies distance as a factor, stating the force varies 'inversely with the square of the distance.'"
+        },
+        {
+          "text": "The force would decrease, as the attraction is inversely related to the square of the distance.",
+          "isCorrect": true,
+          "rationale": "The passage states the force varies 'inversely with the square of the distance,' which means a greater distance results in a weaker (decreased) force."
+        },
+        {
+          "text": "The force would become directly visible due to the increased distance.",
+          "isCorrect": false,
+          "rationale": "The passage states the law is 'invisible to our senses,' and distance does not alter this characteristic."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "cf24e11770d629748c4b95bfca0eac89ae25b82f"
+    },
+    {
+      "questionNumber": 20,
+      "type": "standalone",
+      "questionText": "Based on the data in the table below, approximately how many times longer is a Martian year compared to a Mercurian year? <table><thead><tr><th>Planet</th><th>Average Distance from Sun (AU)</th><th>Orbital Period (Earth Years)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>0.24</td></tr><tr><td>Earth</td><td>1.00</td><td>1.00</td></tr><tr><td>Mars</td><td>1.52</td><td>1.88</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "7.8 times longer",
+          "isCorrect": true,
+          "rationale": "To determine how many times longer a Martian year is than a Mercurian year, divide the orbital period of Mars (1.88 Earth years) by the orbital period of Mercury (0.24 Earth years): 1.88 / 0.24 ≈ 7.83. Therefore, a Martian year is approximately 7.8 times longer than a Mercurian year."
+        },
+        {
+          "text": "0.13 times longer",
+          "isCorrect": false,
+          "rationale": "This calculation represents the ratio of a Mercurian year to a Martian year (0.24 / 1.88), which is the inverse of what the question asks."
+        },
+        {
+          "text": "3.9 times longer",
+          "isCorrect": false,
+          "rationale": "This calculation compares the average distances from the Sun (1.52 / 0.39), not the orbital periods (year lengths)."
+        },
+        {
+          "text": "1.64 times longer",
+          "isCorrect": false,
+          "rationale": "This answer results from subtracting the orbital periods (1.88 - 0.24), not dividing them to find a ratio."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "e4e7de66ad769bd143122e6dc68c3c3cdff4afd0"
+    },
+    {
+      "questionNumber": 21,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": true,
+          "rationale": "To balance the equation, one atom of Fe is needed on both sides. The balanced equation is 1Fe + 2HCl → 1FeCl₂ + 1H₂."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "Using 2 as the coefficient for Fe would unbalance the iron atoms on both sides."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Using 3 as the coefficient for Fe would unbalance the iron atoms on both sides."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "Using 4 as the coefficient for Fe would unbalance the iron atoms on both sides."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "0313acd8d54da53f61ef575b0248860df78b00c2"
+    },
+    {
+      "questionNumber": 22,
+      "type": "standalone",
+      "questionText": "Balance this equation: N₂ + __H₂ → 2NH₃. What coefficient is needed for H₂?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "This coefficient would leave the hydrogen atoms unbalanced. There are 2 hydrogen atoms on the left and 6 on the right."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "This coefficient would leave the hydrogen atoms unbalanced. There are 4 hydrogen atoms on the left and 6 on the right."
+        },
+        {
+          "text": "3",
+          "isCorrect": true,
+          "rationale": "To balance the equation, 3 molecules of H₂ are needed on the left side to yield 6 hydrogen atoms, matching the 6 hydrogen atoms in 2NH₃. The balanced equation is N₂ + 3H₂ → 2NH₃."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "This coefficient would unbalance the hydrogen atoms. There are 8 hydrogen atoms on the left and 6 on the right."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "b9c4fc6c76342b6592b0666e5c3a23d3cb6b9bab"
+    },
+    {
+      "questionNumber": 23,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 24,
+      "type": "standalone",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The water loss for high speed between 20 and 60 minutes is 198 mL - 90 mL = 108 mL. The time difference is 60 min - 20 min = 40 min. So, 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "2.25 mL/min",
+          "isCorrect": false,
+          "rationale": "This is the average rate over the first 40 minutes for the low-speed fan. Recalculate for the high-speed fan between 20 and 60 minutes."
+        },
+        {
+          "text": "2.7 mL/min",
+          "isCorrect": true,
+          "rationale": "Water evaporated = 198 mL (at 20 min) - 90 mL (at 60 min) = 108 mL. Time elapsed = 60 min - 20 min = 40 min. Average evaporation rate = 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "3.1 mL/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Recalculate the change in volume over the time interval for the high-speed fan."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "f983f37be117333745383f99428cec68fb419851"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "Based on the passage, what is presented as the most effective method for preventing both fermentation and disease?",
+      "answerOptions": [
+        {
+          "text": "Allowing various microscopic organisms to populate the air freely.",
+          "isCorrect": false,
+          "rationale": "The passage states that germs of microscopic organisms cause fermentation and disease, implying that allowing them would promote, not prevent, these processes."
+        },
+        {
+          "text": "Introducing new types of germs into the environment to combat existing ones.",
+          "isCorrect": false,
+          "rationale": "The passage identifies germs as the cause, so introducing more germs would contradict the goal of prevention."
+        },
+        {
+          "text": "Excluding germs from the environment where these processes might occur.",
+          "isCorrect": true,
+          "rationale": "The passage directly states, 'By excluding germs, one can prevent both processes from occurring,' clearly identifying this as the preventative method."
+        },
+        {
+          "text": "Encouraging a balanced presence of germs and microscopic organisms.",
+          "isCorrect": false,
+          "rationale": "The passage advocates for excluding germs to prevent issues, not maintaining a balance or encouraging their presence."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "035e8f2c6b7295cadd53784ce25c2e3d1e11fbfc"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "What is the primary scientific claim made in the passage regarding the relationship between microscopic organisms and certain natural processes?",
+      "answerOptions": [
+        {
+          "text": "Microscopic organisms are largely beneficial components of the natural air.",
+          "isCorrect": false,
+          "rationale": "The passage identifies germs of microscopic organisms as the 'cause of fermentation and disease,' indicating a harmful rather than beneficial role in this context."
+        },
+        {
+          "text": "Fermentation and disease are natural processes that cannot be prevented by any means.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'By excluding germs, one can prevent both processes from occurring,' directly contradicting the idea that they cannot be prevented."
+        },
+        {
+          "text": "The presence of germs from microscopic organisms is the underlying cause of fermentation and disease.",
+          "isCorrect": true,
+          "rationale": "The passage unequivocally states, 'These germs are the cause of fermentation and disease,' making this the central scientific claim."
+        },
+        {
+          "text": "Air quality is primarily determined by the absence or presence of non-microscopic elements.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on 'germs of microscopic organisms' in the air as the cause of disease and fermentation, not on non-microscopic elements determining air quality."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "c66ae9509737dae5d1ad561a9e0dbf2616c1e47f"
+    },
+    {
+      "questionNumber": 28,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum Block</td><td>27.0</td><td>10.0</td></tr><tr><td>Iron Rod</td><td>78.7</td><td>10.0</td></tr><tr><td>Copper Wire</td><td>89.6</td><td>10.0</td></tr></tbody></table><br>Based on the data provided, what is the density of the Aluminum Block? (Density = Mass / Volume)",
+      "answerOptions": [
+        {
+          "text": "0.37 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. Density is calculated by dividing mass by volume (27.0 g / 10.0 cm³), not the other way around."
+        },
+        {
+          "text": "2.70 g/cm³",
+          "isCorrect": true,
+          "rationale": "To find the density of the Aluminum Block, divide its mass (27.0 g) by its volume (10.0 cm³), which equals 2.70 g/cm³."
+        },
+        {
+          "text": "10.0 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value represents only the volume of the Aluminum Block, not its density. Density requires both mass and volume."
+        },
+        {
+          "text": "27.0 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value represents only the mass of the Aluminum Block, not its density. Density requires both mass and volume."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "da33f14a6c9a0a53ab382c360f832a7fa2fb9f66"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "According to the passage, through which two methods can electricity be produced?",
+      "answerOptions": [
+        {
+          "text": "By chemical reactions and light energy.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention chemical reactions or light energy as means to evolve electricity."
+        },
+        {
+          "text": "By ordinary mechanical means and magnetic influence.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence.'"
+        },
+        {
+          "text": "By thermal conduction and electrical induction.",
+          "isCorrect": false,
+          "rationale": "These specific methods are not mentioned in the provided text as ways electricity can be evolved."
+        },
+        {
+          "text": "By nuclear fission and solar radiation.",
+          "isCorrect": false,
+          "rationale": "The passage does not provide information about nuclear fission or solar radiation as methods for evolving electricity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experimental Researches in Electricity (Excerpt)</strong></p><p><em>Michael Faraday, 1831</em></p><p>Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence. The relation between magnetism and electricity is of the deepest importance in physical science.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "f948bf733a8c78a5db9b688a3b9eec049e1e6160"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "What does the author's statement, 'The relation between magnetism and electricity is of the deepest importance in physical science,' most strongly imply?",
+      "answerOptions": [
+        {
+          "text": "The study of this relationship is only relevant to advanced technological applications.",
+          "isCorrect": false,
+          "rationale": "The statement refers to 'physical science' broadly, not just advanced technological applications, and 'deepest importance' suggests fundamental relevance, not limited application."
+        },
+        {
+          "text": "Further research into magnetism and electricity is no longer necessary.",
+          "isCorrect": false,
+          "rationale": "The phrase 'deepest importance' suggests ongoing significance and potentially further inquiry, not that research is complete."
+        },
+        {
+          "text": "Understanding this connection is fundamental to a broad comprehension of physical science.",
+          "isCorrect": true,
+          "rationale": "The phrase 'deepest importance in physical science' indicates that the relationship between magnetism and electricity is a critical and foundational concept for understanding the entire field."
+        },
+        {
+          "text": "The relationship between magnetism and electricity is a relatively new discovery.",
+          "isCorrect": false,
+          "rationale": "The passage states its 'deepest importance,' implying an established and significant role in physical science, not necessarily a recent discovery."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experimental Researches in Electricity (Excerpt)</strong></p><p><em>Michael Faraday, 1831</em></p><p>Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence. The relation between magnetism and electricity is of the deepest importance in physical science.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "4a5c147f4e9e97c731c74eb4929a69839c3c6c7e"
+    },
+    {
+      "questionNumber": 31,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 32,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 33,
+      "type": "passage",
+      "questionText": "What is the primary message the author conveys by stating, \"There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle\"?",
+      "answerOptions": [
+        {
+          "text": "That the study of simple objects like a candle is too complex for basic scientific inquiry.",
+          "isCorrect": false,
+          "rationale": "The author's statement suggests the opposite; a candle is an accessible starting point for understanding universal laws, not an overly complex one."
+        },
+        {
+          "text": "That understanding a candle's behavior requires knowledge of every scientific law in the universe.",
+          "isCorrect": false,
+          "rationale": "While the candle demonstrates many laws, the statement emphasizes its illustrative power for fundamental principles, not that one must know every law to understand it."
+        },
+        {
+          "text": "That a seemingly simple object like a candle can demonstrate fundamental and universal scientific principles.",
+          "isCorrect": true,
+          "rationale": "The author explicitly states that 'from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter,' supporting the idea that it illustrates universal laws."
+        },
+        {
+          "text": "That the laws governing a candle are unique and not applicable to other phenomena in the universe.",
+          "isCorrect": false,
+          "rationale": "The passage argues that universal laws do come into play, directly contradicting the idea that the laws are unique or not applicable elsewhere."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "a587cb31fb40b2e22a3dfd27479d58cd4c144322"
+    },
+    {
+      "questionNumber": 34,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the crucial role oxygen plays in the ongoing process of a candle's combustion?",
+      "answerOptions": [
+        {
+          "text": "Oxygen acts as a cooling agent, preventing the flame from becoming too hot and extinguishing itself.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that supplying pure oxygen makes the flame burn brighter, suggesting it intensifies combustion, not cools it. The flame is extinguished if oxygen is cut off, showing its essential role in fueling, not cooling."
+        },
+        {
+          "text": "Oxygen serves as a direct fuel source, undergoing a physical change to sustain the flame.",
+          "isCorrect": false,
+          "rationale": "The passage states that melted wax turns into vapor, which 'truly burns.' Oxygen is 'supplied' for the burning, indicating it's an essential reactant for the chemical process, not a direct fuel that undergoes a physical change."
+        },
+        {
+          "text": "Oxygen is a necessary reactant that combines with the wax vapor to produce light, heat, and other byproducts.",
+          "isCorrect": true,
+          "rationale": "The passage states the flame is 'supplied with oxygen from the air' and 'it gives light and heat while producing water and carbonic acid.' Cutting off air (and thus oxygen) extinguishes the flame, confirming oxygen's role as a vital reactant for combustion."
+        },
+        {
+          "text": "Oxygen enhances the buoyancy of hot gases, helping them rise and draw in more wax vapor.",
+          "isCorrect": false,
+          "rationale": "The passage states that hot gases rise and draw in fresh air below, but it does not attribute this specific buoyancy enhancement to oxygen itself. Oxygen's role is described as being consumed in the burning process."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "e8c0fe6619bcd13e5e46e2f2e167f4626697f1e3"
+    },
+    {
+      "questionNumber": 35,
+      "type": "standalone",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 36,
+      "type": "standalone",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 37,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 38,
+      "type": "standalone",
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "1 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 5, expected ~9",
+    "Difficulty \"medium\": 26, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}

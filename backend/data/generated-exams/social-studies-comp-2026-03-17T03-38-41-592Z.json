@@ -1,0 +1,1092 @@
+{
+  "id": "ai_comp_social_studies_1773718654621",
+  "title": "Comprehensive Social Studies Exam",
+  "subject": "Social Studies",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "knowledge",
+      "questionText": "Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling. Who is most likely to be hurt by unexpected inflation?",
+      "answerOptions": [
+        {
+          "text": "People who have borrowed money at a fixed interest rate.",
+          "isCorrect": false,
+          "rationale": "These people benefit, as they repay their loans with money that is worth less than when they borrowed it."
+        },
+        {
+          "text": "People on a fixed income, such as retirees.",
+          "isCorrect": true,
+          "rationale": "Correct. If prices are rising but your income is not, your purchasing power (the amount of goods you can buy) decreases significantly."
+        },
+        {
+          "text": "The government, which has a large national debt.",
+          "isCorrect": false,
+          "rationale": "Like other borrowers, the government benefits from repaying its debt with less valuable money."
+        },
+        {
+          "text": "People who own assets that increase in value with inflation, like real estate.",
+          "isCorrect": false,
+          "rationale": "These people are often protected from or may even benefit from inflation."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Economics",
+      "bankFingerprint": "01382c3b06af10fb8ee9c49b75f41f1d28e9b21d"
+    },
+    {
+      "questionNumber": 2,
+      "type": "text",
+      "questionText": "What principle is emphasized in the Declaration excerpt about governments deriving “just powers from the consent of the governed”?",
+      "answerOptions": [
+        {
+          "text": "Popular sovereignty",
+          "isCorrect": true,
+          "rationale": "People are the source of legitimate power."
+        },
+        {
+          "text": "Judicial supremacy",
+          "isCorrect": false,
+          "rationale": "Not referenced in the excerpt."
+        },
+        {
+          "text": "Divine right monarchy",
+          "isCorrect": false,
+          "rationale": "Opposite of popular consent."
+        },
+        {
+          "text": "Hereditary succession",
+          "isCorrect": false,
+          "rationale": "Not a republican principle."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "U.S. History",
+      "bankFingerprint": "ddf8d8d200fe18693772b4b1cce476defd6cd282"
+    },
+    {
+      "questionNumber": 3,
+      "type": "object",
+      "questionText": "About what percentage of IRS receipts comes from personal income tax and employment taxes combined?",
+      "answerOptions": [
+        {
+          "text": "85.2%",
+          "isCorrect": true,
+          "rationale": "Correct. Adding 50.1% and 35.1% gives 85.2%."
+        },
+        {
+          "text": "62.0%",
+          "isCorrect": false,
+          "rationale": "That total is much lower than the combined share of the two biggest categories."
+        },
+        {
+          "text": "47.0%",
+          "isCorrect": false,
+          "rationale": "This is less than personal income tax alone."
+        },
+        {
+          "text": "92.7%",
+          "isCorrect": false,
+          "rationale": "That would overstate the combined total shown on the chart."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/this_question_is_based_on_the_following_graph_0001.png",
+        "alt": "A pie chart displaying Internal Revenue Service receipts by category in 2010, showing percentages for each tax type."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-this_question_is_based_on_the_following_graph_0001.png",
+      "category": "Civics & Government",
+      "bankFingerprint": "b1b2c1f0ba082919fd2b2373f9092c54882461ca"
+    },
+    {
+      "questionNumber": 4,
+      "type": "text",
+      "questionText": "How is the number of electoral votes for each state determined?",
+      "answerOptions": [
+        {
+          "text": "It is based on the physical size of the state.",
+          "isCorrect": false,
+          "rationale": "The number of electoral votes is based on population, not land area."
+        },
+        {
+          "text": "Each state receives the same number of electoral votes.",
+          "isCorrect": false,
+          "rationale": "The number of votes varies greatly from state to state based on population."
+        },
+        {
+          "text": "It is equal to the state's total number of Senators and Representatives in Congress.",
+          "isCorrect": true,
+          "rationale": "Correct. The passage clearly states this is how the number of electors is determined."
+        },
+        {
+          "text": "It is determined by the state governor.",
+          "isCorrect": false,
+          "rationale": "The number is determined by the census and congressional apportionment, not the governor."
+        }
+      ],
+      "passage": "The President of the United States is not elected by a direct popular vote. Instead, the election is decided by the Electoral College. In this system, each state is assigned a number of electors equal to its total number of representatives in Congress (House + Senate). In most states, the candidate who wins the popular vote in that state wins all of that state's electoral votes.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "a2acf75cac5eec9fbdd0c43149fa8ba08774c210"
+    },
+    {
+      "questionNumber": 5,
+      "type": "multipleChoice",
+      "questionText": "The power to impeach the President or a federal judge belongs to...",
+      "answerOptions": [
+        {
+          "text": "The Supreme Court",
+          "isCorrect": false,
+          "rationale": "The Supreme Court would preside over the trial of an impeached President, but does not have the power to impeach."
+        },
+        {
+          "text": "The House of Representatives",
+          "isCorrect": true,
+          "rationale": "Correct. The House has the sole power to vote on and approve articles of impeachment."
+        },
+        {
+          "text": "The Senate",
+          "isCorrect": false,
+          "rationale": "The Senate has the power to hold the trial and vote to convict an impeached official."
+        },
+        {
+          "text": "The state governments",
+          "isCorrect": false,
+          "rationale": "Impeachment is a federal process."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "cc8df295bbd4e95afaa43dc82f10b799b5f4f7ca"
+    },
+    {
+      "questionNumber": 6,
+      "type": "multipleChoice",
+      "questionText": "According to the passage, what is the relationship between a budget deficit and the national debt?",
+      "answerOptions": [
+        {
+          "text": "A budget deficit decreases the national debt.",
+          "isCorrect": false,
+          "rationale": "A deficit requires borrowing, which increases the debt."
+        },
+        {
+          "text": "Annual budget deficits contribute to a growing national debt.",
+          "isCorrect": true,
+          "rationale": "Correct. The national debt is the accumulation of past deficits."
+        },
+        {
+          "text": "The national debt causes budget deficits.",
+          "isCorrect": false,
+          "rationale": "The relationship is the other way around; deficits cause the debt."
+        },
+        {
+          "text": "There is no relationship between a budget deficit and the national debt.",
+          "isCorrect": false,
+          "rationale": "The two are directly related."
+        }
+      ],
+      "passage": "A government budget deficit occurs when government spending exceeds its revenue, primarily from taxes, in a given year. To cover this shortfall, the government must borrow money, which adds to the national debt.",
+      "itemType": "passage",
+      "category": "Economics",
+      "bankFingerprint": "0f4aa301ef6dda4605b41a4a602c1f81c6b75c90"
+    },
+    {
+      "questionNumber": 7,
+      "type": "multipleChoice",
+      "questionText": "Which of the following transactions would be included in the calculation of the U.S. GDP?",
+      "answerOptions": [
+        {
+          "text": "A U.S. car company manufacturing and selling a car in Germany.",
+          "isCorrect": false,
+          "rationale": "This would be included in the U.S. Gross National Product (GNP), but not GDP, because it was not produced within the U.S. borders."
+        },
+        {
+          "text": "A Japanese car company manufacturing and selling a car in Ohio.",
+          "isCorrect": true,
+          "rationale": "Correct. Because the car was produced within the borders of the U.S., its value is counted towards the U.S. GDP."
+        },
+        {
+          "text": "The sale of a used car from one U.S. citizen to another.",
+          "isCorrect": false,
+          "rationale": "The value of the car was counted in the GDP when it was first produced; a resale is not counted."
+        },
+        {
+          "text": "A person buying shares of stock in a U.S. company.",
+          "isCorrect": false,
+          "rationale": "Financial transactions like buying stocks are not counted in GDP as they do not represent the production of a new good or service."
+        }
+      ],
+      "passage": "Gross Domestic Product (GDP) is the total monetary or market value of all the finished goods and services produced within a country's borders in a specific time period. It is often used as a broad measure of a country's economic health.",
+      "itemType": "passage",
+      "category": "Economics",
+      "bankFingerprint": "9d513cfe9c7a84fdb99c1da966df08f83c05dd1a"
+    },
+    {
+      "questionNumber": 8,
+      "type": "object",
+      "questionText": "Which election year shown most clearly reflects a strong third-party Progressive challenge?",
+      "answerOptions": [
+        {
+          "text": "1912",
+          "isCorrect": true,
+          "rationale": "Correct. The 1912 panel includes Theodore Roosevelt's Progressive candidacy, which visibly reshaped the electoral and popular-vote breakdown."
+        },
+        {
+          "text": "1908",
+          "isCorrect": false,
+          "rationale": "1908 does not show the same major Progressive split."
+        },
+        {
+          "text": "1916",
+          "isCorrect": false,
+          "rationale": "1916 is competitive, but it is not the landmark third-party split shown in 1912."
+        },
+        {
+          "text": "1920",
+          "isCorrect": false,
+          "rationale": "1920 does not show the same Progressive disruption visible in 1912."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0004.png",
+        "alt": "Maps and pie charts showing US presidential election results from 1908, 1912, 1916, and 1920."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-unclassified_0004.png",
+      "category": "Civics & Government",
+      "bankFingerprint": "6f80537751e121871067eaab38b68ecf310bf08f"
+    },
+    {
+      "questionNumber": 9,
+      "type": "text",
+      "questionText": "What was a major provision of the Civil Rights Act of 1964?",
+      "answerOptions": [
+        {
+          "text": "It guaranteed a minimum wage for all workers.",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "text": "It outlawed discrimination in public accommodations, such as restaurants and hotels.",
+          "isCorrect": true,
+          "rationale": "It outlawed discrimination in public accommodations, such as restaurants and hotels."
+        },
+        {
+          "text": "It provided federal funding for the arts.",
+          "isCorrect": false,
+          "rationale": "This is not the correct answer based on the information provided."
+        },
+        {
+          "text": "It abolished the Electoral College.",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ],
+      "passage": "The Civil Rights Act of 1964 was a landmark piece of legislation that outlawed discrimination based on race, color, religion, sex, or national origin. It ended unequal application of voter registration requirements and racial segregation in schools, at the workplace, and by facilities that served the general public (known as 'public accommodations').",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "e0e94656a188e09134fa1d93fd6ad321f65a3a05"
+    },
+    {
+      "questionNumber": 10,
+      "type": "text",
+      "questionText": "What precedent did Washington’s Proclamation of Neutrality establish?",
+      "answerOptions": [
+        {
+          "text": "That the President could independently set the direction of foreign policy.",
+          "isCorrect": true,
+          "rationale": "The passage states the decision \"established the precedent that the President could set foreign policy direction.\""
+        },
+        {
+          "text": "That Congress alone had the authority to declare neutrality in foreign wars.",
+          "isCorrect": false,
+          "rationale": "Washington issued the proclamation on his own executive authority, establishing presidential leadership in foreign affairs."
+        },
+        {
+          "text": "That the United States would permanently support France in all future conflicts.",
+          "isCorrect": false,
+          "rationale": "The proclamation declared neutrality despite the French alliance, not permanent support for France."
+        },
+        {
+          "text": "That all treaties with foreign nations would be automatically voided during wartime.",
+          "isCorrect": false,
+          "rationale": "The proclamation addressed U.S. neutrality in a specific conflict; it did not create a general rule about treaties."
+        }
+      ],
+      "passage": "In 1793, war broke out between France and Britain, creating a foreign policy crisis for the young United States. Many Americans, remembering French support during the Revolution, favored aiding France. Others, particularly merchants who depended on trade with Britain, urged neutrality. Despite a 1778 treaty of alliance with France, President Washington issued the Proclamation of Neutrality, declaring that the United States would not take sides in the European conflict. This decision established the precedent that the President could set foreign policy direction and reinforced the principle that a new nation should avoid entangling alliances.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "502fe1cba3dfae4a5d508044c5e7c60908e9927c"
+    },
+    {
+      "questionNumber": 11,
+      "type": "knowledge",
+      "questionText": "The Second Amendment protects 'the right of the people to keep and bear Arms.' The interpretation of this amendment is highly debated, primarily centering on what question?",
+      "answerOptions": [
+        {
+          "text": "Whether it protects an individual right or a collective right for militias.",
+          "isCorrect": true,
+          "rationale": "Correct. This is the central legal and political debate: Does the amendment protect a private citizen's right to own a gun, or does it protect the right of states to maintain militias?"
+        },
+        {
+          "text": "Whether 'Arms' includes modern firearms.",
+          "isCorrect": false,
+          "rationale": "This is part of the debate, but the core issue is the nature of the right itself (individual vs. collective)."
+        },
+        {
+          "text": "Whether the government can ever regulate firearms.",
+          "isCorrect": false,
+          "rationale": "Most interpretations allow for some regulation; the debate is over the extent, which depends on the core interpretation of the right."
+        },
+        {
+          "text": "Whether a militia is still necessary for security.",
+          "isCorrect": false,
+          "rationale": "This is a political question, but the legal debate focuses on the nature of the right described in the amendment."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "fef3cd5f3021698464e96103ce8fa05a84138d71"
+    },
+    {
+      "questionNumber": 12,
+      "type": "multipleChoice",
+      "questionText": "The March on Washington for Jobs and Freedom in 1963 is most famous for...",
+      "answerOptions": [
+        {
+          "text": "The bombing of the 16th Street Baptist Church.",
+          "isCorrect": false,
+          "rationale": "This tragic event happened in Birmingham, not at the March on Washington."
+        },
+        {
+          "text": "The passage of the Civil Rights Act of 1964.",
+          "isCorrect": false,
+          "rationale": "The march helped build support for the act, but it was passed the following year."
+        },
+        {
+          "text": "Martin Luther King Jr.'s 'I Have a Dream' speech.",
+          "isCorrect": true,
+          "rationale": "Correct. This iconic speech was a defining moment of the Civil Rights Movement."
+        },
+        {
+          "text": "The start of the Montgomery Bus Boycott.",
+          "isCorrect": false,
+          "rationale": "The boycott began in 1955."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "U.S. History",
+      "bankFingerprint": "001465a4858dafc3eafbc5e6ab7e1ae565b92f3d"
+    },
+    {
+      "questionNumber": 13,
+      "type": "image",
+      "questionText": "Which body of water shown on the map borders much of the Roman Empire's territory in southern Europe and northern Africa?",
+      "answerOptions": [
+        {
+          "text": "The Atlantic Ocean",
+          "isCorrect": false,
+          "rationale": "The Atlantic Ocean is west of Iberia, but it does not border most of the empire's central lands."
+        },
+        {
+          "text": "The Mediterranean Sea",
+          "isCorrect": true,
+          "rationale": "Correct. The Mediterranean Sea, labeled on the map, touches large portions of southern Europe and northern Africa."
+        },
+        {
+          "text": "The North Sea",
+          "isCorrect": false,
+          "rationale": "The North Sea is not the central sea around which most Roman territory is shown."
+        },
+        {
+          "text": "The Black Sea only",
+          "isCorrect": false,
+          "rationale": "The Black Sea is shown, but it does not border most of the empire's territory."
+        }
+      ],
+      "imageUrl": "/images/Social%20Studies/map_and_data_skills_0002.jpg",
+      "itemType": "image",
+      "category": "Geography & the World",
+      "bankFingerprint": "1332b2d1048ecc2977e4a594b9001f5c4ef13ba3"
+    },
+    {
+      "questionNumber": 14,
+      "type": "chart",
+      "questionText": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?",
+      "answerOptions": [
+        {
+          "text": "It is sent to the Senate for a vote.",
+          "isCorrect": false,
+          "rationale": "The bill must go through the committee and floor process in the House first."
+        },
+        {
+          "text": "It is referred to a committee for study and review.",
+          "isCorrect": true,
+          "rationale": "Correct. The chart shows that after introduction (Step 1), the bill is sent to a committee (Step 2)."
+        },
+        {
+          "text": "It is debated on the floor of the House.",
+          "isCorrect": false,
+          "rationale": "Floor debate happens after the committee has reviewed the bill."
+        },
+        {
+          "text": "It is sent directly to the President.",
+          "isCorrect": false,
+          "rationale": "The President is the last step in the process."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><b>How a Bill Becomes a Law</b><br>1. Bill is Introduced in House or Senate.<br>2. Referred to Committee for study.<br>3. Floor Debate and Vote in the first chamber.<br>4. Bill is sent to the other chamber for the same process.<br>5. Conference Committee (if needed to resolve differences).<br>6. Final Vote in both chambers.<br>7. Sent to President.</div>",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "43117921845e1c552b4b30e3ebb3ac73c30764fa"
+    },
+    {
+      "questionNumber": 15,
+      "type": "text",
+      "questionText": "Which of the following is the best example of a power 'reserved to the States' under the Tenth Amendment?",
+      "answerOptions": [
+        {
+          "text": "The power to declare war.",
+          "isCorrect": false,
+          "rationale": "The Constitution explicitly delegates the power to declare war to the national government (Congress)."
+        },
+        {
+          "text": "The power to print money.",
+          "isCorrect": false,
+          "rationale": "The power to coin and print money is an exclusive power of the national government."
+        },
+        {
+          "text": "The power to establish local schools.",
+          "isCorrect": true,
+          "rationale": "Correct. The Constitution does not delegate the power over education to the federal government, nor does it prohibit states from acting. Therefore, it is a power reserved to the states."
+        },
+        {
+          "text": "The power to make treaties with foreign countries.",
+          "isCorrect": false,
+          "rationale": "This power is delegated to the President and the Senate at the national level."
+        }
+      ],
+      "passage": "The Tenth Amendment states: 'The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.' This amendment is the cornerstone of federalism, the principle that power is divided between the national government and the state governments.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "e08e746230a017bea926ea4fb505a2787f9ce845"
+    },
+    {
+      "questionNumber": 16,
+      "type": "knowledge",
+      "questionText": "A progressive tax is a tax system in which the tax rate increases as the taxable amount increases. Which of the following is the best example of a progressive tax in the United States?",
+      "answerOptions": [
+        {
+          "text": "Sales tax",
+          "isCorrect": false,
+          "rationale": "Sales tax is a regressive tax, as it takes a larger percentage of income from low-income earners."
+        },
+        {
+          "text": "Federal income tax",
+          "isCorrect": true,
+          "rationale": "Correct. The U.S. federal income tax system is progressive, with higher income brackets being taxed at a higher percentage rate."
+        },
+        {
+          "text": "Property tax",
+          "isCorrect": false,
+          "rationale": "Property tax is generally considered a proportional or slightly regressive tax."
+        },
+        {
+          "text": "Gasoline tax",
+          "isCorrect": false,
+          "rationale": "This is a regressive tax, as it is a flat amount per gallon and thus represents a larger share of a lower-income person's budget."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Economics",
+      "bankFingerprint": "3b0f7a15f2b4f06c4b77cc96470931a70ff7a524"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "questionText": "What is the main function of a 'third party' in the U.S. political system?",
+      "answerOptions": [
+        {
+          "text": "To win the presidency.",
+          "isCorrect": false,
+          "rationale": "While this is their ultimate goal, third parties have never won the presidency and rarely win other major offices."
+        },
+        {
+          "text": "To bring attention to issues that may be ignored by the two major parties.",
+          "isCorrect": true,
+          "rationale": "Correct. Third parties can influence the political debate by introducing new ideas and putting pressure on the major parties to adopt them."
+        },
+        {
+          "text": "To officially count the electoral votes.",
+          "isCorrect": false,
+          "rationale": "This is done by Congress."
+        },
+        {
+          "text": "To run the primary elections.",
+          "isCorrect": false,
+          "rationale": "Primaries are run by the states and the major parties."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "205cb8393fe8a195f4241cd3e8abc82ad98f622f"
+    },
+    {
+      "questionNumber": 18,
+      "type": "chart",
+      "questionText": "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
+      "answerOptions": [
+        {
+          "text": "2017",
+          "isCorrect": false,
+          "rationale": "In 2017, profits increased from 1.5M to 1.8M."
+        },
+        {
+          "text": "2018",
+          "isCorrect": true,
+          "rationale": "Correct. In 2018, profits fell to 1.7M from 1.8M in 2017."
+        },
+        {
+          "text": "2019",
+          "isCorrect": false,
+          "rationale": "In 2019, profits increased from 1.7M to 2.1M."
+        },
+        {
+          "text": "2020",
+          "isCorrect": false,
+          "rationale": "In 2020, profits increased from 2.1M to 2.5M."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"/images/Social%20Studies/map_and_data_skills_0004.png\" alt=\"A line graph showing profits over time. 2016: (1.5M, 2017: )1.8M, 2018: (1.7M, 2019: )2.1M, 2020: (2.5M\" class=\"bg-white p-2 rounded\"></div>",
+      "itemType": "passage",
+      "category": "Geography & the World",
+      "bankFingerprint": "1041a41d18e2c305d0b6e8b54654efa882b3184a"
+    },
+    {
+      "questionNumber": 19,
+      "type": "chart",
+      "questionText": "What is the range of the test scores?",
+      "answerOptions": [
+        {
+          "text": "99",
+          "isCorrect": false,
+          "rationale": "99 is the highest score, not the range."
+        },
+        {
+          "text": "72",
+          "isCorrect": false,
+          "rationale": "72 is the lowest score, not the range."
+        },
+        {
+          "text": "27",
+          "isCorrect": true,
+          "rationale": "Correct. The range is the difference between the highest value and the lowest value in a data set (99 - 72 = 27)."
+        },
+        {
+          "text": "16",
+          "isCorrect": false,
+          "rationale": "This is the difference between the median and the lowest score."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><b>Test Scores for a Class of 7 Students</b><br>The test scores are: 72, 85, 88, 90, 91, 91, 99</div>",
+      "itemType": "passage",
+      "category": "Geography & the World",
+      "bankFingerprint": "897431ecb3e3734a2a7b12b44c1c9a1db70199e2"
+    },
+    {
+      "questionNumber": 20,
+      "type": "standalone",
+      "questionText": "Nation A is a landlocked country with limited natural resources, relying heavily on its neighboring coastal nations for trade routes and access to global markets. This geographic constraint significantly impacts its economic development, often leading to higher transportation costs for goods and a reduced ability to compete internationally. What is a primary economic consequence of Nation A's landlocked geography?",
+      "answerOptions": [
+        {
+          "text": "It faces higher costs for importing and exporting goods, making international trade more challenging.",
+          "isCorrect": true,
+          "rationale": "Landlocked countries incur higher transportation costs because goods must pass through other countries, often by land, to reach seaports or other international trade hubs. This makes their products less competitive globally."
+        },
+        {
+          "text": "It has developed extensive deep-water ports to facilitate global trade.",
+          "isCorrect": false,
+          "rationale": "Landlocked countries, by definition, do not have direct access to the sea and therefore cannot develop deep-water ports."
+        },
+        {
+          "text": "Its government prioritizes agricultural development over industrial growth due to its abundant coastal resources.",
+          "isCorrect": false,
+          "rationale": "Landlocked countries lack coastal resources. While they might prioritize agriculture, it would not be due to coastal abundance. The scenario also states 'limited natural resources'."
+        },
+        {
+          "text": "Its citizens are granted special travel visas to ease border crossings with neighboring countries.",
+          "isCorrect": false,
+          "rationale": "While border crossings are crucial for landlocked nations, special travel visas are a policy decision, not a direct economic consequence of geography itself, and may not always be granted."
+        }
+      ],
+      "category": "Geography & the World",
+      "bankFingerprint": "171fb2c031cf3b1b00a3ba64886c377291f704ca"
+    },
+    {
+      "questionNumber": 21,
+      "type": "knowledge",
+      "questionText": "Which chamber of Congress has the exclusive power to initiate all bills related to revenue (taxes)?",
+      "answerOptions": [
+        {
+          "text": "The Senate",
+          "isCorrect": false,
+          "rationale": "The Senate can amend revenue bills, but they must originate in the House."
+        },
+        {
+          "text": "The House of Representatives",
+          "isCorrect": true,
+          "rationale": "Correct. The Constitution (Article I, Section 7) requires that all bills for raising revenue must originate in the House, based on the principle that the chamber closer to the people should control taxation."
+        },
+        {
+          "text": "Both chambers can initiate them equally.",
+          "isCorrect": false,
+          "rationale": "The Constitution gives this specific power to the House."
+        },
+        {
+          "text": "The Supreme Court",
+          "isCorrect": false,
+          "rationale": "The Supreme Court interprets laws; it does not initiate them."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "3b45fbab4a2c93058ecbb80219244286d0a21e77"
+    },
+    {
+      "questionNumber": 22,
+      "type": "standalone",
+      "questionText": "An island nation possesses abundant deposits of rare earth minerals but has very little fertile land for agriculture. To ensure its population has enough food, the government invests in advanced mining techniques and negotiates trade deals to export its minerals in exchange for imported food. This island nation's economic strategy primarily demonstrates which of the following principles?",
+      "answerOptions": [
+        {
+          "text": "The law of supply and demand for agricultural products",
+          "isCorrect": false,
+          "rationale": "While supply and demand are at play, the strategy goes beyond simply reacting to them; it actively leverages a nation's specific advantages."
+        },
+        {
+          "text": "Specialization and comparative advantage in international trade",
+          "isCorrect": true,
+          "rationale": "The island nation specializes in mining minerals where it has an advantage and trades them for food, which other nations produce more efficiently. This exemplifies comparative advantage."
+        },
+        {
+          "text": "The establishment of a command economy through government intervention",
+          "isCorrect": false,
+          "rationale": "While the government is involved in trade negotiations and investment, this describes strategic trade leveraging resources, not the central control of all production characteristic of a command economy."
+        },
+        {
+          "text": "The impact of protectionist tariffs on global markets",
+          "isCorrect": false,
+          "rationale": "The scenario describes negotiating trade deals for exports and imports, which is the opposite of implementing protectionist tariffs to restrict trade."
+        }
+      ],
+      "category": "Geography & the World",
+      "bankFingerprint": "cf23c3d78af8674c26b14ca7bc68cfd371beb4a9"
+    },
+    {
+      "questionNumber": 23,
+      "type": "text",
+      "questionText": "What does the aftermath of Worcester v. Georgia reveal about the limits of judicial power?",
+      "answerOptions": [
+        {
+          "text": "The Supreme Court could declare legal principles but lacked the power to enforce them without executive cooperation.",
+          "isCorrect": true,
+          "rationale": "The case demonstrates that the Court’s ruling was meaningless without executive enforcement: Jackson refused to uphold it, leading to Cherokee removal despite the legal victory."
+        },
+        {
+          "text": "The Supreme Court successfully prevented the removal of the Cherokee from their lands.",
+          "isCorrect": false,
+          "rationale": "The passage describes the \"forced removal of the Cherokee despite their legal victory,\" indicating the Court’s ruling was not enforced."
+        },
+        {
+          "text": "The executive branch always follows Supreme Court decisions without exception.",
+          "isCorrect": false,
+          "rationale": "Jackson’s defiance of the ruling directly contradicts this statement."
+        },
+        {
+          "text": "Georgia voluntarily returned all Cherokee lands after the Supreme Court ruling.",
+          "isCorrect": false,
+          "rationale": "Georgia did not comply; the Cherokee were ultimately removed from their lands."
+        }
+      ],
+      "passage": "In Worcester v. Georgia (1832), the Supreme Court ruled that the Cherokee Nation was a distinct political community with sovereignty over its territory, and that Georgia’s laws had no force within Cherokee lands. Chief Justice John Marshall declared that only the federal government, not individual states, had authority to deal with Native nations. President Andrew Jackson reportedly defied the ruling, allegedly declaring, \"John Marshall has made his decision; now let him enforce it.\" The federal government’s refusal to enforce the Court’s decision ultimately led to the forced removal of the Cherokee despite their legal victory.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "c2f190d9e6ee42747c4e423b53028ff138fe029b"
+    },
+    {
+      "questionNumber": 24,
+      "type": "multipleChoice",
+      "questionText": "Which event is widely regarded as the catalyst for the large-scale Civil Rights Movement of the 1950s and 1960s?",
+      "answerOptions": [
+        {
+          "text": "The March on Washington",
+          "isCorrect": false,
+          "rationale": "The March on Washington was a high point of the movement in 1963, not its starting point."
+        },
+        {
+          "text": "The Montgomery Bus Boycott",
+          "isCorrect": true,
+          "rationale": "Correct. Sparked by Rosa Parks's arrest in 1955, the year-long boycott was the first major, successful protest of the modern Civil Rights Movement."
+        },
+        {
+          "text": "The passage of the Voting Rights Act",
+          "isCorrect": false,
+          "rationale": "This was a major achievement of the movement in 1965, not its start."
+        },
+        {
+          "text": "The Greensboro sit-ins",
+          "isCorrect": false,
+          "rationale": "The sit-ins in 1960 were an important tactic, but the movement had gained momentum with the bus boycott years earlier."
+        }
+      ],
+      "passage": "History textbook excerpt: Sparked by Rosa Parks's arrest in 1955, the year-long boycott was the first major, successful protest of the modern Civil Rights Movement.",
+      "itemType": "passage",
+      "category": "U.S. History",
+      "bankFingerprint": "d5b2e2020a782e0db816d2a00f6c102f4823633b"
+    },
+    {
+      "questionNumber": 25,
+      "type": "knowledge",
+      "questionText": "The process of redrawing legislative district boundaries every 10 years after the census is known as:",
+      "answerOptions": [
+        {
+          "text": "Gerrymandering",
+          "isCorrect": false,
+          "rationale": "Gerrymandering is the manipulation of these boundaries to favor one party, but the process itself is called redistricting."
+        },
+        {
+          "text": "Redistricting",
+          "isCorrect": true,
+          "rationale": "Correct. Redistricting is the process of redrawing electoral district boundaries to account for population shifts."
+        },
+        {
+          "text": "Filibustering",
+          "isCorrect": false,
+          "rationale": "This is a tactic used in the Senate."
+        },
+        {
+          "text": "Lobbying",
+          "isCorrect": false,
+          "rationale": "This is the act of trying to influence lawmakers."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "ccd6dc63453962cc2c0e77a62b92d9a8beb81600"
+    },
+    {
+      "questionNumber": 26,
+      "type": "multipleChoice",
+      "questionText": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people. U.S. Constitution, Tenth Amendment. This text, the Tenth Amendment, is the basis for which principle of U.S. government?",
+      "answerOptions": [
+        {
+          "text": "Checks and balances",
+          "isCorrect": false,
+          "rationale": "Checks and balances refer to the powers each branch has to limit the others."
+        },
+        {
+          "text": "Judicial review",
+          "isCorrect": false,
+          "rationale": "Judicial review is the power of the courts to rule on the constitutionality of laws."
+        },
+        {
+          "text": "Federalism",
+          "isCorrect": true,
+          "rationale": "Correct. The Tenth Amendment defines the principle of federalism by stating that powers not given to the federal government are reserved for the states."
+        },
+        {
+          "text": "Separation of powers",
+          "isCorrect": false,
+          "rationale": "Separation of powers refers to the division of the government into three branches."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "6f6b727719575c604954edb622c1e3b00253532a"
+    },
+    {
+      "questionNumber": 27,
+      "type": "image",
+      "questionText": "This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:",
+      "answerOptions": [
+        {
+          "text": "The point of surplus",
+          "isCorrect": false,
+          "rationale": "A surplus occurs when the price is above this point."
+        },
+        {
+          "text": "The point of shortage",
+          "isCorrect": false,
+          "rationale": "A shortage occurs when the price is below this point."
+        },
+        {
+          "text": "The equilibrium point",
+          "isCorrect": true,
+          "rationale": "Correct. The equilibrium point (or market equilibrium) is where the quantity supplied equals the quantity demanded."
+        },
+        {
+          "text": "The price ceiling",
+          "isCorrect": false,
+          "rationale": "A price ceiling is a government-imposed maximum price, not the natural intersection of supply and demand."
+        }
+      ],
+      "imageUrl": "/images/Social Studies/unclassified_0052.png",
+      "itemType": "image",
+      "category": "Economics",
+      "bankFingerprint": "6141afa8c04ef8c4b1b18f2fc39b552ce16a3a04"
+    },
+    {
+      "questionNumber": 28,
+      "type": "image",
+      "questionText": "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
+      "answerOptions": [
+        {
+          "text": "The enlistment of women in combat roles.",
+          "isCorrect": false,
+          "rationale": "Women were not in combat roles during WWII, but they served in auxiliary corps."
+        },
+        {
+          "text": "The importance of rationing food and supplies.",
+          "isCorrect": false,
+          "rationale": "While rationing was important, this poster specifically addresses the workforce."
+        },
+        {
+          "text": "The millions of women who entered the workforce in factories to support the war effort.",
+          "isCorrect": true,
+          "rationale": "Correct. 'Rosie the Riveter' represents the women who took on industrial jobs, traditionally held by men, to produce planes, ships, and munitions for the war."
+        },
+        {
+          "text": "The need for citizens to buy war bonds.",
+          "isCorrect": false,
+          "rationale": "There were other posters that encouraged buying war bonds; this one is focused on labor."
+        }
+      ],
+      "imageUrl": "/images/Social Studies/licensed_image_0002.jpg",
+      "itemType": "image",
+      "category": "U.S. History",
+      "bankFingerprint": "31f96f5fc8101d7d886f762da14daabdc7b6d7bc"
+    },
+    {
+      "questionNumber": 29,
+      "type": "multipleChoice",
+      "questionText": "In his farewell address, George Washington warned against 'the baneful effects of the spirit of party.' He was concerned that political factions, or parties, would lead to 'jealousies and false alarms,' and could open the door to foreign influence and corruption. What was George Washington's primary concern regarding political parties?",
+      "answerOptions": [
+        {
+          "text": "He believed they were necessary for a healthy democracy.",
+          "isCorrect": false,
+          "rationale": "He warned against them, not for them."
+        },
+        {
+          "text": "He was concerned that they would create division and weaken the new nation.",
+          "isCorrect": true,
+          "rationale": "Correct. He feared that loyalty to a party would overcome loyalty to the nation as a whole."
+        },
+        {
+          "text": "He thought there should only be one political party.",
+          "isCorrect": false,
+          "rationale": "He was warning against the 'spirit of party' in general, not advocating for a one-party state."
+        },
+        {
+          "text": "He wanted to be the head of the first political party.",
+          "isCorrect": false,
+          "rationale": "Washington remained officially unaffiliated with any party and warned against their formation."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "faf5c8957d8b38a22a890aa2c4ee092299d71b80"
+    },
+    {
+      "questionNumber": 30,
+      "type": "knowledge",
+      "questionText": "What is the main purpose of the annual State of the Union address?",
+      "answerOptions": [
+        {
+          "text": "To declare war on a foreign country.",
+          "isCorrect": false,
+          "rationale": "Declaring war is a formal power of Congress, not the purpose of this speech."
+        },
+        {
+          "text": "For the President to present his legislative agenda and policy goals to Congress and the nation.",
+          "isCorrect": true,
+          "rationale": "Correct. The Constitution requires the President to periodically inform Congress about the 'state of the union,' and it has evolved into a major annual speech to outline the President's agenda."
+        },
+        {
+          "text": "To formally open the new session of the Supreme Court.",
+          "isCorrect": false,
+          "rationale": "The Supreme Court operates independently of this presidential address."
+        },
+        {
+          "text": "To announce the federal budget for the upcoming year.",
+          "isCorrect": false,
+          "rationale": "While the budget is discussed, the primary purpose is to outline a broad legislative and policy agenda."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "04af45cf2153552ddda17de997b3da40b31ec88a"
+    },
+    {
+      "questionNumber": 31,
+      "type": "multipleChoice",
+      "questionText": "The Supreme Court's decision in Roe v. Wade (1973) was a landmark case concerning what issue?",
+      "answerOptions": [
+        {
+          "text": "Campaign finance",
+          "isCorrect": false,
+          "rationale": "This was the subject of cases like Citizens United v. FEC."
+        },
+        {
+          "text": "The right to privacy and abortion",
+          "isCorrect": true,
+          "rationale": "Correct. The Court ruled that a woman's right to an abortion was protected by the right to privacy under the Fourteenth Amendment. (Note: This decision was overturned in 2022)."
+        },
+        {
+          "text": "Affirmative action",
+          "isCorrect": false,
+          "rationale": "This was the subject of cases like Regents of the University of California v. Bakke."
+        },
+        {
+          "text": "The death penalty",
+          "isCorrect": false,
+          "rationale": "This has been the subject of several cases, such as Gregg v. Georgia."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "07e61c8358d452f920c4a2a599472b83ee54a662"
+    },
+    {
+      "questionNumber": 32,
+      "type": "object",
+      "questionText": "What broader conclusion does this map support about Senate votes on the Civil Rights Act of 1964?",
+      "answerOptions": [
+        {
+          "text": "Support was generally stronger outside the Deep South",
+          "isCorrect": true,
+          "rationale": "Correct. The geographic pattern shows the strongest resistance clustered in the South, while much of the rest of the country is marked Yea."
+        },
+        {
+          "text": "Opposition was evenly spread across all regions",
+          "isCorrect": false,
+          "rationale": "The map shows a clear regional pattern, not an even distribution."
+        },
+        {
+          "text": "Western states were the main source of Nay votes",
+          "isCorrect": false,
+          "rationale": "The map's opposition is not concentrated in the West."
+        },
+        {
+          "text": "Northern states mostly refused to support the bill",
+          "isCorrect": false,
+          "rationale": "The map shows the opposite pattern in much of the North."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/civil_rights_act_of_1964_0001.png",
+        "alt": "Map of US states showing Senator's votes on the Civil Rights Act of 1964 by 'Yea', 'Nay', or 'Split'."
+      },
+      "itemType": "image",
+      "groupId": "ss-img-civil_rights_act_of_1964_0001.png",
+      "category": "Civics & Government",
+      "bankFingerprint": "5dc825bd32371c5bb70c9375ca9c2afb7fea73b2"
+    },
+    {
+      "questionNumber": 33,
+      "type": "knowledge",
+      "questionText": "The First Amendment to the U.S. Constitution protects several fundamental rights. Which of the following is NOT a right guaranteed by the First Amendment?",
+      "answerOptions": [
+        {
+          "text": "Freedom of speech",
+          "isCorrect": false,
+          "rationale": "Freedom of speech is a core protection of the First Amendment."
+        },
+        {
+          "text": "The right to bear arms",
+          "isCorrect": true,
+          "rationale": "Correct. The right to bear arms is guaranteed by the Second Amendment, not the First."
+        },
+        {
+          "text": "Freedom of the press",
+          "isCorrect": false,
+          "rationale": "Freedom of the press is explicitly protected by the First Amendment."
+        },
+        {
+          "text": "The right to peaceably assemble",
+          "isCorrect": false,
+          "rationale": "The right to gather peacefully is one of the key freedoms listed in the First Amendment."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Civics & Government",
+      "bankFingerprint": "e5eb755315c8f80cda0ec72da38a6cd65b6c8d0e"
+    },
+    {
+      "questionNumber": 34,
+      "type": "text",
+      "questionText": "What legal precedent did Brown v. Board of Education overturn?",
+      "answerOptions": [
+        {
+          "text": "The principle of judicial review.",
+          "isCorrect": false,
+          "rationale": "This case was an example of judicial review, it did not overturn it."
+        },
+        {
+          "text": "The 'separate but equal' doctrine.",
+          "isCorrect": true,
+          "rationale": "Correct. The passage explicitly states that the Brown decision overturned the 'separate but equal' precedent set by Plessy v. Ferguson."
+        },
+        {
+          "text": "The right to a fair trial.",
+          "isCorrect": false,
+          "rationale": "This case was about segregation, not trial rights."
+        },
+        {
+          "text": "The legality of poll taxes.",
+          "isCorrect": false,
+          "rationale": "Poll taxes were addressed by a constitutional amendment."
+        }
+      ],
+      "passage": "The Supreme Court's decision in Brown v. Board of Education (1954) was a pivotal moment in the Civil Rights Movement. The Court unanimously ruled that state-sponsored segregation of public schools was unconstitutional because 'separate educational facilities are inherently unequal.' This decision overturned the 'separate but equal' doctrine established by Plessy v. Ferguson in 1896.",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "98a0b32d3f3ff9f69279da981325440c99327ed5"
+    },
+    {
+      "questionNumber": 35,
+      "type": "text",
+      "questionText": "What principle was established by the Supreme Court's decision in Tinker v. Des Moines?",
+      "answerOptions": [
+        {
+          "text": "That students have no free speech rights in public schools.",
+          "isCorrect": false,
+          "rationale": "The ruling affirmed the opposite."
+        },
+        {
+          "text": "That schools can ban any form of student expression they disagree with.",
+          "isCorrect": false,
+          "rationale": "The ruling limited the ability of schools to ban expression."
+        },
+        {
+          "text": "That students have a right to symbolic speech at school, as long as it does not substantially disrupt the educational environment.",
+          "isCorrect": true,
+          "rationale": "Correct. This case established that students' symbolic speech (like wearing armbands) is protected under the First Amendment unless it causes a significant disruption."
+        },
+        {
+          "text": "That only spoken speech, not symbolic speech, is protected in schools.",
+          "isCorrect": false,
+          "rationale": "The case specifically protected symbolic speech."
+        }
+      ],
+      "passage": "In the case of Tinker v. Des Moines (1969), the Supreme Court ruled on the free speech rights of students in public schools. Students had worn black armbands to protest the Vietnam War and were suspended. The Court famously stated that students do not 'shed their constitutional rights to freedom of speech or expression at the schoolhouse gate.'",
+      "itemType": "passage",
+      "category": "Civics & Government",
+      "bankFingerprint": "8c49fd4e928309dafe57169f201572663dcb5073"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage\": 13, expected 14",
+    "Stimulus \"image\": 6, expected 8",
+    "Stimulus \"standalone\": 16, expected 13",
+    "Difficulty \"hard\": 11, expected ~8"
+  ]
+}

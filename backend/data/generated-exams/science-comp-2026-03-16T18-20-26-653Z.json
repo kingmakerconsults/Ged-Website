@@ -1,0 +1,1124 @@
+{
+  "id": "ai_comp_science_1773685083270",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "standalone",
+      "questionText": "Consider the data in the table below.<table><thead><tr><th>Planet</th><th>Average Distance from Sun (AU)</th><th>Orbital Period (Earth Years)</th></tr></thead><tbody><tr><td>Mercury</td><td>0.39</td><td>0.24</td></tr><tr><td>Venus</td><td>0.72</td><td>0.62</td></tr><tr><td>Earth</td><td>1.00</td><td>1.00</td></tr><tr><td>Mars</td><td>1.52</td><td>1.88</td></tr></tbody></table>Based on the data provided, which planet has an orbital period that is approximately twice as long as Earth's orbital period?",
+      "answerOptions": [
+        {
+          "text": "Mercury",
+          "isCorrect": false,
+          "rationale": "Mercury's orbital period is 0.24 Earth years, which is far less than twice Earth's 1.00 Earth years."
+        },
+        {
+          "text": "Venus",
+          "isCorrect": false,
+          "rationale": "Venus's orbital period is 0.62 Earth years, which is far less than twice Earth's 1.00 Earth years."
+        },
+        {
+          "text": "Earth",
+          "isCorrect": false,
+          "rationale": "Earth's orbital period is 1.00 Earth years, which is not approximately twice itself."
+        },
+        {
+          "text": "Mars",
+          "isCorrect": true,
+          "rationale": "Earth's orbital period is 1.00 Earth years. Twice that amount is 2.00 Earth years. Mars has an orbital period of 1.88 Earth years, which is the closest approximation to 2.00 Earth years among the planets listed."
+        }
+      ],
+      "category": "Earth & Space Science",
+      "bankFingerprint": "d472b0051ddeacf9360a44208bb0e669476735c9"
+    },
+    {
+      "questionNumber": 2,
+      "type": "image",
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 4,
+      "type": "image",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "Based on the passage, through which method can electricity be produced?",
+      "answerOptions": [
+        {
+          "text": "By chemical reactions.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention chemical reactions as a means of evolving electricity."
+        },
+        {
+          "text": "Through magnetic influence.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'Electricity is capable of being evolved... by magnetic influence.'"
+        },
+        {
+          "text": "By using specific types of light.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention light as a method for evolving electricity."
+        },
+        {
+          "text": "Through the application of heat.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention heat as a means of evolving electricity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experimental Researches in Electricity (Excerpt)</strong></p><p><em>Michael Faraday, 1831</em></p><p>Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence. The relation between magnetism and electricity is of the deepest importance in physical science.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "6f32b894549b3717e2036ccd82e2f37e1f43c363"
+    },
+    {
+      "questionNumber": 6,
+      "type": "passage",
+      "questionText": "What can be inferred from the author's statement that 'The relation between magnetism and electricity is of the deepest importance in physical science'?",
+      "answerOptions": [
+        {
+          "text": "The connection between magnetism and electricity is easily understood by most scientists.",
+          "isCorrect": false,
+          "rationale": "The phrase 'deepest importance' suggests complexity and fundamental significance, not ease of understanding."
+        },
+        {
+          "text": "This relationship is a crucial and foundational aspect of scientific study.",
+          "isCorrect": true,
+          "rationale": "The term 'deepest importance' indicates that the relationship is fundamental, significant, and central to the field of physical science."
+        },
+        {
+          "text": "The interaction of magnetism and electricity is a minor area of scientific inquiry.",
+          "isCorrect": false,
+          "rationale": "The phrase 'deepest importance' directly contradicts the idea of it being a minor area."
+        },
+        {
+          "text": "Scientists have largely resolved all questions regarding magnetism and electricity.",
+          "isCorrect": false,
+          "rationale": "Statements of 'deepest importance' often imply ongoing research and significant implications, not that all questions are resolved."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experimental Researches in Electricity (Excerpt)</strong></p><p><em>Michael Faraday, 1831</em></p><p>Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence. The relation between magnetism and electricity is of the deepest importance in physical science.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "cea2ec2db824fbf9e97f686f968cc80eb4024663"
+    },
+    {
+      "questionNumber": 7,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 8,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 9,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 10,
+      "type": "image",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 11,
+      "type": "image",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 12,
+      "type": "standalone",
+      "questionText": "<table><thead><tr><th>Week</th><th>Plant Height (cm)</th><th>Number of Leaves</th></tr></thead><tbody><tr><td>1</td><td>5.2</td><td>2</td></tr><tr><td>2</td><td>8.5</td><td>4</td></tr><tr><td>3</td><td>12.1</td><td>6</td></tr><tr><td>4</td><td>16.8</td><td>8</td></tr></tbody></table>Based on the data in the table, what was the average weekly increase in plant height from Week 1 to Week 4?",
+      "answerOptions": [
+        {
+          "text": "3.4 cm",
+          "isCorrect": false,
+          "rationale": "This value represents the height increase only between Week 2 and Week 3 (12.1 cm - 8.5 cm = 3.6 cm), not the average over the entire period from Week 1 to Week 4."
+        },
+        {
+          "text": "3.9 cm",
+          "isCorrect": true,
+          "rationale": "To find the average weekly increase, first calculate the total height increase from Week 1 to Week 4 (16.8 cm - 5.2 cm = 11.6 cm). This increase occurred over three weeks (from end of Week 1 to end of Week 4). Divide the total increase by the number of weeks (11.6 cm / 3 weeks = 3.866... cm/week), which rounds to 3.9 cm/week."
+        },
+        {
+          "text": "4.7 cm",
+          "isCorrect": false,
+          "rationale": "This value is incorrect. The calculation for the average weekly increase requires subtracting the initial height from the final height and dividing by the number of weeks elapsed."
+        },
+        {
+          "text": "11.6 cm",
+          "isCorrect": false,
+          "rationale": "This value represents the total increase in plant height from Week 1 to Week 4 (16.8 cm - 5.2 cm = 11.6 cm), not the average weekly increase."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "b9f55a9032cac71916c0907149d55e076a0f7268"
+    },
+    {
+      "questionNumber": 13,
+      "type": "image",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 14,
+      "type": "image",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "Based on the passage, what primary development helped establish chemistry as a true science rather than a \"mysterious art\"?",
+      "answerOptions": [
+        {
+          "text": "The understanding that gas production maintains substance weight.",
+          "isCorrect": false,
+          "rationale": "While part of the law of conservation of mass, the passage points to a broader methodological shift for chemistry becoming a science, not just one specific observation."
+        },
+        {
+          "text": "The adoption of accurate measurement techniques and systematic recording.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes... a science resting on observation and calculation.' This highlights the methodological shift."
+        },
+        {
+          "text": "The recognition that substances only change, combine, or separate particles.",
+          "isCorrect": false,
+          "rationale": "This describes the nature of chemical operations but is not presented as the *primary development* that transformed chemistry into a science; rather, it's a fundamental principle within the scientific approach."
+        },
+        {
+          "text": "The ability to create new substances from existing ones.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Nothing is created and nothing is lost,' directly contradicting the idea of creating new matter in a way that violates conservation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "b81318a0ec21404bc0a41bcb078aa605f3a11d46"
+    },
+    {
+      "questionNumber": 17,
+      "type": "passage",
+      "questionText": "The passage provides the example of a metal increasing in weight when burned in air. This phenomenon is consistent with the law of conservation of mass because:",
+      "answerOptions": [
+        {
+          "text": "The increased weight signifies the creation of new matter during combustion.",
+          "isCorrect": false,
+          "rationale": "The law of conservation of mass explicitly states 'Nothing is created and nothing is lost,' making this option incorrect."
+        },
+        {
+          "text": "The law only applies to reactions where the total weight remains constant, such as gas production.",
+          "isCorrect": false,
+          "rationale": "The passage introduces the law as a general principle ('Nothing is created and nothing is lost in the operations of chemistry') and then provides examples, all consistent with it, not as a limitation to specific types of reactions."
+        },
+        {
+          "text": "The metal combines with particles from the air, meaning the total mass of the metal and the absorbed air remains unchanged.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'When a metal is burned in air, it increases in weight because it has combined with a portion of the air.' This explains how the total mass of reactants (metal + air) is conserved, even if the metal's weight alone increases."
+        },
+        {
+          "text": "The passage implies that the law of conservation of mass does not apply to all chemical operations.",
+          "isCorrect": false,
+          "rationale": "The passage clearly states 'Nothing is created and nothing is lost in the operations of chemistry,' indicating the law applies universally within chemistry."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "4defe5ad345178be4981eb3eaf214761d6288744"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "Based on Pasteur's experiments, what evidence led him to conclude that microbes do not arise from spontaneous generation?",
+      "answerOptions": [
+        {
+          "text": "The broth in flasks left open to the air quickly developed microscopic life.",
+          "isCorrect": false,
+          "rationale": "While this observation occurred, it showed microbes were present in open conditions, but it wasn't the evidence that *disproved* spontaneous generation. The lack of life in the sealed flasks was key."
+        },
+        {
+          "text": "Boiling the liquid in the flasks eliminated all existing microscopic life.",
+          "isCorrect": false,
+          "rationale": "Boiling was a preparatory step to ensure the liquid was initially sterile, but it wasn't the direct evidence for the conclusion about spontaneous generation. That came from the subsequent observations."
+        },
+        {
+          "text": "The broth in sealed flasks with curved necks remained free of microscopic life.",
+          "isCorrect": true,
+          "rationale": "The passage states that the 'sealed ones stayed clear,' indicating that even with air access (via the curved neck, which trapped airborne particles), no new life appeared, directly countering the idea of spontaneous generation."
+        },
+        {
+          "text": "All flasks, regardless of sealing, eventually teemed with microscopic life.",
+          "isCorrect": false,
+          "rationale": "This statement contradicts the passage, which clearly states that 'the sealed ones stayed clear' while only 'those open to the air soon teemed with microscopic life.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "9ac377cd6a93740e24c6fce287de83a466e50168"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "What was the primary function of the flasks that Pasteur left 'open to the air' in his experiment?",
+      "answerOptions": [
+        {
+          "text": "To create an environment where spontaneous generation was encouraged.",
+          "isCorrect": false,
+          "rationale": "Pasteur was testing *against* the idea of spontaneous generation; this group showed what happened when external microbes *could* enter, not that life spontaneously generated."
+        },
+        {
+          "text": "To provide a comparison showing that microbes *can* grow when exposed to external sources.",
+          "isCorrect": true,
+          "rationale": "By leaving some flasks open, Pasteur established a baseline showing that microbes would appear under normal external exposure, providing a crucial comparison to the sealed flasks where no new life appeared."
+        },
+        {
+          "text": "To test the effect of different air compositions on microbial growth.",
+          "isCorrect": false,
+          "rationale": "The passage does not indicate that different air compositions were being tested; the variable was the access of external microscopic life."
+        },
+        {
+          "text": "To ensure the liquid was thoroughly sterilized before sealing.",
+          "isCorrect": false,
+          "rationale": "The liquid was sterilized by boiling, not by being left open to the air. Leaving flasks open was for exposure to the environment *after* boiling."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "0afe5106f3ee0ac10b67a23c749e946352b89080"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "According to the author, what is a primary benefit of using the proposed binomial system for naming plants and animals?",
+      "answerOptions": [
+        {
+          "text": "It simplifies the discovery process for new species.",
+          "isCorrect": false,
+          "rationale": "The passage highlights the system's role in creating a common language, not necessarily simplifying the act of discovery itself."
+        },
+        {
+          "text": "It allows naturalists globally to communicate about organisms using a shared language.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'By this binomial system, all naturalists in every land may speak the same language,' indicating a universal communication standard."
+        },
+        {
+          "text": "It ensures that every plant and animal is identified with exactly two names.",
+          "isCorrect": false,
+          "rationale": "While true that the system uses two names, this describes the system's mechanism rather than its primary benefit for naturalists."
+        },
+        {
+          "text": "It helps in identifying the specific habitats of diverse living things.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on structural and reproductive resemblances for classification, not primarily on identifying habitats."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Systema Naturae (Excerpt)</strong></p><p><em>Carl Linnaeus, 1735</em></p><p>The diversity of living things is vast, yet it is not confused. Nature is orderly. To make sense of this order, I have proposed that every plant and animal be given two names: a generic name and a specific name. By this binomial system, all naturalists in every land may speak the same language. Creatures that resemble each other in structure and reproduction are placed in the same genus; related genera are grouped into higher ranks. The purpose is not merely to label, but to reveal the plan of the Creator as shown in the forms of life. By careful observation of parts—the petals of flowers, the teeth of animals, the number of limbs—we can place each organism in a natural system. Thus classification becomes the key to understanding the richness of the natural world.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "a382a187daa3f090254876c0b8dea2c1bc9617dd"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "Based on the passage, which criteria are primarily used to group creatures into the same genus?",
+      "answerOptions": [
+        {
+          "text": "Their geographical location and environmental adaptations.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention geographical location or environmental adaptations as the primary criteria for grouping into a genus."
+        },
+        {
+          "text": "Similarities in their physical structure and reproductive methods.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Creatures that resemble each other in structure and reproduction are placed in the same genus.'"
+        },
+        {
+          "text": "The number of limbs and specific types of teeth they possess.",
+          "isCorrect": false,
+          "rationale": "While these are examples of 'parts' for careful observation, the overarching principle for grouping into a genus is broader: 'structure and reproduction.'"
+        },
+        {
+          "text": "Their historical evolutionary lineage and genetic makeup.",
+          "isCorrect": false,
+          "rationale": "The passage discusses 'the plan of the Creator' and observable traits, but not historical evolutionary lineage or genetic makeup."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Systema Naturae (Excerpt)</strong></p><p><em>Carl Linnaeus, 1735</em></p><p>The diversity of living things is vast, yet it is not confused. Nature is orderly. To make sense of this order, I have proposed that every plant and animal be given two names: a generic name and a specific name. By this binomial system, all naturalists in every land may speak the same language. Creatures that resemble each other in structure and reproduction are placed in the same genus; related genera are grouped into higher ranks. The purpose is not merely to label, but to reveal the plan of the Creator as shown in the forms of life. By careful observation of parts—the petals of flowers, the teeth of animals, the number of limbs—we can place each organism in a natural system. Thus classification becomes the key to understanding the richness of the natural world.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "af13230a4e0301c9696d132c20c403737773f4c1"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "What scientific conclusion does the author draw from observing planets revolving around Jupiter?",
+      "answerOptions": [
+        {
+          "text": "Jupiter is the only planet with orbiting moons.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss other planets or imply Jupiter is unique in having orbiting bodies; it only states the observation of four planets revolving about Jupiter."
+        },
+        {
+          "text": "The telescope is an essential tool for astronomical observation.",
+          "isCorrect": false,
+          "rationale": "While the telescope was used, the specific conclusion drawn from the observation itself is about celestial mechanics, not merely the utility of the tool."
+        },
+        {
+          "text": "Not all celestial bodies orbit the Earth.",
+          "isCorrect": true,
+          "rationale": "The author explicitly states, 'These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.' This is the direct scientific conclusion."
+        },
+        {
+          "text": "Planets are visible only with optical aid.",
+          "isCorrect": false,
+          "rationale": "The passage only states that the 'four planets revolving about Jupiter' were 'invisible without the aid of a glass,' not that all planets are invisible without aid."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "47448a479f9ef471b5e55b0656dd5a94b8128695"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "Based on the passage, what effect did the author's observations have on the 'formerly believed' understanding of the cosmos?",
+      "answerOptions": [
+        {
+          "text": "They reinforced the idea that Earth was the fixed center of the universe.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the observations prove 'not all heavenly bodies revolve around the Earth,' directly contradicting the geocentric model."
+        },
+        {
+          "text": "They introduced the concept of the telescope as a new scientific instrument.",
+          "isCorrect": false,
+          "rationale": "While the telescope was used, the question asks about the effect on the understanding of the cosmos, not the introduction of the instrument itself."
+        },
+        {
+          "text": "They challenged the geocentric model by providing evidence of other orbital centers.",
+          "isCorrect": true,
+          "rationale": "The discovery that bodies revolve around Jupiter, rather than Earth, directly challenges the long-held belief that Earth is the sole center of all celestial motion, which is the core of the geocentric model."
+        },
+        {
+          "text": "They explained the composition of Jupiter's orbiting bodies.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the motion of these bodies ('revolving about Jupiter'), not their material composition or what they are made of."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "c64925f8cf4c0f85b8b6a4002d6f7e6387bfa2d9"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "The unexpected results of the experiment led to the conclusion that \"most of the atom is empty space, with a tiny dense nucleus at its center.\" Which observation described in the passage is most directly used to infer that most of the atom is empty space?",
+      "answerOptions": [
+        {
+          "text": "The alpha particles were fired at thin gold foil.",
+          "isCorrect": false,
+          "rationale": "This statement describes the setup of the experiment, not an observation that directly supports the conclusion about empty space."
+        },
+        {
+          "text": "Some of the alpha particles were deflected backward.",
+          "isCorrect": false,
+          "rationale": "The backward deflection of some particles primarily suggests the presence of a dense nucleus, not that most of the atom is empty space."
+        },
+        {
+          "text": "The majority of alpha particles traveled through the gold foil without being deflected.",
+          "isCorrect": true,
+          "rationale": "The passage states 'some were deflected backward,' which strongly implies that most alpha particles were not deflected and therefore passed straight through. This direct inference supports the conclusion that the atom is mostly empty space."
+        },
+        {
+          "text": "The atom was compared to a miniature solar system.",
+          "isCorrect": false,
+          "rationale": "This is an analogy used to describe the new model of the atom, not a direct experimental observation that led to the inference of empty space."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Structure of the Atom (Excerpt)</strong></p><p><em>Ernest Rutherford, 1911</em></p><p>When we fired alpha particles at thin gold foil, we expected them to pass straight through, but some were deflected backward. It was as if a cannonball had struck a piece of tissue paper and rebounded. This unexpected result led us to the conclusion that most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed. Thus the atom is not a solid sphere but a miniature solar system. The discovery changed our conception of matter and laid the foundation for the structure of the modern atom. It showed that the physical world is both more fragile and more wondrous than we had imagined.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "e09803fc48386ca67d168e81e79b29108cfcfb5f"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "The author states, \"Thus the atom is not a solid sphere but a miniature solar system.\" What is the primary purpose of this analogy?",
+      "answerOptions": [
+        {
+          "text": "To suggest that atoms generate their own light and heat, similar to a sun.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss light or heat generation by atoms, and the analogy is not intended to convey this meaning."
+        },
+        {
+          "text": "To explain that the atom, like a solar system, is made up of different types of celestial bodies.",
+          "isCorrect": false,
+          "rationale": "The analogy focuses on structure and arrangement (central body, orbiting particles), not on the types of matter making up planets and stars."
+        },
+        {
+          "text": "To illustrate that the atom has a central, dense component around which other, smaller components orbit.",
+          "isCorrect": true,
+          "rationale": "This interpretation accurately reflects the scientific conclusion presented in the passage ('tiny dense nucleus at its center. Around this nucleus, electrons move at great speed') and aligns with the structure of a solar system."
+        },
+        {
+          "text": "To imply that atoms are massive and vast in scale, similar to our solar system.",
+          "isCorrect": false,
+          "rationale": "While a solar system is vast, the passage refers to the atom as a 'miniature' solar system, indicating the analogy is about structure and arrangement, not the literal scale or size relative to actual solar systems."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Structure of the Atom (Excerpt)</strong></p><p><em>Ernest Rutherford, 1911</em></p><p>When we fired alpha particles at thin gold foil, we expected them to pass straight through, but some were deflected backward. It was as if a cannonball had struck a piece of tissue paper and rebounded. This unexpected result led us to the conclusion that most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed. Thus the atom is not a solid sphere but a miniature solar system. The discovery changed our conception of matter and laid the foundation for the structure of the modern atom. It showed that the physical world is both more fragile and more wondrous than we had imagined.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "dbc25ca1f82bccf70274e94bf19bc57f8993b8f8"
+    },
+    {
+      "questionNumber": 27,
+      "type": "standalone",
+      "questionText": "The table below shows the mass and volume for samples of four different materials. Based on this data, which material has the greatest density?<table><thead><tr><th>Material</th><th>Mass (g)</th><th>Volume (cm³)</th></tr></thead><tbody><tr><td>Aluminum</td><td>54.0</td><td>20.0</td></tr><tr><td>Copper</td><td>89.0</td><td>10.0</td></tr><tr><td>Lead</td><td>113.4</td><td>10.0</td></tr><tr><td>Iron</td><td>78.7</td><td>10.0</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "Aluminum",
+          "isCorrect": false,
+          "rationale": "Density is calculated as Mass/Volume. For Aluminum, the density is 54.0 g / 20.0 cm³ = 2.7 g/cm³."
+        },
+        {
+          "text": "Copper",
+          "isCorrect": false,
+          "rationale": "Density is calculated as Mass/Volume. For Copper, the density is 89.0 g / 10.0 cm³ = 8.9 g/cm³."
+        },
+        {
+          "text": "Lead",
+          "isCorrect": true,
+          "rationale": "Density is calculated as Mass/Volume. For Lead, the density is 113.4 g / 10.0 cm³ = 11.34 g/cm³. This is the highest density among the given materials."
+        },
+        {
+          "text": "Iron",
+          "isCorrect": false,
+          "rationale": "Density is calculated as Mass/Volume. For Iron, the density is 78.7 g / 10.0 cm³ = 7.87 g/cm³."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "ccd7bcf3476f7a60a586cea2accd3f46ef895a79"
+    },
+    {
+      "questionNumber": 28,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 29,
+      "type": "standalone",
+      "questionText": "The main function of the respiratory system is to:",
+      "answerOptions": [
+        {
+          "text": "Transport nutrients to cells.",
+          "isCorrect": false,
+          "rationale": "This is the primary function of the circulatory system."
+        },
+        {
+          "text": "Exchange gases between the body and the external environment.",
+          "isCorrect": true,
+          "rationale": "Correct. This involves taking in oxygen and removing carbon dioxide."
+        },
+        {
+          "text": "Break down food into smaller molecules.",
+          "isCorrect": false,
+          "rationale": "This is the primary function of the digestive system."
+        },
+        {
+          "text": "Send electrical signals throughout the body.",
+          "isCorrect": false,
+          "rationale": "This is the primary function of the nervous system."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "44360ecd9a420426219b8b374c52d31785909638"
+    },
+    {
+      "questionNumber": 30,
+      "type": "standalone",
+      "questionText": "The table below shows the amount of product formed by an enzyme at different temperatures over a 10-minute period.<table><thead><tr><th>Temperature (°C)</th><th>Product Formed (mg/L) in 10 minutes</th></tr></thead><tbody><tr><td>10</td><td>25</td></tr><tr><td>20</td><td>50</td></tr><tr><td>30</td><td>80</td></tr><tr><td>40</td><td>70</td></tr><tr><td>50</td><td>30</td></tr></tbody></table>Based on the data, what is the average rate of product formation (in mg/L per minute) when the temperature increases from 10°C to 30°C?",
+      "answerOptions": [
+        {
+          "text": "5.5 mg/L per minute",
+          "isCorrect": true,
+          "rationale": "To find the average rate, first calculate the change in product formed between 10°C and 30°C (80 mg/L - 25 mg/L = 55 mg/L). Then, divide this change by the time period, which is 10 minutes (55 mg/L / 10 minutes = 5.5 mg/L per minute)."
+        },
+        {
+          "text": "8.0 mg/L per minute",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly uses only the product formed at 30°C and divides by 10 minutes, rather than calculating the change in product formed over the specified temperature range."
+        },
+        {
+          "text": "2.5 mg/L per minute",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly uses only the product formed at 10°C and divides by 10 minutes, rather than calculating the change in product formed over the specified temperature range."
+        },
+        {
+          "text": "0.55 mg/L per minute",
+          "isCorrect": false,
+          "rationale": "This answer represents a calculation error, likely a misplaced decimal point after correctly finding the change in product (55 mg/L)."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "e6e0ed0fdfef024ab42ba21dc35afc681e1143df"
+    },
+    {
+      "questionNumber": 31,
+      "type": "standalone",
+      "questionText": "A scientist investigated the effect of light intensity on the growth of a specific plant species. Four groups of identical plants were grown under different light conditions for 7 days. The average height for each group was recorded at the beginning (Day 1) and end (Day 7) of the experiment. The results are shown in the table below.<table><thead><tr><th>Plant Group</th><th>Light Intensity (lux)</th><th>Average Height Day 1 (cm)</th><th>Average Height Day 7 (cm)</th></tr></thead><tbody><tr><td>A</td><td>500</td><td>10.2</td><td>12.8</td></tr><tr><td>B</td><td>1000</td><td>10.0</td><td>15.5</td></tr><tr><td>C</td><td>2000</td><td>9.8</td><td>18.2</td></tr><tr><td>D</td><td>0 (Darkness)</td><td>10.1</td><td>10.5</td></tr></tbody></table>Based on the data, what was the approximate average daily growth rate for the plant group exposed to the highest light intensity between Day 1 and Day 7?",
+      "answerOptions": [
+        {
+          "text": "0.4 cm/day",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The growth for Group C was 8.4 cm over 6 days, not 7 days."
+        },
+        {
+          "text": "1.2 cm/day",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The total growth for Group C was 8.4 cm over 6 days."
+        },
+        {
+          "text": "1.4 cm/day",
+          "isCorrect": true,
+          "rationale": "The highest light intensity was 2000 lux (Group C). The growth for this group was 18.2 cm (Day 7) - 9.8 cm (Day 1) = 8.4 cm. This growth occurred over 6 days (from the end of Day 1 to the end of Day 7). Therefore, the average daily growth rate is 8.4 cm / 6 days = 1.4 cm/day."
+        },
+        {
+          "text": "1.6 cm/day",
+          "isCorrect": false,
+          "rationale": "This calculation is incorrect. The growth for Group C was 8.4 cm over 6 days, not 7 days."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "5366ccead1d3e037aea2c594da244952943df315"
+    },
+    {
+      "questionNumber": 32,
+      "type": "image",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 33,
+      "type": "standalone",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 34,
+      "type": "standalone",
+      "questionText": "A botanist studied the effect of different light intensities on the growth of a specific plant species over a two-week period. The results are shown in the table below.<table><thead><tr><th>Plant Group</th><th>Light Intensity (lux)</th><th>Avg. Height Increase (cm)</th><th>Biomass Gain (g)</th></tr></thead><tbody><tr><td>Group A</td><td>500</td><td>8.5</td><td>12.3</td></tr><tr><td>Group B</td><td>1000</td><td>15.2</td><td>25.8</td></tr><tr><td>Group C</td><td>2000</td><td>18.1</td><td>31.5</td></tr><tr><td>Group D</td><td>3000</td><td>16.5</td><td>28.9</td></tr></tbody></table>Based on the data, which Plant Group exhibited the highest biomass gain relative to its light intensity (g/lux)?",
+      "answerOptions": [
+        {
+          "text": "Group A",
+          "isCorrect": false,
+          "rationale": "Group A achieved a biomass gain of 12.3 g with 500 lux, resulting in a ratio of 12.3 g / 500 lux = 0.0246 g/lux."
+        },
+        {
+          "text": "Group B",
+          "isCorrect": true,
+          "rationale": "Group B achieved a biomass gain of 25.8 g with 1000 lux, resulting in a ratio of 25.8 g / 1000 lux = 0.0258 g/lux. This is the highest ratio among the groups."
+        },
+        {
+          "text": "Group C",
+          "isCorrect": false,
+          "rationale": "Group C achieved a biomass gain of 31.5 g with 2000 lux, resulting in a ratio of 31.5 g / 2000 lux = 0.01575 g/lux."
+        },
+        {
+          "text": "Group D",
+          "isCorrect": false,
+          "rationale": "Group D achieved a biomass gain of 28.9 g with 3000 lux, resulting in a ratio of 28.9 g / 3000 lux = 0.00963 g/lux."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "5aa76942c02a83ee110bc3adcb4f36af590f6ef5"
+    },
+    {
+      "questionNumber": 35,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "33156351a2e4376fd3f99dd2d3e538ed9dd9ddb6"
+    },
+    {
+      "questionNumber": 36,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "33156351a2e4376fd3f99dd2d3e538ed9dd9ddb6"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 38,
+      "type": "standalone",
+      "questionText": "A botanist conducted an experiment to study the efficiency of water usage in four different groups of plants over a one-week period. The results are summarized in the table below:<table><thead><tr><th>Plant Group</th><th>Average Daily Water Intake (mL)</th><th>Average Weekly Biomass Increase (g)</th></tr></thead><tbody><tr><td>Group A</td><td>50</td><td>7</td></tr><tr><td>Group B</td><td>75</td><td>10</td></tr><tr><td>Group C</td><td>100</td><td>12</td></tr><tr><td>Group D</td><td>125</td><td>10</td></tr></tbody></table>Based on the data, which plant group demonstrates the most efficient use of water for biomass increase?",
+      "answerOptions": [
+        {
+          "text": "Group A",
+          "isCorrect": true,
+          "rationale": "To determine the most efficient use of water, calculate the biomass increase per milliliter of water intake for each group. Group A: 7 g / 50 mL = 0.14 g/mL. Group B: 10 g / 75 mL ≈ 0.133 g/mL. Group C: 12 g / 100 mL = 0.12 g/mL. Group D: 10 g / 125 mL = 0.08 g/mL. Group A has the highest ratio, indicating the most efficient use of water."
+        },
+        {
+          "text": "Group B",
+          "isCorrect": false,
+          "rationale": "Group B's efficiency is approximately 0.133 g/mL (10 g / 75 mL), which is lower than Group A's efficiency of 0.14 g/mL."
+        },
+        {
+          "text": "Group C",
+          "isCorrect": false,
+          "rationale": "Group C's efficiency is 0.12 g/mL (12 g / 100 mL), which is lower than Group A's efficiency of 0.14 g/mL."
+        },
+        {
+          "text": "Group D",
+          "isCorrect": false,
+          "rationale": "Group D's efficiency is 0.08 g/mL (10 g / 125 mL), which is the lowest among all groups."
+        }
+      ],
+      "category": "Life Science",
+      "bankFingerprint": "a32f9f31c349cf445fe5b4f64e5e1021282c9b50"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "2 near-duplicate question pair(s) detected",
+    "Difficulty \"medium\": 24, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}
