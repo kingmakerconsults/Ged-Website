@@ -1991,10 +1991,96 @@ function injectScienceTemplateItems(
   return [...cappedTemplates, ...trimmedBase];
 }
 
-function pickMathWordProblemTemplate() {
-  const pool = PASSAGE_DB.math_word_problems;
+function pickMathWordProblemTemplate(category = null, difficulty = null) {
+  const pool = getMathWordProblemPool({ category, difficulty });
   if (!Array.isArray(pool) || !pool.length) return null;
   return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function normalizeMathTemplateText(value) {
+  return String(value || '').toLowerCase();
+}
+
+function getMathTemplateCategories(template) {
+  const combined = [
+    template?.id,
+    template?.label,
+    template?.area,
+    template?.problem,
+  ]
+    .map(normalizeMathTemplateText)
+    .join(' ');
+  const categories = new Set();
+
+  if (
+    /math_algebra_|algebraic reasoning|equation|inequalit|expression|variable|linear|age problem|cost equation/.test(
+      combined
+    )
+  ) {
+    categories.add('Expressions, Equations, and Inequalities');
+  }
+
+  if (/graph|function|slope|coordinate|ordered pair/.test(combined)) {
+    categories.add('Graphing & Functions');
+  }
+
+  if (
+    /math_geometry_|geometry and measurement|perimeter|area|volume|circumference|triangle|rectangle|diameter|radius|box|flooring|wall/.test(
+      combined
+    )
+  ) {
+    categories.add('Geometry');
+  }
+
+  if (
+    /math_ratio_|math_percent_|math_money_|math_interest_|math_work_|math_distance_|quantitative reasoning|rates and proportions|ratio|proportion|percent|discount|markup|tax|tip|interest|commission|unit price|budget|rate/.test(
+      combined
+    )
+  ) {
+    categories.add('Ratios, Proportions, and Percents');
+  }
+
+  if (
+    /math_data_|data analysis|average|mean|median|probability|histogram|scatter|table|chart/.test(
+      combined
+    )
+  ) {
+    categories.add('Data Analysis & Probability');
+  }
+
+  if (
+    /math_fractions_|number operations|fraction|decimal|integer|mixed number/.test(
+      combined
+    )
+  ) {
+    categories.add('Number Operations');
+  }
+
+  return categories;
+}
+
+function templateMatchesMathCategory(template, category) {
+  if (!category) return true;
+  return getMathTemplateCategories(template).has(category);
+}
+
+function getMathWordProblemPool(criteria = {}) {
+  const pool = Array.isArray(PASSAGE_DB.math_word_problems)
+    ? PASSAGE_DB.math_word_problems
+    : [];
+  if (!pool.length) return [];
+
+  const difficultyPool = criteria?.difficulty
+    ? pool.filter((item) => item?.difficulty === criteria.difficulty)
+    : pool;
+
+  if (!criteria?.category) {
+    return difficultyPool;
+  }
+
+  return difficultyPool.filter((item) =>
+    templateMatchesMathCategory(item, criteria.category)
+  );
 }
 
 function instantiateMathWordProblem(template) {
@@ -13308,16 +13394,14 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
     };
 
     generators.templateFill = async (slot) => {
-      // Word problem templates by difficulty
-      if (PASSAGE_DB.math_word_problems) {
-        const pool = PASSAGE_DB.math_word_problems.filter(
-          (p) => p.difficulty === slot.difficulty
-        );
-        if (pool.length > 0) {
-          const template = pool[Math.floor(Math.random() * pool.length)];
-          const q = instantiateMathWordProblem(template, aiOptions);
-          if (q) return Array.isArray(q) ? q : [q];
-        }
+      const pool = getMathWordProblemPool({
+        difficulty: slot.difficulty,
+        category: slot.category,
+      });
+      if (pool.length > 0) {
+        const template = pool[Math.floor(Math.random() * pool.length)];
+        const q = instantiateMathWordProblem(template, aiOptions);
+        if (q) return Array.isArray(q) ? q : [q];
       }
       return [];
     };
@@ -14225,7 +14309,7 @@ app.post('/generate-quiz', async (req, res) => {
         for (let i = 0; i < templateSlots; i++) {
           promises.push(
             (async () => {
-              const tpl = pickMathWordProblemTemplate();
+              const tpl = pickMathWordProblemTemplate(topic);
               if (!tpl) return generateStandaloneQuestion(subject, topic);
               return (
                 instantiateMathWordProblem(tpl) ||

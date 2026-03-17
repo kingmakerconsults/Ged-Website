@@ -2602,10 +2602,29 @@ function simplifyVerboseImagePassage(text) {
     : 'Image description: Refer to the image to answer the question.';
 }
 
+function containsRenderableHtml(text) {
+  return (
+    typeof text === 'string' &&
+    /<(table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col|div|p|br|ul|ol|li|img|strong|em|b|i|sup|sub|span)\b/i.test(
+      text
+    )
+  );
+}
+
 function renderQuestionTextForDisplay(text, isPremade) {
   const conciseImageText = simplifyVerboseImagePassage(text);
-  const sanitized = sanitizeUnicode(conciseImageText);
+  const decoded = decodeHtmlEntities(conciseImageText);
+  const sanitized = sanitizeUnicode(decoded);
   const safeMath = applySafeMathFix(sanitized);
+
+  if (containsRenderableHtml(safeMath)) {
+    return {
+      __html: sanitizeHtmlContent(safeMath, {
+        normalizeSpacing: true,
+        trustedHtml: true,
+      }),
+    };
+  }
 
   // Normalize caret/fraction math into inline KaTeX delimiters for all content
   const katexReady = wrapInlineMathForKatex(safeMath);
