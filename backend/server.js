@@ -23,6 +23,10 @@ const ensureUserNameColumns = require('./db/initUserNameColumns');
 const MODEL_HTTP_TIMEOUT_MS =
   Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
+const QUIZ_REVIEW_MAX_QUESTIONS =
+  Number(process.env.QUIZ_REVIEW_MAX_QUESTIONS) || 24;
+const QUIZ_REVIEW_MAX_CHARS =
+  Number(process.env.QUIZ_REVIEW_MAX_CHARS) || 45000;
 // Timeout for the explicit ChatGPT fallback attempt used in AI generation
 const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 45000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -12741,6 +12745,10 @@ Return only the JSON array of the 25 question objects. For passages using inline
 }
 
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
+  const questionCount = Array.isArray(draftQuiz?.questions)
+    ? draftQuiz.questions.length
+    : 0;
+
   // Preserve original stimulus assignments (passage, images) before sending to AI
   // The AI review step should only fix text/answer quality, not reassign stimuli
   const originalStimuli = {};
@@ -12772,14 +12780,25 @@ async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
     });
   }
 
+  const serializedQuiz = JSON.stringify(sanitizedQuiz, null, 2);
+  if (
+    questionCount > QUIZ_REVIEW_MAX_QUESTIONS ||
+    serializedQuiz.length > QUIZ_REVIEW_MAX_CHARS
+  ) {
+    console.log(
+      `[reviewAndCorrectQuiz] Skipping AI review for ${draftQuiz.subject || 'unknown'} quiz: ${questionCount} questions, ${serializedQuiz.length} chars exceeds limits (${QUIZ_REVIEW_MAX_QUESTIONS} questions / ${QUIZ_REVIEW_MAX_CHARS} chars)`
+    );
+    return draftQuiz;
+  }
+
   const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${
-    sanitizedQuiz.questions.length
+    questionCount
   }-question ${sanitizedQuiz.subject} exam.
 
 CRITICAL RULES (DO NOT IGNORE):
 1. MAINTAIN JSON STRUCTURE: The final output MUST be a single valid JSON object with the SAME top-level shape and field names as the input. Do NOT wrap it in backticks or code fences. Do NOT add commentary.
 2. SAFE TEXT ONLY: All string fields must be plain text or very simple HTML. Do NOT include inline CSS (no style="..."), no width/height attributes, no class attributes.
-3. DO NOT ADD OR REMOVE QUESTIONS: Return EXACTLY ${sanitizedQuiz.questions.length} questions — same count as the input.
+3. DO NOT ADD OR REMOVE QUESTIONS: Return EXACTLY ${questionCount} questions — same count as the input.
 4. TABLES: If a question or passage contains a table, output it ONLY in one of these two safe formats:
 
      A. Simple HTML:
@@ -12809,7 +12828,7 @@ CRITICAL RULES (DO NOT IGNORE):
 
 Here is the draft quiz JSON:
 ---
-${JSON.stringify(sanitizedQuiz, null, 2)}
+${serializedQuiz}
 ---
 Return ONLY the corrected quiz JSON object.`;
   const correctedQuiz = await callAI(prompt, quizSchema, options);

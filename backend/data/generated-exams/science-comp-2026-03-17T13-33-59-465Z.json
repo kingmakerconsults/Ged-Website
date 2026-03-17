@@ -1,0 +1,1431 @@
+{
+  "id": "ai_comp_science_1773754438224",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "questionNumber": 1,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1773754391013",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 2,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1773754391013",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "responseType": "mc",
+      "questionNumber": 3,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "According to the author, what is the primary reason many patients perish in hospitals?",
+      "answerOptions": [
+        {
+          "text": "The severity of their original diseases, which are often incurable.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that patients perish 'not from their original disease' but from other factors."
+        },
+        {
+          "text": "A lack of advanced medical equipment and sophisticated treatment methods.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes basic environmental factors like air, water, and cleanliness, not advanced technology."
+        },
+        {
+          "text": "Poor environmental conditions such as inadequate ventilation, drainage, and hygiene.",
+          "isCorrect": true,
+          "rationale": "The passage directly attributes patient deaths to 'foul air, bad drainage, and want of cleanliness'."
+        },
+        {
+          "text": "An insufficient number of nurses available to provide constant care and supervision.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the *quality* and *nature* of nursing duty (environmental management), not the quantity of staff."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Notes on Nursing (Excerpt)</strong></p><p><em>Florence Nightingale, 1859</em></p><p>The very first requirement in a hospital is that it should do the sick no harm. Yet many patients perish not from their original disease but from foul air, bad drainage, and want of cleanliness. The nurse’s duty is to place the patient in the best possible condition for nature to act upon him. This means pure air, pure water, efficient drainage, cleanliness, and light. The sick should not breathe the air they have just exhaled. Windows must be opened, beds aired, and rooms kept free of needless noise. What is called trained nursing is the knowledge of how to manage the patient’s environment. It is no small thing, for on it often depends whether life or death shall prevail.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_florence_nightingale_notes_on_nursing",
+      "passageTitle": "Notes on Nursing (Excerpt)",
+      "topicTags": [
+        "Health / Nursing"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 4,
+      "bankFingerprint": "5fac653a30e34818522b21866e1c2f88d4caefdb"
+    },
+    {
+      "questionText": "Based on the passage, what does 'trained nursing' primarily involve?",
+      "answerOptions": [
+        {
+          "text": "Administering complex medications and performing intricate medical procedures.",
+          "isCorrect": false,
+          "rationale": "The passage defines trained nursing as 'the knowledge of how to manage the patient’s environment,' not direct medical interventions like administering medication or performing procedures."
+        },
+        {
+          "text": "Diagnosing illnesses and developing comprehensive treatment plans for patients.",
+          "isCorrect": false,
+          "rationale": "The passage states the nurse's duty is to 'place the patient in the best possible condition for nature to act upon him,' implying that diagnosis and treatment are left to 'nature' or medical doctors, not the nurse's primary role as described here."
+        },
+        {
+          "text": "Ensuring the patient's surroundings promote health through pure air, water, and cleanliness.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'What is called trained nursing is the knowledge of how to manage the patient’s environment,' and lists 'pure air, pure water, efficient drainage, cleanliness, and light' as essential components."
+        },
+        {
+          "text": "Providing emotional support and counseling to patients and their families.",
+          "isCorrect": false,
+          "rationale": "While possibly a part of nursing, the passage specifically highlights physical environmental management as the core of 'trained nursing' for patient survival."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Notes on Nursing (Excerpt)</strong></p><p><em>Florence Nightingale, 1859</em></p><p>The very first requirement in a hospital is that it should do the sick no harm. Yet many patients perish not from their original disease but from foul air, bad drainage, and want of cleanliness. The nurse’s duty is to place the patient in the best possible condition for nature to act upon him. This means pure air, pure water, efficient drainage, cleanliness, and light. The sick should not breathe the air they have just exhaled. Windows must be opened, beds aired, and rooms kept free of needless noise. What is called trained nursing is the knowledge of how to manage the patient’s environment. It is no small thing, for on it often depends whether life or death shall prevail.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_florence_nightingale_notes_on_nursing",
+      "passageTitle": "Notes on Nursing (Excerpt)",
+      "topicTags": [
+        "Health / Nursing"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 5,
+      "bankFingerprint": "5e7e09c73703bb18d43cd3ff9ed615cf952664d9"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Plant Group</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Condition</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Average Growth (cm)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Biomass Gained (g)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Group A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Full Sun</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Group B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Partial Shade</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">28</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">9.8</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Group C</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Low Light</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">4.2</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Group D</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Artificial Grow Light</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">14.1</td></tr></tbody></table>Based on the data, what is the approximate difference in biomass gained between the plant group exposed to Full Sun and the plant group exposed to Low Light?",
+      "answerOptions": [
+        {
+          "text": "7.3 g",
+          "isCorrect": false,
+          "rationale": "The difference between Full Sun (12.5 g) and Low Light (4.2 g) is 12.5 - 4.2 = 8.3 g."
+        },
+        {
+          "text": "8.3 g",
+          "isCorrect": true,
+          "rationale": "Biomass gained for Full Sun (Group A) is 12.5 g. Biomass gained for Low Light (Group C) is 4.2 g. The difference is 12.5 g - 4.2 g = 8.3 g."
+        },
+        {
+          "text": "10.1 g",
+          "isCorrect": false,
+          "rationale": "This value does not represent the correct difference between biomass gained for Full Sun and Low Light. The difference is 12.5 - 4.2 = 8.3 g."
+        },
+        {
+          "text": "16.7 g",
+          "isCorrect": false,
+          "rationale": "This value represents the sum of biomass gained for Full Sun and Low Light (12.5 + 4.2 = 16.7 g), not the difference."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "easy",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 6,
+      "bankFingerprint": "77f024df58e5f644776acfd9bd58778a272dd857"
+    },
+    {
+      "questionText": "What is the primary argument the author presents about the relationship between different scientific disciplines?",
+      "answerOptions": [
+        {
+          "text": "Each scientific branch operates independently, requiring separate study to maintain clarity.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that 'the various branches of science, though often studied apart, are in truth closely interwoven,' directly contradicting the idea of independent operation."
+        },
+        {
+          "text": "Mathematics is the foundational science upon which all other scientific disciplines are built and depend.",
+          "isCorrect": false,
+          "rationale": "While the passage notes 'Astronomy depends on mathematics,' it also provides other examples of interdependency (e.g., chemistry aided by heat and electricity, geology borrowing from astronomy), suggesting a broader web of connections rather than a single foundation."
+        },
+        {
+          "text": "Scientific disciplines are deeply interconnected, with discoveries and laws in one area often shedding light on others.",
+          "isCorrect": true,
+          "rationale": "The passage emphasizes this point by stating, 'The various branches of science... are in truth closely interwoven,' and 'It is the object of this work to show that the laws discovered in one field frequently illuminate another.'"
+        },
+        {
+          "text": "The complexity of phenomena like planetary perturbations and the tides proves the need for highly specialized scientific fields.",
+          "isCorrect": false,
+          "rationale": "The passage uses these phenomena as examples of things that 'all obey general principles' and contribute to 'a unity of design and operation,' promoting an integrated view rather than extreme specialization as the primary need."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_mary_somerville_physical_sciences",
+      "passageTitle": "On the Connexion of the Physical Sciences (Excerpt)",
+      "topicTags": [
+        "Scientific Synthesis"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "questionNumber": 7,
+      "bankFingerprint": "93bc47ffdd26bb9f9bccd754ecb959a1325f3cac"
+    },
+    {
+      "questionText": "According to the author, what is a significant benefit of recognizing the unity and interconnectedness of scientific principles?",
+      "answerOptions": [
+        {
+          "text": "It simplifies scientific study by reducing the total number of laws to be learned across disciplines.",
+          "isCorrect": false,
+          "rationale": "The passage does not claim simplification in terms of fewer laws, but rather that understanding the 'unity of design and operation' suggests that 'nature is intelligible and harmonious.'"
+        },
+        {
+          "text": "It prevents confusion by clearly defining the boundaries between distinct scientific fields.",
+          "isCorrect": false,
+          "rationale": "The passage argues for interwovenness and unity, which blurs boundaries rather than clearly defining them to prevent confusion."
+        },
+        {
+          "text": "It encourages further scientific investigation by suggesting that nature is coherent and understandable.",
+          "isCorrect": true,
+          "rationale": "The passage states that 'Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.'"
+        },
+        {
+          "text": "It allows scientists to focus exclusively on their own specialized field without needing to consult other branches.",
+          "isCorrect": false,
+          "rationale": "This contradicts the core message of interconnectedness and how laws from one field illuminate another, implying a need for interdisciplinary awareness."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_mary_somerville_physical_sciences",
+      "passageTitle": "On the Connexion of the Physical Sciences (Excerpt)",
+      "topicTags": [
+        "Scientific Synthesis"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "questionNumber": 8,
+      "bankFingerprint": "0f3b11f3cdad1031728859efd80f5d62d66d31a4"
+    },
+    {
+      "questionText": "A scientist studied the metabolic rate of a freshwater fish by measuring its oxygen consumption at various water temperatures. The results are shown in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Temperature (°C)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Oxygen Consumption (mL O₂/g/hr)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.25</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.70</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.10</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.60</td></tr></tbody></table>Based on the data, what is the approximate percentage increase in oxygen consumption when the water temperature increases from 20°C to 25°C?",
+      "answerOptions": [
+        {
+          "text": "Approximately 40%",
+          "isCorrect": false,
+          "rationale": "This is the absolute increase in oxygen consumption (1.10 - 0.70 = 0.40 mL O₂/g/hr), not the percentage increase."
+        },
+        {
+          "text": "Approximately 57%",
+          "isCorrect": true,
+          "rationale": "The oxygen consumption increased from 0.70 mL O₂/g/hr to 1.10 mL O₂/g/hr. The increase is 0.40 mL O₂/g/hr. To calculate the percentage increase, divide the increase by the initial value: (0.40 / 0.70) * 100% ≈ 57.14%."
+        },
+        {
+          "text": "Approximately 70%",
+          "isCorrect": false,
+          "rationale": "This option might be chosen by incorrectly using 0.70 as the increase or dividing by the wrong number."
+        },
+        {
+          "text": "Approximately 110%",
+          "isCorrect": false,
+          "rationale": "This option represents the oxygen consumption at 25°C, not the percentage increase from 20°C to 25°C."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 9,
+      "bankFingerprint": "e2b94a122be95355ea732575c5839dd2c1a9ade7"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "questionNumber": 10,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "questionNumber": 11,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "id": "science_numeracy_num_energy_output_1773754326663",
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "questionType": "short_constructed_response",
+      "responseType": "numeric",
+      "correctAnswer": "40",
+      "tolerance": 0.6,
+      "qaProfileKey": "numeracy",
+      "source": "scienceTemplate:numeracy",
+      "difficulty": "hard",
+      "topicTags": [
+        "Life Science",
+        "Energy Transformations"
+      ],
+      "type": "passage",
+      "templateSourceId": "num_energy_output",
+      "category": "Life Science",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 12,
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Food Item</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Calories (kcal)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Protein (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Fat (g)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Apple (1 medium)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">95</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.3</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Chicken Breast (100g)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">165</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">31.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">3.6</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Broccoli (1 cup)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">55</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">3.7</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.6</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Almonds (1 oz)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">164</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">6.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">14.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Whole Wheat Bread (1 slice)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">82</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">4.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.0</td></tr></tbody></table>Based on the data provided, if a person consumes 2 servings of Chicken Breast, 1 serving of Broccoli, and 1 serving of Whole Wheat Bread, what is the total amount of protein, in grams, they would consume?",
+      "answerOptions": [
+        {
+          "text": "38.7 g",
+          "isCorrect": false,
+          "rationale": "This calculation incorrectly assumes only one serving of Chicken Breast was consumed, adding 31.0 g + 3.7 g + 4.0 g."
+        },
+        {
+          "text": "69.7 g",
+          "isCorrect": true,
+          "rationale": "To find the total protein, multiply the protein from Chicken Breast by 2 (31.0 g * 2 = 62.0 g), then add the protein from Broccoli (3.7 g) and Whole Wheat Bread (4.0 g): 62.0 + 3.7 + 4.0 = 69.7 g."
+        },
+        {
+          "text": "73.0 g",
+          "isCorrect": false,
+          "rationale": "This option results from an arithmetic error or selecting incorrect nutritional values from the table, such as confusing protein with fat or calories."
+        },
+        {
+          "text": "66.7 g",
+          "isCorrect": false,
+          "rationale": "This option might be the result of a calculation error or omitting one of the food items from the total sum."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 13,
+      "bankFingerprint": "31164b2868632a9b319b18f08c4063ded916f345"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Planet</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Average Distance from Sun (AU)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Average Surface Temperature (K)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Mercury</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.39</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">440</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Venus</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.72</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">737</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Earth</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.00</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">288</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Mars</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.52</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr></tbody></table>Based on the data presented in the table, which planet's average surface temperature most significantly deviates from the general trend observed as distance from the Sun increases?",
+      "answerOptions": [
+        {
+          "text": "Mercury",
+          "isCorrect": false,
+          "rationale": "Mercury's temperature is high, but it is the closest planet to the Sun, which aligns with a general trend of decreasing temperature with increasing distance."
+        },
+        {
+          "text": "Venus",
+          "isCorrect": true,
+          "rationale": "The general trend shown is that average surface temperature decreases as the distance from the Sun increases. Venus, however, is farther from the Sun than Mercury but has a significantly higher average surface temperature (737 K) than all other listed planets, including Mercury (440 K), making it the most significant deviation."
+        },
+        {
+          "text": "Earth",
+          "isCorrect": false,
+          "rationale": "Earth's average surface temperature is lower than Venus's and Mercury's, and higher than Mars's, which generally follows the expected trend based on its distance from the Sun."
+        },
+        {
+          "text": "Mars",
+          "isCorrect": false,
+          "rationale": "Mars is the farthest planet listed and has the lowest average surface temperature, which follows the general trend of decreasing temperature with increasing distance from the Sun."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 14,
+      "bankFingerprint": "0438ecd31ab8897f0ff4e5d45c26864539801ec3"
+    },
+    {
+      "questionText": "Based on the passage, what is the most significant implication of the author's belief that \"all forces are manifestations of one universal power\"?",
+      "answerOptions": [
+        {
+          "text": "The author concluded that natural forces operate independently of each other.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, \"I was deeply impressed by the idea that the forces of nature are not independent, but connected,\" which contradicts this option."
+        },
+        {
+          "text": "The author proposed a unifying principle that connects seemingly disparate natural phenomena like magnetism, electricity, light, and heat.",
+          "isCorrect": true,
+          "rationale": "The author states that the same lines of force that pass through a magnet also \"influence light, heat, and electricity,\" leading to the \"grand and beautiful idea that all forces are manifestations of one universal power,\" which implies a unified connection."
+        },
+        {
+          "text": "The author's experiments primarily focused on disproving the existence of invisible forces.",
+          "isCorrect": false,
+          "rationale": "The author believed in the reality of lines of force, stating they are \"not imaginary but real,\" and focused on their connections, not disproving them."
+        },
+        {
+          "text": "The author suggested that forces like magnetism are purely imaginary concepts without a physical basis.",
+          "isCorrect": false,
+          "rationale": "The passage clearly states that the lines of force are \"not imaginary but real\" and represent a \"real medium\" for transmitting energy."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Physical Lines of Force (Excerpt)</strong></p><p><em>Michael Faraday, 1852</em></p><p>Before I began my experiments on magnetism and electricity, I was deeply impressed by the idea that the forces of nature are not independent, but connected. The concept of a 'field' was not yet established; yet I believed that space itself is filled with lines of force. These lines are not imaginary but real—capable of transmitting energy and producing motion at a distance. It seemed to me that a magnet acts upon another, not by an invisible hand, but by a real medium existing between them. I have found that the same lines which pass through the magnet also influence light, heat, and electricity. It is a grand and beautiful idea that all forces are manifestations of one universal power.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_field_concept",
+      "passageTitle": "On the Physical Lines of Force (Excerpt)",
+      "topicTags": [
+        "Electromagnetism"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 15,
+      "bankFingerprint": "0749ae9d810aca5ac2c2a9e5a2d7a461eda14512"
+    },
+    {
+      "questionText": "How does the author's concept of \"lines of force\" differ from a view of forces acting instantaneously at a distance, according to the passage?",
+      "answerOptions": [
+        {
+          "text": "The author believed forces act instantaneously across empty space without any mediating influence.",
+          "isCorrect": false,
+          "rationale": "The passage states the author believed a magnet acts \"not by an invisible hand, but by a real medium existing between them,\" which contradicts instantaneous action across empty space."
+        },
+        {
+          "text": "The author proposed that forces are transmitted through a tangible medium filling space, rather than acting directly from one object to another across a void.",
+          "isCorrect": true,
+          "rationale": "The author believed \"space itself is filled with lines of force\" and that these lines are a \"real medium\" capable of \"transmitting energy and producing motion at a distance,\" implying a mediated action rather than instantaneous action across a void."
+        },
+        {
+          "text": "The author argued that only certain types of forces, such as gravity, are transmitted through lines of force.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on magnetism, electricity, light, and heat, not gravity, and states these forces are influenced by the same lines."
+        },
+        {
+          "text": "The author's concept implied that forces are purely mathematical abstractions with no physical presence.",
+          "isCorrect": false,
+          "rationale": "The author explicitly states that these lines are \"not imaginary but real,\" indicating a physical presence, not a pure abstraction."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Physical Lines of Force (Excerpt)</strong></p><p><em>Michael Faraday, 1852</em></p><p>Before I began my experiments on magnetism and electricity, I was deeply impressed by the idea that the forces of nature are not independent, but connected. The concept of a 'field' was not yet established; yet I believed that space itself is filled with lines of force. These lines are not imaginary but real—capable of transmitting energy and producing motion at a distance. It seemed to me that a magnet acts upon another, not by an invisible hand, but by a real medium existing between them. I have found that the same lines which pass through the magnet also influence light, heat, and electricity. It is a grand and beautiful idea that all forces are manifestations of one universal power.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_field_concept",
+      "passageTitle": "On the Physical Lines of Force (Excerpt)",
+      "topicTags": [
+        "Electromagnetism"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 16,
+      "bankFingerprint": "a518c8cdaa81e11e07bc9fcb9ad35dd942519729"
+    },
+    {
+      "questionText": "Based on the passage, which statement best summarizes the author's view of the sea's overall influence on Earth?",
+      "answerOptions": [
+        {
+          "text": "The sea is a fundamental force that controls and supports various aspects of the planet.",
+          "isCorrect": true,
+          "rationale": "The passage states that the sea 'has shaped the land, governed the climate, and sustained the web of life,' indicating its comprehensive and fundamental influence."
+        },
+        {
+          "text": "The sea is primarily a beautiful place for humans to observe the passage of time.",
+          "isCorrect": false,
+          "rationale": "While 'witness eternity' is mentioned, it is a poetic observation and not the primary scientific and environmental role the author emphasizes for the sea."
+        },
+        {
+          "text": "The sea's main impact is its constant change, exemplified by the rising and falling tides.",
+          "isCorrect": false,
+          "rationale": "The passage describes broader impacts beyond just change, including shaping land, governing climate, and sustaining life, making this option too narrow."
+        },
+        {
+          "text": "The sea's most important function is to remind humans of their subordinate position in nature.",
+          "isCorrect": false,
+          "rationale": "The passage discusses humanity's understanding of its link to the sea, but this is a consequence of the sea's role, not its primary function on Earth."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_rachel_carson_sea",
+      "passageTitle": "The Sea Around Us (Excerpt)",
+      "topicTags": [
+        "Environmental Science"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 17,
+      "bankFingerprint": "5c4590ebe9bccc2efc66270633eb22260d1d4604"
+    },
+    {
+      "questionText": "The passage states, 'The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth.' What does this statement primarily suggest about natural processes?",
+      "answerOptions": [
+        {
+          "text": "Natural systems are characterized by continuous alteration within a stable framework.",
+          "isCorrect": true,
+          "rationale": "The phrase connects the 'endless rising and falling' (change) of tides with 'balance,' implying that Earth's processes involve constant movement and transformation while maintaining an overall equilibrium."
+        },
+        {
+          "text": "Earth's processes are entirely unpredictable and constantly in flux, without any underlying order.",
+          "isCorrect": false,
+          "rationale": "The 'rhythm of tides' suggests a predictable pattern, and the inclusion of 'balance' contradicts the idea of entirely unpredictable and disordered flux."
+        },
+        {
+          "text": "The most important aspect of Earth is its ability to remain unchanged over long periods despite minor fluctuations.",
+          "isCorrect": false,
+          "rationale": "The statement explicitly highlights 'change' as an 'essence,' directly contradicting the idea that remaining unchanged is the most important aspect."
+        },
+        {
+          "text": "Tides are the only natural phenomenon that successfully demonstrates both change and stability.",
+          "isCorrect": false,
+          "rationale": "The tides are used as an example to illustrate a broader principle, 'the essence of the Earth,' not to suggest they are the sole demonstration of this principle."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_rachel_carson_sea",
+      "passageTitle": "The Sea Around Us (Excerpt)",
+      "topicTags": [
+        "Environmental Science"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 18,
+      "bankFingerprint": "de9d9e47bf06855e8719567858b3ecbab22f809b"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "questionNumber": 19,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "questionNumber": 20,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "Based on the passage, what fundamental principle is best exemplified by a metal increasing in weight when burned in air?",
+      "answerOptions": [
+        {
+          "text": "The mass of the metal itself changes, indicating a creation of new material.",
+          "isCorrect": false,
+          "rationale": "The passage states that the metal 'increases in weight because it has combined with a portion of the air,' not that new material is created from nothing. The increase in weight is due to combination, not creation."
+        },
+        {
+          "text": "The total mass of all substances involved in the reaction remains constant.",
+          "isCorrect": true,
+          "rationale": "The passage explains the metal gains weight by combining with air and then states, 'When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass.' This principle means that even when a metal appears to gain weight, it's due to combination, and the overall mass of the system (metal + air) is conserved."
+        },
+        {
+          "text": "Chemical reactions always result in substances losing weight.",
+          "isCorrect": false,
+          "rationale": "The passage provides an example where a metal 'increases in weight,' directly contradicting the idea that substances always lose weight. The key is the conservation of total mass, not individual component changes."
+        },
+        {
+          "text": "Particles are destroyed and created during chemical changes.",
+          "isCorrect": false,
+          "rationale": "The passage clearly states, 'Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles,' which directly refutes the idea of particles being destroyed or created."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_antoine_lavoisier_elements_chemistry",
+      "passageTitle": "Elements of Chemistry (Excerpt)",
+      "topicTags": [
+        "Chemistry"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 21,
+      "bankFingerprint": "a8a3aa41e945797be590b1422c47e7f386d4d232"
+    },
+    {
+      "questionText": "According to the author, which development was most crucial in transforming chemistry from a 'mysterious art' into a rigorous science?",
+      "answerOptions": [
+        {
+          "text": "The focus on traditional, secretive methods passed down through generations.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly contrasts 'a mysterious art practiced by a few' with 'a science resting on observation and calculation,' indicating a move away from secretive methods."
+        },
+        {
+          "text": "The precise naming of substances and accurate measurement of chemical changes.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art... but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.'"
+        },
+        {
+          "text": "The discovery that all chemical reactions produce a gas.",
+          "isCorrect": false,
+          "rationale": "The passage mentions the production of a gas as an example related to conservation of mass but does not claim it as the singular or most crucial development for chemistry becoming a science."
+        },
+        {
+          "text": "The understanding that some elements simply disappear during reactions.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'Nothing is created and nothing is lost in the operations of chemistry,' which directly contradicts the idea of elements disappearing."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_antoine_lavoisier_elements_chemistry",
+      "passageTitle": "Elements of Chemistry (Excerpt)",
+      "topicTags": [
+        "Chemistry"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 22,
+      "bankFingerprint": "641c3bdca88582253e55bf6a0ff69b6728d4c124"
+    },
+    {
+      "id": "science_numeracy_num_density_comparison_1773754413004",
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "questionType": "short_constructed_response",
+      "responseType": "numeric",
+      "correctAnswer": "1.1",
+      "tolerance": 0.05,
+      "qaProfileKey": "numeracy",
+      "source": "scienceTemplate:numeracy",
+      "difficulty": "medium",
+      "topicTags": [
+        "Physical Science",
+        "Data Interpretation"
+      ],
+      "type": "passage",
+      "templateSourceId": "num_density_comparison",
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 23,
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionText": "A student measured the mass and volume of three different solid objects. The results are shown in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Object</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">150</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">120</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">180</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>Which object has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Object X",
+          "isCorrect": false,
+          "rationale": "To find the density, divide the mass by the volume. For Object X, density = 150 g / 50 cm³ = 3.0 g/cm³."
+        },
+        {
+          "text": "Object Y",
+          "isCorrect": false,
+          "rationale": "To find the density, divide the mass by the volume. For Object Y, density = 120 g / 40 cm³ = 3.0 g/cm³."
+        },
+        {
+          "text": "Object Z",
+          "isCorrect": true,
+          "rationale": "To find the density, divide the mass by the volume. For Object Z, density = 180 g / 90 cm³ = 2.0 g/cm³. Comparing the densities: Object X = 3.0 g/cm³, Object Y = 3.0 g/cm³, Object Z = 2.0 g/cm³. Object Z has the lowest density."
+        },
+        {
+          "text": "Objects X and Y have the same lowest density.",
+          "isCorrect": false,
+          "rationale": "While Objects X and Y have the same density (3.0 g/cm³), Object Z has a lower density of 2.0 g/cm³."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 24,
+      "bankFingerprint": "271276bebb5a9897eb80012690f8fe158e75e2dc"
+    },
+    {
+      "questionText": "The phylogenetic tree illustrates the evolutionary history of life. Based on the major transitions implied by this tree, which physical characteristic represents a key step in the development of more complex organisms from simpler ancestral forms?",
+      "answerOptions": [
+        {
+          "text": "The presence of a rigid cell wall",
+          "isCorrect": false,
+          "rationale": "While a cell wall is a physical structure, it is present in many simpler organisms (prokaryotes) as well as some complex ones (plants, fungi), and its presence alone does not universally mark the transition to more complex life forms across the tree's broad scope."
+        },
+        {
+          "text": "The ability to move independently through water",
+          "isCorrect": false,
+          "rationale": "Motility is a physical attribute, but many simple organisms (e.g., bacteria with flagella) can move, and many complex organisms are sessile. It is not a universal distinguishing feature for increased complexity represented across the tree."
+        },
+        {
+          "text": "The development of a membrane-bound nucleus and other specialized organelles",
+          "isCorrect": true,
+          "rationale": "The emergence of eukaryotic cells, characterized by a membrane-bound nucleus and other specialized organelles, is a fundamental evolutionary milestone. This represents a significant increase in cellular complexity from prokaryotic ancestors, a transition implied by the tree's branching from an early prokaryote ancestor to various eukaryotic kingdoms. These are distinct physical structures."
+        },
+        {
+          "text": "The capacity to reproduce at a rapid rate",
+          "isCorrect": false,
+          "rationale": "Reproductive rate is a biological process, not a physical characteristic, and rapid reproduction is common in simpler organisms. It does not define a key physical milestone for increased complexity."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_science_0001.png",
+        "alt": "Phylogenetic tree illustrating the evolutionary relationships and milestones of various life forms."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "questionNumber": 25,
+      "bankFingerprint": "b56d333916c765aa8f6174560882868af7ec7697"
+    },
+    {
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "stimulusType": "diagram",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "Diagram showing prevailing winds causing a rain shadow effect over mountains near an ocean, with elevation and distance scales."
+      },
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "easy",
+      "source": "trustedLocalImage",
+      "questionNumber": 26,
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "id": "science_numeracy_num_evaporation_rate_1773754430049",
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "questionType": "short_constructed_response",
+      "responseType": "numeric",
+      "correctAnswer": "1.35",
+      "tolerance": 0.05,
+      "qaProfileKey": "numeracy",
+      "source": "scienceTemplate:numeracy",
+      "difficulty": "medium",
+      "topicTags": [
+        "Earth Science",
+        "Scientific Practices"
+      ],
+      "type": "passage",
+      "templateSourceId": "num_evaporation_rate",
+      "category": "Earth & Space Science",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 27,
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "clusterLabel": "Flower Color Inheritance",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_genetics_punnett",
+      "id": "science_scenario_scenario_genetics_punnett_0_1773754326662",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg.",
+          "isCorrect": true
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes.",
+          "isCorrect": false
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "rationale": "Only one GG square appears in the passage.",
+          "isCorrect": false
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "rationale": "Only one gg square appears in the completed square.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Life Science",
+      "subject": "Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "questionNumber": 28,
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 29,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "What gas is released as a waste product during photosynthesis?",
+      "answerOptions": [
+        {
+          "text": "Carbon dioxide",
+          "rationale": "Carbon dioxide is a reactant, not a product.",
+          "isCorrect": false
+        },
+        {
+          "text": "Nitrogen",
+          "rationale": "Nitrogen is not directly involved in the main photosynthesis equation.",
+          "isCorrect": false
+        },
+        {
+          "text": "Oxygen",
+          "rationale": "Correct. This oxygen is crucial for most life on Earth.",
+          "isCorrect": true
+        },
+        {
+          "text": "Methane",
+          "rationale": "Methane is not produced during photosynthesis.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "What gas is released as a waste product during photosynthesis?",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "bankFingerprint": "a03eeadd396696e8b0eea9abb0ab763f532837d3"
+    },
+    {
+      "id": "chem_balance_6_1773754420773",
+      "questionText": "Balance this equation: N₂ + __H₂ → 2NH₃. What coefficient is needed for H₂?",
+      "difficulty": "medium",
+      "topicTags": [
+        "Chemistry",
+        "Chemical Reactions",
+        "Balancing Equations"
+      ],
+      "source": "chemistryTemplate",
+      "qaProfileKey": "numeracy",
+      "questionType": "short_constructed_response",
+      "responseType": "numeric",
+      "correctAnswer": "3",
+      "tolerance": 0,
+      "type": "standalone",
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 30,
+      "bankFingerprint": "bbcb949a7e6315ca33c9692fb96de9eeea3127ed"
+    },
+    {
+      "id": "chem_balance_8_1773754420774",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?",
+      "difficulty": "easy",
+      "topicTags": [
+        "Chemistry",
+        "Chemical Reactions",
+        "Balancing Equations"
+      ],
+      "source": "chemistryTemplate",
+      "qaProfileKey": "numeracy",
+      "questionType": "short_constructed_response",
+      "responseType": "numeric",
+      "correctAnswer": "1",
+      "tolerance": 0,
+      "type": "standalone",
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 31,
+      "bankFingerprint": "33156351a2e4376fd3f99dd2d3e538ed9dd9ddb6"
+    },
+    {
+      "questionText": "A scientist investigated the effect of different fertilizer types on plant growth over a 30-day period. The initial and final heights for four plant samples were recorded in the table below. <table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Plant ID</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Fertilizer Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Initial Height (cm)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Final Height (cm)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Growth Duration (days)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A1</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Type X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">18.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B2</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Type Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">9.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">21.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">C3</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Type Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">11.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">19.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">D4</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Control (No Fertilizer)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">14.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30</td></tr></tbody></table> Based on the data provided, what was the average daily growth rate for Plant B2?",
+      "answerOptions": [
+        {
+          "text": "0.28 cm/day",
+          "isCorrect": false,
+          "rationale": "This is the average daily growth rate for Plant A1 (8.5 cm / 30 days)."
+        },
+        {
+          "text": "0.38 cm/day",
+          "isCorrect": true,
+          "rationale": "To find the average daily growth rate for Plant B2, first calculate the total growth: 21.0 cm (Final Height) - 9.5 cm (Initial Height) = 11.5 cm. Then divide the total growth by the Growth Duration: 11.5 cm / 30 days \t\n 0.3833... cm/day, which rounds to 0.38 cm/day."
+        },
+        {
+          "text": "0.27 cm/day",
+          "isCorrect": false,
+          "rationale": "This is the average daily growth rate for Plant C3 (8.0 cm / 30 days, rounded)."
+        },
+        {
+          "text": "0.12 cm/day",
+          "isCorrect": false,
+          "rationale": "This is the average daily growth rate for Plant D4 (3.5 cm / 30 days, rounded)."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 32,
+      "bankFingerprint": "89fac9af7d70930e19707c47bb87b7930c07a0fb"
+    },
+    {
+      "questionText": "A scientist studied the growth of a specific plant species under varying light intensities over a three-week period. The average measurements recorded are shown in the table below. <table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Intensity (lux)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Average Stem Length (cm)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Average Leaf Count</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">2000</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">28.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">22.1</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1000</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.7</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">9.3</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5</td></tr></tbody></table> Based on the data, what is the approximate difference in average stem length between plants grown at 2000 lux and those grown at 1000 lux?",
+      "answerOptions": [
+        {
+          "text": "6.4 cm",
+          "isCorrect": false,
+          "rationale": "This answer might result from subtracting the stem length at 1500 lux from 2000 lux (28.5 - 22.1 = 6.4) or a miscalculation."
+        },
+        {
+          "text": "9.8 cm",
+          "isCorrect": false,
+          "rationale": "This answer might result from subtracting the stem length at 500 lux from 1500 lux (22.1 - 9.3 = 12.8) or misreading the data for the calculation."
+        },
+        {
+          "text": "12.8 cm",
+          "isCorrect": true,
+          "rationale": "To find the difference, subtract the average stem length at 1000 lux (15.7 cm) from the average stem length at 2000 lux (28.5 cm). The calculation is 28.5 cm - 15.7 cm = 12.8 cm."
+        },
+        {
+          "text": "18.5 cm",
+          "isCorrect": false,
+          "rationale": "This answer is likely the result of an incorrect calculation or misinterpretation of the data."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "questionNumber": 33,
+      "bankFingerprint": "ea650331baa21ed47530722a56150d05df4e615f"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "Line graph showing relative humidity percentage over eight days, from May 1 to May 8."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "questionNumber": 34,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "questionNumber": 35,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "questionNumber": 36,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionText": "Based on the passage, which statement accurately describes what is burning when a candle is lit?",
+      "answerOptions": [
+        {
+          "text": "The solid wax directly combusts once it reaches a high temperature.",
+          "isCorrect": false,
+          "rationale": "The passage states, \"The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns,\" indicating the solid wax does not burn directly."
+        },
+        {
+          "text": "The oxygen in the air is consumed as the primary fuel source for the flame.",
+          "isCorrect": false,
+          "rationale": "The passage explains that oxygen is \"supplied from the air\" to feed the flame, acting as a reactant, not the primary fuel that burns."
+        },
+        {
+          "text": "The wax first transforms into a vapor, and it is this vaporized wax that undergoes combustion.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns.\""
+        },
+        {
+          "text": "The rising hot gases produce light and heat, which then burn.",
+          "isCorrect": false,
+          "rationale": "The passage describes hot gases rising as a result of combustion and drawing in fresh air, not as the substance that burns itself."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_chemical_history_candle",
+      "passageTitle": "The Chemical History of a Candle (Excerpt)",
+      "topicTags": [
+        "Chemistry / Energy"
+      ],
+      "category": "Life Science",
+      "difficulty": "easy",
+      "subject": "Science",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 37,
+      "bankFingerprint": "d2b80cf693098e12642203b46a53bed70d2bb748"
+    },
+    {
+      "questionText": "The author's primary purpose in discussing the candle's phenomena is to emphasize which of the following?",
+      "answerOptions": [
+        {
+          "text": "The critical role of oxygen in all forms of combustion.",
+          "isCorrect": false,
+          "rationale": "While the passage highlights oxygen's role, its broader point, as stated in the first and last sentences, is about the fundamental laws demonstrated by a simple object, not just oxygen's role."
+        },
+        {
+          "text": "How even a common object can demonstrate complex scientific laws and principles.",
+          "isCorrect": true,
+          "rationale": "The passage begins by stating \"There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle\" and concludes by saying \"from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter,\" clearly supporting this purpose."
+        },
+        {
+          "text": "The process by which solid materials convert directly into gaseous states.",
+          "isCorrect": false,
+          "rationale": "The passage states wax \"is first turned into a vapor,\" implying a phase change, but the primary purpose is not to detail phase changes as a general rule, but to use the candle as a comprehensive example of scientific laws."
+        },
+        {
+          "text": "The environmental impact of producing water and carbonic acid from burning wax.",
+          "isCorrect": false,
+          "rationale": "The passage mentions water and carbonic acid as products but does not discuss their environmental impact, nor is this the main point of the excerpt."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_chemical_history_candle",
+      "passageTitle": "The Chemical History of a Candle (Excerpt)",
+      "topicTags": [
+        "Chemistry / Energy"
+      ],
+      "category": "Life Science",
+      "difficulty": "easy",
+      "subject": "Science",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 38,
+      "bankFingerprint": "fd9df5c311e51a62630546886caa9f49871b0652"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 6, expected ~9",
+    "Difficulty \"medium\": 25, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}
