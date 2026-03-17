@@ -1491,6 +1491,17 @@ function smartWrapLatex(input) {
   return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
 
+// Decode numeric/hex HTML entities (e.g. &#36; → $) used when DOMPurify
+// is unavailable and we need entity resolution before escapeHtml.
+function decodeNumericEntities(value) {
+  if (typeof value !== 'string') return value;
+  return value
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(Number(dec)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16))
+    );
+}
+
 function escapeHtml(value) {
   if (typeof value !== 'string' || value.length === 0) {
     return '';
@@ -1578,7 +1589,7 @@ function renderStemWithKatex(text) {
             ALLOWED_TAGS: ALLOWED_HTML_TAGS,
             ALLOWED_ATTR: ALLOWED_HTML_ATTR,
           })
-        : escapeHtml(seg.value);
+        : escapeHtml(decodeNumericEntities(seg.value));
       parts.push(cleaned);
       continue;
     }
@@ -1621,7 +1632,7 @@ function renderStemWithKatex(text) {
             ALLOWED_TAGS: ALLOWED_HTML_TAGS,
             ALLOWED_ATTR: ALLOWED_HTML_ATTR,
           })
-        : escapeHtml(body);
+        : escapeHtml(decodeNumericEntities(body));
       parts.push(`<span class="math-inline">${safe}</span>`);
     }
   }
@@ -2937,9 +2948,13 @@ function extractMathSegments(input) {
   };
 
   while ((match = mathRegex.exec(input)) !== null) {
-    // For single-dollar $...$ matches, check if it's actually prose between
-    // two currency dollar signs
-    if (typeof match[3] !== 'undefined' && looksLikeProse(match[3])) {
+    // For single-dollar $...$ matches, check if the opening $ looks like
+    // currency (immediately followed by digits) or the body is prose
+    if (
+      typeof match[3] !== 'undefined' &&
+      (/^\d[\d,]*(?:\.\d{0,2})?[,;\s]/.test(match[3]) ||
+        looksLikeProse(match[3]))
+    ) {
       // Treat the entire match as plain text, not math
       // But advance only past the opening $ so the regex can find the closing $ as a new potential delimiter
       if (match.index >= lastIndex) {
@@ -3058,9 +3073,7 @@ function sanitizeHtmlContent(
     return trusted;
   }
 
-  let result = formatFractions(
-    working.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  );
+  let result = formatFractions(escapeHtml(decodeNumericEntities(working)));
   // Convert Tailwind classes to inline CSS for table elements
   result = convertTailwindTableClassesToInlineCss(result);
   return result;
