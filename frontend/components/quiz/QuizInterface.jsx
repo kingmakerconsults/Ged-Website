@@ -334,7 +334,14 @@ export function QuizInterface({
     const graphAnswer = getGraphAnswer();
     if (graphAnswer) {
       const newAnswers = [...answers];
-      newAnswers[currentIndex] = graphAnswer;
+      // Merge plotted graph data with any text answer the student typed
+      const existingText =
+        typeof answers[currentIndex] === 'object'
+          ? answers[currentIndex]?.textAnswer || ''
+          : typeof answers[currentIndex] === 'string'
+            ? answers[currentIndex]
+            : '';
+      newAnswers[currentIndex] = { ...graphAnswer, textAnswer: existingText };
       setAnswers(newAnswers);
     }
   }, [isGraphPlotAnswer, getGraphAnswer, answers, currentIndex, setAnswers]);
@@ -801,38 +808,59 @@ export function QuizInterface({
                 />
               )}
 
-              {/* Graph Plot Answer — instruction banner replaces MC/fill-in area */}
+              {/* Graph Plot Answer — instruction + answer input */}
               {isGraphPlotAnswer ? (
-                <div
-                  className="my-4 rounded-lg p-4"
-                  style={{
-                    backgroundColor: 'var(--info-bg, #eff6ff)',
-                    border: '1px solid var(--info-border, #bfdbfe)',
-                    color: 'var(--info-text, #1e40af)',
-                  }}
-                >
-                  <p className="text-sm font-semibold mb-1">
-                    📐 Interactive Graph Answer
-                  </p>
-                  <p className="text-sm">
-                    {currentQ.graphInstructions ||
-                      'Click on the coordinate plane to plot a point. Click an existing point to remove it.'}
-                  </p>
-                  {currentQ.expectedAnswer && (
-                    <p className="text-xs mt-2 opacity-75">
-                      {currentQ.expectedAnswer.points?.length
-                        ? `Plot ${currentQ.expectedAnswer.points.length} point${currentQ.expectedAnswer.points.length > 1 ? 's' : ''}`
-                        : ''}
-                      {currentQ.expectedAnswer.points?.length &&
-                      currentQ.expectedAnswer.lines?.length
-                        ? ' and '
-                        : ''}
-                      {currentQ.expectedAnswer.lines?.length
-                        ? `draw ${currentQ.expectedAnswer.lines.length} line${currentQ.expectedAnswer.lines.length > 1 ? 's' : ''}`
-                        : ''}
-                      {' on the coordinate plane.'}
+                <div className="my-4 space-y-3">
+                  <div
+                    className="rounded-lg p-3"
+                    style={{
+                      backgroundColor: 'var(--info-bg, #eff6ff)',
+                      border: '1px solid var(--info-border, #bfdbfe)',
+                      color: 'var(--info-text, #1e40af)',
+                    }}
+                  >
+                    <p className="text-sm">
+                      {currentQ.graphInstructions ||
+                        'Click on the coordinate plane to plot your point(s). Click an existing point to remove it.'}
                     </p>
-                  )}
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="graph-text-answer"
+                      className="mb-1 block text-sm font-medium"
+                      style={{ color: scheme.mutedText }}
+                    >
+                      Enter your answer:
+                    </label>
+                    <input
+                      id="graph-text-answer"
+                      type="text"
+                      value={
+                        typeof answers[currentIndex] === 'object'
+                          ? answers[currentIndex]?.textAnswer || ''
+                          : answers[currentIndex] || ''
+                      }
+                      onChange={(e) => {
+                        const newAnswers = [...answers];
+                        const existing =
+                          typeof answers[currentIndex] === 'object'
+                            ? answers[currentIndex]
+                            : {};
+                        newAnswers[currentIndex] = {
+                          ...existing,
+                          textAnswer: e.target.value,
+                        };
+                        setAnswers(newAnswers);
+                      }}
+                      className="w-full rounded-lg p-3 text-base focus:outline-none focus:ring-2"
+                      style={{
+                        border: `1px solid ${scheme.inputBorder}`,
+                        color: scheme.text,
+                        backgroundColor: scheme.surface,
+                      }}
+                      placeholder="Type your answer here"
+                    />
+                  </div>
                 </div>
               ) : isShortResponse ? (
                 <div>

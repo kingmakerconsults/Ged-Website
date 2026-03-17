@@ -1007,16 +1007,8 @@ export function mount(el, payload = {}) {
       const toolbarContainer = document.createElement('div');
       wrapper.appendChild(toolbarContainer);
       toolbar = new GraphToolbar(toolbarContainer);
-    } else {
-      // Quiz mode: simple instruction banner
-      const banner = document.createElement('div');
-      banner.style.cssText =
-        'padding: 8px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; ' +
-        'color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; ' +
-        'display: flex; align-items: center; gap: 8px;';
-      banner.innerHTML = '<span style="font-size:18px">\u{1F4CD}</span> Click on the graph to plot your point. Click an existing point to remove it.';
-      wrapper.appendChild(banner);
     }
+    // Quiz mode: no toolbar, just the clean coordinate plane
 
     // Create canvas container
     const canvasContainer = document.createElement('div');

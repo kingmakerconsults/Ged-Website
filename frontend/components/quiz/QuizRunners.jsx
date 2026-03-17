@@ -244,11 +244,28 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       const userAns = result.answers[idx];
       let isCorrect = false;
 
-      // Graph Plot answer type — compare plotted objects to expected
+      // Graph Plot answer type — compare plotted objects and/or text answer
       if (q.answerType === 'graphPlot') {
         const graphScore = gradeGraphPlotQuestion(q, userAns);
-        // Full credit requires matching all expected objects
-        isCorrect = graphScore >= 1.0;
+        // Also check text answer against correctAnswer if provided
+        let textCorrect = false;
+        if (
+          q.correctAnswer &&
+          userAns &&
+          typeof userAns === 'object' &&
+          userAns.textAnswer
+        ) {
+          textCorrect = window.compareAnswers(
+            q.correctAnswer,
+            userAns.textAnswer,
+            {
+              subject: quiz.subject,
+              questionType: q.type,
+            }
+          );
+        }
+        // Question is correct if graph objects match OR text answer matches
+        isCorrect = graphScore >= 1.0 || textCorrect;
         if (isCorrect) earnedPoints += pts;
         return;
       }

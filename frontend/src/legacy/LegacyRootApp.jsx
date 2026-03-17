@@ -26708,29 +26708,14 @@ function App({ externalTheme, onThemeChange }) {
         answers.length &&
         questions.length === answers.length
       ) {
-        const normalizeAnswer = (val) => {
-          if (val === null || val === undefined) return '';
-          return String(val)
-            .replace(/^\$+|\$+$/g, '')
-            .replace(/\u00A0/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim();
-        };
-        const isNumericEqual = (a, b) => {
-          const na = Number(a);
-          const nb = Number(b);
-          if (!Number.isFinite(na) || !Number.isFinite(nb)) return false;
-          return Math.abs(na - nb) < 1e-9;
-        };
         responses = questions.map((q, i) => {
           const userAns = answers[i];
           let correct = false;
           if (!q.answerOptions || q.answerOptions.length === 0) {
-            // fill-in or numeric
-            const user = normalizeAnswer(userAns);
-            const key = normalizeAnswer(q.correctAnswer);
-            correct =
-              !!user && !!key && (user === key || isNumericEqual(user, key));
+            correct = areEquivalentFillInAnswers(q.correctAnswer, userAns, {
+              subject: quizObj?.subject || subject,
+              question: q,
+            });
           } else {
             const correctOption = (q.answerOptions || []).find(
               (opt) => opt.isCorrect
@@ -35011,9 +34996,10 @@ function QuizInterface({
         const correctOption = q.answerOptions.find((opt) => opt.isCorrect);
         return correctOption && correctOption.text === userAnswer;
       } else {
-        // Fill-in-the-blank: simple string comparison for now
-        const normalize = (val) => (val ?? '').toString().trim().toLowerCase();
-        return normalize(q.correctAnswer) === normalize(userAnswer);
+        return areEquivalentFillInAnswers(q?.correctAnswer, userAnswer, {
+          subject: q?.originalSubject || q?.subject,
+          question: q,
+        });
       }
     },
     [questions, answers]
@@ -36444,174 +36430,11 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const questions = quiz.questions || [];
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
 
-  // --- Math Answer Normalization & Equivalence Helpers (Fill-in-the-Blank) ---
-  // Lightweight parser supporting: fractions (a/b), mixed numbers (a b/c), ratios (a:b), percents (50%), currency ($1,050.25),
-  // comma-separated multi answers ("18,19"), decimals, integers, tolerating whitespace & leading zeros.
-  const MATH_EQUIV = {
-    // Configurable numeric tolerance for float comparisons
-    EPS: 1e-9,
-    // Percent decimal conversion regex
-    PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
-    // Currency detection
-    CURRENCY_RE: /^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/,
-    // Fraction (simple) a/b
-    FRACTION_RE: /^[-+]?\d+\s*\/\s*\d+$/,
-    // Mixed number: a b/c (allow sign on first part)
-    MIXED_RE: /^[-+]?\d+\s+\d+\s*\/\s*\d+$/,
-    // Ratio a:b (integers only)
-    RATIO_RE: /^[-+]?\d+\s*:\s*[-+]?\d+$/,
-    // Multi-answer list separated by comma
-    MULTI_SPLIT_RE: /\s*,\s*/,
-  };
-
-  const normalizeRaw = (val) => {
-    if (val === null || val === undefined) return '';
-    return String(val)
-      .replace(/\u00A0/g, ' ') // non-breaking space
-      .replace(/\s+/g, ' ') // collapse internal whitespace
-      .trim();
-  };
-
-  const stripCurrency = (s) => s.replace(/^\$/, '').replace(/,/g, '');
-  const parseFraction = (s) => {
-    const [a, b] = s.split('/').map((t) => t.trim());
-    const num = Number(a),
-      den = Number(b);
-    if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0)
-      return null;
-    return num / den;
-  };
-  const parseMixed = (s) => {
-    const parts = s.split(/\s+/);
-    if (parts.length < 2) return null;
-    const whole = Number(parts[0]);
-    const frac = parseFraction(parts.slice(1).join(' '));
-    if (frac === null || !Number.isFinite(whole)) return null;
-    return whole >= 0 ? whole + frac : whole - frac; // sign on whole applies
-  };
-  const parsePercent = (s) => {
-    const num = Number(s.replace('%', ''));
-    return Number.isFinite(num) ? num / 100 : null;
-  };
-  const parseCurrency = (s) => {
-    const num = Number(stripCurrency(s));
-    return Number.isFinite(num) ? num : null;
-  };
-  const parseRatio = (s) => {
-    const [a, b] = s.split(':').map((t) => t.trim());
-    const na = Number(a),
-      nb = Number(b);
-    if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
-    return na / nb;
-  };
-
-  const parsePercentWord = (s) => {
-    const m = s.match(/([-+]?\d+(?:\.\d+)?)\s*percent\b/i);
-    if (!m) return null;
-    const num = Number(m[1]);
-    return Number.isFinite(num) ? num / 100 : null;
-  };
-
-  const extractInlineFraction = (s) => {
-    const m = s.match(/[-+]?\d+\s*\/\s*[-+]?\d+/);
-    if (!m) return null;
-    return parseFraction(m[0]);
-  };
-
-  const extractInlineRatioTo = (s) => {
-    const m = s.match(/([-+]?\d+)\s+to\s+([-+]?\d+)/i);
-    if (!m) return null;
-    const na = Number(m[1]);
-    const nb = Number(m[2]);
-    if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
-    return na / nb;
-  };
-
-  const extractInlineNumber = (s) => {
-    const m = s.match(/[-+]?\d+(?:,\d{3})*(?:\.\d+)?/);
-    if (!m) return null;
-    const num = Number(m[0].replace(/,/g, ''));
-    return Number.isFinite(num) ? num : null;
-  };
-
-  const numericValue = (raw) => {
-    const s = normalizeRaw(raw);
-    if (!s) return null;
-
-    // If this looks like a multi-answer list (comma-separated) that is not currency/thousands, skip numeric parsing
-    const looksLikeList =
-      s.includes(',') &&
-      !MATH_EQUIV.CURRENCY_RE.test(s) &&
-      !/^[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s);
-    if (looksLikeList) return null;
-
-    if (MATH_EQUIV.PERCENT_RE.test(s)) return parsePercent(s);
-    if (MATH_EQUIV.CURRENCY_RE.test(s)) return parseCurrency(s);
-    if (MATH_EQUIV.MIXED_RE.test(s)) return parseMixed(s);
-    if (MATH_EQUIV.FRACTION_RE.test(s)) return parseFraction(s);
-    if (MATH_EQUIV.RATIO_RE.test(s)) return parseRatio(s);
-    const percentWord = parsePercentWord(s);
-    if (percentWord !== null) return percentWord;
-    const inlineFrac = extractInlineFraction(s);
-    if (inlineFrac !== null) return inlineFrac;
-    const inlineRatio = extractInlineRatioTo(s);
-    if (inlineRatio !== null) return inlineRatio;
-    // plain number (allow commas)
-    const plain = s.replace(/,/g, '');
-    const num = Number(plain);
-    if (Number.isFinite(num)) return num;
-
-    // Last resort: pull the first standalone number token from text (e.g., "9 cups", "20 hours")
-    const inlineNumber = extractInlineNumber(s);
-    return inlineNumber !== null ? inlineNumber : null;
-  };
-
-  // Produce canonical string tokens for multi-answer sets (order-insensitive) or single answer.
-  const canonicalTokens = (raw) => {
-    const s = normalizeRaw(raw);
-    if (!s) return [];
-    // Multi-answer if comma present
-    if (s.includes(',')) {
-      return s
-        .split(MATH_EQUIV.MULTI_SPLIT_RE)
-        .filter(Boolean)
-        .map((t) => normalizeRaw(t));
-    }
-    return [s];
-  };
-
-  const areTokenSetsEqual = (expTokens, userTokens) => {
-    if (expTokens.length !== userTokens.length) return false;
-    const a = [...expTokens].sort();
-    const b = [...userTokens].sort();
-    return a.every((v, i) => v === b[i]);
-  };
-
-  const isNumericEqual = (a, b) => {
-    const na = numericValue(a);
-    const nb = numericValue(b);
-    if (na === null || nb === null) return false;
-    return Math.abs(na - nb) < MATH_EQUIV.EPS;
-  };
-
-  const isEquivalentAnswer = (expected, user) => {
-    const e = normalizeRaw(expected);
-    const u = normalizeRaw(user);
-    if (!e || !u) return false;
-    if (e === u) return true; // exact match quick path
-    // Numeric equivalence (covers fraction/decimal/percent/ratio/currency)
-    if (isNumericEqual(e, u)) return true;
-    // Multi-answer comparison (e.g. "18,19" vs "19,18")
-    if (e.includes(',') || u.includes(',')) {
-      return areTokenSetsEqual(canonicalTokens(e), canonicalTokens(u));
-    }
-    // Ratio vs fraction equivalence: treat ratio numeric already handled by numericValue
-    return false;
-  };
-
-  // Helper: check if a fill-in question is correct
   const checkFillInQuestionCorrect = (q, userAns) => {
-    return isEquivalentAnswer(q.correctAnswer, userAns);
+    return areEquivalentFillInAnswers(q?.correctAnswer, userAns, {
+      subject: quiz?.subject,
+      question: q,
+    });
   };
 
   const handleComplete = (result) => {
@@ -36729,6 +36552,217 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       articleImage={quiz.imageUrl}
       practiceMode={quiz.practiceMode}
     />
+  );
+}
+
+const QUIZ_ANSWER_EQUIV = {
+  EPS: 1e-9,
+  PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
+  CURRENCY_RE: /^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/,
+  FRACTION_RE: /^[-+]?\d+\s*\/\s*\d+$/,
+  MIXED_RE: /^[-+]?\d+\s+\d+\s*\/\s*\d+$/,
+  RATIO_RE: /^[-+]?\d+\s*:\s*[-+]?\d+$/,
+  MULTI_SPLIT_RE: /\s*,\s*/,
+  SCIENCE_UNIT_RE:
+    /%|\bpercent\b|\bcm\b|\bmm\b|\bm\b|\bkm\b|\bg\b|\bkg\b|\bmg\b|\bl\b|\bml\b|\bn\b|\bj\b|\bw\b|\bpa\b|\batm\b|\bmol\b|\bs\b|\bsec\b|\bsecond(s)?\b|\bmin(ute)?(s)?\b|\bh(our)?(s)?\b|m\/s|km\/h|mph|°c|°f|\bkelvin\b/i,
+};
+
+function normalizeQuizAnswerRaw(val) {
+  if (val === null || val === undefined) return '';
+  return String(val).replace(/\u00A0/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function stripQuizAnswerCurrency(value) {
+  return value.replace(/^\$/, '').replace(/,/g, '');
+}
+
+function parseQuizAnswerFraction(value) {
+  const [a, b] = value.split('/').map((t) => t.trim());
+  const num = Number(a);
+  const den = Number(b);
+  if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0) {
+    return null;
+  }
+  return num / den;
+}
+
+function parseQuizAnswerMixedNumber(value) {
+  const parts = value.split(/\s+/);
+  if (parts.length < 2) return null;
+  const whole = Number(parts[0]);
+  const frac = parseQuizAnswerFraction(parts.slice(1).join(' '));
+  if (frac === null || !Number.isFinite(whole)) return null;
+  return whole >= 0 ? whole + frac : whole - frac;
+}
+
+function parseQuizAnswerPercent(value) {
+  const num = Number(value.replace('%', ''));
+  return Number.isFinite(num) ? num / 100 : null;
+}
+
+function parseQuizAnswerCurrency(value) {
+  const num = Number(stripQuizAnswerCurrency(value));
+  return Number.isFinite(num) ? num : null;
+}
+
+function parseQuizAnswerRatio(value) {
+  const [a, b] = value.split(':').map((t) => t.trim());
+  const na = Number(a);
+  const nb = Number(b);
+  if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
+  return na / nb;
+}
+
+function parseQuizAnswerPercentWord(value) {
+  const match = value.match(/([-+]?\d+(?:\.\d+)?)\s*percent\b/i);
+  if (!match) return null;
+  const num = Number(match[1]);
+  return Number.isFinite(num) ? num / 100 : null;
+}
+
+function extractQuizAnswerInlineFraction(value) {
+  const match = value.match(/[-+]?\d+\s*\/\s*[-+]?\d+/);
+  if (!match) return null;
+  return parseQuizAnswerFraction(match[0]);
+}
+
+function extractQuizAnswerInlineRatio(value) {
+  const match = value.match(/([-+]?\d+)\s+to\s+([-+]?\d+)/i);
+  if (!match) return null;
+  const na = Number(match[1]);
+  const nb = Number(match[2]);
+  if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
+  return na / nb;
+}
+
+function extractQuizAnswerInlineNumber(value) {
+  const match = value.match(/[-+]?\d+(?:,\d{3})*(?:\.\d+)?/);
+  if (!match) return null;
+  const num = Number(match[0].replace(/,/g, ''));
+  return Number.isFinite(num) ? num : null;
+}
+
+function quizAnswerNumericValue(raw) {
+  const value = normalizeQuizAnswerRaw(raw);
+  if (!value) return null;
+
+  const looksLikeList =
+    value.includes(',') &&
+    !QUIZ_ANSWER_EQUIV.CURRENCY_RE.test(value) &&
+    !/^[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(value);
+  if (looksLikeList) return null;
+
+  if (QUIZ_ANSWER_EQUIV.PERCENT_RE.test(value)) {
+    return parseQuizAnswerPercent(value);
+  }
+  if (QUIZ_ANSWER_EQUIV.CURRENCY_RE.test(value)) {
+    return parseQuizAnswerCurrency(value);
+  }
+  if (QUIZ_ANSWER_EQUIV.MIXED_RE.test(value)) {
+    return parseQuizAnswerMixedNumber(value);
+  }
+  if (QUIZ_ANSWER_EQUIV.FRACTION_RE.test(value)) {
+    return parseQuizAnswerFraction(value);
+  }
+  if (QUIZ_ANSWER_EQUIV.RATIO_RE.test(value)) {
+    return parseQuizAnswerRatio(value);
+  }
+
+  const percentWord = parseQuizAnswerPercentWord(value);
+  if (percentWord !== null) return percentWord;
+
+  const inlineFraction = extractQuizAnswerInlineFraction(value);
+  if (inlineFraction !== null) return inlineFraction;
+
+  const inlineRatio = extractQuizAnswerInlineRatio(value);
+  if (inlineRatio !== null) return inlineRatio;
+
+  const plain = value.replace(/,/g, '');
+  const num = Number(plain);
+  if (Number.isFinite(num)) return num;
+
+  return extractQuizAnswerInlineNumber(value);
+}
+
+function quizAnswerMagnitudeValue(raw) {
+  return extractQuizAnswerInlineNumber(normalizeQuizAnswerRaw(raw));
+}
+
+function quizAnswerCanonicalTokens(raw) {
+  const value = normalizeQuizAnswerRaw(raw);
+  if (!value) return [];
+  if (value.includes(',')) {
+    return value
+      .split(QUIZ_ANSWER_EQUIV.MULTI_SPLIT_RE)
+      .filter(Boolean)
+      .map((token) => normalizeQuizAnswerRaw(token));
+  }
+  return [value];
+}
+
+function areQuizAnswerTokenSetsEqual(expectedTokens, userTokens) {
+  if (expectedTokens.length !== userTokens.length) return false;
+  const a = [...expectedTokens].sort();
+  const b = [...userTokens].sort();
+  return a.every((value, index) => value === b[index]);
+}
+
+function isQuizAnswerNumericEqual(expected, user) {
+  const expectedValue = quizAnswerNumericValue(expected);
+  const userValue = quizAnswerNumericValue(user);
+  if (expectedValue === null || userValue === null) return false;
+  return Math.abs(expectedValue - userValue) < QUIZ_ANSWER_EQUIV.EPS;
+}
+
+function isScienceAnswerContext(subject, question) {
+  const label = String(
+    question?.originalSubject || question?.subject || subject || ''
+  ).toLowerCase();
+  return label.includes('science');
+}
+
+function canScienceAnswerIgnoreUnits(expected, user, subject, question) {
+  if (!isScienceAnswerContext(subject, question)) return false;
+
+  const expectedText = normalizeQuizAnswerRaw(expected);
+  const userText = normalizeQuizAnswerRaw(user);
+  if (!expectedText || !userText) return false;
+
+  if (
+    !QUIZ_ANSWER_EQUIV.SCIENCE_UNIT_RE.test(expectedText) &&
+    !QUIZ_ANSWER_EQUIV.SCIENCE_UNIT_RE.test(userText)
+  ) {
+    return false;
+  }
+
+  const expectedMagnitude = quizAnswerMagnitudeValue(expectedText);
+  const userMagnitude = quizAnswerMagnitudeValue(userText);
+  if (expectedMagnitude === null || userMagnitude === null) return false;
+
+  return (
+    Math.abs(expectedMagnitude - userMagnitude) < QUIZ_ANSWER_EQUIV.EPS
+  );
+}
+
+function areEquivalentFillInAnswers(expected, user, options = {}) {
+  const expectedText = normalizeQuizAnswerRaw(expected);
+  const userText = normalizeQuizAnswerRaw(user);
+  if (!expectedText || !userText) return false;
+  if (expectedText === userText) return true;
+  if (isQuizAnswerNumericEqual(expectedText, userText)) return true;
+
+  if (expectedText.includes(',') || userText.includes(',')) {
+    return areQuizAnswerTokenSetsEqual(
+      quizAnswerCanonicalTokens(expectedText),
+      quizAnswerCanonicalTokens(userText)
+    );
+  }
+
+  return canScienceAnswerIgnoreUnits(
+    expectedText,
+    userText,
+    options.subject,
+    options.question
   );
 }
 
@@ -37878,90 +37912,6 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   (opt) => opt && opt.isCorrect
                 );
 
-                const normalizeRaw = (val) => {
-                  if (val === null || val === undefined) return '';
-                  return String(val)
-                    .replace(/\u00A0/g, ' ')
-                    .replace(/\s+/g, ' ')
-                    .trim();
-                };
-                const numericValue = (raw) => {
-                  const s = normalizeRaw(raw);
-                  if (!s) return null;
-                  if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) {
-                    const n = Number(s.replace('%', ''));
-                    return Number.isFinite(n) ? n / 100 : null;
-                  }
-                  if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) {
-                    const n = Number(s.replace(/^\$/, '').replace(/,/g, ''));
-                    return Number.isFinite(n) ? n : null;
-                  }
-                  if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) {
-                    const parts = s.split(/\s+/);
-                    const whole = Number(parts[0]);
-                    const fracParts = parts.slice(1).join(' ').split('/');
-                    const num = Number(fracParts[0]);
-                    const den = Number(fracParts[1]);
-                    if (
-                      !Number.isFinite(whole) ||
-                      !Number.isFinite(num) ||
-                      !Number.isFinite(den) ||
-                      den === 0
-                    )
-                      return null;
-                    const frac = num / den;
-                    return whole >= 0 ? whole + frac : whole - frac;
-                  }
-                  if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
-                    const [a, b] = s.split('/').map((t) => t.trim());
-                    const num = Number(a),
-                      den = Number(b);
-                    if (
-                      !Number.isFinite(num) ||
-                      !Number.isFinite(den) ||
-                      den === 0
-                    )
-                      return null;
-                    return num / den;
-                  }
-                  if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) {
-                    const [a, b] = s.split(':').map((t) => t.trim());
-                    const na = Number(a),
-                      nb = Number(b);
-                    if (
-                      !Number.isFinite(na) ||
-                      !Number.isFinite(nb) ||
-                      nb === 0
-                    )
-                      return null;
-                    return na / nb;
-                  }
-                  const plain = s.replace(/,/g, '');
-                  const num = Number(plain);
-                  return Number.isFinite(num) ? num : null;
-                };
-                const isNumericEqual = (a, b) => {
-                  const na = numericValue(a);
-                  const nb = numericValue(b);
-                  return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
-                };
-                const tokenize = (raw) => {
-                  const s = normalizeRaw(raw);
-                  if (!s) return [];
-                  if (s.includes(','))
-                    return s
-                      .split(/\s*,\s*/)
-                      .filter(Boolean)
-                      .map(normalizeRaw);
-                  return [s];
-                };
-                const setsEqual = (a, b) => {
-                  if (a.length !== b.length) return false;
-                  const sa = [...a].sort();
-                  const sb = [...b].sort();
-                  return sa.every((v, i) => v === sb[i]);
-                };
-
                 let isCorrect;
                 if (correctMC) {
                   isCorrect = userAnswer === correctMC.text;
@@ -37969,15 +37919,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   question?.type === 'fill-in-the-blank' ||
                   !(question?.answerOptions || []).length
                 ) {
-                  const expected = question?.correctAnswer;
-                  const ue = normalizeRaw(userAnswer);
-                  const ex = normalizeRaw(expected);
-                  isCorrect =
-                    Boolean(ex) &&
-                    Boolean(ue) &&
-                    (ue === ex ||
-                      isNumericEqual(ue, ex) ||
-                      setsEqual(tokenize(ue), tokenize(ex)));
+                  isCorrect = areEquivalentFillInAnswers(
+                    question?.correctAnswer,
+                    userAnswer,
+                    {
+                      subject: results?.subject || question?.subject,
+                      question,
+                    }
+                  );
                 } else {
                   isCorrect = false;
                 }
@@ -38490,82 +38439,6 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             const correctMC = (question.answerOptions || []).find(
               (opt) => opt.isCorrect
             );
-            // Reuse lightweight equivalence logic (mirrors StandardQuizRunner) for display
-            const normalizeRaw = (val) => {
-              if (val === null || val === undefined) return '';
-              return String(val)
-                .replace(/\u00A0/g, ' ')
-                .replace(/\s+/g, ' ')
-                .trim();
-            };
-            const numericValue = (raw) => {
-              const s = normalizeRaw(raw);
-              if (!s) return null;
-              if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) {
-                const n = Number(s.replace('%', ''));
-                return Number.isFinite(n) ? n / 100 : null;
-              }
-              if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) {
-                const n = Number(s.replace(/^\$/, '').replace(/,/g, ''));
-                return Number.isFinite(n) ? n : null;
-              }
-              if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) {
-                const parts = s.split(/\s+/);
-                const whole = Number(parts[0]);
-                const fracParts = parts.slice(1).join(' ').split('/');
-                const num = Number(fracParts[0]);
-                const den = Number(fracParts[1]);
-                if (
-                  !Number.isFinite(whole) ||
-                  !Number.isFinite(num) ||
-                  !Number.isFinite(den) ||
-                  den === 0
-                )
-                  return null;
-                const frac = num / den;
-                return whole >= 0 ? whole + frac : whole - frac;
-              }
-              if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
-                const [a, b] = s.split('/').map((t) => t.trim());
-                const num = Number(a),
-                  den = Number(b);
-                if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0)
-                  return null;
-                return num / den;
-              }
-              if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) {
-                const [a, b] = s.split(':').map((t) => t.trim());
-                const na = Number(a),
-                  nb = Number(b);
-                if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0)
-                  return null;
-                return na / nb;
-              }
-              const plain = s.replace(/,/g, '');
-              const num = Number(plain);
-              return Number.isFinite(num) ? num : null;
-            };
-            const isNumericEqual = (a, b) => {
-              const na = numericValue(a),
-                nb = numericValue(b);
-              return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
-            };
-            const tokenize = (raw) => {
-              const s = normalizeRaw(raw);
-              if (!s) return [];
-              if (s.includes(','))
-                return s
-                  .split(/\s*,\s*/)
-                  .filter(Boolean)
-                  .map(normalizeRaw);
-              return [s];
-            };
-            const setsEqual = (a, b) => {
-              if (a.length !== b.length) return false;
-              const sa = [...a].sort();
-              const sb = [...b].sort();
-              return sa.every((v, i) => v === sb[i]);
-            };
             let isCorrect;
             if (correctMC) {
               isCorrect = userAnswer === correctMC.text;
@@ -38573,15 +38446,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               question.type === 'fill-in-the-blank' ||
               !(question.answerOptions || []).length
             ) {
-              const expected = question.correctAnswer;
-              const ue = normalizeRaw(userAnswer);
-              const ex = normalizeRaw(expected);
-              isCorrect =
-                Boolean(ex) &&
-                Boolean(ue) &&
-                (ue === ex ||
-                  isNumericEqual(ue, ex) ||
-                  setsEqual(tokenize(ue), tokenize(ex)));
+              isCorrect = areEquivalentFillInAnswers(
+                question.correctAnswer,
+                userAnswer,
+                {
+                  subject: results?.subject || question?.subject,
+                  question,
+                }
+              );
             } else {
               isCorrect = false;
             }
