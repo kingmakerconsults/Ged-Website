@@ -94,6 +94,91 @@ function standaloneSlot(
   };
 }
 
+// ── 30% Bank / 70% AI Split ─────────────────────────────────────────
+// Reduces AI generation load by designating ~30% of questions to be
+// pulled from the premade question bank first, while keeping 70% as
+// fresh AI-generated content. This makes comprehensives faster and
+// more reliable without sacrificing variety.
+
+/**
+ * Apply bank/AI source priority split across plan slots.
+ *
+ * @param {Array} slots — mutable array of slot definitions
+ * @param {Object} [options]
+ * @param {number} [options.bankPct=0.30]  — target fraction for bank-first slots
+ * @param {boolean} [options.forceEssayAI=true] — always use AI for essay slots
+ * @param {string[]} [options.bankGroups]  — specific group keys forced to bank
+ * @returns {{ bankCount: number, aiCount: number }}
+ */
+function applyBankAiSplit(slots, options = {}) {
+  const { bankPct = 0.3, forceEssayAI = true, bankGroups = null } = options;
+  const totalQ = slots.reduce((s, sl) => s + sl.questionsNeeded, 0);
+  const bankTarget = Math.round(totalQ * bankPct);
+
+  const bankIndices = new Set();
+  let bankCount = 0;
+
+  // 1. If specific groups are designated as bank, mark all their slots first
+  if (bankGroups && bankGroups.length) {
+    for (let i = 0; i < slots.length; i++) {
+      if (bankGroups.includes(slots[i].group)) {
+        bankIndices.add(i);
+        bankCount += slots[i].questionsNeeded;
+      }
+    }
+  }
+
+  // 2. Fill remaining bank budget with the most bank-suitable individual slots
+  if (bankCount < bankTarget) {
+    const scored = slots
+      .map((slot, idx) => {
+        if (bankIndices.has(idx))
+          return { idx, score: -1000, q: slot.questionsNeeded };
+        let score = 0;
+        if (slot.stimulusType === 'standalone') score += 10;
+        if (slot.difficulty === 'easy') score += 3;
+        else if (slot.difficulty === 'medium') score += 1;
+        if (slot.stimulusType === 'passage' && slot.questionsNeeded <= 2)
+          score += 2;
+        if (slot.responseType === 'essay') score = -1000;
+        return { idx, score, q: slot.questionsNeeded };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    for (const { idx, score, q } of scored) {
+      if (bankCount >= bankTarget) break;
+      if (score <= -1000) continue;
+      bankIndices.add(idx);
+      bankCount += q;
+    }
+  }
+
+  // 3. Write source priorities into each slot
+  for (let i = 0; i < slots.length; i++) {
+    if (forceEssayAI && slots[i].responseType === 'essay') {
+      slots[i] = { ...slots[i], sourcePriority: ['ai', 'bank'] };
+    } else if (bankIndices.has(i)) {
+      slots[i] = { ...slots[i], sourcePriority: ['bank', 'template', 'ai'] };
+    } else {
+      // For AI-designated slots: respect existing template-first if set
+      const current = slots[i].sourcePriority;
+      if (current && current[0] === 'template') {
+        slots[i] = {
+          ...slots[i],
+          sourcePriority: ['template', 'ai', 'bank'],
+        };
+      } else {
+        slots[i] = {
+          ...slots[i],
+          sourcePriority: ['ai', 'template', 'bank'],
+        };
+      }
+    }
+  }
+
+  return { bankCount, aiCount: totalQ - bankCount };
+}
+
 // ── Difficulty distributors ──────────────────────────────────────────
 
 function distributeDifficulty(count, easyPct, medPct) {
@@ -212,6 +297,9 @@ function buildSocialStudiesPlan() {
       (diffCounts[s.difficulty] || 0) + s.questionsNeeded;
   }
 
+  // Apply 30% bank / 70% AI split (11 bank, 24 AI)
+  const bankAiSplit = applyBankAiSplit(slots);
+
   return {
     subject: 'Social Studies',
     type: 'single-part',
@@ -228,7 +316,14 @@ function buildSocialStudiesPlan() {
       difficulty: { easy: 10, medium: 17, hard: 8 },
     },
     slots,
-    computed: { totalQ, passageQ, imageQ, standaloneQ, diffCounts },
+    computed: {
+      totalQ,
+      passageQ,
+      imageQ,
+      standaloneQ,
+      diffCounts,
+      bankAiSplit,
+    },
   };
 }
 
@@ -448,6 +543,9 @@ function buildSciencePlan() {
     .filter((s) => s.numeracy)
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
+  // Apply 30% bank / 70% AI split (11 bank, 27 AI)
+  const bankAiSplit = applyBankAiSplit(slots);
+
   return {
     subject: 'Science',
     type: 'single-part',
@@ -468,7 +566,7 @@ function buildSciencePlan() {
       numeracyMinimum: 13,
     },
     slots,
-    computed: { totalQ, numeracySlots },
+    computed: { totalQ, numeracySlots, bankAiSplit },
   };
 }
 
@@ -579,6 +677,18 @@ function buildRlaPlan() {
     .filter((s) => s.section === 'part3_language')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
+  // Apply 30% bank / 70% AI split.
+  // Designate 1 reading passage group + 3 language doc groups → ~14 from bank.
+  // Essay always uses AI.
+  const bankAiSplit = applyBankAiSplit(slots, {
+    bankGroups: [
+      'rla_read_info1',
+      'rla_lang_doc1',
+      'rla_lang_doc3',
+      'rla_lang_doc7',
+    ],
+  });
+
   return {
     subject: 'RLA',
     type: 'multi-part-rla',
@@ -590,7 +700,7 @@ function buildRlaPlan() {
       totalMCQuestions: 45,
     },
     slots,
-    computed: { totalReading, totalEssay, totalLanguage },
+    computed: { totalReading, totalEssay, totalLanguage, bankAiSplit },
   };
 }
 
@@ -818,6 +928,9 @@ function buildMathPlan() {
     .filter((s) => s.section === 'part2_calculator')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
+  // Apply 30% bank / 70% AI split (14 bank, 32 AI)
+  const bankAiSplit = applyBankAiSplit(slots);
+
   return {
     subject: 'Math',
     type: 'multi-part-math',
@@ -829,7 +942,7 @@ function buildMathPlan() {
       noRandomNumericAssignment: true,
     },
     slots,
-    computed: { totalPart1, totalPart2 },
+    computed: { totalPart1, totalPart2, bankAiSplit },
   };
 }
 

@@ -24286,7 +24286,10 @@ function App({ externalTheme, onThemeChange }) {
     const onPopState = (event) => {
       // If the user is in an active quiz/exam, intercept the back button
       const currentView = viewRef.current;
-      const isInQuiz = currentView === 'quiz' || currentView === 'reading';
+      const isInQuiz =
+        currentView === 'quiz' ||
+        currentView === 'reading' ||
+        currentView === 'comprehensiveStart';
       if (isInQuiz) {
         const confirmed = window.confirm(
           'You are in the middle of a quiz/exam. Leaving now will end your progress. Are you sure you want to leave?'
@@ -24965,7 +24968,8 @@ function App({ externalTheme, onThemeChange }) {
         last.view === 'results' ||
         last.view === 'reading' ||
         last.view === 'essay' ||
-        last.view === 'simulation'
+        last.view === 'simulation' ||
+        last.view === 'comprehensiveStart'
       ) {
         setActiveQuiz(last.activeQuiz ?? null);
         setQuizResults(last.quizResults ?? null);
@@ -26419,7 +26423,15 @@ function App({ externalTheme, onThemeChange }) {
       }
 
       const examData = await response.json();
-      startQuiz(examData, subject);
+      startQuiz(
+        {
+          ...examData,
+          isComprehensive: true,
+          quizType: examData?.quizType || 'comprehensive',
+        },
+        subject,
+        { showIntro: true }
+      );
     } catch (err) {
       console.error('Failed to generate exam:', err);
       alert('Failed to generate exam: ' + err.message);
@@ -26470,7 +26482,67 @@ function App({ externalTheme, onThemeChange }) {
       }));
   };
 
-  const startQuiz = (quizPayload, subject) => {
+  const isComprehensiveQuiz = useCallback((quizPayload) => {
+    if (!quizPayload || typeof quizPayload !== 'object') {
+      return false;
+    }
+
+    if (
+      quizPayload.isComprehensive === true ||
+      quizPayload.quizType === 'comprehensive'
+    ) {
+      return true;
+    }
+
+    if (
+      quizPayload.type === 'multi-part-rla' ||
+      quizPayload.type === 'multi-part-math'
+    ) {
+      return true;
+    }
+
+    return /comprehensive/i.test(String(quizPayload.title || ''));
+  }, []);
+
+  const resolveQuizView = useCallback((quizPayload) => {
+    if (!quizPayload || typeof quizPayload !== 'object') {
+      return 'quiz';
+    }
+
+    const requiresStandardView =
+      quizPayload.type === 'multi-part-rla' ||
+      quizPayload.type === 'multi-part-math';
+    const normalizedType =
+      quizPayload.type === 'reading' ? 'quiz' : quizPayload.type || 'quiz';
+
+    return requiresStandardView ? 'quiz' : normalizedType;
+  }, []);
+
+  const launchPreparedQuiz = useCallback(
+    (preparedQuiz, options = {}) => {
+      const { showIntro = false } = options;
+
+      setActiveQuiz(preparedQuiz);
+
+      if (showIntro && isComprehensiveQuiz(preparedQuiz)) {
+        setView('comprehensiveStart');
+        return;
+      }
+
+      setView(resolveQuizView(preparedQuiz));
+    },
+    [isComprehensiveQuiz, resolveQuizView]
+  );
+
+  const handleStartReadyComprehensive = useCallback(() => {
+    if (!activeQuiz) {
+      return;
+    }
+
+    setView(resolveQuizView(activeQuiz));
+  }, [activeQuiz, resolveQuizView]);
+
+  const startQuiz = (quizPayload, subject, options = {}) => {
     console.log('Starting quiz with data:', quizPayload); // Debugging line
 
     if (!quizPayload || typeof quizPayload !== 'object') {
@@ -26517,6 +26589,9 @@ function App({ externalTheme, onThemeChange }) {
     ]);
 
     const preparedQuiz = { ...quizPayload, subject };
+    preparedQuiz.quizType =
+      preparedQuiz.quizType || quizPayload.quizType || null;
+    preparedQuiz.isComprehensive = isComprehensiveQuiz(preparedQuiz);
     preparedQuiz.quizCode =
       quizPayload.quizCode ||
       quizPayload.code ||
@@ -26607,15 +26682,7 @@ function App({ externalTheme, onThemeChange }) {
       isPremade: q.isPremade === true || preparedQuiz.isPremade,
     }));
 
-    setActiveQuiz(preparedQuiz);
-    // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
-    const requiresStandardView =
-      preparedQuiz.type === 'multi-part-rla' ||
-      preparedQuiz.type === 'multi-part-math';
-    const normalizedType =
-      preparedQuiz.type === 'reading' ? 'quiz' : preparedQuiz.type || 'quiz';
-    const viewType = requiresStandardView ? 'quiz' : normalizedType;
-    setView(viewType);
+    launchPreparedQuiz(preparedQuiz, options);
   };
 
   const onQuizComplete = async (results) => {
@@ -26959,6 +27026,14 @@ function App({ externalTheme, onThemeChange }) {
 
     // Student view (default) - keep existing quiz/practice UI
     switch (view) {
+      case 'comprehensiveStart':
+        return (
+          <ComprehensiveExamStartScreen
+            quiz={activeQuiz}
+            onBack={goBack}
+            onStart={handleStartReadyComprehensive}
+          />
+        );
       case 'quiz':
         return (
           <QuizRunner
@@ -27077,7 +27152,11 @@ function App({ externalTheme, onThemeChange }) {
           <ResultsScreen
             results={quizResults}
             quiz={activeQuiz}
-            onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)}
+            onRestart={() =>
+              startQuiz(activeQuiz, activeQuiz.subject, {
+                showIntro: isComprehensiveQuiz(activeQuiz),
+              })
+            }
             onHome={navigateHome}
             onReviewMarked={handleReviewMarked}
           />
@@ -37515,6 +37594,122 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   );
 }
 
+function ComprehensiveExamStartScreen({ quiz, onBack, onStart }) {
+  if (!quiz) {
+    return <div className="text-center p-8">Preparing exam...</div>;
+  }
+
+  const questionCount = Array.isArray(quiz.questions)
+    ? quiz.questions.length
+    : 0;
+  const totalMinutes =
+    typeof quiz.totalTime === 'number' && quiz.totalTime > 0
+      ? Math.round(quiz.totalTime / 60)
+      : quiz.type === 'multi-part-rla'
+        ? 150
+        : null;
+
+  const detailRows = [];
+
+  if (quiz.type === 'multi-part-math') {
+    detailRows.push(
+      `${Array.isArray(quiz.part1_non_calculator) ? quiz.part1_non_calculator.length : 0} non-calculator questions`,
+      `${Array.isArray(quiz.part2_calculator) ? quiz.part2_calculator.length : 0} calculator questions`,
+      'Formula sheet available during the exam.'
+    );
+  } else if (quiz.type === 'multi-part-rla') {
+    detailRows.push(
+      `${Array.isArray(quiz.part1_reading) ? quiz.part1_reading.length : 0} reading questions`,
+      '1 extended response essay',
+      `${Array.isArray(quiz.part3_language) ? quiz.part3_language.length : 0} language and grammar questions`
+    );
+  } else {
+    detailRows.push(`${questionCount} total questions`);
+    if (quiz.subject === 'Science') {
+      detailRows.push('Formula sheet available during the exam.');
+    }
+  }
+
+  if (quiz.subject === 'Math') {
+    detailRows.push('Part 1 begins without a calculator.');
+  }
+
+  return (
+    <div className="fade-in" data-subject={quiz.subject || ''}>
+      <div className="max-w-4xl mx-auto panel-surface rounded-3xl shadow-xl overflow-hidden border">
+        <div className="px-6 py-5 border-b flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <button onClick={onBack} className="btn-ghost self-start">
+            <ArrowLeftIcon /> Back
+          </button>
+          <div className="text-left sm:text-right">
+            <p className="text-xs uppercase tracking-[0.24em] text-secondary">
+              Exam Ready
+            </p>
+            <h2 className="text-2xl font-extrabold text-primary">
+              {quiz.title || 'Comprehensive Exam'}
+            </h2>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8 grid gap-6 lg:grid-cols-[1.3fr_0.9fr] items-start">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] bg-surface-alt text-secondary mb-4">
+              {quiz.subject || 'GED'} assessment
+            </div>
+            <h3 className="text-3xl font-extrabold text-primary leading-tight">
+              Your comprehensive exam is fully generated and ready to begin.
+            </h3>
+            <p className="mt-4 text-secondary text-base leading-7 max-w-2xl">
+              Review the structure below, then start when you are ready. Once
+              you begin, the exam will open immediately.
+            </p>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl border bg-surface-alt px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-secondary">
+                  Question Count
+                </p>
+                <p className="mt-2 text-3xl font-extrabold text-primary">
+                  {questionCount}
+                </p>
+              </div>
+              <div className="rounded-2xl border bg-surface-alt px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-secondary">
+                  Estimated Time
+                </p>
+                <p className="mt-2 text-3xl font-extrabold text-primary">
+                  {totalMinutes ? `${totalMinutes} min` : 'Self-paced'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border bg-surface-alt px-5 py-5">
+            <p className="text-xs uppercase tracking-[0.16em] text-secondary mb-3">
+              What to expect
+            </p>
+            <div className="space-y-3">
+              {detailRows.map((detail) => (
+                <div key={detail} className="flex items-start gap-3">
+                  <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-sky-500"></span>
+                  <span className="text-sm leading-6 text-primary">
+                    {detail}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onStart}
+              className="btn-primary w-full mt-6 justify-center"
+            >
+              Start Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const selectedSubject = quiz?.subject || results?.subject || null;
   // Confetti celebration effect

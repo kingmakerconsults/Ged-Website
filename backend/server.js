@@ -9215,9 +9215,9 @@ function buildSubjectPrompt({
   const majorityStimulusRule =
     'A majority (at least 60%) of questions must use a proper stimulus (passage, chart, table, quote, diagram, or image reference). A question with no stimulus is allowed only when the skill being tested is simple (e.g., grammar fix, vocabulary in context, or a straightforward recall from the topic).';
 
-  const schemaReminder = `Return ONE compact JSON array. Each item MUST have:\n- "questionText"\n- "options" (array) for choice questions\n- "correctAnswer" OR "correctAnswers"\n- "questionType" (must be one of the allowed types above)\n- "stimulus" or "passage" or "asset" when the question uses a stimulus\n- "subject": ${JSON.stringify(
+  const schemaReminder = `Return ONE compact JSON array. Each item MUST have:\n- "questionText"\n- "answerOptions" (array of objects, each with "text" (string) and "isCorrect" (boolean))\n- "questionType" (must be one of the allowed types above)\n- "stimulus" or "passage" or "asset" when the question uses a stimulus\n- "subject": ${JSON.stringify(
     subject
-  )}\n- "topic": ${JSON.stringify(topic)}`;
+  )}\n- "topic": ${JSON.stringify(topic)}\nDo NOT use "options" or "correctAnswer" — use "answerOptions" with "isCorrect" on each option.`;
 
   let header = `${STRICT_JSON_HEADER_SHARED}\n`;
   if (approvedPassagesSection) {
@@ -9886,7 +9886,14 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
           }).catch(() => {});
         }
 
-        return res.json({ success: true, quiz: quizResult });
+        return res.json({
+          success: true,
+          subject: 'Social Studies',
+          topic,
+          items: quizResult.questions,
+          model: 'gemini-enhanced-ss',
+          source: 'aiGenerated',
+        });
       } catch (error) {
         console.error(
           '[SS Topic] Enhanced generation failed, falling back to standard:',
@@ -12556,8 +12563,37 @@ Output a JSON object with:
     },
   });
 
+  // Attempt to repair a near-valid payload before rejecting
   if (!isValidEssayPayload(result)) {
-    throw new Error('Invalid RLA essay payload from AI.');
+    // If result is an array with passage-like objects, wrap it
+    if (Array.isArray(result) && result.length >= 2) {
+      const repaired = {
+        passages: result.slice(0, 2),
+        prompt:
+          'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
+      };
+      if (isValidEssayPayload(repaired)) {
+        console.warn(
+          '[RLA Essay] Repaired array-shaped AI response into essay payload.'
+        );
+        Object.assign(result, {});
+        return repaired;
+      }
+    }
+    // If result has passages but no prompt, add a default prompt
+    if (
+      result &&
+      Array.isArray(result.passages) &&
+      result.passages.length >= 2 &&
+      !result.prompt
+    ) {
+      result.prompt =
+        'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.';
+      console.warn('[RLA Essay] Added default prompt to AI essay payload.');
+    }
+    if (!isValidEssayPayload(result)) {
+      throw new Error('Invalid RLA essay payload from AI.');
+    }
   }
 
   result.passages = result.passages.slice(0, 2).map((p, index) => ({
@@ -13865,51 +13901,129 @@ function pickFromPremadeBank(subject, slot) {
   return picked;
 }
 
-let _rlaP1Cache = null;
-let _rlaP2Cache = null;
-let _rlaP1Idx = 0;
-let _rlaP3Idx = 0;
+// ── RLA premade bank: passage-group-aware ────────────────────────────
+// Extracts passage groups from the nested { subject, categories } JSON
+// and yields groups of questions that share a single passage.
+let _rlaReadingGroups = null;
+let _rlaLanguageGroups = null;
+// Track which passage groups and slot groups have already been used
+const _usedRlaReadingGroupIdx = new Set();
+const _usedRlaLanguageGroupIdx = new Set();
+// Per-slot-group cache so multiple slots sharing a group key draw from the same passage
+const _rlaSlotGroupCache = new Map();
+
+function _extractRlaPassageGroups(quizData) {
+  const allQs = [];
+  if (!quizData || typeof quizData !== 'object') return [];
+  const cats = quizData.categories || {};
+  for (const cat of Object.values(cats)) {
+    if (!cat.topics) continue;
+    for (const topic of cat.topics) {
+      if (!topic.quizzes) continue;
+      for (const quiz of topic.quizzes) {
+        if (!Array.isArray(quiz.questions)) continue;
+        for (const q of quiz.questions) {
+          allQs.push(q);
+        }
+      }
+    }
+  }
+  // Group by passage text (first 120 chars as key)
+  const map = new Map();
+  for (const q of allQs) {
+    const passage = q.passage || '';
+    if (passage.length < 50) continue;
+    const key = passage.substring(0, 120);
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(q);
+  }
+  // Convert to array and shuffle the group order
+  const groups = [...map.values()];
+  for (let i = groups.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [groups[i], groups[j]] = [groups[j], groups[i]];
+  }
+  return groups;
+}
 
 function pickFromPremadeRlaBank(part, slot) {
   try {
-    if (part === 'part1') {
-      if (!_rlaP1Cache) {
-        const raw = require('./quizzes/rla.quizzes.part1.json');
-        _rlaP1Cache = Array.isArray(raw)
-          ? raw.flatMap((e) => (Array.isArray(e.questions) ? e.questions : [e]))
-          : [];
-        // Shuffle once
-        for (let i = _rlaP1Cache.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [_rlaP1Cache[i], _rlaP1Cache[j]] = [_rlaP1Cache[j], _rlaP1Cache[i]];
-        }
-        _rlaP1Idx = 0;
-      }
-      const picked = _rlaP1Cache.slice(
-        _rlaP1Idx,
-        _rlaP1Idx + slot.questionsNeeded
-      );
-      _rlaP1Idx += slot.questionsNeeded;
-      return picked.map((q) => ({ ...q, source: 'premade', type: 'passage' }));
+    const groupKey = slot.group || null;
+
+    // If this slot group was already assigned a passage group, pull from it
+    if (groupKey && _rlaSlotGroupCache.has(groupKey)) {
+      const cached = _rlaSlotGroupCache.get(groupKey);
+      const picked = cached.remaining.splice(0, slot.questionsNeeded);
+      return picked.map((q) => ({
+        ...q,
+        questionText: q.questionText || q.question || '',
+        passage: q.passage,
+        source: 'premade',
+        type: 'passage',
+      }));
     }
-    if (part === 'part3') {
-      if (!_rlaP2Cache) {
-        const raw = require('./quizzes/rla.quizzes.part2.json');
-        _rlaP2Cache = Array.isArray(raw)
-          ? raw.flatMap((e) => (Array.isArray(e.questions) ? e.questions : [e]))
-          : [];
-        for (let i = _rlaP2Cache.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [_rlaP2Cache[i], _rlaP2Cache[j]] = [_rlaP2Cache[j], _rlaP2Cache[i]];
-        }
-        _rlaP3Idx = 0;
+
+    if (part === 'part1') {
+      if (!_rlaReadingGroups) {
+        const raw = require('./quizzes/rla.quizzes.part1.json');
+        _rlaReadingGroups = _extractRlaPassageGroups(raw);
       }
-      const picked = _rlaP2Cache.slice(
-        _rlaP3Idx,
-        _rlaP3Idx + slot.questionsNeeded
-      );
-      _rlaP3Idx += slot.questionsNeeded;
-      return picked.map((q) => ({ ...q, source: 'premade', type: 'passage' }));
+      for (let i = 0; i < _rlaReadingGroups.length; i++) {
+        if (_usedRlaReadingGroupIdx.has(i)) continue;
+        const group = _rlaReadingGroups[i];
+        if (group.length >= slot.questionsNeeded) {
+          _usedRlaReadingGroupIdx.add(i);
+          const remaining = [...group];
+          // Shuffle within the group to vary difficulty selection
+          for (let k = remaining.length - 1; k > 0; k--) {
+            const j = Math.floor(Math.random() * (k + 1));
+            [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
+          }
+          const picked = remaining.splice(0, slot.questionsNeeded);
+          if (groupKey) {
+            _rlaSlotGroupCache.set(groupKey, { remaining });
+          }
+          return picked.map((q) => ({
+            ...q,
+            questionText: q.questionText || q.question || '',
+            passage: q.passage,
+            source: 'premade',
+            type: 'passage',
+          }));
+        }
+      }
+      return [];
+    }
+
+    if (part === 'part3') {
+      if (!_rlaLanguageGroups) {
+        const raw = require('./quizzes/rla.quizzes.part2.json');
+        _rlaLanguageGroups = _extractRlaPassageGroups(raw);
+      }
+      for (let i = 0; i < _rlaLanguageGroups.length; i++) {
+        if (_usedRlaLanguageGroupIdx.has(i)) continue;
+        const group = _rlaLanguageGroups[i];
+        if (group.length >= slot.questionsNeeded) {
+          _usedRlaLanguageGroupIdx.add(i);
+          const remaining = [...group];
+          for (let k = remaining.length - 1; k > 0; k--) {
+            const j = Math.floor(Math.random() * (k + 1));
+            [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
+          }
+          const picked = remaining.splice(0, slot.questionsNeeded);
+          if (groupKey) {
+            _rlaSlotGroupCache.set(groupKey, { remaining });
+          }
+          return picked.map((q) => ({
+            ...q,
+            questionText: q.questionText || q.question || '',
+            passage: q.passage,
+            source: 'premade',
+            type: 'passage',
+          }));
+        }
+      }
+      return [];
     }
   } catch (e) {
     console.warn(`[RLA] Could not load premade Part ${part}:`, e.message);
@@ -14096,15 +14210,17 @@ app.post('/generate-quiz', async (req, res) => {
     try {
       // Reset premade tracking for a fresh generation run
       resetPremadeTracker();
-      _rlaP1Cache = null;
-      _rlaP2Cache = null;
-      _rlaP1Idx = 0;
-      _rlaP3Idx = 0;
+      _rlaReadingGroups = null;
+      _rlaLanguageGroups = null;
+      _usedRlaReadingGroupIdx.clear();
+      _usedRlaLanguageGroupIdx.clear();
+      _rlaSlotGroupCache.clear();
 
       // 1. Build the immutable plan
       const plan = buildComprehensivePlan(normalizedSubject);
+      const split = plan.computed.bankAiSplit || {};
       console.log(
-        `[Comprehensive] Built plan for ${normalizedSubject}: ${plan.totalQuestions} questions, ${plan.slots.length} slots`
+        `[Comprehensive] Built plan for ${normalizedSubject}: ${plan.totalQuestions} questions, ${plan.slots.length} slots — bank: ${split.bankCount || 0} (${Math.round((100 * (split.bankCount || 0)) / plan.totalQuestions)}%), AI: ${split.aiCount || 0} (${Math.round((100 * (split.aiCount || 0)) / plan.totalQuestions)}%)`
       );
 
       const timeoutMs = selectModelTimeoutMs({ examType });
@@ -14217,6 +14333,9 @@ app.post('/generate-quiz', async (req, res) => {
       }
 
       logGenerationDuration(examType, subject, generationStart);
+      console.log(
+        `[Comprehensive][${normalizedSubject}] Returning success response: ${finalQuiz.id} with ${(finalQuiz.questions || []).length} questions, source=${finalQuiz.source || 'aiGenerated'}`
+      );
       return res.json(finalQuiz);
     } catch (error) {
       console.error(
@@ -14249,6 +14368,9 @@ app.post('/generate-quiz', async (req, res) => {
         fallbackQuiz.id = fallbackQuiz.id.replace('ai_comp_', 'premade_comp_');
 
         logGenerationDuration(examType, subject, generationStart, 'fallback');
+        console.log(
+          `[Comprehensive][${normalizedSubject}] Returning fallback response: ${fallbackQuiz.id} with ${(fallbackQuiz.questions || []).length} questions, source=${fallbackQuiz.source}`
+        );
         return res.json(fallbackQuiz);
       } catch (fallbackError) {
         console.error(
@@ -14275,6 +14397,9 @@ app.post('/generate-quiz', async (req, res) => {
               subject,
               generationStart,
               'fallback'
+            );
+            console.log(
+              `[Comprehensive][${normalizedSubject}] Returning guaranteed local fallback response: ${guaranteedQuiz.id} with ${(guaranteedQuiz.questions || []).length} questions, source=${guaranteedQuiz.source}`
             );
             return res.json(guaranteedQuiz);
           } catch (scienceFallbackError) {
