@@ -95,14 +95,26 @@ async function fillExamPlan(plan, generators, aiOptions, opts = {}) {
               source = src;
               break;
             } else if (Array.isArray(questions) && questions.length > 0) {
-              // Partial fill — keep trying other sources for remaining
-              filled = questions.slice(0, slot.questionsNeeded);
-              source = src;
-              // If partial, try next source to complete
-              if (filled.length < slot.questionsNeeded) {
-                continue;
+              // Partial fill — merge with any prior partial and continue
+              if (filled && filled.length > 0) {
+                const existingTexts = new Set(
+                  filled.map((q) => q.questionText || q.question || '')
+                );
+                for (const q of questions) {
+                  if (filled.length >= slot.questionsNeeded) break;
+                  const txt = q.questionText || q.question || '';
+                  if (txt && existingTexts.has(txt)) continue;
+                  existingTexts.add(txt);
+                  filled.push(q);
+                }
+              } else {
+                filled = questions.slice(0, slot.questionsNeeded);
               }
-              break;
+              source = source || src;
+              if (filled.length >= slot.questionsNeeded) {
+                break;
+              }
+              continue;
             }
           }
         } catch (err) {

@@ -95,9 +95,9 @@ function standaloneSlot(
   };
 }
 
-// ── 30% Bank / 70% AI Split ─────────────────────────────────────────
-// Reduces AI generation load by designating ~30% of questions to be
-// pulled from the premade question bank first, while keeping 70% as
+// ── 40% Bank / 60% AI Split ─────────────────────────────────────────
+// Reduces AI generation load by designating ~40% of questions to be
+// pulled from the premade question bank first, while keeping 60% as
 // fresh AI-generated content. This makes comprehensives faster and
 // more reliable without sacrificing variety.
 
@@ -106,13 +106,13 @@ function standaloneSlot(
  *
  * @param {Array} slots — mutable array of slot definitions
  * @param {Object} [options]
- * @param {number} [options.bankPct=0.30]  — target fraction for bank-first slots
+ * @param {number} [options.bankPct=0.40]  — target fraction for bank-first slots
  * @param {boolean} [options.forceEssayAI=true] — always use AI for essay slots
  * @param {string[]} [options.bankGroups]  — specific group keys forced to bank
  * @returns {{ bankCount: number, aiCount: number }}
  */
 function applyBankAiSplit(slots, options = {}) {
-  const { bankPct = 0.3, forceEssayAI = true, bankGroups = null } = options;
+  const { bankPct = 0.4, forceEssayAI = true, bankGroups = null } = options;
   const totalQ = slots.reduce((s, sl) => s + sl.questionsNeeded, 0);
   const bankTarget = Math.round(totalQ * bankPct);
 
@@ -298,7 +298,7 @@ function buildSocialStudiesPlan() {
       (diffCounts[s.difficulty] || 0) + s.questionsNeeded;
   }
 
-  // Apply 30% bank / 70% AI split (11 bank, 24 AI)
+  // Apply 40% bank / 60% AI split
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {
@@ -544,7 +544,7 @@ function buildSciencePlan() {
     .filter((s) => s.numeracy)
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split (11 bank, 27 AI)
+  // Apply 40% bank / 60% AI split
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {
@@ -678,8 +678,8 @@ function buildRlaPlan() {
     .filter((s) => s.section === 'part3_language')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split.
-  // Designate 1 reading passage group + 3 language doc groups → ~14 from bank.
+  // Apply 40% bank / 60% AI split.
+  // Designate reading passage groups + language doc groups.
   // Essay always uses AI.
   const bankAiSplit = applyBankAiSplit(slots, {
     bankGroups: [
@@ -932,7 +932,7 @@ function buildMathPlan() {
     .filter((s) => s.section === 'part2_calculator')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split (14 bank, 32 AI)
+  // Apply 40% bank / 60% AI split
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {

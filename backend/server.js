@@ -68,6 +68,10 @@ const {
 const { fillExamPlan } = require('./src/exams/fillExamPlan');
 const { finalizeExamPayload } = require('./src/exams/finalizeExamPayload');
 const { validateFilledPlan } = require('./src/exams/validateExamPlan');
+const {
+  getCuratedAiQuestionsForSubject,
+  getCuratedAiRlaQuestions,
+} = require('./data/curatedAiQuestionBank');
 let ALL_QUIZZES = require('./data/quizzes/index.js').ALL_QUIZZES;
 
 const QUIZZES_DIR_ABS = path.join(__dirname, 'data', 'quizzes');
@@ -13857,6 +13861,33 @@ const _usedPremadeTexts = new Set();
 const _usedScienceImagePaths = new Set();
 const _usedScienceQuestionKeys = new Set();
 
+// ── Cross-request recent-usage tracker ───────────────────────────────
+// Keeps a sliding window of recently-served bank question texts per subject
+// so consecutive comprehensive requests get different bank questions.
+const RECENT_BANK_WINDOW = 5; // remember last N requests worth of picks
+const _recentBankTexts = new Map(); // subject → Array<Set<string>>, ring buffer
+
+function _getRecentBankSet(subject) {
+  if (!_recentBankTexts.has(subject)) {
+    _recentBankTexts.set(subject, []);
+  }
+  const ring = _recentBankTexts.get(subject);
+  const merged = new Set();
+  for (const s of ring) {
+    for (const t of s) merged.add(t);
+  }
+  return merged;
+}
+
+function _pushRecentBankUsage(subject, texts) {
+  if (!_recentBankTexts.has(subject)) {
+    _recentBankTexts.set(subject, []);
+  }
+  const ring = _recentBankTexts.get(subject);
+  ring.push(new Set(texts));
+  while (ring.length > RECENT_BANK_WINDOW) ring.shift();
+}
+
 function resetPremadeTracker() {
   _usedPremadeTexts.clear();
   _usedScienceImagePaths.clear();
@@ -13864,7 +13895,7 @@ function resetPremadeTracker() {
 }
 
 function pickFromPremadeBank(subject, slot) {
-  const questions = [];
+  const premadeQuestions = [];
   const trustedImages =
     subject === 'Science'
       ? buildTrustedScienceImageQuestionSet(
@@ -13886,7 +13917,6 @@ function pickFromPremadeBank(subject, slot) {
   }
 
   const quizData = ALL_QUIZZES && ALL_QUIZZES[subject];
-  if (!quizData || !quizData.categories) return [];
 
   function questionMatchesSlotStimulus(q, targetSlot) {
     if (!targetSlot) return true;
@@ -13922,80 +13952,136 @@ function pickFromPremadeBank(subject, slot) {
     return true;
   }
 
-  for (const [catName, catData] of Object.entries(quizData.categories)) {
-    // Filter by category if slot specifies one
-    if (slot.category && catName !== slot.category) continue;
-    if (!catData.topics || !Array.isArray(catData.topics)) continue;
+  function addCandidate(target, q, defaultCategory, sourceLabel) {
+    if (!q.answerOptions || q.answerOptions.length < 2) return;
+    const text = q.questionText || q.question || '';
+    if (!text || _usedPremadeTexts.has(text)) return;
+    if (!questionMatchesSlotStimulus(q, slot)) return;
 
-    for (const topic of catData.topics) {
-      const sources = [];
-      if (topic.quizzes && Array.isArray(topic.quizzes)) {
-        for (const quiz of topic.quizzes) {
-          if (quiz.questions && Array.isArray(quiz.questions)) {
-            sources.push(...quiz.questions);
+    const scienceQuestionKey =
+      subject === 'Science'
+        ? buildScienceQuestionReuseKey(
+            {
+              ...q,
+              questionText: text,
+            },
+            q.stimulusImage || q.imageUrl || q.imageURL || q.image
+              ? 'science-image'
+              : 'science'
+          )
+        : '';
+    if (
+      scienceQuestionKey &&
+      _usedScienceQuestionKeys.has(scienceQuestionKey)
+    ) {
+      return;
+    }
+
+    if (subject === 'Science') {
+      if (q.subject && /social.?studies/i.test(q.subject)) return;
+      if (
+        /civic context|historical.*context|political significance/i.test(text)
+      ) {
+        return;
+      }
+    }
+
+    target.push({
+      ...q,
+      questionText: text,
+      subject,
+      category: q.category || slot.category || defaultCategory || q.topic,
+      difficulty: q.difficulty || slot.difficulty || 'medium',
+      source: sourceLabel,
+      itemType:
+        q.itemType ||
+        (q.passage
+          ? 'passage'
+          : q.stimulusImage || q.imageUrl || q.imageURL || q.image
+            ? 'image'
+            : 'standalone'),
+    });
+  }
+
+  if (quizData && quizData.categories) {
+    for (const [catName, catData] of Object.entries(quizData.categories)) {
+      if (slot.category && catName !== slot.category) continue;
+      if (!catData.topics || !Array.isArray(catData.topics)) continue;
+
+      for (const topic of catData.topics) {
+        const sources = [];
+        if (topic.quizzes && Array.isArray(topic.quizzes)) {
+          for (const quiz of topic.quizzes) {
+            if (quiz.questions && Array.isArray(quiz.questions)) {
+              sources.push(...quiz.questions);
+            }
           }
         }
-      }
-      if (topic.questions && Array.isArray(topic.questions)) {
-        sources.push(...topic.questions);
-      }
-
-      for (const q of sources) {
-        if (!q.answerOptions || q.answerOptions.length < 2) continue;
-        const text = q.questionText || q.question || '';
-        if (_usedPremadeTexts.has(text)) continue;
-        if (!questionMatchesSlotStimulus(q, slot)) continue;
-
-        const scienceQuestionKey =
-          subject === 'Science'
-            ? buildScienceQuestionReuseKey(
-                {
-                  ...q,
-                  questionText: text,
-                },
-                q.stimulusImage || q.imageUrl || q.imageURL || q.image
-                  ? 'science-image'
-                  : 'science'
-              )
-            : '';
-        if (
-          scienceQuestionKey &&
-          _usedScienceQuestionKeys.has(scienceQuestionKey)
-        ) {
-          continue;
+        if (topic.questions && Array.isArray(topic.questions)) {
+          sources.push(...topic.questions);
         }
 
-        // Reject cross-subject contamination (e.g., Social Studies stems in Science banks)
-        if (subject === 'Science') {
-          if (q.subject && /social.?studies/i.test(q.subject)) continue;
-          if (
-            /civic context|historical.*context|political significance/i.test(
-              text
-            )
-          )
-            continue;
+        for (const q of sources) {
+          addCandidate(premadeQuestions, q, catName, 'premade');
         }
-
-        questions.push({
-          ...q,
-          questionText: text,
-          subject,
-          category: slot.category || catName,
-          difficulty: q.difficulty || slot.difficulty || 'medium',
-          source: 'premade',
-          itemType: q.passage ? 'passage' : q.imageUrl ? 'image' : 'standalone',
-        });
       }
     }
   }
 
-  // Shuffle and pick needed count
-  for (let i = questions.length - 1; i > 0; i--) {
+  for (let i = premadeQuestions.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [questions[i], questions[j]] = [questions[j], questions[i]];
+    [premadeQuestions[i], premadeQuestions[j]] = [
+      premadeQuestions[j],
+      premadeQuestions[i],
+    ];
   }
 
-  const picked = questions.slice(0, slot.questionsNeeded);
+  // Deprioritize recently-served questions so consecutive requests get variety
+  const recentlyUsed = _getRecentBankSet(subject);
+  if (recentlyUsed.size > 0) {
+    const fresh = [];
+    const stale = [];
+    for (const q of premadeQuestions) {
+      if (recentlyUsed.has(q.questionText)) stale.push(q);
+      else fresh.push(q);
+    }
+    premadeQuestions.length = 0;
+    premadeQuestions.push(...fresh, ...stale);
+  }
+
+  const picked = premadeQuestions.slice(0, slot.questionsNeeded);
+  if (picked.length < slot.questionsNeeded) {
+    const curatedAiCandidates = [];
+    const existingTexts = new Set(picked.map((q) => q.questionText));
+    for (const q of getCuratedAiQuestionsForSubject(subject)) {
+      addCandidate(curatedAiCandidates, q, slot.category, 'curatedAiBank');
+    }
+    for (let i = curatedAiCandidates.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [curatedAiCandidates[i], curatedAiCandidates[j]] = [
+        curatedAiCandidates[j],
+        curatedAiCandidates[i],
+      ];
+    }
+    // Deprioritize recently-served curated AI questions too
+    if (recentlyUsed.size > 0) {
+      const fresh = [];
+      const stale = [];
+      for (const q of curatedAiCandidates) {
+        if (recentlyUsed.has(q.questionText)) stale.push(q);
+        else fresh.push(q);
+      }
+      curatedAiCandidates.length = 0;
+      curatedAiCandidates.push(...fresh, ...stale);
+    }
+    for (const q of curatedAiCandidates) {
+      if (picked.length >= slot.questionsNeeded) break;
+      if (existingTexts.has(q.questionText)) continue;
+      existingTexts.add(q.questionText);
+      picked.push(q);
+    }
+  }
+
   for (const q of picked) {
     _usedPremadeTexts.add(q.questionText);
     if (subject === 'Science') {
@@ -14020,14 +14106,19 @@ let _rlaReadingGroups = null;
 let _rlaLanguageGroups = null;
 let _rlaAiReadingGroups = null;
 let _rlaAiLanguageGroups = null;
+let _rlaCuratedAiReadingGroups = null;
+let _rlaCuratedAiLanguageGroups = null;
 // Track which passage groups and slot groups have already been used
 const _usedRlaReadingGroupIdx = new Set();
 const _usedRlaLanguageGroupIdx = new Set();
 const _usedRlaAiReadingGroupIdx = new Set();
 const _usedRlaAiLanguageGroupIdx = new Set();
+const _usedRlaCuratedAiReadingGroupIdx = new Set();
+const _usedRlaCuratedAiLanguageGroupIdx = new Set();
 // Per-slot-group caches — separate for bank vs AI so they don't interfere
 const _rlaBankSlotGroupCache = new Map();
 const _rlaAiSlotGroupCache = new Map();
+const _rlaCuratedAiSlotGroupCache = new Map();
 
 function _extractRlaPassageGroups(quizData) {
   const allQs = [];
@@ -14089,12 +14180,17 @@ function resetRlaGenerationState() {
   _rlaLanguageGroups = null;
   _rlaAiReadingGroups = null;
   _rlaAiLanguageGroups = null;
+  _rlaCuratedAiReadingGroups = null;
+  _rlaCuratedAiLanguageGroups = null;
   _usedRlaReadingGroupIdx.clear();
   _usedRlaLanguageGroupIdx.clear();
   _usedRlaAiReadingGroupIdx.clear();
   _usedRlaAiLanguageGroupIdx.clear();
+  _usedRlaCuratedAiReadingGroupIdx.clear();
+  _usedRlaCuratedAiLanguageGroupIdx.clear();
   _rlaBankSlotGroupCache.clear();
   _rlaAiSlotGroupCache.clear();
+  _rlaCuratedAiSlotGroupCache.clear();
 }
 
 // Helper: filter questions compatible with a slot's multi-select setting
@@ -14222,6 +14318,98 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
   return [];
 }
 
+function pickFromCuratedAiRlaBank(part, slot) {
+  const groupKey = slot.group || null;
+
+  if (groupKey && _rlaCuratedAiSlotGroupCache.has(groupKey)) {
+    const cached = _rlaCuratedAiSlotGroupCache.get(groupKey);
+    const compatible = _filterCompatibleQuestions(cached.remaining, slot);
+    const picked = compatible.slice(0, slot.questionsNeeded);
+    for (const p of picked) {
+      const idx = cached.remaining.indexOf(p);
+      if (idx !== -1) cached.remaining.splice(idx, 1);
+    }
+    return picked.map((q) => ({
+      ...q,
+      questionText: q.questionText || q.question || '',
+      passage: q.passage,
+      source: 'curatedAiBank',
+      type: 'passage',
+    }));
+  }
+
+  let groups = [];
+  let usedGroupIdx = null;
+
+  if (part === 'part1') {
+    if (!_rlaCuratedAiReadingGroups) {
+      _rlaCuratedAiReadingGroups = _groupRlaQuestionsByPassage(
+        getCuratedAiRlaQuestions('part1')
+      );
+      // Shuffle group order for variety across requests
+      for (let k = _rlaCuratedAiReadingGroups.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [_rlaCuratedAiReadingGroups[k], _rlaCuratedAiReadingGroups[j]] = [
+          _rlaCuratedAiReadingGroups[j],
+          _rlaCuratedAiReadingGroups[k],
+        ];
+      }
+    }
+    groups = _rlaCuratedAiReadingGroups;
+    usedGroupIdx = _usedRlaCuratedAiReadingGroupIdx;
+  } else if (part === 'part3') {
+    if (!_rlaCuratedAiLanguageGroups) {
+      _rlaCuratedAiLanguageGroups = _groupRlaQuestionsByPassage(
+        getCuratedAiRlaQuestions('part3')
+      );
+      // Shuffle group order for variety across requests
+      for (let k = _rlaCuratedAiLanguageGroups.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [_rlaCuratedAiLanguageGroups[k], _rlaCuratedAiLanguageGroups[j]] = [
+          _rlaCuratedAiLanguageGroups[j],
+          _rlaCuratedAiLanguageGroups[k],
+        ];
+      }
+    }
+    groups = _rlaCuratedAiLanguageGroups;
+    usedGroupIdx = _usedRlaCuratedAiLanguageGroupIdx;
+  }
+
+  for (let i = 0; i < groups.length; i++) {
+    if (usedGroupIdx.has(i)) continue;
+    const group = groups[i];
+    const compatible = _filterCompatibleQuestions(group, slot);
+    if (compatible.length >= slot.questionsNeeded) {
+      usedGroupIdx.add(i);
+      const remaining = [...group];
+      for (let k = remaining.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
+      }
+      const picked = _filterCompatibleQuestions(remaining, slot).slice(
+        0,
+        slot.questionsNeeded
+      );
+      for (const p of picked) {
+        const idx = remaining.indexOf(p);
+        if (idx !== -1) remaining.splice(idx, 1);
+      }
+      if (groupKey) {
+        _rlaCuratedAiSlotGroupCache.set(groupKey, { remaining });
+      }
+      return picked.map((q) => ({
+        ...q,
+        questionText: q.questionText || q.question || '',
+        passage: q.passage,
+        source: 'curatedAiBank',
+        type: 'passage',
+      }));
+    }
+  }
+
+  return [];
+}
+
 function pickFromPremadeRlaBank(part, slot) {
   try {
     const groupKey = slot.group || null;
@@ -14343,7 +14531,7 @@ function pickFromPremadeRlaBank(part, slot) {
   } catch (e) {
     console.warn(`[RLA] Could not load premade Part ${part}:`, e.message);
   }
-  return [];
+  return pickFromCuratedAiRlaBank(part, slot);
 }
 
 /**
@@ -14650,6 +14838,19 @@ app.post('/generate-quiz', async (req, res) => {
       }
 
       logGenerationDuration(examType, subject, generationStart);
+
+      // Record bank question texts for cross-request variety tracking
+      const bankTexts = (finalQuiz.questions || [])
+        .filter(
+          (q) =>
+            q.source === 'bank' ||
+            q.source === 'premade' ||
+            q.source === 'curatedAiBank'
+        )
+        .map((q) => q.questionText)
+        .filter(Boolean);
+      if (bankTexts.length) _pushRecentBankUsage(normalizedSubject, bankTexts);
+
       console.log(
         `[Comprehensive][${normalizedSubject}] Returning success response: ${finalQuiz.id} with ${(finalQuiz.questions || []).length} questions, source=${finalQuiz.source || 'aiGenerated'}`
       );

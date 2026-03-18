@@ -1,0 +1,60 @@
+{
+  "total": 8599,
+  "accepted": 1799,
+  "review": 4952,
+  "rejected": 1848,
+  "bySubject": {
+    "Science": {
+      "total": 2169,
+      "accepted": 260,
+      "review": 1377,
+      "rejected": 532
+    },
+    "Social Studies": {
+      "total": 1497,
+      "accepted": 935,
+      "review": 452,
+      "rejected": 110
+    },
+    "Reasoning Through Language Arts (RLA)": {
+      "total": 2949,
+      "accepted": 284,
+      "review": 2260,
+      "rejected": 405
+    },
+    "Math": {
+      "total": 1810,
+      "accepted": 296,
+      "review": 720,
+      "rejected": 794
+    },
+    "RLA": {
+      "total": 174,
+      "accepted": 24,
+      "review": 143,
+      "rejected": 7
+    }
+  },
+  "issueCounts": {
+    "missing-difficulty": 6177,
+    "missing-public-asset": 179,
+    "missing-asset-metadata": 163,
+    "missing-image-alt": 151,
+    "duplicate-question-text": 509,
+    "missing-answer-options": 198,
+    "invalid-correct-count": 333,
+    "generic-rationales": 732,
+    "non-four-option-mc": 198,
+    "broken-html": 24,
+    "missing-required-stimulus": 736,
+    "duplicate-option-text": 8,
+    "subject-drift": 17
+  },
+  "asset": {
+    "imageQuestions": 390,
+    "missingPublicAsset": 179,
+    "missingMetadata": 163,
+    "metadataMarkedMissing": 0,
+    "acceptedImageQuestions": 91
+  }
+}

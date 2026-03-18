@@ -1,0 +1,83 @@
+{
+  "generatedAt": "2026-03-18T16:08:02.826Z",
+  "sourceReport": "reports/question_bank_vetting_accepted_20260318-111256.json",
+  "counts": {
+    "Math": 662,
+    "Science": 911,
+    "Social Studies": 1126,
+    "Reasoning Through Language Arts (RLA)": 2294,
+    "rlaReading": 1330,
+    "rlaLanguage": 964,
+    "total": 4993
+  },
+  "bySubject": {
+    "Science": {
+      "input": 1596,
+      "kept": 911,
+      "removed": 685,
+      "removalReasons": {
+        "generic-stem": 634,
+        "science-thin-rationale": 14,
+        "duplicate-rationales": 27,
+        "terse-generic-rationale": 2,
+        "short-correct-rationale": 2,
+        "embedded-choice-text": 9,
+        "weak-rationale": 5,
+        "placeholder-option": 1
+      }
+    },
+    "Social Studies": {
+      "input": 1354,
+      "kept": 1126,
+      "removed": 228,
+      "removalReasons": {
+        "generic-stem": 211,
+        "duplicate-rationales": 17,
+        "embedded-choice-text": 10,
+        "weak-rationale": 1
+      }
+    },
+    "RLA Reading": {
+      "input": 1596,
+      "kept": 1330,
+      "removed": 266,
+      "removalReasons": {
+        "generic-stem": 253,
+        "duplicate-options": 1,
+        "duplicate-rationales": 9,
+        "placeholder-option": 6,
+        "weak-rationale": 2,
+        "short-correct-rationale": 2
+      }
+    },
+    "RLA Language": {
+      "input": 1040,
+      "kept": 964,
+      "removed": 76,
+      "removalReasons": {
+        "generic-stem": 67,
+        "placeholder-option": 2,
+        "embedded-choice-text": 3,
+        "duplicate-rationales": 4,
+        "weak-rationale": 3,
+        "short-correct-rationale": 1
+      }
+    },
+    "Math": {
+      "input": 779,
+      "kept": 662,
+      "removed": 117,
+      "removalReasons": {
+        "generic-stem": 25,
+        "placeholder-option": 16,
+        "terse-generic-rationale": 16,
+        "short-correct-rationale": 16,
+        "duplicate-rationales": 35,
+        "weak-rationale": 45,
+        "embedded-choice-text": 1
+      }
+    }
+  },
+  "reviewPromoted": 0,
+  "removedCount": 1372
+}
