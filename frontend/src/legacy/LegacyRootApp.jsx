@@ -26405,6 +26405,9 @@ function App({ externalTheme, onThemeChange }) {
     setActiveQuiz(null);
 
     // Robust base URL resolution (same as fetchJSON)
+    const isLocalDev =
+      typeof window !== 'undefined' &&
+      /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
     const base =
       (typeof window !== 'undefined' &&
         typeof window.API_BASE_URL === 'string' &&
@@ -26412,8 +26415,14 @@ function App({ externalTheme, onThemeChange }) {
       (typeof window !== 'undefined' &&
         window.__CLIENT_CONFIG__?.API_BASE_URL) ||
       (typeof window !== 'undefined' ? window.location.origin : '');
-    const url = `${base}/generate-quiz`;
-    console.log('[comprehensive] POST', url, { subject });
+    const url = isLocalDev ? `${base}/generate-quiz` : '/generate-quiz';
+    console.log('[comprehensive] POST', url, {
+      subject,
+      origin:
+        typeof window !== 'undefined' ? window.location.origin : '(server)',
+      apiBase: base,
+      isLocalDev,
+    });
 
     try {
       const response = await fetch(url, {
