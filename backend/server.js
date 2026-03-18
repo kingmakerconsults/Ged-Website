@@ -5711,6 +5711,14 @@ const allowedOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
   : defaultOrigins;
 
+// Pre-CORS diagnostic: log any POST to /generate-quiz to confirm it reaches Express
+app.use((req, res, next) => {
+  if (req.method === 'POST' && (req.url === '/generate-quiz' || req.originalUrl === '/generate-quiz')) {
+    console.log('[pre-cors] POST /generate-quiz received', { origin: req.headers.origin || '(none)', host: req.headers.host });
+  }
+  next();
+});
+
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -5721,7 +5729,8 @@ const corsOptions = {
       origin &&
       (origin.startsWith('vscode-webview://') ||
         origin.includes('localhost') ||
-        origin.includes('127.0.0.1'))
+        origin.includes('127.0.0.1') ||
+        origin.includes('onrender.com'))
     ) {
       return callback(null, true);
     }
@@ -5729,6 +5738,7 @@ const corsOptions = {
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg =
         'The CORS policy for this site does not allow access from the specified Origin.';
+      console.warn('[CORS] Blocked origin:', origin, 'Allowed:', allowedOrigins);
       return callback(new Error(msg), false);
     }
     return callback(null, true);
@@ -14054,8 +14064,17 @@ function pickFromPremadeRlaBank(part, slot) {
 
     if (part === 'part3') {
       if (!_rlaLanguageGroups) {
-        const raw = require('./quizzes/rla.quizzes.part2.json');
-        _rlaLanguageGroups = _extractRlaPassageGroups(raw);
+        // Load grammar/language questions from part1 (which has Language & Grammar categories)
+        const raw = require('./quizzes/rla.quizzes.part1.json');
+        // Filter to grammar/language categories only
+        const grammarCats = ['Language & Grammar', 'Grammar, Clarity, and Revision'];
+        const filtered = { categories: {} };
+        for (const [catName, catData] of Object.entries(raw.categories || {})) {
+          if (grammarCats.some(gc => catName.includes(gc) || catName.toLowerCase().includes('grammar'))) {
+            filtered.categories[catName] = catData;
+          }
+        }
+        _rlaLanguageGroups = _extractRlaPassageGroups(filtered);
       }
       for (let i = 0; i < _rlaLanguageGroups.length; i++) {
         if (_usedRlaLanguageGroupIdx.has(i)) continue;
