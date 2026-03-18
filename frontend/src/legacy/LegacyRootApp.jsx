@@ -26406,8 +26406,11 @@ function App({ externalTheme, onThemeChange }) {
 
     // Robust base URL resolution (same as fetchJSON)
     const base =
-      (typeof window !== 'undefined' && typeof window.API_BASE_URL === 'string' && window.API_BASE_URL) ||
-      (typeof window !== 'undefined' && window.__CLIENT_CONFIG__?.API_BASE_URL) ||
+      (typeof window !== 'undefined' &&
+        typeof window.API_BASE_URL === 'string' &&
+        window.API_BASE_URL) ||
+      (typeof window !== 'undefined' &&
+        window.__CLIENT_CONFIG__?.API_BASE_URL) ||
       (typeof window !== 'undefined' ? window.location.origin : '');
     const url = `${base}/generate-quiz`;
     console.log('[comprehensive] POST', url, { subject });

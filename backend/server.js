@@ -6209,8 +6209,16 @@ async function ensureChallengeSystemTables() {
             );
         `);
     // Ensure columns exist if table was created by an older migration
-    await pool.query(`ALTER TABLE user_challenge_stats ADD COLUMN IF NOT EXISTS last_wrong_at TIMESTAMPTZ`).catch(() => {});
-    await pool.query(`ALTER TABLE user_challenge_stats ADD COLUMN IF NOT EXISTS source TEXT`).catch(() => {});
+    await pool
+      .query(
+        `ALTER TABLE user_challenge_stats ADD COLUMN IF NOT EXISTS last_wrong_at TIMESTAMPTZ`
+      )
+      .catch(() => {});
+    await pool
+      .query(
+        `ALTER TABLE user_challenge_stats ADD COLUMN IF NOT EXISTS source TEXT`
+      )
+      .catch(() => {});
   } catch (e) {
     console.warn('[ensure] user_challenge_stats', e?.code || e?.message || e);
   }
@@ -6280,7 +6288,10 @@ async function ensurePremadeMasteryTables() {
       );
     `);
   } catch (e) {
-    console.warn('[ensure] user_premade_quiz_mastery', e?.code || e?.message || e);
+    console.warn(
+      '[ensure] user_premade_quiz_mastery',
+      e?.code || e?.message || e
+    );
   }
 }
 
@@ -12268,8 +12279,13 @@ Formatting notes:
   applyFractionPlainTextModeToItem(question);
   question.type = 'standalone';
   question.calculator = true;
-  // Provide a minimal graph spec so the canvas has data to draw
-  if (!question.graphSpec) {
+  // Only attach the graph tool when the question actually references a visual graph
+  const qText = String(question.questionText || '').toLowerCase();
+  const needsGraph =
+    /\b(graph below|graph above|coordinate plane|plot the|on the grid|on the graph)\b/i.test(
+      qText
+    );
+  if (needsGraph && !question.graphSpec) {
     question.graphSpec = {
       type: 'line',
       points: [
@@ -12280,7 +12296,6 @@ Formatting notes:
       yLabel: 'y',
     };
   }
-  // Flag for the tool panel
   question.useGraphTool = Boolean(question.graphSpec);
   return enforceWordCapsOnItem(question, 'Math');
 }
