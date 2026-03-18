@@ -14093,7 +14093,9 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
     if (!_rlaAiReadingGroups) {
       const generated = await generateRlaPart1(opts);
       _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated);
-      console.log(`[RLA AI] Part 1 generated ${generated.length} questions in ${_rlaAiReadingGroups.length} groups: [${_rlaAiReadingGroups.map(g => g.length).join(', ')}]`);
+      console.log(
+        `[RLA AI] Part 1 generated ${generated.length} questions in ${_rlaAiReadingGroups.length} groups: [${_rlaAiReadingGroups.map((g) => g.length).join(', ')}]`
+      );
     }
     for (let i = 0; i < _rlaAiReadingGroups.length; i++) {
       if (_usedRlaAiReadingGroupIdx.has(i)) continue;
@@ -14102,7 +14104,10 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
       if (compatible.length >= slot.questionsNeeded) {
         _usedRlaAiReadingGroupIdx.add(i);
         const remaining = [...group];
-        const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+        const picked = _filterCompatibleQuestions(remaining, slot).slice(
+          0,
+          slot.questionsNeeded
+        );
         // Remove picked items from remaining
         for (const p of picked) {
           const idx = remaining.indexOf(p);
@@ -14127,7 +14132,9 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
     if (!_rlaAiLanguageGroups) {
       const generated = await generateRlaPart3(opts);
       _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated);
-      console.log(`[RLA AI] Part 3 generated ${generated.length} questions in ${_rlaAiLanguageGroups.length} groups: [${_rlaAiLanguageGroups.map(g => g.length).join(', ')}]`);
+      console.log(
+        `[RLA AI] Part 3 generated ${generated.length} questions in ${_rlaAiLanguageGroups.length} groups: [${_rlaAiLanguageGroups.map((g) => g.length).join(', ')}]`
+      );
     }
     for (let i = 0; i < _rlaAiLanguageGroups.length; i++) {
       if (_usedRlaAiLanguageGroupIdx.has(i)) continue;
@@ -14136,7 +14143,10 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
       if (compatible.length >= slot.questionsNeeded) {
         _usedRlaAiLanguageGroupIdx.add(i);
         const remaining = [...group];
-        const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+        const picked = _filterCompatibleQuestions(remaining, slot).slice(
+          0,
+          slot.questionsNeeded
+        );
         for (const p of picked) {
           const idx = remaining.indexOf(p);
           if (idx !== -1) remaining.splice(idx, 1);
@@ -14197,7 +14207,10 @@ function pickFromPremadeRlaBank(part, slot) {
             const j = Math.floor(Math.random() * (k + 1));
             [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
           }
-          const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+          const picked = _filterCompatibleQuestions(remaining, slot).slice(
+            0,
+            slot.questionsNeeded
+          );
           for (const p of picked) {
             const idx = remaining.indexOf(p);
             if (idx !== -1) remaining.splice(idx, 1);
@@ -14251,7 +14264,10 @@ function pickFromPremadeRlaBank(part, slot) {
             const j = Math.floor(Math.random() * (k + 1));
             [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
           }
-          const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+          const picked = _filterCompatibleQuestions(remaining, slot).slice(
+            0,
+            slot.questionsNeeded
+          );
           for (const p of picked) {
             const idx = remaining.indexOf(p);
             if (idx !== -1) remaining.splice(idx, 1);

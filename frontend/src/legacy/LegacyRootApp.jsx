@@ -40910,18 +40910,8 @@ function EssayGuide({ onExit }) {
       <>
         <div className="p-8 prose max-w-none">
           {fullEssay ? (
-            <div>
-              {fullEssay
-                .split(/\n\n+/)
-                .filter((p) => p.trim())
-                .map((p, idx) => (
-                  <p
-                    key={idx}
-                    style={{ textIndent: '2em', marginBottom: '1em' }}
-                  >
-                    {p.trim()}
-                  </p>
-                ))}
+            <div style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>
+              {fullEssay}
             </div>
           ) : (
             <p>
@@ -40997,9 +40987,17 @@ function EssayGuide({ onExit }) {
             <button
               onClick={handleGetScore}
               disabled={isScoring || !fullEssay}
-              className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`w-full font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                scoreResult && !scoreResult.error
+                  ? 'bg-green-600 hover:bg-green-700 text-white'
+                  : 'bg-indigo-500 hover:bg-indigo-600 text-white'
+              }`}
             >
-              {isScoring ? 'Scoring...' : 'Get AI Score & Feedback'}
+              {isScoring
+                ? 'Scoring...'
+                : scoreResult && !scoreResult.error
+                  ? `Scored: ${scoreResult.overallScore}/6 — Re-score?`
+                  : 'Get AI Score & Feedback'}
             </button>
           )}
           {scoreResult && essayMode !== 'guided' && (
@@ -41158,7 +41156,6 @@ function EssayGuide({ onExit }) {
               <button
                 onClick={() => {
                   setShowModal(false);
-                  setScoreResult(null);
                 }}
                 className="text-gray-500 hover:text-gray-800 text-3xl"
               >

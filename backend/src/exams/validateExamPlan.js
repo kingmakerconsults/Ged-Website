@@ -43,7 +43,7 @@ function validateFilledPlan(plan, filledSlots, opts = {}) {
       if (tolerance < 1.0) {
         warnings.push(msg); // lenient — slot gaps are warnings
       } else {
-        errors.push(msg);   // strict — slot gaps are errors
+        errors.push(msg); // strict — slot gaps are errors
       }
     }
 
