@@ -14030,7 +14030,9 @@ function _groupRlaQuestionsByPassage(questions) {
   let currentGroup = [];
 
   for (const q of questions) {
-    const passage = String(q?.passage || '').replace(/\s+/g, ' ').trim();
+    const passage = String(q?.passage || '')
+      .replace(/\s+/g, ' ')
+      .trim();
     const key = passage.slice(0, 120) || `__ungrouped_${groups.length}`;
     if (currentKey === null || key !== currentKey) {
       if (currentGroup.length) groups.push(currentGroup);
