@@ -2800,7 +2800,8 @@ async function raceGeminiWithDelayedFallback({
 }
 
 const GEOMETRY_FIGURES_ENABLED =
-  String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
+  String(process.env.GEOMETRY_FIGURES_ENABLED || 'true').toLowerCase() !==
+  'false';
 const MATH_TWO_PASS_ENABLED =
   String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
 
@@ -11977,11 +11978,11 @@ ${TABLE_INTEGRITY_RULES}`;
   return enforceWordCapsOnItem(question, subject);
 };
 
-const buildGeometryPrompt = (topic, attempt) => {
+const buildGeometryPrompt = (topic, attempt, figuresEnabled) => {
   const decimalLimit = DEFAULT_MAX_DECIMALS;
   const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nValidate that your JSON is syntactically correct before returning it.`;
 
-  if (!GEOMETRY_FIGURES_ENABLED) {
+  if (!figuresEnabled) {
     const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem should clearly rely on a diagram that would normally accompany the question.
     IMPORTANT: Do NOT return any images, SVG markup, or geometry specifications. Instead, append a concise, human-readable description of the required diagram (1–3 sentences) at the end of the question stem. Use plain text or simple Markdown only.
@@ -12052,6 +12053,11 @@ ${FRACTION_PLAIN_TEXT_RULE}
     • For line_angle: include "vertex", "ray1", and "ray2" points plus optional "angleLabel" and "angleDegrees".
     • For cylinder_net: include numeric "radius" and "height" plus any labels needed for the net.
     • For rect_prism_net: include numeric "length", "width", and "height" and describe labels for key faces.
+    • For trapezoid: provide "points" as 4 vertex objects (top-left, top-right, bottom-right, bottom-left order). Include "sideLabels" for labeled sides and optional "heightLine": {"from": {"x":..,"y":..}, "to": {"x":..,"y":..}, "label": "h = 8"} to draw a dashed height from the top base perpendicular down to the bottom base.
+    • For composite: provide "rects" as an array of rectangles [{"x": 10, "y": 10, "width": 30, "height": 20, "label": "A"}]. Use two or more overlapping/adjacent rectangles to form an L-shape or T-shape. Include optional "dimensionLabels": [{"text": "10 ft", "x": 25, "y": 5}] for outer dimensions.
+    • For parallel_transversal: provide "line1": {"start": {"x":..,"y":..}, "end": {"x":..,"y":..}}, "line2" (parallel to line1), and "transversal" (diagonal crossing both). Include "angleLabels": [{"text": "65°", "at": "line1", "dx": 8, "dy": -6}] and optional "lineLabels": [{"text": "m", "x": 90, "y": 28}] for naming lines.
+    • For cone_net: include numeric "radius" (base circle) and "slantHeight" (sector radius).
+    • For pyramid_net: include numeric "baseLength" (square base side) and "slantHeight" (triangular face height from base edge to apex).
     • Optional helper data such as "segments", "labels", or "view" may be included for clarity.  Keep the structure deterministic.
 
     Respond with JSON only—no commentary before or after the object.`;
@@ -12070,8 +12076,10 @@ async function generateGeometryQuestion(
   options = {}
 ) {
   const MAX_ATTEMPTS = 2;
-  const prompt = buildGeometryPrompt(topic, attempt);
-  const schema = buildGeometrySchema(GEOMETRY_FIGURES_ENABLED);
+  const figuresEnabled =
+    options.withFigure != null ? options.withFigure : GEOMETRY_FIGURES_ENABLED;
+  const prompt = buildGeometryPrompt(topic, attempt, figuresEnabled);
+  const schema = buildGeometrySchema(figuresEnabled);
   const parseMeta = { stage: null, hash: null };
   const recordStage = (stage, details = {}) => {
     parseMeta.stage = stage;
@@ -12081,7 +12089,7 @@ async function generateGeometryQuestion(
   };
 
   try {
-    const callOptions = GEOMETRY_FIGURES_ENABLED
+    const callOptions = figuresEnabled
       ? {
           parser: (raw) =>
             parseGeometryJson(raw, {
@@ -12116,7 +12124,7 @@ async function generateGeometryQuestion(
 
     const aiResponse = await callAI(prompt, schema, mergedOptions);
 
-    if (GEOMETRY_FIGURES_ENABLED && parseMeta.stage) {
+    if (figuresEnabled && parseMeta.stage) {
       console.info(
         `Geometry JSON parsed via ${parseMeta.stage}. hash=${
           parseMeta.hash || 'n/a'
@@ -12128,9 +12136,7 @@ async function generateGeometryQuestion(
     const choiceRationales = Array.isArray(aiResponse.choiceRationales)
       ? aiResponse.choiceRationales
       : [];
-    const geometrySpec = GEOMETRY_FIGURES_ENABLED
-      ? aiResponse.geometrySpec
-      : undefined;
+    const geometrySpec = figuresEnabled ? aiResponse.geometrySpec : undefined;
 
     const answerOptions = (choices || []).map((text, index) => ({
       text,
@@ -12146,7 +12152,7 @@ async function generateGeometryQuestion(
 
     // Attach geometrySpec explicitly (null when absent) and a clear flag
     questionPayload.geometrySpec =
-      GEOMETRY_FIGURES_ENABLED && geometrySpec ? geometrySpec : null;
+      figuresEnabled && geometrySpec ? geometrySpec : null;
     questionPayload.useGeometryTool = Boolean(questionPayload.geometrySpec);
 
     applyFractionPlainTextModeToItem(questionPayload);
@@ -13542,7 +13548,17 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
       // Calculator section — dispatch by category
       const cat = slot.category;
       if (cat === 'Geometry') {
-        const qs = await generateGeometryQuestion('Geometry', 'Math', 1, opts);
+        const withFigure =
+          slot.requireFigure != null
+            ? slot.requireFigure
+            : GEOMETRY_FIGURES_ENABLED;
+        const geoOpts = { ...opts, withFigure };
+        const qs = await generateGeometryQuestion(
+          'Geometry',
+          'Math',
+          1,
+          geoOpts
+        );
         return qs ? (Array.isArray(qs) ? qs : [qs]) : [];
       }
       if (cat === 'Data Analysis & Probability') {
@@ -14091,10 +14107,15 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
 
   if (part === 'part1') {
     if (!_rlaAiReadingGroups) {
-      const generated = await generateRlaPart1(opts);
-      _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated);
+      let generated = await generateRlaPart1(opts);
+      // Retry once if AI returned far too few questions (e.g. truncated response)
+      if (!Array.isArray(generated) || generated.length < 10) {
+        console.warn(`[RLA AI] Part 1 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`);
+        generated = await generateRlaPart1(opts);
+      }
+      _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated || []);
       console.log(
-        `[RLA AI] Part 1 generated ${generated.length} questions in ${_rlaAiReadingGroups.length} groups: [${_rlaAiReadingGroups.map((g) => g.length).join(', ')}]`
+        `[RLA AI] Part 1 generated ${(generated || []).length} questions in ${_rlaAiReadingGroups.length} groups: [${_rlaAiReadingGroups.map((g) => g.length).join(', ')}]`
       );
     }
     for (let i = 0; i < _rlaAiReadingGroups.length; i++) {
@@ -14130,10 +14151,15 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
 
   if (part === 'part3') {
     if (!_rlaAiLanguageGroups) {
-      const generated = await generateRlaPart3(opts);
-      _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated);
+      let generated = await generateRlaPart3(opts);
+      // Retry once if AI returned far too few questions (e.g. truncated response)
+      if (!Array.isArray(generated) || generated.length < 12) {
+        console.warn(`[RLA AI] Part 3 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`);
+        generated = await generateRlaPart3(opts);
+      }
+      _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated || []);
       console.log(
-        `[RLA AI] Part 3 generated ${generated.length} questions in ${_rlaAiLanguageGroups.length} groups: [${_rlaAiLanguageGroups.map((g) => g.length).join(', ')}]`
+        `[RLA AI] Part 3 generated ${(generated || []).length} questions in ${_rlaAiLanguageGroups.length} groups: [${_rlaAiLanguageGroups.map((g) => g.length).join(', ')}]`
       );
     }
     for (let i = 0; i < _rlaAiLanguageGroups.length; i++) {
