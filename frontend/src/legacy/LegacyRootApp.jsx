@@ -26424,7 +26424,9 @@ function App({ externalTheme, onThemeChange }) {
       }
     } catch {}
     const url =
-      !isLocalDev && useSameOriginRoute ? '/generate-quiz' : `${base}/generate-quiz`;
+      !isLocalDev && useSameOriginRoute
+        ? '/generate-quiz'
+        : `${base}/generate-quiz`;
     console.log('[comprehensive] POST', url, {
       subject,
       origin:
