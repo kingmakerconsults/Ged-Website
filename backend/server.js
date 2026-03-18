@@ -14025,25 +14025,34 @@ function _extractRlaPassageGroups(quizData) {
 function _groupRlaQuestionsByPassage(questions) {
   if (!Array.isArray(questions) || questions.length === 0) return [];
 
-  const groups = [];
-  let currentKey = null;
-  let currentGroup = [];
+  const map = new Map();
+  const order = [];
 
   for (const q of questions) {
     const passage = String(q?.passage || '')
       .replace(/\s+/g, ' ')
       .trim();
-    const key = passage.slice(0, 120) || `__ungrouped_${groups.length}`;
-    if (currentKey === null || key !== currentKey) {
-      if (currentGroup.length) groups.push(currentGroup);
-      currentKey = key;
-      currentGroup = [];
+    const key = passage.slice(0, 120) || `__ungrouped_${order.length}`;
+    if (!map.has(key)) {
+      map.set(key, []);
+      order.push(key);
     }
-    currentGroup.push(q);
+    map.get(key).push(q);
   }
 
-  if (currentGroup.length) groups.push(currentGroup);
-  return groups;
+  return order.map((key) => map.get(key)).filter((group) => group.length > 0);
+}
+
+function resetRlaGenerationState() {
+  _rlaReadingGroups = null;
+  _rlaLanguageGroups = null;
+  _rlaAiReadingGroups = null;
+  _rlaAiLanguageGroups = null;
+  _usedRlaReadingGroupIdx.clear();
+  _usedRlaLanguageGroupIdx.clear();
+  _usedRlaAiReadingGroupIdx.clear();
+  _usedRlaAiLanguageGroupIdx.clear();
+  _rlaSlotGroupCache.clear();
 }
 
 async function pickFromGeneratedRlaAi(part, slot, opts) {
@@ -14404,15 +14413,7 @@ app.post('/generate-quiz', async (req, res) => {
     try {
       // Reset premade tracking for a fresh generation run
       resetPremadeTracker();
-      _rlaReadingGroups = null;
-      _rlaLanguageGroups = null;
-      _rlaAiReadingGroups = null;
-      _rlaAiLanguageGroups = null;
-      _usedRlaReadingGroupIdx.clear();
-      _usedRlaLanguageGroupIdx.clear();
-      _usedRlaAiReadingGroupIdx.clear();
-      _usedRlaAiLanguageGroupIdx.clear();
-      _rlaSlotGroupCache.clear();
+      resetRlaGenerationState();
 
       // 1. Build the immutable plan
       const plan = buildComprehensivePlan(normalizedSubject);
@@ -14547,6 +14548,7 @@ app.post('/generate-quiz', async (req, res) => {
       // ── SLOT-AWARE FALLBACK ─────────────────────────────────────
       try {
         resetPremadeTracker();
+        resetRlaGenerationState();
         const plan = buildComprehensivePlan(normalizedSubject);
         const fallbackGenerators = buildFallbackGenerators(normalizedSubject);
         const { filledSlots, log: fallbackLog } = await fillExamPlan(
