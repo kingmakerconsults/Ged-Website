@@ -7284,15 +7284,47 @@ function pickCoachQuizSourceId(subject, dayIndex = 0) {
   return list[idx];
 }
 
+let cachedChallengesTagColumn = null;
+
+async function getChallengesTagColumn() {
+  if (cachedChallengesTagColumn !== null) {
+    return cachedChallengesTagColumn;
+  }
+
+  try {
+    const result = await pool.query(
+      `SELECT column_name
+         FROM information_schema.columns
+        WHERE table_name = 'challenges'
+          AND column_name IN ('challenge_type', 'challenge_tag')`
+    );
+    const columns = new Set(result.rows.map((row) => row.column_name));
+    cachedChallengesTagColumn = columns.has('challenge_type')
+      ? 'challenge_type'
+      : columns.has('challenge_tag')
+        ? 'challenge_tag'
+        : '';
+  } catch (err) {
+    console.warn(
+      'Unable to determine challenges tag column',
+      err?.message || err
+    );
+    cachedChallengesTagColumn = '';
+  }
+
+  return cachedChallengesTagColumn;
+}
+
 async function getAdaptiveQuizForUser(userId, subject) {
   try {
     // 1. Get user's active challenge tags
-    const challengeRes = await pool.query(
-      `SELECT challenge_tag as tag FROM essay_challenge_log WHERE user_id = $1
-       UNION
-       SELECT challenge_type as tag FROM challenges WHERE user_id = $1 AND status = 'active'`,
-      [userId]
-    );
+    const challengeColumn = await getChallengesTagColumn();
+    const challengeQuery = challengeColumn
+      ? `SELECT challenge_tag as tag FROM essay_challenge_log WHERE user_id = $1
+         UNION
+         SELECT ${challengeColumn} as tag FROM challenges WHERE user_id = $1 AND status = 'active'`
+      : `SELECT challenge_tag as tag FROM essay_challenge_log WHERE user_id = $1`;
+    const challengeRes = await pool.query(challengeQuery, [userId]);
     const userTags = challengeRes.rows.map((r) => r.tag).filter(Boolean);
 
     if (userTags.length === 0) return null;
@@ -10425,6 +10457,30 @@ const singleQuestionSchema = {
   required: ['questionText', 'answerOptions'],
 };
 
+const rlaQuestionSchema = {
+  type: 'OBJECT',
+  properties: {
+    passage: { type: 'STRING' },
+    passageWithPlaceholders: { type: 'STRING' },
+    questionText: { type: 'STRING' },
+    itemType: { type: 'STRING' },
+    skill: { type: 'STRING' },
+    answerOptions: {
+      type: 'ARRAY',
+      items: {
+        type: 'OBJECT',
+        properties: {
+          text: { type: 'STRING' },
+          isCorrect: { type: 'BOOLEAN' },
+          rationale: { type: 'STRING' },
+        },
+        required: ['text', 'isCorrect', 'rationale'],
+      },
+    },
+  },
+  required: ['questionText', 'answerOptions'],
+};
+
 const finalQuestionSchema = {
   type: 'OBJECT',
   properties: {
@@ -10488,6 +10544,44 @@ const MATH_VALIDATOR_SCHEMA = {
 function repairIllegalJsonEscapes(s) {
   if (typeof s !== 'string') return s;
   return s.replace(/\\(?!["\\\/bfnrtu])/g, '\\\\');
+}
+
+function recoverTruncatedJsonArray(s) {
+  if (typeof s !== 'string') return null;
+  const text = s.trim();
+  if (!text.startsWith('[')) return null;
+
+  const lastObjectEnd = text.lastIndexOf('}');
+  if (lastObjectEnd === -1) return null;
+
+  let candidate = text.slice(0, lastObjectEnd + 1).trim();
+  candidate = candidate.replace(/,\s*$/, '');
+  candidate = `${candidate}]`;
+
+  try {
+    const parsed = JSON.parse(candidate);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function sanitizeAiJsonValue(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => sanitizeAiJsonValue(item));
+  }
+  if (!value || typeof value !== 'object') {
+    return value;
+  }
+
+  const cleaned = {};
+  for (const [key, raw] of Object.entries(value)) {
+    if (typeof raw === 'string' && raw.length > 5000) {
+      continue;
+    }
+    cleaned[key] = sanitizeAiJsonValue(raw);
+  }
+  return cleaned;
 }
 
 const callAI = async (prompt, schema, options = {}) => {
@@ -10566,7 +10660,7 @@ const callAI = async (prompt, schema, options = {}) => {
     }
 
     try {
-      return JSON.parse(cleanedText);
+      return sanitizeAiJsonValue(JSON.parse(cleanedText));
     } catch (initialParseError) {
       const repairedText = repairIllegalJsonEscapes(cleanedText);
       try {
@@ -10574,8 +10668,15 @@ const callAI = async (prompt, schema, options = {}) => {
         console.warn(
           'Successfully repaired AI JSON response after initial parse failure.'
         );
-        return parsed;
+        return sanitizeAiJsonValue(parsed);
       } catch (reparseError) {
+        const recoveredArray = recoverTruncatedJsonArray(repairedText);
+        if (recoveredArray) {
+          console.warn(
+            `Recovered ${recoveredArray.length} AI items from truncated JSON response.`
+          );
+          return sanitizeAiJsonValue(recoveredArray);
+        }
         const snippet = repairedText.slice(0, 5000);
         console.error(
           'Failed to parse AI JSON response after repair attempt.',
@@ -12421,8 +12522,15 @@ CRITICAL ENHANCEMENTS FOR EACH QUESTION:
 
 For multi_select questions: set "itemType": "multi_select" and mark ALL correct answer options with "isCorrect": true. Keep answer options as short, clean phrases — do NOT embed evidence quotes inside the answer option text.
 
+ANTI-REPETITION RULES:
+- Do not repeat the same question stem wording across passages.
+- Vary openings such as main idea, detail, inference, and vocabulary prompts.
+- Do not ask two questions that are near-identical except for swapped passage nouns.
+
+Do NOT output a top-level or per-question "type" field.
+
 Return the JSON array of question objects only.`;
-  const schema = { type: 'ARRAY', items: singleQuestionSchema };
+  const schema = { type: 'ARRAY', items: rlaQuestionSchema };
   const questions = await callAI(prompt, schema, options);
   const cappedQuestions = Array.isArray(questions)
     ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
@@ -12492,6 +12600,24 @@ Return the JSON array of question objects only.`;
     medium: Math.round(targetCount * 0.5),
     hard: Math.round(targetCount * 0.2),
   });
+
+  const dedupedQuestions = dedupeNearDuplicates(groupedQuestions, 0.88);
+  const removedNearDuplicates =
+    groupedQuestions.length - dedupedQuestions.length;
+  if (removedNearDuplicates > 0) {
+    if (options._retryOnDuplicateStems !== false) {
+      console.warn(
+        `[RLA Part 1] detected ${removedNearDuplicates} near-duplicate questions, regenerating once.`
+      );
+      return generateRlaPart1({
+        ...options,
+        _retryOnDuplicateStems: false,
+      });
+    }
+    throw new Error(
+      `[RLA Part 1] output remained repetitive after retry (${removedNearDuplicates} near-duplicate question(s)).`
+    );
+  }
 
   return groupedQuestions;
 }
@@ -12755,8 +12881,15 @@ PLACEHOLDER RULE:
 - Do NOT use placeholder markers like [[1]], [[2]], or [blank].
 - Question text must be fully readable plain English.
 
+ANTI-REPETITION RULES:
+- Do not repeat the same editing prompt pattern across documents.
+- Vary the opening wording of usage, transition, organization, and word-choice questions.
+- Do not produce multiple questions that ask the same correction in nearly identical language.
+
+Do NOT output a top-level or per-question "type" field.
+
 Return only the JSON array of the 25 question objects. For passages using inline_dropdown, include a "passageWithPlaceholders" field in the first question of that passage group.`;
-  const schema = { type: 'ARRAY', items: singleQuestionSchema };
+  const schema = { type: 'ARRAY', items: rlaQuestionSchema };
   const questions = await callAI(prompt, schema, options);
   const normalizePlaceholderText = (value, fallbackQuestionNumber) => {
     const raw = typeof value === 'string' ? value : '';
@@ -12888,6 +13021,24 @@ Return only the JSON array of the 25 question objects. For passages using inline
     medium: Math.round(targetCount * 0.5),
     hard: Math.round(targetCount * 0.2),
   });
+
+  const dedupedQuestions = dedupeNearDuplicates(groupedQuestions, 0.88);
+  const removedNearDuplicates =
+    groupedQuestions.length - dedupedQuestions.length;
+  if (removedNearDuplicates > 0) {
+    if (options._retryOnDuplicateStems !== false) {
+      console.warn(
+        `[RLA Part 3] detected ${removedNearDuplicates} near-duplicate questions, regenerating once.`
+      );
+      return generateRlaPart3({
+        ...options,
+        _retryOnDuplicateStems: false,
+      });
+    }
+    throw new Error(
+      `[RLA Part 3] output remained repetitive after retry (${removedNearDuplicates} near-duplicate question(s)).`
+    );
+  }
 
   return groupedQuestions;
 }
@@ -14227,13 +14378,21 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
 
   if (part === 'part1') {
     if (!_rlaAiReadingGroups) {
-      let generated = await generateRlaPart1(opts);
-      // Retry once if AI returned far too few questions (e.g. truncated response)
-      if (!Array.isArray(generated) || generated.length < 10) {
-        console.warn(
-          `[RLA AI] Part 1 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`
-        );
-        generated = await generateRlaPart1(opts);
+      let generated = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          generated = await generateRlaPart1(opts);
+          if (Array.isArray(generated) && generated.length >= 10) break;
+          console.warn(
+            `[RLA AI] Part 1 attempt ${attempt + 1} got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`
+          );
+          generated = null;
+        } catch (err) {
+          console.warn(
+            `[RLA AI] Part 1 attempt ${attempt + 1} failed: ${err.message || err}`
+          );
+          generated = null;
+        }
       }
       _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated || []);
       console.log(
@@ -14273,13 +14432,21 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
 
   if (part === 'part3') {
     if (!_rlaAiLanguageGroups) {
-      let generated = await generateRlaPart3(opts);
-      // Retry once if AI returned far too few questions (e.g. truncated response)
-      if (!Array.isArray(generated) || generated.length < 12) {
-        console.warn(
-          `[RLA AI] Part 3 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`
-        );
-        generated = await generateRlaPart3(opts);
+      let generated = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          generated = await generateRlaPart3(opts);
+          if (Array.isArray(generated) && generated.length >= 12) break;
+          console.warn(
+            `[RLA AI] Part 3 attempt ${attempt + 1} got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`
+          );
+          generated = null;
+        } catch (err) {
+          console.warn(
+            `[RLA AI] Part 3 attempt ${attempt + 1} failed: ${err.message || err}`
+          );
+          generated = null;
+        }
       }
       _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated || []);
       console.log(
@@ -17742,12 +17909,15 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
               await upsertChallengeStat(userId, tag, false, 'diagnostic');
 
               // Force add to active challenges table so Coach picks it up immediately
-              await pool.query(
-                `INSERT INTO challenges (user_id, challenge_type, status, created_at, updated_at)
-                     VALUES ($1, $2, 'active', NOW(), NOW())
-                     ON CONFLICT (user_id, challenge_type) DO UPDATE SET status = 'active', updated_at = NOW()`,
-                [userId, tag]
-              );
+              const challengeColumn = await getChallengesTagColumn();
+              if (challengeColumn) {
+                await pool.query(
+                  `INSERT INTO challenges (user_id, ${challengeColumn}, status, created_at, updated_at)
+                       VALUES ($1, $2, 'active', NOW(), NOW())
+                       ON CONFLICT (user_id, ${challengeColumn}) DO UPDATE SET status = 'active', updated_at = NOW()`,
+                  [userId, tag]
+                );
+              }
             }
           } else {
             console.log(
