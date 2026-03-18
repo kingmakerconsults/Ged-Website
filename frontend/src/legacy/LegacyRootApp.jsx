@@ -22153,6 +22153,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
 
     const launchQuizSet = (quiz, index, displayNameOverride) => {
       if (typeof onSelectQuiz !== 'function' || !quiz) return;
+      try {
       const quizLabel =
         displayNameOverride ||
         quiz.label ||
@@ -22292,6 +22293,10 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       if (!prepared.imageUrl && resolvedImageUrl)
         prepared.imageUrl = resolvedImageUrl;
       onSelectQuiz(prepared, subjectName);
+      } catch (err) {
+        console.error('[quiz] Failed to launch quiz set:', err);
+        alert('Something went wrong launching this quiz. Please try again.');
+      }
     };
 
     return (
@@ -22356,8 +22361,9 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
               <div className="mt-3 grid gap-2">
                 {shown.map(({ quiz, name }, idx) => (
                   <button
+                    type="button"
                     key={quiz.quizId || `${topic.id || 'topic'}_quiz_${idx}`}
-                    onClick={() => launchQuizSet(quiz, idx, name)}
+                    onClick={(e) => { e.preventDefault(); launchQuizSet(quiz, idx, name); }}
                     className="w-full px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                     title={quizOneLiner(quiz, topic)}
                     style={buttonStyle}
@@ -22383,7 +22389,10 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
           })()
         ) : (
           <button
-            onClick={() => {
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              try {
               if (typeof onSelectQuiz !== 'function') return;
               const articleClone = cloneArticle(topic.article);
               const prepared = {
@@ -22412,6 +22421,10 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                 });
               }
               onSelectQuiz(prepared, subjectName);
+              } catch (err) {
+                console.error('[quiz] Failed to launch quiz:', err);
+                alert('Something went wrong launching this quiz. Please try again.');
+              }
             }}
             className="w-full mt-3 px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
             style={buttonStyle}
@@ -26583,6 +26596,7 @@ function App({ externalTheme, onThemeChange }) {
   const startQuiz = (quizPayload, subject, options = {}) => {
     console.log('Starting quiz with data:', quizPayload); // Debugging line
 
+    try {
     if (!quizPayload || typeof quizPayload !== 'object') {
       console.error('Received invalid quiz payload:', quizPayload);
       alert('Sorry, the generated quiz data was invalid. Please try again.');
@@ -26590,12 +26604,20 @@ function App({ externalTheme, onThemeChange }) {
     }
 
     if (quizPayload.type === 'essay') {
+      setNavHistory((prev) => [
+        ...prev,
+        { activeView, view, selectedSubject, selectedCategory, activeQuiz, quizResults },
+      ]);
       setActiveQuiz({ ...quizPayload, subject });
       setView('essay');
       return;
     }
 
     if (quizPayload.type === 'simulation') {
+      setNavHistory((prev) => [
+        ...prev,
+        { activeView, view, selectedSubject, selectedCategory, activeQuiz, quizResults },
+      ]);
       setActiveQuiz({ ...quizPayload, subject });
       setView('simulation');
       return;
@@ -26612,19 +26634,6 @@ function App({ externalTheme, onThemeChange }) {
       setView('start');
       return;
     }
-
-    // Push current nav state so Back returns here (include quiz context)
-    setNavHistory((prev) => [
-      ...prev,
-      {
-        activeView,
-        view,
-        selectedSubject,
-        selectedCategory,
-        activeQuiz,
-        quizResults,
-      },
-    ]);
 
     const preparedQuiz = { ...quizPayload, subject };
     preparedQuiz.quizType =
@@ -26715,12 +26724,29 @@ function App({ externalTheme, onThemeChange }) {
       return;
     }
 
+    // Push current nav state so Back returns here — only AFTER validation passes
+    setNavHistory((prev) => [
+      ...prev,
+      {
+        activeView,
+        view,
+        selectedSubject,
+        selectedCategory,
+        activeQuiz,
+        quizResults,
+      },
+    ]);
+
     preparedQuiz.questions = normalizedQuestions.map((q) => ({
       ...q,
       isPremade: q.isPremade === true || preparedQuiz.isPremade,
     }));
 
     launchPreparedQuiz(preparedQuiz, options);
+    } catch (err) {
+      console.error('[startQuiz] Unexpected error launching quiz:', err);
+      alert('Something went wrong starting the quiz. Please try again.');
+    }
   };
 
   const onQuizComplete = async (results) => {
@@ -32841,6 +32867,7 @@ function StartScreen({
 
     const launchCategorySet = (setName) => {
       if (typeof onSelectQuiz !== 'function') return;
+      try {
       const quizzes = Array.isArray(categorySetsMap[setName])
         ? categorySetsMap[setName]
         : [];
@@ -32901,6 +32928,10 @@ function StartScreen({
         return;
       }
       onSelectQuiz(preparedQuiz, subjectName);
+      } catch (err) {
+        console.error('[quiz] Failed to launch category set:', err);
+        alert('Something went wrong launching this quiz set. Please try again.');
+      }
     };
 
     return (
@@ -32936,8 +32967,9 @@ function StartScreen({
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {orderedSetNames.map((setName, idx) => (
                   <button
+                    type="button"
                     key={setName}
-                    onClick={() => launchCategorySet(setName)}
+                    onClick={(e) => { e.preventDefault(); launchCategorySet(setName); }}
                     className="w-full px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                     style={{
                       backgroundColor:
@@ -33000,6 +33032,7 @@ function StartScreen({
                 if (typeof onSelectQuiz !== 'function' || !quiz) {
                   return;
                 }
+                try {
                 const quizLabel =
                   quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
                 const baseTitle = topic.title || 'Quiz';
@@ -33066,6 +33099,10 @@ function StartScreen({
                 }
 
                 onSelectQuiz(preparedQuiz, selectedSubject);
+                } catch (err) {
+                  console.error('[quiz] Failed to launch quiz set:', err);
+                  alert('Something went wrong launching this quiz. Please try again.');
+                }
               };
 
               return (
@@ -33136,15 +33173,17 @@ function StartScreen({
                             <div className="grid gap-2">
                               {shown.map(({ quiz, name }, index) => (
                                 <button
+                                  type="button"
                                   key={
                                     quiz.quizId ||
                                     `${
                                       topic.id || `topic_${topicIndex}`
                                     }_quiz_${index}`
                                   }
-                                  onClick={() =>
-                                    launchQuizSet(quiz, index, name)
-                                  }
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    launchQuizSet(quiz, index, name);
+                                  }}
                                   className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                                   style={buttonStyle}
                                 >
@@ -33183,7 +33222,8 @@ function StartScreen({
                           const single = quizSets[0];
                           return (
                             <button
-                              onClick={() => launchQuizSet(single, 0)}
+                              type="button"
+                              onClick={(e) => { e.preventDefault(); launchQuizSet(single, 0); }}
                               className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                               style={buttonStyle}
                             >
@@ -33194,7 +33234,10 @@ function StartScreen({
                         // Otherwise, fall back to topic-level questions (if present)
                         return (
                           <button
-                            onClick={() => {
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              try {
                               if (typeof onSelectQuiz !== 'function') {
                                 return;
                               }
@@ -33236,6 +33279,10 @@ function StartScreen({
                                 );
                               }
                               onSelectQuiz(preparedQuiz, selectedSubject);
+                              } catch (err) {
+                                console.error('[quiz] Failed to launch quiz:', err);
+                                alert('Something went wrong launching this quiz. Please try again.');
+                              }
                             }}
                             className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                             style={buttonStyle}
@@ -33913,7 +33960,9 @@ function StartScreen({
                     </p>
                   </div>
                   <button
-                    onClick={() =>
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
                       onSelectQuiz(
                         {
                           id: 'essay_practice_tool',
@@ -33921,8 +33970,8 @@ function StartScreen({
                           title: 'GED Essay Practice Toolkit',
                         },
                         selectedSubject
-                      )
-                    }
+                      );
+                    }}
                     className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
                   >
                     Launch Essay Practice
@@ -34049,9 +34098,11 @@ function StartScreen({
                   Take a full-length practice exam for {selectedSubject}.
                 </p>
                 <button
-                  onClick={async () =>
-                    await onStartComprehensiveExam(selectedSubject)
-                  }
+                  type="button"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await onStartComprehensiveExam(selectedSubject);
+                  }}
                   className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
                 >
                   Start Comprehensive Exam
@@ -34205,7 +34256,8 @@ function StartScreen({
                 Smith build your personalized learning plan.
               </p>
               <button
-                onClick={handleStartDiagnostic}
+                type="button"
+                onClick={(e) => { e.preventDefault(); handleStartDiagnostic(); }}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 Start Diagnostic Test
