@@ -7,9 +7,12 @@ const { findDuplicateStems } = require('./slotValidators');
  *
  * @param {Object} plan         – the original frozen plan
  * @param {Map}    filledSlots  – slotId → questions[] (or essay object)
+ * @param {Object} [opts]
+ * @param {number} [opts.tolerance] – 0-1, fraction of total that must be filled (default 1.0 = strict)
  * @returns {{ valid: boolean, errors: string[], warnings: string[] }}
  */
-function validateFilledPlan(plan, filledSlots) {
+function validateFilledPlan(plan, filledSlots, opts = {}) {
+  const tolerance = opts.tolerance ?? 1.0;
   const errors = [];
   const warnings = [];
 
@@ -36,9 +39,12 @@ function validateFilledPlan(plan, filledSlots) {
     }
 
     if (filled.length < slot.questionsNeeded) {
-      errors.push(
-        `Slot ${slot.slotId} (${slot.category}/${slot.stimulusType}): has ${filled.length}, needs ${slot.questionsNeeded}`
-      );
+      const msg = `Slot ${slot.slotId} (${slot.category}/${slot.stimulusType}): has ${filled.length}, needs ${slot.questionsNeeded}`;
+      if (tolerance < 1.0) {
+        warnings.push(msg); // lenient — slot gaps are warnings
+      } else {
+        errors.push(msg);   // strict — slot gaps are errors
+      }
     }
 
     allQuestions.push(...filled);
@@ -46,9 +52,14 @@ function validateFilledPlan(plan, filledSlots) {
 
   // 1. Total count
   const totalFilled = allQuestions.length + (essaySlot ? 1 : 0);
-  if (totalFilled !== plan.totalQuestions) {
+  const minAcceptable = Math.floor(plan.totalQuestions * tolerance);
+  if (totalFilled < minAcceptable) {
     errors.push(
-      `Total questions: ${totalFilled}, expected ${plan.totalQuestions}`
+      `Total questions: ${totalFilled}, expected ${plan.totalQuestions} (minimum ${minAcceptable})`
+    );
+  } else if (totalFilled !== plan.totalQuestions) {
+    warnings.push(
+      `Total questions: ${totalFilled}, expected ${plan.totalQuestions} (within tolerance)`
     );
   }
 
@@ -61,8 +72,13 @@ function validateFilledPlan(plan, filledSlots) {
     }
     for (const [cat, expected] of Object.entries(plan.invariants.categories)) {
       const actual = catCounts[cat] || 0;
-      if (actual !== expected) {
+      const catMin = Math.floor(expected * tolerance);
+      if (actual < catMin) {
         errors.push(
+          `Category "${cat}": ${actual} questions, expected ${expected}`
+        );
+      } else if (actual !== expected) {
+        warnings.push(
           `Category "${cat}": ${actual} questions, expected ${expected}`
         );
       }
@@ -74,8 +90,13 @@ function validateFilledPlan(plan, filledSlots) {
     const p1Count = allQuestions.filter(
       (q) => q._section === 'part1_reading'
     ).length;
-    if (p1Count !== plan.invariants.part1_reading) {
+    const p1Min = Math.floor(plan.invariants.part1_reading * tolerance);
+    if (p1Count < p1Min) {
       errors.push(
+        `Part 1 Reading: ${p1Count}, expected ${plan.invariants.part1_reading}`
+      );
+    } else if (p1Count !== plan.invariants.part1_reading) {
+      warnings.push(
         `Part 1 Reading: ${p1Count}, expected ${plan.invariants.part1_reading}`
       );
     }
@@ -89,8 +110,13 @@ function validateFilledPlan(plan, filledSlots) {
     const p3Count = allQuestions.filter(
       (q) => q._section === 'part3_language'
     ).length;
-    if (p3Count !== plan.invariants.part3_language) {
+    const p3Min = Math.floor(plan.invariants.part3_language * tolerance);
+    if (p3Count < p3Min) {
       errors.push(
+        `Part 3 Language: ${p3Count}, expected ${plan.invariants.part3_language}`
+      );
+    } else if (p3Count !== plan.invariants.part3_language) {
+      warnings.push(
         `Part 3 Language: ${p3Count}, expected ${plan.invariants.part3_language}`
       );
     }
@@ -99,8 +125,13 @@ function validateFilledPlan(plan, filledSlots) {
     const p1Count = allQuestions.filter(
       (q) => q._section === 'part1_non_calculator'
     ).length;
-    if (p1Count !== plan.invariants.part1_non_calculator) {
+    const p1Min = Math.floor(plan.invariants.part1_non_calculator * tolerance);
+    if (p1Count < p1Min) {
       errors.push(
+        `Part 1 Non-Calculator: ${p1Count}, expected ${plan.invariants.part1_non_calculator}`
+      );
+    } else if (p1Count !== plan.invariants.part1_non_calculator) {
+      warnings.push(
         `Part 1 Non-Calculator: ${p1Count}, expected ${plan.invariants.part1_non_calculator}`
       );
     }
@@ -109,8 +140,13 @@ function validateFilledPlan(plan, filledSlots) {
     const p2Count = allQuestions.filter(
       (q) => q._section === 'part2_calculator'
     ).length;
-    if (p2Count !== plan.invariants.part2_calculator) {
+    const p2Min = Math.floor(plan.invariants.part2_calculator * tolerance);
+    if (p2Count < p2Min) {
       errors.push(
+        `Part 2 Calculator: ${p2Count}, expected ${plan.invariants.part2_calculator}`
+      );
+    } else if (p2Count !== plan.invariants.part2_calculator) {
+      warnings.push(
         `Part 2 Calculator: ${p2Count}, expected ${plan.invariants.part2_calculator}`
       );
     }

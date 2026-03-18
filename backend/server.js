@@ -13985,8 +13985,9 @@ const _usedRlaReadingGroupIdx = new Set();
 const _usedRlaLanguageGroupIdx = new Set();
 const _usedRlaAiReadingGroupIdx = new Set();
 const _usedRlaAiLanguageGroupIdx = new Set();
-// Per-slot-group cache so multiple slots sharing a group key draw from the same passage
-const _rlaSlotGroupCache = new Map();
+// Per-slot-group caches — separate for bank vs AI so they don't interfere
+const _rlaBankSlotGroupCache = new Map();
+const _rlaAiSlotGroupCache = new Map();
 
 function _extractRlaPassageGroups(quizData) {
   const allQs = [];
@@ -14052,15 +14053,33 @@ function resetRlaGenerationState() {
   _usedRlaLanguageGroupIdx.clear();
   _usedRlaAiReadingGroupIdx.clear();
   _usedRlaAiLanguageGroupIdx.clear();
-  _rlaSlotGroupCache.clear();
+  _rlaBankSlotGroupCache.clear();
+  _rlaAiSlotGroupCache.clear();
+}
+
+// Helper: filter questions compatible with a slot's multi-select setting
+function _filterCompatibleQuestions(questions, slot) {
+  if (slot.allowMultiSelect) return questions; // multi-select slots accept anything
+  return questions.filter((q) => {
+    const opts = Array.isArray(q.answerOptions) ? q.answerOptions : [];
+    const correctCount = opts.filter((o) => o && o.isCorrect === true).length;
+    return correctCount <= 1;
+  });
 }
 
 async function pickFromGeneratedRlaAi(part, slot, opts) {
   const groupKey = slot.group || null;
 
-  if (groupKey && _rlaSlotGroupCache.has(groupKey)) {
-    const cached = _rlaSlotGroupCache.get(groupKey);
-    const picked = cached.remaining.splice(0, slot.questionsNeeded);
+  // Check AI-specific slot-group cache
+  if (groupKey && _rlaAiSlotGroupCache.has(groupKey)) {
+    const cached = _rlaAiSlotGroupCache.get(groupKey);
+    const compatible = _filterCompatibleQuestions(cached.remaining, slot);
+    const picked = compatible.slice(0, slot.questionsNeeded);
+    // Remove picked items from remaining
+    for (const p of picked) {
+      const idx = cached.remaining.indexOf(p);
+      if (idx !== -1) cached.remaining.splice(idx, 1);
+    }
     return picked.map((q) => ({
       ...q,
       questionText: q.questionText || q.question || '',
@@ -14074,16 +14093,23 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
     if (!_rlaAiReadingGroups) {
       const generated = await generateRlaPart1(opts);
       _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated);
+      console.log(`[RLA AI] Part 1 generated ${generated.length} questions in ${_rlaAiReadingGroups.length} groups: [${_rlaAiReadingGroups.map(g => g.length).join(', ')}]`);
     }
     for (let i = 0; i < _rlaAiReadingGroups.length; i++) {
       if (_usedRlaAiReadingGroupIdx.has(i)) continue;
       const group = _rlaAiReadingGroups[i];
-      if (group.length >= slot.questionsNeeded) {
+      const compatible = _filterCompatibleQuestions(group, slot);
+      if (compatible.length >= slot.questionsNeeded) {
         _usedRlaAiReadingGroupIdx.add(i);
         const remaining = [...group];
-        const picked = remaining.splice(0, slot.questionsNeeded);
+        const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+        // Remove picked items from remaining
+        for (const p of picked) {
+          const idx = remaining.indexOf(p);
+          if (idx !== -1) remaining.splice(idx, 1);
+        }
         if (groupKey) {
-          _rlaSlotGroupCache.set(groupKey, { remaining });
+          _rlaAiSlotGroupCache.set(groupKey, { remaining });
         }
         return picked.map((q) => ({
           ...q,
@@ -14101,16 +14127,22 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
     if (!_rlaAiLanguageGroups) {
       const generated = await generateRlaPart3(opts);
       _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated);
+      console.log(`[RLA AI] Part 3 generated ${generated.length} questions in ${_rlaAiLanguageGroups.length} groups: [${_rlaAiLanguageGroups.map(g => g.length).join(', ')}]`);
     }
     for (let i = 0; i < _rlaAiLanguageGroups.length; i++) {
       if (_usedRlaAiLanguageGroupIdx.has(i)) continue;
       const group = _rlaAiLanguageGroups[i];
-      if (group.length >= slot.questionsNeeded) {
+      const compatible = _filterCompatibleQuestions(group, slot);
+      if (compatible.length >= slot.questionsNeeded) {
         _usedRlaAiLanguageGroupIdx.add(i);
         const remaining = [...group];
-        const picked = remaining.splice(0, slot.questionsNeeded);
+        const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+        for (const p of picked) {
+          const idx = remaining.indexOf(p);
+          if (idx !== -1) remaining.splice(idx, 1);
+        }
         if (groupKey) {
-          _rlaSlotGroupCache.set(groupKey, { remaining });
+          _rlaAiSlotGroupCache.set(groupKey, { remaining });
         }
         return picked.map((q) => ({
           ...q,
@@ -14130,10 +14162,15 @@ function pickFromPremadeRlaBank(part, slot) {
   try {
     const groupKey = slot.group || null;
 
-    // If this slot group was already assigned a passage group, pull from it
-    if (groupKey && _rlaSlotGroupCache.has(groupKey)) {
-      const cached = _rlaSlotGroupCache.get(groupKey);
-      const picked = cached.remaining.splice(0, slot.questionsNeeded);
+    // Check bank-specific slot-group cache
+    if (groupKey && _rlaBankSlotGroupCache.has(groupKey)) {
+      const cached = _rlaBankSlotGroupCache.get(groupKey);
+      const compatible = _filterCompatibleQuestions(cached.remaining, slot);
+      const picked = compatible.slice(0, slot.questionsNeeded);
+      for (const p of picked) {
+        const idx = cached.remaining.indexOf(p);
+        if (idx !== -1) cached.remaining.splice(idx, 1);
+      }
       return picked.map((q) => ({
         ...q,
         questionText: q.questionText || q.question || '',
@@ -14151,7 +14188,8 @@ function pickFromPremadeRlaBank(part, slot) {
       for (let i = 0; i < _rlaReadingGroups.length; i++) {
         if (_usedRlaReadingGroupIdx.has(i)) continue;
         const group = _rlaReadingGroups[i];
-        if (group.length >= slot.questionsNeeded) {
+        const compatible = _filterCompatibleQuestions(group, slot);
+        if (compatible.length >= slot.questionsNeeded) {
           _usedRlaReadingGroupIdx.add(i);
           const remaining = [...group];
           // Shuffle within the group to vary difficulty selection
@@ -14159,9 +14197,13 @@ function pickFromPremadeRlaBank(part, slot) {
             const j = Math.floor(Math.random() * (k + 1));
             [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
           }
-          const picked = remaining.splice(0, slot.questionsNeeded);
+          const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+          for (const p of picked) {
+            const idx = remaining.indexOf(p);
+            if (idx !== -1) remaining.splice(idx, 1);
+          }
           if (groupKey) {
-            _rlaSlotGroupCache.set(groupKey, { remaining });
+            _rlaBankSlotGroupCache.set(groupKey, { remaining });
           }
           return picked.map((q) => ({
             ...q,
@@ -14201,16 +14243,21 @@ function pickFromPremadeRlaBank(part, slot) {
       for (let i = 0; i < _rlaLanguageGroups.length; i++) {
         if (_usedRlaLanguageGroupIdx.has(i)) continue;
         const group = _rlaLanguageGroups[i];
-        if (group.length >= slot.questionsNeeded) {
+        const compatible = _filterCompatibleQuestions(group, slot);
+        if (compatible.length >= slot.questionsNeeded) {
           _usedRlaLanguageGroupIdx.add(i);
           const remaining = [...group];
           for (let k = remaining.length - 1; k > 0; k--) {
             const j = Math.floor(Math.random() * (k + 1));
             [remaining[k], remaining[j]] = [remaining[j], remaining[k]];
           }
-          const picked = remaining.splice(0, slot.questionsNeeded);
+          const picked = _filterCompatibleQuestions(remaining, slot).slice(0, slot.questionsNeeded);
+          for (const p of picked) {
+            const idx = remaining.indexOf(p);
+            if (idx !== -1) remaining.splice(idx, 1);
+          }
           if (groupKey) {
-            _rlaSlotGroupCache.set(groupKey, { remaining });
+            _rlaBankSlotGroupCache.set(groupKey, { remaining });
           }
           return picked.map((q) => ({
             ...q,
@@ -14470,6 +14517,7 @@ app.post('/generate-quiz', async (req, res) => {
             ? reviewAndCorrectQuiz
             : null,
         aiOptions,
+        tolerance: normalizedSubject === 'RLA' ? 0.8 : undefined,
       });
 
       // 7. Log final exact counts
@@ -14563,7 +14611,9 @@ app.post('/generate-quiz', async (req, res) => {
           JSON.stringify(fallbackLog.sourceBreakdown)
         );
 
-        const fallbackQuiz = await finalizeExamPayload(plan, filledSlots, {});
+        const fallbackQuiz = await finalizeExamPayload(plan, filledSlots, {
+          tolerance: normalizedSubject === 'RLA' ? 0.8 : undefined,
+        });
         fallbackQuiz.source = 'premade';
         fallbackQuiz.id = fallbackQuiz.id.replace('ai_comp_', 'premade_comp_');
 

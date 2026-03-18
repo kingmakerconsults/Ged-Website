@@ -23,10 +23,10 @@ const { upgradeQuestionToKatex } = require('../lib/mathSanitizer');
  * @returns {Object} final quiz payload
  */
 async function finalizeExamPayload(plan, filledSlots, opts = {}) {
-  const { sanitizer, reviewPass, aiOptions } = opts;
+  const { sanitizer, reviewPass, aiOptions, tolerance } = opts;
 
   // ── 1. Validate the filled plan ─────────────────────────────────
-  const validation = validateFilledPlan(plan, filledSlots);
+  const validation = validateFilledPlan(plan, filledSlots, { tolerance });
   if (!validation.valid) {
     const msg = `Exam plan validation failed for ${plan.subject}:\n  ${validation.errors.join('\n  ')}`;
     console.error('[finalizeExamPayload]', msg);
