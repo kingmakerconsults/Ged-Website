@@ -378,6 +378,15 @@ async function generateScienceNumeracyQuestion(category, options = {}) {
   const prompt = `You are a GED Science exam creator. Generate a single numeracy-focused question in the category "${category}".
 The GED Science test is a COMPREHENSION exam — students must interpret data, NOT recall facts.
 
+IMPORTANT: Only use formulas from the official GED Science formula sheet:
+• d = m / V  (Density)
+• v = d / t  (Speed)
+• a = Δv / Δt  (Acceleration)
+• F = ma  (Force)
+• W = Fd  (Work)
+• P = W / t  (Power)
+Do NOT create questions that require Ohm's law, efficiency formulas, unit-conversion formulas, or any formula not listed above. Stick to arithmetic and the six formulas above.
+
 Requirements:
 - Include a small, cleanly formatted HTML <table> (use <thead> and <tbody> if possible) with 2–4 columns and 3–5 rows.
 - Always include column headers (use concise labels; avoid vague headers like Data1).
@@ -3344,6 +3353,11 @@ function cloneQuestion(q) {
  * - Sanitizes with keepLatex
  * Returns the repaired question and logs warnings if auto-fixed.
  */
+function stripAnswerOptionLetterPrefix(text) {
+  if (typeof text !== 'string') return text;
+  return text.replace(/^[A-Da-d][.):]\s*/, '');
+}
+
 function validateAndRepairQuestion(q) {
   if (!q || typeof q !== 'object') {
     console.warn('[validateAndRepairQuestion] Invalid question object:', q);
@@ -3351,6 +3365,15 @@ function validateAndRepairQuestion(q) {
   }
 
   const question = sanitizeQuestionKeepLatex(cloneQuestion(q));
+
+  // Strip letter prefixes (A., B., etc.) from answer text — the frontend adds labels
+  if (Array.isArray(question.answerOptions)) {
+    for (const opt of question.answerOptions) {
+      if (opt && typeof opt.text === 'string') {
+        opt.text = stripAnswerOptionLetterPrefix(opt.text);
+      }
+    }
+  }
 
   // Ensure answerOptions is an array
   if (
@@ -3784,14 +3807,14 @@ Include a mix of question types:
 • Provide the formula reference block at the end of the prompt so AI can link to it.
 `;
     const formulaSheet = `
-Formula Reference:
-• Speed = Distance ÷ Time
-• Density = Mass ÷ Volume
-• Force = Mass × Acceleration
-• Work = Force × Distance
-• Power = Work ÷ Time
-• Ohm’s Law: V = I × R
-• Photosynthesis: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
+Formula Reference (GED Science Formula Sheet — use ONLY these for numeracy):
+• d = m / V  (Density = Mass ÷ Volume)
+• v = d / t  (Speed = Distance ÷ Time)
+• a = Δv / Δt  (Acceleration)
+• F = ma  (Force = Mass × Acceleration)
+• W = Fd  (Work = Force × Distance)
+• P = W / t  (Power = Work ÷ Time)
+Do NOT create questions requiring formulas beyond this list.
 `;
 
     return `${baseHeader}
@@ -9321,7 +9344,7 @@ function buildSubjectPrompt({
       base.push(
         `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth & Space.`,
         `Ensure variety of stimuli: passages, data tables/graphs, and diagrams.`,
-        `Ensure that at least one-third (1/3) of all questions require scientific numeracy — interpreting data tables, reading charts, working with units/measurements, using or reading formulas, or doing a short calculation.`
+        `Ensure that at least one-third (1/3) of all questions require scientific numeracy — interpreting data tables, reading charts, working with units/measurements, using formulas, or doing a short calculation. Numeracy questions must use ONLY these GED Science formula sheet formulas: d = m/V (density), v = d/t (speed), a = Δv/Δt (acceleration), F = ma (force), W = Fd (work), P = W/t (power). Do NOT generate questions requiring Ohm's law, efficiency formulas, or unit-conversion formulas.`
       );
       base.push(TABLE_INTEGRITY_RULES);
     } else if (isRlaSubject(subject)) {
@@ -9545,10 +9568,10 @@ Use this JSON shape exactly:
             "questionText": "...",
             "passage": "<table>...</table>",
             "answerOptions": [
-                { "text": "A ...", "isCorrect": false, "rationale": "..." },
-                { "text": "B ...", "isCorrect": true,  "rationale": "..." },
-                { "text": "C ...", "isCorrect": false, "rationale": "..." },
-                { "text": "D ...", "isCorrect": false, "rationale": "..." }
+                { "text": "...", "isCorrect": false, "rationale": "..." },
+                { "text": "...", "isCorrect": true,  "rationale": "..." },
+                { "text": "...", "isCorrect": false, "rationale": "..." },
+                { "text": "...", "isCorrect": false, "rationale": "..." }
             ]
         }
     ]
@@ -9558,9 +9581,10 @@ Rules:
 1. Exactly one correct option per question.
 2. Each option MUST have a short rationale.
 3. Keep questionText short and readable.
-4. If the question is data-driven, put the <table> in passage, not in questionText.
-5. Do not include comments, trailing commas, or extra keys.
-6. Do not output anything outside the JSON object.
+4. Do NOT prefix answer text with "A.", "B.", "C.", "D." or any letter — the frontend adds letter labels automatically.
+5. If the question is data-driven, put the <table> in passage, not in questionText.
+6. Do not include comments, trailing commas, or extra keys.
+7. Do not output anything outside the JSON object.
 `;
 
   return `${STRICT_JSON_HEADER_SHARED}
@@ -14110,7 +14134,9 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
       let generated = await generateRlaPart1(opts);
       // Retry once if AI returned far too few questions (e.g. truncated response)
       if (!Array.isArray(generated) || generated.length < 10) {
-        console.warn(`[RLA AI] Part 1 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`);
+        console.warn(
+          `[RLA AI] Part 1 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`
+        );
         generated = await generateRlaPart1(opts);
       }
       _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated || []);
@@ -14154,7 +14180,9 @@ async function pickFromGeneratedRlaAi(part, slot, opts) {
       let generated = await generateRlaPart3(opts);
       // Retry once if AI returned far too few questions (e.g. truncated response)
       if (!Array.isArray(generated) || generated.length < 12) {
-        console.warn(`[RLA AI] Part 3 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`);
+        console.warn(
+          `[RLA AI] Part 3 got only ${Array.isArray(generated) ? generated.length : 0} questions, retrying...`
+        );
         generated = await generateRlaPart3(opts);
       }
       _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated || []);

@@ -44,16 +44,17 @@ const SCI_NUMERIC_TABLE_ITEMS = [
     type: 'numeric',
     responseType: 'numeric',
     qaProfileKey: 'numeracy',
-    difficulty: 'hard',
-    topicTags: ['Life Science', 'Energy Transformations'],
-    stem: '<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p>',
+    difficulty: 'medium',
+    topicTags: ['Physical Science', 'Data Interpretation'],
+    stem: '<p>Students measure the force required to push crates across a warehouse floor.</p>',
     passage:
-      '<table class="data-table"><thead><tr><th>Bioreactor</th><th>Light Input (kJ)</th><th>Chemical Output (kJ)</th></tr></thead><tbody><tr><td>X</td><td>480</td><td>182</td></tr><tr><td>Y</td><td>520</td><td>210</td></tr><tr><td>Z</td><td>500</td><td>205</td></tr></tbody></table>',
+      '<table class="data-table"><thead><tr><th>Crate</th><th>Force (N)</th><th>Distance (m)</th></tr></thead><tbody><tr><td>X</td><td>80</td><td>12</td></tr><tr><td>Y</td><td>65</td><td>15</td></tr><tr><td>Z</td><td>90</td><td>10</td></tr></tbody></table>',
     questionText:
-      'What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.',
-    correctAnswer: '40',
-    tolerance: 0.6,
-    rationale: '210 ÷ 520 ≈ 0.4038 → 40%.',
+      'Using the formula W = Fd (Work = Force × Distance), how much more work (in joules) is done pushing Crate Y compared to Crate Z?',
+    correctAnswer: '75',
+    tolerance: 0.5,
+    rationale:
+      'Crate Y work = 65 × 15 = 975 J. Crate Z work = 90 × 10 = 900 J. Difference = 75 J.',
   },
 ];
 

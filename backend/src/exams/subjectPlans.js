@@ -91,6 +91,7 @@ function standaloneSlot(
     numeracy: extra.numeracy || false,
     group: extra.group || null,
     toolsAllowed: extra.toolsAllowed || null,
+    requireFigure: extra.requireFigure ?? null,
   };
 }
 
@@ -792,11 +793,12 @@ function buildMathPlan() {
     })
   );
 
-  // Geometry (5 MC questions)
+  // Geometry (5 MC questions — 3 with visual figures, 2 text-only word problems)
   slots.push(
     standaloneSlot(P, 'Geometry', 'easy', 1, {
       section: 'part2_calculator',
       calculatorAllowed: true,
+      requireFigure: true,
     })
   );
   for (let i = 0; i < 2; i++)
@@ -804,6 +806,7 @@ function buildMathPlan() {
       standaloneSlot(P, 'Geometry', 'medium', 1, {
         section: 'part2_calculator',
         calculatorAllowed: true,
+        requireFigure: i === 0,
       })
     );
   for (let i = 0; i < 2; i++)
@@ -811,6 +814,7 @@ function buildMathPlan() {
       standaloneSlot(P, 'Geometry', 'hard', 1, {
         section: 'part2_calculator',
         calculatorAllowed: true,
+        requireFigure: i === 0,
       })
     );
 

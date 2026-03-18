@@ -2249,6 +2249,477 @@ const rectPrismNetRenderer = (params = {}, style) => {
   return { elements, pointsForBounds };
 };
 
+const trapezoidRenderer = (params = {}, style) => {
+  const points = mapPoints(params.points);
+  if (points.length < 4) return null;
+  const base = polygonRenderer(
+    {
+      points,
+      sideLabels: params.sideLabels,
+      labels: params.labels,
+      segments: params.segments,
+    },
+    style,
+    {}
+  );
+  if (!base) return null;
+  if (params.heightLine) {
+    const from = normalizePoint(params.heightLine.from);
+    const to = normalizePoint(params.heightLine.to);
+    if (from && to) {
+      const mid = midpoint(from, to);
+      base.elements.push(
+        <line
+          key="height-line"
+          x1={from.x}
+          y1={from.y}
+          x2={to.x}
+          y2={to.y}
+          stroke={style.stroke}
+          strokeWidth={1}
+          strokeDasharray="4,3"
+        />
+      );
+      if (typeof params.heightLine.label === 'string') {
+        base.elements.push(
+          <text
+            key="height-label"
+            x={mid.x - 4}
+            y={mid.y}
+            fontSize={6}
+            textAnchor="middle"
+            fill={style.labelColor}
+          >
+            {params.heightLine.label}
+          </text>
+        );
+      }
+      const raSize = 5;
+      base.elements.push(
+        <polyline
+          key="height-right-angle"
+          points={`${to.x + raSize},${to.y} ${to.x + raSize},${to.y - raSize} ${to.x},${to.y - raSize}`}
+          fill="none"
+          stroke={style.stroke}
+          strokeWidth={0.8}
+        />
+      );
+    }
+  }
+  return base;
+};
+
+const compositeRenderer = (params = {}, style) => {
+  const rects = Array.isArray(params.rects) ? params.rects : [];
+  if (rects.length === 0) return null;
+  const elements = [];
+  const pointsForBounds = [];
+  rects.forEach((rect, index) => {
+    const x = normalizeNumber(rect.x);
+    const y = normalizeNumber(rect.y);
+    const w = normalizeNumber(rect.width);
+    const h = normalizeNumber(rect.height);
+    if (
+      typeof x !== 'number' ||
+      typeof y !== 'number' ||
+      typeof w !== 'number' ||
+      typeof h !== 'number'
+    )
+      return;
+    elements.push(
+      <rect
+        key={`comp-rect-${index}`}
+        x={x}
+        y={y}
+        width={w}
+        height={h}
+        fill={style.fill}
+        stroke={style.stroke}
+        strokeWidth={1.5}
+      />
+    );
+    if (typeof rect.label === 'string') {
+      elements.push(
+        <text
+          key={`comp-label-${index}`}
+          x={x + w / 2}
+          y={y + h / 2 + 2}
+          fontSize={6}
+          textAnchor="middle"
+          fill={style.labelColor}
+        >
+          {rect.label}
+        </text>
+      );
+    }
+    pointsForBounds.push({ x, y }, { x: x + w, y: y + h });
+  });
+  if (Array.isArray(params.dimensionLabels)) {
+    params.dimensionLabels.forEach((dl, index) => {
+      if (!dl || typeof dl.text !== 'string') return;
+      const px = normalizeNumber(dl.x);
+      const py = normalizeNumber(dl.y);
+      if (typeof px !== 'number' || typeof py !== 'number') return;
+      elements.push(
+        <text
+          key={`dim-label-${index}`}
+          x={px}
+          y={py}
+          fontSize={6}
+          textAnchor="middle"
+          fill={style.labelColor}
+        >
+          {dl.text}
+        </text>
+      );
+    });
+  }
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  elements.push(...renderSegments(params.segments, style));
+  if (elements.length === 0) return null;
+  return { elements, pointsForBounds };
+};
+
+const parallelTransversalRenderer = (params = {}, style) => {
+  const line1Start = normalizePoint(params.line1 && params.line1.start);
+  const line1End = normalizePoint(params.line1 && params.line1.end);
+  const line2Start = normalizePoint(params.line2 && params.line2.start);
+  const line2End = normalizePoint(params.line2 && params.line2.end);
+  const transStart = normalizePoint(
+    params.transversal && params.transversal.start
+  );
+  const transEnd = normalizePoint(params.transversal && params.transversal.end);
+  if (
+    !line1Start ||
+    !line1End ||
+    !line2Start ||
+    !line2End ||
+    !transStart ||
+    !transEnd
+  )
+    return null;
+  const pointsForBounds = [
+    line1Start,
+    line1End,
+    line2Start,
+    line2End,
+    transStart,
+    transEnd,
+  ];
+  const elements = [
+    <line
+      key="line1"
+      x1={line1Start.x}
+      y1={line1Start.y}
+      x2={line1End.x}
+      y2={line1End.y}
+      stroke={style.stroke}
+      strokeWidth={1.5}
+    />,
+    <line
+      key="line2"
+      x1={line2Start.x}
+      y1={line2Start.y}
+      x2={line2End.x}
+      y2={line2End.y}
+      stroke={style.stroke}
+      strokeWidth={1.5}
+    />,
+    <line
+      key="transversal"
+      x1={transStart.x}
+      y1={transStart.y}
+      x2={transEnd.x}
+      y2={transEnd.y}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+  ];
+  if (params.tickMarks !== false) {
+    const addTicks = (start, end, keyPrefix) => {
+      const mx = (start.x + end.x) / 2;
+      const my = (start.y + end.y) / 2;
+      const dx = end.x - start.x;
+      const dy = end.y - start.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len;
+      const ny = dx / len;
+      const tickLen = 4;
+      const gap = 2;
+      [-1, 1].forEach((dir, i) => {
+        const cx = mx + dir * gap;
+        const cy = my + dir * (gap * (dy / (len || 1)));
+        elements.push(
+          <line
+            key={`${keyPrefix}-tick-${i}`}
+            x1={cx + nx * tickLen}
+            y1={cy + ny * tickLen}
+            x2={cx - nx * tickLen}
+            y2={cy - ny * tickLen}
+            stroke={style.stroke}
+            strokeWidth={0.8}
+          />
+        );
+      });
+    };
+    addTicks(line1Start, line1End, 'l1');
+    addTicks(line2Start, line2End, 'l2');
+  }
+  const segIntersect = (p1, p2, p3, p4) => {
+    const d1x = p2.x - p1.x,
+      d1y = p2.y - p1.y;
+    const d2x = p4.x - p3.x,
+      d2y = p4.y - p3.y;
+    const denom = d1x * d2y - d1y * d2x;
+    if (Math.abs(denom) < 1e-10) return null;
+    const t = ((p3.x - p1.x) * d2y - (p3.y - p1.y) * d2x) / denom;
+    return { x: p1.x + t * d1x, y: p1.y + t * d1y };
+  };
+  if (Array.isArray(params.angleLabels)) {
+    const int1 = segIntersect(line1Start, line1End, transStart, transEnd);
+    const int2 = segIntersect(line2Start, line2End, transStart, transEnd);
+    params.angleLabels.forEach((al, index) => {
+      if (!al || typeof al.text !== 'string') return;
+      const intersection = al.at === 'line2' ? int2 : int1;
+      if (!intersection) return;
+      const offsetX = normalizeNumber(al.dx) || 0;
+      const offsetY = normalizeNumber(al.dy) || 0;
+      elements.push(
+        <text
+          key={`angle-label-${index}`}
+          x={intersection.x + offsetX}
+          y={intersection.y + offsetY}
+          fontSize={6}
+          textAnchor="middle"
+          fill={style.labelColor}
+        >
+          {al.text}
+        </text>
+      );
+    });
+  }
+  if (Array.isArray(params.lineLabels)) {
+    params.lineLabels.forEach((ll, index) => {
+      if (!ll || typeof ll.text !== 'string') return;
+      const lx = normalizeNumber(ll.x);
+      const ly = normalizeNumber(ll.y);
+      if (typeof lx !== 'number' || typeof ly !== 'number') return;
+      elements.push(
+        <text
+          key={`line-label-${index}`}
+          x={lx}
+          y={ly}
+          fontSize={6}
+          textAnchor="start"
+          fill={style.labelColor}
+          fontStyle="italic"
+        >
+          {ll.text}
+        </text>
+      );
+    });
+  }
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  return { elements, pointsForBounds };
+};
+
+const coneNetRenderer = (params = {}, style) => {
+  const radius = Math.abs(normalizeNumber(params.radius));
+  const slantHeight = Math.abs(normalizeNumber(params.slantHeight));
+  if (!Number.isFinite(radius) || !Number.isFinite(slantHeight)) return null;
+  const padding = 10;
+  const sectorRadius = slantHeight;
+  const arcLength = 2 * Math.PI * radius;
+  const sectorAngle = arcLength / sectorRadius;
+  const sectorCenterX = padding + sectorRadius;
+  const sectorCenterY = padding + sectorRadius;
+  const startAngle = -Math.PI / 2 - sectorAngle / 2;
+  const endAngle = startAngle + sectorAngle;
+  const arcStartX = sectorCenterX + sectorRadius * Math.cos(startAngle);
+  const arcStartY = sectorCenterY + sectorRadius * Math.sin(startAngle);
+  const arcEndX = sectorCenterX + sectorRadius * Math.cos(endAngle);
+  const arcEndY = sectorCenterY + sectorRadius * Math.sin(endAngle);
+  const largeArc = sectorAngle > Math.PI ? 1 : 0;
+  const circleCenterX = sectorCenterX;
+  const circleCenterY = sectorCenterY + sectorRadius + radius + 10;
+  const elements = [
+    <path
+      key="sector"
+      d={`M ${sectorCenterX} ${sectorCenterY} L ${arcStartX} ${arcStartY} A ${sectorRadius} ${sectorRadius} 0 ${largeArc} 1 ${arcEndX} ${arcEndY} Z`}
+      fill={style.fill}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    <circle
+      key="base-circle"
+      cx={circleCenterX}
+      cy={circleCenterY}
+      r={radius}
+      fill={style.fill}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    <line
+      key="slant-line"
+      x1={sectorCenterX}
+      y1={sectorCenterY}
+      x2={arcStartX}
+      y2={arcStartY}
+      stroke={style.stroke}
+      strokeWidth={0.8}
+      strokeDasharray="4,3"
+    />,
+    <text
+      key="slant-label"
+      x={(sectorCenterX + arcStartX) / 2 - 6}
+      y={(sectorCenterY + arcStartY) / 2}
+      fontSize={6}
+      fill={style.labelColor}
+    >
+      l = {slantHeight}
+    </text>,
+    <line
+      key="radius-line"
+      x1={circleCenterX}
+      y1={circleCenterY}
+      x2={circleCenterX + radius}
+      y2={circleCenterY}
+      stroke={style.stroke}
+      strokeWidth={0.8}
+      strokeDasharray="4,3"
+    />,
+    <text
+      key="radius-label"
+      x={circleCenterX + radius / 2}
+      y={circleCenterY - 3}
+      fontSize={6}
+      textAnchor="middle"
+      fill={style.labelColor}
+    >
+      r = {radius}
+    </text>,
+  ];
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  return {
+    elements,
+    pointsForBounds: [
+      {
+        x: sectorCenterX - sectorRadius - padding,
+        y: sectorCenterY - sectorRadius,
+      },
+      {
+        x: sectorCenterX + sectorRadius + padding,
+        y: circleCenterY + radius + padding,
+      },
+    ],
+  };
+};
+
+const pyramidNetRenderer = (params = {}, style) => {
+  const baseLength = Math.abs(normalizeNumber(params.baseLength));
+  const slantHeight = Math.abs(normalizeNumber(params.slantHeight));
+  if (!Number.isFinite(baseLength) || !Number.isFinite(slantHeight))
+    return null;
+  const padding = 10;
+  const half = baseLength / 2;
+  const bx = padding + slantHeight;
+  const by = padding + slantHeight;
+  const elements = [
+    <rect
+      key="base-square"
+      x={bx}
+      y={by}
+      width={baseLength}
+      height={baseLength}
+      fill={style.fill}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    <text
+      key="base-label"
+      x={bx + half}
+      y={by + half + 2}
+      fontSize={6}
+      textAnchor="middle"
+      fill={style.labelColor}
+    >
+      {baseLength}
+    </text>,
+  ];
+  const pointsForBounds = [
+    { x: bx, y: by },
+    { x: bx + baseLength, y: by + baseLength },
+  ];
+  const faces = [
+    {
+      cx: bx + half,
+      cy: by,
+      apex: { x: bx + half, y: by - slantHeight },
+      p1: { x: bx, y: by },
+      p2: { x: bx + baseLength, y: by },
+    },
+    {
+      cx: bx + half,
+      cy: by + baseLength,
+      apex: { x: bx + half, y: by + baseLength + slantHeight },
+      p1: { x: bx + baseLength, y: by + baseLength },
+      p2: { x: bx, y: by + baseLength },
+    },
+    {
+      cx: bx,
+      cy: by + half,
+      apex: { x: bx - slantHeight, y: by + half },
+      p1: { x: bx, y: by + baseLength },
+      p2: { x: bx, y: by },
+    },
+    {
+      cx: bx + baseLength,
+      cy: by + half,
+      apex: { x: bx + baseLength + slantHeight, y: by + half },
+      p1: { x: bx + baseLength, y: by },
+      p2: { x: bx + baseLength, y: by + baseLength },
+    },
+  ];
+  faces.forEach((face, index) => {
+    elements.push(
+      <polygon
+        key={`tri-${index}`}
+        points={`${face.p1.x},${face.p1.y} ${face.apex.x},${face.apex.y} ${face.p2.x},${face.p2.y}`}
+        fill={style.fill}
+        stroke={style.stroke}
+        strokeWidth={1.2}
+      />
+    );
+    pointsForBounds.push(face.apex);
+  });
+  if (slantHeight > 15) {
+    const topFace = faces[0];
+    elements.push(
+      <line
+        key="slant-measure"
+        x1={topFace.p1.x}
+        y1={topFace.p1.y}
+        x2={topFace.apex.x}
+        y2={topFace.apex.y}
+        stroke={style.stroke}
+        strokeWidth={0.6}
+        strokeDasharray="3,2"
+      />,
+      <text
+        key="slant-label"
+        x={(topFace.p1.x + topFace.apex.x) / 2 - 6}
+        y={(topFace.p1.y + topFace.apex.y) / 2}
+        fontSize={6}
+        fill={style.labelColor}
+      >
+        l = {params.slantHeight}
+      </text>
+    );
+  }
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  return { elements, pointsForBounds };
+};
+
 const geometryRenderers = {
   triangle: (params, style) =>
     polygonRenderer(params, style || DEFAULT_FIGURE_STYLE, {}),
@@ -2270,6 +2741,16 @@ const geometryRenderers = {
     cylinderNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
   rect_prism_net: (params, style) =>
     rectPrismNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  trapezoid: (params, style) =>
+    trapezoidRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  composite: (params, style) =>
+    compositeRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  parallel_transversal: (params, style) =>
+    parallelTransversalRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  cone_net: (params, style) =>
+    coneNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  pyramid_net: (params, style) =>
+    pyramidNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
 };
 
 function GeometryFigure({ spec, className }) {
@@ -22154,145 +22635,154 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const launchQuizSet = (quiz, index, displayNameOverride) => {
       if (typeof onSelectQuiz !== 'function' || !quiz) return;
       try {
-      const quizLabel =
-        displayNameOverride ||
-        quiz.label ||
-        `Quiz ${String.fromCharCode(65 + index)}`;
-      const baseTitle = topic.title || 'Quiz';
-      // Better title handling: humanize auto IDs and retitle Math sets using canonical category
-      const looksAutoId = (s) => {
-        if (!s) return true;
-        const t = String(s);
-        return /(^|\b)(math|rla)_/i.test(t) || t.includes('_');
-      };
-      const humanizeQuizId = (id) => {
-        if (!id) return '';
-        let t = String(id).replace(/^(math|rla)_/i, '');
-        t = t.replace(/[_-]+/g, ' ').trim();
-        t = t.replace(/\b(set|quiz)\s*(\d+|[A-Z])\b/gi, (m) => m.toUpperCase());
-        return t.replace(
-          /\w\S*/g,
-          (w) => w.charAt(0).toUpperCase() + w.slice(1)
-        );
-      };
-      const getCategoryOfTopic = (subj, topicId) => {
-        try {
-          const sourceApp =
-            typeof window !== 'undefined' && window.AppData
-              ? window.AppData
-              : AppData;
-          const subject = sourceApp?.[subj];
-          if (!subject || !subject.categories) return null;
-          for (const [catName, cat] of Object.entries(subject.categories)) {
-            const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-            if (topics.some((t) => t && t.id === topicId)) return catName;
-          }
-        } catch {}
-        return null;
-      };
-      const canonicalizeCategoryNameLocal = (subj, name) => {
-        try {
-          return typeof window !== 'undefined' &&
-            typeof window.canonicalizeCategoryName === 'function'
-            ? window.canonicalizeCategoryName(subj, name)
-            : name;
-        } catch {
-          return name;
-        }
-      };
-      const deriveMathShortTopic = (title, canonCat) => {
-        const raw = String(title || '').trim();
-        if (!raw) return 'Practice';
-        let base = raw;
-        if (canonCat && base.toLowerCase().startsWith(canonCat.toLowerCase())) {
-          base = base.slice(canonCat.length).trim();
-        }
-        if (base.startsWith(':') || base.startsWith('') || base.startsWith('-'))
-          base = base.slice(1).trim();
-        base = base
-          .replace(
-            /\b(quiz|set|practice)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i,
-            ''
-          )
-          .trim();
-        if (!base) return 'Practice';
-        return base;
-      };
-      let derivedTitle = quiz.title || `${baseTitle} ${quizLabel}`;
-      if (looksAutoId(derivedTitle)) {
-        if (String(subjectName).toLowerCase() === 'math') {
-          const catRaw = getCategoryOfTopic(subjectName, topic.id);
-          const canonCat = canonicalizeCategoryNameLocal(
-            subjectName,
-            catRaw || 'Math'
+        const quizLabel =
+          displayNameOverride ||
+          quiz.label ||
+          `Quiz ${String.fromCharCode(65 + index)}`;
+        const baseTitle = topic.title || 'Quiz';
+        // Better title handling: humanize auto IDs and retitle Math sets using canonical category
+        const looksAutoId = (s) => {
+          if (!s) return true;
+          const t = String(s);
+          return /(^|\b)(math|rla)_/i.test(t) || t.includes('_');
+        };
+        const humanizeQuizId = (id) => {
+          if (!id) return '';
+          let t = String(id).replace(/^(math|rla)_/i, '');
+          t = t.replace(/[_-]+/g, ' ').trim();
+          t = t.replace(/\b(set|quiz)\s*(\d+|[A-Z])\b/gi, (m) =>
+            m.toUpperCase()
           );
-          const shortTopic = deriveMathShortTopic(baseTitle, canonCat);
-          const setNum = (() => {
-            const m = String(quiz.label || '').match(/([A-Z])$/);
-            if (m) return m[1].charCodeAt(0) - 64;
-            const n = String(quiz.quizId || '').match(/(\d+)/);
-            if (n) return parseInt(n[1], 10);
-            return index + 1;
-          })();
-          derivedTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;
-        } else {
-          derivedTitle = humanizeQuizId(quiz.quizId || derivedTitle);
+          return t.replace(
+            /\w\S*/g,
+            (w) => w.charAt(0).toUpperCase() + w.slice(1)
+          );
+        };
+        const getCategoryOfTopic = (subj, topicId) => {
+          try {
+            const sourceApp =
+              typeof window !== 'undefined' && window.AppData
+                ? window.AppData
+                : AppData;
+            const subject = sourceApp?.[subj];
+            if (!subject || !subject.categories) return null;
+            for (const [catName, cat] of Object.entries(subject.categories)) {
+              const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+              if (topics.some((t) => t && t.id === topicId)) return catName;
+            }
+          } catch {}
+          return null;
+        };
+        const canonicalizeCategoryNameLocal = (subj, name) => {
+          try {
+            return typeof window !== 'undefined' &&
+              typeof window.canonicalizeCategoryName === 'function'
+              ? window.canonicalizeCategoryName(subj, name)
+              : name;
+          } catch {
+            return name;
+          }
+        };
+        const deriveMathShortTopic = (title, canonCat) => {
+          const raw = String(title || '').trim();
+          if (!raw) return 'Practice';
+          let base = raw;
+          if (
+            canonCat &&
+            base.toLowerCase().startsWith(canonCat.toLowerCase())
+          ) {
+            base = base.slice(canonCat.length).trim();
+          }
+          if (
+            base.startsWith(':') ||
+            base.startsWith('') ||
+            base.startsWith('-')
+          )
+            base = base.slice(1).trim();
+          base = base
+            .replace(
+              /\b(quiz|set|practice)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i,
+              ''
+            )
+            .trim();
+          if (!base) return 'Practice';
+          return base;
+        };
+        let derivedTitle = quiz.title || `${baseTitle} ${quizLabel}`;
+        if (looksAutoId(derivedTitle)) {
+          if (String(subjectName).toLowerCase() === 'math') {
+            const catRaw = getCategoryOfTopic(subjectName, topic.id);
+            const canonCat = canonicalizeCategoryNameLocal(
+              subjectName,
+              catRaw || 'Math'
+            );
+            const shortTopic = deriveMathShortTopic(baseTitle, canonCat);
+            const setNum = (() => {
+              const m = String(quiz.label || '').match(/([A-Z])$/);
+              if (m) return m[1].charCodeAt(0) - 64;
+              const n = String(quiz.quizId || '').match(/(\d+)/);
+              if (n) return parseInt(n[1], 10);
+              return index + 1;
+            })();
+            derivedTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;
+          } else {
+            derivedTitle = humanizeQuizId(quiz.quizId || derivedTitle);
+          }
         }
-      }
-      const resolvedQuestions = resolveQuizQuestions(
-        subjectName,
-        topic,
-        quiz
-      ).map((q, qi) => {
-        if (q && typeof q === 'object') {
-          const nextNumber = q.questionNumber ?? qi + 1;
-          return { ...q, questionNumber: nextNumber };
+        const resolvedQuestions = resolveQuizQuestions(
+          subjectName,
+          topic,
+          quiz
+        ).map((q, qi) => {
+          if (q && typeof q === 'object') {
+            const nextNumber = q.questionNumber ?? qi + 1;
+            return { ...q, questionNumber: nextNumber };
+          }
+          return q;
+        });
+        if (!resolvedQuestions.length) {
+          alert(
+            'This quiz does not have any questions yet. Please try another set.'
+          );
+          return;
         }
-        return q;
-      });
-      if (!resolvedQuestions.length) {
-        alert(
-          'This quiz does not have any questions yet. Please try another set.'
-        );
-        return;
-      }
-      const prepared = {
-        ...quiz,
-        id:
-          quiz.quizId ||
-          quiz.quizCode ||
-          `${topic.id || 'topic'}__set_${index}`,
-        quizCode:
-          quiz.quizCode ||
-          `${sanitizeCodeSegment(
-            subjectName,
-            'subject'
-          )}__${sanitizeCodeSegment(topic.id || topic.title || 'topic')}__set-${
-            index + 1
-          }`,
-        title: derivedTitle,
-        topicId: topic.id,
-        topicTitle: topic.title || baseTitle,
-        canonicalTopicTitle: topic.title || baseTitle,
-        description: quiz.description || topic.description,
-        type: quiz.type || topic.type || 'quiz',
-        questions: resolvedQuestions,
-      };
-      const sourceTopic = quiz.questionSourceTopicId
-        ? getTopicById(subjectName, quiz.questionSourceTopicId)
-        : null;
-      const articleSource =
-        quiz.article || topic.article || (sourceTopic && sourceTopic.article);
-      const articleClone = cloneArticle(articleSource);
-      if (articleClone) prepared.article = articleClone;
-      const resolvedImageUrl =
-        quiz.imageUrl ||
-        topic.imageUrl ||
-        (sourceTopic && sourceTopic.imageUrl) ||
-        (articleClone && articleClone.imageUrl);
-      if (!prepared.imageUrl && resolvedImageUrl)
-        prepared.imageUrl = resolvedImageUrl;
-      onSelectQuiz(prepared, subjectName);
+        const prepared = {
+          ...quiz,
+          id:
+            quiz.quizId ||
+            quiz.quizCode ||
+            `${topic.id || 'topic'}__set_${index}`,
+          quizCode:
+            quiz.quizCode ||
+            `${sanitizeCodeSegment(
+              subjectName,
+              'subject'
+            )}__${sanitizeCodeSegment(topic.id || topic.title || 'topic')}__set-${
+              index + 1
+            }`,
+          title: derivedTitle,
+          topicId: topic.id,
+          topicTitle: topic.title || baseTitle,
+          canonicalTopicTitle: topic.title || baseTitle,
+          description: quiz.description || topic.description,
+          type: quiz.type || topic.type || 'quiz',
+          questions: resolvedQuestions,
+        };
+        const sourceTopic = quiz.questionSourceTopicId
+          ? getTopicById(subjectName, quiz.questionSourceTopicId)
+          : null;
+        const articleSource =
+          quiz.article || topic.article || (sourceTopic && sourceTopic.article);
+        const articleClone = cloneArticle(articleSource);
+        if (articleClone) prepared.article = articleClone;
+        const resolvedImageUrl =
+          quiz.imageUrl ||
+          topic.imageUrl ||
+          (sourceTopic && sourceTopic.imageUrl) ||
+          (articleClone && articleClone.imageUrl);
+        if (!prepared.imageUrl && resolvedImageUrl)
+          prepared.imageUrl = resolvedImageUrl;
+        onSelectQuiz(prepared, subjectName);
       } catch (err) {
         console.error('[quiz] Failed to launch quiz set:', err);
         alert('Something went wrong launching this quiz. Please try again.');
@@ -22363,7 +22853,10 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                   <button
                     type="button"
                     key={quiz.quizId || `${topic.id || 'topic'}_quiz_${idx}`}
-                    onClick={(e) => { e.preventDefault(); launchQuizSet(quiz, idx, name); }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      launchQuizSet(quiz, idx, name);
+                    }}
                     className="w-full px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                     title={quizOneLiner(quiz, topic)}
                     style={buttonStyle}
@@ -22393,37 +22886,39 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             onClick={(e) => {
               e.preventDefault();
               try {
-              if (typeof onSelectQuiz !== 'function') return;
-              const articleClone = cloneArticle(topic.article);
-              const prepared = {
-                ...topic,
-                id:
-                  topic.quizCode ||
-                  topic.id ||
-                  sanitizeCodeSegment(topic.title || 'quiz'),
-                quizCode:
-                  topic.quizCode ||
-                  `${sanitizeCodeSegment(
-                    subjectName,
-                    'subject'
-                  )}__${sanitizeCodeSegment(
-                    topic.id || topic.title || 'topic'
-                  )}`,
-              };
-              if (articleClone) prepared.article = articleClone;
-              if (Array.isArray(topic.questions)) {
-                prepared.questions = topic.questions.map((q, qi) => {
-                  if (q && typeof q === 'object') {
-                    const nextNumber = q.questionNumber ?? qi + 1;
-                    return { ...q, questionNumber: nextNumber };
-                  }
-                  return q;
-                });
-              }
-              onSelectQuiz(prepared, subjectName);
+                if (typeof onSelectQuiz !== 'function') return;
+                const articleClone = cloneArticle(topic.article);
+                const prepared = {
+                  ...topic,
+                  id:
+                    topic.quizCode ||
+                    topic.id ||
+                    sanitizeCodeSegment(topic.title || 'quiz'),
+                  quizCode:
+                    topic.quizCode ||
+                    `${sanitizeCodeSegment(
+                      subjectName,
+                      'subject'
+                    )}__${sanitizeCodeSegment(
+                      topic.id || topic.title || 'topic'
+                    )}`,
+                };
+                if (articleClone) prepared.article = articleClone;
+                if (Array.isArray(topic.questions)) {
+                  prepared.questions = topic.questions.map((q, qi) => {
+                    if (q && typeof q === 'object') {
+                      const nextNumber = q.questionNumber ?? qi + 1;
+                      return { ...q, questionNumber: nextNumber };
+                    }
+                    return q;
+                  });
+                }
+                onSelectQuiz(prepared, subjectName);
               } catch (err) {
                 console.error('[quiz] Failed to launch quiz:', err);
-                alert('Something went wrong launching this quiz. Please try again.');
+                alert(
+                  'Something went wrong launching this quiz. Please try again.'
+                );
               }
             }}
             className="w-full mt-3 px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
@@ -26597,152 +27092,166 @@ function App({ externalTheme, onThemeChange }) {
     console.log('Starting quiz with data:', quizPayload); // Debugging line
 
     try {
-    if (!quizPayload || typeof quizPayload !== 'object') {
-      console.error('Received invalid quiz payload:', quizPayload);
-      alert('Sorry, the generated quiz data was invalid. Please try again.');
-      return;
-    }
-
-    if (quizPayload.type === 'essay') {
-      setNavHistory((prev) => [
-        ...prev,
-        { activeView, view, selectedSubject, selectedCategory, activeQuiz, quizResults },
-      ]);
-      setActiveQuiz({ ...quizPayload, subject });
-      setView('essay');
-      return;
-    }
-
-    if (quizPayload.type === 'simulation') {
-      setNavHistory((prev) => [
-        ...prev,
-        { activeView, view, selectedSubject, selectedCategory, activeQuiz, quizResults },
-      ]);
-      setActiveQuiz({ ...quizPayload, subject });
-      setView('simulation');
-      return;
-    }
-
-    if (
-      quizPayload.type === 'graphing_tool' ||
-      quizPayload.type === 'geometry_practice_tool'
-    ) {
-      openMathTools(
-        quizPayload.type === 'graphing_tool' ? 'graphing' : 'geometry'
-      );
-      setActiveQuiz(null);
-      setView('start');
-      return;
-    }
-
-    const preparedQuiz = { ...quizPayload, subject };
-    preparedQuiz.quizType =
-      preparedQuiz.quizType || quizPayload.quizType || null;
-    preparedQuiz.isComprehensive = isComprehensiveQuiz(preparedQuiz);
-    preparedQuiz.quizCode =
-      quizPayload.quizCode ||
-      quizPayload.code ||
-      quizPayload.id ||
-      preparedQuiz.quizCode ||
-      null;
-    // Preserve incoming isPremade if explicitly provided; otherwise infer from presence of a quizCode
-    if (typeof preparedQuiz.isPremade !== 'boolean') {
-      preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
-    }
-    let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
-
-    if (quizPayload.type === 'multi-part-math') {
-      let part1 = normalizeQuestionList(quizPayload.part1_non_calculator);
-      let part2 = normalizeQuestionList(quizPayload.part2_calculator);
-
-      if (!part1.length && normalizedQuestions.length) {
-        part1 = normalizedQuestions.slice(0, 5);
-      }
-      if (!part2.length && normalizedQuestions.length) {
-        part2 = normalizedQuestions.slice(part1.length || 5);
-      }
-
-      if (!part1.length || !part2.length) {
-        console.error(
-          'Incomplete multi-part math payload received:',
-          quizPayload
-        );
-        alert('The generated math exam was incomplete. Please try again.');
+      if (!quizPayload || typeof quizPayload !== 'object') {
+        console.error('Received invalid quiz payload:', quizPayload);
+        alert('Sorry, the generated quiz data was invalid. Please try again.');
         return;
       }
 
-      preparedQuiz.part1_non_calculator = part1.map((q) => ({
-        ...q,
-        isPremade: q.isPremade === true || preparedQuiz.isPremade,
-      }));
-      preparedQuiz.part2_calculator = part2.map((q) => ({
-        ...q,
-        isPremade: q.isPremade === true || preparedQuiz.isPremade,
-      }));
-      normalizedQuestions = [...part1, ...part2];
-    } else if (quizPayload.type === 'multi-part-rla') {
-      const part1 = normalizeQuestionList(quizPayload.part1_reading);
-      const part3 = normalizeQuestionList(quizPayload.part3_language);
-      const essay = quizPayload.part2_essay;
-
-      const hasEssayContent =
-        essay &&
-        typeof essay === 'object' &&
-        Array.isArray(essay.passages) &&
-        essay.passages.length >= 2 &&
-        typeof essay.prompt === 'string';
-
-      if (!part1.length || !part3.length || !hasEssayContent) {
-        console.error(
-          'Incomplete multi-part RLA payload received:',
-          quizPayload
-        );
-        alert('The generated RLA exam was incomplete. Please try again.');
+      if (quizPayload.type === 'essay') {
+        setNavHistory((prev) => [
+          ...prev,
+          {
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+            activeQuiz,
+            quizResults,
+          },
+        ]);
+        setActiveQuiz({ ...quizPayload, subject });
+        setView('essay');
         return;
       }
 
-      preparedQuiz.part1_reading = part1.map((q) => ({
+      if (quizPayload.type === 'simulation') {
+        setNavHistory((prev) => [
+          ...prev,
+          {
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+            activeQuiz,
+            quizResults,
+          },
+        ]);
+        setActiveQuiz({ ...quizPayload, subject });
+        setView('simulation');
+        return;
+      }
+
+      if (
+        quizPayload.type === 'graphing_tool' ||
+        quizPayload.type === 'geometry_practice_tool'
+      ) {
+        openMathTools(
+          quizPayload.type === 'graphing_tool' ? 'graphing' : 'geometry'
+        );
+        setActiveQuiz(null);
+        setView('start');
+        return;
+      }
+
+      const preparedQuiz = { ...quizPayload, subject };
+      preparedQuiz.quizType =
+        preparedQuiz.quizType || quizPayload.quizType || null;
+      preparedQuiz.isComprehensive = isComprehensiveQuiz(preparedQuiz);
+      preparedQuiz.quizCode =
+        quizPayload.quizCode ||
+        quizPayload.code ||
+        quizPayload.id ||
+        preparedQuiz.quizCode ||
+        null;
+      // Preserve incoming isPremade if explicitly provided; otherwise infer from presence of a quizCode
+      if (typeof preparedQuiz.isPremade !== 'boolean') {
+        preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
+      }
+      let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
+
+      if (quizPayload.type === 'multi-part-math') {
+        let part1 = normalizeQuestionList(quizPayload.part1_non_calculator);
+        let part2 = normalizeQuestionList(quizPayload.part2_calculator);
+
+        if (!part1.length && normalizedQuestions.length) {
+          part1 = normalizedQuestions.slice(0, 5);
+        }
+        if (!part2.length && normalizedQuestions.length) {
+          part2 = normalizedQuestions.slice(part1.length || 5);
+        }
+
+        if (!part1.length || !part2.length) {
+          console.error(
+            'Incomplete multi-part math payload received:',
+            quizPayload
+          );
+          alert('The generated math exam was incomplete. Please try again.');
+          return;
+        }
+
+        preparedQuiz.part1_non_calculator = part1.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        preparedQuiz.part2_calculator = part2.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        normalizedQuestions = [...part1, ...part2];
+      } else if (quizPayload.type === 'multi-part-rla') {
+        const part1 = normalizeQuestionList(quizPayload.part1_reading);
+        const part3 = normalizeQuestionList(quizPayload.part3_language);
+        const essay = quizPayload.part2_essay;
+
+        const hasEssayContent =
+          essay &&
+          typeof essay === 'object' &&
+          Array.isArray(essay.passages) &&
+          essay.passages.length >= 2 &&
+          typeof essay.prompt === 'string';
+
+        if (!part1.length || !part3.length || !hasEssayContent) {
+          console.error(
+            'Incomplete multi-part RLA payload received:',
+            quizPayload
+          );
+          alert('The generated RLA exam was incomplete. Please try again.');
+          return;
+        }
+
+        preparedQuiz.part1_reading = part1.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        preparedQuiz.part3_language = part3.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        preparedQuiz.part2_essay = essay;
+        normalizedQuestions = [...part1, ...part3];
+      }
+
+      if (!normalizedQuestions.length) {
+        console.error(
+          'Quiz payload did not include any valid questions:',
+          quizPayload
+        );
+        alert(
+          'The generated quiz did not include any questions. Please try again.'
+        );
+        return;
+      }
+
+      // Push current nav state so Back returns here — only AFTER validation passes
+      setNavHistory((prev) => [
+        ...prev,
+        {
+          activeView,
+          view,
+          selectedSubject,
+          selectedCategory,
+          activeQuiz,
+          quizResults,
+        },
+      ]);
+
+      preparedQuiz.questions = normalizedQuestions.map((q) => ({
         ...q,
         isPremade: q.isPremade === true || preparedQuiz.isPremade,
       }));
-      preparedQuiz.part3_language = part3.map((q) => ({
-        ...q,
-        isPremade: q.isPremade === true || preparedQuiz.isPremade,
-      }));
-      preparedQuiz.part2_essay = essay;
-      normalizedQuestions = [...part1, ...part3];
-    }
 
-    if (!normalizedQuestions.length) {
-      console.error(
-        'Quiz payload did not include any valid questions:',
-        quizPayload
-      );
-      alert(
-        'The generated quiz did not include any questions. Please try again.'
-      );
-      return;
-    }
-
-    // Push current nav state so Back returns here — only AFTER validation passes
-    setNavHistory((prev) => [
-      ...prev,
-      {
-        activeView,
-        view,
-        selectedSubject,
-        selectedCategory,
-        activeQuiz,
-        quizResults,
-      },
-    ]);
-
-    preparedQuiz.questions = normalizedQuestions.map((q) => ({
-      ...q,
-      isPremade: q.isPremade === true || preparedQuiz.isPremade,
-    }));
-
-    launchPreparedQuiz(preparedQuiz, options);
+      launchPreparedQuiz(preparedQuiz, options);
     } catch (err) {
       console.error('[startQuiz] Unexpected error launching quiz:', err);
       alert('Something went wrong starting the quiz. Please try again.');
@@ -32868,69 +33377,73 @@ function StartScreen({
     const launchCategorySet = (setName) => {
       if (typeof onSelectQuiz !== 'function') return;
       try {
-      const quizzes = Array.isArray(categorySetsMap[setName])
-        ? categorySetsMap[setName]
-        : [];
-      if (!quizzes.length) return;
+        const quizzes = Array.isArray(categorySetsMap[setName])
+          ? categorySetsMap[setName]
+          : [];
+        if (!quizzes.length) return;
 
-      const subjectName = selectedSubject;
-      // Combine questions from each quiz in the set, normalizing assets and renumbering
-      const combinedQuestions = [];
-      quizzes.forEach((quiz) => {
-        if (!quiz || typeof quiz !== 'object') return;
-        const sourceTopic = quiz.questionSourceTopicId
-          ? getTopicById(subjectName, quiz.questionSourceTopicId)
-          : null;
-        const resolved =
-          Array.isArray(quiz.questions) && quiz.questions.length
-            ? quiz.questions
-            : resolveQuizQuestions(subjectName, sourceTopic, quiz);
-        (resolved || []).forEach((q) => {
-          const withNum = q && typeof q === 'object' ? { ...q } : q;
-          combinedQuestions.push(normalizeQuestionAssets(withNum, subjectName));
+        const subjectName = selectedSubject;
+        // Combine questions from each quiz in the set, normalizing assets and renumbering
+        const combinedQuestions = [];
+        quizzes.forEach((quiz) => {
+          if (!quiz || typeof quiz !== 'object') return;
+          const sourceTopic = quiz.questionSourceTopicId
+            ? getTopicById(subjectName, quiz.questionSourceTopicId)
+            : null;
+          const resolved =
+            Array.isArray(quiz.questions) && quiz.questions.length
+              ? quiz.questions
+              : resolveQuizQuestions(subjectName, sourceTopic, quiz);
+          (resolved || []).forEach((q) => {
+            const withNum = q && typeof q === 'object' ? { ...q } : q;
+            combinedQuestions.push(
+              normalizeQuestionAssets(withNum, subjectName)
+            );
+          });
         });
-      });
-      // Ensure sequential numbering and a reasonable minimum length
-      const prepared = {
-        questions: combinedQuestions.map((q, i) =>
-          q && typeof q === 'object'
-            ? { ...q, questionNumber: q.questionNumber ?? i + 1 }
-            : q
-        ),
-      };
-      ensureMinQuestions(prepared, subjectName, 12);
+        // Ensure sequential numbering and a reasonable minimum length
+        const prepared = {
+          questions: combinedQuestions.map((q, i) =>
+            q && typeof q === 'object'
+              ? { ...q, questionNumber: q.questionNumber ?? i + 1 }
+              : q
+          ),
+        };
+        ensureMinQuestions(prepared, subjectName, 12);
 
-      const setIndex = orderedSetNames.findIndex((n) => n === setName);
-      const setNumber = setIndex >= 0 ? setIndex + 1 : 1;
-      const title = `${selectedSubject} ${selectedCategory} Set ${setNumber}`;
-      const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
-      const categorySlug = sanitizeCodeSegment(selectedCategory, 'category');
-      const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
-        '__'
-      );
-
-      const preparedQuiz = {
-        id: quizCode,
-        quizCode,
-        title,
-        topicId: null,
-        topicTitle: selectedCategory,
-        canonicalTopicTitle: selectedCategory,
-        description: `${selectedCategory} practice combined set of 3 quizzes`,
-        type: 'quiz',
-        questions: prepared.questions,
-      };
-
-      if (!preparedQuiz.questions || !preparedQuiz.questions.length) {
-        alert(
-          'This set does not have any questions yet. Please try another set.'
+        const setIndex = orderedSetNames.findIndex((n) => n === setName);
+        const setNumber = setIndex >= 0 ? setIndex + 1 : 1;
+        const title = `${selectedSubject} ${selectedCategory} Set ${setNumber}`;
+        const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
+        const categorySlug = sanitizeCodeSegment(selectedCategory, 'category');
+        const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
+          '__'
         );
-        return;
-      }
-      onSelectQuiz(preparedQuiz, subjectName);
+
+        const preparedQuiz = {
+          id: quizCode,
+          quizCode,
+          title,
+          topicId: null,
+          topicTitle: selectedCategory,
+          canonicalTopicTitle: selectedCategory,
+          description: `${selectedCategory} practice combined set of 3 quizzes`,
+          type: 'quiz',
+          questions: prepared.questions,
+        };
+
+        if (!preparedQuiz.questions || !preparedQuiz.questions.length) {
+          alert(
+            'This set does not have any questions yet. Please try another set.'
+          );
+          return;
+        }
+        onSelectQuiz(preparedQuiz, subjectName);
       } catch (err) {
         console.error('[quiz] Failed to launch category set:', err);
-        alert('Something went wrong launching this quiz set. Please try again.');
+        alert(
+          'Something went wrong launching this quiz set. Please try again.'
+        );
       }
     };
 
@@ -32969,7 +33482,10 @@ function StartScreen({
                   <button
                     type="button"
                     key={setName}
-                    onClick={(e) => { e.preventDefault(); launchCategorySet(setName); }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      launchCategorySet(setName);
+                    }}
                     className="w-full px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                     style={{
                       backgroundColor:
@@ -33033,75 +33549,79 @@ function StartScreen({
                   return;
                 }
                 try {
-                const quizLabel =
-                  quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
-                const baseTitle = topic.title || 'Quiz';
-                const derivedTitle = quiz.title || `${baseTitle} ${quizLabel}`;
-                const quizIdBase = topic.id || `topic_${topicIndex}`;
-                const resolvedQuestions = resolveQuizQuestions(
-                  selectedSubject,
-                  topic,
-                  quiz
-                ).map((question, questionIndex) => {
-                  if (question && typeof question === 'object') {
-                    const nextNumber =
-                      question.questionNumber ?? questionIndex + 1;
-                    return { ...question, questionNumber: nextNumber };
+                  const quizLabel =
+                    quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
+                  const baseTitle = topic.title || 'Quiz';
+                  const derivedTitle =
+                    quiz.title || `${baseTitle} ${quizLabel}`;
+                  const quizIdBase = topic.id || `topic_${topicIndex}`;
+                  const resolvedQuestions = resolveQuizQuestions(
+                    selectedSubject,
+                    topic,
+                    quiz
+                  ).map((question, questionIndex) => {
+                    if (question && typeof question === 'object') {
+                      const nextNumber =
+                        question.questionNumber ?? questionIndex + 1;
+                      return { ...question, questionNumber: nextNumber };
+                    }
+                    return question;
+                  });
+
+                  if (!resolvedQuestions.length) {
+                    alert(
+                      'This quiz does not have any questions yet. Please try another set.'
+                    );
+                    return;
                   }
-                  return question;
-                });
 
-                if (!resolvedQuestions.length) {
-                  alert(
-                    'This quiz does not have any questions yet. Please try another set.'
-                  );
-                  return;
-                }
+                  const quizCode =
+                    quiz.quizCode || `${quizIdBase}_set_${index}`;
+                  const sourceTopic = quiz.questionSourceTopicId
+                    ? getTopicById(selectedSubject, quiz.questionSourceTopicId)
+                    : null;
+                  const articleSource =
+                    quiz.article ||
+                    topic.article ||
+                    (sourceTopic && sourceTopic.article);
+                  const articleClone = cloneArticle(articleSource);
+                  const resolvedImageUrl =
+                    quiz.imageUrl ||
+                    topic.imageUrl ||
+                    (sourceTopic && sourceTopic.imageUrl) ||
+                    (articleClone && articleClone.imageUrl) ||
+                    (articleSource && articleSource.imageUrl);
 
-                const quizCode = quiz.quizCode || `${quizIdBase}_set_${index}`;
-                const sourceTopic = quiz.questionSourceTopicId
-                  ? getTopicById(selectedSubject, quiz.questionSourceTopicId)
-                  : null;
-                const articleSource =
-                  quiz.article ||
-                  topic.article ||
-                  (sourceTopic && sourceTopic.article);
-                const articleClone = cloneArticle(articleSource);
-                const resolvedImageUrl =
-                  quiz.imageUrl ||
-                  topic.imageUrl ||
-                  (sourceTopic && sourceTopic.imageUrl) ||
-                  (articleClone && articleClone.imageUrl) ||
-                  (articleSource && articleSource.imageUrl);
+                  const preparedQuiz = {
+                    ...quiz,
+                    id: quiz.quizId || quizCode,
+                    quizCode,
+                    title: derivedTitle,
+                    topicId: topic.id,
+                    topicTitle: topic.title || baseTitle,
+                    canonicalTopicTitle: topic.title || baseTitle,
+                    description: quiz.description || topic.description,
+                    type:
+                      quiz.type ||
+                      topic.type ||
+                      (sourceTopic ? sourceTopic.type : 'quiz') ||
+                      'quiz',
+                    questions: resolvedQuestions,
+                  };
 
-                const preparedQuiz = {
-                  ...quiz,
-                  id: quiz.quizId || quizCode,
-                  quizCode,
-                  title: derivedTitle,
-                  topicId: topic.id,
-                  topicTitle: topic.title || baseTitle,
-                  canonicalTopicTitle: topic.title || baseTitle,
-                  description: quiz.description || topic.description,
-                  type:
-                    quiz.type ||
-                    topic.type ||
-                    (sourceTopic ? sourceTopic.type : 'quiz') ||
-                    'quiz',
-                  questions: resolvedQuestions,
-                };
+                  if (articleClone) {
+                    preparedQuiz.article = articleClone;
+                  }
+                  if (!preparedQuiz.imageUrl && resolvedImageUrl) {
+                    preparedQuiz.imageUrl = resolvedImageUrl;
+                  }
 
-                if (articleClone) {
-                  preparedQuiz.article = articleClone;
-                }
-                if (!preparedQuiz.imageUrl && resolvedImageUrl) {
-                  preparedQuiz.imageUrl = resolvedImageUrl;
-                }
-
-                onSelectQuiz(preparedQuiz, selectedSubject);
+                  onSelectQuiz(preparedQuiz, selectedSubject);
                 } catch (err) {
                   console.error('[quiz] Failed to launch quiz set:', err);
-                  alert('Something went wrong launching this quiz. Please try again.');
+                  alert(
+                    'Something went wrong launching this quiz. Please try again.'
+                  );
                 }
               };
 
@@ -33223,7 +33743,10 @@ function StartScreen({
                           return (
                             <button
                               type="button"
-                              onClick={(e) => { e.preventDefault(); launchQuizSet(single, 0); }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                launchQuizSet(single, 0);
+                              }}
                               className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                               style={buttonStyle}
                             >
@@ -33238,50 +33761,60 @@ function StartScreen({
                             onClick={(e) => {
                               e.preventDefault();
                               try {
-                              if (typeof onSelectQuiz !== 'function') {
-                                return;
-                              }
-                              const articleClone = cloneArticle(topic.article);
-                              const preparedQuiz = {
-                                ...topic,
-                                id: topic.quizCode || topicQuizCode,
-                                quizCode: topicQuizCode,
-                                canonicalTopicTitle:
-                                  topic.title || selectedCategory + ' Topic',
-                              };
-                              if (articleClone) {
-                                preparedQuiz.article = articleClone;
-                              }
-                              const fallbackImageUrl =
-                                topic.imageUrl ||
-                                (articleClone && articleClone.imageUrl) ||
-                                (topic.article && topic.article.imageUrl);
-                              if (!preparedQuiz.imageUrl && fallbackImageUrl) {
-                                preparedQuiz.imageUrl = fallbackImageUrl;
-                              }
-                              if (Array.isArray(topic.questions)) {
-                                preparedQuiz.questions = topic.questions.map(
-                                  (question, questionIndex) => {
-                                    if (
-                                      question &&
-                                      typeof question === 'object'
-                                    ) {
-                                      const nextNumber =
-                                        question.questionNumber ??
-                                        questionIndex + 1;
-                                      return {
-                                        ...question,
-                                        questionNumber: nextNumber,
-                                      };
-                                    }
-                                    return question;
-                                  }
+                                if (typeof onSelectQuiz !== 'function') {
+                                  return;
+                                }
+                                const articleClone = cloneArticle(
+                                  topic.article
                                 );
-                              }
-                              onSelectQuiz(preparedQuiz, selectedSubject);
+                                const preparedQuiz = {
+                                  ...topic,
+                                  id: topic.quizCode || topicQuizCode,
+                                  quizCode: topicQuizCode,
+                                  canonicalTopicTitle:
+                                    topic.title || selectedCategory + ' Topic',
+                                };
+                                if (articleClone) {
+                                  preparedQuiz.article = articleClone;
+                                }
+                                const fallbackImageUrl =
+                                  topic.imageUrl ||
+                                  (articleClone && articleClone.imageUrl) ||
+                                  (topic.article && topic.article.imageUrl);
+                                if (
+                                  !preparedQuiz.imageUrl &&
+                                  fallbackImageUrl
+                                ) {
+                                  preparedQuiz.imageUrl = fallbackImageUrl;
+                                }
+                                if (Array.isArray(topic.questions)) {
+                                  preparedQuiz.questions = topic.questions.map(
+                                    (question, questionIndex) => {
+                                      if (
+                                        question &&
+                                        typeof question === 'object'
+                                      ) {
+                                        const nextNumber =
+                                          question.questionNumber ??
+                                          questionIndex + 1;
+                                        return {
+                                          ...question,
+                                          questionNumber: nextNumber,
+                                        };
+                                      }
+                                      return question;
+                                    }
+                                  );
+                                }
+                                onSelectQuiz(preparedQuiz, selectedSubject);
                               } catch (err) {
-                                console.error('[quiz] Failed to launch quiz:', err);
-                                alert('Something went wrong launching this quiz. Please try again.');
+                                console.error(
+                                  '[quiz] Failed to launch quiz:',
+                                  err
+                                );
+                                alert(
+                                  'Something went wrong launching this quiz. Please try again.'
+                                );
                               }
                             }}
                             className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
@@ -34257,7 +34790,10 @@ function StartScreen({
               </p>
               <button
                 type="button"
-                onClick={(e) => { e.preventDefault(); handleStartDiagnostic(); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleStartDiagnostic();
+                }}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 Start Diagnostic Test

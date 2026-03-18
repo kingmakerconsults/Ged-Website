@@ -3,8 +3,8 @@ import React from 'react';
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
   typeof window !== 'undefined' &&
-    window.__APP_CONFIG__ &&
-    window.__APP_CONFIG__.geometryFiguresEnabled
+  window.__APP_CONFIG__ &&
+  window.__APP_CONFIG__.geometryFiguresEnabled
 );
 
 const DEFAULT_FIGURE_STYLE = {
@@ -599,6 +599,477 @@ const rectPrismNetRenderer = (params = {}, style) => {
   return { elements, pointsForBounds };
 };
 
+const trapezoidRenderer = (params = {}, style) => {
+  const points = mapPoints(params.points);
+  if (points.length < 4) return null;
+  const base = polygonRenderer(
+    {
+      points,
+      sideLabels: params.sideLabels,
+      labels: params.labels,
+      segments: params.segments,
+    },
+    style,
+    {}
+  );
+  if (!base) return null;
+  if (params.heightLine) {
+    const from = normalizePoint(params.heightLine.from);
+    const to = normalizePoint(params.heightLine.to);
+    if (from && to) {
+      const mid = midpoint(from, to);
+      base.elements.push(
+        <line
+          key="height-line"
+          x1={from.x}
+          y1={from.y}
+          x2={to.x}
+          y2={to.y}
+          stroke={style.stroke}
+          strokeWidth={1}
+          strokeDasharray="4,3"
+        />
+      );
+      if (typeof params.heightLine.label === 'string') {
+        base.elements.push(
+          <text
+            key="height-label"
+            x={mid.x - 4}
+            y={mid.y}
+            fontSize={6}
+            textAnchor="middle"
+            fill={style.labelColor}
+          >
+            {params.heightLine.label}
+          </text>
+        );
+      }
+      const raSize = 5;
+      base.elements.push(
+        <polyline
+          key="height-right-angle"
+          points={`${to.x + raSize},${to.y} ${to.x + raSize},${to.y - raSize} ${to.x},${to.y - raSize}`}
+          fill="none"
+          stroke={style.stroke}
+          strokeWidth={0.8}
+        />
+      );
+    }
+  }
+  return base;
+};
+
+const compositeRenderer = (params = {}, style) => {
+  const rects = Array.isArray(params.rects) ? params.rects : [];
+  if (rects.length === 0) return null;
+  const elements = [];
+  const pointsForBounds = [];
+  rects.forEach((rect, index) => {
+    const x = normalizeNumber(rect.x);
+    const y = normalizeNumber(rect.y);
+    const w = normalizeNumber(rect.width);
+    const h = normalizeNumber(rect.height);
+    if (
+      typeof x !== 'number' ||
+      typeof y !== 'number' ||
+      typeof w !== 'number' ||
+      typeof h !== 'number'
+    )
+      return;
+    elements.push(
+      <rect
+        key={`comp-rect-${index}`}
+        x={x}
+        y={y}
+        width={w}
+        height={h}
+        fill={style.fill}
+        stroke={style.stroke}
+        strokeWidth={1.5}
+      />
+    );
+    if (typeof rect.label === 'string') {
+      elements.push(
+        <text
+          key={`comp-label-${index}`}
+          x={x + w / 2}
+          y={y + h / 2 + 2}
+          fontSize={6}
+          textAnchor="middle"
+          fill={style.labelColor}
+        >
+          {rect.label}
+        </text>
+      );
+    }
+    pointsForBounds.push({ x, y }, { x: x + w, y: y + h });
+  });
+  if (Array.isArray(params.dimensionLabels)) {
+    params.dimensionLabels.forEach((dl, index) => {
+      if (!dl || typeof dl.text !== 'string') return;
+      const px = normalizeNumber(dl.x);
+      const py = normalizeNumber(dl.y);
+      if (typeof px !== 'number' || typeof py !== 'number') return;
+      elements.push(
+        <text
+          key={`dim-label-${index}`}
+          x={px}
+          y={py}
+          fontSize={6}
+          textAnchor="middle"
+          fill={style.labelColor}
+        >
+          {dl.text}
+        </text>
+      );
+    });
+  }
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  elements.push(...renderSegments(params.segments, style));
+  if (elements.length === 0) return null;
+  return { elements, pointsForBounds };
+};
+
+const parallelTransversalRenderer = (params = {}, style) => {
+  const line1Start = normalizePoint(params.line1 && params.line1.start);
+  const line1End = normalizePoint(params.line1 && params.line1.end);
+  const line2Start = normalizePoint(params.line2 && params.line2.start);
+  const line2End = normalizePoint(params.line2 && params.line2.end);
+  const transStart = normalizePoint(
+    params.transversal && params.transversal.start
+  );
+  const transEnd = normalizePoint(params.transversal && params.transversal.end);
+  if (
+    !line1Start ||
+    !line1End ||
+    !line2Start ||
+    !line2End ||
+    !transStart ||
+    !transEnd
+  )
+    return null;
+  const pointsForBounds = [
+    line1Start,
+    line1End,
+    line2Start,
+    line2End,
+    transStart,
+    transEnd,
+  ];
+  const elements = [
+    <line
+      key="line1"
+      x1={line1Start.x}
+      y1={line1Start.y}
+      x2={line1End.x}
+      y2={line1End.y}
+      stroke={style.stroke}
+      strokeWidth={1.5}
+    />,
+    <line
+      key="line2"
+      x1={line2Start.x}
+      y1={line2Start.y}
+      x2={line2End.x}
+      y2={line2End.y}
+      stroke={style.stroke}
+      strokeWidth={1.5}
+    />,
+    <line
+      key="transversal"
+      x1={transStart.x}
+      y1={transStart.y}
+      x2={transEnd.x}
+      y2={transEnd.y}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+  ];
+  if (params.tickMarks !== false) {
+    const addTicks = (start, end, keyPrefix) => {
+      const mx = (start.x + end.x) / 2;
+      const my = (start.y + end.y) / 2;
+      const dx = end.x - start.x;
+      const dy = end.y - start.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len;
+      const ny = dx / len;
+      const tickLen = 4;
+      const gap = 2;
+      [-1, 1].forEach((dir, i) => {
+        const cx = mx + dir * gap;
+        const cy = my + dir * (gap * (dy / (len || 1)));
+        elements.push(
+          <line
+            key={`${keyPrefix}-tick-${i}`}
+            x1={cx + nx * tickLen}
+            y1={cy + ny * tickLen}
+            x2={cx - nx * tickLen}
+            y2={cy - ny * tickLen}
+            stroke={style.stroke}
+            strokeWidth={0.8}
+          />
+        );
+      });
+    };
+    addTicks(line1Start, line1End, 'l1');
+    addTicks(line2Start, line2End, 'l2');
+  }
+  const segIntersect = (p1, p2, p3, p4) => {
+    const d1x = p2.x - p1.x,
+      d1y = p2.y - p1.y;
+    const d2x = p4.x - p3.x,
+      d2y = p4.y - p3.y;
+    const denom = d1x * d2y - d1y * d2x;
+    if (Math.abs(denom) < 1e-10) return null;
+    const t = ((p3.x - p1.x) * d2y - (p3.y - p1.y) * d2x) / denom;
+    return { x: p1.x + t * d1x, y: p1.y + t * d1y };
+  };
+  if (Array.isArray(params.angleLabels)) {
+    const int1 = segIntersect(line1Start, line1End, transStart, transEnd);
+    const int2 = segIntersect(line2Start, line2End, transStart, transEnd);
+    params.angleLabels.forEach((al, index) => {
+      if (!al || typeof al.text !== 'string') return;
+      const intersection = al.at === 'line2' ? int2 : int1;
+      if (!intersection) return;
+      const offsetX = normalizeNumber(al.dx) || 0;
+      const offsetY = normalizeNumber(al.dy) || 0;
+      elements.push(
+        <text
+          key={`angle-label-${index}`}
+          x={intersection.x + offsetX}
+          y={intersection.y + offsetY}
+          fontSize={6}
+          textAnchor="middle"
+          fill={style.labelColor}
+        >
+          {al.text}
+        </text>
+      );
+    });
+  }
+  if (Array.isArray(params.lineLabels)) {
+    params.lineLabels.forEach((ll, index) => {
+      if (!ll || typeof ll.text !== 'string') return;
+      const lx = normalizeNumber(ll.x);
+      const ly = normalizeNumber(ll.y);
+      if (typeof lx !== 'number' || typeof ly !== 'number') return;
+      elements.push(
+        <text
+          key={`line-label-${index}`}
+          x={lx}
+          y={ly}
+          fontSize={6}
+          textAnchor="start"
+          fill={style.labelColor}
+          fontStyle="italic"
+        >
+          {ll.text}
+        </text>
+      );
+    });
+  }
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  return { elements, pointsForBounds };
+};
+
+const coneNetRenderer = (params = {}, style) => {
+  const radius = Math.abs(normalizeNumber(params.radius));
+  const slantHeight = Math.abs(normalizeNumber(params.slantHeight));
+  if (!Number.isFinite(radius) || !Number.isFinite(slantHeight)) return null;
+  const padding = 10;
+  const sectorRadius = slantHeight;
+  const arcLength = 2 * Math.PI * radius;
+  const sectorAngle = arcLength / sectorRadius;
+  const sectorCenterX = padding + sectorRadius;
+  const sectorCenterY = padding + sectorRadius;
+  const startAngle = -Math.PI / 2 - sectorAngle / 2;
+  const endAngle = startAngle + sectorAngle;
+  const arcStartX = sectorCenterX + sectorRadius * Math.cos(startAngle);
+  const arcStartY = sectorCenterY + sectorRadius * Math.sin(startAngle);
+  const arcEndX = sectorCenterX + sectorRadius * Math.cos(endAngle);
+  const arcEndY = sectorCenterY + sectorRadius * Math.sin(endAngle);
+  const largeArc = sectorAngle > Math.PI ? 1 : 0;
+  const circleCenterX = sectorCenterX;
+  const circleCenterY = sectorCenterY + sectorRadius + radius + 10;
+  const elements = [
+    <path
+      key="sector"
+      d={`M ${sectorCenterX} ${sectorCenterY} L ${arcStartX} ${arcStartY} A ${sectorRadius} ${sectorRadius} 0 ${largeArc} 1 ${arcEndX} ${arcEndY} Z`}
+      fill={style.fill}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    <circle
+      key="base-circle"
+      cx={circleCenterX}
+      cy={circleCenterY}
+      r={radius}
+      fill={style.fill}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    <line
+      key="slant-line"
+      x1={sectorCenterX}
+      y1={sectorCenterY}
+      x2={arcStartX}
+      y2={arcStartY}
+      stroke={style.stroke}
+      strokeWidth={0.8}
+      strokeDasharray="4,3"
+    />,
+    <text
+      key="slant-label"
+      x={(sectorCenterX + arcStartX) / 2 - 6}
+      y={(sectorCenterY + arcStartY) / 2}
+      fontSize={6}
+      fill={style.labelColor}
+    >
+      l = {slantHeight}
+    </text>,
+    <line
+      key="radius-line"
+      x1={circleCenterX}
+      y1={circleCenterY}
+      x2={circleCenterX + radius}
+      y2={circleCenterY}
+      stroke={style.stroke}
+      strokeWidth={0.8}
+      strokeDasharray="4,3"
+    />,
+    <text
+      key="radius-label"
+      x={circleCenterX + radius / 2}
+      y={circleCenterY - 3}
+      fontSize={6}
+      textAnchor="middle"
+      fill={style.labelColor}
+    >
+      r = {radius}
+    </text>,
+  ];
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  return {
+    elements,
+    pointsForBounds: [
+      {
+        x: sectorCenterX - sectorRadius - padding,
+        y: sectorCenterY - sectorRadius,
+      },
+      {
+        x: sectorCenterX + sectorRadius + padding,
+        y: circleCenterY + radius + padding,
+      },
+    ],
+  };
+};
+
+const pyramidNetRenderer = (params = {}, style) => {
+  const baseLength = Math.abs(normalizeNumber(params.baseLength));
+  const slantHeight = Math.abs(normalizeNumber(params.slantHeight));
+  if (!Number.isFinite(baseLength) || !Number.isFinite(slantHeight))
+    return null;
+  const padding = 10;
+  const half = baseLength / 2;
+  const bx = padding + slantHeight;
+  const by = padding + slantHeight;
+  const elements = [
+    <rect
+      key="base-square"
+      x={bx}
+      y={by}
+      width={baseLength}
+      height={baseLength}
+      fill={style.fill}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    <text
+      key="base-label"
+      x={bx + half}
+      y={by + half + 2}
+      fontSize={6}
+      textAnchor="middle"
+      fill={style.labelColor}
+    >
+      {baseLength}
+    </text>,
+  ];
+  const pointsForBounds = [
+    { x: bx, y: by },
+    { x: bx + baseLength, y: by + baseLength },
+  ];
+  const faces = [
+    {
+      cx: bx + half,
+      cy: by,
+      apex: { x: bx + half, y: by - slantHeight },
+      p1: { x: bx, y: by },
+      p2: { x: bx + baseLength, y: by },
+    },
+    {
+      cx: bx + half,
+      cy: by + baseLength,
+      apex: { x: bx + half, y: by + baseLength + slantHeight },
+      p1: { x: bx + baseLength, y: by + baseLength },
+      p2: { x: bx, y: by + baseLength },
+    },
+    {
+      cx: bx,
+      cy: by + half,
+      apex: { x: bx - slantHeight, y: by + half },
+      p1: { x: bx, y: by + baseLength },
+      p2: { x: bx, y: by },
+    },
+    {
+      cx: bx + baseLength,
+      cy: by + half,
+      apex: { x: bx + baseLength + slantHeight, y: by + half },
+      p1: { x: bx + baseLength, y: by },
+      p2: { x: bx + baseLength, y: by + baseLength },
+    },
+  ];
+  faces.forEach((face, index) => {
+    elements.push(
+      <polygon
+        key={`tri-${index}`}
+        points={`${face.p1.x},${face.p1.y} ${face.apex.x},${face.apex.y} ${face.p2.x},${face.p2.y}`}
+        fill={style.fill}
+        stroke={style.stroke}
+        strokeWidth={1.2}
+      />
+    );
+    pointsForBounds.push(face.apex);
+  });
+  if (slantHeight > 15) {
+    const topFace = faces[0];
+    elements.push(
+      <line
+        key="slant-measure"
+        x1={topFace.p1.x}
+        y1={topFace.p1.y}
+        x2={topFace.apex.x}
+        y2={topFace.apex.y}
+        stroke={style.stroke}
+        strokeWidth={0.6}
+        strokeDasharray="3,2"
+      />,
+      <text
+        key="slant-label"
+        x={(topFace.p1.x + topFace.apex.x) / 2 - 6}
+        y={(topFace.p1.y + topFace.apex.y) / 2}
+        fontSize={6}
+        fill={style.labelColor}
+      >
+        l = {params.slantHeight}
+      </text>
+    );
+  }
+  elements.push(...renderAdditionalLabels(params.labels, style));
+  return { elements, pointsForBounds };
+};
+
 const geometryRenderers = {
   triangle: (params, style) =>
     polygonRenderer(params, style || DEFAULT_FIGURE_STYLE, {}),
@@ -620,6 +1091,16 @@ const geometryRenderers = {
     cylinderNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
   rect_prism_net: (params, style) =>
     rectPrismNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  trapezoid: (params, style) =>
+    trapezoidRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  composite: (params, style) =>
+    compositeRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  parallel_transversal: (params, style) =>
+    parallelTransversalRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  cone_net: (params, style) =>
+    coneNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  pyramid_net: (params, style) =>
+    pyramidNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
 };
 
 export function GeometryFigure({ spec, className }) {
