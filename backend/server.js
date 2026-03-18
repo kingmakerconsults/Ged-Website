@@ -13479,16 +13479,10 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
 
     generators.aiFill = async (slot, opts) => {
       if (slot.section === 'part1_reading') {
-        // Generate questions for a reading passage group
-        const qs = await generateRlaPart1(opts);
-        if (!Array.isArray(qs)) return [];
-        // Filter to the specific group's questions
-        return qs.slice(0, slot.questionsNeeded);
+        return pickFromGeneratedRlaAi('part1', slot, opts);
       }
       if (slot.section === 'part3_language') {
-        const qs = await generateRlaPart3(opts);
-        if (!Array.isArray(qs)) return [];
-        return qs.slice(0, slot.questionsNeeded);
+        return pickFromGeneratedRlaAi('part3', slot, opts);
       }
       return [];
     };
@@ -13984,9 +13978,13 @@ function pickFromPremadeBank(subject, slot) {
 // and yields groups of questions that share a single passage.
 let _rlaReadingGroups = null;
 let _rlaLanguageGroups = null;
+let _rlaAiReadingGroups = null;
+let _rlaAiLanguageGroups = null;
 // Track which passage groups and slot groups have already been used
 const _usedRlaReadingGroupIdx = new Set();
 const _usedRlaLanguageGroupIdx = new Set();
+const _usedRlaAiReadingGroupIdx = new Set();
+const _usedRlaAiLanguageGroupIdx = new Set();
 // Per-slot-group cache so multiple slots sharing a group key draw from the same passage
 const _rlaSlotGroupCache = new Map();
 
@@ -14022,6 +14020,99 @@ function _extractRlaPassageGroups(quizData) {
     [groups[i], groups[j]] = [groups[j], groups[i]];
   }
   return groups;
+}
+
+function _groupRlaQuestionsByPassage(questions) {
+  if (!Array.isArray(questions) || questions.length === 0) return [];
+
+  const groups = [];
+  let currentKey = null;
+  let currentGroup = [];
+
+  for (const q of questions) {
+    const passage = String(q?.passage || '').replace(/\s+/g, ' ').trim();
+    const key = passage.slice(0, 120) || `__ungrouped_${groups.length}`;
+    if (currentKey === null || key !== currentKey) {
+      if (currentGroup.length) groups.push(currentGroup);
+      currentKey = key;
+      currentGroup = [];
+    }
+    currentGroup.push(q);
+  }
+
+  if (currentGroup.length) groups.push(currentGroup);
+  return groups;
+}
+
+async function pickFromGeneratedRlaAi(part, slot, opts) {
+  const groupKey = slot.group || null;
+
+  if (groupKey && _rlaSlotGroupCache.has(groupKey)) {
+    const cached = _rlaSlotGroupCache.get(groupKey);
+    const picked = cached.remaining.splice(0, slot.questionsNeeded);
+    return picked.map((q) => ({
+      ...q,
+      questionText: q.questionText || q.question || '',
+      passage: q.passage,
+      source: 'ai',
+      type: 'passage',
+    }));
+  }
+
+  if (part === 'part1') {
+    if (!_rlaAiReadingGroups) {
+      const generated = await generateRlaPart1(opts);
+      _rlaAiReadingGroups = _groupRlaQuestionsByPassage(generated);
+    }
+    for (let i = 0; i < _rlaAiReadingGroups.length; i++) {
+      if (_usedRlaAiReadingGroupIdx.has(i)) continue;
+      const group = _rlaAiReadingGroups[i];
+      if (group.length >= slot.questionsNeeded) {
+        _usedRlaAiReadingGroupIdx.add(i);
+        const remaining = [...group];
+        const picked = remaining.splice(0, slot.questionsNeeded);
+        if (groupKey) {
+          _rlaSlotGroupCache.set(groupKey, { remaining });
+        }
+        return picked.map((q) => ({
+          ...q,
+          questionText: q.questionText || q.question || '',
+          passage: q.passage,
+          source: 'ai',
+          type: 'passage',
+        }));
+      }
+    }
+    return [];
+  }
+
+  if (part === 'part3') {
+    if (!_rlaAiLanguageGroups) {
+      const generated = await generateRlaPart3(opts);
+      _rlaAiLanguageGroups = _groupRlaQuestionsByPassage(generated);
+    }
+    for (let i = 0; i < _rlaAiLanguageGroups.length; i++) {
+      if (_usedRlaAiLanguageGroupIdx.has(i)) continue;
+      const group = _rlaAiLanguageGroups[i];
+      if (group.length >= slot.questionsNeeded) {
+        _usedRlaAiLanguageGroupIdx.add(i);
+        const remaining = [...group];
+        const picked = remaining.splice(0, slot.questionsNeeded);
+        if (groupKey) {
+          _rlaSlotGroupCache.set(groupKey, { remaining });
+        }
+        return picked.map((q) => ({
+          ...q,
+          questionText: q.questionText || q.question || '',
+          passage: q.passage,
+          source: 'ai',
+          type: 'passage',
+        }));
+      }
+    }
+  }
+
+  return [];
 }
 
 function pickFromPremadeRlaBank(part, slot) {
@@ -14313,8 +14404,12 @@ app.post('/generate-quiz', async (req, res) => {
       resetPremadeTracker();
       _rlaReadingGroups = null;
       _rlaLanguageGroups = null;
+      _rlaAiReadingGroups = null;
+      _rlaAiLanguageGroups = null;
       _usedRlaReadingGroupIdx.clear();
       _usedRlaLanguageGroupIdx.clear();
+      _usedRlaAiReadingGroupIdx.clear();
+      _usedRlaAiLanguageGroupIdx.clear();
       _rlaSlotGroupCache.clear();
 
       // 1. Build the immutable plan
