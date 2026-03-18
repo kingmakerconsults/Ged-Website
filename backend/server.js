@@ -5700,6 +5700,7 @@ ensureDefaultChallengeTags().catch((e) =>
 
 // CORS configuration: prefer env var, fallback to hardcoded defaults
 const defaultOrigins = [
+  'https://ged-website.onrender.com',
   'https://ezged.netlify.app',
   'https://quiz.ez-ged.com',
   'http://localhost:8000', // For local testing
