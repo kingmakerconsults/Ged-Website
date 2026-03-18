@@ -26415,13 +26415,23 @@ function App({ externalTheme, onThemeChange }) {
       (typeof window !== 'undefined' &&
         window.__CLIENT_CONFIG__?.API_BASE_URL) ||
       (typeof window !== 'undefined' ? window.location.origin : '');
-    const url = isLocalDev ? `${base}/generate-quiz` : '/generate-quiz';
+    let useSameOriginRoute = false;
+    try {
+      if (typeof window !== 'undefined' && base) {
+        useSameOriginRoute =
+          new URL(base, window.location.origin).origin ===
+          window.location.origin;
+      }
+    } catch {}
+    const url =
+      !isLocalDev && useSameOriginRoute ? '/generate-quiz' : `${base}/generate-quiz`;
     console.log('[comprehensive] POST', url, {
       subject,
       origin:
         typeof window !== 'undefined' ? window.location.origin : '(server)',
       apiBase: base,
       isLocalDev,
+      useSameOriginRoute,
     });
 
     try {
