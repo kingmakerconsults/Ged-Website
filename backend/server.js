@@ -5679,6 +5679,9 @@ ensureUserNameColumns().catch((e) =>
 ensureChallengeSystemTables().catch((e) =>
   console.error('Challenge system init error:', e)
 );
+ensurePremadeMasteryTables().catch((e) =>
+  console.error('Premade mastery tables init error:', e)
+);
 ensureStudyPlansTable().catch((e) =>
   console.error('Study plans table init error:', e)
 );
@@ -6205,6 +6208,9 @@ async function ensureChallengeSystemTables() {
               PRIMARY KEY (user_id, challenge_tag)
             );
         `);
+    // Ensure columns exist if table was created by an older migration
+    await pool.query(`ALTER TABLE user_challenge_stats ADD COLUMN IF NOT EXISTS last_wrong_at TIMESTAMPTZ`).catch(() => {});
+    await pool.query(`ALTER TABLE user_challenge_stats ADD COLUMN IF NOT EXISTS source TEXT`).catch(() => {});
   } catch (e) {
     console.warn('[ensure] user_challenge_stats', e?.code || e?.message || e);
   }
@@ -6240,6 +6246,41 @@ async function ensureChallengeSystemTables() {
         `);
   } catch (e) {
     console.warn('[ensure] essay_challenge_log', e?.code || e?.message || e);
+  }
+}
+
+// --- Premade quiz mastery tables ensure ---
+async function ensurePremadeMasteryTables() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS premade_quizzes (
+        id SERIAL PRIMARY KEY,
+        quiz_id TEXT UNIQUE,
+        subject TEXT,
+        title TEXT,
+        version TEXT,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `);
+  } catch (e) {
+    console.warn('[ensure] premade_quizzes', e?.code || e?.message || e);
+  }
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS user_premade_quiz_mastery (
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        quiz_id TEXT NOT NULL,
+        best_score NUMERIC,
+        mastered BOOLEAN DEFAULT FALSE,
+        first_mastered_at TIMESTAMPTZ,
+        last_attempt_at TIMESTAMPTZ,
+        updated_at TIMESTAMPTZ DEFAULT NOW(),
+        PRIMARY KEY (user_id, quiz_id)
+      );
+    `);
+  } catch (e) {
+    console.warn('[ensure] user_premade_quiz_mastery', e?.code || e?.message || e);
   }
 }
 
@@ -14176,6 +14217,11 @@ function buildFinalCountLog(plan, quiz) {
 }
 
 app.post('/generate-quiz', async (req, res) => {
+  console.log('[generate-quiz] Received POST /generate-quiz', {
+    subject: req.body?.subject,
+    comprehensive: req.body?.comprehensive,
+    ip: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+  });
   const { subject, topic, comprehensive } = req.body;
 
   if (subject === undefined || comprehensive === undefined) {

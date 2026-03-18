@@ -26404,9 +26404,18 @@ function App({ externalTheme, onThemeChange }) {
     setLoadingMessage(`Generating your comprehensive ${subject} exam...`);
     setActiveQuiz(null);
 
+    // Robust base URL resolution (same as fetchJSON)
+    const base =
+      (typeof window !== 'undefined' && typeof window.API_BASE_URL === 'string' && window.API_BASE_URL) ||
+      (typeof window !== 'undefined' && window.__CLIENT_CONFIG__?.API_BASE_URL) ||
+      (typeof window !== 'undefined' ? window.location.origin : '');
+    const url = `${base}/generate-quiz`;
+    console.log('[comprehensive] POST', url, { subject });
+
     try {
-      const response = await fetch(`${API_BASE_URL}/generate-quiz`, {
+      const response = await fetch(url, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           subject: subject,
@@ -26416,10 +26425,15 @@ function App({ externalTheme, onThemeChange }) {
       });
 
       if (!response.ok) {
-        const err = await response.json();
-        throw new Error(
-          err.error || `Request failed with status ${response.status}`
-        );
+        let errMsg = `Request failed with status ${response.status}`;
+        try {
+          const errBody = await response.json();
+          errMsg = errBody.error || errMsg;
+        } catch {
+          // Non-JSON error response (e.g. Render 502 timeout page)
+          errMsg = `Server returned ${response.status} – the exam may have timed out. Please try again.`;
+        }
+        throw new Error(errMsg);
       }
 
       const examData = await response.json();
@@ -26433,7 +26447,7 @@ function App({ externalTheme, onThemeChange }) {
         { showIntro: true }
       );
     } catch (err) {
-      console.error('Failed to generate exam:', err);
+      console.error('[comprehensive] Failed to generate exam:', err);
       alert('Failed to generate exam: ' + err.message);
     } finally {
       setIsLoading(false);
@@ -36569,7 +36583,10 @@ const QUIZ_ANSWER_EQUIV = {
 
 function normalizeQuizAnswerRaw(val) {
   if (val === null || val === undefined) return '';
-  return String(val).replace(/\u00A0/g, ' ').replace(/\s+/g, ' ').trim();
+  return String(val)
+    .replace(/\u00A0/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function stripQuizAnswerCurrency(value) {
@@ -36739,9 +36756,7 @@ function canScienceAnswerIgnoreUnits(expected, user, subject, question) {
   const userMagnitude = quizAnswerMagnitudeValue(userText);
   if (expectedMagnitude === null || userMagnitude === null) return false;
 
-  return (
-    Math.abs(expectedMagnitude - userMagnitude) < QUIZ_ANSWER_EQUIV.EPS
-  );
+  return Math.abs(expectedMagnitude - userMagnitude) < QUIZ_ANSWER_EQUIV.EPS;
 }
 
 function areEquivalentFillInAnswers(expected, user, options = {}) {
