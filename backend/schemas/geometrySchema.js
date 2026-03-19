@@ -6,6 +6,7 @@ const SUPPORTED_SHAPES = [
   'polygon',
   'regular_polygon',
   'line_angle',
+  'cylinder',
   'cylinder_net',
   'rect_prism_net',
   'trapezoid',

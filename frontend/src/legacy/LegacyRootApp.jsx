@@ -1739,13 +1739,31 @@ const renderSideLabels = (points, sideLabels = [], style) => {
       const b = findPointByLabel(points, entry.between[1]);
       if (!a || !b) return null;
       const mid = midpoint(a, b);
+      // Offset label perpendicular to the edge, away from polygon centroid
+      const centX = points.reduce((s, p) => s + p.x, 0) / points.length;
+      const centY = points.reduce((s, p) => s + p.y, 0) / points.length;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      // Perpendicular normal (rotate edge 90°)
+      let nx = -dy / len;
+      let ny = dx / len;
+      // Ensure normal points away from centroid
+      const toMidX = mid.x - centX;
+      const toMidY = mid.y - centY;
+      if (nx * toMidX + ny * toMidY < 0) {
+        nx = -nx;
+        ny = -ny;
+      }
+      const offset = 5;
       return (
         <text
           key={`side-label-${index}`}
-          x={mid.x}
-          y={mid.y - 1.5}
+          x={mid.x + nx * offset}
+          y={mid.y + ny * offset}
           fontSize={6}
           textAnchor="middle"
+          dominantBaseline="central"
           fill={style.labelColor}
         >
           {entry.text}
@@ -2100,73 +2118,105 @@ const angleRenderer = (params = {}, style) => {
   return { elements, pointsForBounds };
 };
 
-const cylinderNetRenderer = (params = {}, style) => {
+const cylinderRenderer = (params = {}, style) => {
   const radius = Math.abs(normalizeNumber(params.radius));
   const height = Math.abs(normalizeNumber(params.height));
   if (!Number.isFinite(radius) || !Number.isFinite(height)) return null;
-  const circumference = 2 * Math.PI * radius;
-  const rectWidth = Math.max(circumference, radius * 4);
-  const rectHeight = height;
-  const padding = 10;
-  const topCenter = { x: padding + rectWidth / 2, y: padding + radius }; // radius used as circle radius on diagram scale
-  const bottomCenter = {
-    x: padding + rectWidth / 2,
-    y: padding + rectHeight + radius * 3,
-  };
+
+  const pad = 10;
+  const ry = radius * 0.35; // foreshortening for 3D look
+  const cx = pad + radius;
+  const topY = pad + ry;
+  const botY = topY + height;
+
+  // Body fill path: top-left → bottom-left → bottom front arc → bottom-right → top-right → top back arc
+  const bodyPath = [
+    `M ${cx - radius} ${topY}`,
+    `L ${cx - radius} ${botY}`,
+    `A ${radius} ${ry} 0 0 0 ${cx + radius} ${botY}`,
+    `L ${cx + radius} ${topY}`,
+    `A ${radius} ${ry} 0 0 1 ${cx - radius} ${topY}`,
+    'Z',
+  ].join(' ');
 
   const elements = [
-    <rect
-      key="lateral"
-      x={padding}
-      y={padding + radius * 2}
-      width={rectWidth}
-      height={rectHeight}
+    // Body fill
+    <path key="body" d={bodyPath} fill={style.fill} stroke="none" />,
+    // Back half of bottom ellipse (dashed, behind body)
+    <path
+      key="bot-back"
+      d={`M ${cx - radius} ${botY} A ${radius} ${ry} 0 0 1 ${cx + radius} ${botY}`}
+      fill="none"
+      stroke={style.stroke}
+      strokeWidth={0.7}
+      strokeDasharray="2,2"
+    />,
+    // Front half of bottom ellipse
+    <path
+      key="bot-front"
+      d={`M ${cx - radius} ${botY} A ${radius} ${ry} 0 0 0 ${cx + radius} ${botY}`}
+      fill="none"
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    // Left side
+    <line
+      key="left"
+      x1={cx - radius}
+      y1={topY}
+      x2={cx - radius}
+      y2={botY}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    // Right side
+    <line
+      key="right"
+      x1={cx + radius}
+      y1={topY}
+      x2={cx + radius}
+      y2={botY}
+      stroke={style.stroke}
+      strokeWidth={1.2}
+    />,
+    // Top ellipse (full, on top)
+    <ellipse
+      key="top-ellipse"
+      cx={cx}
+      cy={topY}
+      rx={radius}
+      ry={ry}
       fill={style.fill}
       stroke={style.stroke}
       strokeWidth={1.2}
     />,
-    <circle
-      key="top-circle"
-      cx={topCenter.x}
-      cy={topCenter.y}
-      r={radius * 1.5}
-      fill={style.fill}
-      stroke={style.stroke}
-      strokeWidth={1.2}
-    />, // scaled for clarity
-    <circle
-      key="bottom-circle"
-      cx={bottomCenter.x}
-      cy={bottomCenter.y}
-      r={radius * 1.5}
-      fill={style.fill}
-      stroke={style.stroke}
-      strokeWidth={1.2}
-    />,
+    // Height label (right side)
     <text
-      key="height-label"
-      x={padding + rectWidth + 6}
-      y={padding + radius * 2 + rectHeight / 2}
+      key="h-label"
+      x={cx + radius + 4}
+      y={topY + height / 2 + 2}
       fontSize={6}
       fill={style.labelColor}
     >
       h = {height}
     </text>,
+    // Radius label (top)
+    <line
+      key="r-line"
+      x1={cx}
+      y1={topY}
+      x2={cx + radius}
+      y2={topY}
+      stroke={style.labelColor}
+      strokeWidth={0.6}
+      strokeDasharray="1.5,1.5"
+    />,
     <text
-      key="circumference-label"
-      x={padding + rectWidth / 2}
-      y={padding + radius * 2 + rectHeight + 8}
+      key="r-label"
+      x={cx + radius / 2}
+      y={topY - 3}
       fontSize={6}
       textAnchor="middle"
-      fill={style.labelColor}
-    >
-      circumference = {circumference.toFixed(2)}
-    </text>,
-    <text
-      key="radius-label-top"
-      x={topCenter.x + radius * 1.5 + 6}
-      y={topCenter.y}
-      fontSize={6}
       fill={style.labelColor}
     >
       r = {radius}
@@ -2177,12 +2227,14 @@ const cylinderNetRenderer = (params = {}, style) => {
   return {
     elements,
     pointsForBounds: [
-      { x: padding, y: padding },
-      { x: padding + rectWidth, y: padding + radius * 2 + rectHeight },
-      { x: bottomCenter.x + radius * 1.5, y: bottomCenter.y + radius * 1.5 },
+      { x: pad - 2, y: pad - 2 },
+      { x: cx + radius + 20, y: botY + ry + 4 },
     ],
   };
 };
+
+// Keep backward compat alias
+const cylinderNetRenderer = cylinderRenderer;
 
 const rectPrismNetRenderer = (params = {}, style) => {
   const length = Math.abs(normalizeNumber(params.length));
@@ -2737,6 +2789,8 @@ const geometryRenderers = {
     regularPolygonRenderer(params, style || DEFAULT_FIGURE_STYLE),
   line_angle: (params, style) =>
     angleRenderer(params, style || DEFAULT_FIGURE_STYLE),
+  cylinder: (params, style) =>
+    cylinderRenderer(params, style || DEFAULT_FIGURE_STYLE),
   cylinder_net: (params, style) =>
     cylinderNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
   rect_prism_net: (params, style) =>
@@ -35753,10 +35807,7 @@ function QuizInterface({
   const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
   const needsToolPanel = Boolean(
     currentQ &&
-    (currentQ.useGraphTool ||
-      currentQ.useGeometryTool ||
-      hasGraphDataForRender ||
-      hasGeometryDataForRender)
+    (currentQ.useGraphTool || currentQ.useGeometryTool || hasGraphDataForRender)
   );
 
   const subjectForRender = currentQ.subject || subject || 'Default';

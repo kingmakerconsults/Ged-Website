@@ -311,7 +311,7 @@ const validateGeometryStructure = (obj) => {
         }
       }
 
-      if (spec.shape === 'cylinder_net') {
+      if (spec.shape === 'cylinder' || spec.shape === 'cylinder_net') {
         requireNumber(params, 'radius');
         requireNumber(params, 'height');
       }

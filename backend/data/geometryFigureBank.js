@@ -581,14 +581,14 @@ const GEOMETRY_FIGURES = [
     },
   },
 
-  // ───────── NETS — CYLINDER ─────────
+  // ───────── 3D SHAPES — CYLINDER ─────────
   {
-    id: 'cyl-net-01',
+    id: 'cyl-01',
     difficulty: 'medium',
-    topicHint: 'surface area of a cylinder using its net',
+    topicHint: 'surface area of a cylinder',
     questionType: 'surface_area',
     geometrySpec: {
-      shape: 'cylinder_net',
+      shape: 'cylinder',
       params: {
         radius: 5,
         height: 12,
@@ -596,12 +596,12 @@ const GEOMETRY_FIGURES = [
     },
   },
   {
-    id: 'cyl-net-02',
+    id: 'cyl-02',
     difficulty: 'hard',
-    topicHint: 'surface area of a cylinder',
+    topicHint: 'volume or surface area of a cylinder',
     questionType: 'surface_area',
     geometrySpec: {
-      shape: 'cylinder_net',
+      shape: 'cylinder',
       params: {
         radius: 3,
         height: 10,
