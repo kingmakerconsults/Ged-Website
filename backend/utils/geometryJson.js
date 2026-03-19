@@ -577,6 +577,7 @@ const parseGeometryJson = (raw, options = {}) => {
 module.exports = {
   GeometryJsonError,
   parseGeometryJson,
+  validateGeometryStructure,
   sanitizeJsonNumbers,
   repairLooseJson,
   enforcePrecision,

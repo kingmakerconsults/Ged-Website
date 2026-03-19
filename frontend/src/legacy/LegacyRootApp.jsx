@@ -35876,6 +35876,7 @@ function QuizInterface({
                   currentQ.graphData ||
                   currentQ.coordinatePlane)) ||
               null,
+            quizMode: true,
           };
           if (typeof mount === 'function') {
             mount(panel, payload);

@@ -2646,6 +2646,7 @@ const {
   SANITIZER_FEATURE_ENABLED,
   DEFAULT_MAX_DECIMALS,
 } = require('./utils/geometryJson');
+const { GEOMETRY_FIGURES } = require('./data/geometryFigureBank');
 const normalizeLatex = (text) => text;
 const { fetchApproved } = require('./src/fetch/fetcher');
 const { requireAuth, setAuthCookie } = require('./src/middleware/auth');
@@ -12365,6 +12366,106 @@ async function generateGeometryQuestion(
   }
 }
 
+// ─── Figure-based geometry generation ───
+// Picks a premade vetted figure and asks the AI to write a question for it.
+const _usedFigureIds = new Set();
+
+function pickGeometryFigure(difficulty) {
+  let pool = GEOMETRY_FIGURES;
+  if (difficulty) {
+    const diffPool = pool.filter((f) => f.difficulty === difficulty);
+    if (diffPool.length > 0) pool = diffPool;
+  }
+  // Prefer unused figures
+  const unused = pool.filter((f) => !_usedFigureIds.has(f.id));
+  const candidates = unused.length > 0 ? unused : pool;
+  const pick = candidates[Math.floor(Math.random() * candidates.length)];
+  _usedFigureIds.add(pick.id);
+  return pick;
+}
+
+async function generateFigureBasedQuestion(options = {}) {
+  const difficulty = options.difficulty || null;
+  const figure = pickGeometryFigure(difficulty);
+  const specJson = JSON.stringify(figure.geometrySpec, null, 2);
+
+  const prompt = `You are a GED exam creator. A geometry figure has already been drawn for the student.
+Your job: write a single GED-style multiple-choice question that the student must answer by examining the figure.
+
+Figure topic: ${figure.topicHint}
+Question type: ${figure.questionType}
+
+The figure's rendering specification (the student sees the drawn shape, NOT this JSON):
+${specJson}
+
+Rules:
+• The question MUST be answerable using the information visible in the figure.
+• Include exactly 4 answer choices. One must be correct.
+• Include a rationale for each choice explaining why it is correct or incorrect.
+• Use realistic GED-level language.
+• All numeric answers should be rounded to at most 2 decimal places.
+• For area/perimeter: use the correct formula and the dimensions shown.
+• For angle questions: use angle relationships (supplementary, complementary, vertical, corresponding, alternate interior, etc.).
+• For Pythagorean theorem: the "?" side is the unknown—compute it.
+• Do NOT repeat the geometrySpec in your output.
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(, or \[.
+- Use clear inline notation (e.g., x^2, sqrt(9), pi).
+- For currency use a single dollar sign like $10.50.
+
+Return a single JSON object:
+{
+  "questionText": string,
+  "answerOptions": [
+    { "text": string, "isCorrect": boolean, "rationale": string },
+    { "text": string, "isCorrect": boolean, "rationale": string },
+    { "text": string, "isCorrect": boolean, "rationale": string },
+    { "text": string, "isCorrect": boolean, "rationale": string }
+  ]
+}
+
+Respond with JSON only—no commentary.`;
+
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
+        },
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
+
+  try {
+    const aiResponse = await callAI(prompt, schema, options);
+    const payload = {
+      type: 'geometry',
+      questionText: aiResponse.questionText,
+      answerOptions: aiResponse.answerOptions,
+      geometrySpec: figure.geometrySpec,
+      useGeometryTool: true,
+      figureId: figure.id,
+    };
+    applyFractionPlainTextModeToItem(payload);
+    return payload;
+  } catch (err) {
+    console.error('Figure-based geometry generation failed:', err.message);
+    return null;
+  }
+}
+
 async function generateNonCalculatorQuestion(options = {}) {
   const prompt = `You are a GED Math exam creator specializing in non-calculator questions.
     Generate a single, high-quality question from the "Number Sense & Operations" domain (GED Indicator Q.1 or Q.2).
@@ -13775,6 +13876,20 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
           slot.requireFigure != null
             ? slot.requireFigure
             : GEOMETRY_FIGURES_ENABLED;
+
+        // Prefer premade figure bank for figure-enabled slots
+        if (withFigure) {
+          const figQ = await generateFigureBasedQuestion({
+            ...opts,
+            difficulty: slot.difficulty,
+          });
+          if (figQ) return [figQ];
+          // Fall through to AI-generated geometry if premade figure fails
+          console.warn(
+            'Premade figure generation failed; falling back to AI geometry.'
+          );
+        }
+
         const geoOpts = { ...opts, withFigure };
         const qs = await generateGeometryQuestion(
           'Geometry',
