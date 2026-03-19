@@ -69,6 +69,13 @@ const { fillExamPlan } = require('./src/exams/fillExamPlan');
 const { finalizeExamPayload } = require('./src/exams/finalizeExamPayload');
 const { validateFilledPlan } = require('./src/exams/validateExamPlan');
 const {
+  RLA_AVOIDED_DEFAULT_TOPICS,
+  nextRlaReadingBlueprintSet,
+  nextRlaEssayBlueprint,
+  nextRlaLanguageBlueprintSet,
+  resetRlaPromptVarietyState,
+} = require('./src/exams/rlaPromptVariety');
+const {
   getCuratedAiQuestionsForSubject,
   getCuratedAiRlaQuestions,
 } = require('./data/curatedAiQuestionBank');
@@ -12644,6 +12651,16 @@ Output a single valid JSON object with three keys:
 }
 
 async function generateRlaPart1(options = {}) {
+  const readingBlueprints = nextRlaReadingBlueprintSet();
+  const avoidedTopicText = RLA_AVOIDED_DEFAULT_TOPICS.join(', ');
+  const assignedBriefs = [
+    ...readingBlueprints.informational.map(
+      (entry, index) =>
+        `- Informational passage ${index + 1}: Write ${entry.brief}.`
+    ),
+    `- Literary passage: Write ${readingBlueprints.literary.brief}.`,
+  ].join('\n');
+
   const prompt = `${STRICT_JSON_HEADER_RLA}
 Create the Reading Comprehension section of a GED RLA exam.
 Produce exactly 4 passages:
@@ -12651,6 +12668,14 @@ Produce exactly 4 passages:
 - 1 literary passage that may be EITHER narrative fiction OR a short poem, but keep it 150–230 words.
 Use concise titles in <strong> tags and <p> tags for paragraphs. Each passage must be 150-230 words and NEVER above 250 words.
 For EACH passage, generate exactly 5 reading comprehension questions (total 20).
+
+ASSIGNED PASSAGE BRIEFS:
+${assignedBriefs}
+
+TOPIC DIVERSITY REQUIREMENTS:
+- All 4 passages must feel clearly different from one another in subject matter, setting, and purpose.
+- Stay grounded in the assigned briefs above instead of drifting to generic policy or geopolitical topics.
+- Do NOT switch any passage to ${avoidedTopicText} unless one of those topics is explicitly assigned here. None are assigned here.
 
 CRITICAL ENHANCEMENTS FOR EACH QUESTION:
 1. Add a "skill" field indicating the reading skill being tested. Use one of: "main_idea", "detail", "inference", "argument", "vocab", "text_structure".
@@ -12674,7 +12699,13 @@ Do NOT output a top-level or per-question "type" field.
 
 Return the JSON array of question objects only.`;
   const schema = { type: 'ARRAY', items: rlaQuestionSchema };
-  const questions = await callAI(prompt, schema, options);
+  const questions = await callAI(prompt, schema, {
+    ...options,
+    generationOverrides: {
+      temperature: 0.75,
+      ...(options.generationOverrides || {}),
+    },
+  });
   const cappedQuestions = Array.isArray(questions)
     ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
     : [];
@@ -12766,10 +12797,12 @@ Return the JSON array of question objects only.`;
 }
 
 async function generateRlaPart2(options = {}) {
+  const essayBlueprint = nextRlaEssayBlueprint();
+  const avoidedTopicText = RLA_AVOIDED_DEFAULT_TOPICS.join(', ');
   const prompt = `Generate one GED-style Extended Response (essay) prompt with two opposing passages.
 
 REQUIREMENTS:
-1. Create exactly TWO passages that present OPPOSING VIEWPOINTS on a single policy issue (e.g., conservation vs development, privacy vs security, renewable energy vs traditional energy, etc.).
+1. Create exactly TWO passages that present OPPOSING VIEWPOINTS on this single policy issue: ${essayBlueprint ? essayBlueprint.issue : 'a local policy issue with practical civic tradeoffs'}.
 2. Each passage must be exactly 3 substantial paragraphs, 220-300 words total, and NEVER above 300 words.
 3. Separate paragraphs with double newlines. Do NOT use HTML tags like <p> or <br> in the passage content.
 4. Each passage MUST include:
@@ -12782,6 +12815,8 @@ REQUIREMENTS:
    - 2-3 pieces of specific evidence (statistics, examples, expert opinions, etc.)
    - Logical reasoning connecting evidence to the position
 6. Include a "strengths_and_weaknesses" field for each passage, listing 2-3 bullet points about the quality of its argument.
+7. Keep the issue grounded in a realistic local or regional civic debate that adult GED learners could imagine reading in a newspaper opinion section.
+8. Do NOT switch to ${avoidedTopicText} unless the assigned issue explicitly requires it. It does not.
 
 The essay prompt must ask students to:
 - Analyze both passages
@@ -12939,7 +12974,7 @@ Output a JSON object with:
   const result = await callAI(prompt, schema, {
     ...options,
     generationOverrides: {
-      temperature: 0.7,
+      temperature: 0.75,
       ...(options.generationOverrides || {}),
     },
   });
@@ -13003,6 +13038,15 @@ Output a JSON object with:
 }
 
 async function generateRlaPart3(options = {}) {
+  const languageBlueprints = nextRlaLanguageBlueprintSet();
+  const avoidedTopicText = RLA_AVOIDED_DEFAULT_TOPICS.join(', ');
+  const assignedDocuments = languageBlueprints
+    .map(
+      (entry, index) =>
+        `${index + 1}. ${entry.documentType}: Write ${entry.brief}.`
+    )
+    .join('\n');
+
   const prompt = `${STRICT_JSON_HEADER_RLA}
 Generate the Language and Grammar section of a GED RLA exam. Create 7 document-based stimuli (each 140-230 words and NEVER above 250 words). Each stimulus should be 1-3 paragraphs and include realistic writing issues (grammar, usage, organization, and word choice). For EACH of the 7 stimuli, generate 3-4 questions focused on correcting sentences and improving clarity. This should total 25 questions.
 
@@ -13010,11 +13054,13 @@ DOCUMENT DIVERSITY REQUIREMENTS:
 - Use a varied set of document types across the 7 stimuli, such as: email, formal letter, memo, flyer, announcement, short article, meeting notes, workplace notice, instructions, or report excerpt.
 - Do NOT make all 7 plain passages.
 - At least 4 different document types must appear.
+- Use these 7 assigned document scenarios, one per stimulus:\n${assignedDocuments}
 - Do NOT include a "Document Type:" label anywhere in the passage text.
 - For emails, format the passage as a real email with header lines (e.g. "Subject: ...", "From: ...", "To: ...", "Date: ...") followed by a blank line and then the body. Do NOT label it as "Document Type: Email".
 - For letters, start with "Dear ..." and end with a closing and name.
 - For memos, use a "TO: / FROM: / RE: / DATE:" header block.
 - Keep formatting simple and readable (short headings, line breaks, and paragraph spacing).
+- Keep the scenarios practical and community/workplace oriented. Do NOT drift into ${avoidedTopicText} unless explicitly assigned. None are assigned here.
 
 CRITICAL ENHANCEMENTS FOR EACH QUESTION:
 1. Add a "skill" field indicating the language skill being tested. Use one of: "sentence_boundary", "usage_mechanics", "transitions", "organization", "word_choice".
@@ -13033,7 +13079,13 @@ Do NOT output a top-level or per-question "type" field.
 
 Return only the JSON array of the 25 question objects. For passages using inline_dropdown, include a "passageWithPlaceholders" field in the first question of that passage group.`;
   const schema = { type: 'ARRAY', items: rlaQuestionSchema };
-  const questions = await callAI(prompt, schema, options);
+  const questions = await callAI(prompt, schema, {
+    ...options,
+    generationOverrides: {
+      temperature: 0.75,
+      ...(options.generationOverrides || {}),
+    },
+  });
   const normalizePlaceholderText = (value, fallbackQuestionNumber) => {
     const raw = typeof value === 'string' ? value : '';
     const cleaned = raw
@@ -14499,6 +14551,7 @@ function resetRlaGenerationState() {
   _rlaBankSlotGroupCache.clear();
   _rlaAiSlotGroupCache.clear();
   _rlaCuratedAiSlotGroupCache.clear();
+  resetRlaPromptVarietyState();
 }
 
 // Helper: filter questions compatible with a slot's multi-select setting
