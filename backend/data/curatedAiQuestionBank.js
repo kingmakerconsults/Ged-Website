@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  sanitizeMathQuestionList,
+} = require('../src/lib/mathQuestionBankSanitizer');
 
 const BANK_DIR = path.join(__dirname, 'ai-question-bank');
 
@@ -35,10 +38,13 @@ function loadJsonFile(fileName) {
 
   try {
     const parsed = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
-    const value =
+    let value =
       Array.isArray(parsed) || (parsed && typeof parsed === 'object')
         ? parsed
         : [];
+    if (fileName === SUBJECT_FILE_NAMES.Math && Array.isArray(value)) {
+      value = sanitizeMathQuestionList(value);
+    }
     cache.set(fileName, value);
     return value;
   } catch {

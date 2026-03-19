@@ -49,6 +49,13 @@ test('upgradeToKatex converts standalone pi to \\(\\pi\\)', () => {
   );
 });
 
+test('upgradeToKatex keeps sqrt arguments as one math block', () => {
+  assert.equal(
+    upgradeToKatex('d = sqrt((x2 - x1)^2 + (y2 - y1)^2)'),
+    'd = \\(\\sqrt{(x2 - x1)^2 + (y2 - y1)^2}\\)'
+  );
+});
+
 test('upgradeToKatex does not convert pi inside words', () => {
   assert.equal(upgradeToKatex('pizza'), 'pizza');
   assert.equal(upgradeToKatex('pint'), 'pint');
@@ -147,6 +154,27 @@ test('upgradeToKatex preserves already-delimited math', () => {
 
 test('upgradeToKatex handles exponents via normalizeMathToLatex', () => {
   assert.equal(upgradeToKatex('x^2 + y^3'), '\\(x^{2}\\) + \\(y^{3}\\)');
+});
+
+test('upgradeToKatex wraps parenthesized negative exponents as one math chunk', () => {
+  assert.equal(upgradeToKatex('(-2)^2'), '\\((-2)^{2}\\)');
+  assert.equal(
+    upgradeToKatex('Evaluate 2(-2)^2 - 3'),
+    'Evaluate 2\\((-2)^{2}\\) - 3'
+  );
+});
+
+test('upgradeToKatex avoids nested inline math when fractions appear inside inequalities', () => {
+  assert.equal(upgradeToKatex('n >= 500/5'), '\\(n \\geq 500/5\\)');
+  assert.equal(upgradeToKatex('t <= 15 / 0.05'), '\\(t \\leq 15 / 0.05\\)');
+});
+
+test('upgradeToKatex converts parenthesized simple fractions cleanly', () => {
+  assert.equal(upgradeToKatex('Use (3/2)x + 1'), 'Use \\(\\frac{3}{2}\\)x + 1');
+  assert.equal(
+    upgradeToKatex('The reciprocal is (a/b).'),
+    'The reciprocal is \\(\\frac{a}{b}\\).'
+  );
 });
 
 test('upgradeQuestionToKatex processes all text fields', () => {

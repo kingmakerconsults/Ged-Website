@@ -4,6 +4,9 @@
 const fs = require('fs');
 const path = require('path');
 const legacy = require('../premade-questions.js');
+const {
+  sanitizeMathCatalog,
+} = require('../../src/lib/mathQuestionBankSanitizer');
 
 const QUESTION_LIKE_KEYS = new Set([
   'question',
@@ -176,7 +179,7 @@ function buildAllQuizzes() {
   }
   // Normalize legacy + supplemental content to fix math delimiters and mojibake.
   normalizeDeep(target);
-  return target;
+  return sanitizeMathCatalog(target);
 }
 
 const ALL_QUIZZES = buildAllQuizzes();

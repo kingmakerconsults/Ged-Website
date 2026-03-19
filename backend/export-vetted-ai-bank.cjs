@@ -2,6 +2,9 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
+const {
+  sanitizeSubjectQuestion,
+} = require('./src/lib/mathQuestionBankSanitizer');
 
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'reports');
@@ -223,7 +226,10 @@ function classifyQualityIssues(question) {
 }
 
 function buildExportQuestion(entry, canonicalSubject) {
-  const question = entry?.sanitizedQuestion || {};
+  const question = sanitizeSubjectQuestion(
+    entry?.sanitizedQuestion || {},
+    canonicalSubject
+  );
   const imageSrc =
     question?.stimulusImage?.src ||
     question?.imageUrl ||

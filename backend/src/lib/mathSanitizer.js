@@ -1,29 +1,49 @@
+function replaceOutsideMathBlocks(input, transform) {
+  if (!input || typeof input !== 'string') return input;
+
+  const mathBlockPattern = /(\\\([^]*?\\\)|\\\[[^]*?\\\])/g;
+  let result = '';
+  let lastIndex = 0;
+
+  for (const match of input.matchAll(mathBlockPattern)) {
+    const start = match.index ?? 0;
+    result += transform(input.slice(lastIndex, start));
+    result += match[0];
+    lastIndex = start + match[0].length;
+  }
+
+  result += transform(input.slice(lastIndex));
+  return result;
+}
+
 function normalizeMathToLatex(input) {
   if (!input) return input;
 
-  let s = input;
+  return replaceOutsideMathBlocks(input, (segment) => {
+    let s = segment;
 
-  s = s.replace(
-    /([A-Za-z0-9)\]\}])\^(\d+)(?![A-Za-z{])/g,
-    (_m, base, exp) => `${base}^{${exp}}`
-  );
+    s = s.replace(
+      /(\([^()]+\)|\[[^\]]+\]|\{[^{}]+\}|[A-Za-z0-9]+)\^(\d+)(?![A-Za-z{])/g,
+      (_m, base, exp) => `${base}^{${exp}}`
+    );
 
-  s = s.replace(
-    /([A-Za-z0-9)\]\}])\^([A-Za-z])(?![A-Za-z{])/g,
-    (_m, base, exp) => `${base}^{${exp}}`
-  );
+    s = s.replace(
+      /(\([^()]+\)|\[[^\]]+\]|\{[^{}]+\}|[A-Za-z0-9]+)\^([A-Za-z])(?![A-Za-z{])/g,
+      (_m, base, exp) => `${base}^{${exp}}`
+    );
 
-  s = s.replace(
-    /(\S)\^\(([^)]+)\)/g,
-    (_m, base, inner) => `${base}^{${inner}}`
-  );
+    s = s.replace(
+      /(\([^()]+\)|\[[^\]]+\]|\{[^{}]+\}|[A-Za-z0-9]+)\^\(([^)]+)\)/g,
+      (_m, base, inner) => `${base}^{${inner}}`
+    );
 
-  s = s.replace(
-    /(?<!\\\(|\\\[)(\\frac\{[^}]+\}\{[^}]+\}|[A-Za-z0-9)\]\}]+\^\{[^}]+\})(?!\\\)|\\\])/g,
-    (m) => `\\(${m}\\)`
-  );
+    s = s.replace(
+      /(\\frac\{[^}]+\}\{[^}]+\}|(?:\([^()]+\)|\[[^\]]+\]|\{[^{}]+\}|[A-Za-z0-9]+)\^\{[^}]+\})(?!\\\)|\\\])/g,
+      (m) => `\\(${m}\\)`
+    );
 
-  return s;
+    return s;
+  });
 }
 
 function normalizeMathToHTML(input) {
@@ -94,50 +114,62 @@ function upgradeToKatex(input) {
   // Must run BEFORE normalizeMathToLatex which doesn't touch $ at all.
   s = s.replace(/\$(\d[\d,]*(?:\.\d{0,2})?)/g, '&#36;$1');
 
-  // Start with the existing exponent/frac wrapping
-  s = normalizeMathToLatex(s);
+  s = replaceOutsideMathBlocks(s, (segment) => {
+    let out = segment;
+
+    out = out.replace(
+      /(?<![A-Za-z\\])sqrt\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g,
+      (_m, inner) => `\\(\\sqrt{${inner.trim()}}\\)`
+    );
+
+    out = normalizeMathToLatex(out);
+
+    out = out.replace(
+      /(?<![A-Za-z\\(])(?<!\\)\bpi\b(?![A-Za-z)])/g,
+      '\\(\\pi\\)'
+    );
+
+    out = out.replace(
+      /(?<![A-Za-z0-9.\\])([A-Za-z0-9.(){}\[\]]+(?:\s*[+\-*/]\s*[A-Za-z0-9.(){}\[\]]+)*)\s*(>=|<=)\s*([A-Za-z0-9.(){}\[\]]+(?:\s*[+\-*/]\s*[A-Za-z0-9.(){}\[\]]+)*)/g,
+      (_m, left, op, right) =>
+        `\\(${left} ${op === '>=' ? '\\geq' : '\\leq'} ${right}\\)`
+    );
+
+    out = replaceOutsideMathBlocks(out, (plainSegment) => {
+      let plain = plainSegment;
+
+      plain = plain.replace(
+        /\(\s*(\d+)\s*\/\s*(\d+)\s*\)/g,
+        (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+      );
+
+      plain = plain.replace(
+        /\(\s*([A-Za-z])\s*\/\s*([A-Za-z])\s*\)/g,
+        (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+      );
+
+      plain = plain.replace(
+        /(?<![A-Za-z0-9.\\])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9.])/g,
+        (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+      );
+
+      plain = plain.replace(
+        /(?<![A-Za-z0-9\\])([A-Za-z])\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
+        (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+      );
+
+      plain = plain.replace(
+        /(?<![A-Za-z0-9.\\])(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
+        (_m, num, den, trail) => `\\(\\frac{${num}}{${den}}${trail}\\)`
+      );
+
+      return plain;
+    });
+
+    return out;
+  });
+
   s = repairInlineMathDecimalFragments(s);
-
-  // Convert sqrt(...) to \(\sqrt{...}\) — handle simple balanced parens
-  s = s.replace(
-    /(?<![A-Za-z\\])sqrt\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g,
-    (_m, inner) => `\\(\\sqrt{${inner.trim()}}\\)`
-  );
-
-  // Convert standalone pi (word boundary) to \(\pi\) — only when not inside
-  // an existing \(...\) block and not part of a larger word
-  s = s.replace(/(?<![A-Za-z\\(])(?<!\\)\bpi\b(?![A-Za-z)])/g, '\\(\\pi\\)');
-
-  // Convert >= and <= in math-like contexts, including decimal coefficients
-  // such as 2.25m <= 20 or m <= 7.33.
-  s = s.replace(
-    /(?<![A-Za-z0-9.\\])([A-Za-z0-9.(){}\[\]]+(?:\s*[+\-*/]\s*[A-Za-z0-9.(){}\[\]]+)*)\s*(>=|<=)\s*([A-Za-z0-9.(){}\[\]]+(?:\s*[+\-*/]\s*[A-Za-z0-9.(){}\[\]]+)*)/g,
-    (_m, left, op, right) =>
-      `\\(${left} ${op === '>=' ? '\\geq' : '\\leq'} ${right}\\)`
-  );
-
-  // Convert numeric fractions a/b → \(\frac{a}{b}\) when not already delimited
-  // Only convert when surrounded by non-alpha boundaries to avoid corrupting prose
-  s = s.replace(
-    /(?<![A-Za-z0-9.\\(])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9.])/g,
-    (_m, num, den) => {
-      // Don't convert dates that look like fractions (e.g., "2/3" is fine but "12/25" in date context)
-      // For GED math, numeric fractions are overwhelmingly math
-      return `\\(\\frac{${num}}{${den}}\\)`;
-    }
-  );
-
-  // Convert single-letter fractions a/b → \(\frac{a}{b}\) at word boundaries
-  s = s.replace(
-    /(?<![A-Za-z0-9\\(])([A-Za-z])\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
-    (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
-  );
-
-  // Convert mixed fractions like n/d trailing a letter: 3/4x → \(\frac{3}{4}x\)
-  s = s.replace(
-    /(?<![A-Za-z0-9.\\(])(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
-    (_m, num, den, trail) => `\\(\\frac{${num}}{${den}}${trail}\\)`
-  );
 
   // Clean up double-wrapped delimiters that may result from chained conversions
   // e.g., \(\(x^{2}\)\) → \(x^{2}\)
