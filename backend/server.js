@@ -12311,7 +12311,6 @@ async function generateGeometryQuestion(
     // Attach geometrySpec explicitly (null when absent) and a clear flag
     questionPayload.geometrySpec =
       figuresEnabled && geometrySpec ? geometrySpec : null;
-    questionPayload.useGeometryTool = Boolean(questionPayload.geometrySpec);
 
     applyFractionPlainTextModeToItem(questionPayload);
     return questionPayload;
@@ -12455,7 +12454,6 @@ Respond with JSON only—no commentary.`;
       questionText: aiResponse.questionText,
       answerOptions: aiResponse.answerOptions,
       geometrySpec: figure.geometrySpec,
-      useGeometryTool: true,
       figureId: figure.id,
     };
     applyFractionPlainTextModeToItem(payload);
