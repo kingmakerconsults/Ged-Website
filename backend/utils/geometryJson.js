@@ -91,6 +91,67 @@ const enforcePrecision = (value, maxDecimals) => {
   return value;
 };
 
+/**
+ * Normalize common AI format deviations before validation.
+ * Fixes: segments with point-objects instead of arrays, labels missing x/y, etc.
+ */
+const normalizeGeometryResponse = (obj) => {
+  if (!obj || typeof obj !== 'object') return obj;
+  const spec = obj.geometrySpec;
+  if (!spec || typeof spec !== 'object' || !spec.params) return obj;
+  const params = spec.params;
+
+  // Normalize segments: convert {x, y} objects to [x, y] arrays
+  if (Array.isArray(params.segments)) {
+    params.segments = params.segments.map((seg) => {
+      if (!seg || typeof seg !== 'object') return seg;
+      const normCoord = (coord) => {
+        if (Array.isArray(coord)) return coord;
+        if (
+          coord &&
+          typeof coord === 'object' &&
+          ensureNumber(coord.x) &&
+          ensureNumber(coord.y)
+        ) {
+          return [coord.x, coord.y];
+        }
+        return coord;
+      };
+      return { ...seg, from: normCoord(seg.from), to: normCoord(seg.to) };
+    });
+  }
+
+  // Normalize sideLabels: { from/to } → { between: [from, to] }
+  if (Array.isArray(params.sideLabels)) {
+    params.sideLabels = params.sideLabels.map((entry) => {
+      if (!entry || typeof entry !== 'object') return entry;
+      if (!entry.between && entry.from && entry.to) {
+        return {
+          between: [entry.from, entry.to],
+          text: entry.text || entry.label || '',
+        };
+      }
+      if (entry.between && !entry.text && entry.label) {
+        return { ...entry, text: entry.label };
+      }
+      return entry;
+    });
+  }
+
+  // Normalize labels: ensure "text" field (AI sometimes uses "label")
+  if (Array.isArray(params.labels)) {
+    params.labels = params.labels.map((lbl) => {
+      if (!lbl || typeof lbl !== 'object') return lbl;
+      if (!lbl.text && lbl.label) {
+        return { ...lbl, text: lbl.label };
+      }
+      return lbl;
+    });
+  }
+
+  return obj;
+};
+
 const hashPayload = (text) => {
   return crypto.createHash('sha256').update(text).digest('hex').slice(0, 16);
 };
@@ -490,7 +551,8 @@ const parseGeometryJson = (raw, options = {}) => {
     });
   }
 
-  const normalized = enforcePrecision(parsed, maxDecimals);
+  const precisionFixed = enforcePrecision(parsed, maxDecimals);
+  const normalized = normalizeGeometryResponse(precisionFixed);
 
   const validationResult = validateGeometryStructure(normalized);
   if (!validationResult.valid) {

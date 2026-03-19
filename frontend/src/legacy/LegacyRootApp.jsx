@@ -38674,6 +38674,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
   const [suggestions, setSuggestions] = useState([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const suggestionSubject =
+    SUBJECT_ID_MAP[quiz?.subject] ||
+    SUBJECT_ID_MAP[results?.subject] ||
+    (typeof quiz?.subject === 'string' ? quiz.subject.toLowerCase() : '') ||
+    (typeof results?.subject === 'string' ? results.subject.toLowerCase() : '');
 
   useEffect(() => {
     let isActive = true;
@@ -38688,7 +38693,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           setSuggestions([]);
           return;
         }
-        const res = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
+        const params = new URLSearchParams();
+        if (suggestionSubject) params.set('subject', suggestionSubject);
+        const url = `${API_BASE_URL}/api/challenges/suggestions${params.toString() ? `?${params.toString()}` : ''}`;
+        const res = await fetch(url, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
@@ -38706,7 +38714,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [suggestionSubject]);
 
   const prettyLabel = (tag, label) => {
     if (label && typeof label === 'string') return label;

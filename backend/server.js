@@ -7053,6 +7053,20 @@ app.get(
     try {
       const userId = req.user?.id || req.user?.userId;
       if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const requestedSubject = normalizeSubjectParam(req.query?.subject);
+      const subjectPrefixes = requestedSubject
+        ? Array.from(
+            new Set(
+              [getChallengePrefixForSubject(requestedSubject)]
+                .concat(
+                  requestedSubject === 'Social Studies'
+                    ? ['social-studies']
+                    : []
+                )
+                .filter(Boolean)
+            )
+          )
+        : [];
       const { rows } = await pool.query(
         `
             SELECT s.id, s.challenge_tag, s.suggestion_type, s.source, s.reason, s.created_at,
@@ -7064,8 +7078,22 @@ app.get(
         `,
         [userId]
       );
+      const filteredRows = requestedSubject
+        ? rows.filter((r) => {
+            const catalogSubject = normalizeSubjectParam(r.subject);
+            if (catalogSubject) {
+              return catalogSubject === requestedSubject;
+            }
+
+            const tagPrefix = String(r.challenge_tag || '')
+              .split(':')[0]
+              .trim()
+              .toLowerCase();
+            return subjectPrefixes.includes(tagPrefix);
+          })
+        : rows;
       return res.json({
-        items: rows.map((r) => ({
+        items: filteredRows.map((r) => ({
           id: r.id,
           challenge_tag: r.challenge_tag,
           suggestion_type: r.suggestion_type,
@@ -12182,7 +12210,7 @@ ${FRACTION_PLAIN_TEXT_RULE}
     • For line_angle: include "vertex", "ray1", and "ray2" points plus optional "angleLabel" and "angleDegrees".
     • For cylinder_net: include numeric "radius" and "height" plus any labels needed for the net.
     • For rect_prism_net: include numeric "length", "width", and "height" and describe labels for key faces.
-    • For trapezoid: provide "points" as 4 vertex objects (top-left, top-right, bottom-right, bottom-left order). Include "sideLabels" for labeled sides and optional "heightLine": {"from": {"x":..,"y":..}, "to": {"x":..,"y":..}, "label": "h = 8"} to draw a dashed height from the top base perpendicular down to the bottom base.
+    • For trapezoid: provide "points" as 4 vertex objects {"label": "A", "x": 10, "y": 20} (top-left, top-right, bottom-right, bottom-left order). Each point MUST include numeric x and y. Include "sideLabels" for labeled sides and optional "heightLine": {"from": {"x":..,"y":..}, "to": {"x":..,"y":..}, "label": "h = 8"} to draw a dashed height from the top base perpendicular down to the bottom base.
     • For composite: provide "rects" as an array of rectangles [{"x": 10, "y": 10, "width": 30, "height": 20, "label": "A"}]. Use two or more overlapping/adjacent rectangles to form an L-shape or T-shape. Include optional "dimensionLabels": [{"text": "10 ft", "x": 25, "y": 5}] for outer dimensions.
     • For parallel_transversal: provide "line1": {"start": {"x":..,"y":..}, "end": {"x":..,"y":..}}, "line2" (parallel to line1), and "transversal" (diagonal crossing both). Include "angleLabels": [{"text": "65°", "at": "line1", "dx": 8, "dy": -6}] and optional "lineLabels": [{"text": "m", "x": 90, "y": 28}] for naming lines.
     • For cone_net: include numeric "radius" (base circle) and "slantHeight" (sector radius).
@@ -12293,6 +12321,9 @@ async function generateGeometryQuestion(
           error.hash || 'n/a'
         }`
       );
+      if (error.schemaErrors && error.schemaErrors.length > 0) {
+        console.warn(`  Schema errors: ${error.schemaErrors.join('; ')}`);
+      }
       if (attempt < MAX_ATTEMPTS) {
         console.log(
           `Retrying geometry question generation with strict prompt (attempt ${
@@ -12312,9 +12343,22 @@ async function generateGeometryQuestion(
     }
 
     if (attempt >= MAX_ATTEMPTS) {
-      console.error(
-        'Max retries reached for geometry question generation. Returning null.'
-      );
+      console.error('Max retries reached for geometry question generation.');
+      // If figure generation failed, fall back to text-only geometry
+      if (figuresEnabled) {
+        console.log('Falling back to text-only geometry question (no figure).');
+        try {
+          return await generateGeometryQuestion(topic, subject, 1, {
+            ...options,
+            withFigure: false,
+          });
+        } catch (fallbackErr) {
+          console.error(
+            'Text-only geometry fallback also failed.',
+            fallbackErr.message
+          );
+        }
+      }
     }
 
     return null;
