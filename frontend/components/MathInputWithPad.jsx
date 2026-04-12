@@ -223,9 +223,9 @@ const MathInputWithPad = ({
             ariaLabel="Insert fraction slash"
           />
 
-          {/* Row 5: x y π +/- ← */}
-          <PadButton label="x" insertText="x" ariaLabel="Insert variable x" />
-          <PadButton label="y" insertText="y" ariaLabel="Insert variable y" />
+          {/* Row 5: % $ π +/- ← */}
+          <PadButton label="%" insertText="%" ariaLabel="Insert percent" />
+          <PadButton label="$" insertText="$" ariaLabel="Insert dollar sign" />
           <PadButton label="π" insertText="π" ariaLabel="Insert pi" />
           <PadButton
             label="±"
@@ -237,6 +237,13 @@ const MathInputWithPad = ({
             onClick={handleBackspace}
             ariaLabel="Backspace"
           />
+
+          {/* Row 6: x y √ , (space) */}
+          <PadButton label="x" insertText="x" ariaLabel="Insert variable x" />
+          <PadButton label="y" insertText="y" ariaLabel="Insert variable y" />
+          <PadButton label="√" insertText="√" ariaLabel="Insert square root" />
+          <PadButton label="," insertText="," ariaLabel="Insert comma" />
+          <PadButton label="␣" insertText=" " ariaLabel="Insert space" />
         </div>
 
         {/* Bottom row: Clear */}

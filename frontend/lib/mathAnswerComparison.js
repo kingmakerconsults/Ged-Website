@@ -14,6 +14,53 @@
 const EPSILON = 1e-4;
 
 /**
+ * Check if an answer contains a percent format marker
+ */
+function hasPercentFormat(text) {
+  const str = String(text || '').trim();
+  return /\d\s*%/.test(str);
+}
+
+/**
+ * Count decimal places in a numeric string
+ */
+function countDecimalPlaces(text) {
+  const str = String(text || '').trim();
+  const cleaned = str.replace(/[%$,\s]/g, '');
+  const match = cleaned.match(/\.(\d+)/);
+  return match ? match[1].length : 0;
+}
+
+/**
+ * Detect if question text requires specific decimal precision
+ */
+function questionRequiresPrecision(questionText) {
+  if (!questionText) return false;
+  const text = String(questionText).toLowerCase();
+  return /round(ed|ing)?\s+(to|your|the)|decimal\s+place|nearest\s+(tenth|hundredth|thousandth|whole|cent|dollar|integer|percent)|significant\s+(figure|digit)|to\s+the\s+nearest|d\.?\s*p\./i.test(
+    text
+  );
+}
+
+/**
+ * Flexible decimal match: accept if user's answer is a valid
+ * rounding or truncation of the correct answer at the user's precision level
+ */
+function isFlexibleDecimalMatch(correctNum, userNum, userAnswer) {
+  const userDecimals = countDecimalPlaces(userAnswer);
+  const factor = Math.pow(10, userDecimals);
+  const rounded = Math.round(correctNum * factor) / factor;
+  const truncated =
+    (correctNum >= 0
+      ? Math.floor(correctNum * factor)
+      : Math.ceil(correctNum * factor)) / factor;
+  const eps = 1e-9;
+  return (
+    Math.abs(userNum - rounded) < eps || Math.abs(userNum - truncated) < eps
+  );
+}
+
+/**
  * Strip HTML tags, superscripts, and normalize unicode characters
  */
 function stripHtmlAndSpecialChars(text) {
@@ -204,7 +251,7 @@ export function areNumericallySame(val1, val2, epsilon = EPSILON) {
  * @returns {boolean} True if answers are equivalent
  */
 export function compareAnswers(correctAnswer, userAnswer, options = {}) {
-  const { questionType, subject, epsilon = EPSILON } = options;
+  const { questionType, subject, epsilon = EPSILON, questionText } = options;
 
   // Only apply flexible math grading for math/numeric questions
   const isMathQuestion =
@@ -224,12 +271,32 @@ export function compareAnswers(correctAnswer, userAnswer, options = {}) {
     return norm1 === norm2;
   }
 
-  // Step 1: Try numeric comparison first
+  // Format enforcement: percent sign must be present in both or neither
+  const correctHasPercent = hasPercentFormat(correctAnswer);
+  const userHasPercent = hasPercentFormat(userAnswer);
+  if (correctHasPercent !== userHasPercent) {
+    return false;
+  }
+
+  // Step 1: Try exact numeric comparison
   if (areNumericallySame(correctAnswer, userAnswer, epsilon)) {
     return true;
   }
 
-  // Step 2: Fall back to normalized string comparison
+  // Step 2: Flexible decimal precision (unless question asks for specific precision)
+  if (!questionRequiresPrecision(questionText)) {
+    const correctNum = extractNumericValue(correctAnswer);
+    const userNum = extractNumericValue(userAnswer);
+    if (correctNum !== null && userNum !== null) {
+      if (
+        isFlexibleDecimalMatch(correctNum, userNum, String(userAnswer || ''))
+      ) {
+        return true;
+      }
+    }
+  }
+
+  // Step 3: Fall back to normalized string comparison
   const norm1 = normalizeAnswer(correctAnswer);
   const norm2 = normalizeAnswer(userAnswer);
 
@@ -245,9 +312,11 @@ export const TEST_CASES = [
   { correct: '314', user: '314.0', expected: true },
   { correct: '314', user: '314cm²', expected: true },
 
-  // Percent handling
-  { correct: '25%', user: '25', expected: true },
-  { correct: '25', user: '25%', expected: true },
+  // Percent handling — format markers must match
+  { correct: '25%', user: '25', expected: false },
+  { correct: '25', user: '25%', expected: false },
+  { correct: '25%', user: '25%', expected: true },
+  { correct: '25%', user: '25.0%', expected: true },
 
   // Scientific notation
   { correct: '3.45 × 10^6', user: '3.45x10^6', expected: true },
@@ -262,9 +331,15 @@ export const TEST_CASES = [
   { correct: '9<sup>2</sup>', user: '9^2', expected: true },
   { correct: '<i>x</i> = 5', user: 'x=5', expected: true },
 
+  // Flexible decimal precision
+  { correct: '3.121', user: '3.12', expected: true },
+  { correct: '3.121', user: '3.1', expected: true },
+  { correct: '3.121', user: '3.121', expected: true },
+  { correct: '3.129', user: '3.13', expected: true },
+
   // Should NOT match (different values)
   { correct: '314', user: '315', expected: false },
-  { correct: '25%', user: '0.25', expected: false }, // 25 vs 0.25 numerically different
+  { correct: '25%', user: '0.25', expected: false }, // different formats
   { correct: '3.45e6', user: '3.45e7', expected: false },
 ];
 

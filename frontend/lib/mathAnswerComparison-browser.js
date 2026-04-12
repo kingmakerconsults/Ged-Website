@@ -18,6 +18,53 @@
   const EPSILON = 1e-4;
 
   /**
+   * Check if an answer contains a percent format marker
+   */
+  function hasPercentFormat(text) {
+    var str = String(text || '').trim();
+    return /\d\s*%/.test(str);
+  }
+
+  /**
+   * Count decimal places in a numeric string
+   */
+  function countDecimalPlaces(text) {
+    var str = String(text || '').trim();
+    var cleaned = str.replace(/[%$,\s]/g, '');
+    var match = cleaned.match(/\.(\d+)/);
+    return match ? match[1].length : 0;
+  }
+
+  /**
+   * Detect if question text requires specific decimal precision
+   */
+  function questionRequiresPrecision(questionText) {
+    if (!questionText) return false;
+    var text = String(questionText).toLowerCase();
+    return /round(ed|ing)?\s+(to|your|the)|decimal\s+place|nearest\s+(tenth|hundredth|thousandth|whole|cent|dollar|integer|percent)|significant\s+(figure|digit)|to\s+the\s+nearest|d\.?\s*p\./i.test(
+      text
+    );
+  }
+
+  /**
+   * Flexible decimal match: accept if user's answer is a valid
+   * rounding or truncation of the correct answer at the user's precision level
+   */
+  function isFlexibleDecimalMatch(correctNum, userNum, userAnswer) {
+    var userDecimals = countDecimalPlaces(userAnswer);
+    var factor = Math.pow(10, userDecimals);
+    var rounded = Math.round(correctNum * factor) / factor;
+    var truncated =
+      (correctNum >= 0
+        ? Math.floor(correctNum * factor)
+        : Math.ceil(correctNum * factor)) / factor;
+    var eps = 1e-9;
+    return (
+      Math.abs(userNum - rounded) < eps || Math.abs(userNum - truncated) < eps
+    );
+  }
+
+  /**
    * Strip HTML tags, superscripts, and normalize unicode characters
    */
   function stripHtmlAndSpecialChars(text) {
@@ -211,12 +258,13 @@
    */
   function compareAnswers(correctAnswer, userAnswer, options) {
     if (!options) options = {};
-    const questionType = options.questionType;
-    const subject = options.subject;
-    const epsilon = options.epsilon !== undefined ? options.epsilon : EPSILON;
+    var questionType = options.questionType;
+    var subject = options.subject;
+    var epsilon = options.epsilon !== undefined ? options.epsilon : EPSILON;
+    var questionText = options.questionText || '';
 
     // Only apply flexible math grading for math/numeric questions
-    const isMathQuestion =
+    var isMathQuestion =
       questionType === 'math' ||
       questionType === 'numeric' ||
       subject === 'Math' ||
@@ -224,25 +272,45 @@
 
     if (!isMathQuestion) {
       // For non-math questions, use strict string comparison (normalized)
-      const norm1 = String(correctAnswer || '')
+      var norm1 = String(correctAnswer || '')
         .trim()
         .toLowerCase();
-      const norm2 = String(userAnswer || '')
+      var norm2 = String(userAnswer || '')
         .trim()
         .toLowerCase();
       return norm1 === norm2;
     }
 
-    // Step 1: Try numeric comparison first
+    // Format enforcement: percent sign must be present in both or neither
+    var correctHasPercent = hasPercentFormat(correctAnswer);
+    var userHasPercent = hasPercentFormat(userAnswer);
+    if (correctHasPercent !== userHasPercent) {
+      return false;
+    }
+
+    // Step 1: Try exact numeric comparison
     if (areNumericallySame(correctAnswer, userAnswer, epsilon)) {
       return true;
     }
 
-    // Step 2: Fall back to normalized string comparison
-    const norm1 = normalizeAnswer(correctAnswer);
-    const norm2 = normalizeAnswer(userAnswer);
+    // Step 2: Flexible decimal precision (unless question asks for specific precision)
+    if (!questionRequiresPrecision(questionText)) {
+      var correctNum = extractNumericValue(correctAnswer);
+      var userNum = extractNumericValue(userAnswer);
+      if (correctNum !== null && userNum !== null) {
+        if (
+          isFlexibleDecimalMatch(correctNum, userNum, String(userAnswer || ''))
+        ) {
+          return true;
+        }
+      }
+    }
 
-    return norm1 === norm2;
+    // Step 3: Fall back to normalized string comparison
+    var n1 = normalizeAnswer(correctAnswer);
+    var n2 = normalizeAnswer(userAnswer);
+
+    return n1 === n2;
   }
 
   // Expose functions to global scope

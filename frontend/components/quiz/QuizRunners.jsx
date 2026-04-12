@@ -261,6 +261,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
             {
               subject: quiz.subject,
               questionType: q.type,
+              questionText: q.questionText || q.question || '',
             }
           );
         }
@@ -279,6 +280,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
           isCorrect = window.compareAnswers(correctText, userAns, {
             subject: quiz.subject,
             questionType: q.type,
+            questionText: q.questionText || q.question || '',
           });
         } else if (correctOpts.length > 1) {
           const correctSet = correctOpts
@@ -296,6 +298,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         isCorrect = window.compareAnswers(q.correctAnswer, userAns, {
           subject: quiz.subject,
           questionType: q.type,
+          questionText: q.questionText || q.question || '',
         });
       }
 

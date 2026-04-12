@@ -1362,13 +1362,50 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     return Math.abs(na - nb) < MATH_EQUIV.EPS;
   };
 
-  const isEquivalentAnswer = (expected, user) => {
+  const countDecimalPlacesLocal = (text) => {
+    const str = String(text || '').trim();
+    const cleaned = str.replace(/[%$,\s]/g, '');
+    const match = cleaned.match(/\.(\d+)/);
+    return match ? match[1].length : 0;
+  };
+
+  const questionRequiresPrecisionLocal = (questionText) => {
+    if (!questionText) return false;
+    return /round(ed|ing)?\s+(to|your|the)|decimal\s+place|nearest\s+(tenth|hundredth|thousandth|whole|cent|dollar|integer|percent)|significant\s+(figure|digit)|to\s+the\s+nearest/i.test(
+      questionText
+    );
+  };
+
+  const isFlexibleDecimalMatchLocal = (correctNum, userNum, userRaw) => {
+    const userDecimals = countDecimalPlacesLocal(userRaw);
+    const factor = Math.pow(10, userDecimals);
+    const rounded = Math.round(correctNum * factor) / factor;
+    const truncated =
+      (correctNum >= 0
+        ? Math.floor(correctNum * factor)
+        : Math.ceil(correctNum * factor)) / factor;
+    const eps = MATH_EQUIV.EPS;
+    return (
+      Math.abs(userNum - rounded) < eps || Math.abs(userNum - truncated) < eps
+    );
+  };
+
+  const isEquivalentAnswer = (expected, user, questionObj) => {
     const e = normalizeRaw(expected);
     const u = normalizeRaw(user);
     if (!e || !u) return false;
     if (e === u) return true; // exact match quick path
     // Numeric equivalence (covers fraction/decimal/percent/ratio/currency)
     if (isNumericEqual(e, u)) return true;
+    // Flexible decimal precision (unless question asks for specific precision)
+    const qText = questionObj?.questionText || questionObj?.question || '';
+    if (!questionRequiresPrecisionLocal(qText)) {
+      const ne = numericValue(e);
+      const nu = numericValue(u);
+      if (ne !== null && nu !== null) {
+        if (isFlexibleDecimalMatchLocal(ne, nu, u)) return true;
+      }
+    }
     // Multi-answer comparison (e.g. "18,19" vs "19,18")
     if (e.includes(',') || u.includes(',')) {
       return areTokenSetsEqual(canonicalTokens(e), canonicalTokens(u));
@@ -1379,7 +1416,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
 
   // Helper: check if a fill-in question is correct
   const checkFillInQuestionCorrect = (q, userAns) => {
-    return isEquivalentAnswer(q.correctAnswer, userAns);
+    return isEquivalentAnswer(q.correctAnswer, userAns, q);
   };
 
   // NUMERIC ENTRY ENHANCEMENT: Check numeric questions with optional tolerance
@@ -1431,6 +1468,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
           isCorrect = compareAnswers(correctText, userAns, {
             subject: quiz.subject,
             questionType: q.type,
+            questionText: q.questionText || q.question || '',
           });
         } else if (correctOpts.length > 1) {
           // multi-correct, all-or-nothing
@@ -1452,6 +1490,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         isCorrect = compareAnswers(q.correctAnswer, userAns, {
           subject: quiz.subject,
           questionType: q.type,
+          questionText: q.questionText || q.question || '',
         });
       }
 

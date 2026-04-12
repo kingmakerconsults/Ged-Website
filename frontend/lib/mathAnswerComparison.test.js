@@ -76,17 +76,23 @@ const edgeCases = [
     expected: true,
   },
 
-  // Percent edge cases
+  // Percent edge cases — format markers must match
   {
-    name: 'Percent as value',
+    name: 'Percent format required',
     correct: '75%',
     user: '75',
-    expected: true,
+    expected: false,
   },
   {
-    name: 'Percent with space',
+    name: 'Percent with space format required',
     correct: '50 %',
     user: '50',
+    expected: false,
+  },
+  {
+    name: 'Percent both present',
+    correct: '75%',
+    user: '75%',
     expected: true,
   },
 

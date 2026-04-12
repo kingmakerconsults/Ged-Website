@@ -13,6 +13,7 @@ import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
 import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
 import SuperAdminQuestionBrowser from '../views/SuperAdminQuestionBrowser.jsx';
+import MathInputWithPad from '../../components/MathInputWithPad.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -36334,20 +36335,34 @@ function QuizInterface({
                     >
                       Enter your answer:
                     </label>
-                    <input
-                      id="fill-in-blank-answer"
-                      type="text"
-                      value={answers[currentIndex] || ''}
-                      onChange={handleInputChange}
-                      placeholder="Type your answer here"
-                      disabled={isOlympicsMode && showingExplanation}
-                      className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
-                      style={{
-                        border: `1px solid ${scheme.inputBorder}`,
-                        color: 'var(--text-primary)',
-                        opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
-                      }}
-                    />
+                    {/math/i.test(subject || '') ? (
+                      <MathInputWithPad
+                        value={answers[currentIndex] || ''}
+                        onChange={(newValue) => {
+                          const newAnswers = [...answers];
+                          newAnswers[currentIndex] = newValue;
+                          setAnswers(newAnswers);
+                        }}
+                        placeholder="Type your answer here"
+                        disabled={isOlympicsMode && showingExplanation}
+                      />
+                    ) : (
+                      <input
+                        id="fill-in-blank-answer"
+                        type="text"
+                        value={answers[currentIndex] || ''}
+                        onChange={handleInputChange}
+                        placeholder="Type your answer here"
+                        disabled={isOlympicsMode && showingExplanation}
+                        className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                        style={{
+                          border: `1px solid ${scheme.inputBorder}`,
+                          color: 'var(--text-primary)',
+                          opacity:
+                            isOlympicsMode && showingExplanation ? 0.6 : 1,
+                        }}
+                      />
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -36910,20 +36925,33 @@ function QuizInterface({
                   >
                     Enter your answer:
                   </label>
-                  <input
-                    id="fill-in-blank-answer"
-                    type="text"
-                    value={answers[currentIndex] || ''}
-                    onChange={handleInputChange}
-                    placeholder="Type your answer here"
-                    disabled={isOlympicsMode && showingExplanation}
-                    className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
-                    style={{
-                      border: `1px solid ${scheme.inputBorder}`,
-                      color: 'var(--text-primary)',
-                      opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
-                    }}
-                  />
+                  {/math/i.test(subject || '') ? (
+                    <MathInputWithPad
+                      value={answers[currentIndex] || ''}
+                      onChange={(newValue) => {
+                        const newAnswers = [...answers];
+                        newAnswers[currentIndex] = newValue;
+                        setAnswers(newAnswers);
+                      }}
+                      placeholder="Type your answer here"
+                      disabled={isOlympicsMode && showingExplanation}
+                    />
+                  ) : (
+                    <input
+                      id="fill-in-blank-answer"
+                      type="text"
+                      value={answers[currentIndex] || ''}
+                      onChange={handleInputChange}
+                      placeholder="Type your answer here"
+                      disabled={isOlympicsMode && showingExplanation}
+                      className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                      style={{
+                        border: `1px solid ${scheme.inputBorder}`,
+                        color: 'var(--text-primary)',
+                        opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
+                      }}
+                    />
+                  )}
                 </div>
               ) : (
                 /* ── standard single-select (default) ── */
@@ -37423,12 +37451,53 @@ function canScienceAnswerIgnoreUnits(expected, user, subject, question) {
   return Math.abs(expectedMagnitude - userMagnitude) < QUIZ_ANSWER_EQUIV.EPS;
 }
 
+function countFillInDecimalPlaces(text) {
+  const str = String(text || '').trim();
+  const cleaned = str.replace(/[%$,\s]/g, '');
+  const match = cleaned.match(/\.(\d+)/);
+  return match ? match[1].length : 0;
+}
+
+function fillInQuestionRequiresPrecision(questionText) {
+  if (!questionText) return false;
+  return /round(ed|ing)?\s+(to|your|the)|decimal\s+place|nearest\s+(tenth|hundredth|thousandth|whole|cent|dollar|integer|percent)|significant\s+(figure|digit)|to\s+the\s+nearest/i.test(
+    questionText
+  );
+}
+
+function isFlexibleFillInDecimalMatch(expectedNum, userNum, userRaw) {
+  const userDecimals = countFillInDecimalPlaces(userRaw);
+  const factor = Math.pow(10, userDecimals);
+  const rounded = Math.round(expectedNum * factor) / factor;
+  const truncated =
+    (expectedNum >= 0
+      ? Math.floor(expectedNum * factor)
+      : Math.ceil(expectedNum * factor)) / factor;
+  const eps = QUIZ_ANSWER_EQUIV.EPS;
+  return (
+    Math.abs(userNum - rounded) < eps || Math.abs(userNum - truncated) < eps
+  );
+}
+
 function areEquivalentFillInAnswers(expected, user, options = {}) {
   const expectedText = normalizeQuizAnswerRaw(expected);
   const userText = normalizeQuizAnswerRaw(user);
   if (!expectedText || !userText) return false;
   if (expectedText === userText) return true;
   if (isQuizAnswerNumericEqual(expectedText, userText)) return true;
+
+  // Flexible decimal precision (unless question requires specific precision)
+  const questionText =
+    options.question?.questionText || options.question?.question || '';
+  if (!fillInQuestionRequiresPrecision(questionText)) {
+    const expectedValue = quizAnswerNumericValue(expectedText);
+    const userValue = quizAnswerNumericValue(userText);
+    if (expectedValue !== null && userValue !== null) {
+      if (isFlexibleFillInDecimalMatch(expectedValue, userValue, userText)) {
+        return true;
+      }
+    }
+  }
 
   if (expectedText.includes(',') || userText.includes(',')) {
     return areQuizAnswerTokenSetsEqual(
