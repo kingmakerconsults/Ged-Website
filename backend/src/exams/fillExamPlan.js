@@ -228,11 +228,13 @@ async function fillExamPlan(plan, generators, aiOptions, opts = {}) {
         if (slot.toolsAllowed) q.toolsAllowed = slot.toolsAllowed;
         if (
           slot.responseType === 'numeric' ||
-          slot.responseType === 'fill_in'
+          slot.responseType === 'fill_in' ||
+          slot.responseType === 'inline_dropdown'
         ) {
           q.responseType = slot.responseType;
         }
         if (slot.numeracy) q.numeracy = true;
+        if (slot.skillIntent) q.skillIntent = slot.skillIntent;
       }
     }
 

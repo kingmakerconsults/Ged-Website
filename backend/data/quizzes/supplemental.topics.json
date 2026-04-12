@@ -9038,5 +9038,95 @@
       "file": "backend/data/quizzes/social-studies/diag_ss_composite_v1.js",
       "tier": "test-ready"
     }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_evidence_tradeoff_1",
+      "title": "Evaluating Competing Scientific Claims",
+      "description": "Analyze scenarios where scientists or data sets lead to opposing conclusions and evaluate which evidence is stronger.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/science/sci_evidence_tradeoff_1.js",
+      "tier": "foundations"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_experimental_design_1",
+      "title": "Experimental Design and Flaws",
+      "description": "Identify experimental flaws, confounding variables, control groups, and study validity issues in scientific investigations.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/science/sci_experimental_design_1.js",
+      "tier": "foundations"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_dropdown_cloze_1",
+      "title": "Science Sentence Completion (Dropdown)",
+      "description": "Complete scientific sentences by selecting the correct term or value from dropdown options embedded in passages.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 6 }]
+      },
+      "file": "backend/data/quizzes/science/sci_dropdown_cloze_1.js",
+      "tier": "foundations"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_compound_stimulus_1",
+      "title": "Interpreting Combined Data and Diagrams",
+      "description": "Analyze questions that combine a data table or passage with an image or diagram to draw conclusions.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 3 }]
+      },
+      "file": "backend/data/quizzes/science/sci_compound_stimulus_1.js",
+      "tier": "foundations"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_scientific_notation_1",
+      "title": "Scientific Notation in Physical Science",
+      "description": "Apply scientific notation and wave/energy formulas to solve GED-level Physical Science problems.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 4 }]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_scientific_notation_1.js",
+      "tier": "foundations"
+    }
   }
 ]

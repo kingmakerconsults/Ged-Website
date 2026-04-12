@@ -1,0 +1,1562 @@
+{
+  "id": "ai_comp_science_1774640319855",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "multipleChoice",
+      "difficulty": "hard",
+      "question": "Which of the following would likely increase the rate of a chemical reaction between a solid and a liquid?",
+      "answerOptions": [
+        {
+          "text": "Cooling the liquid.",
+          "rationale": "Lowering the temperature generally slows down reaction rates.",
+          "isCorrect": false
+        },
+        {
+          "text": "Using a single, large piece of the solid.",
+          "rationale": "This decreases the surface area available for the reaction.",
+          "isCorrect": false
+        },
+        {
+          "text": "Grinding the solid into a fine powder.",
+          "rationale": "Correct. This increases the surface area of the solid, allowing more particles to be in contact with the liquid at once, which speeds up the reaction.",
+          "isCorrect": true
+        },
+        {
+          "text": "Stopping any stirring or agitation.",
+          "rationale": "Stirring increases the contact between reactants and speeds up the reaction.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-1",
+        "science-2"
+      ],
+      "questionText": "Which of the following would likely increase the rate of a chemical reaction between a solid and a liquid?",
+      "subject": "Science",
+      "category": "Physical Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "bankFingerprint": "37476e33fcc19782a9751c2e5a853bd27c0d385c"
+    },
+    {
+      "questionNumber": 2,
+      "type": "multipleChoice",
+      "difficulty": "medium",
+      "question": "What is the pH of a neutral solution, such as pure water?",
+      "answerOptions": [
+        {
+          "text": "Less than 7",
+          "rationale": "Solutions with a pH less than 7 are acidic.",
+          "isCorrect": false
+        },
+        {
+          "text": "Exactly 7",
+          "rationale": "Correct. The pH scale ranges from 0 (very acidic) to 14 (very basic/alkaline), with 7 being neutral.",
+          "isCorrect": true
+        },
+        {
+          "text": "Greater than 7",
+          "rationale": "Solutions with a pH greater than 7 are basic or alkaline.",
+          "isCorrect": false
+        },
+        {
+          "text": "Exactly 0",
+          "rationale": "A pH of 0 indicates a very strong acid.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-1",
+        "science-2"
+      ],
+      "questionText": "What is the pH of a neutral solution, such as pure water?",
+      "subject": "Science",
+      "category": "Physical Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "bankFingerprint": "f373f3952672ee9ad7b67f95d9e5c0ce0f767be6"
+    },
+    {
+      "questionNumber": 3,
+      "type": "standalone",
+      "difficulty": "hard",
+      "question": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process. Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?",
+      "answerOptions": [
+        {
+          "text": "The LED bulb converts most of the electrical energy into thermal energy (heat).",
+          "rationale": "This describes the inefficiency of the incandescent bulb.",
+          "isCorrect": false
+        },
+        {
+          "text": "The incandescent bulb converts most electrical energy directly into light.",
+          "rationale": "The passage implies the opposite is true.",
+          "isCorrect": false
+        },
+        {
+          "text": "The LED bulb loses less energy as heat during the conversion to light.",
+          "rationale": "Correct. The incandescent bulb gets very hot, meaning much of the electrical energy is wasted as thermal energy instead of being converted to the desired form, light.",
+          "isCorrect": true
+        },
+        {
+          "text": "The incandescent bulb uses chemical energy.",
+          "rationale": "Both bulbs use electrical energy as their input.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "questionText": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process. Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?",
+      "subject": "Science",
+      "category": "Physical Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "bankFingerprint": "c203592c046583900dee4b4c672ee46548c9b39c"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "Line graph showing relative humidity percentage over eight days, from May 1 to May 8."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 4,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionNumber": 5,
+      "type": "multipleChoice",
+      "difficulty": "medium",
+      "question": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi. In this food web, what is the role of the fungi?",
+      "answerOptions": [
+        {
+          "text": "Producer",
+          "rationale": "Producers, like grass, make their own food.",
+          "isCorrect": false
+        },
+        {
+          "text": "Primary consumer",
+          "rationale": "Primary consumers, like rabbits, eat producers.",
+          "isCorrect": false
+        },
+        {
+          "text": "Secondary consumer",
+          "rationale": "Secondary consumers, like foxes, eat primary consumers.",
+          "isCorrect": false
+        },
+        {
+          "text": "Decomposer",
+          "rationale": "Correct. Decomposers break down dead organic material and return nutrients to the ecosystem.",
+          "isCorrect": true
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi. In this food web, what is the role of the fungi?",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "bankFingerprint": "ab912906319edcf4a9701d183946be12ef0618a3"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 6,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 7,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionText": "What is the central claim made in the passage regarding the role of microscopic organisms?",
+      "answerOptions": [
+        {
+          "text": "Microscopic organisms are beneficial for facilitating fermentation processes.",
+          "isCorrect": false,
+          "rationale": "The passage states that germs are the cause of fermentation and disease, and excluding them prevents these processes, implying they are not beneficial in this context."
+        },
+        {
+          "text": "Air quality is the primary determinant for the spread of all types of diseases.",
+          "isCorrect": false,
+          "rationale": "The passage specifically attributes the cause of fermentation and disease to 'germs of microscopic organisms' in the air, not general air quality impacting all diseases."
+        },
+        {
+          "text": "Germs from microscopic organisms in the air are the direct cause of both fermentation and disease.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'These germs are the cause of fermentation and disease.'"
+        },
+        {
+          "text": "Fermentation and disease can only occur when directly exposed to ambient air.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that germs *in* the air cause these processes, and *excluding* germs prevents them, not that air itself is the direct cause or that its continuous presence is necessary beyond carrying the germs."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germ_theory",
+      "passageTitle": "The Germ Theory of Disease (Excerpt)",
+      "topicTags": [
+        "Microbiology"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 8,
+      "bankFingerprint": "5065d0adeed2e03f895d37e8ec0e53929a1ea7ce"
+    },
+    {
+      "questionText": "A food manufacturer implements a new sterilization process that involves heating food to a high temperature to kill any existing microbes, followed by packaging it in an airtight container. Based on the information in the passage, what would be the most likely outcome for preventing food spoilage?",
+      "answerOptions": [
+        {
+          "text": "The food spoilage would likely be prevented because killing existing germs and sealing the container aligns with the principle of excluding germs.",
+          "isCorrect": true,
+          "rationale": "The passage states that 'By excluding germs, one can prevent both processes from occurring.' Heating eliminates existing germs, and sealing prevents new ones from entering, thereby effectively 'excluding germs' and preventing spoilage (a form of fermentation)."
+        },
+        {
+          "text": "Food spoilage would still occur rapidly, as fermentation is a natural chemical process unaffected by microbial presence.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly links fermentation to 'germs of microscopic organisms,' contradicting the idea that it is unaffected by microbes."
+        },
+        {
+          "text": "The high temperature would activate dormant germs, leading to an acceleration of the spoilage process despite the airtight packaging.",
+          "isCorrect": false,
+          "rationale": "The passage implies germs cause harm; killing them (high temperature) would prevent, not accelerate, spoilage."
+        },
+        {
+          "text": "The method would be ineffective because the passage emphasizes only the physical exclusion of germs, not their destruction, as a means of prevention.",
+          "isCorrect": false,
+          "rationale": "The term 'excluding germs' encompasses both preventing their entry and eliminating any already present, as both actions contribute to their absence."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Germ Theory of Disease (Excerpt)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>The air is full of the germs of microscopic organisms. These germs are the cause of fermentation and disease. By excluding germs, one can prevent both processes from occurring.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germ_theory",
+      "passageTitle": "The Germ Theory of Disease (Excerpt)",
+      "topicTags": [
+        "Microbiology"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 9,
+      "bankFingerprint": "2619a1b4ae4384c19903d98e4693f77184f2b2cb"
+    },
+    {
+      "questionNumber": 10,
+      "type": "multipleChoice",
+      "difficulty": "medium",
+      "question": "What is the primary function of lysosomes?",
+      "answerOptions": [
+        {
+          "text": "To generate energy for the cell.",
+          "rationale": "This is the function of mitochondria.",
+          "isCorrect": false
+        },
+        {
+          "text": "To break down and recycle waste materials and cellular debris.",
+          "rationale": "Correct. They act as the cell's 'recycling center'.",
+          "isCorrect": true
+        },
+        {
+          "text": "To provide a pathway for transporting molecules.",
+          "rationale": "This is a function of the endoplasmic reticulum.",
+          "isCorrect": false
+        },
+        {
+          "text": "To give the cell its shape.",
+          "rationale": "This is a function of the cytoskeleton and cell wall.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "What is the primary function of lysosomes?",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "skillIntent": "concept-application",
+      "bankFingerprint": "6db728609a41783ddb81c0bd7e46da9e4cdf8b54"
+    },
+    {
+      "questionText": "According to the passage, which action is essential for a candle flame to continue burning?",
+      "answerOptions": [
+        {
+          "text": "The direct burning of solid wax.",
+          "isCorrect": false,
+          "rationale": "The passage states that the wax is first turned into a vapor, and it is this vapor that truly burns, not the solid wax itself."
+        },
+        {
+          "text": "The enclosure of the candle to contain heat.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that if the candle is enclosed and air is cut off, the flame is extinguished, implying enclosure is detrimental without air."
+        },
+        {
+          "text": "The constant supply of fresh air due to rising hot gases.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'The current of hot gases rises, drawing in fresh air below, so that the process continues,' highlighting the need for fresh air."
+        },
+        {
+          "text": "The production of carbonic acid to fuel the flame.",
+          "isCorrect": false,
+          "rationale": "The passage states that carbonic acid is produced by the flame, not that it fuels the flame; oxygen from the air is supplied to feed it."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_chemical_history_candle",
+      "passageTitle": "The Chemical History of a Candle (Excerpt)",
+      "topicTags": [
+        "Chemistry / Energy"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 11,
+      "bankFingerprint": "fd6aef3656d29d2460cc70409da99bbcdbeeed61"
+    },
+    {
+      "questionText": "What is the main point the author conveys by describing the phenomena of a candle?",
+      "answerOptions": [
+        {
+          "text": "The complexity of everyday objects makes them difficult to understand without scientific tools.",
+          "isCorrect": false,
+          "rationale": "The author implies the opposite, that even a simple object can reveal profound scientific principles, making them accessible to understanding."
+        },
+        {
+          "text": "Candles are unique in demonstrating specific chemical reactions not observed in other parts of the universe.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle,' indicating universality, not uniqueness."
+        },
+        {
+          "text": "Simple phenomena, like a candle flame, can illustrate fundamental and universal scientific laws.",
+          "isCorrect": true,
+          "rationale": "The passage concludes by stating, 'from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter,' reinforcing that simple observations reveal universal laws."
+        },
+        {
+          "text": "Providing pure oxygen is the only effective way to significantly alter the burning process of a candle.",
+          "isCorrect": false,
+          "rationale": "While providing pure oxygen brightens the flame, the passage also mentions enclosing the candle to extinguish it, showing other ways to alter the process. This is a detail, not the main point."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_chemical_history_candle",
+      "passageTitle": "The Chemical History of a Candle (Excerpt)",
+      "topicTags": [
+        "Chemistry / Energy"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 12,
+      "bankFingerprint": "747a855d972191f5a68914ba6a15f7bb92cb7b27"
+    },
+    {
+      "questionText": "The passage states, \"No longer can we consider species as fixed creations; rather, they are the results of a gradual process, acting silently but surely over vast ages.\" Which of the following conclusions is best supported by this statement?",
+      "answerOptions": [
+        {
+          "text": "The theory of natural selection proves that all species were created simultaneously.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that natural selection shows species are not fixed but evolve over vast ages, contradicting the idea of simultaneous creation."
+        },
+        {
+          "text": "Prior to the theory of natural selection, species were commonly understood to be unchanging.",
+          "isCorrect": true,
+          "rationale": "The phrase 'No longer can we consider species as fixed creations' implies that this was the prevailing belief before the understanding provided by natural selection."
+        },
+        {
+          "text": "Gradual processes are ineffective at causing significant changes in species.",
+          "isCorrect": false,
+          "rationale": "The passage describes evolution as a 'gradual process, acting silently but surely over vast ages,' suggesting it is highly effective in changing species."
+        },
+        {
+          "text": "The struggle for existence primarily serves to keep species from changing over time.",
+          "isCorrect": false,
+          "rationale": "The passage explains that the struggle for existence leads to survival of those with 'profitable' variations, which drives change and the evolution of new forms, not their preservation in an unchanged state."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Long Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive, and as there is consequently a frequent struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected. It is the preservation of favorable variations and the rejection of injurious variations. From the strong principle of inheritance, any selected variety will tend to propagate its new and modified form. The theory of natural selection, though simple in statement, carries profound consequences: it unites all forms of life in one long, unbroken chain of descent. No longer can we consider species as fixed creations; rather, they are the results of a gradual process, acting silently but surely over vast ages. The grandeur of this view of life lies in the unity of its origin and the endless forms most beautiful that have been, and are being, evolved.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_darwin_origin_long",
+      "passageTitle": "On the Origin of Species (Long Excerpt)",
+      "topicTags": [
+        "Natural Selection"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 13,
+      "bankFingerprint": "efea5e6450ed6350432f3ea17953dd127a55c663"
+    },
+    {
+      "questionText": "Based on the passage, what is the ultimate consequence of more individuals of a species being born than can possibly survive?",
+      "answerOptions": [
+        {
+          "text": "It leads to a frequent struggle for existence, which favors individuals with advantageous variations.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'As many more individuals of each species are born than can possibly survive, and as there is consequently a frequent struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.'"
+        },
+        {
+          "text": "It ensures that all genetic variations within a species will eventually be eliminated.",
+          "isCorrect": false,
+          "rationale": "The passage explains that this struggle leads to the 'preservation of favorable variations,' not the elimination of all variations."
+        },
+        {
+          "text": "It guarantees that species will maintain their original form without modification through inheritance.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'any selected variety will tend to propagate its new and modified form,' indicating change rather than static preservation."
+        },
+        {
+          "text": "It causes organisms to intentionally develop new features to avoid competition.",
+          "isCorrect": false,
+          "rationale": "The passage describes natural selection as a passive process where profitable variations 'have a better chance of surviving' rather than organisms intentionally developing features."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Long Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive, and as there is consequently a frequent struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected. It is the preservation of favorable variations and the rejection of injurious variations. From the strong principle of inheritance, any selected variety will tend to propagate its new and modified form. The theory of natural selection, though simple in statement, carries profound consequences: it unites all forms of life in one long, unbroken chain of descent. No longer can we consider species as fixed creations; rather, they are the results of a gradual process, acting silently but surely over vast ages. The grandeur of this view of life lies in the unity of its origin and the endless forms most beautiful that have been, and are being, evolved.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_darwin_origin_long",
+      "passageTitle": "On the Origin of Species (Long Excerpt)",
+      "topicTags": [
+        "Natural Selection"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 14,
+      "bankFingerprint": "ad5146acc6d4fff6da1eec7ebf41a671b85f7726"
+    },
+    {
+      "questionText": "Based on the passage, what is the primary benefit for an individual that exhibits a 'profitable' variation?",
+      "answerOptions": [
+        {
+          "text": "It ensures that all of its offspring will survive and reproduce.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'many more individuals of each species are born than can possibly survive,' indicating not all offspring will survive, even with profitable variations."
+        },
+        {
+          "text": "It gains an advantage in the ongoing competition for survival.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that such a being 'will have a better chance of surviving' in the 'recurring struggle for existence,' which is the core advantage in competition."
+        },
+        {
+          "text": "It prevents the occurrence of a struggle for existence within its species.",
+          "isCorrect": false,
+          "rationale": "The passage describes the 'struggle for existence' as a constant condition due to overpopulation, not something a single variation can prevent."
+        },
+        {
+          "text": "It eliminates the need for natural selection to occur.",
+          "isCorrect": false,
+          "rationale": "The passage concludes that having profitable variations *leads* to being 'naturally selected,' meaning it is part of the process, not something that eliminates it."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_darwin_origin_species",
+      "passageTitle": "On the Origin of Species (Excerpt)",
+      "topicTags": [
+        "Evolution / Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 15,
+      "bankFingerprint": "d58d89cc5057103720100ae3d3d3b131f2c8f722"
+    },
+    {
+      "questionText": "The author describes a process by which 'any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.' What is the underlying reason for this process as presented in the passage?",
+      "answerOptions": [
+        {
+          "text": "There is an unlimited supply of resources for all born individuals.",
+          "isCorrect": false,
+          "rationale": "The passage implies limited resources by stating 'many more individuals of each species are born than can possibly survive' and that there's a 'struggle for existence,' which contradicts unlimited resources."
+        },
+        {
+          "text": "Every individual within a species is born with identical traits.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'if it vary in any manner profitable to itself,' indicating that variations exist among individuals."
+        },
+        {
+          "text": "More individuals are produced than the environment can support, leading to competition.",
+          "isCorrect": true,
+          "rationale": "The passage begins with 'As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence,' which directly supports this statement as the underlying reason for selection."
+        },
+        {
+          "text": "Variations are always detrimental to an individual's survival.",
+          "isCorrect": false,
+          "rationale": "The passage specifies 'if it vary in any manner profitable to itself,' indicating that variations can be beneficial for survival."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_darwin_origin_species",
+      "passageTitle": "On the Origin of Species (Excerpt)",
+      "topicTags": [
+        "Evolution / Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 16,
+      "bankFingerprint": "595c4026f237dca1a1ec2da2b244bb109573c380"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 17,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 18,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionText": "Based on the Punnett square shown, which illustrates a monohybrid cross between two heterozygous (Gg) parents, what is the probability of an offspring inheriting a heterozygous genotype (Gg)?",
+      "answerOptions": [
+        {
+          "text": "25%",
+          "isCorrect": false,
+          "rationale": "A 25% probability corresponds to either the homozygous dominant (GG) or homozygous recessive (gg) genotype, not the heterozygous (Gg) genotype."
+        },
+        {
+          "text": "50%",
+          "isCorrect": true,
+          "rationale": "The Punnett square shows two out of four possible outcomes resulting in a heterozygous (Gg) genotype, which equates to a 50% probability."
+        },
+        {
+          "text": "75%",
+          "isCorrect": false,
+          "rationale": "A 75% probability represents the likelihood of expressing the dominant phenotype if 'G' is dominant, but not specifically the heterozygous genotype."
+        },
+        {
+          "text": "100%",
+          "isCorrect": false,
+          "rationale": "A 100% probability would mean all offspring would have the Gg genotype, which is not indicated by this Punnett square."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/dominance_genetics_0001.png",
+        "alt": "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 19,
+      "bankFingerprint": "1a9b6c055adf5df2eafd12693f2dfeb0d602db66"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 20,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 21,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 22,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "clusterLabel": "Flower Color Inheritance",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_genetics_punnett",
+      "id": "science_scenario_scenario_genetics_punnett_0_1774640229954",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg.",
+          "isCorrect": true
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes.",
+          "isCorrect": false
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "rationale": "Only one GG square appears in the passage.",
+          "isCorrect": false
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "rationale": "Only one gg square appears in the completed square.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Life Science",
+      "subject": "Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "questionNumber": 23,
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionText": "Based on the provided phylogenetic tree, what information does the branching structure primarily convey?",
+      "answerOptions": [
+        {
+          "text": "The current geographic locations where each life form is found.",
+          "isCorrect": false,
+          "rationale": "Phylogenetic trees illustrate evolutionary relationships over time, not current geographical distribution."
+        },
+        {
+          "text": "The chronological order in which different species were discovered by scientists.",
+          "isCorrect": false,
+          "rationale": "The tree shows evolutionary divergence and ancestry, not the history of scientific discovery."
+        },
+        {
+          "text": "The evolutionary relationships and common ancestry among the various groups of organisms.",
+          "isCorrect": true,
+          "rationale": "The branching patterns of a phylogenetic tree represent the evolutionary pathways and shared ancestors, indicating how different species or groups are related through descent with modification."
+        },
+        {
+          "text": "The typical food sources and feeding behaviors of the organisms depicted.",
+          "isCorrect": false,
+          "rationale": "While diet can be a characteristic, it is not the primary information conveyed by the structural branching of a phylogenetic tree."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_science_0001.png",
+        "alt": "Phylogenetic tree illustrating the evolutionary relationships and milestones of various life forms."
+      },
+      "itemType": "image",
+      "category": "Earth & Space Science",
+      "difficulty": "easy",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 24,
+      "bankFingerprint": "59692b1a36b526b330effcd4f186dbbda31da772"
+    },
+    {
+      "questionNumber": 25,
+      "type": "standalone",
+      "difficulty": "hard",
+      "question": "An organism's niche is best described as:",
+      "answerOptions": [
+        {
+          "text": "The physical place where it lives.",
+          "rationale": "This is its habitat.",
+          "isCorrect": false
+        },
+        {
+          "text": "Its role and position in the ecosystem, including what it eats and what eats it.",
+          "rationale": "Correct. A niche includes all of an organism's interactions with the biotic and abiotic factors of its environment.",
+          "isCorrect": true
+        },
+        {
+          "text": "The trophic level it belongs to.",
+          "rationale": "The trophic level is only one part of an organism's niche.",
+          "isCorrect": false
+        },
+        {
+          "text": "The size of its population.",
+          "rationale": "Population size is a characteristic, but not the niche itself.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "An organism's niche is best described as:",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "bankFingerprint": "05b611d1c102bfa3126e6f1b3ec5a0871fc783dd"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1774640293311",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 26,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1774640293311",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 27,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 28,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "Which planet is known as the \"Red Planet\"?",
+      "answerOptions": [
+        {
+          "text": "Venus",
+          "rationale": "Venus is known for its thick, toxic atmosphere.",
+          "isCorrect": false
+        },
+        {
+          "text": "Jupiter",
+          "rationale": "Jupiter is a gas giant known for its Great Red Spot.",
+          "isCorrect": false
+        },
+        {
+          "text": "Mars",
+          "rationale": "Correct. Mars has a reddish appearance due to iron oxide (rust) on its surface.",
+          "isCorrect": true
+        },
+        {
+          "text": "Saturn",
+          "rationale": "Saturn is known for its prominent ring system.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-4"
+      ],
+      "questionText": "Which planet is known as the \"Red Planet\"?",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "bankFingerprint": "04d00403ebe6bfe9ced1852bb0049a659ce36b31"
+    },
+    {
+      "questionText": "A scientist measured the mass and volume of four different biological fluid samples. The results are shown in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample ID</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample 1</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample 2</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample 3</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">22.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample 4</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">28.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">22.0</td></tr></tbody></table>Based on the formula d = \\(\\frac{m}{V}\\), which sample has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Sample 1",
+          "isCorrect": false,
+          "rationale": "The density of Sample 1 is calculated as mass/volume = 25.0 g / 20.0 mL = 1.25 g/mL. This is not the highest density among the samples."
+        },
+        {
+          "text": "Sample 2",
+          "isCorrect": false,
+          "rationale": "The density of Sample 2 is calculated as mass/volume = 30.0 g / 25.0 mL = 1.20 g/mL. This is not the highest density among the samples."
+        },
+        {
+          "text": "Sample 3",
+          "isCorrect": false,
+          "rationale": "The density of Sample 3 is calculated as mass/volume = 22.0 g / 20.0 mL = 1.10 g/mL. This is the lowest density among the samples."
+        },
+        {
+          "text": "Sample 4",
+          "isCorrect": true,
+          "rationale": "The density of Sample 4 is calculated as mass/volume = 28.0 g / 22.0 mL \nA 1.27 g/mL. Comparing the densities: Sample 1 (1.25 g/mL), Sample 2 (1.20 g/mL), Sample 3 (1.10 g/mL), and Sample 4 (approximately 1.27 g/mL), Sample 4 has the highest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 29,
+      "bankFingerprint": "faa3b2fc17958ecab77b0a59f686f7d9bbd3e2cc"
+    },
+    {
+      "questionText": "The table below shows the mass and volume of four different biological tissue samples. Using the formula d = \\(\\frac{m}{V}\\), determine which tissue type has the lowest density.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">53</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">45</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone (compact)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">95</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Liver</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">52.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "Muscle",
+          "isCorrect": false,
+          "rationale": "For Muscle, density = 53 g / 50 cm³ = 1.06 g/cm³. This is not the lowest density."
+        },
+        {
+          "text": "Adipose",
+          "isCorrect": true,
+          "rationale": "For Adipose, density = 45 g / 50 cm³ = 0.90 g/cm³. Comparing this to the other densities (Muscle: 1.06 g/cm³, Bone: 1.90 g/cm³, Liver: 1.05 g/cm³), Adipose tissue has the lowest density."
+        },
+        {
+          "text": "Bone (compact)",
+          "isCorrect": false,
+          "rationale": "For Bone (compact), density = 95 g / 50 cm³ = 1.90 g/cm³. This is the highest density, not the lowest."
+        },
+        {
+          "text": "Liver",
+          "isCorrect": false,
+          "rationale": "For Liver, density = 52.5 g / 50 cm³ = 1.05 g/cm³. This is not the lowest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 30,
+      "bankFingerprint": "9f5b9da676d4f4e00f13d2e0fe0d51a60383f04a"
+    },
+    {
+      "questionText": "A scientist aims to experimentally verify the inverse square relationship between gravitational force and distance, as described in the passage. To isolate and test this specific relationship, which of the following variables must the scientist intentionally vary?",
+      "answerOptions": [
+        {
+          "text": "The masses of the particles involved.",
+          "isCorrect": false,
+          "rationale": "To isolate the effect of distance, the masses of the particles should be kept constant, serving as a controlled variable."
+        },
+        {
+          "text": "The type of material composing the particles.",
+          "isCorrect": false,
+          "rationale": "The passage specifies mass, not material type, as a factor affecting gravitational force. For a controlled experiment, material type would ideally be kept constant."
+        },
+        {
+          "text": "The distance separating the centers of the particles.",
+          "isCorrect": true,
+          "rationale": "To test the effect of distance on gravitational force, the distance must be the independent variable, meaning it is intentionally changed while other factors (like mass) are kept constant."
+        },
+        {
+          "text": "The measured attractive force between the particles.",
+          "isCorrect": false,
+          "rationale": "The attractive force is the dependent variable, which is measured as a result of changes to the independent variable (distance), not intentionally varied by the experimenter to test the relationship."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_gravity",
+      "passageTitle": "Newton on Universal Gravitation",
+      "topicTags": [
+        "Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 31,
+      "bankFingerprint": "c62060aa0d4fdddeb03c5c3b424c73d398cf6f99"
+    },
+    {
+      "questionText": "Based on the description of universal gravitation, what can be inferred about the nature of this fundamental force?",
+      "answerOptions": [
+        {
+          "text": "It is readily perceived by human senses, similar to touch or sight.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that this law, and thus the force it describes, is 'invisible to our senses'."
+        },
+        {
+          "text": "It primarily influences celestial bodies and has negligible effect on everyday objects.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'Every particle of matter in the universe attracts every other particle,' implying universal applicability, not just celestial bodies, although its effects are most noticeable on large scales."
+        },
+        {
+          "text": "Its influence strengthens significantly when the objects involved are brought closer together.",
+          "isCorrect": true,
+          "rationale": "The passage states the force varies 'inversely with the square of the distance,' meaning as distance decreases, the force increases substantially."
+        },
+        {
+          "text": "The force is dependent on the chemical composition of the particles.",
+          "isCorrect": false,
+          "rationale": "The passage states the force varies directly with the 'product of their masses,' not their chemical composition."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_gravity",
+      "passageTitle": "Newton on Universal Gravitation",
+      "topicTags": [
+        "Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 32,
+      "bankFingerprint": "f4094ba481d21201ce649e971d699f72b96d1a21"
+    },
+    {
+      "questionText": "The table below shows the mass and volume for four different types of biological tissues. <table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">105</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Marrow</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">85</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Connective Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">110</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr></tbody></table> Based on the data provided, which tissue type has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle Tissue",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Muscle Tissue, Density = 105 g / 100 cm³ = 1.05 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Adipose Tissue",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Adipose Tissue, Density = 90 g / 100 cm³ = 0.90 g/cm³. This is the lowest density among the options, not the greatest."
+        },
+        {
+          "text": "Bone Marrow",
+          "isCorrect": false,
+          "rationale": "To find density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Bone Marrow, Density = 85 g / 90 cm³ ≈ 0.94 g/cm³. This is not the greatest density."
+        },
+        {
+          "text": "Connective Tissue",
+          "isCorrect": true,
+          "rationale": "To find density, divide mass by volume (d = \\(\\frac{m}{V}\\)). Calculate the density for each tissue: Muscle Tissue = 105 g / 100 cm³ = 1.05 g/cm³. Adipose Tissue = 90 g / 100 cm³ = 0.90 g/cm³. Bone Marrow = 85 g / 90 cm³ ≈ 0.94 g/cm³. Connective Tissue = 110 g / 100 cm³ = 1.10 g/cm³. Comparing these values, Connective Tissue has the highest density at 1.10 g/cm³."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 33,
+      "bankFingerprint": "0ef10f1d4268134d32615e86fda0bc7f9837821d"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Organism Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (mg)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (mm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Amoeba</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.005</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.004</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Paramecium</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.012</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.010</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Yeast Cell Colony</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.003</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.0035</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Euglena</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.008</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.007</td></tr></tbody></table>Based on the data provided, which organism type has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Amoeba",
+          "isCorrect": false,
+          "rationale": "The density of the Amoeba is calculated as 0.005 mg / 0.004 mm³ = 1.25 mg/mm³. This is not the lowest density."
+        },
+        {
+          "text": "Paramecium",
+          "isCorrect": false,
+          "rationale": "The density of the Paramecium is calculated as 0.012 mg / 0.010 mm³ = 1.2 mg/mm³. This is not the lowest density."
+        },
+        {
+          "text": "Yeast Cell Colony",
+          "isCorrect": true,
+          "rationale": "The density of the Yeast Cell Colony is calculated as 0.003 mg / 0.0035 mm³ ≈ 0.86 mg/mm³. This is the lowest density among the options provided. (Amoeba = 1.25 mg/mm³, Paramecium = 1.2 mg/mm³, Euglena ≈ 1.14 mg/mm³)."
+        },
+        {
+          "text": "Euglena",
+          "isCorrect": false,
+          "rationale": "The density of the Euglena is calculated as 0.008 mg / 0.007 mm³ ≈ 1.14 mg/mm³. This is not the lowest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 34,
+      "bankFingerprint": "3eb08e563d5b0a7ec1b5ecd3f57fe79bfe86ca8e"
+    },
+    {
+      "questionNumber": 35,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionNumber": 36,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "Which body system is primarily responsible for breaking down food into nutrients the body can absorb?",
+      "answerOptions": [
+        {
+          "text": "Circulatory System",
+          "rationale": "The circulatory system transports nutrients, but does not break down food.",
+          "isCorrect": false
+        },
+        {
+          "text": "Respiratory System",
+          "rationale": "The respiratory system is responsible for gas exchange (oxygen and carbon dioxide).",
+          "isCorrect": false
+        },
+        {
+          "text": "Digestive System",
+          "rationale": "Correct. The digestive system, including the stomach and intestines, digests food and absorbs nutrients.",
+          "isCorrect": true
+        },
+        {
+          "text": "Nervous System",
+          "rationale": "The nervous system is the body's command and communication center.",
+          "isCorrect": false
+        }
+      ],
+      "passage": "Science textbook excerpt: The digestive system, including the stomach and intestines, digests food and absorbs nutrients.",
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "Which body system is primarily responsible for breaking down food into nutrients the body can absorb?",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "passage",
+      "skillIntent": "passage-comprehension",
+      "bankFingerprint": "f38050b90c44fa3b99e4bb5dbe63c7536e4dcbc5"
+    },
+    {
+      "questionNumber": 37,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "Which of the following is the basic unit of life?",
+      "answerOptions": [
+        {
+          "text": "Atom",
+          "rationale": "Atoms are the basic units of matter, not life.",
+          "isCorrect": false
+        },
+        {
+          "text": "Molecule",
+          "rationale": "Molecules are groups of atoms, but not the basic unit of life.",
+          "isCorrect": false
+        },
+        {
+          "text": "Cell",
+          "rationale": "Correct. The cell is the fundamental structural and functional unit of all known living organisms.",
+          "isCorrect": true
+        },
+        {
+          "text": "Organ",
+          "rationale": "Organs are collections of tissues, which are made of cells. So, organs are at a higher level of organization.",
+          "isCorrect": false
+        }
+      ],
+      "passage": "Science textbook excerpt: The cell is the fundamental structural and functional unit of all known living organisms.",
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "Which of the following is the basic unit of life?",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "passage",
+      "skillIntent": "passage-comprehension",
+      "bankFingerprint": "bc8a2a188b2f4b4f24d8b2ee8aa6414ef703cb5a"
+    },
+    {
+      "questionNumber": 38,
+      "type": "standalone",
+      "difficulty": "medium",
+      "question": "Which of the following describes the texture of an igneous rock that cooled very rapidly on the surface?",
+      "answerOptions": [
+        {
+          "text": "Coarse-grained with large crystals.",
+          "rationale": "This texture results from slow cooling.",
+          "isCorrect": false
+        },
+        {
+          "text": "Fine-grained or glassy with very small or no crystals.",
+          "rationale": "Correct. Rapid cooling does not allow time for large crystals to form. Obsidian is an example of a glassy igneous rock.",
+          "isCorrect": true
+        },
+        {
+          "text": "Layered and containing fossils.",
+          "rationale": "This describes a sedimentary rock.",
+          "isCorrect": false
+        },
+        {
+          "text": "Foliated with bands of minerals.",
+          "rationale": "This describes a metamorphic rock.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-4"
+      ],
+      "questionText": "Which of the following describes the texture of an igneous rock that cooled very rapidly on the surface?",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "bankFingerprint": "714fd3845ba4a4ccf09bb13ab2dee269e74fafa0"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 4, expected ~9",
+    "Difficulty \"medium\": 25, expected ~19"
+  ]
+}

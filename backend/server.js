@@ -1472,6 +1472,13 @@ async function generateScienceLiteracySet(
       pickSciencePassageForCategory(options.category, options.usedPassageIds);
     if (!passage || !passage.text) return [];
     const capped = Math.max(1, Math.min(8, numQuestions));
+    // Build optional skillIntent focus paragraph
+    let skillFocus = '';
+    if (options.skillIntent === 'evidence-tradeoff') {
+      skillFocus = `\nSPECIAL FOCUS: At least half the questions should ask the student to evaluate competing claims, determine whether evidence supports or contradicts a conclusion, or weigh the strength of two opposing scientific arguments.\n`;
+    } else if (options.skillIntent === 'experimental-design') {
+      skillFocus = `\nSPECIAL FOCUS: At least half the questions should ask about experimental design — identifying variables (independent, dependent, controlled), recognizing flaws or confounds, evaluating the validity of an experimental procedure, or explaining the purpose of a control group.\n`;
+    }
     const prompt = `You are a GED Science exam creator.
 Using ONLY the passage below, create ${capped} multiple-choice Science literacy questions.
 The GED Science test is a COMPREHENSION exam — students must interpret text and data, NOT recall facts.
@@ -1481,7 +1488,7 @@ Do NOT create numeracy/calculation questions. Avoid asking for formula applicati
 NEVER write a pure definition question like "What is the name of…" or "What is the term for…".
 Every question MUST require the student to USE information from the passage to answer correctly.
 Do not reference images, charts, or graphs that are not in the passage text.
-
+${skillFocus}
 Each question must have 4 answer options with exactly one correct marked.
 Return JSON ONLY with {"questions": [ {"questionText": "...", "answerOptions": [ {"text": "...", "isCorrect": true, "rationale": "..." }, {"text": "...", "isCorrect": false, "rationale": "..."} ] } ] }.
 Do not wrap JSON in markdown fences.
@@ -10498,6 +10505,7 @@ const rlaQuestionSchema = {
   properties: {
     passage: { type: 'STRING' },
     passageWithPlaceholders: { type: 'STRING' },
+    stimulusMode: { type: 'STRING' },
     questionText: { type: 'STRING' },
     itemType: { type: 'STRING' },
     skill: { type: 'STRING' },
@@ -11793,6 +11801,15 @@ const generatePassageSet = async (
   let prompt;
 
   if (subject === 'Science') {
+    // Build optional skillIntent focus for the AI prompt
+    let intentFocus = '';
+    if (options.skillIntent === 'evidence-tradeoff') {
+      intentFocus = `\nSPECIAL FOCUS: Present data that could support two different conclusions. At least one question must ask whether the data supports or contradicts a particular claim, or ask the student to evaluate competing interpretations.\n`;
+    } else if (options.skillIntent === 'experimental-design') {
+      intentFocus = `\nSPECIAL FOCUS: Describe an experiment with clear independent, dependent, and controlled variables. At least one question must ask about identifying variables, recognizing a confound or flaw, or explaining the role of a control group.\n`;
+    } else if (options.skillIntent === 'formula-application') {
+      intentFocus = `\nSPECIAL FOCUS: Include a formula from the GED formula sheet in the stimulus. At least one question must require the student to apply the formula to calculate a value from the data.\n`;
+    }
     // For Science, always create a data table/experiment stimulus
     prompt = `You are creating a GED-level Science question.
 
@@ -11801,7 +11818,7 @@ Create a small experiment or data table to serve as the stimulus. The table shou
 Then write ${numQuestions} questions that MUST require the student to interpret or analyze the table/experiment (not just recall facts). The questions should test data skills like identifying trends, making comparisons, or drawing conclusions.
 
 Topic: ${topic}
-
+${intentFocus}
 IMPORTANT: Put the table in the "passage" field, formatted as clean Markdown. Include a brief title/context if needed.
 
 Example format:
@@ -12066,12 +12083,19 @@ Formatting notes:
 - CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
   } else if (subject === 'Science') {
+    // Build optional skillIntent focus
+    let intentFocus = '';
+    if (options.skillIntent === 'concept-application') {
+      intentFocus = `\nThe question should test whether the student can APPLY a scientific concept to a new scenario, not simply recall a definition.\n`;
+    } else if (options.skillIntent === 'experimental-design') {
+      intentFocus = `\nThe question should ask about experimental design — identifying independent or dependent variables, spotting a confound or flaw, or explaining the purpose of a control.\n`;
+    }
     prompt = `You are creating a GED-level Science question.
 
 Create a small experiment or data table to serve as the stimulus. The table should be simple (3–5 rows, 2–4 columns) and clearly labeled.
 
 Topic: ${topic}
-
+${intentFocus}
 The question MUST require the student to interpret or analyze the table/experiment (not just recall facts). Test data skills like identifying trends, making comparisons, or drawing conclusions.
 
 IMPORTANT: Put the table in the "passage" field, formatted as clean Markdown.
@@ -12548,6 +12572,84 @@ Formatting notes:
   return enforceWordCapsOnItem(question, 'Math');
 }
 
+/**
+ * Generate a shared-stimulus data scenario: one data context (table + optional
+ * chart description) with 2 questions at different cognitive levels, mirroring
+ * GED Ready® grouped items like the wind-turbine or art-store scenarios.
+ *
+ * Returns an array of 2 question objects. Both share the same `passage` text
+ * (the data scenario) and each has its own `questionText` / `answerOptions`.
+ */
+async function generateDataScenarioGroup(options = {}) {
+  const prompt = `You are a GED Math exam creator.
+Create a realistic data scenario with an HTML table (2–4 columns, 3–6 rows) embedded in a short context paragraph (1–3 sentences describing the situation — e.g., a business, experiment, or survey).
+Then write exactly 2 separate multiple-choice questions that BOTH use the SAME data scenario.
+
+Rules:
+- Question 1 should test a straightforward data-reading skill (find a value, compute a mean/median/mode/range, or read a percentage from the table).
+- Question 2 should test a deeper skill using the SAME data (percent change, proportional reasoning, rate comparison, prediction / extrapolation, or applying formulas like area or cost calculations to table values).
+- Each question must have exactly 4 answer options (A–D) with ONE correct.
+- The scenario context + table go in the "scenario" field.
+- Each question goes in the "questions" array with its own questionText and answerOptions.
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \\(:, or \\[.
+- Use clear inline notation for exponents, radicals, and symbols.
+- CRITICAL RULE FOR ANSWERS: Provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+Output a single valid JSON object.`;
+
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      scenario: { type: 'STRING' },
+      questions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            questionText: { type: 'STRING' },
+            answerOptions: {
+              type: 'ARRAY',
+              items: {
+                type: 'OBJECT',
+                properties: {
+                  text: { type: 'STRING' },
+                  isCorrect: { type: 'BOOLEAN' },
+                  rationale: { type: 'STRING' },
+                },
+                required: ['text', 'isCorrect', 'rationale'],
+              },
+            },
+          },
+          required: ['questionText', 'answerOptions'],
+        },
+      },
+    },
+    required: ['scenario', 'questions'],
+  };
+
+  const result = await callAI(prompt, schema, options);
+  if (
+    !result ||
+    !Array.isArray(result.questions) ||
+    result.questions.length < 2
+  ) {
+    return null;
+  }
+  const scenario = result.scenario || '';
+  return result.questions.slice(0, 2).map((q) => {
+    const item = {
+      ...q,
+      passage: scenario,
+      type: 'passage',
+      calculator: true,
+    };
+    applyFractionPlainTextModeToItem(item);
+    return enforceWordCapsOnItem(item, 'Math');
+  });
+}
+
 async function generateGraphingQuestion(options = {}) {
   const prompt = `You are a GED Math exam creator.
     Generate a single, high-quality, GED-style question about functions or interpreting graphs (GED Indicators A.5, A.6, A.7).
@@ -12658,15 +12760,19 @@ async function generateRlaPart1(options = {}) {
       (entry, index) =>
         `- Informational passage ${index + 1}: Write ${entry.brief}.`
     ),
+    `- Paired argumentative passage set: Write ${readingBlueprints.paired.brief}. Present the pair as two clearly distinct source texts with different titles, voices, and positions.`,
     `- Literary passage: Write ${readingBlueprints.literary.brief}.`,
   ].join('\n');
 
   const prompt = `${STRICT_JSON_HEADER_RLA}
 Create the Reading Comprehension section of a GED RLA exam.
 Produce exactly 4 passages:
-- 3 informational / nonfiction passages (science/society/history topics are fine),
+- 2 standalone informational / nonfiction passages (science/society/history topics are fine),
+- 1 paired argumentative set made of two short opposing source texts on the same issue,
 - 1 literary passage that may be EITHER narrative fiction OR a short poem, but keep it 150–230 words.
-Use concise titles in <strong> tags and <p> tags for paragraphs. Each passage must be 150-230 words and NEVER above 250 words.
+Use concise titles in <strong> tags and <p> tags for paragraphs. Number every paragraph in reading stimuli. Format numbered paragraphs like <p><strong>1.</strong> Paragraph text...</p>.
+Each standalone passage must be 150-230 words and NEVER above 250 words.
+For the paired argumentative set, write TWO opposing texts of about 140-200 words each and combine them into one shared "passage" string so all five paired-set questions use the exact same passage content.
 For EACH passage, generate exactly 5 reading comprehension questions (total 20).
 
 ASSIGNED PASSAGE BRIEFS:
@@ -12678,15 +12784,25 @@ TOPIC DIVERSITY REQUIREMENTS:
 - Do NOT switch any passage to ${avoidedTopicText} unless one of those topics is explicitly assigned here. None are assigned here.
 
 CRITICAL ENHANCEMENTS FOR EACH QUESTION:
-1. Add a "skill" field indicating the reading skill being tested. Use one of: "main_idea", "detail", "inference", "argument", "vocab", "text_structure".
+1. Add a "skill" field indicating the reading skill being tested. Use one of: "main_idea", "inference", "argument", "author_purpose", "compare_texts", "vocab", "text_structure".
 2. Add an "itemType" field. Use ONLY: "single_select" or "multi_select".
-3. Distribute skills approximately as follows across the 20 questions:
-   - 3-4 main_idea
-   - 4-6 detail / inference
-   - 3-4 argument
-   - 3-4 vocab
-   - 2-3 text_structure
-4. Most questions should be "single_select". Include 2-3 "multi_select" questions (where multiple answers are correct — mark each correct option with "isCorrect": true).
+3. Add a "stimulusMode" field. Use "single_passage" for standalone passages and "paired_passages" for the paired argumentative set.
+4. Distribute skills approximately as follows across the 20 questions:
+  - 3 main_idea
+  - 4 inference
+  - 3 argument
+  - 3 author_purpose
+  - 2 compare_texts
+  - 3 vocab
+  - 2 text_structure
+5. At least 6 questions should reference a specific paragraph number in the passage, such as "Based on paragraph 2..." or "How does the author in paragraph 4...".
+6. Most questions should be "single_select". Include 2-4 "multi_select" questions (where multiple answers are correct — mark each correct option with "isCorrect": true).
+
+PAIRED PASSAGE RULES:
+- The paired argumentative set must contain two clearly labeled texts in the shared passage HTML, each with its own title and source line.
+- The five paired-set questions must focus on comparing evidence, author's purpose, tone, reasoning, or conclusions across the two texts.
+- At least two of the paired-set questions must require using BOTH texts to answer correctly.
+- Do not split the paired set into separate passage strings.
 
 For multi_select questions: set "itemType": "multi_select" and mark ALL correct answer options with "isCorrect": true. Keep answer options as short, clean phrases — do NOT embed evidence quotes inside the answer option text.
 
@@ -12734,6 +12850,7 @@ Return the JSON array of question objects only.`;
       passages[groupKey] = {
         passage: q.passage || '',
         passageWithPlaceholders: q.passageWithPlaceholders || null,
+        stimulusMode: q.stimulusMode || 'single_passage',
         questions: [],
       };
       passageOrder.push(groupKey);
@@ -12750,6 +12867,7 @@ Return the JSON array of question objects only.`;
           {
             ...q,
             passage: p.passage,
+            stimulusMode: p.stimulusMode,
             // Only the first question in the group carries the cloze template
             passageWithPlaceholders:
               idx === 0 && p.passageWithPlaceholders
@@ -12804,7 +12922,7 @@ async function generateRlaPart2(options = {}) {
 REQUIREMENTS:
 1. Create exactly TWO passages that present OPPOSING VIEWPOINTS on this single policy issue: ${essayBlueprint ? essayBlueprint.issue : 'a local policy issue with practical civic tradeoffs'}.
 2. Each passage must be exactly 3 substantial paragraphs, 220-300 words total, and NEVER above 300 words.
-3. Separate paragraphs with double newlines. Do NOT use HTML tags like <p> or <br> in the passage content.
+3. Separate paragraphs with double newlines. Start each paragraph with its number, like "1. ", "2. ", and "3. ". Do NOT use HTML tags like <p> or <br> in the passage content.
 4. Each passage MUST include:
    - "title": A clear, descriptive title
    - "author": A plausible human name
@@ -13703,7 +13821,77 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
     };
 
     generators.bankFill = async (slot) => {
-      return pickFromPremadeBank('Science', slot);
+      // Dropdown-cloze slots need special handling: bypass normal stimulus
+      // matching and look specifically for inline_dropdown items in the bank.
+      if (slot.skillIntent === 'dropdown-cloze') {
+        const clozeItems = [];
+        const quizData = ALL_QUIZZES && ALL_QUIZZES['Science'];
+        if (quizData && quizData.categories) {
+          // Scan ALL categories — cloze items may be indexed under
+          // "Scientific Practices" but carry category:"Physical Science"
+          for (const [catName, catData] of Object.entries(
+            quizData.categories
+          )) {
+            if (!catData.topics || !Array.isArray(catData.topics)) continue;
+            for (const topic of catData.topics) {
+              const sources = [];
+              if (topic.quizzes && Array.isArray(topic.quizzes)) {
+                for (const quiz of topic.quizzes) {
+                  if (quiz.questions && Array.isArray(quiz.questions))
+                    sources.push(...quiz.questions);
+                }
+              }
+              if (topic.questions && Array.isArray(topic.questions))
+                sources.push(...topic.questions);
+              for (const q of sources) {
+                if (q.itemType === 'inline_dropdown') {
+                  const qCat = q.category || catName;
+                  // Filter by the question's own category, not the index category
+                  if (slot.category && qCat !== slot.category) continue;
+                  const text =
+                    q.questionText ||
+                    q.question ||
+                    q.passageWithPlaceholders ||
+                    '';
+                  if (text && !_usedPremadeTexts.has(text)) {
+                    clozeItems.push({
+                      ...q,
+                      questionText: text,
+                      subject: 'Science',
+                      category: qCat,
+                      difficulty: q.difficulty || slot.difficulty || 'medium',
+                      source: 'premade',
+                      itemType: 'inline_dropdown',
+                    });
+                  }
+                }
+              }
+            }
+          }
+        }
+        // Shuffle and pick
+        for (let i = clozeItems.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [clozeItems[i], clozeItems[j]] = [clozeItems[j], clozeItems[i]];
+        }
+        const picked = clozeItems.slice(0, slot.questionsNeeded);
+        for (const q of picked) _usedPremadeTexts.add(q.questionText);
+        return picked;
+      }
+
+      const candidates = pickFromPremadeBank('Science', slot);
+      // If the slot has a skillIntent, prioritize bank items that carry a matching tag
+      if (slot.skillIntent && candidates.length > slot.questionsNeeded) {
+        const matching = candidates.filter(
+          (q) => q.skillIntent === slot.skillIntent
+        );
+        const rest = candidates.filter(
+          (q) => q.skillIntent !== slot.skillIntent
+        );
+        const reordered = [...matching, ...rest];
+        return reordered.slice(0, slot.questionsNeeded);
+      }
+      return candidates;
     };
 
     generators.templateFill = async (slot) => {
@@ -13714,12 +13902,18 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
       );
       if (trustedImages.length) return trustedImages;
 
+      // Dropdown/cloze slots should NOT fall into passage or numeracy paths —
+      // they are filled exclusively from bank (bankFill) so return empty here.
+      if (slot.skillIntent === 'dropdown-cloze') return [];
+
       // Chemistry balancing uses template generator
       if (slot.group === 'chem_balance') {
         const q = getChemistryBalancingQuestion(usedChemistryBalanceIds);
         return q ? [q] : [];
       }
       if (slot.stimulusType === 'passage/data') {
+        // Evidence-tradeoff and experimental-design passage slots should
+        // generate literacy sets with a focused prompt when possible
         if (!slot.numeracy && slot.group !== 'life_genetics') {
           const bankSet = await generateScienceLiteracySet(
             slot.questionsNeeded,
@@ -13727,6 +13921,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
             {
               category: slot.category,
               usedPassageIds: usedSciencePassageIds,
+              skillIntent: slot.skillIntent,
             }
           );
           if (bankSet.length) return bankSet;
@@ -13757,6 +13952,9 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
     };
 
     generators.aiFill = async (slot, opts) => {
+      // Dropdown-cloze slots cannot be AI-generated — require bank items
+      if (slot.skillIntent === 'dropdown-cloze') return [];
+
       if (slot.stimulusType === 'passage/data') {
         if (!slot.numeracy && slot.group !== 'life_genetics') {
           const set = await generateScienceLiteracySet(
@@ -13765,6 +13963,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
             {
               category: slot.category,
               usedPassageIds: usedSciencePassageIds,
+              skillIntent: slot.skillIntent,
             }
           );
           if (Array.isArray(set) && set.length) {
@@ -13781,7 +13980,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
           slot.category,
           'Science',
           slot.questionsNeeded,
-          opts
+          { ...opts, skillIntent: slot.skillIntent }
         );
         const sciencePassageItems = Array.isArray(qs) ? qs : qs ? [qs] : [];
         return sciencePassageItems.filter((item) =>
@@ -13896,6 +14095,9 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
 
   // ── Math generators ───────────────────────────────────────────────
   if (normalizedSubject === 'Math') {
+    // Cache for grouped data-scenario questions: { groupKey → [q] }
+    const mathDataGroupCache = {};
+
     generators.bankFill = async (slot) => {
       return pickFromPremadeBank('Math', slot);
     };
@@ -13921,6 +14123,32 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
       }
       // Calculator section — dispatch by category
       const cat = slot.category;
+
+      // Grouped data scenarios (math_data_scenario_1/2/3)
+      if (
+        cat === 'Data Analysis & Probability' &&
+        slot.group &&
+        slot.group.startsWith('math_data_scenario_')
+      ) {
+        // Check cache first — a sibling slot may already have generated the pair
+        if (
+          mathDataGroupCache[slot.group] &&
+          mathDataGroupCache[slot.group].length > 0
+        ) {
+          return [mathDataGroupCache[slot.group].shift()];
+        }
+        // Generate both questions in one AI call
+        const pair = await generateDataScenarioGroup(opts);
+        if (pair && pair.length >= 2) {
+          // Return the first, cache the second for the sibling slot
+          mathDataGroupCache[slot.group] = pair.slice(1);
+          return [pair[0]];
+        }
+        // Fallback: generate a standalone data question if group generation fails
+        const q = await generateDataQuestion(opts);
+        return q ? (Array.isArray(q) ? q : [q]) : [];
+      }
+
       if (cat === 'Geometry') {
         const withFigure =
           slot.requireFigure != null

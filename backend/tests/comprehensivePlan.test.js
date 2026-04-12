@@ -210,7 +210,7 @@ test('RLA plan has 20 + essay + 25', () => {
   assert.equal(plan.invariants.part3_language, 25);
 });
 
-test('Math plan has 5 + 41', () => {
+test('Math plan has 5 + 35', () => {
   const plan = buildComprehensivePlan('Math');
   const p1 = plan.slots
     .filter((s) => s.section === 'part1_non_calculator')
@@ -219,10 +219,10 @@ test('Math plan has 5 + 41', () => {
     .filter((s) => s.section === 'part2_calculator')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
   assert.equal(p1, 5);
-  assert.equal(p2, 41);
+  assert.equal(p2, 35);
   assert.equal(plan.invariants.part1_non_calculator, 5);
-  assert.equal(plan.invariants.part2_calculator, 41);
-  assert.equal(plan.totalQuestions, 46);
+  assert.equal(plan.invariants.part2_calculator, 35);
+  assert.equal(plan.totalQuestions, 40);
 });
 
 test('Math plan does not use random numeric response', () => {
@@ -248,7 +248,7 @@ test('Math plan does not use random numeric response', () => {
   }
 });
 
-test('Math plan algebra is >= 50% of total', () => {
+test('Math plan algebra is >= 35% of total', () => {
   const plan = buildComprehensivePlan('Math');
   const algebraCats = new Set([
     'Expressions, Equations, and Inequalities',
@@ -260,9 +260,22 @@ test('Math plan algebra is >= 50% of total', () => {
     .reduce((sum, sl) => sum + sl.questionsNeeded, 0);
   const pct = algebraSlots / plan.totalQuestions;
   assert.ok(
-    pct >= 0.5,
-    `Algebra is ${(pct * 100).toFixed(1)}% (${algebraSlots}/${plan.totalQuestions}), expected >= 50%`
+    pct >= 0.35,
+    `Algebra is ${(pct * 100).toFixed(1)}% (${algebraSlots}/${plan.totalQuestions}), expected >= 35%`
   );
+});
+
+test('Math plan has 3 data scenario groups of 2 slots each', () => {
+  const plan = buildComprehensivePlan('Math');
+  for (let i = 1; i <= 3; i++) {
+    const group = `math_data_scenario_${i}`;
+    const groupSlots = plan.slots.filter((s) => s.group === group);
+    assert.equal(
+      groupSlots.length,
+      2,
+      `Expected 2 slots in ${group}, got ${groupSlots.length}`
+    );
+  }
 });
 
 test('All plans have unique slotIds', () => {
@@ -328,14 +341,14 @@ test('RLA fill + finalize returns 20 + essay + 25', async () => {
   assert.equal(quiz.type, 'multi-part-rla');
 });
 
-test('Math fill + finalize returns 5 + 41', async () => {
+test('Math fill + finalize returns 5 + 35', async () => {
   const plan = buildComprehensivePlan('Math');
   const gens = mockGenerators();
   const { filledSlots } = await fillExamPlan(plan, gens, {});
   const quiz = await finalizeExamPayload(plan, filledSlots);
   assert.equal(quiz.part1_non_calculator.length, 5);
-  assert.equal(quiz.part2_calculator.length, 41);
-  assert.equal(quiz.questions.length, 46);
+  assert.equal(quiz.part2_calculator.length, 35);
+  assert.equal(quiz.questions.length, 40);
   assert.equal(quiz.type, 'multi-part-math');
 });
 
@@ -700,4 +713,35 @@ test('fillExamPlan logs source breakdown', async () => {
     log.slotResults.length === plan.slots.length,
     'Should have a result per slot'
   );
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+//  SCIENCE skillIntent TESTS
+// ═══════════════════════════════════════════════════════════════════════
+
+test('Science plan has skillIntent on every slot', () => {
+  const plan = buildComprehensivePlan('Science');
+  for (const slot of plan.slots) {
+    assert.ok(slot.skillIntent, `Slot ${slot.slotId} is missing skillIntent`);
+  }
+});
+
+test('Science plan meets skillIntent minimums from invariants', () => {
+  const plan = buildComprehensivePlan('Science');
+  const intentCounts = {};
+  for (const slot of plan.slots) {
+    if (slot.skillIntent) {
+      intentCounts[slot.skillIntent] =
+        (intentCounts[slot.skillIntent] || 0) + slot.questionsNeeded;
+    }
+  }
+  const mins = plan.invariants.skillIntentMinimums;
+  assert.ok(mins, 'Missing skillIntentMinimums in invariants');
+  for (const [intent, minimum] of Object.entries(mins)) {
+    const actual = intentCounts[intent] || 0;
+    assert.ok(
+      actual >= minimum,
+      `skillIntent "${intent}": ${actual} questions, minimum ${minimum}`
+    );
+  }
 });

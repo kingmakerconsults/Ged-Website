@@ -1,0 +1,1561 @@
+{
+  "id": "ai_comp_science_1774640207563",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "The table below shows the mass of solutes and volume of water used to prepare four different cell culture media. Assuming the volume of solutes is negligible, which medium has the highest concentration of solutes?<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Medium Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass of Solutes (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume of Water (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Medium A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Medium B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">400</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Medium C</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Medium D</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">600</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "Medium A",
+          "isCorrect": false,
+          "rationale": "Medium A has a solute concentration of 0.050 g/mL (25.0 g / 500 mL), which is not the highest among the options."
+        },
+        {
+          "text": "Medium B",
+          "isCorrect": false,
+          "rationale": "Medium B has a solute concentration of 0.075 g/mL (30.0 g / 400 mL), which is not the highest among the options."
+        },
+        {
+          "text": "Medium C",
+          "isCorrect": true,
+          "rationale": "To find the concentration, divide the mass of solutes by the volume of water.Medium A: 25.0 g / 500 mL = 0.050 g/mL.Medium B: 30.0 g / 400 mL = 0.075 g/mL.Medium C: 20.0 g / 250 mL = 0.080 g/mL.Medium D: 35.0 g / 600 mL ≈ 0.058 g/mL.Medium C has the highest solute concentration of 0.080 g/mL."
+        },
+        {
+          "text": "Medium D",
+          "isCorrect": false,
+          "rationale": "Medium D has a solute concentration of approximately 0.058 g/mL (35.0 g / 600 mL), which is not the highest among the options."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 1,
+      "bankFingerprint": "bc1f5c85c93f5548a4d81fe5f52b0c9fdea9753a"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Plant Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Xylem</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.8</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.7</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Phloem</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.9</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.8</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Epidermis</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.6</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.6</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Parenchyma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.2</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.0</td></tr></tbody></table>Based on the data, which plant tissue type has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Xylem",
+          "isCorrect": false,
+          "rationale": "To calculate density (d = \\(\\frac{m}{V}\\)): Xylem's density is approximately 0.8 g / 0.7 cm³ ≈ 1.14 g/cm³."
+        },
+        {
+          "text": "Phloem",
+          "isCorrect": false,
+          "rationale": "To calculate density (d = \\(\\frac{m}{V}\\)): Phloem's density is 0.9 g / 0.8 cm³ = 1.125 g/cm³."
+        },
+        {
+          "text": "Epidermis",
+          "isCorrect": false,
+          "rationale": "To calculate density (d = \\(\\frac{m}{V}\\)): Epidermis's density is 0.6 g / 0.6 cm³ = 1.0 g/cm³."
+        },
+        {
+          "text": "Parenchyma",
+          "isCorrect": true,
+          "rationale": "To determine density (d = \\(\\frac{m}{V}\\)) for each tissue: Xylem = 0.8/0.7 ≈ 1.14 g/cm³; Phloem = 0.9/0.8 = 1.125 g/cm³; Epidermis = 0.6/0.6 = 1.0 g/cm³; Parenchyma = 1.2/1.0 = 1.2 g/cm³. Parenchyma has the highest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 2,
+      "bankFingerprint": "680ae4c3df2832a0695d3f8723d57ef85845acfa"
+    },
+    {
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "clusterLabel": "Flower Color Inheritance",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_genetics_punnett",
+      "id": "science_scenario_scenario_genetics_punnett_0_1774640107728",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg.",
+          "isCorrect": true
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes.",
+          "isCorrect": false
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "rationale": "Only one GG square appears in the passage.",
+          "isCorrect": false
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "rationale": "Only one gg square appears in the completed square.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Life Science",
+      "subject": "Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "questionNumber": 3,
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 4,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 5,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1774640180207",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 6,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1774640180207",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 7,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "Based on the information in the table, which substance is the strongest base?",
+      "answerOptions": [
+        {
+          "text": "Orange juice",
+          "isCorrect": false,
+          "rationale": "Orange juice has a pH of 3, which indicates it is an acid, not a base."
+        },
+        {
+          "text": "Soapy water",
+          "isCorrect": false,
+          "rationale": "Soapy water has a pH of 10, making it a base, but it is not the strongest base listed in the table."
+        },
+        {
+          "text": "Ammonia",
+          "isCorrect": false,
+          "rationale": "Ammonia has a pH of 11, making it a base, but it is not the strongest base listed in the table."
+        },
+        {
+          "text": "Drain cleaner",
+          "isCorrect": true,
+          "rationale": "Drain cleaner has a pH of 14, which is the highest pH value in the table, indicating it is the strongest base among the given substances."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/earth_and_space_systems_0001.png",
+        "alt": "Table showing pH value, taste, Litmus color, and Methyl red color for six common substances."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 8,
+      "bankFingerprint": "e5a95e6c52a97321af24117417e4f5ceb4a74270"
+    },
+    {
+      "questionNumber": 9,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "The main organs of the respiratory system, where gas exchange occurs, are the:",
+      "answerOptions": [
+        {
+          "text": "Kidneys",
+          "rationale": "The kidneys are part of the urinary system and filter waste from blood.",
+          "isCorrect": false
+        },
+        {
+          "text": "Lungs",
+          "rationale": "Correct. In the lungs, oxygen enters the blood and carbon dioxide is removed.",
+          "isCorrect": true
+        },
+        {
+          "text": "Intestines",
+          "rationale": "The intestines are part of the digestive system.",
+          "isCorrect": false
+        },
+        {
+          "text": "Brain",
+          "rationale": "The brain is the control center of the nervous system.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "The main organs of the respiratory system, where gas exchange occurs, are the:",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "bankFingerprint": "465a6147243a5551bf6ccf8c1647a789e9ba923e"
+    },
+    {
+      "questionText": "Pasteur concluded that microbes come only from other microbes, not by spontaneous generation. Which observation from his experiment most directly challenges the idea that life can spontaneously arise from non-living matter?",
+      "answerOptions": [
+        {
+          "text": "He boiled the liquid in the flasks.",
+          "isCorrect": false,
+          "rationale": "Boiling sterilized the broth, eliminating pre-existing life, but did not directly prove or disprove spontaneous generation itself; it set up the experiment to test it."
+        },
+        {
+          "text": "The flasks left open to the air soon teemed with microscopic life.",
+          "isCorrect": false,
+          "rationale": "This observation alone could be interpreted as supporting spontaneous generation, as life appeared in the presence of air, which was a common belief at the time."
+        },
+        {
+          "text": "The sealed flasks, despite containing broth, stayed clear of microscopic life.",
+          "isCorrect": true,
+          "rationale": "If life could spontaneously arise from the broth itself, it should have done so in the sealed flasks, regardless of air exposure. The absence of life here directly contradicts the idea of spontaneous generation from non-living matter."
+        },
+        {
+          "text": "Microbes are microscopic organisms.",
+          "isCorrect": false,
+          "rationale": "This is a statement of fact about microbes, not an observation from Pasteur's experiment that directly challenges spontaneous generation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germs",
+      "passageTitle": "Pasteur’s Experiments on Germs",
+      "topicTags": [
+        "Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 10,
+      "bankFingerprint": "fb82f01227df90bfc3c9ac00ab7e401330df3075"
+    },
+    {
+      "questionText": "The passage describes two conditions for the broth flasks: 'open to the air' and 'sealed with curved necks.' What can be inferred about the primary difference that led to the contrasting results (life vs. no life)?",
+      "answerOptions": [
+        {
+          "text": "The boiling process was more effective in the sealed flasks.",
+          "isCorrect": false,
+          "rationale": "The passage states that the liquid was boiled in experiments with flasks, implying the boiling process was consistent across all flasks to initially sterilize them."
+        },
+        {
+          "text": "The 'open to the air' flasks provided nutrients that were absent in the sealed flasks.",
+          "isCorrect": false,
+          "rationale": "Both types of flasks contained broth, which is a nutrient source. There is no indication of different nutrient availability between the two conditions."
+        },
+        {
+          "text": "The 'open to the air' flasks allowed external microbes to enter and contaminate the broth.",
+          "isCorrect": true,
+          "rationale": "Given Pasteur's conclusion that 'microbes come only from other microbes,' the appearance of life only in the 'open to the air' flasks implies that microbes entered from the outside environment in these conditions, while the 'sealed' condition prevented their entry."
+        },
+        {
+          "text": "The 'sealed with curved necks' flasks contained a substance that inhibited microbial growth.",
+          "isCorrect": false,
+          "rationale": "The passage only mentions broth in the flasks and does not describe any additional inhibitory substances being present in the sealed flasks."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germs",
+      "passageTitle": "Pasteur’s Experiments on Germs",
+      "topicTags": [
+        "Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 11,
+      "bankFingerprint": "46326e8f58aa6bf43b9927c795b8f8f81e99d960"
+    },
+    {
+      "questionNumber": 12,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "An organism that must consume other organisms for energy is called a(n):",
+      "answerOptions": [
+        {
+          "text": "Producer",
+          "rationale": "A producer (like a plant) makes its own food.",
+          "isCorrect": false
+        },
+        {
+          "text": "Autotroph",
+          "rationale": "An autotroph is another name for a producer.",
+          "isCorrect": false
+        },
+        {
+          "text": "Consumer (or Heterotroph)",
+          "rationale": "Correct. Consumers obtain energy by feeding on other organisms.",
+          "isCorrect": true
+        },
+        {
+          "text": "Decomposer",
+          "rationale": "A decomposer breaks down dead organic matter.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "An organism that must consume other organisms for energy is called a(n):",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "bankFingerprint": "acee194ec0a57a50c4b3bc33bd55faf5b9c0bff6"
+    },
+    {
+      "questionNumber": 13,
+      "type": "multipleChoice",
+      "difficulty": "hard",
+      "question": "In quantum mechanics, the principle of wave-particle duality means that:",
+      "answerOptions": [
+        {
+          "text": "Particles are always waves, and never particles.",
+          "rationale": "It means they can exhibit properties of both.",
+          "isCorrect": false
+        },
+        {
+          "text": "All particles have a corresponding antiparticle.",
+          "rationale": "This is another concept in particle physics.",
+          "isCorrect": false
+        },
+        {
+          "text": "Light and matter can exhibit the properties of both waves and particles.",
+          "rationale": "Correct. For example, light can act as a wave (diffraction) and as a particle (photoelectric effect).",
+          "isCorrect": true
+        },
+        {
+          "text": "The position and momentum of a particle cannot both be known with perfect accuracy.",
+          "rationale": "This is the Heisenberg Uncertainty Principle.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "questionText": "In quantum mechanics, the principle of wave-particle duality means that:",
+      "subject": "Science",
+      "category": "Physical Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "bankFingerprint": "04527674917ecb1541a7a8dfeb03a802910d4b9b"
+    },
+    {
+      "questionNumber": 14,
+      "type": "multipleChoice",
+      "difficulty": "medium",
+      "question": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates a base. Pure water has a pH of 7. Lemon juice has a pH of 2, while bleach has a pH of 13. A neutralization reaction occurs when an acid and a base react. What would you expect the pH of the resulting solution to be close to?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "rationale": "This is a highly acidic pH.",
+          "isCorrect": false
+        },
+        {
+          "text": "13",
+          "rationale": "This is a highly basic pH.",
+          "isCorrect": false
+        },
+        {
+          "text": "7",
+          "rationale": "Correct. An acid and a base neutralize each other, typically forming a salt and water, with a pH close to neutral.",
+          "isCorrect": true
+        },
+        {
+          "text": "0",
+          "rationale": "This is the most acidic point on the scale.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-1",
+        "science-2"
+      ],
+      "questionText": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates a base. Pure water has a pH of 7. Lemon juice has a pH of 2, while bleach has a pH of 13. A neutralization reaction occurs when an acid and a base react. What would you expect the pH of the resulting solution to be close to?",
+      "subject": "Science",
+      "category": "Physical Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "bankFingerprint": "c6cee913d79058238dafb8d824f7d8744bda6054"
+    },
+    {
+      "questionText": "According to the passage, what geological process describes how continents eventually \"pass to the sea\"?",
+      "answerOptions": [
+        {
+          "text": "Volcanic eruptions adding new land to the oceans.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention volcanic eruptions as the mechanism for land passing to the sea; it specifically refers to erosion."
+        },
+        {
+          "text": "Tectonic plate collisions causing landmasses to submerge.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss tectonic plate collisions; it focuses on the process of erosion."
+        },
+        {
+          "text": "Erosion gradually carrying land particles into the water.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The continents themselves dissolve and pass to the sea, in grain after grain of eroded land,' directly linking erosion to this process."
+        },
+        {
+          "text": "Ocean currents slowly pulling coastal areas underwater.",
+          "isCorrect": false,
+          "rationale": "While ocean currents exist, the passage attributes the 'passing to the sea' specifically to 'eroded land,' indicating erosion is the key process."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "sci_passage_01",
+      "passageTitle": "The Sea Around Us (Excerpt)",
+      "topicTags": [
+        "Ecology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 15,
+      "bankFingerprint": "e4fad92d9a2b51e4f45445cfed967e10cb902b8d"
+    },
+    {
+      "questionText": "Based on the passage, which statement best summarizes the overall significance of the sea to Earth?",
+      "answerOptions": [
+        {
+          "text": "The sea's primary role is to act as a barrier, separating different landmasses.",
+          "isCorrect": false,
+          "rationale": "The passage describes the sea as shaping Earth and sustaining life, not primarily as a barrier."
+        },
+        {
+          "text": "The sea has historically influenced Earth's formation and continues to support critical global functions.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life,' which aligns with this summary."
+        },
+        {
+          "text": "The sea's influence is largely confined to coastal regions, with minimal impact on global systems.",
+          "isCorrect": false,
+          "rationale": "The passage indicates a global influence ('all about us,' 'influence climate,' 'sustain life'), not a limited one."
+        },
+        {
+          "text": "The sea's past role is well-understood, but its current impacts are mostly unknown.",
+          "isCorrect": false,
+          "rationale": "The passage refers to a 'mysterious past' regarding how it shaped the Earth, but explicitly states its current influence on climate and life."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "sci_passage_01",
+      "passageTitle": "The Sea Around Us (Excerpt)",
+      "topicTags": [
+        "Ecology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 16,
+      "bankFingerprint": "12b58f298a30ca1e124256ba98c4a6fc5a647b66"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "difficulty": "medium",
+      "question": "The theory that the Earth's continents have moved over geologic time relative to each other is known as:",
+      "answerOptions": [
+        {
+          "text": "Continental drift",
+          "rationale": "Correct. This theory was first proposed by Alfred Wegener and is now part of the broader theory of plate tectonics.",
+          "isCorrect": true
+        },
+        {
+          "text": "The rock cycle",
+          "rationale": "The rock cycle describes the transformation of rocks.",
+          "isCorrect": false
+        },
+        {
+          "text": "Superposition",
+          "rationale": "Superposition is a principle of relative dating.",
+          "isCorrect": false
+        },
+        {
+          "text": "The Big Bang Theory",
+          "rationale": "The Big Bang Theory describes the origin of the universe.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-4"
+      ],
+      "questionText": "The theory that the Earth's continents have moved over geologic time relative to each other is known as:",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "bankFingerprint": "c45162bdad9a52442491c1e12e32498a3a374928"
+    },
+    {
+      "questionNumber": 18,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "What is the function of the cell membrane?",
+      "answerOptions": [
+        {
+          "text": "To produce energy for the cell.",
+          "rationale": "This is the function of the mitochondria.",
+          "isCorrect": false
+        },
+        {
+          "text": "To control what enters and leaves the cell.",
+          "rationale": "Correct. The cell membrane is selectively permeable, regulating the passage of substances.",
+          "isCorrect": true
+        },
+        {
+          "text": "To store the cell's genetic material.",
+          "rationale": "This is the function of the nucleus.",
+          "isCorrect": false
+        },
+        {
+          "text": "To provide rigid support for the cell.",
+          "rationale": "This is the function of the cell wall in plant cells.",
+          "isCorrect": false
+        }
+      ],
+      "passage": "Science textbook excerpt: The cell membrane is selectively permeable, regulating the passage of substances.",
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "What is the function of the cell membrane?",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "passage",
+      "skillIntent": "passage-comprehension",
+      "bankFingerprint": "cb577d7fe5f2e6f8a2c5a0d689c3efd8eb2bab64"
+    },
+    {
+      "questionNumber": 19,
+      "type": "multipleChoice",
+      "difficulty": "easy",
+      "question": "An organism that produces its own food is called a(n):",
+      "answerOptions": [
+        {
+          "text": "Consumer",
+          "rationale": "A consumer gets energy by eating other organisms.",
+          "isCorrect": false
+        },
+        {
+          "text": "Decomposer",
+          "rationale": "A decomposer breaks down dead organic matter.",
+          "isCorrect": false
+        },
+        {
+          "text": "Producer (or Autotroph)",
+          "rationale": "Correct. Producers, like plants, create their own food, usually through photosynthesis.",
+          "isCorrect": true
+        },
+        {
+          "text": "Herbivore",
+          "rationale": "A herbivore is a type of consumer that eats plants.",
+          "isCorrect": false
+        }
+      ],
+      "passage": "Science textbook excerpt: Producers, like plants, create their own food, usually through photosynthesis.",
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "An organism that produces its own food is called a(n):",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "passage",
+      "skillIntent": "passage-comprehension",
+      "bankFingerprint": "3d68d52ce6bc801b74b969e80c759b188f9a7e8b"
+    },
+    {
+      "questionNumber": 20,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 21,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 22,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "What is the central argument presented by the author regarding the relationship among different scientific disciplines?",
+      "answerOptions": [
+        {
+          "text": "Each scientific discipline operates independently with unique principles.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the various branches of science, though often studied apart, are 'in truth closely interwoven'."
+        },
+        {
+          "text": "Mathematics is the sole foundation upon which all other scientific fields are built.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions astronomy depends on mathematics, it also provides other examples of interdependencies (chemistry-heat/electricity, geology-astronomy), indicating mathematics is not presented as the *sole* foundation for *all* others."
+        },
+        {
+          "text": "Scientific fields are deeply interconnected, and discoveries in one area often provide insight into others.",
+          "isCorrect": true,
+          "rationale": "The passage's central theme is that 'The various branches of science...are in truth closely interwoven' and 'the laws discovered in one field frequently illuminate another'."
+        },
+        {
+          "text": "The primary goal of science is to categorize phenomena into distinct, separate branches.",
+          "isCorrect": false,
+          "rationale": "The passage argues against distinct separation, emphasizing 'a unity of design and operation' and the illumination of one field by another, suggesting synthesis rather than mere categorization."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_mary_somerville_physical_sciences",
+      "passageTitle": "On the Connexion of the Physical Sciences (Excerpt)",
+      "topicTags": [
+        "Scientific Synthesis"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 23,
+      "bankFingerprint": "e4b6409b216bed7f16d641a371a2066667019bff"
+    },
+    {
+      "questionText": "According to the author, what is the most significant consequence of recognizing the 'unity of design and operation' across natural phenomena?",
+      "answerOptions": [
+        {
+          "text": "It proves that all scientific questions have already been answered.",
+          "isCorrect": false,
+          "rationale": "The passage states this view 'encourages further inquiry,' implying that not all questions are answered."
+        },
+        {
+          "text": "It leads to the simplification of all scientific laws into a single, universal formula.",
+          "isCorrect": false,
+          "rationale": "The passage discusses a 'unity of design' and 'general principles,' but does not suggest reduction to a 'single, universal formula,' nor is simplification the primary stated benefit."
+        },
+        {
+          "text": "It diminishes the need for specialized study within individual scientific disciplines.",
+          "isCorrect": false,
+          "rationale": "While emphasizing interconnectedness, the passage does not suggest abandoning specialized study. Rather, it implies these studies are enriched by understanding their connections."
+        },
+        {
+          "text": "It expands scientific understanding and motivates continued exploration, based on nature's inherent coherence.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states this view 'not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious'."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_mary_somerville_physical_sciences",
+      "passageTitle": "On the Connexion of the Physical Sciences (Excerpt)",
+      "topicTags": [
+        "Scientific Synthesis"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 24,
+      "bankFingerprint": "a2ec544fedc80cf7f17ebf3a959df7f53776699b"
+    },
+    {
+      "questionText": "Which organ is primarily responsible for filtering waste products from the blood to form urine, as depicted in the diagram of the human urinary system?",
+      "answerOptions": [
+        {
+          "text": "Ureters",
+          "isCorrect": false,
+          "rationale": "The ureters are tubes that transport urine from the kidneys to the bladder; they do not filter blood."
+        },
+        {
+          "text": "Bladder",
+          "isCorrect": false,
+          "rationale": "The bladder is a muscular sac that stores urine before it is expelled from the body; it does not filter blood."
+        },
+        {
+          "text": "Kidneys",
+          "isCorrect": true,
+          "rationale": "The kidneys are the primary organs of the urinary system responsible for filtering blood to remove waste products and excess water, forming urine."
+        },
+        {
+          "text": "Urethra",
+          "isCorrect": false,
+          "rationale": "The urethra is the tube that carries urine from the bladder out of the body; it does not filter blood."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/human_body_0002.png",
+        "alt": "Diagram of the human urinary system showing kidneys, ureters, bladder, and urethra, with adrenal glands."
+      },
+      "itemType": "image",
+      "category": "Earth & Space Science",
+      "difficulty": "easy",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 25,
+      "bankFingerprint": "36d8ad8ef79dc4872fe625dd2cc7af4f5895b7cb"
+    },
+    {
+      "questionNumber": 26,
+      "type": "knowledge",
+      "question": "Newton's Third Law of Motion states that for every action, there is an equal and opposite reaction. Which of the following is the best example of this law?",
+      "answerOptions": [
+        {
+          "text": "A rocket moving upwards by pushing exhaust gases downwards.",
+          "rationale": "Correct. The action is the rocket pushing the gas down; the reaction is the gas pushing the rocket up.",
+          "isCorrect": true
+        },
+        {
+          "text": "A car slowing down when the brakes are applied.",
+          "rationale": "This is an example of the First and Second Laws (a force causing deceleration).",
+          "isCorrect": false
+        },
+        {
+          "text": "A ball rolling to a stop due to friction.",
+          "rationale": "This is an example of the First Law (an unbalanced force, friction, changing the object's motion).",
+          "isCorrect": false
+        },
+        {
+          "text": "A person sitting on a chair.",
+          "rationale": "While action-reaction forces are present (person pushes on chair, chair pushes on person), the rocket is a more dynamic example of the law in action.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "questionText": "Newton's Third Law of Motion states that for every action, there is an equal and opposite reaction. Which of the following is the best example of this law?",
+      "subject": "Science",
+      "category": "Physical Science",
+      "difficulty": "easy",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "bankFingerprint": "fc4901d9f3d94c9a319c25f3aa581bfc8898c3f3"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Seed Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sunflower Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.6</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Pumpkin Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.8</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">1.1</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bean Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.6</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Corn Kernel</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.3</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.2</td></tr></tbody></table>Based on the data provided, which seed type has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Sunflower Seed",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume (d = \\(\\frac{m}{V}\\)). For the Sunflower Seed, d = 0.5 g / 0.6 cm³ ≈ 0.83 g/cm³. This is not the highest density among the options."
+        },
+        {
+          "text": "Pumpkin Seed",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume (d = \\(\\frac{m}{V}\\)). For the Pumpkin Seed, d = 0.8 g / 1.1 cm³ ≈ 0.73 g/cm³. This is not the highest density among the options."
+        },
+        {
+          "text": "Bean Seed",
+          "isCorrect": false,
+          "rationale": "Density is calculated by dividing mass by volume (d = \\(\\frac{m}{V}\\)). For the Bean Seed, d = 0.6 g / 0.5 cm³ = 1.2 g/cm³. While higher than sunflower and pumpkin, it is not the highest among the options."
+        },
+        {
+          "text": "Corn Kernel",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume (d = \\(\\frac{m}{V}\\)). For the Sunflower Seed, d = 0.5 g / 0.6 cm³ ≈ 0.83 g/cm³. For the Pumpkin Seed, d = 0.8 g / 1.1 cm³ ≈ 0.73 g/cm³. For the Bean Seed, d = 0.6 g / 0.5 cm³ = 1.2 g/cm³. For the Corn Kernel, d = 0.3 g / 0.2 cm³ = 1.5 g/cm³. The Corn Kernel has the highest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 27,
+      "bankFingerprint": "711c87b04e88e8fc1c0e8edc69aecc4160576e1d"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Body Fluid</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Blood plasma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">55.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Saliva</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Urine</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">52.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Cerebrospinal Fluid</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">51.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr></tbody></table>Based on the data provided, which body fluid has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Blood plasma",
+          "isCorrect": true,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Blood plasma: 55.0 g / 50.0 cm³ = 1.10 g/cm³. For Saliva: 50.5 g / 50.0 cm³ = 1.01 g/cm³. For Urine: 52.0 g / 50.0 cm³ = 1.04 g/cm³. For Cerebrospinal Fluid: 51.0 g / 50.0 cm³ = 1.02 g/cm³. Blood plasma has the highest density."
+        },
+        {
+          "text": "Saliva",
+          "isCorrect": false,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Saliva: 50.5 g / 50.0 cm³ = 1.01 g/cm³. This is lower than the density of blood plasma (1.10 g/cm³)."
+        },
+        {
+          "text": "Urine",
+          "isCorrect": false,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Urine: 52.0 g / 50.0 cm³ = 1.04 g/cm³. This is lower than the density of blood plasma (1.10 g/cm³)."
+        },
+        {
+          "text": "Cerebrospinal Fluid",
+          "isCorrect": false,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Cerebrospinal Fluid: 51.0 g / 50.0 cm³ = 1.02 g/cm³. This is lower than the density of blood plasma (1.10 g/cm³)."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 28,
+      "bankFingerprint": "9468b3bc4046987d8cb3b409fe53ce6ccd410095"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "Line graph showing relative humidity percentage over eight days, from May 1 to May 8."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 29,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionNumber": 30,
+      "type": "multipleChoice",
+      "difficulty": "medium",
+      "question": "A relationship between two species where one benefits and the other is neither harmed nor helped is called:",
+      "answerOptions": [
+        {
+          "text": "Mutualism",
+          "rationale": "In mutualism, both species benefit.",
+          "isCorrect": false
+        },
+        {
+          "text": "Parasitism",
+          "rationale": "In parasitism, one species benefits and the other is harmed.",
+          "isCorrect": false
+        },
+        {
+          "text": "Commensalism",
+          "rationale": "Correct. An example is a bird building a nest in a tree; the bird benefits, and the tree is unaffected.",
+          "isCorrect": true
+        },
+        {
+          "text": "Predation",
+          "rationale": "In predation, one species (the predator) hunts and kills the other (the prey).",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3",
+        "science-4"
+      ],
+      "questionText": "A relationship between two species where one benefits and the other is neither harmed nor helped is called:",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "bankFingerprint": "2c123ee5a42aa51f91c40fdda64aac6e9ea5755c"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 31,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 32,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 33,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 34,
+      "type": "standalone",
+      "difficulty": "medium",
+      "question": "The shape of the DNA molecule is most accurately described as a:",
+      "answerOptions": [
+        {
+          "text": "Single strand",
+          "rationale": "RNA is typically single-stranded.",
+          "isCorrect": false
+        },
+        {
+          "text": "Double helix",
+          "rationale": "Correct. This refers to the twisted-ladder structure of two complementary strands.",
+          "isCorrect": true
+        },
+        {
+          "text": "Branched chain",
+          "rationale": "DNA has a linear, unbranched structure.",
+          "isCorrect": false
+        },
+        {
+          "text": "Globular sphere",
+          "rationale": "Proteins often fold into globular shapes, but DNA does not.",
+          "isCorrect": false
+        }
+      ],
+      "challenge_tags": [
+        "science-3"
+      ],
+      "questionText": "The shape of the DNA molecule is most accurately described as a:",
+      "subject": "Science",
+      "category": "Life Science",
+      "source": "premade",
+      "itemType": "standalone",
+      "skillIntent": "concept-application",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "bankFingerprint": "f65a21912a8a4fbd1926e5e8551ec444ccfe3e8c"
+    },
+    {
+      "questionText": "Which statement best represents the author's central claim about the relationship between scientific investigation and religious belief?",
+      "answerOptions": [
+        {
+          "text": "Scientific discoveries inherently contradict spiritual truths, requiring a choice between them.",
+          "isCorrect": false,
+          "rationale": "The author argues against contradiction, stating 'The discoveries of the telescope are not contrary to Scripture.'"
+        },
+        {
+          "text": "The purpose of religious texts is to guide spiritual life, allowing scientific inquiry to explain the natural world independently.",
+          "isCorrect": true,
+          "rationale": "The author states, 'The intention of the Holy Spirit is to teach us how one goes to heaven, not how the heavens go,' clearly separating the spiritual domain of scripture from the scientific domain of natural phenomena. They also advocate for using 'senses and reason' to understand nature, implying an independent path for scientific inquiry into God's creation."
+        },
+        {
+          "text": "Scientific evidence should always be considered heretical if it appears to conflict with traditional interpretations of scripture.",
+          "isCorrect": false,
+          "rationale": "The author warns it is 'harmful to souls to make it a heresy to believe what is proved,' directly contradicting this option."
+        },
+        {
+          "text": "Rejecting scientific findings is a necessary act of faith to preserve the sanctity of religious belief.",
+          "isCorrect": false,
+          "rationale": "The author claims that 'to reject it is to reject the works of God Himself,' making this option incorrect."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Letter to the Grand Duchess Christina (Excerpt)</strong></p><p><em>Galileo Galilei, 1615</em></p><p>It is surely harmful to souls to make it a heresy to believe what is proved. The intention of the Holy Spirit is to teach us how one goes to heaven, not how the heavens go. The discoveries of the telescope are not contrary to Scripture, for Scripture cannot err, though its interpreters may. The motion of the Earth is supported by evidence and reason; to reject it is to reject the works of God Himself, for nature is written in the language of mathematics. The more we study that language, the more deeply we see into His creation. Let us not fear to use our senses and reason, for these too are divine gifts meant to lead us to truth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_galileo_letter_to_grand_duchess",
+      "passageTitle": "Letter to the Grand Duchess Christina (Excerpt)",
+      "topicTags": [
+        "Astronomy / Church Conflict"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 35,
+      "bankFingerprint": "4ca6e80186398368fe98e183a0ae29e57d4dafee"
+    },
+    {
+      "questionText": "Which of the following claims is best supported by the author's reasoning in the passage?",
+      "answerOptions": [
+        {
+          "text": "Any interpretation of Scripture that contradicts established scientific proof is flawed.",
+          "isCorrect": true,
+          "rationale": "The author states, 'Scripture cannot err, though its interpreters may,' and that 'it is surely harmful to souls to make it a heresy to believe what is proved.' This reasoning supports the claim that interpretations clashing with demonstrable truth are problematic, not the truth itself."
+        },
+        {
+          "text": "Religious faith requires a complete rejection of empirical observations about the universe.",
+          "isCorrect": false,
+          "rationale": "The author advocates for using 'senses and reason,' which are tools for empirical observation, and connects understanding nature to understanding God's creation."
+        },
+        {
+          "text": "Mathematical language is primarily a tool for theological understanding, not scientific discovery.",
+          "isCorrect": false,
+          "rationale": "The passage states 'nature is written in the language of mathematics' and that studying it helps 'see into His creation,' indicating its role in understanding the natural world through scientific discovery."
+        },
+        {
+          "text": "The acceptance of scientific findings about the cosmos is irrelevant to a person's spiritual journey.",
+          "isCorrect": false,
+          "rationale": "The author explicitly links rejecting evidence to 'reject the works of God Himself' and says it's 'harmful to souls' to reject what is proved, suggesting it is indeed relevant to spiritual well-being."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Letter to the Grand Duchess Christina (Excerpt)</strong></p><p><em>Galileo Galilei, 1615</em></p><p>It is surely harmful to souls to make it a heresy to believe what is proved. The intention of the Holy Spirit is to teach us how one goes to heaven, not how the heavens go. The discoveries of the telescope are not contrary to Scripture, for Scripture cannot err, though its interpreters may. The motion of the Earth is supported by evidence and reason; to reject it is to reject the works of God Himself, for nature is written in the language of mathematics. The more we study that language, the more deeply we see into His creation. Let us not fear to use our senses and reason, for these too are divine gifts meant to lead us to truth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_galileo_letter_to_grand_duchess",
+      "passageTitle": "Letter to the Grand Duchess Christina (Excerpt)",
+      "topicTags": [
+        "Astronomy / Church Conflict"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 36,
+      "bankFingerprint": "6d016632d33f3d46dedf2f61596a820cb6588a8d"
+    },
+    {
+      "questionText": "According to the passage, what characteristic of universal gravitation helps explain why it is not directly perceived in everyday life, yet has profound effects?",
+      "answerOptions": [
+        {
+          "text": "It varies inversely with the square of the distance between centers.",
+          "isCorrect": false,
+          "rationale": "This statement describes how the force changes with distance, not why it is imperceptible yet profound in its effects."
+        },
+        {
+          "text": "It is invisible to our senses but binds celestial bodies in their paths.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.' This directly answers the question."
+        },
+        {
+          "text": "It is a simple law that applies only to large objects like planets.",
+          "isCorrect": false,
+          "rationale": "The passage specifies 'Every particle of matter in the universe,' indicating it applies to all matter, not just large objects."
+        },
+        {
+          "text": "It directly depends on the product of the masses of interacting particles.",
+          "isCorrect": false,
+          "rationale": "This statement describes how the force relates to mass, not why it is imperceptible yet profound in its effects."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_gravity",
+      "passageTitle": "Newton on Universal Gravitation",
+      "topicTags": [
+        "Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 37,
+      "bankFingerprint": "a3f6afea6ca9c450766aead9f2bfab540bbd68aa"
+    },
+    {
+      "questionText": "The author provides examples of planets in their courses and the Moon's path around Earth. What is the primary purpose of these examples in the passage?",
+      "answerOptions": [
+        {
+          "text": "To illustrate how gravitational force can be measured accurately.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the measurement of gravitational force."
+        },
+        {
+          "text": "To demonstrate that the law applies only to objects in space.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Every particle of matter in the universe,' indicating a broader application than just objects in space."
+        },
+        {
+          "text": "To show the large-scale effects and universal application of the law.",
+          "isCorrect": true,
+          "rationale": "These examples demonstrate how this 'simple law' universally governs the motion of celestial bodies, illustrating its profound and large-scale impact across the universe."
+        },
+        {
+          "text": "To explain that the gravitational force is always equal between any two objects.",
+          "isCorrect": false,
+          "rationale": "The passage states the force 'varies directly with the product of their masses and inversely with the square of the distance,' implying the force is not always equal."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_gravity",
+      "passageTitle": "Newton on Universal Gravitation",
+      "topicTags": [
+        "Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 38,
+      "bankFingerprint": "c0eeed701c1dada8e1815221d33ac60c287a2824"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 6, expected ~9",
+    "Difficulty \"medium\": 25, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}

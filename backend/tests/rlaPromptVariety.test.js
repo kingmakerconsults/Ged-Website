@@ -8,14 +8,15 @@ const {
   resetRlaPromptVarietyState,
 } = require('../src/exams/rlaPromptVariety');
 
-test('RLA reading blueprint rotation returns 3 informational and 1 literary brief', () => {
+test('RLA reading blueprint rotation returns 2 informational, 1 paired, and 1 literary brief', () => {
   resetRlaPromptVarietyState();
 
   const plan = nextRlaReadingBlueprintSet();
 
-  assert.equal(plan.informational.length, 3);
+  assert.equal(plan.informational.length, 2);
+  assert.ok(plan.paired);
   assert.ok(plan.literary);
-  assert.equal(new Set(plan.informational.map((entry) => entry.id)).size, 3);
+  assert.equal(new Set(plan.informational.map((entry) => entry.id)).size, 2);
 });
 
 test('RLA essay blueprint rotation avoids immediate repeats', () => {

@@ -56,6 +56,77 @@ const SCI_NUMERIC_TABLE_ITEMS = [
     rationale:
       'Crate Y work = 65 × 15 = 975 J. Crate Z work = 90 × 10 = 900 J. Difference = 75 J.',
   },
+  {
+    id: 'num_mean_speed',
+    type: 'numeric',
+    responseType: 'numeric',
+    qaProfileKey: 'numeracy',
+    difficulty: 'medium',
+    topicTags: ['Physical Science', 'Data Interpretation'],
+    stem: '<p>Unstable traffic flow occurs when drivers accelerate and brake too often. The table below gives one example of traffic speeds, in kilometers per hour (km/h), in an unstable flow situation.</p>',
+    passage:
+      '<table class="data-table"><thead><tr><th>Time (p.m.)</th><th>4:00</th><th>4:10</th><th>4:20</th><th>4:30</th><th>4:40</th><th>4:50</th><th>5:00</th></tr></thead><tbody><tr><td><strong>Speed (km/h)</strong></td><td>30</td><td>20</td><td>50</td><td>70</td><td>20</td><td>70</td><td>20</td></tr></tbody></table>',
+    questionText:
+      'What is the mean speed, in km/h, in this situation?',
+    correctAnswer: '40',
+    tolerance: 0.5,
+    rationale:
+      'Mean = (30 + 20 + 50 + 70 + 20 + 70 + 20) ÷ 7 = 280 ÷ 7 = 40 km/h.',
+    skillIntent: 'data-table-calculation',
+  },
+  {
+    id: 'num_weighted_avg_isotope',
+    type: 'numeric',
+    responseType: 'numeric',
+    qaProfileKey: 'numeracy',
+    difficulty: 'hard',
+    topicTags: ['Physical Science', 'Data Interpretation'],
+    stem: '<p>The table below shows data for two isotopes of chlorine (Cl). The data in the "% Abundance" column represents the likelihood that any given atom of chlorine is a particular isotope.</p>',
+    passage:
+      '<table class="data-table"><thead><tr><th>Isotope</th><th>Mass (amu)</th><th>% Abundance</th></tr></thead><tbody><tr><td><sup>35</sup>Cl</td><td>34.97</td><td>75.78</td></tr><tr><td><sup>37</sup>Cl</td><td>36.97</td><td>24.22</td></tr></tbody></table>',
+    questionText:
+      'What is the weighted average mass of chlorine? Round to the nearest hundredth.',
+    correctAnswer: '35.45',
+    tolerance: 0.02,
+    rationale:
+      'Weighted avg = (34.97 × 0.7578) + (36.97 × 0.2422) = 26.50 + 8.95 = 35.45 amu.',
+    skillIntent: 'data-table-calculation',
+  },
+  {
+    id: 'num_kinetic_energy_diff',
+    type: 'numeric',
+    responseType: 'numeric',
+    qaProfileKey: 'numeracy',
+    difficulty: 'hard',
+    topicTags: ['Physical Science', 'Data Interpretation'],
+    stem: '<p>Moving objects, such as automobiles, have kinetic energy (KE), which is measured in joules. This energy can be calculated using the following formula:</p><p style="text-align:center">KE = ½mv²</p>',
+    passage:
+      '<p>A person drives an automobile with a mass of 450 kilograms at a velocity of 26 meters per second. The driver accelerates to a velocity of 30 meters per second.</p>',
+    questionText:
+      'The difference in the automobile\'s kinetic energy between the two velocities is ______ joules.',
+    correctAnswer: '50400',
+    tolerance: 100,
+    rationale:
+      'KE₁ = ½ × 450 × 26² = ½ × 450 × 676 = 152,100 J. KE₂ = ½ × 450 × 30² = ½ × 450 × 900 = 202,500 J. Difference = 202,500 − 152,100 = 50,400 J.',
+    skillIntent: 'formula-application',
+  },
+  {
+    id: 'num_light_frequency',
+    type: 'numeric',
+    responseType: 'numeric',
+    qaProfileKey: 'numeracy',
+    difficulty: 'hard',
+    topicTags: ['Physical Science', 'Data Interpretation'],
+    stem: '<p>The color of light can be expressed in terms of either frequency (ν) or wavelength (λ), which has units of nanometers (nm). The equation that relates the frequency and wavelength of light with the speed of light (c) is:</p><p style="text-align:center">ν = c / λ</p><p>The speed of light is a constant and approximately equal to 300,000,000 meters per second.</p><p>Green lasers emit light at a wavelength of 532 nm. However, the material that is used to make most green lasers does not emit light at 532 nm. Instead, it emits light at a different wavelength, and the laser then uses a "frequency doubler." This doubles the frequency of the emitted light, and the resultant light is the green 532 nm that we observe.</p><p>1 meter is equal to 1,000,000,000 nanometers.</p>',
+    passage: '',
+    questionText:
+      'What is the output light frequency of the material used before doubling? Express your answer in Hz using scientific notation (e.g. 2.8e14).',
+    correctAnswer: '2.82e14',
+    tolerance: 0.05e14,
+    rationale:
+      'Green light frequency = c / λ = 3×10⁸ / (532×10⁻⁹) = 5.64×10¹⁴ Hz. Before doubling: 5.64×10¹⁴ / 2 = 2.82×10¹⁴ Hz.',
+    skillIntent: 'formula-application',
+  },
 ];
 
 const SCIENTIFIC_SCENARIO_SETS = [

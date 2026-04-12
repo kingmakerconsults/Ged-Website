@@ -61,6 +61,49 @@ const RLA_READING_INFORMATIONAL_BLUEPRINTS = [
   },
 ];
 
+const RLA_READING_PAIRED_ARGUMENT_BLUEPRINTS = [
+  {
+    id: 'paired-prescribed-burns',
+    brief:
+      'two civic opinion texts that disagree about whether prescribed burns near a growing town are a responsible way to prevent larger wildfires',
+  },
+  {
+    id: 'paired-downtown-bus-lanes',
+    brief:
+      'two public-facing texts that disagree about whether a city should convert downtown car lanes into dedicated bus lanes for workers and students',
+  },
+  {
+    id: 'paired-school-start-times',
+    brief:
+      'two community texts that disagree about moving middle and high school start times later despite transportation and after-school scheduling concerns',
+  },
+  {
+    id: 'paired-single-use-packaging',
+    brief:
+      'two local opinion texts that disagree about phasing out single-use takeout packaging when small restaurants are worried about higher costs',
+  },
+  {
+    id: 'paired-park-lighting',
+    brief:
+      'two texts with opposing views on brighter lighting in major parks, balancing safety concerns against wildlife and nighttime atmosphere',
+  },
+  {
+    id: 'paired-remote-work-hub',
+    brief:
+      'two texts that disagree about converting an empty shopping center into a shared remote-work hub with training rooms and child-friendly spaces',
+  },
+  {
+    id: 'paired-water-saving-rules',
+    brief:
+      'two persuasive texts that disagree about stricter seasonal water-use limits during drought years',
+  },
+  {
+    id: 'paired-vacant-lots',
+    brief:
+      'two texts that disagree about whether vacant city-owned lots should become community gardens or be reserved for future housing',
+  },
+];
+
 const RLA_READING_LITERARY_BLUEPRINTS = [
   {
     id: 'lit-grandmothers-apartment',
@@ -246,6 +289,7 @@ const RECENT_WINDOW = 8;
 
 const cursorState = {
   readingInformational: 0,
+  readingPaired: 0,
   readingLiterary: 0,
   essay: 0,
   language: 0,
@@ -253,6 +297,7 @@ const cursorState = {
 
 const recentState = {
   readingInformational: [],
+  readingPaired: [],
   readingLiterary: [],
   essay: [],
   language: [],
@@ -292,9 +337,14 @@ function selectDistinct(pool, count, key) {
 function nextRlaReadingBlueprintSet() {
   const informational = selectDistinct(
     RLA_READING_INFORMATIONAL_BLUEPRINTS,
-    3,
+    2,
     'readingInformational'
   );
+  const paired = selectDistinct(
+    RLA_READING_PAIRED_ARGUMENT_BLUEPRINTS,
+    1,
+    'readingPaired'
+  )[0];
   const literary = selectDistinct(
     RLA_READING_LITERARY_BLUEPRINTS,
     1,
@@ -303,6 +353,7 @@ function nextRlaReadingBlueprintSet() {
 
   return {
     informational,
+    paired,
     literary,
   };
 }
@@ -317,10 +368,12 @@ function nextRlaLanguageBlueprintSet() {
 
 function resetRlaPromptVarietyState() {
   cursorState.readingInformational = 0;
+  cursorState.readingPaired = 0;
   cursorState.readingLiterary = 0;
   cursorState.essay = 0;
   cursorState.language = 0;
   recentState.readingInformational.length = 0;
+  recentState.readingPaired.length = 0;
   recentState.readingLiterary.length = 0;
   recentState.essay.length = 0;
   recentState.language.length = 0;

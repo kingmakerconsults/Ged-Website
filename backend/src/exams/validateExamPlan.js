@@ -248,6 +248,26 @@ function validateFilledPlan(plan, filledSlots, opts = {}) {
     }
   }
 
+  // 10. SkillIntent coverage (soft check — warnings only)
+  if (plan.invariants.skillIntentMinimums) {
+    const intentCounts = {};
+    for (const q of allQuestions) {
+      if (q.skillIntent) {
+        intentCounts[q.skillIntent] = (intentCounts[q.skillIntent] || 0) + 1;
+      }
+    }
+    for (const [intent, minimum] of Object.entries(
+      plan.invariants.skillIntentMinimums
+    )) {
+      const actual = intentCounts[intent] || 0;
+      if (actual < minimum) {
+        warnings.push(
+          `SkillIntent "${intent}": ${actual} questions, minimum ${minimum}`
+        );
+      }
+    }
+  }
+
   return { valid: errors.length === 0, errors, warnings };
 }
 

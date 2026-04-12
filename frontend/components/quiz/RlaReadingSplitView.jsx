@@ -60,6 +60,16 @@ function RlaReadingSplitView({
   const currentQuestionInGroup = currentGroup.questions.findIndex(
     (q) => q.originalIndex === currentQuestionIndex
   );
+  const isPairedPassage = currentGroup.questions.some(
+    (q) => q.stimulusMode === 'paired_passages'
+  );
+  const passageTitle = sanitizeHtmlContent(
+    currentGroup.passage
+      ?.split('<p>')[0]
+      ?.replace('<strong>', '')
+      .replace('</strong>', '') || 'Passage',
+    { normalizeSpacing: true }
+  );
 
   const detectMultiSelect = (q) => {
     if (!q || typeof q !== 'object') return false;
@@ -77,7 +87,9 @@ function RlaReadingSplitView({
     }
 
     const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
-    const correctCount = options.filter((opt) => getOptionIsCorrect(opt)).length;
+    const correctCount = options.filter((opt) =>
+      getOptionIsCorrect(opt)
+    ).length;
     if (correctCount > 1) {
       return true;
     }
@@ -108,8 +120,8 @@ function RlaReadingSplitView({
       const currentSelections = Array.isArray(newAnswers[currentQuestionIndex])
         ? newAnswers[currentQuestionIndex]
         : newAnswers[currentQuestionIndex]
-        ? [newAnswers[currentQuestionIndex]]
-        : [];
+          ? [newAnswers[currentQuestionIndex]]
+          : [];
       const index = currentSelections.indexOf(optionText);
       if (index > -1) {
         currentSelections.splice(index, 1);
@@ -134,26 +146,22 @@ function RlaReadingSplitView({
     ? Array.isArray(currentAnswer)
       ? currentAnswer
       : currentAnswer
-      ? [currentAnswer]
-      : []
+        ? [currentAnswer]
+        : []
     : [currentAnswer];
 
   return (
     <div className="ged-split-view">
       {/* LEFT PANE: Passage */}
       <div className="ged-scroll-pane rla-passage-container">
-        <h4
-          className="rla-passage-title"
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHtmlContent(
-              currentGroup.passage
-                ?.split('<p>')[0]
-                ?.replace('<strong>', '')
-                .replace('</strong>', '') || 'Passage',
-              { normalizeSpacing: true }
-            ),
-          }}
-        />
+        {!isPairedPassage ? (
+          <h4
+            className="rla-passage-title"
+            dangerouslySetInnerHTML={{
+              __html: passageTitle,
+            }}
+          />
+        ) : null}
         <div
           className="rla-passage-content"
           dangerouslySetInnerHTML={{
@@ -181,8 +189,8 @@ function RlaReadingSplitView({
                     isActive
                       ? 'bg-purple-600 text-white'
                       : isAnswered
-                      ? 'bg-green-500 text-white'
-                      : 'bg-slate-200 text-slate-800'
+                        ? 'bg-green-500 text-white'
+                        : 'bg-slate-200 text-slate-800'
                   }`}
                   style={
                     marked[globalIdx] ? { boxShadow: '0 0 0 2px gold' } : {}

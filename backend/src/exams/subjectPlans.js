@@ -16,6 +16,9 @@
  *   allowMultiSelect – whether multi-select is permitted for this slot
  *   numeracy         – whether this is a numeracy item (Science)
  *   group            – optional group key to keep stimulus-linked items together
+ *   skillIntent      – optional cognitive task tag (Science): 'passage-comprehension' | 'graph-interpretation' |
+ *                      'data-table-calculation' | 'experimental-design' | 'formula-application' |
+ *                      'inheritance-probability' | 'evidence-tradeoff' | 'dropdown-cloze' | 'concept-application'
  */
 
 // ── Helpers ──────────────────────────────────────────────────────────
@@ -49,6 +52,7 @@ function passageSlot(
     numeracy: extra.numeracy || false,
     group: extra.group || null,
     toolsAllowed: extra.toolsAllowed || null,
+    skillIntent: extra.skillIntent || null,
   };
 }
 
@@ -67,6 +71,7 @@ function imageSlot(prefix, category, difficulty, questionsNeeded, extra = {}) {
     numeracy: extra.numeracy || false,
     group: extra.group || null,
     toolsAllowed: extra.toolsAllowed || null,
+    skillIntent: extra.skillIntent || null,
   };
 }
 
@@ -91,6 +96,7 @@ function standaloneSlot(
     numeracy: extra.numeracy || false,
     group: extra.group || null,
     toolsAllowed: extra.toolsAllowed || null,
+    skillIntent: extra.skillIntent || null,
     requireFigure: extra.requireFigure ?? null,
   };
 }
@@ -351,6 +357,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Life Science', 'easy', 2, {
       group: 'life_p1',
       stimulusType: 'passage/data',
+      skillIntent: 'passage-comprehension',
       sourcePriority: templateFirst,
     })
   );
@@ -358,6 +365,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Life Science', 'medium', 2, {
       group: 'life_p2',
       stimulusType: 'passage/data',
+      skillIntent: 'passage-comprehension',
       sourcePriority: templateFirst,
     })
   );
@@ -365,6 +373,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Life Science', 'medium', 1, {
       group: 'life_genetics',
       stimulusType: 'passage/data',
+      skillIntent: 'inheritance-probability',
       toolsAllowed: ['punnett-square'],
       sourcePriority: templateFirst,
     })
@@ -374,6 +383,7 @@ function buildSciencePlan() {
     imageSlot(P, 'Life Science', 'medium', 2, {
       stimulusType: 'chart',
       group: 'life_chart1',
+      skillIntent: 'graph-interpretation',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -382,6 +392,7 @@ function buildSciencePlan() {
     imageSlot(P, 'Life Science', 'hard', 2, {
       stimulusType: 'table',
       group: 'life_table1',
+      skillIntent: 'data-table-calculation',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -391,27 +402,35 @@ function buildSciencePlan() {
     imageSlot(P, 'Life Science', 'medium', 1, {
       stimulusType: 'image',
       group: 'life_image1',
+      skillIntent: 'graph-interpretation',
       sourcePriority: templateFirst,
     })
   );
   slots.push(
     standaloneSlot(P, 'Life Science', 'easy', 1, {
+      skillIntent: 'experimental-design',
       numeracy: true,
       sourcePriority: templateFirst,
     })
   );
-  slots.push(standaloneSlot(P, 'Life Science', 'easy', 1));
+  slots.push(
+    standaloneSlot(P, 'Life Science', 'easy', 1, {
+      skillIntent: 'concept-application',
+    })
+  );
   slots.push(
     standaloneSlot(P, 'Life Science', 'medium', 1, {
+      skillIntent: 'concept-application',
       numeracy: true,
       sourcePriority: templateFirst,
     })
   );
-  // 1 science literacy passage (planned, not appended)
+  // 1 evidence-tradeoff passage (repurposed from generic literacy)
   slots.push(
     passageSlot(P, 'Life Science', 'medium', 2, {
       group: 'life_literacy',
       stimulusType: 'passage/data',
+      skillIntent: 'evidence-tradeoff',
       sourcePriority: templateFirst,
     })
   );
@@ -422,6 +441,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Physical Science', 'medium', 2, {
       group: 'phys_p1',
       stimulusType: 'passage/data',
+      skillIntent: 'passage-comprehension',
       sourcePriority: templateFirst,
     })
   );
@@ -429,6 +449,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Physical Science', 'hard', 2, {
       group: 'phys_p2',
       stimulusType: 'passage/data',
+      skillIntent: 'experimental-design',
       sourcePriority: templateFirst,
     })
   );
@@ -436,6 +457,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Physical Science', 'medium', 2, {
       group: 'phys_p3',
       stimulusType: 'passage/data',
+      skillIntent: 'formula-application',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -445,6 +467,7 @@ function buildSciencePlan() {
     imageSlot(P, 'Physical Science', 'medium', 2, {
       stimulusType: 'chart',
       group: 'phys_table1',
+      skillIntent: 'data-table-calculation',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -453,6 +476,7 @@ function buildSciencePlan() {
     imageSlot(P, 'Physical Science', 'hard', 2, {
       stimulusType: 'chart',
       group: 'phys_chart1',
+      skillIntent: 'graph-interpretation',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -461,18 +485,22 @@ function buildSciencePlan() {
     imageSlot(P, 'Physical Science', 'medium', 1, {
       stimulusType: 'image',
       group: 'phys_image1',
+      skillIntent: 'graph-interpretation',
       sourcePriority: templateFirst,
     })
   );
   // 2 standalone (numeracy-heavy for Physical)
   slots.push(
     standaloneSlot(P, 'Physical Science', 'easy', 1, {
+      skillIntent: 'concept-application',
       numeracy: true,
       sourcePriority: templateFirst,
     })
   );
   slots.push(
     standaloneSlot(P, 'Physical Science', 'medium', 1, {
+      skillIntent: 'dropdown-cloze',
+      responseType: 'inline_dropdown',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -480,6 +508,7 @@ function buildSciencePlan() {
   // 2 chemistry balancing (planned slots)
   slots.push(
     standaloneSlot(P, 'Physical Science', 'medium', 1, {
+      skillIntent: 'formula-application',
       numeracy: true,
       group: 'chem_balance',
       sourcePriority: ['template', 'bank', 'ai'],
@@ -487,6 +516,7 @@ function buildSciencePlan() {
   );
   slots.push(
     standaloneSlot(P, 'Physical Science', 'hard', 1, {
+      skillIntent: 'formula-application',
       numeracy: true,
       group: 'chem_balance',
       sourcePriority: ['template', 'bank', 'ai'],
@@ -494,11 +524,12 @@ function buildSciencePlan() {
   );
 
   // ── Earth & Space Science: 8 questions ────────────────────────────
-  // 1 passage group × 2q = 2
+  // 1 passage group × 2q = 2 (evidence-tradeoff: competing claims about Earth systems)
   slots.push(
     passageSlot(P, 'Earth & Space Science', 'medium', 2, {
       group: 'earth_p1',
       stimulusType: 'passage/data',
+      skillIntent: 'evidence-tradeoff',
       sourcePriority: templateFirst,
     })
   );
@@ -507,12 +538,14 @@ function buildSciencePlan() {
     imageSlot(P, 'Earth & Space Science', 'easy', 1, {
       stimulusType: 'diagram',
       group: 'earth_diag1',
+      skillIntent: 'graph-interpretation',
     })
   );
   slots.push(
     imageSlot(P, 'Earth & Space Science', 'medium', 2, {
       stimulusType: 'chart',
       group: 'earth_chart1',
+      skillIntent: 'data-table-calculation',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -521,6 +554,7 @@ function buildSciencePlan() {
     imageSlot(P, 'Earth & Space Science', 'medium', 1, {
       stimulusType: 'chart',
       group: 'earth_chart2',
+      skillIntent: 'data-table-calculation',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -528,12 +562,14 @@ function buildSciencePlan() {
   // 2 standalone
   slots.push(
     standaloneSlot(P, 'Earth & Space Science', 'easy', 1, {
+      skillIntent: 'concept-application',
       numeracy: true,
       sourcePriority: templateFirst,
     })
   );
   slots.push(
     standaloneSlot(P, 'Earth & Space Science', 'medium', 1, {
+      skillIntent: 'experimental-design',
       numeracy: true,
       sourcePriority: templateFirst,
     })
@@ -565,6 +601,14 @@ function buildSciencePlan() {
       },
       difficulty: { easy: 9, medium: 19, hard: 10 },
       numeracyMinimum: 13,
+      skillIntentMinimums: {
+        'experimental-design': 2,
+        'evidence-tradeoff': 2,
+        'data-table-calculation': 3,
+        'graph-interpretation': 3,
+        'formula-application': 2,
+        'inheritance-probability': 1,
+      },
     },
     slots,
     computed: { totalQ, numeracySlots, bankAiSplit },
@@ -580,12 +624,12 @@ function buildRlaPlan() {
   const P = 'rla';
   const slots = [];
 
-  // --- Part 1: Reading (20 questions across 4 passages) ---
-  // 3 informational + 1 literary passage, 5 questions each
+  // --- Part 1: Reading (20 questions across 4 passage groups) ---
+  // 2 informational + 1 paired argumentative + 1 literary group, 5 questions each
   const readingPassages = [
     { group: 'rla_read_info1', type: 'informational' },
     { group: 'rla_read_info2', type: 'informational' },
-    { group: 'rla_read_info3', type: 'informational' },
+    { group: 'rla_read_paired1', type: 'paired_argument' },
     { group: 'rla_read_lit1', type: 'literary' },
   ];
   for (const pg of readingPassages) {
@@ -732,29 +776,34 @@ function buildMathPlan() {
     );
   }
 
-  // --- Part 2: Calculator (41 questions) ---
-  // GED Math is ~55% Algebraic Reasoning. Distribute to reflect that.
+  // --- Part 2: Calculator (35 questions) ---
+  // GED Ready® composition scaled to 40 total:
+  //   ~30% Algebra, ~22% Data Analysis, ~10% each Graphing/Geometry/
+  //   Number Ops/Ratios.  Data Analysis includes 3 shared-stimulus
+  //   groups of 2 questions each (like GED wind-turbine / art-store
+  //   scenarios).
   //
-  // Category distribution for Part 2 (33 MC + 8 fill-in/numeric):
-  //   Algebra (Expressions, Equations, Inequalities): 15 MC + 3 fill-in = 18
-  //   Graphing & Functions:                             5 MC + 1 fill-in =  6
-  //   Geometry:                                         5 MC + 1 numeric =  6
-  //   Ratios, Proportions, and Percents:                4 MC + 1 fill-in =  5
-  //   Data Analysis & Probability:                      4 MC + 1 numeric =  5
-  //   Number Operations (fill-in only):                                    1
-  //   Total:                                           33 MC + 8 alt     = 41
+  // Category distribution for Part 2 (31 MC + 4 fill-in/numeric):
+  //   Algebra (Expressions, Equations, Inequalities): 10 MC + 1 fill-in = 11
+  //   Data Analysis & Probability:                     8 MC + 1 numeric =  9
+  //     (includes 3 grouped scenarios × 2 Qs each = 6 grouped MC)
+  //   Graphing & Functions:                            3 MC + 1 fill-in =  4
+  //   Geometry:                                        4 MC + 1 numeric =  5
+  //   Ratios, Proportions, and Percents:               4 MC             =  4
+  //   Number Operations:                               2 MC             =  2
+  //   Total:                                          31 MC + 4 alt     = 35
   //
-  // Difficulty: easy=10, medium=22, hard=9
+  // Difficulty across Part 2: easy≈8, medium≈19, hard≈8
 
-  // Algebra / Expressions, Equations, and Inequalities (15 MC questions)
-  for (let i = 0; i < 4; i++)
+  // Algebra / Expressions, Equations, and Inequalities (10 MC questions)
+  for (let i = 0; i < 2; i++)
     slots.push(
       standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'easy', 1, {
         section: 'part2_calculator',
         calculatorAllowed: true,
       })
     );
-  for (let i = 0; i < 8; i++)
+  for (let i = 0; i < 6; i++)
     slots.push(
       standaloneSlot(
         P,
@@ -764,7 +813,7 @@ function buildMathPlan() {
         { section: 'part2_calculator', calculatorAllowed: true }
       )
     );
-  for (let i = 0; i < 3; i++)
+  for (let i = 0; i < 2; i++)
     slots.push(
       standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'hard', 1, {
         section: 'part2_calculator',
@@ -772,20 +821,19 @@ function buildMathPlan() {
       })
     );
 
-  // Graphing & Functions (5 MC questions)
+  // Graphing & Functions (3 MC questions)
   slots.push(
     standaloneSlot(P, 'Graphing & Functions', 'easy', 1, {
       section: 'part2_calculator',
       calculatorAllowed: true,
     })
   );
-  for (let i = 0; i < 3; i++)
-    slots.push(
-      standaloneSlot(P, 'Graphing & Functions', 'medium', 1, {
-        section: 'part2_calculator',
-        calculatorAllowed: true,
-      })
-    );
+  slots.push(
+    standaloneSlot(P, 'Graphing & Functions', 'medium', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
   slots.push(
     standaloneSlot(P, 'Graphing & Functions', 'hard', 1, {
       section: 'part2_calculator',
@@ -793,7 +841,7 @@ function buildMathPlan() {
     })
   );
 
-  // Geometry (5 MC questions — 3 with visual figures, 2 text-only word problems)
+  // Geometry (4 MC questions — 2 with visual figures, 2 text-only)
   slots.push(
     standaloneSlot(P, 'Geometry', 'easy', 1, {
       section: 'part2_calculator',
@@ -801,22 +849,25 @@ function buildMathPlan() {
       requireFigure: true,
     })
   );
-  for (let i = 0; i < 2; i++)
-    slots.push(
-      standaloneSlot(P, 'Geometry', 'medium', 1, {
-        section: 'part2_calculator',
-        calculatorAllowed: true,
-        requireFigure: i === 0,
-      })
-    );
-  for (let i = 0; i < 2; i++)
-    slots.push(
-      standaloneSlot(P, 'Geometry', 'hard', 1, {
-        section: 'part2_calculator',
-        calculatorAllowed: true,
-        requireFigure: i === 0,
-      })
-    );
+  slots.push(
+    standaloneSlot(P, 'Geometry', 'medium', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+      requireFigure: true,
+    })
+  );
+  slots.push(
+    standaloneSlot(P, 'Geometry', 'medium', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
+  slots.push(
+    standaloneSlot(P, 'Geometry', 'hard', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
 
   // Ratios, Proportions, and Percents (4 MC questions)
   slots.push(
@@ -839,12 +890,29 @@ function buildMathPlan() {
     })
   );
 
-  // Data Analysis & Probability (4 MC questions – some with data stimulus)
+  // Number Operations (2 MC questions in Part 2)
+  slots.push(
+    standaloneSlot(P, 'Number Operations', 'easy', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
+  slots.push(
+    standaloneSlot(P, 'Number Operations', 'medium', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
+
+  // Data Analysis & Probability (8 MC questions)
+  // 3 shared-stimulus groups × 2 Qs each = 6 grouped
+  // + 2 standalone data questions
   slots.push(
     passageSlot(P, 'Data Analysis & Probability', 'easy', 1, {
       section: 'part2_calculator',
       calculatorAllowed: true,
       stimulusType: 'passage/data',
+      group: 'math_data_scenario_1',
     })
   );
   slots.push(
@@ -852,6 +920,46 @@ function buildMathPlan() {
       section: 'part2_calculator',
       calculatorAllowed: true,
       stimulusType: 'passage/data',
+      group: 'math_data_scenario_1',
+    })
+  );
+  slots.push(
+    passageSlot(P, 'Data Analysis & Probability', 'medium', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+      stimulusType: 'passage/data',
+      group: 'math_data_scenario_2',
+    })
+  );
+  slots.push(
+    passageSlot(P, 'Data Analysis & Probability', 'hard', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+      stimulusType: 'passage/data',
+      group: 'math_data_scenario_2',
+    })
+  );
+  slots.push(
+    passageSlot(P, 'Data Analysis & Probability', 'medium', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+      stimulusType: 'passage/data',
+      group: 'math_data_scenario_3',
+    })
+  );
+  slots.push(
+    passageSlot(P, 'Data Analysis & Probability', 'hard', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+      stimulusType: 'passage/data',
+      group: 'math_data_scenario_3',
+    })
+  );
+  // 2 standalone data questions
+  slots.push(
+    standaloneSlot(P, 'Data Analysis & Probability', 'easy', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
     })
   );
   slots.push(
@@ -860,35 +968,8 @@ function buildMathPlan() {
       calculatorAllowed: true,
     })
   );
-  slots.push(
-    standaloneSlot(P, 'Data Analysis & Probability', 'hard', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
 
-  // Fill-in / Numeric Response (8 questions – distributed across categories)
-  slots.push(
-    standaloneSlot(P, 'Number Operations', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-      responseType: 'numeric',
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'easy', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-      responseType: 'fill_in',
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-      responseType: 'fill_in',
-    })
-  );
+  // Fill-in / Numeric Response (4 questions – reduced to match GED ~10%)
   slots.push(
     standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'medium', 1, {
       section: 'part2_calculator',
@@ -901,13 +982,6 @@ function buildMathPlan() {
       section: 'part2_calculator',
       calculatorAllowed: true,
       responseType: 'numeric',
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Ratios, Proportions, and Percents', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-      responseType: 'fill_in',
     })
   );
   slots.push(
@@ -932,17 +1006,17 @@ function buildMathPlan() {
     .filter((s) => s.section === 'part2_calculator')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split (14 bank, 32 AI)
+  // Apply 30% bank / 70% AI split (12 bank, 28 AI)
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {
     subject: 'Math',
     type: 'multi-part-math',
-    totalQuestions: 46,
+    totalQuestions: 40,
     invariants: {
       part1_non_calculator: 5,
-      part2_calculator: 41,
-      totalQuestions: 46,
+      part2_calculator: 35,
+      totalQuestions: 40,
       noRandomNumericAssignment: true,
     },
     slots,
