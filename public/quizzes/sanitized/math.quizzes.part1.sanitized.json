@@ -772,12 +772,12 @@
                     },
                     {
                       "text": "9",
-                      "rationale": "This calculates 3^2 but omits the addition of 5.",
+                      "rationale": "This calculates \\(3^2\\) but omits the addition of 5.",
                       "isCorrect": false
                     },
                     {
                       "text": "14",
-                      "rationale": "Correct. 3^2 = 9 and 9 + 5 = 14.",
+                      "rationale": "Correct. \\(3^2\\) = 9 and 9 + 5 = 14.",
                       "isCorrect": true
                     },
                     {
@@ -2563,7 +2563,7 @@
                 },
                 {
                   "type": "multiple_choice",
-                  "question": "The function h(t) = -16t^2 + 64t gives the height of a ball thrown upwards, in feet, after t seconds. What is the height of the ball after 2 seconds?",
+                  "question": "The function h(t) = -\\(16t^2\\) + 64t gives the height of a ball thrown upwards, in feet, after t seconds. What is the height of the ball after 2 seconds?",
                   "answerOptions": [
                     "32 feet",
                     "48 feet",
@@ -3793,12 +3793,12 @@
                   },
                   {
                     "text": "9",
-                    "rationale": "This calculates 3^2 but omits the addition of 5.",
+                    "rationale": "This calculates \\(3^2\\) but omits the addition of 5.",
                     "isCorrect": false
                   },
                   {
                     "text": "14",
-                    "rationale": "Correct. 3^2 = 9 and 9 + 5 = 14.",
+                    "rationale": "Correct. \\(3^2\\) = 9 and 9 + 5 = 14.",
                     "isCorrect": true
                   },
                   {
@@ -5560,7 +5560,7 @@
               },
               {
                 "type": "multiple_choice",
-                "question": "The function h(t) = -16t^2 + 64t gives the height of a ball thrown upwards, in feet, after t seconds. What is the height of the ball after 2 seconds?",
+                "question": "The function h(t) = -\\(16t^2\\) + 64t gives the height of a ball thrown upwards, in feet, after t seconds. What is the height of the ball after 2 seconds?",
                 "answerOptions": [
                   "32 feet",
                   "48 feet",
@@ -6047,12 +6047,12 @@
                       "isCorrect": false
                     },
                     {
-                      "text": "3x^2",
+                      "text": "\\(3x^2\\)",
                       "rationale": "This incorrectly squares x when adding.",
                       "isCorrect": false
                     },
                     {
-                      "text": "5x^2",
+                      "text": "\\(5x^2\\)",
                       "rationale": "This treats the expression as multiplication rather than addition.",
                       "isCorrect": false
                     }
@@ -6142,26 +6142,26 @@
                 {
                   "questionNumber": 5,
                   "type": "knowledge",
-                  "question": "Combine like terms in 4x^2 - 3x + 2x^2 + 5x.",
+                  "question": "Combine like terms in \\(4x^2\\) - 3x + \\(2x^2\\) + 5x.",
                   "answerOptions": [
                     {
-                      "text": "6x^2 + 2x",
-                      "rationale": "Correct. Combine 4x^2 + 2x^2 and -3x + 5x separately.",
+                      "text": "\\(6x^2\\) + 2x",
+                      "rationale": "Correct. Combine \\(4x^2\\) + \\(2x^2\\) and -3x + 5x separately.",
                       "isCorrect": true
                     },
                     {
-                      "text": "6x^2 - 8x",
+                      "text": "\\(6x^2\\) - 8x",
                       "rationale": "This subtracts instead of adds the linear terms.",
                       "isCorrect": false
                     },
                     {
-                      "text": "6x^2 + 8x",
+                      "text": "\\(6x^2\\) + 8x",
                       "rationale": "This adds the coefficients without considering the negative sign.",
                       "isCorrect": false
                     },
                     {
-                      "text": "8x^2 + 2x",
-                      "rationale": "This adds 4x^2 and 2x^2 incorrectly.",
+                      "text": "\\(8x^2\\) + 2x",
+                      "rationale": "This adds \\(4x^2\\) and \\(2x^2\\) incorrectly.",
                       "isCorrect": false
                     }
                   ]
@@ -6169,7 +6169,7 @@
                 {
                   "questionNumber": 6,
                   "type": "knowledge",
-                  "question": "Factor 9x^2y + 12xy^2 completely.",
+                  "question": "Factor \\(9x^2\\)y + \\(12xy^2\\) completely.",
                   "answerOptions": [
                     {
                       "text": "3xy(3x + 4y)",
@@ -6177,7 +6177,7 @@
                       "isCorrect": true
                     },
                     {
-                      "text": "3x(3xy + 4y^2)",
+                      "text": "3x(3xy + \\(4y^2\\))",
                       "rationale": "This leaves a common factor of y inside the parentheses.",
                       "isCorrect": false
                     },
@@ -6205,12 +6205,12 @@
                     },
                     {
                       "text": "4",
-                      "rationale": "This evaluates (-3)^2 - 2(-3) but omits the constant +1.",
+                      "rationale": "This evaluates (-\\(3)^2\\) - 2(-3) but omits the constant +1.",
                       "isCorrect": false
                     },
                     {
                       "text": "-8",
-                      "rationale": "This treats x^2 as (-3)^2 = -9 incorrectly.",
+                      "rationale": "This treats \\(x^2\\) as (-\\(3)^2\\) = -9 incorrectly.",
                       "isCorrect": false
                     },
                     {
@@ -6223,11 +6223,11 @@
                 {
                   "questionNumber": 8,
                   "type": "knowledge",
-                  "question": "What is the coefficient of $x^{3}$ in 7x^3 - 5x + 2?",
+                  "question": "What is the coefficient of $x^{3}$ in \\(7x^3\\) - 5x + 2?",
                   "answerOptions": [
                     {
                       "text": "7",
-                      "rationale": "Correct. The coefficient multiplying x^3 is 7.",
+                      "rationale": "Correct. The coefficient multiplying \\(x^3\\) is 7.",
                       "isCorrect": true
                     },
                     {
@@ -6237,12 +6237,12 @@
                     },
                     {
                       "text": "2",
-                      "rationale": "This is the constant term, not a coefficient of x^3.",
+                      "rationale": "This is the constant term, not a coefficient of \\(x^3\\).",
                       "isCorrect": false
                     },
                     {
                       "text": "0",
-                      "rationale": "There is an x^3 term, so the coefficient is not zero.",
+                      "rationale": "There is an \\(x^3\\) term, so the coefficient is not zero.",
                       "isCorrect": false
                     }
                   ]
@@ -6250,26 +6250,26 @@
                 {
                   "questionNumber": 9,
                   "type": "knowledge",
-                  "question": "Simplify (2x^2)(-3x^3).",
+                  "question": "Simplify (\\(2x^2\\))(-\\(3x^3\\)).",
                   "answerOptions": [
                     {
-                      "text": "-6x^5",
+                      "text": "-\\(6x^5\\)",
                       "rationale": "Correct. Multiply the coefficients and add the exponents of x.",
                       "isCorrect": true
                     },
                     {
-                      "text": "-6x^6",
+                      "text": "-\\(6x^6\\)",
                       "rationale": "This adds the exponents incorrectly: 2 + 3 != 6.",
                       "isCorrect": false
                     },
                     {
-                      "text": "-1x^5",
+                      "text": "-\\(1x^5\\)",
                       "rationale": "This multiplies the coefficients incorrectly.",
                       "isCorrect": false
                     },
                     {
-                      "text": "6x^5",
-                      "rationale": "This ignores the negative sign from -3x^3.",
+                      "text": "\\(6x^5\\)",
+                      "rationale": "This ignores the negative sign from -\\(3x^3\\).",
                       "isCorrect": false
                     }
                   ]
@@ -6277,7 +6277,7 @@
                 {
                   "questionNumber": 10,
                   "type": "knowledge",
-                  "question": "What is the degree of the polynomial 6x^4 - 2x^2 + 9?",
+                  "question": "What is the degree of the polynomial \\(6x^4\\) - \\(2x^2\\) + 9?",
                   "answerOptions": [
                     {
                       "text": "4",
@@ -6286,7 +6286,7 @@
                     },
                     {
                       "text": "3",
-                      "rationale": "There is no x^3 term, but the degree depends on the highest exponent, not the middle term.",
+                      "rationale": "There is no \\(x^3\\) term, but the degree depends on the highest exponent, not the middle term.",
                       "isCorrect": false
                     },
                     {
@@ -6304,25 +6304,25 @@
                 {
                   "questionNumber": 11,
                   "type": "applied",
-                  "question": "Simplify (3x^2 + 5x - 2) - ($x^{2}$ - 4x + 7).",
+                  "question": "Simplify (\\(3x^2\\) + 5x - 2) - ($x^{2}$ - 4x + 7).",
                   "answerOptions": [
                     {
-                      "text": "2x^2 + 9x - 9",
+                      "text": "\\(2x^2\\) + 9x - 9",
                       "rationale": "Correct. Distribute the negative sign and combine like terms.",
                       "isCorrect": true
                     },
                     {
-                      "text": "2x^2 + x + 5",
+                      "text": "\\(2x^2\\) + x + 5",
                       "rationale": "This subtracts 7 incorrectly and mishandles the linear terms.",
                       "isCorrect": false
                     },
                     {
-                      "text": "4x^2 + 9x + 5",
+                      "text": "\\(4x^2\\) + 9x + 5",
                       "rationale": "This adds the polynomials instead of subtracting.",
                       "isCorrect": false
                     },
                     {
-                      "text": "2x^2 + 9x + 9",
+                      "text": "\\(2x^2\\) + 9x + 9",
                       "rationale": "The constants were added rather than subtracted.",
                       "isCorrect": false
                     }
@@ -6763,7 +6763,7 @@
                     },
                     {
                       "text": "(x - 2)(x + 7)",
-                      "rationale": "This expands to x^2 + 5x - 14 with the wrong sign on the linear term.",
+                      "rationale": "This expands to \\(x^2\\) + 5x - 14 with the wrong sign on the linear term.",
                       "isCorrect": false
                     },
                     {
@@ -6781,7 +6781,7 @@
                 {
                   "questionNumber": 4,
                   "type": "applied",
-                  "question": "Use the quadratic formula to solve 2x^2 - 3x - 2 = 0.",
+                  "question": "Use the quadratic formula to solve \\(2x^2\\) - 3x - 2 = 0.",
                   "answerOptions": [
                     {
                       "text": "x = 2 or x = -$\\frac{1}{2}$",
@@ -6808,11 +6808,11 @@
                 {
                   "questionNumber": 5,
                   "type": "knowledge",
-                  "question": "What is the vertex of y = (x - 4)^2 + 3?",
+                  "question": "What is the vertex of y = (x - \\(4)^2\\) + 3?",
                   "answerOptions": [
                     {
                       "text": "(4, 3)",
-                      "rationale": "Correct. Vertex form y = (x - h)^2 + k has vertex (h, k).",
+                      "rationale": "Correct. Vertex form y = (x - \\(h)^2\\) + k has vertex (h, k).",
                       "isCorrect": true
                     },
                     {
@@ -6893,7 +6893,7 @@
                   "answerOptions": [
                     {
                       "text": "No, because the discriminant is negative.",
-                      "rationale": "Correct. b^2 - 4ac = 16 - 32 = -16 < 0.",
+                      "rationale": "Correct. \\(b^2\\) - 4ac = 16 - 32 = -16 < 0.",
                       "isCorrect": true
                     },
                     {
@@ -6943,7 +6943,7 @@
                 {
                   "questionNumber": 10,
                   "type": "applied",
-                  "question": "Solve -2(x + 1)^2 + 8 = 0.",
+                  "question": "Solve -2(x + \\(1)^2\\) + 8 = 0.",
                   "answerOptions": [
                     {
                       "text": "x = 1 or x = -3",
@@ -6974,7 +6974,7 @@
                   "answerOptions": [
                     {
                       "text": "k = 6 or k = -6",
-                      "rationale": "Correct. Set the discriminant k^2 - 36 equal to zero.",
+                      "rationale": "Correct. Set the discriminant \\(k^2\\) - 36 equal to zero.",
                       "isCorrect": true
                     },
                     {
@@ -7060,7 +7060,7 @@
                 {
                   "questionNumber": 2,
                   "type": "applied",
-                  "question": "Evaluate g(-2) when g(t) = 2t^2 - 1.",
+                  "question": "Evaluate g(-2) when g(t) = \\(2t^2\\) - 1.",
                   "answerOptions": [
                     {
                       "text": "7",
@@ -7384,12 +7384,12 @@
                     "isCorrect": false
                   },
                   {
-                    "text": "3x^2",
+                    "text": "\\(3x^2\\)",
                     "rationale": "This incorrectly squares x when adding.",
                     "isCorrect": false
                   },
                   {
-                    "text": "5x^2",
+                    "text": "\\(5x^2\\)",
                     "rationale": "This treats the expression as multiplication rather than addition.",
                     "isCorrect": false
                   }
@@ -7479,26 +7479,26 @@
               {
                 "questionNumber": 5,
                 "type": "knowledge",
-                "question": "Combine like terms in 4x^2 - 3x + 2x^2 + 5x.",
+                "question": "Combine like terms in \\(4x^2\\) - 3x + \\(2x^2\\) + 5x.",
                 "answerOptions": [
                   {
-                    "text": "6x^2 + 2x",
-                    "rationale": "Correct. Combine 4x^2 + 2x^2 and -3x + 5x separately.",
+                    "text": "\\(6x^2\\) + 2x",
+                    "rationale": "Correct. Combine \\(4x^2\\) + \\(2x^2\\) and -3x + 5x separately.",
                     "isCorrect": true
                   },
                   {
-                    "text": "6x^2 - 8x",
+                    "text": "\\(6x^2\\) - 8x",
                     "rationale": "This subtracts instead of adds the linear terms.",
                     "isCorrect": false
                   },
                   {
-                    "text": "6x^2 + 8x",
+                    "text": "\\(6x^2\\) + 8x",
                     "rationale": "This adds the coefficients without considering the negative sign.",
                     "isCorrect": false
                   },
                   {
-                    "text": "8x^2 + 2x",
-                    "rationale": "This adds 4x^2 and 2x^2 incorrectly.",
+                    "text": "\\(8x^2\\) + 2x",
+                    "rationale": "This adds \\(4x^2\\) and \\(2x^2\\) incorrectly.",
                     "isCorrect": false
                   }
                 ]
@@ -7506,7 +7506,7 @@
               {
                 "questionNumber": 6,
                 "type": "knowledge",
-                "question": "Factor 9x^2y + 12xy^2 completely.",
+                "question": "Factor \\(9x^2\\)y + \\(12xy^2\\) completely.",
                 "answerOptions": [
                   {
                     "text": "3xy(3x + 4y)",
@@ -7514,7 +7514,7 @@
                     "isCorrect": true
                   },
                   {
-                    "text": "3x(3xy + 4y^2)",
+                    "text": "3x(3xy + \\(4y^2\\))",
                     "rationale": "This leaves a common factor of y inside the parentheses.",
                     "isCorrect": false
                   },
@@ -7542,12 +7542,12 @@
                   },
                   {
                     "text": "4",
-                    "rationale": "This evaluates (-3)^2 - 2(-3) but omits the constant +1.",
+                    "rationale": "This evaluates (-\\(3)^2\\) - 2(-3) but omits the constant +1.",
                     "isCorrect": false
                   },
                   {
                     "text": "-8",
-                    "rationale": "This treats x^2 as (-3)^2 = -9 incorrectly.",
+                    "rationale": "This treats \\(x^2\\) as (-\\(3)^2\\) = -9 incorrectly.",
                     "isCorrect": false
                   },
                   {
@@ -7560,11 +7560,11 @@
               {
                 "questionNumber": 8,
                 "type": "knowledge",
-                "question": "What is the coefficient of $x^{3}$ in 7x^3 - 5x + 2?",
+                "question": "What is the coefficient of $x^{3}$ in \\(7x^3\\) - 5x + 2?",
                 "answerOptions": [
                   {
                     "text": "7",
-                    "rationale": "Correct. The coefficient multiplying x^3 is 7.",
+                    "rationale": "Correct. The coefficient multiplying \\(x^3\\) is 7.",
                     "isCorrect": true
                   },
                   {
@@ -7574,12 +7574,12 @@
                   },
                   {
                     "text": "2",
-                    "rationale": "This is the constant term, not a coefficient of x^3.",
+                    "rationale": "This is the constant term, not a coefficient of \\(x^3\\).",
                     "isCorrect": false
                   },
                   {
                     "text": "0",
-                    "rationale": "There is an x^3 term, so the coefficient is not zero.",
+                    "rationale": "There is an \\(x^3\\) term, so the coefficient is not zero.",
                     "isCorrect": false
                   }
                 ]
@@ -7587,26 +7587,26 @@
               {
                 "questionNumber": 9,
                 "type": "knowledge",
-                "question": "Simplify (2x^2)(-3x^3).",
+                "question": "Simplify (\\(2x^2\\))(-\\(3x^3\\)).",
                 "answerOptions": [
                   {
-                    "text": "-6x^5",
+                    "text": "-\\(6x^5\\)",
                     "rationale": "Correct. Multiply the coefficients and add the exponents of x.",
                     "isCorrect": true
                   },
                   {
-                    "text": "-6x^6",
+                    "text": "-\\(6x^6\\)",
                     "rationale": "This adds the exponents incorrectly: 2 + 3 != 6.",
                     "isCorrect": false
                   },
                   {
-                    "text": "-1x^5",
+                    "text": "-\\(1x^5\\)",
                     "rationale": "This multiplies the coefficients incorrectly.",
                     "isCorrect": false
                   },
                   {
-                    "text": "6x^5",
-                    "rationale": "This ignores the negative sign from -3x^3.",
+                    "text": "\\(6x^5\\)",
+                    "rationale": "This ignores the negative sign from -\\(3x^3\\).",
                     "isCorrect": false
                   }
                 ]
@@ -7614,7 +7614,7 @@
               {
                 "questionNumber": 10,
                 "type": "knowledge",
-                "question": "What is the degree of the polynomial 6x^4 - 2x^2 + 9?",
+                "question": "What is the degree of the polynomial \\(6x^4\\) - \\(2x^2\\) + 9?",
                 "answerOptions": [
                   {
                     "text": "4",
@@ -7623,7 +7623,7 @@
                   },
                   {
                     "text": "3",
-                    "rationale": "There is no x^3 term, but the degree depends on the highest exponent, not the middle term.",
+                    "rationale": "There is no \\(x^3\\) term, but the degree depends on the highest exponent, not the middle term.",
                     "isCorrect": false
                   },
                   {
@@ -7641,25 +7641,25 @@
               {
                 "questionNumber": 11,
                 "type": "applied",
-                "question": "Simplify (3x^2 + 5x - 2) - ($x^{2}$ - 4x + 7).",
+                "question": "Simplify (\\(3x^2\\) + 5x - 2) - ($x^{2}$ - 4x + 7).",
                 "answerOptions": [
                   {
-                    "text": "2x^2 + 9x - 9",
+                    "text": "\\(2x^2\\) + 9x - 9",
                     "rationale": "Correct. Distribute the negative sign and combine like terms.",
                     "isCorrect": true
                   },
                   {
-                    "text": "2x^2 + x + 5",
+                    "text": "\\(2x^2\\) + x + 5",
                     "rationale": "This subtracts 7 incorrectly and mishandles the linear terms.",
                     "isCorrect": false
                   },
                   {
-                    "text": "4x^2 + 9x + 5",
+                    "text": "\\(4x^2\\) + 9x + 5",
                     "rationale": "This adds the polynomials instead of subtracting.",
                     "isCorrect": false
                   },
                   {
-                    "text": "2x^2 + 9x + 9",
+                    "text": "\\(2x^2\\) + 9x + 9",
                     "rationale": "The constants were added rather than subtracted.",
                     "isCorrect": false
                   }
@@ -8100,7 +8100,7 @@
                   },
                   {
                     "text": "(x - 2)(x + 7)",
-                    "rationale": "This expands to x^2 + 5x - 14 with the wrong sign on the linear term.",
+                    "rationale": "This expands to \\(x^2\\) + 5x - 14 with the wrong sign on the linear term.",
                     "isCorrect": false
                   },
                   {
@@ -8118,7 +8118,7 @@
               {
                 "questionNumber": 4,
                 "type": "applied",
-                "question": "Use the quadratic formula to solve 2x^2 - 3x - 2 = 0.",
+                "question": "Use the quadratic formula to solve \\(2x^2\\) - 3x - 2 = 0.",
                 "answerOptions": [
                   {
                     "text": "x = 2 or x = -$\\frac{1}{2}$",
@@ -8145,11 +8145,11 @@
               {
                 "questionNumber": 5,
                 "type": "knowledge",
-                "question": "What is the vertex of y = (x - 4)^2 + 3?",
+                "question": "What is the vertex of y = (x - \\(4)^2\\) + 3?",
                 "answerOptions": [
                   {
                     "text": "(4, 3)",
-                    "rationale": "Correct. Vertex form y = (x - h)^2 + k has vertex (h, k).",
+                    "rationale": "Correct. Vertex form y = (x - \\(h)^2\\) + k has vertex (h, k).",
                     "isCorrect": true
                   },
                   {
@@ -8230,7 +8230,7 @@
                 "answerOptions": [
                   {
                     "text": "No, because the discriminant is negative.",
-                    "rationale": "Correct. b^2 - 4ac = 16 - 32 = -16 < 0.",
+                    "rationale": "Correct. \\(b^2\\) - 4ac = 16 - 32 = -16 < 0.",
                     "isCorrect": true
                   },
                   {
@@ -8280,7 +8280,7 @@
               {
                 "questionNumber": 10,
                 "type": "applied",
-                "question": "Solve -2(x + 1)^2 + 8 = 0.",
+                "question": "Solve -2(x + \\(1)^2\\) + 8 = 0.",
                 "answerOptions": [
                   {
                     "text": "x = 1 or x = -3",
@@ -8311,7 +8311,7 @@
                 "answerOptions": [
                   {
                     "text": "k = 6 or k = -6",
-                    "rationale": "Correct. Set the discriminant k^2 - 36 equal to zero.",
+                    "rationale": "Correct. Set the discriminant \\(k^2\\) - 36 equal to zero.",
                     "isCorrect": true
                   },
                   {
@@ -8399,7 +8399,7 @@
               {
                 "questionNumber": 2,
                 "type": "applied",
-                "question": "Evaluate g(-2) when g(t) = 2t^2 - 1.",
+                "question": "Evaluate g(-2) when g(t) = \\(2t^2\\) - 1.",
                 "answerOptions": [
                   {
                     "text": "7",
@@ -8772,7 +8772,7 @@
                   "answerOptions": [
                     {
                       "text": "16π square units",
-                      "rationale": "Correct. Use A = π r^2 = π(4^2) = 16π.",
+                      "rationale": "Correct. Use A = π \\(r^2\\) = π(\\(4^2\\)) = 16π.",
                       "isCorrect": true
                     },
                     {
@@ -8907,7 +8907,7 @@
                   "answerOptions": [
                     {
                       "text": "90π cubic feet",
-                      "rationale": "Correct. V = π r^2 h = π(9)(10).",
+                      "rationale": "Correct. V = π \\(r^2\\) h = π(9)(10).",
                       "isCorrect": true
                     },
                     {
@@ -9384,7 +9384,7 @@
                   "answerOptions": [
                     {
                       "text": "10",
-                      "rationale": "Correct. 6^2 + 8^2 = 36 + 64 = 100 and sqrt(100) = 10.",
+                      "rationale": "Correct. \\(6^2\\) + \\(8^2\\) = 36 + 64 = 100 and sqrt(100) = 10.",
                       "isCorrect": true
                     },
                     {
@@ -9411,7 +9411,7 @@
                   "answerOptions": [
                     {
                       "text": "12",
-                      "rationale": "Correct. 13^2 - 5^2 = 169 - 25 = 144 and sqrt(144) = 12.",
+                      "rationale": "Correct. \\(13^2\\) - \\(5^2\\) = 169 - 25 = 144 and sqrt(144) = 12.",
                       "isCorrect": true
                     },
                     {
@@ -9438,7 +9438,7 @@
                   "answerOptions": [
                     {
                       "text": "Yes, because $7^{2}$ + $24^{2}$ = $25^{2}$.",
-                      "rationale": "Correct. 49 + 576 = 625 equals 25^2.",
+                      "rationale": "Correct. 49 + 576 = 625 equals \\(25^2\\).",
                       "isCorrect": true
                     },
                     {
@@ -9465,7 +9465,7 @@
                   "answerOptions": [
                     {
                       "text": "9 feet",
-                      "rationale": "Correct. 15^2 - 12^2 = 225 - 144 = 81, so the base is sqrt(81) = 9 feet away.",
+                      "rationale": "Correct. \\(15^2\\) - \\(12^2\\) = 225 - 144 = 81, so the base is sqrt(81) = 9 feet away.",
                       "isCorrect": true
                     },
                     {
@@ -9546,7 +9546,7 @@
                   "answerOptions": [
                     {
                       "text": "15 meters",
-                      "rationale": "Correct. 9^2 + 12^2 = 81 + 144 = 225, and sqrt(225) = 15.",
+                      "rationale": "Correct. \\(9^2\\) + \\(12^2\\) = 81 + 144 = 225, and sqrt(225) = 15.",
                       "isCorrect": true
                     },
                     {
@@ -9627,12 +9627,12 @@
                   "answerOptions": [
                     {
                       "text": "7",
-                      "rationale": "Correct. The equation is in standard form with r^2 = 49.",
+                      "rationale": "Correct. The equation is in standard form with \\(r^2\\) = 49.",
                       "isCorrect": true
                     },
                     {
                       "text": "49",
-                      "rationale": "This treats r^2 as the radius itself.",
+                      "rationale": "This treats \\(r^2\\) as the radius itself.",
                       "isCorrect": false
                     },
                     {
@@ -9653,22 +9653,22 @@
                   "question": "What is the equation of a circle with center (3, -2) and radius 5?",
                   "answerOptions": [
                     {
-                      "text": "(x - 3)^2 + (y + 2)^2 = 25",
-                      "rationale": "Correct. Substitute the center and r^2 = 25 into the standard equation.",
+                      "text": "(x - \\(3)^2\\) + (y + \\(2)^2\\) = 25",
+                      "rationale": "Correct. Substitute the center and \\(r^2\\) = 25 into the standard equation.",
                       "isCorrect": true
                     },
                     {
-                      "text": "(x + 3)^2 + (y - 2)^2 = 5",
+                      "text": "(x + \\(3)^2\\) + (y - \\(2)^2\\) = 5",
                       "rationale": "This reverses the signs and forgets to square the radius.",
                       "isCorrect": false
                     },
                     {
-                      "text": "(x - 3)^2 + (y - 2)^2 = 10",
-                      "rationale": "This uses 2r instead of r^2.",
+                      "text": "(x - \\(3)^2\\) + (y - \\(2)^2\\) = 10",
+                      "rationale": "This uses 2r instead of \\(r^2\\).",
                       "isCorrect": false
                     },
                     {
-                      "text": "(x + 3)^2 + (y + 2)^2 = 25",
+                      "text": "(x + \\(3)^2\\) + (y + \\(2)^2\\) = 25",
                       "rationale": "This negates both coordinates of the center.",
                       "isCorrect": false
                     }
@@ -9681,7 +9681,7 @@
                   "answerOptions": [
                     {
                       "text": "5 units",
-                      "rationale": "Correct. (-3)^2 + 4^2 = 9 + 16 = 25, and sqrt(25) = 5.",
+                      "rationale": "Correct. (-\\(3)^2\\) + \\(4^2\\) = 9 + 16 = 25, and sqrt(25) = 5.",
                       "isCorrect": true
                     },
                     {
@@ -10113,7 +10113,7 @@
                   "answerOptions": [
                     "A = pi * r",
                     "A = 2 * pi * r",
-                    "A = pi * r^2",
+                    "A = pi * \\(r^2\\)",
                     "A = pi * d"
                   ],
                   "correctAnswer": "A = pi * $r^{2}$",
@@ -10122,7 +10122,7 @@
                 {
                   "type": "fill_in_the_blank",
                   "question": "What is the formula for the distance between two points (x1, y1) and (x2, y2) in a coordinate plane?",
-                  "correctAnswer": "d = sqrt((x2 - x1)^2 + (y2 - y1)^2)",
+                  "correctAnswer": "d = sqrt((x2 - \\(x1)^2\\) + (y2 - \\(y1)^2\\))",
                   "difficulty": "medium"
                 },
                 {
@@ -10143,8 +10143,8 @@
                   "answerOptions": [
                     "V = pi * r * h",
                     "V = 2 * pi * r * h",
-                    "V = pi * r^2 * h",
-                    "V = 1/3 * pi * r^2 * h"
+                    "V = pi * \\(r^2\\) * h",
+                    "V = 1/3 * pi * \\(r^2\\) * h"
                   ],
                   "correctAnswer": "V = pi * $r^{2}$ * h",
                   "difficulty": "hard"
@@ -10157,14 +10157,14 @@
                 },
                 {
                   "type": "multiple_choice",
-                  "question": "What is the quadratic formula, used to solve equations of the form ax^2 + bx + c = 0?",
+                  "question": "What is the quadratic formula, used to solve equations of the form \\(ax^2\\) + bx + c = 0?",
                   "answerOptions": [
-                    "x = (-b +/- sqrt(b^2 - 4ac)) / 2a",
-                    "x = (b +/- sqrt(b^2 - 4ac)) / 2a",
-                    "x = (-b +/- sqrt(b^2 + 4ac)) / 2a",
-                    "x = (-b +/- sqrt(b^2 - 4ac)) / a"
+                    "x = (-b +/- sqrt(\\(b^2\\) - 4ac)) / 2a",
+                    "x = (b +/- sqrt(\\(b^2\\) - 4ac)) / 2a",
+                    "x = (-b +/- sqrt(\\(b^2\\) + 4ac)) / 2a",
+                    "x = (-b +/- sqrt(\\(b^2\\) - 4ac)) / a"
                   ],
-                  "correctAnswer": "x = (-b $\\pm$ $\\sqrt{$b^{2}$ - 4ac}$) / 2a",
+                  "correctAnswer": "x = (-b $\\pm$ $\\sqrt{$\\(b^{2}\\)$ - 4ac}$) / 2a",
                   "difficulty": "hard"
                 }
               ],
@@ -10196,10 +10196,10 @@
                   "type": "multiple_choice",
                   "question": "What is the formula for the volume of a cube with side length 's'?",
                   "answerOptions": [
-                    "V = s^2",
+                    "V = \\(s^2\\)",
                     "V = 3s",
-                    "V = 6s^2",
-                    "V = s^3"
+                    "V = \\(6s^2\\)",
+                    "V = \\(s^3\\)"
                   ],
                   "correctAnswer": "V = $s^{3}$",
                   "difficulty": "easy"
@@ -10268,10 +10268,10 @@
                   "type": "multiple_choice",
                   "question": "What is the formula for the volume of a sphere?",
                   "answerOptions": [
-                    "V = 4 * pi * r^2",
-                    "V = 4/3 * pi * r^3",
-                    "V = pi * r^3",
-                    "V = 2/3 * pi * r^3"
+                    "V = 4 * pi * \\(r^2\\)",
+                    "V = 4/3 * pi * \\(r^3\\)",
+                    "V = pi * \\(r^3\\)",
+                    "V = 2/3 * pi * \\(r^3\\)"
                   ],
                   "correctAnswer": "V = $\\frac{4}{3}$ * pi * $r^{3}$",
                   "difficulty": "hard"
@@ -10369,7 +10369,7 @@
                 "answerOptions": [
                   {
                     "text": "16π square units",
-                    "rationale": "Correct. Use A = π r^2 = π(4^2) = 16π.",
+                    "rationale": "Correct. Use A = π \\(r^2\\) = π(\\(4^2\\)) = 16π.",
                     "isCorrect": true
                   },
                   {
@@ -10504,7 +10504,7 @@
                 "answerOptions": [
                   {
                     "text": "90π cubic feet",
-                    "rationale": "Correct. V = π r^2 h = π(9)(10).",
+                    "rationale": "Correct. V = π \\(r^2\\) h = π(9)(10).",
                     "isCorrect": true
                   },
                   {
@@ -10981,7 +10981,7 @@
                 "answerOptions": [
                   {
                     "text": "10",
-                    "rationale": "Correct. 6^2 + 8^2 = 36 + 64 = 100 and sqrt(100) = 10.",
+                    "rationale": "Correct. \\(6^2\\) + \\(8^2\\) = 36 + 64 = 100 and sqrt(100) = 10.",
                     "isCorrect": true
                   },
                   {
@@ -11008,7 +11008,7 @@
                 "answerOptions": [
                   {
                     "text": "12",
-                    "rationale": "Correct. 13^2 - 5^2 = 169 - 25 = 144 and sqrt(144) = 12.",
+                    "rationale": "Correct. \\(13^2\\) - \\(5^2\\) = 169 - 25 = 144 and sqrt(144) = 12.",
                     "isCorrect": true
                   },
                   {
@@ -11035,7 +11035,7 @@
                 "answerOptions": [
                   {
                     "text": "Yes, because $7^{2}$ + $24^{2}$ = $25^{2}$.",
-                    "rationale": "Correct. 49 + 576 = 625 equals 25^2.",
+                    "rationale": "Correct. 49 + 576 = 625 equals \\(25^2\\).",
                     "isCorrect": true
                   },
                   {
@@ -11062,7 +11062,7 @@
                 "answerOptions": [
                   {
                     "text": "9 feet",
-                    "rationale": "Correct. 15^2 - 12^2 = 225 - 144 = 81, so the base is sqrt(81) = 9 feet away.",
+                    "rationale": "Correct. \\(15^2\\) - \\(12^2\\) = 225 - 144 = 81, so the base is sqrt(81) = 9 feet away.",
                     "isCorrect": true
                   },
                   {
@@ -11143,7 +11143,7 @@
                 "answerOptions": [
                   {
                     "text": "15 meters",
-                    "rationale": "Correct. 9^2 + 12^2 = 81 + 144 = 225, and sqrt(225) = 15.",
+                    "rationale": "Correct. \\(9^2\\) + \\(12^2\\) = 81 + 144 = 225, and sqrt(225) = 15.",
                     "isCorrect": true
                   },
                   {
@@ -11224,12 +11224,12 @@
                 "answerOptions": [
                   {
                     "text": "7",
-                    "rationale": "Correct. The equation is in standard form with r^2 = 49.",
+                    "rationale": "Correct. The equation is in standard form with \\(r^2\\) = 49.",
                     "isCorrect": true
                   },
                   {
                     "text": "49",
-                    "rationale": "This treats r^2 as the radius itself.",
+                    "rationale": "This treats \\(r^2\\) as the radius itself.",
                     "isCorrect": false
                   },
                   {
@@ -11250,22 +11250,22 @@
                 "question": "What is the equation of a circle with center (3, -2) and radius 5?",
                 "answerOptions": [
                   {
-                    "text": "(x - 3)^2 + (y + 2)^2 = 25",
-                    "rationale": "Correct. Substitute the center and r^2 = 25 into the standard equation.",
+                    "text": "(x - \\(3)^2\\) + (y + \\(2)^2\\) = 25",
+                    "rationale": "Correct. Substitute the center and \\(r^2\\) = 25 into the standard equation.",
                     "isCorrect": true
                   },
                   {
-                    "text": "(x + 3)^2 + (y - 2)^2 = 5",
+                    "text": "(x + \\(3)^2\\) + (y - \\(2)^2\\) = 5",
                     "rationale": "This reverses the signs and forgets to square the radius.",
                     "isCorrect": false
                   },
                   {
-                    "text": "(x - 3)^2 + (y - 2)^2 = 10",
-                    "rationale": "This uses 2r instead of r^2.",
+                    "text": "(x - \\(3)^2\\) + (y - \\(2)^2\\) = 10",
+                    "rationale": "This uses 2r instead of \\(r^2\\).",
                     "isCorrect": false
                   },
                   {
-                    "text": "(x + 3)^2 + (y + 2)^2 = 25",
+                    "text": "(x + \\(3)^2\\) + (y + \\(2)^2\\) = 25",
                     "rationale": "This negates both coordinates of the center.",
                     "isCorrect": false
                   }
@@ -11278,7 +11278,7 @@
                 "answerOptions": [
                   {
                     "text": "5 units",
-                    "rationale": "Correct. (-3)^2 + 4^2 = 9 + 16 = 25, and sqrt(25) = 5.",
+                    "rationale": "Correct. (-\\(3)^2\\) + \\(4^2\\) = 9 + 16 = 25, and sqrt(25) = 5.",
                     "isCorrect": true
                   },
                   {
@@ -11706,7 +11706,7 @@
                 "answerOptions": [
                   "A = pi * r",
                   "A = 2 * pi * r",
-                  "A = pi * r^2",
+                  "A = pi * \\(r^2\\)",
                   "A = pi * d"
                 ],
                 "correctAnswer": "A = pi * $r^{2}$",
@@ -11715,7 +11715,7 @@
               {
                 "type": "fill_in_the_blank",
                 "question": "What is the formula for the distance between two points (x1, y1) and (x2, y2) in a coordinate plane?",
-                "correctAnswer": "d = sqrt((x2 - x1)^2 + (y2 - y1)^2)",
+                "correctAnswer": "d = sqrt((x2 - \\(x1)^2\\) + (y2 - \\(y1)^2\\))",
                 "difficulty": "medium"
               },
               {
@@ -11736,8 +11736,8 @@
                 "answerOptions": [
                   "V = pi * r * h",
                   "V = 2 * pi * r * h",
-                  "V = pi * r^2 * h",
-                  "V = 1/3 * pi * r^2 * h"
+                  "V = pi * \\(r^2\\) * h",
+                  "V = 1/3 * pi * \\(r^2\\) * h"
                 ],
                 "correctAnswer": "V = pi * $r^{2}$ * h",
                 "difficulty": "hard"
@@ -11750,14 +11750,14 @@
               },
               {
                 "type": "multiple_choice",
-                "question": "What is the quadratic formula, used to solve equations of the form ax^2 + bx + c = 0?",
+                "question": "What is the quadratic formula, used to solve equations of the form \\(ax^2\\) + bx + c = 0?",
                 "answerOptions": [
-                  "x = (-b +/- sqrt(b^2 - 4ac)) / 2a",
-                  "x = (b +/- sqrt(b^2 - 4ac)) / 2a",
-                  "x = (-b +/- sqrt(b^2 + 4ac)) / 2a",
-                  "x = (-b +/- sqrt(b^2 - 4ac)) / a"
+                  "x = (-b +/- sqrt(\\(b^2\\) - 4ac)) / 2a",
+                  "x = (b +/- sqrt(\\(b^2\\) - 4ac)) / 2a",
+                  "x = (-b +/- sqrt(\\(b^2\\) + 4ac)) / 2a",
+                  "x = (-b +/- sqrt(\\(b^2\\) - 4ac)) / a"
                 ],
-                "correctAnswer": "x = (-b $\\pm$ $\\sqrt{$b^{2}$ - 4ac}$) / 2a",
+                "correctAnswer": "x = (-b $\\pm$ $\\sqrt{$\\(b^{2}\\)$ - 4ac}$) / 2a",
                 "difficulty": "hard"
               }
             ],
@@ -11789,10 +11789,10 @@
                 "type": "multiple_choice",
                 "question": "What is the formula for the volume of a cube with side length 's'?",
                 "answerOptions": [
-                  "V = s^2",
+                  "V = \\(s^2\\)",
                   "V = 3s",
-                  "V = 6s^2",
-                  "V = s^3"
+                  "V = \\(6s^2\\)",
+                  "V = \\(s^3\\)"
                 ],
                 "correctAnswer": "V = $s^{3}$",
                 "difficulty": "easy"
@@ -11861,10 +11861,10 @@
                 "type": "multiple_choice",
                 "question": "What is the formula for the volume of a sphere?",
                 "answerOptions": [
-                  "V = 4 * pi * r^2",
-                  "V = 4/3 * pi * r^3",
-                  "V = pi * r^3",
-                  "V = 2/3 * pi * r^3"
+                  "V = 4 * pi * \\(r^2\\)",
+                  "V = 4/3 * pi * \\(r^3\\)",
+                  "V = pi * \\(r^3\\)",
+                  "V = 2/3 * pi * \\(r^3\\)"
                 ],
                 "correctAnswer": "V = $\\frac{4}{3}$ * pi * $r^{3}$",
                 "difficulty": "hard"
@@ -12918,7 +12918,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "What is the greatest common factor (GCF) of $12$x^{2}$$ and $18x$?",
+                  "question": "What is the greatest common factor (GCF) of $12$\\(x^{2}\\)$$ and $18x$?",
                   "answerOptions": [
                     {
                       "text": "$6$",
@@ -12936,7 +12936,7 @@
                       "rationale": "This is a common factor, but not the greatest."
                     },
                     {
-                      "text": "$36$x^{2}$$$$",
+                      "text": "$36$\\(x^{2}\\)$$$$",
                       "isCorrect": false,
                       "rationale": "This is the least common multiple (LCM)."
                     }
@@ -13167,7 +13167,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "hard",
-                  "question": "Factor the expression: $2$x^{2}$ + 7x + 3$.$$",
+                  "question": "Factor the expression: $2$\\(x^{2}\\)$ + 7x + 3$.$$",
                   "answerOptions": [
                     {
                       "text": "$(2x + 1)(x + 3)$",
@@ -13323,7 +13323,7 @@
                       "rationale": "This is an incorrect calculation."
                     },
                     {
-                      "text": "$12$x^{2}$$$$",
+                      "text": "$12$\\(x^{2}\\)$$$$",
                       "isCorrect": false,
                       "rationale": "There is only one x."
                     }
@@ -13517,7 +13517,7 @@
                       "rationale": "This is 2(x+3)."
                     }
                   ],
-                  "rationale": "To square a binomial, you can use the formula $(a+b)^2 = a^2 + 2ab + b^2$. Here, a=x and b=3, so the result is $x^2 + 2(x)(3) + 3^2 = $x^2$ + 6x + 9$."
+                  "rationale": "To square a binomial, you can use the formula $(a+b)^2 = a^2 + 2ab + b^2$. Here, a=x and b=3, so the result is $x^2 + 2(x)(3) + 3^2 = $\\(x^2\\)$ + 6x + 9$."
                 },
                 {
                   "questionNumber": 9,
@@ -14177,17 +14177,17 @@
                       "rationale": "This is 2*3*x."
                     },
                     {
-                      "text": "$2$x^{3}$$$$",
+                      "text": "$2$\\(x^{3}\\)$$$$",
                       "isCorrect": false,
                       "rationale": "The coefficient 2 should also be cubed."
                     },
                     {
-                      "text": "$8$x^{3}$$$$",
+                      "text": "$8$\\(x^{3}\\)$$$$",
                       "isCorrect": true,
                       "rationale": "Both the 2 and the x are cubed: 2³ * x³ = 8x³."
                     },
                     {
-                      "text": "$6$x^{3}$$$$",
+                      "text": "$6$\\(x^{3}\\)$$$$",
                       "isCorrect": false,
                       "rationale": "This is an incorrect calculation."
                     }
@@ -14349,7 +14349,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Factor: $4$x^{2}$ - 25$.$$",
+                  "question": "Factor: $4$\\(x^{2}\\)$ - 25$.$$",
                   "correctAnswer": "(2x - 5)(2x + 5)",
                   "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=2x and b=5."
                 },
@@ -14646,7 +14646,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "Which expression is the result of factoring $9$x^{2}$ - 16$?$$",
+                  "question": "Which expression is the result of factoring $9$\\(x^{2}\\)$ - 16$?$$",
                   "answerOptions": [
                     {
                       "text": "$(3x - 4)^{2}$",
@@ -14745,7 +14745,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "easy",
-                  "question": "What is the degree of the polynomial $5$x^{3}$ - 2x^{2} + 7$?$$",
+                  "question": "What is the degree of the polynomial $5$\\(x^{3}\\)$ - 2x^{2} + 7$?$$",
                   "answerOptions": [
                     {
                       "text": "1",
@@ -15033,7 +15033,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "easy",
-                  "question": "Which term describes the '3' in the expression $3$x^{2}$$?$$",
+                  "question": "Which term describes the '3' in the expression $3$\\(x^{2}\\)$$?$$",
                   "answerOptions": [
                     {
                       "text": "Variable",
@@ -16069,7 +16069,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "What is the greatest common factor (GCF) of $12$x^{2}$$ and $18x$?",
+                "question": "What is the greatest common factor (GCF) of $12$\\(x^{2}\\)$$ and $18x$?",
                 "answerOptions": [
                   {
                     "text": "$6$",
@@ -16087,7 +16087,7 @@
                     "rationale": "This is a common factor, but not the greatest."
                   },
                   {
-                    "text": "$36$x^{2}$$$$",
+                    "text": "$36$\\(x^{2}\\)$$$$",
                     "isCorrect": false,
                     "rationale": "This is the least common multiple (LCM)."
                   }
@@ -16312,7 +16312,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Factor the expression: $2$x^{2}$ + 7x + 3$.$$",
+                "question": "Factor the expression: $2$\\(x^{2}\\)$ + 7x + 3$.$$",
                 "answerOptions": [
                   {
                     "text": "$(2x + 1)(x + 3)$",
@@ -16468,7 +16468,7 @@
                     "rationale": "This is an incorrect calculation."
                   },
                   {
-                    "text": "$12$x^{2}$$$$",
+                    "text": "$12$\\(x^{2}\\)$$$$",
                     "isCorrect": false,
                     "rationale": "There is only one x."
                   }
@@ -16656,7 +16656,7 @@
                     "rationale": "This is 2(x+3)."
                   }
                 ],
-                "rationale": "To square a binomial, you can use the formula $(a+b)^2 = a^2 + 2ab + b^2$. Here, a=x and b=3, so the result is $x^2 + 2(x)(3) + 3^2 = $x^2$ + 6x + 9$."
+                "rationale": "To square a binomial, you can use the formula $(a+b)^2 = a^2 + 2ab + b^2$. Here, a=x and b=3, so the result is $x^2 + 2(x)(3) + 3^2 = $\\(x^2\\)$ + 6x + 9$."
               },
               {
                 "questionNumber": 9,
@@ -17306,17 +17306,17 @@
                     "rationale": "This is 2*3*x."
                   },
                   {
-                    "text": "$2$x^{3}$$$$",
+                    "text": "$2$\\(x^{3}\\)$$$$",
                     "isCorrect": false,
                     "rationale": "The coefficient 2 should also be cubed."
                   },
                   {
-                    "text": "$8$x^{3}$$$$",
+                    "text": "$8$\\(x^{3}\\)$$$$",
                     "isCorrect": true,
                     "rationale": "Both the 2 and the x are cubed: 2³ * x³ = 8x³."
                   },
                   {
-                    "text": "$6$x^{3}$$$$",
+                    "text": "$6$\\(x^{3}\\)$$$$",
                     "isCorrect": false,
                     "rationale": "This is an incorrect calculation."
                   }
@@ -17472,7 +17472,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Factor: $4$x^{2}$ - 25$.$$",
+                "question": "Factor: $4$\\(x^{2}\\)$ - 25$.$$",
                 "correctAnswer": "(2x - 5)(2x + 5)",
                 "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=2x and b=5."
               },
@@ -17765,7 +17765,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Which expression is the result of factoring $9$x^{2}$ - 16$?$$",
+                "question": "Which expression is the result of factoring $9$\\(x^{2}\\)$ - 16$?$$",
                 "answerOptions": [
                   {
                     "text": "$(3x - 4)^{2}$",
@@ -17864,7 +17864,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "What is the degree of the polynomial $5$x^{3}$ - 2x^{2} + 7$?$$",
+                "question": "What is the degree of the polynomial $5$\\(x^{3}\\)$ - 2x^{2} + 7$?$$",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -18146,7 +18146,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Which term describes the '3' in the expression $3$x^{2}$$?$$",
+                "question": "Which term describes the '3' in the expression $3$\\(x^{2}\\)$$?$$",
                 "answerOptions": [
                   {
                     "text": "Variable",
@@ -26576,7 +26576,7 @@
                       "rationale": "The triangle inequality theorem confirms it's a triangle, but not if it's a right triangle."
                     },
                     {
-                      "text": "Yes, because $8^{2} + $15^{2}$ = $17^{2}$$.$$",
+                      "text": "Yes, because $8^{2} + $\\(15^{2}\\)$ = $\\(17^{2}\\)$$.$$",
                       "isCorrect": true,
                       "rationale": "The sides satisfy the Pythagorean theorem: 64 + 225 = 289."
                     },
@@ -26598,7 +26598,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "hard",
-                  "question": "A globe has a diameter of 16 inches. What is its surface area? Use 3.14 for $\\\\\\pi$ and the formula SA = $4\\\\pi $r^{2}$$.$$",
+                  "question": "A globe has a diameter of 16 inches. What is its surface area? Use 3.14 for $\\\\\\pi$ and the formula SA = $4\\\\pi $\\(r^{2}\\)$$.$$",
                   "answerOptions": [
                     {
                       "text": "200.96 $in^{2}$",
@@ -28326,7 +28326,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "hard",
-                  "question": "Find the surface area of a sphere with a diameter of 10. Use 3.14 for $\\\\\\pi$ and SA=$4\\\\pi $r^{2}$$.$$",
+                  "question": "Find the surface area of a sphere with a diameter of 10. Use 3.14 for $\\\\\\pi$ and SA=$4\\\\pi $\\(r^{2}\\)$$.$$",
                   "answerOptions": [
                     {
                       "text": "31.4",
@@ -30008,7 +30008,7 @@
                     "rationale": "The triangle inequality theorem confirms it's a triangle, but not if it's a right triangle."
                   },
                   {
-                    "text": "Yes, because $8^{2} + $15^{2}$ = $17^{2}$$.$$",
+                    "text": "Yes, because $8^{2} + $\\(15^{2}\\)$ = $\\(17^{2}\\)$$.$$",
                     "isCorrect": true,
                     "rationale": "The sides satisfy the Pythagorean theorem: 64 + 225 = 289."
                   },
@@ -30030,7 +30030,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A globe has a diameter of 16 inches. What is its surface area? Use 3.14 for $\\\\\\pi$ and the formula SA = $4\\\\pi $r^{2}$$.$$",
+                "question": "A globe has a diameter of 16 inches. What is its surface area? Use 3.14 for $\\\\\\pi$ and the formula SA = $4\\\\pi $\\(r^{2}\\)$$.$$",
                 "answerOptions": [
                   {
                     "text": "200.96 $in^{2}$",
@@ -31726,7 +31726,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Find the surface area of a sphere with a diameter of 10. Use 3.14 for $\\\\\\pi$ and SA=$4\\\\pi $r^{2}$$.$$",
+                "question": "Find the surface area of a sphere with a diameter of 10. Use 3.14 for $\\\\\\pi$ and SA=$4\\\\pi $\\(r^{2}\\)$$.$$",
                 "answerOptions": [
                   {
                     "text": "31.4",
