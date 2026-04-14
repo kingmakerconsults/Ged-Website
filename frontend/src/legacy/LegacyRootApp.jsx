@@ -33084,10 +33084,11 @@ function StartScreen({
     } catch (_) {}
   };
 
-  // Auto-scroll chat to bottom
+  // Auto-scroll chat to bottom (scroll the container, not the page)
   useEffect(() => {
-    if (coachChatEndRef.current) {
-      coachChatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    const el = coachChatEndRef.current?.parentElement;
+    if (el) {
+      el.scrollTop = el.scrollHeight;
     }
   }, [coachChatMessages, coachChatLoading]);
 
