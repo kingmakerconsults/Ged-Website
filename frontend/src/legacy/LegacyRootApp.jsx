@@ -33012,14 +33012,22 @@ function StartScreen({
   // ── Coach Chat helpers ──
   const loadCoachChatHistory = async () => {
     try {
-      const token = typeof localStorage !== 'undefined' && localStorage.getItem('appToken');
+      const token =
+        typeof localStorage !== 'undefined' && localStorage.getItem('appToken');
       if (!token) return;
       const res = await fetch(`${API_BASE_URL}/api/coach/chat/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json().catch(() => ({}));
       if (data?.ok && Array.isArray(data.messages)) {
-        setCoachChatMessages(data.messages.map((m) => ({ role: m.role, content: m.content, id: m.id, created_at: m.created_at })));
+        setCoachChatMessages(
+          data.messages.map((m) => ({
+            role: m.role,
+            content: m.content,
+            id: m.id,
+            created_at: m.created_at,
+          }))
+        );
       }
     } catch (_) {}
   };
@@ -33030,19 +33038,30 @@ function StartScreen({
     setCoachChatInput('');
     setCoachChatError('');
     // Optimistically add user message
-    setCoachChatMessages((prev) => [...prev, { role: 'user', content: msg, id: Date.now() }]);
+    setCoachChatMessages((prev) => [
+      ...prev,
+      { role: 'user', content: msg, id: Date.now() },
+    ]);
     setCoachChatLoading(true);
     try {
-      const token = typeof localStorage !== 'undefined' && localStorage.getItem('appToken');
+      const token =
+        typeof localStorage !== 'undefined' && localStorage.getItem('appToken');
       if (!token) throw new Error('Not signed in');
       const res = await fetch(`${API_BASE_URL}/api/coach/chat`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ message: msg }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.ok) throw new Error(data?.error || `HTTP ${res.status}`);
-      setCoachChatMessages((prev) => [...prev, { role: 'assistant', content: data.message, id: data.messageId }]);
+      if (!res.ok || !data?.ok)
+        throw new Error(data?.error || `HTTP ${res.status}`);
+      setCoachChatMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: data.message, id: data.messageId },
+      ]);
     } catch (e) {
       setCoachChatError(e?.message || 'Coach is unavailable right now.');
       // Remove optimistic message on error
@@ -33054,7 +33073,8 @@ function StartScreen({
 
   const clearCoachChat = async () => {
     try {
-      const token = typeof localStorage !== 'undefined' && localStorage.getItem('appToken');
+      const token =
+        typeof localStorage !== 'undefined' && localStorage.getItem('appToken');
       if (!token) return;
       await fetch(`${API_BASE_URL}/api/coach/chat/clear`, {
         method: 'POST',
@@ -34562,18 +34582,41 @@ function StartScreen({
                   className="w-full flex items-center gap-2 p-3 text-left hover:opacity-90 transition"
                   style={{ color: heroTextColor }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-purple-500 flex-shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-5 h-5 text-purple-500 flex-shrink-0"
+                  >
                     <path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z" />
                   </svg>
-                  <span className="text-sm font-semibold flex-1">Chat with Coach Smith</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" style={{ transform: coachChatOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }}>
-                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                  <span className="text-sm font-semibold flex-1">
+                    Chat with Coach Smith
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-4 h-4"
+                    style={{
+                      transform: coachChatOpen ? 'rotate(180deg)' : 'rotate(0)',
+                      transition: 'transform 0.2s',
+                    }}
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </button>
 
                 {/* Chat body – collapsible */}
                 {coachChatOpen && (
-                  <div className="border-t" style={{ borderColor: panelBorderColor }}>
+                  <div
+                    className="border-t"
+                    style={{ borderColor: panelBorderColor }}
+                  >
                     {/* Messages area */}
                     <div
                       className="p-3 space-y-3 overflow-y-auto"
@@ -34581,17 +34624,37 @@ function StartScreen({
                     >
                       {coachChatMessages.length === 0 && !coachChatLoading && (
                         <div className="text-center py-6">
-                          <p className="text-sm font-medium" style={{ color: heroTextColor }}>Hi! I'm Coach Smith.</p>
-                          <p className="text-xs mt-1" style={heroMutedTextStyle}>Ask me anything about your GED prep, or try a quick question below.</p>
+                          <p
+                            className="text-sm font-medium"
+                            style={{ color: heroTextColor }}
+                          >
+                            Hi! I'm Coach Smith.
+                          </p>
+                          <p
+                            className="text-xs mt-1"
+                            style={heroMutedTextStyle}
+                          >
+                            Ask me anything about your GED prep, or try a quick
+                            question below.
+                          </p>
                         </div>
                       )}
                       {coachChatMessages.map((msg, i) => (
-                        <div key={msg.id || i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div
+                          key={msg.id || i}
+                          className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
                           <div
                             className={`max-w-[85%] rounded-lg px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === 'user' ? 'rounded-br-sm' : 'rounded-bl-sm'}`}
-                            style={msg.role === 'user'
-                              ? { backgroundColor: '#7c3aed', color: '#fff' }
-                              : { backgroundColor: isDarkMode ? 'rgba(30,41,59,0.8)' : 'rgba(241,245,249,0.9)', color: heroTextColor }
+                            style={
+                              msg.role === 'user'
+                                ? { backgroundColor: '#7c3aed', color: '#fff' }
+                                : {
+                                    backgroundColor: isDarkMode
+                                      ? 'rgba(30,41,59,0.8)'
+                                      : 'rgba(241,245,249,0.9)',
+                                    color: heroTextColor,
+                                  }
                             }
                           >
                             {msg.content}
@@ -34600,11 +34663,34 @@ function StartScreen({
                       ))}
                       {coachChatLoading && (
                         <div className="flex justify-start">
-                          <div className="rounded-lg px-3 py-2 text-sm" style={{ backgroundColor: isDarkMode ? 'rgba(30,41,59,0.8)' : 'rgba(241,245,249,0.9)', color: heroTextColor }}>
+                          <div
+                            className="rounded-lg px-3 py-2 text-sm"
+                            style={{
+                              backgroundColor: isDarkMode
+                                ? 'rgba(30,41,59,0.8)'
+                                : 'rgba(241,245,249,0.9)',
+                              color: heroTextColor,
+                            }}
+                          >
                             <span className="inline-flex gap-1">
-                              <span className="animate-bounce" style={{ animationDelay: '0ms' }}>.</span>
-                              <span className="animate-bounce" style={{ animationDelay: '150ms' }}>.</span>
-                              <span className="animate-bounce" style={{ animationDelay: '300ms' }}>.</span>
+                              <span
+                                className="animate-bounce"
+                                style={{ animationDelay: '0ms' }}
+                              >
+                                .
+                              </span>
+                              <span
+                                className="animate-bounce"
+                                style={{ animationDelay: '150ms' }}
+                              >
+                                .
+                              </span>
+                              <span
+                                className="animate-bounce"
+                                style={{ animationDelay: '300ms' }}
+                              >
+                                .
+                              </span>
                             </span>
                           </div>
                         </div>
@@ -34615,12 +34701,20 @@ function StartScreen({
                     {/* Quick action buttons – only show when chat is empty */}
                     {coachChatMessages.length === 0 && !coachChatLoading && (
                       <div className="px-3 pb-2 flex flex-wrap gap-2">
-                        {['What should I study today?', 'Explain my weakest area', 'Review my last quiz', 'Help me make a study plan'].map((q) => (
+                        {[
+                          'What should I study today?',
+                          'Explain my weakest area',
+                          'Review my last quiz',
+                          'Help me make a study plan',
+                        ].map((q) => (
                           <button
                             key={q}
                             onClick={() => sendCoachChatMessage(q)}
                             className="text-xs px-2.5 py-1.5 rounded-full border transition hover:opacity-80"
-                            style={{ borderColor: panelBorderColor, color: heroTextColor }}
+                            style={{
+                              borderColor: panelBorderColor,
+                              color: heroTextColor,
+                            }}
                           >
                             {q}
                           </button>
@@ -34636,20 +34730,30 @@ function StartScreen({
                     )}
 
                     {/* Input area */}
-                    <div className="flex items-center gap-2 p-3 border-t" style={{ borderColor: panelBorderColor }}>
+                    <div
+                      className="flex items-center gap-2 p-3 border-t"
+                      style={{ borderColor: panelBorderColor }}
+                    >
                       <input
                         ref={coachChatInputRef}
                         type="text"
                         placeholder="Ask Coach Smith anything..."
                         value={coachChatInput}
                         onChange={(e) => setCoachChatInput(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendCoachChatMessage(); } }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendCoachChatMessage();
+                          }
+                        }}
                         disabled={coachChatLoading}
                         maxLength={2000}
                         className="flex-1 text-sm rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-purple-500"
                         style={{
                           borderColor: panelBorderColor,
-                          backgroundColor: isDarkMode ? 'rgba(15,23,42,0.7)' : '#fff',
+                          backgroundColor: isDarkMode
+                            ? 'rgba(15,23,42,0.7)'
+                            : '#fff',
                           color: heroTextColor,
                         }}
                       />
@@ -34668,8 +34772,17 @@ function StartScreen({
                           className="p-2 rounded-md transition hover:opacity-70"
                           style={{ color: heroTextColor }}
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                            <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clipRule="evenodd" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-4 h-4"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
+                              clipRule="evenodd"
+                            />
                           </svg>
                         </button>
                       )}
