@@ -32884,7 +32884,13 @@ function StartScreen({
       setIsLoading(true);
       setLoadingMessage(`Loading Coach Smith quiz for ${subject}...`);
 
-      // Try to use the server-assigned quiz for today first
+      // Try to launch by premade code if one was assigned
+      if (sourceId) {
+        const launched = launchPremadeByCodeGlobal(subject, sourceId);
+        if (launched) return;
+      }
+
+      // If no sourceId, check today's daily assignment
       if (!sourceId) {
         const daily = await fetch(
           `${API_BASE_URL}/api/coach/daily?subject=${encodeURIComponent(
@@ -32901,44 +32907,12 @@ function StartScreen({
             subject,
             daily.coach_quiz_source_id
           );
-          if (launched) return; // early exit; loader will be dismissed in finally
+          if (launched) return;
         }
       }
 
-      if (sourceId) {
-        // If a premade assignment exists, launch it directly
-        const launched = launchPremadeByCodeGlobal(subject, sourceId);
-        if (launched) return; // early exit; loader will be dismissed in finally
-      }
-      const body = {
-        durationMinutes: 20,
-        mode: 'single-subject',
-        subject: practiceSubjectParam(subject),
-      };
-      const res = await fetch(`${API_BASE_URL}/api/practice-session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) {
-        throw new Error(`Server responded ${res.status}`);
-      }
-      const session = await res.json();
-      const today = new Date().toISOString().slice(0, 10);
-      const quizId = `coach-smith:${subject}:${today}`;
-      const displaySubject = displaySubjectName(subject);
-      const quizPayload = {
-        id: quizId,
-        quizCode: quizId,
-        title: 'Coach Smith Quiz',
-        type: 'coach-quiz',
-        questions: Array.isArray(session?.questions) ? session.questions : [],
-        assigned_by: 'coach-smith',
-      };
-      startQuiz(quizPayload, displaySubject);
+      // Fallback: use the dynamic daily composite (always works)
+      await startDailyCompositeForSubject(subject);
     } catch (e) {
       alert('Unable to start Coach Smith quiz right now.');
     } finally {
