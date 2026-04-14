@@ -5329,6 +5329,166 @@ async function buildProfileBundle(userId) {
   };
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+//  buildCoachContext — gather rich analytics for AI coach prompts
+// ═══════════════════════════════════════════════════════════════════════
+async function buildCoachContext(userId) {
+  const bundle = await buildProfileBundle(userId);
+
+  // Domain mastery from quiz_attempt_items
+  let domainMastery = [];
+  try {
+    const dm = await pool.query(
+      `SELECT i.subject, i.domain,
+              COUNT(*)::int AS total,
+              SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct,
+              ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END)*100,1) AS accuracy_pct,
+              AVG(i.time_spent_ms)::int AS avg_time_ms,
+              SUM(CASE WHEN i.confidence='sure' AND NOT i.is_correct THEN 1 ELSE 0 END)::int AS misconceptions,
+              SUM(CASE WHEN i.confidence='guessing' AND i.is_correct THEN 1 ELSE 0 END)::int AS lucky_guesses
+       FROM quiz_attempt_items i
+       JOIN quiz_attempts a ON a.id = i.attempt_id
+       WHERE a.user_id = $1 AND i.domain IS NOT NULL
+       GROUP BY i.subject, i.domain ORDER BY accuracy_pct ASC`,
+      [userId]
+    );
+    domainMastery = dm.rows;
+  } catch (_) {}
+
+  // Weakest areas (top 10)
+  let weakestAreas = [];
+  try {
+    const wa = await pool.query(
+      `SELECT i.subject, i.domain, i.topic,
+              COUNT(*)::int AS total,
+              SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct,
+              ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END)*100,1) AS accuracy_pct
+       FROM quiz_attempt_items i
+       JOIN quiz_attempts a ON a.id = i.attempt_id
+       WHERE a.user_id = $1 AND (i.domain IS NOT NULL OR i.topic IS NOT NULL)
+       GROUP BY i.subject, i.domain, i.topic HAVING COUNT(*)>=3
+       ORDER BY accuracy_pct ASC LIMIT 10`,
+      [userId]
+    );
+    weakestAreas = wa.rows;
+  } catch (_) {}
+
+  // Confidence calibration
+  let confidenceData = { byConfidence: {}, calibrationScore: null };
+  try {
+    const cf = await pool.query(
+      `SELECT i.confidence,
+              COUNT(*)::int AS total,
+              SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct
+       FROM quiz_attempt_items i
+       JOIN quiz_attempts a ON a.id = i.attempt_id
+       WHERE a.user_id = $1 AND i.confidence IS NOT NULL
+       GROUP BY i.confidence`,
+      [userId]
+    );
+    const byConf = {};
+    for (const r of cf.rows) {
+      byConf[r.confidence] = { total: r.total, correct: r.correct, accuracyPct: r.total > 0 ? Math.round((r.correct / r.total) * 100) : 0 };
+    }
+    const sure = byConf['sure'] || { total: 0, correct: 0 };
+    const guessing = byConf['guessing'] || { total: 0, correct: 0 };
+    const sureAcc = sure.total > 0 ? sure.correct / sure.total : 0.5;
+    const guessAcc = guessing.total > 0 ? guessing.correct / guessing.total : 0.5;
+    const totalConf = sure.total + guessing.total;
+    const calibrationScore = totalConf > 0
+      ? Math.round(((sureAcc * sure.total + (1 - guessAcc) * guessing.total) / totalConf) * 100)
+      : null;
+    confidenceData = { byConfidence: byConf, calibrationScore };
+  } catch (_) {}
+
+  // Score trends per subject
+  let scoreTrends = {};
+  try {
+    const st = await pool.query(
+      `SELECT subject, scaled_score, passed, attempted_at
+       FROM quiz_attempts
+       WHERE user_id = $1 AND scaled_score IS NOT NULL
+       ORDER BY attempted_at ASC`,
+      [userId]
+    );
+    const bySubj = {};
+    for (const r of st.rows) {
+      const s = r.subject || 'Unknown';
+      if (!bySubj[s]) bySubj[s] = [];
+      bySubj[s].push({ scaledScore: parseInt(r.scaled_score) || 0, passed: r.passed, date: r.attempted_at });
+    }
+    for (const [s, attempts] of Object.entries(bySubj)) {
+      const scores = attempts.map((a) => a.scaledScore);
+      const latest = scores[scores.length - 1] || 0;
+      const best = Math.max(...scores);
+      const growth = scores.length >= 2 ? latest - scores[0] : 0;
+      scoreTrends[s] = { latest, best, growth, attemptCount: scores.length, passCount: attempts.filter((a) => a.passed).length };
+    }
+  } catch (_) {}
+
+  // Recent 5 attempts
+  let recentAttempts = [];
+  try {
+    const ra = await pool.query(
+      `SELECT subject, quiz_title, score, total_questions, scaled_score, passed, attempted_at
+       FROM quiz_attempts WHERE user_id = $1
+       ORDER BY attempted_at DESC LIMIT 5`,
+      [userId]
+    );
+    recentAttempts = ra.rows;
+  } catch (_) {}
+
+  // Total quiz stats
+  let totalQuizzes = 0;
+  let totalQuestions = 0;
+  try {
+    const qs = await pool.query(
+      `SELECT COUNT(*)::int AS quizzes, COALESCE(SUM(total_questions),0)::int AS questions
+       FROM quiz_attempts WHERE user_id = $1`,
+      [userId]
+    );
+    totalQuizzes = qs.rows[0]?.quizzes || 0;
+    totalQuestions = qs.rows[0]?.questions || 0;
+  } catch (_) {}
+
+  // Subject status (passed)
+  let subjectStatus = {};
+  try {
+    const ss = await pool.query(
+      `SELECT subject, passed FROM user_subject_status WHERE user_id = $1`,
+      [userId]
+    );
+    for (const r of ss.rows) subjectStatus[r.subject] = r.passed;
+  } catch (_) {}
+
+  // Test plan with days-until
+  const testPlan = Array.isArray(bundle?.testPlan) ? bundle.testPlan : [];
+  const now = new Date();
+  const testPlanWithCountdown = testPlan.map((t) => {
+    if (!t.testDate) return { ...t, daysUntil: null };
+    const diff = Math.ceil((new Date(t.testDate) - now) / (1000 * 60 * 60 * 24));
+    return { ...t, daysUntil: diff };
+  });
+
+  // Challenge selections
+  const challengeOptions = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
+  const selectedChallenges = challengeOptions.filter((c) => c && c.selected);
+
+  return {
+    profile: bundle?.profile || {},
+    testPlan: testPlanWithCountdown,
+    selectedChallenges,
+    domainMastery,
+    weakestAreas,
+    confidenceData,
+    scoreTrends,
+    recentAttempts,
+    subjectStatus,
+    totalQuizzes,
+    totalQuestions,
+  };
+}
+
 const app = express();
 // Flexible image resolver with Netlify fallback
 // Support both /images/ (canonical) and legacy /frontend/Images/ paths
@@ -5737,6 +5897,9 @@ ensureCoachAdviceUsageTable().catch((e) =>
 );
 ensureCoachCompositeUsageTable().catch((e) =>
   console.error('Coach composite usage table init error:', e)
+);
+ensureCoachConversationsTable().catch((e) =>
+  console.error('Coach conversations table init error:', e)
 );
 ensureDefaultChallengeTags().catch((e) =>
   console.error('Default challenge tags init error:', e)
@@ -6536,6 +6699,53 @@ async function ensureCoachCompositeUsageTable() {
   } catch (e) {
     console.warn('[ensure] coach_composite_usage', e?.code || e?.message || e);
   }
+}
+
+// Coach conversations table — persistent multi-turn chat history
+async function ensureCoachConversationsTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS coach_conversations (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        role TEXT NOT NULL CHECK (role IN ('user','assistant','system')),
+        content TEXT NOT NULL,
+        context_snapshot JSONB,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `);
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_coach_conv_user ON coach_conversations (user_id, created_at DESC);`
+    );
+  } catch (e) {
+    console.warn('[ensure] coach_conversations', e?.code || e?.message || e);
+  }
+
+  // Coach chat daily usage throttle
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS coach_chat_usage (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        usage_date DATE NOT NULL,
+        message_count INTEGER NOT NULL DEFAULT 0,
+        last_used_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+        UNIQUE (user_id, usage_date)
+      );
+    `);
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_coach_chat_usage_user ON coach_chat_usage (user_id, usage_date);`
+    );
+  } catch (e) {
+    console.warn('[ensure] coach_chat_usage', e?.code || e?.message || e);
+  }
+
+  // Cleanup conversations older than 90 days
+  try {
+    await pool.query(
+      `DELETE FROM coach_conversations WHERE created_at < NOW() - INTERVAL '90 days'`
+    );
+  } catch (_) {}
 }
 
 // --- Challenge system helpers ---
@@ -8460,6 +8670,212 @@ Return JSON as { "advice": "<single paragraph or short bullets>" }.`;
       return res
         .status(500)
         .json({ error: 'Unable to fetch advice right now.' });
+    }
+  }
+);
+
+/* ──────────────────────────────────────────────────────────
+   Coach Chat – persistent multi-turn conversation
+   ────────────────────────────────────────────────────────── */
+
+const COACH_CHAT_DAILY_LIMIT = 30;
+
+function buildCoachSystemPrompt(ctx) {
+  const { domainMastery, weakestAreas, confidenceData, scoreTrends, recentAttempts, selectedChallenges, testPlan, subjectStatus, totalQuizzes, totalQuestions } = ctx;
+
+  const weakStr = weakestAreas.length
+    ? weakestAreas.map((w) => `  • ${w.subject}/${w.domain || w.topic}: ${w.accuracy_pct}% (${w.correct}/${w.total})`).join('\n')
+    : '  No data yet.';
+
+  const trendStr = Object.entries(scoreTrends).length
+    ? Object.entries(scoreTrends).map(([s, t]) => `  • ${s}: latest ${t.latest}, best ${t.best}, growth ${t.growth >= 0 ? '+' : ''}${t.growth}, ${t.attemptCount} attempts, ${t.passCount} passed`).join('\n')
+    : '  No scores yet.';
+
+  const recentStr = recentAttempts.length
+    ? recentAttempts.map((a) => `  • ${a.subject} "${a.quiz_title}": ${a.score}/${a.total_questions} (scaled ${a.scaled_score}) ${a.passed ? '✓PASS' : '✗FAIL'}`).join('\n')
+    : '  No recent quizzes.';
+
+  const calStr = confidenceData.calibrationScore != null
+    ? `Calibration score: ${confidenceData.calibrationScore}/100 (100 = perfectly calibrated confidence vs. actual performance).`
+    : 'Not enough confidence data yet.';
+
+  const testDateStr = testPlan.length
+    ? testPlan.map((t) => `  • ${t.subject}: ${t.testDate || 'no date'} (${t.daysUntil != null ? t.daysUntil + ' days' : '?'})`).join('\n')
+    : '  No test dates saved.';
+
+  const passedSubjects = Object.entries(subjectStatus).filter(([, p]) => p).map(([s]) => s);
+  const passedStr = passedSubjects.length ? passedSubjects.join(', ') : 'none yet';
+
+  return `You are Coach Smith, an expert GED tutor and study coach.
+
+PERSONALITY:
+- Warm, encouraging, and direct. Use a conversational tone.
+- Celebrate progress, no matter how small.
+- When the student struggles, be empathetic but solution-oriented.
+- Keep responses concise (1-3 short paragraphs unless the student asks for a detailed explanation).
+- Use simple language at a high-school level. Avoid jargon.
+
+GED KNOWLEDGE:
+- The GED has 4 subjects: Math, Science, Social Studies, and RLA (Reasoning Through Language Arts).
+- Passing score is 145 per subject (out of 200). 145-164 = Pass, 165-174 = College Ready, 175+ = College Ready + Credit.
+- You know the content areas, question types, and test strategies for each subject.
+
+THE STUDENT'S DATA (use this to personalize every response):
+Overall: ${totalQuizzes} quizzes taken, ${totalQuestions} questions answered.
+Subjects passed: ${passedStr}.
+
+Score Trends:
+${trendStr}
+
+Recent Quizzes:
+${recentStr}
+
+Weakest Areas:
+${weakStr}
+
+Confidence Calibration:
+${calStr}
+
+Test Dates:
+${testDateStr}
+
+RULES:
+- Always ground your advice in the student's actual data above.
+- If they ask "what should I study?", reference their weakest areas and upcoming test dates.
+- If they ask about a concept, explain it clearly with an example.
+- Never fabricate scores or data. If data is missing, say so and encourage them to take more quizzes.
+- Do NOT use markdown headers (#). Use plain text with occasional bold (**word**) for emphasis.
+- If asked something unrelated to GED prep or studying, gently redirect.`;
+}
+
+// POST /api/coach/chat – send a message, get AI reply
+app.post(
+  '/api/coach/chat',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+      const userMessage = (req.body?.message || '').trim();
+      if (!userMessage || userMessage.length > 2000) {
+        return res.status(400).json({ error: 'Message is required (max 2000 chars).' });
+      }
+
+      // Rate limit: 30 messages per day
+      const todayStart = todayISO();
+      const countRes = await pool.query(
+        `SELECT COUNT(*)::int AS cnt FROM coach_conversations
+         WHERE user_id = $1 AND role = 'user' AND created_at >= $2::date`,
+        [userId, todayStart]
+      );
+      if ((countRes.rows[0]?.cnt || 0) >= COACH_CHAT_DAILY_LIMIT) {
+        return res.status(429).json({
+          error: `You've reached your daily chat limit (${COACH_CHAT_DAILY_LIMIT} messages). Come back tomorrow!`,
+        });
+      }
+
+      // Load last 20 messages for context window
+      const historyRes = await pool.query(
+        `SELECT role, content FROM coach_conversations
+         WHERE user_id = $1 ORDER BY created_at DESC LIMIT 20`,
+        [userId]
+      );
+      const history = historyRes.rows.reverse();
+
+      // Build rich context
+      const ctx = await buildCoachContext(userId);
+      const systemPrompt = buildCoachSystemPrompt(ctx);
+
+      // Format messages for Gemini
+      const geminiMessages = [];
+      for (const msg of history) {
+        geminiMessages.push({
+          role: msg.role === 'assistant' ? 'model' : 'user',
+          text: msg.content,
+        });
+      }
+      // Append the new user message
+      geminiMessages.push({ role: 'user', text: userMessage });
+
+      // Call AI
+      const aiResponse = await callCoachChat(systemPrompt, geminiMessages, {
+        temperature: 0.7,
+      });
+
+      // Store user message + AI response
+      await pool.query(
+        `INSERT INTO coach_conversations (user_id, role, content) VALUES ($1, 'user', $2)`,
+        [userId, userMessage]
+      );
+      const insertRes = await pool.query(
+        `INSERT INTO coach_conversations (user_id, role, content) VALUES ($1, 'assistant', $2) RETURNING id`,
+        [userId, aiResponse]
+      );
+
+      return res.json({
+        ok: true,
+        message: aiResponse,
+        messageId: insertRes.rows[0]?.id,
+      });
+    } catch (e) {
+      console.error('POST /api/coach/chat failed:', e?.message || e);
+      return res.status(500).json({ error: 'Coach is unavailable right now. Try again shortly.' });
+    }
+  }
+);
+
+// GET /api/coach/chat/history – retrieve conversation
+app.get(
+  '/api/coach/chat/history',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+      const historyRes = await pool.query(
+        `SELECT id, role, content, created_at FROM coach_conversations
+         WHERE user_id = $1 ORDER BY created_at ASC LIMIT 200`,
+        [userId]
+      );
+
+      return res.json({ ok: true, messages: historyRes.rows });
+    } catch (e) {
+      console.error('GET /api/coach/chat/history failed:', e?.message || e);
+      return res.status(500).json({ error: 'Failed to load chat history.' });
+    }
+  }
+);
+
+// POST /api/coach/chat/clear – reset conversation
+app.post(
+  '/api/coach/chat/clear',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+      await pool.query(
+        `DELETE FROM coach_conversations WHERE user_id = $1`,
+        [userId]
+      );
+
+      return res.json({ ok: true });
+    } catch (e) {
+      console.error('POST /api/coach/chat/clear failed:', e?.message || e);
+      return res.status(500).json({ error: 'Failed to clear chat.' });
     }
   }
 );
@@ -10737,6 +11153,35 @@ const callAI = async (prompt, schema, options = {}) => {
     );
     throw error;
   }
+};
+
+/**
+ * callCoachChat – multi-turn Gemini chat for Coach Smith.
+ * @param {string} systemInstruction - system prompt
+ * @param {{role:'user'|'model', text:string}[]} messages - ordered conversation
+ * @param {object} [opts] - { temperature }
+ * @returns {Promise<string>} plain-text assistant response
+ */
+const callCoachChat = async (systemInstruction, messages, opts = {}) => {
+  const apiKey = process.env.GOOGLE_AI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!apiKey) throw new Error('GOOGLE_AI_API_KEY or GOOGLE_API_KEY is not set.');
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const contents = messages.map((m) => ({
+    role: m.role, // 'user' or 'model'
+    parts: [{ text: m.text }],
+  }));
+  const payload = {
+    systemInstruction: { parts: [{ text: systemInstruction }] },
+    contents,
+    generationConfig: {
+      temperature: opts.temperature ?? 0.7,
+      maxOutputTokens: 2048,
+    },
+  };
+  const response = await http.post(apiUrl, payload, { timeout: 30000 });
+  const raw = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (typeof raw !== 'string') throw new Error('Coach AI returned no text.');
+  return raw.trim();
 };
 
 async function callMathValidator(payload) {
