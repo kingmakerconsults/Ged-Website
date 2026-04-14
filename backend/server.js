@@ -7901,7 +7901,15 @@ const WEEKLY_PLAN_AI_SCHEMA = {
 async function generateAIWeeklyPlan(userId, subject, weekStart) {
   // 1. Student analytics
   const ctx = await buildCoachContext(userId);
-  const { domainMastery, weakestAreas, confidenceData, scoreTrends, recentAttempts, testPlan, subjectStatus } = ctx;
+  const {
+    domainMastery,
+    weakestAreas,
+    confidenceData,
+    scoreTrends,
+    recentAttempts,
+    testPlan,
+    subjectStatus,
+  } = ctx;
 
   // Filter analytics to this subject
   const subjectMastery = domainMastery.filter((d) => d.subject === subject);
@@ -7925,11 +7933,21 @@ async function generateAIWeeklyPlan(userId, subject, weekStart) {
 
   // 3. Build prompt
   const masteryBlock = subjectMastery.length
-    ? subjectMastery.map((d) => `  ${d.domain}: ${d.accuracy_pct}% (${d.correct}/${d.total}), misconceptions=${d.misconceptions}, lucky_guesses=${d.lucky_guesses}`).join('\n')
+    ? subjectMastery
+        .map(
+          (d) =>
+            `  ${d.domain}: ${d.accuracy_pct}% (${d.correct}/${d.total}), misconceptions=${d.misconceptions}, lucky_guesses=${d.lucky_guesses}`
+        )
+        .join('\n')
     : '  No domain data yet.';
 
   const weakBlock = subjectWeak.length
-    ? subjectWeak.map((w) => `  ${w.domain || w.topic}: ${w.accuracy_pct}% (${w.correct}/${w.total})`).join('\n')
+    ? subjectWeak
+        .map(
+          (w) =>
+            `  ${w.domain || w.topic}: ${w.accuracy_pct}% (${w.correct}/${w.total})`
+        )
+        .join('\n')
     : '  No weak areas identified yet.';
 
   const trendBlock = subjectTrend
@@ -7937,17 +7955,26 @@ async function generateAIWeeklyPlan(userId, subject, weekStart) {
     : 'No score data yet.';
 
   const recentBlock = subjectRecent.length
-    ? subjectRecent.map((a) => `  "${a.quiz_title}": ${a.score}/${a.total_questions} (scaled ${a.scaled_score}) ${a.passed ? 'PASS' : 'FAIL'}`).join('\n')
+    ? subjectRecent
+        .map(
+          (a) =>
+            `  "${a.quiz_title}": ${a.score}/${a.total_questions} (scaled ${a.scaled_score}) ${a.passed ? 'PASS' : 'FAIL'}`
+        )
+        .join('\n')
     : '  No recent quizzes.';
 
   const calScore = confidenceData.calibrationScore;
-  const calBlock = calScore != null ? `Calibration: ${calScore}/100` : 'Not enough data.';
+  const calBlock =
+    calScore != null ? `Calibration: ${calScore}/100` : 'Not enough data.';
 
-  const testBlock = daysUntilTest != null
-    ? `Test date in ${daysUntilTest} days${daysUntilTest <= 14 ? ' — URGENT, prioritize weak areas heavily' : ''}.`
-    : 'No test date set.';
+  const testBlock =
+    daysUntilTest != null
+      ? `Test date in ${daysUntilTest} days${daysUntilTest <= 14 ? ' — URGENT, prioritize weak areas heavily' : ''}.`
+      : 'No test date set.';
 
-  const quizListStr = quizInventory.map((q) => `  "${q.id}" — ${q.title}${q.tags ? ` [${q.tags}]` : ''}`).join('\n');
+  const quizListStr = quizInventory
+    .map((q) => `  "${q.id}" — ${q.title}${q.tags ? ` [${q.tags}]` : ''}`)
+    .join('\n');
 
   const prompt = `You are Coach Smith, an expert GED study planner for the subject "${subject}".
 Generate a personalized 7-day study plan (Day 1 = ${weekStart}, one session per day).
@@ -7988,7 +8015,8 @@ Return JSON matching the schema exactly.`;
     timeoutMs: 20000,
   });
 
-  if (!aiResult || !Array.isArray(aiResult.days) || aiResult.days.length < 7) return null;
+  if (!aiResult || !Array.isArray(aiResult.days) || aiResult.days.length < 7)
+    return null;
 
   // Build valid quiz ID set for validation
   const validIds = new Set(allQuizzes.map((q) => q.id));
@@ -7998,7 +8026,9 @@ Return JSON matching the schema exactly.`;
   for (let i = 0; i < 7; i++) {
     const aiDay = aiResult.days[i] || {};
     const focusStr = aiDay.focus || 'general';
-    const quizId = validIds.has(aiDay.quizId) ? aiDay.quizId : pickCoachQuizSourceId(subject, i);
+    const quizId = validIds.has(aiDay.quizId)
+      ? aiDay.quizId
+      : pickCoachQuizSourceId(subject, i);
     const minutes = Math.min(30, Math.max(15, aiDay.minutes || 20));
     const rationale = aiDay.rationale || '';
 
@@ -8063,13 +8093,18 @@ app.post(
       try {
         plan = await generateAIWeeklyPlan(userId, subject, weekStart);
       } catch (aiErr) {
-        console.warn(`AI weekly plan failed for ${subject}, using fallback:`, aiErr?.message || aiErr);
+        console.warn(
+          `AI weekly plan failed for ${subject}, using fallback:`,
+          aiErr?.message || aiErr
+        );
       }
 
       // Fallback to mechanical rotation
       if (!plan) {
         const bundle = await buildProfileBundle(userId);
-        const allChallenges = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
+        const allChallenges = Array.isArray(bundle?.challengeOptions)
+          ? bundle.challengeOptions
+          : [];
         const selected = allChallenges.filter(
           (c) => c?.selected && normalizeSubjectLabel(c.subject) === subject
         );
@@ -8082,7 +8117,8 @@ app.post(
       const today = todayISO();
       try {
         await findOrCreateDailyRow(userId, subject, today);
-        const todayDay = plan.days.find((d) => d.date === today) || plan.days[0];
+        const todayDay =
+          plan.days.find((d) => d.date === today) || plan.days[0];
         const quizCode = todayDay?.quizId || null;
         if (quizCode) {
           await pool.query(
