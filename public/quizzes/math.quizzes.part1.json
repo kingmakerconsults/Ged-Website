@@ -11788,7 +11788,7 @@
                       "rationale": "This is the total number of people surveyed."
                     }
                   ],
-                  "rationale": "To find the number of people who prefer dogs, multiply the fraction by the total number of people: \\(\\frac{2}{3}\\) \\(\times30 = 20 people.\\)",
+                  "rationale": "To find the number of people who prefer dogs, multiply the fraction by the total number of people: \\(\\frac{2}{3}\\) \\(\\times30 = 20 people.\\)",
                   "challenge_tags": [
                     "math-6"
                   ]

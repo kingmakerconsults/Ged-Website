@@ -5,6 +5,11 @@ const path = require('path');
 const {
   sanitizeSubjectQuestion,
 } = require('./src/lib/mathQuestionBankSanitizer');
+const {
+  buildImageMetadataMap,
+  canonicalizeImageAssetPath,
+  loadMergedImageMetadata,
+} = require('./src/lib/imageMetadataRepository');
 
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'reports');
@@ -57,7 +62,9 @@ function findLatestAcceptedReport() {
   const files = fs
     .readdirSync(REPORTS_DIR)
     .filter((name) =>
-      /^question_bank_vetting_accepted_\d{8}-\d{6}\.json$/.test(name)
+      /^question_bank_vetting_accepted(?:_with_promotions)?_\d{8}-\d{6}\.json$/.test(
+        name
+      )
     )
     .sort();
 
@@ -225,17 +232,23 @@ function classifyQualityIssues(question) {
   return issues;
 }
 
-function buildExportQuestion(entry, canonicalSubject) {
+function buildExportQuestion(entry, canonicalSubject, imageMetadataByPath) {
   const question = sanitizeSubjectQuestion(
     entry?.sanitizedQuestion || {},
     canonicalSubject
   );
   const imageSrc =
-    question?.stimulusImage?.src ||
-    question?.imageUrl ||
-    question?.imageURL ||
-    question?.image ||
-    undefined;
+    canonicalizeImageAssetPath(
+      question?.stimulusImage?.src ||
+        question?.imageUrl ||
+        question?.imageURL ||
+        question?.image ||
+        ''
+    ) || undefined;
+  const metadataEntry = imageSrc ? imageMetadataByPath.get(imageSrc) : null;
+  const stimulusImageAlt = String(
+    question?.stimulusImage?.alt || metadataEntry?.altText || ''
+  ).trim();
 
   return pruneUndefined({
     questionText: String(
@@ -255,6 +268,7 @@ function buildExportQuestion(entry, canonicalSubject) {
             ? question.stimulusImage
             : {}),
           src: imageSrc,
+          alt: stimulusImageAlt || undefined,
         }
       : undefined,
     imageUrl: imageSrc,
@@ -265,13 +279,20 @@ function buildExportQuestion(entry, canonicalSubject) {
       originalSubject: entry?.subject || canonicalSubject,
       originalDifficulty: entry?.originalDifficulty || null,
       originalItemType: entry?.originalItemType || null,
-      vettedSource: 'question_bank_vetting_accepted',
+      vettedSource:
+        Array.isArray(entry?.issues) && entry.issues.length > 0
+          ? 'question_bank_vetting_promoted_review'
+          : 'question_bank_vetting_accepted',
     },
   });
 }
 
 function main() {
   ensureDir(OUTPUT_DIR);
+
+  const imageMetadataByPath = buildImageMetadataMap(
+    loadMergedImageMetadata({ backendDir: __dirname })
+  );
 
   const reportPath = process.argv[2]
     ? path.resolve(process.argv[2])
@@ -304,7 +325,9 @@ function main() {
       'missing-stimulus',
     ],
     inputCount: accepted.length,
-    reviewPromoted: 0,
+    reviewPromoted: accepted.filter(
+      (entry) => Array.isArray(entry?.issues) && entry.issues.length > 0
+    ).length,
     keptCount: 0,
     removedCount: 0,
     bySubject: {},
@@ -312,7 +335,11 @@ function main() {
 
   for (const entry of accepted) {
     const canonicalSubject = canonicalizeSubject(entry?.subject);
-    const question = buildExportQuestion(entry, canonicalSubject);
+    const question = buildExportQuestion(
+      entry,
+      canonicalSubject,
+      imageMetadataByPath
+    );
     const subjectBucket =
       canonicalSubject === 'Reasoning Through Language Arts (RLA)'
         ? isRlaLanguageQuestion(question.questionText)

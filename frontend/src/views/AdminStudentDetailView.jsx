@@ -61,6 +61,10 @@ export default function AdminStudentDetailView() {
   const [error, setError] = useState(null);
   const [subjectFilter, setSubjectFilter] = useState('');
   const [quizTypeFilter, setQuizTypeFilter] = useState('');
+  const [domainMastery, setDomainMastery] = useState([]);
+  const [selectedAttemptId, setSelectedAttemptId] = useState(null);
+  const [attemptItems, setAttemptItems] = useState([]);
+  const [itemsLoading, setItemsLoading] = useState(false);
 
   // Fetch student profile
   useEffect(() => {
@@ -80,6 +84,50 @@ export default function AdminStudentDetailView() {
       }
     })();
   }, [apiBase, token, id]);
+
+  // Fetch domain mastery for this student
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(
+          `${apiBase}/api/admin/students/${id}/domain-mastery`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setDomainMastery(data.domains || []);
+        }
+      } catch (_) {}
+    })();
+  }, [apiBase, token, id]);
+
+  // Fetch attempt items when drilling down
+  useEffect(() => {
+    if (!selectedAttemptId) {
+      setAttemptItems([]);
+      return;
+    }
+    (async () => {
+      setItemsLoading(true);
+      try {
+        const res = await fetch(
+          `${apiBase}/api/admin/students/${id}/attempt/${selectedAttemptId}/items`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setAttemptItems(data.items || []);
+        }
+      } catch (_) {
+      } finally {
+        setItemsLoading(false);
+      }
+    })();
+  }, [apiBase, token, id, selectedAttemptId]);
 
   // Fetch quiz attempts
   useEffect(() => {
@@ -204,6 +252,178 @@ export default function AdminStudentDetailView() {
         />
       </div>
 
+      {/* Domain Mastery */}
+      {domainMastery.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-3">Domain Mastery</h2>
+          <div className="space-y-2">
+            {domainMastery.map((d) => {
+              const pct =
+                d.total > 0 ? Math.round((d.correct / d.total) * 100) : 0;
+              const color =
+                pct >= 70
+                  ? 'bg-green-500'
+                  : pct >= 45
+                    ? 'bg-yellow-500'
+                    : 'bg-red-500';
+              return (
+                <div key={d.domain} className="flex items-center gap-3">
+                  <div
+                    className="w-40 text-sm font-medium truncate"
+                    title={d.domain}
+                  >
+                    {d.domain}
+                  </div>
+                  <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                    <div
+                      className={`${color} h-4 rounded-full transition-all`}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                  <div className="w-16 text-right text-sm font-semibold">
+                    {pct}%
+                  </div>
+                  <div className="w-20 text-right text-xs text-gray-500">
+                    {d.correct}/{d.total}
+                  </div>
+                  {d.misconception_count > 0 && (
+                    <span className="text-xs px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">
+                      {d.misconception_count} misc.
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Attempt Detail Panel */}
+      {selectedAttemptId && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Attempt Detail</h2>
+            <button
+              onClick={() => setSelectedAttemptId(null)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Close
+            </button>
+          </div>
+          {itemsLoading ? (
+            <div className="text-center py-6 text-gray-400">
+              Loading items...
+            </div>
+          ) : attemptItems.length === 0 ? (
+            <div className="text-center py-6 text-gray-400">
+              No per-question data available for this attempt.
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold">
+                    {attemptItems.filter((i) => i.is_correct).length}/
+                    {attemptItems.length}
+                  </div>
+                  <div className="text-xs text-gray-500">Correct</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold">
+                    {attemptItems.length > 0
+                      ? Math.round(
+                          (attemptItems.filter((i) => i.is_correct).length /
+                            attemptItems.length) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </div>
+                  <div className="text-xs text-gray-500">Accuracy</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold">
+                    {attemptItems.reduce(
+                      (s, i) => s + (i.time_spent_ms || 0),
+                      0
+                    ) >= 1000
+                      ? `${Math.round(
+                          attemptItems.reduce(
+                            (s, i) => s + (i.time_spent_ms || 0),
+                            0
+                          ) / 1000
+                        )}s`
+                      : '—'}
+                  </div>
+                  <div className="text-xs text-gray-500">Total Time</div>
+                </div>
+              </div>
+              <div className="space-y-2 max-h-[500px] overflow-y-auto">
+                {attemptItems.map((item, idx) => (
+                  <div
+                    key={item.id || idx}
+                    className={`p-3 rounded-lg border ${
+                      item.is_correct
+                        ? 'bg-green-50 border-green-200 dark:bg-green-900/10 dark:border-green-800'
+                        : 'bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-800'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white ${
+                            item.is_correct ? 'bg-green-500' : 'bg-red-500'
+                          }`}
+                        >
+                          {item.question_index + 1}
+                        </span>
+                        <span className="text-sm font-medium">
+                          {item.domain || 'Unknown Domain'}
+                          {item.topic ? ` › ${item.topic}` : ''}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs">
+                        {item.confidence === 'sure' && item.is_correct && (
+                          <span className="px-1.5 py-0.5 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                            Confident ✓
+                          </span>
+                        )}
+                        {item.confidence === 'sure' && !item.is_correct && (
+                          <span className="px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">
+                            Misconception
+                          </span>
+                        )}
+                        {item.confidence === 'guessing' && item.is_correct && (
+                          <span className="px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                            Lucky Guess
+                          </span>
+                        )}
+                        {item.time_spent_ms > 0 && (
+                          <span className="text-gray-500">
+                            {(item.time_spent_ms / 1000).toFixed(1)}s
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {!item.is_correct && (
+                      <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                        <span className="text-red-600">
+                          Answered: {item.user_answer || '—'}
+                        </span>
+                        {' · '}
+                        <span className="text-green-600">
+                          Correct: {item.correct_answer || '—'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Quiz Attempt History */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
         <div className="px-6 py-4 border-b dark:border-gray-700 flex items-center justify-between flex-wrap gap-3">
@@ -256,18 +476,19 @@ export default function AdminStudentDetailView() {
                 <th className="text-center px-3 py-2 font-medium">Raw Score</th>
                 <th className="text-center px-3 py-2 font-medium">Scaled</th>
                 <th className="text-center px-3 py-2 font-medium">Pass</th>
+                <th className="text-center px-3 py-2 font-medium">Details</th>
               </tr>
             </thead>
             <tbody>
               {attemptsLoading ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-6 text-gray-400">
+                  <td colSpan={8} className="text-center py-6 text-gray-400">
                     Loading...
                   </td>
                 </tr>
               ) : attempts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-6 text-gray-400">
+                  <td colSpan={8} className="text-center py-6 text-gray-400">
                     No quiz attempts found
                   </td>
                 </tr>
@@ -310,6 +531,22 @@ export default function AdminStudentDetailView() {
                       ) : (
                         '—'
                       )}
+                    </td>
+                    <td className="text-center px-3 py-2">
+                      <button
+                        onClick={() =>
+                          setSelectedAttemptId(
+                            selectedAttemptId === a.id ? null : a.id
+                          )
+                        }
+                        className={`text-xs px-2 py-0.5 rounded ${
+                          selectedAttemptId === a.id
+                            ? 'bg-blue-600 text-white'
+                            : 'text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                        }`}
+                      >
+                        {selectedAttemptId === a.id ? 'Viewing' : 'View'}
+                      </button>
                     </td>
                   </tr>
                 ))

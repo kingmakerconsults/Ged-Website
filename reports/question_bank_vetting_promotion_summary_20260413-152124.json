@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-04-13T19:21:24.532Z",
+  "acceptedSource": "reports/question_bank_vetting_accepted_20260413-145927.json",
+  "reviewSource": "reports/question_bank_vetting_review_20260413-145927.json",
+  "promotedCount": 791,
+  "skippedCount": 26,
+  "mergedCount": 12517,
+  "rules": [
+    "Promote only review items whose sole issue is generic-rationales.",
+    "Promote a small allowlist of verified false-positive subject-drift Science items.",
+    "Do not promote other subject-drift items."
+  ],
+  "bySubject": {
+    "Science": 90,
+    "Social Studies": 43,
+    "Reasoning Through Language Arts (RLA)": 24,
+    "Math": 518,
+    "RLA": 116
+  },
+  "skippedIssueCombos": {
+    "subject-drift": 26
+  }
+}

@@ -1699,6 +1699,92 @@ const findPointByLabel = (points, label) => {
   return points.find((pt) => pt.label === label);
 };
 
+// Collect approximate bounding points for all labels so the viewBox includes them
+const collectLabelBounds = (points, sideLabels, labels, segments) => {
+  const bounds = [];
+  const TEXT_HALF_WIDTH = 12; // approximate half-width of a label in SVG units
+  const TEXT_HEIGHT = 7;
+  // Vertex label offsets
+  points.forEach((pt) => {
+    if (pt.label) {
+      bounds.push({
+        x: pt.x + 2.8 + TEXT_HALF_WIDTH,
+        y: pt.y - 2.2 - TEXT_HEIGHT,
+      });
+      bounds.push({ x: pt.x + 2.8 - 2, y: pt.y - 2.2 + 2 });
+    }
+  });
+  // Side labels
+  if (Array.isArray(sideLabels)) {
+    const centX = points.reduce((s, p) => s + p.x, 0) / points.length;
+    const centY = points.reduce((s, p) => s + p.y, 0) / points.length;
+    sideLabels.forEach((entry) => {
+      if (!entry || !Array.isArray(entry.between) || entry.between.length !== 2)
+        return;
+      const a = findPointByLabel(points, entry.between[0]);
+      const b = findPointByLabel(points, entry.between[1]);
+      if (!a || !b) return;
+      const mid = midpoint(a, b);
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      let nx = -dy / len;
+      let ny = dx / len;
+      const toMidX = mid.x - centX;
+      const toMidY = mid.y - centY;
+      if (nx * toMidX + ny * toMidY < 0) {
+        nx = -nx;
+        ny = -ny;
+      }
+      const lx = mid.x + nx * 5;
+      const ly = mid.y + ny * 5;
+      bounds.push({ x: lx - TEXT_HALF_WIDTH, y: ly - TEXT_HEIGHT });
+      bounds.push({ x: lx + TEXT_HALF_WIDTH, y: ly + TEXT_HEIGHT });
+    });
+  }
+  // Additional labels
+  if (Array.isArray(labels)) {
+    labels.forEach((label) => {
+      const pt = normalizePoint(label);
+      if (!pt) return;
+      const dx = normalizeNumber(label.dx) || 0;
+      const dy = normalizeNumber(label.dy) || 0;
+      bounds.push({
+        x: pt.x + dx - TEXT_HALF_WIDTH,
+        y: pt.y + dy - TEXT_HEIGHT,
+      });
+      bounds.push({
+        x: pt.x + dx + TEXT_HALF_WIDTH,
+        y: pt.y + dy + TEXT_HEIGHT,
+      });
+    });
+  }
+  // Segment labels
+  if (Array.isArray(segments)) {
+    segments.forEach((seg) => {
+      if (!seg || typeof seg.label !== 'string') return;
+      const from = Array.isArray(seg.from) ? seg.from.map(normalizeNumber) : [];
+      const to = Array.isArray(seg.to) ? seg.to.map(normalizeNumber) : [];
+      if (from.length === 2 && to.length === 2) {
+        const mx = (from[0] + to[0]) / 2;
+        const my = (from[1] + to[1]) / 2;
+        const lo = Array.isArray(seg.labelOffset)
+          ? seg.labelOffset.map(normalizeNumber)
+          : [];
+        bounds.push({
+          x: mx + (lo[0] || 0) - TEXT_HALF_WIDTH,
+          y: my + (lo[1] || -2) - TEXT_HEIGHT,
+        });
+        bounds.push({
+          x: mx + (lo[0] || 0) + TEXT_HALF_WIDTH,
+          y: my + (lo[1] || -2) + TEXT_HEIGHT,
+        });
+      }
+    });
+  }
+  return bounds;
+};
+
 const renderPointMarkers = (points, style) => {
   return points.map((pt, index) => (
     <g key={`pt-${index}`}>
@@ -1876,6 +1962,14 @@ const polygonRenderer = (params = {}, style, { includeRightAngle } = {}) => {
     ...renderSegments(params.segments, style),
   ];
 
+  // Collect label positions so viewBox includes them
+  const labelBounds = collectLabelBounds(
+    points,
+    params.sideLabels,
+    params.labels,
+    params.segments
+  );
+
   if (includeRightAngle && params.rightAngle) {
     const vertexLabel = params.rightAngle.vertex;
     const size = normalizeNumber(params.rightAngle.size) || 8;
@@ -1907,7 +2001,7 @@ const polygonRenderer = (params = {}, style, { includeRightAngle } = {}) => {
 
   return {
     elements,
-    pointsForBounds: points,
+    pointsForBounds: [...points, ...labelBounds],
   };
 };
 
@@ -1956,18 +2050,28 @@ const circleRenderer = (params = {}, style) => {
     ...renderSegments(params.segments, style),
   ];
 
+  const labelBoundsExtra = [];
+  const LBL_HW = 12;
+  const LBL_HH = 7;
+
   if (params.radiusLabel) {
+    const rlx = center.x + radius / 2;
+    const rly = center.y - 2;
     elements.push(
       <text
         key="radius-label"
-        x={center.x + radius / 2}
-        y={center.y - 2}
+        x={rlx}
+        y={rly}
         fontSize={6}
         textAnchor="middle"
         fill={style.labelColor}
       >
         {params.radiusLabel}
       </text>
+    );
+    labelBoundsExtra.push(
+      { x: rlx - LBL_HW, y: rly - LBL_HH },
+      { x: rlx + LBL_HW, y: rly + LBL_HH }
     );
   }
 
@@ -1994,6 +2098,7 @@ const circleRenderer = (params = {}, style) => {
       { x: center.x - radius, y: center.y },
       { x: center.x, y: center.y + radius },
       { x: center.x, y: center.y - radius },
+      ...labelBoundsExtra,
     ],
   };
 };
@@ -2110,6 +2215,10 @@ const angleRenderer = (params = {}, style) => {
         >
           {angleLabel}
         </text>
+      );
+      pointsForBounds.push(
+        { x: labelPoint.x - 12, y: labelPoint.y - 7 },
+        { x: labelPoint.x + 12, y: labelPoint.y + 7 }
       );
     }
   };
@@ -2408,6 +2517,8 @@ const compositeRenderer = (params = {}, style) => {
     pointsForBounds.push({ x, y }, { x: x + w, y: y + h });
   });
   if (Array.isArray(params.dimensionLabels)) {
+    const DIM_TEXT_HALF_WIDTH = 12;
+    const DIM_TEXT_HEIGHT = 7;
     params.dimensionLabels.forEach((dl, index) => {
       if (!dl || typeof dl.text !== 'string') return;
       const px = normalizeNumber(dl.x);
@@ -2424,6 +2535,10 @@ const compositeRenderer = (params = {}, style) => {
         >
           {dl.text}
         </text>
+      );
+      pointsForBounds.push(
+        { x: px - DIM_TEXT_HALF_WIDTH, y: py - DIM_TEXT_HEIGHT },
+        { x: px + DIM_TEXT_HALF_WIDTH, y: py + DIM_TEXT_HEIGHT }
       );
     });
   }
@@ -2537,17 +2652,23 @@ const parallelTransversalRenderer = (params = {}, style) => {
       if (!intersection) return;
       const offsetX = normalizeNumber(al.dx) || 0;
       const offsetY = normalizeNumber(al.dy) || 0;
+      const alx = intersection.x + offsetX;
+      const aly = intersection.y + offsetY;
       elements.push(
         <text
           key={`angle-label-${index}`}
-          x={intersection.x + offsetX}
-          y={intersection.y + offsetY}
+          x={alx}
+          y={aly}
           fontSize={6}
           textAnchor="middle"
           fill={style.labelColor}
         >
           {al.text}
         </text>
+      );
+      pointsForBounds.push(
+        { x: alx - 12, y: aly - 7 },
+        { x: alx + 12, y: aly + 7 }
       );
     });
   }
@@ -2569,6 +2690,10 @@ const parallelTransversalRenderer = (params = {}, style) => {
         >
           {ll.text}
         </text>
+      );
+      pointsForBounds.push(
+        { x: lx - 12, y: ly - 7 },
+        { x: lx + 12, y: ly + 7 }
       );
     });
   }
@@ -2851,7 +2976,7 @@ function GeometryFigure({ spec, className }) {
   }
 
   const padding =
-    spec.view && typeof spec.view.padding === 'number' ? spec.view.padding : 8;
+    spec.view && typeof spec.view.padding === 'number' ? spec.view.padding : 14;
   const width = Math.max(maxX - minX, 20);
   const height = Math.max(maxY - minY, 20);
 
@@ -2867,6 +2992,7 @@ function GeometryFigure({ spec, className }) {
       role="img"
       aria-label="Geometry figure"
       preserveAspectRatio="xMidYMid meet"
+      style={{ overflow: 'visible' }}
     >
       {renderResult.elements}
     </svg>
@@ -25854,13 +25980,15 @@ function App({ externalTheme, onThemeChange }) {
   }, [view, pendingScrollTarget]);
 
   // Optional: handle direct hash navigation (e.g., external links to #quizzes or #progress)
+  // Registered once on mount; uses viewRef so the latest view is always read without
+  // re-running the effect (which previously reset users back to the dashboard mid-quiz).
   useEffect(() => {
     const handleHashNavigate = () => {
       if (typeof window === 'undefined') return;
       const raw = window.location.hash || '';
       const id = raw.replace(/^#/, '');
       if (id === 'quizzes' || id === 'progress') {
-        if (view !== 'start') {
+        if (viewRef.current !== 'start') {
           setPendingScrollTarget(id);
           setView('start');
         } else {
@@ -25871,10 +25999,11 @@ function App({ externalTheme, onThemeChange }) {
     };
     if (typeof window !== 'undefined') {
       window.addEventListener('hashchange', handleHashNavigate);
+      // Run once on mount to handle page loads with a hash (e.g. direct link to /#quizzes)
       handleHashNavigate();
       return () => window.removeEventListener('hashchange', handleHashNavigate);
     }
-  }, [view]);
+  }, []);
 
   const recalcProgress = useCallback((attemptList) => {
     setProgress(buildProgressFromAttempts(attemptList));
@@ -27123,6 +27252,16 @@ function App({ externalTheme, onThemeChange }) {
     (preparedQuiz, options = {}) => {
       const { showIntro = false } = options;
 
+      // Clear any lingering hash so the hashchange listener won't yank
+      // the user back to the dashboard while the quiz is active.
+      if (typeof window !== 'undefined' && window.location.hash) {
+        window.history.replaceState(
+          window.history.state,
+          '',
+          window.location.pathname + window.location.search
+        );
+      }
+
       setActiveQuiz(preparedQuiz);
 
       if (showIntro && isComprehensiveQuiz(preparedQuiz)) {
@@ -27323,7 +27462,7 @@ function App({ externalTheme, onThemeChange }) {
 
     const { subject } = results;
 
-    // Build per-question responses (correct + challenge_tags) when we have answers/questions
+    // Build per-question responses (correct + challenge_tags + detailed metadata) when we have answers/questions
     let responses = [];
     try {
       const quizObj = results.quiz || activeQuiz || {};
@@ -27331,6 +27470,12 @@ function App({ externalTheme, onThemeChange }) {
         ? quizObj.questions
         : [];
       const answers = Array.isArray(results?.answers) ? results.answers : [];
+      const confidenceArr = Array.isArray(results?.confidence)
+        ? results.confidence
+        : [];
+      const timeSpentArr = Array.isArray(results?.timeSpent)
+        ? results.timeSpent
+        : [];
       if (
         questions.length &&
         answers.length &&
@@ -27339,22 +27484,66 @@ function App({ externalTheme, onThemeChange }) {
         responses = questions.map((q, i) => {
           const userAns = answers[i];
           let correct = false;
+          let correctAnswer = null;
+          let questionType = 'multiple-choice';
+
           if (!q.answerOptions || q.answerOptions.length === 0) {
             correct = areEquivalentFillInAnswers(q.correctAnswer, userAns, {
               subject: quizObj?.subject || subject,
               question: q,
             });
+            correctAnswer = q.correctAnswer || null;
+            questionType =
+              q.type === 'numeric' || q.responseType === 'numeric'
+                ? 'numeric'
+                : 'fill-in';
           } else {
             const correctOption = (q.answerOptions || []).find(
               (opt) => opt.isCorrect
             );
             correct = !!correctOption && userAns === correctOption.text;
+            correctAnswer = correctOption?.text || null;
+            // Detect multi-select
+            const correctCount = (q.answerOptions || []).filter(
+              (o) => o && o.isCorrect
+            ).length;
+            if (correctCount > 1 || q.itemType === 'multi_select') {
+              questionType = 'multi-select';
+            }
           }
+          if (q.type === 'short-response' || q.itemType === 'short_response') {
+            questionType = 'short-response';
+          }
+
           const tags = Array.isArray(q.challenge_tags) ? q.challenge_tags : [];
+          const pts =
+            typeof q.points === 'number' && q.points > 0 ? q.points : 1;
+
           return {
             correct,
             challenge_tags: tags,
-            originalSubject: q.originalSubject || q.subject, // Pass subject for diagnostic analysis
+            originalSubject: q.originalSubject || q.subject,
+            // Enriched fields for quiz_attempt_items
+            question_id: q.id || q.questionId || q.qnum || null,
+            user_answer:
+              typeof userAns === 'object'
+                ? JSON.stringify(userAns)
+                : userAns != null
+                  ? String(userAns)
+                  : null,
+            correct_answer:
+              typeof correctAnswer === 'object'
+                ? JSON.stringify(correctAnswer)
+                : correctAnswer != null
+                  ? String(correctAnswer)
+                  : null,
+            domain: q.domain || q.contentArea || null,
+            topic: q.topic || q.skill || null,
+            confidence: confidenceArr[i] || null,
+            time_spent_ms: timeSpentArr[i] || null,
+            question_type: questionType,
+            points_earned: correct ? pts : 0,
+            points_possible: pts,
           };
         });
       }
@@ -35532,6 +35721,10 @@ function QuizInterface({
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
 
+  // Per-question timing: accumulate ms spent on each question
+  const timeSpentRef = useRef(Array(questions.length).fill(0));
+  const lastNavTsRef = useRef(Date.now());
+
   // Olympics mode state
   const isOlympicsMode = practiceMode === 'olympics';
   const [livesRemaining, setLivesRemaining] = useState(3);
@@ -35547,7 +35740,22 @@ function QuizInterface({
     setTimeLeft(timeLimit || questions.length * 90);
     setIsPaused(false);
     setPausesRemaining(2);
+    // Reset per-question timing on new quiz
+    timeSpentRef.current = Array(questions.length).fill(0);
+    lastNavTsRef.current = Date.now();
   }, [questions, timeLimit]);
+
+  // Record time spent on previous question whenever currentIndex changes
+  const prevIndexRef = useRef(0);
+  useEffect(() => {
+    const now = Date.now();
+    const elapsed = now - lastNavTsRef.current;
+    if (elapsed > 0 && prevIndexRef.current < timeSpentRef.current.length) {
+      timeSpentRef.current[prevIndexRef.current] += elapsed;
+    }
+    lastNavTsRef.current = now;
+    prevIndexRef.current = currentIndex;
+  }, [currentIndex]);
 
   useEffect(() => {
     setShowArticle(Boolean(article));
@@ -35628,12 +35836,22 @@ function QuizInterface({
   };
 
   const handleSubmit = useCallback(() => {
+    // Flush time for the currently-viewed question
+    const now = Date.now();
+    const elapsed = now - lastNavTsRef.current;
+    if (elapsed > 0 && currentIndex < timeSpentRef.current.length) {
+      timeSpentRef.current[currentIndex] += elapsed;
+    }
+    lastNavTsRef.current = now;
+    const timeSpent = [...timeSpentRef.current];
+
     if (isOlympicsMode) {
       // Olympics mode: finish and show summary
       onComplete({
         answers,
         marked,
         confidence,
+        timeSpent,
         olympicsMode: true,
         olympicsHistory,
         totalAnswered,
@@ -35642,13 +35860,14 @@ function QuizInterface({
         livesRemaining,
       });
     } else {
-      onComplete({ answers, marked, confidence });
+      onComplete({ answers, marked, confidence, timeSpent });
     }
   }, [
     answers,
     marked,
     onComplete,
     confidence,
+    currentIndex,
     isOlympicsMode,
     olympicsHistory,
     totalAnswered,
@@ -37239,6 +37458,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       subject: quiz.subject,
       marked: result.marked,
       confidence: result.confidence,
+      timeSpent: result.timeSpent,
       quiz,
     });
   };
@@ -37547,6 +37767,10 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       ...(p1.confidence || []),
       ...(result.confidence || []),
     ];
+    const finalTimeSpent = [
+      ...(p1.timeSpent || []),
+      ...(result.timeSpent || []),
+    ];
 
     // Robust equivalence (match StandardQuizRunner helpers)
     const normalizeRaw = (val) => {
@@ -37751,6 +37975,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       subject: quiz.subject,
       marked: finalMarked,
       confidence: finalConfidence,
+      timeSpent: finalTimeSpent,
       quiz,
     });
   };
@@ -37948,6 +38173,11 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       ...(part3Data.confidence || Array(part3Questions.length).fill(null)),
     ];
 
+    const combinedTimeSpent = [
+      ...(part1Data.timeSpent || []),
+      ...(part3Data.timeSpent || []),
+    ];
+
     // Helper: score a single RLA question against its recorded answer
     const scoreRlaQuestion = (question, userAnswer) => {
       const itemType = question.itemType || 'single_select';
@@ -38052,6 +38282,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       answers: combinedAnswers,
       marked: combinedMarked,
       confidence: combinedConfidence,
+      timeSpent: combinedTimeSpent,
       essayScore,
       multipleChoicePercentage,
       essayPercentage,

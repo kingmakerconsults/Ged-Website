@@ -70,11 +70,30 @@ export function QuizInterface({
   const [showPunnett, setShowPunnett] = useState(false);
   const [zenMode, setZenMode] = useState(false);
 
+  // Per-question timing: accumulate ms spent on each question
+  const timeSpentRef = useRef(Array(questions.length).fill(0));
+  const lastNavTsRef = useRef(Date.now());
+
   useEffect(() => {
     setTimeLeft(timeLimit || questions.length * 90);
     setIsPaused(false);
     setPausesRemaining(2);
+    // Reset per-question timing on new quiz
+    timeSpentRef.current = Array(questions.length).fill(0);
+    lastNavTsRef.current = Date.now();
   }, [questions, timeLimit]);
+
+  // Record time spent on previous question whenever currentIndex changes
+  const prevIndexRef = useRef(0);
+  useEffect(() => {
+    const now = Date.now();
+    const elapsed = now - lastNavTsRef.current;
+    if (elapsed > 0 && prevIndexRef.current < timeSpentRef.current.length) {
+      timeSpentRef.current[prevIndexRef.current] += elapsed;
+    }
+    lastNavTsRef.current = now;
+    prevIndexRef.current = currentIndex;
+  }, [currentIndex]);
 
   useEffect(() => {
     setShowArticle(Boolean(article));
@@ -210,8 +229,20 @@ export function QuizInterface({
   };
 
   const handleSubmit = useCallback(() => {
-    onComplete({ answers, marked, confidence });
-  }, [answers, marked, onComplete, confidence]);
+    // Flush time for the currently-viewed question
+    const now = Date.now();
+    const elapsed = now - lastNavTsRef.current;
+    if (elapsed > 0 && currentIndex < timeSpentRef.current.length) {
+      timeSpentRef.current[currentIndex] += elapsed;
+    }
+    lastNavTsRef.current = now;
+    onComplete({
+      answers,
+      marked,
+      confidence,
+      timeSpent: [...timeSpentRef.current],
+    });
+  }, [answers, marked, onComplete, confidence, currentIndex]);
 
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
@@ -1530,6 +1561,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       answers: result.answers, // include user answers for results screen
       marked: result.marked,
       confidence: result.confidence,
+      timeSpent: result.timeSpent,
       manualShortResponseIndexes,
       quiz,
     });
@@ -1584,6 +1616,10 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
     const finalConfidence = [
       ...(p1.confidence || []),
       ...(result.confidence || []),
+    ];
+    const finalTimeSpent = [
+      ...(p1.timeSpent || []),
+      ...(result.timeSpent || []),
     ];
 
     // Robust equivalence (match StandardQuizRunner helpers)
@@ -1789,6 +1825,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       subject: quiz.subject,
       marked: finalMarked,
       confidence: finalConfidence,
+      timeSpent: finalTimeSpent,
       quiz,
     });
   };

@@ -104,6 +104,7 @@ export default function AdminReportsView() {
     typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
 
   const [readiness, setReadiness] = useState(null);
+  const [domainWeaknesses, setDomainWeaknesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [classFilter, setClassFilter] = useState('');
@@ -147,6 +148,24 @@ export default function AdminReportsView() {
       } finally {
         setLoading(false);
       }
+    })();
+  }, [apiBase, token, classFilter]);
+
+  // Fetch domain weaknesses
+  useEffect(() => {
+    (async () => {
+      try {
+        const params = new URLSearchParams();
+        if (classFilter) params.set('classId', classFilter);
+        const res = await fetch(
+          `${apiBase}/api/admin/reports/domain-weaknesses?${params}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setDomainWeaknesses(data.domains || []);
+        }
+      } catch (_) {}
     })();
   }, [apiBase, token, classFilter]);
 
@@ -236,6 +255,50 @@ export default function AdminReportsView() {
               />
             ))}
           </div>
+
+          {/* Domain Weaknesses */}
+          {domainWeaknesses.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mt-6">
+              <h2 className="text-lg font-semibold mb-1">Domain Weaknesses</h2>
+              <p className="text-xs text-gray-500 mb-4">
+                Lowest accuracy domains across all students (min 3 questions)
+              </p>
+              <div className="space-y-3">
+                {domainWeaknesses.map((d) => {
+                  const pct =
+                    d.total > 0 ? Math.round((d.correct / d.total) * 100) : 0;
+                  const barColor =
+                    pct >= 70
+                      ? 'bg-green-500'
+                      : pct >= 45
+                        ? 'bg-yellow-500'
+                        : 'bg-red-500';
+                  return (
+                    <div key={d.domain}>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium">{d.domain}</span>
+                        <span className="text-xs text-gray-500">
+                          {pct}% · {d.correct}/{d.total} · {d.student_count}{' '}
+                          student{d.student_count !== 1 ? 's' : ''}
+                          {d.misconception_count > 0 && (
+                            <span className="ml-1 text-orange-600 dark:text-orange-400">
+                              ({d.misconception_count} misconceptions)
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div
+                          className={`${barColor} h-3 rounded-full transition-all`}
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </>
       ) : null}
     </div>

@@ -16,6 +16,7 @@
  *   allowMultiSelect – whether multi-select is permitted for this slot
  *   numeracy         – whether this is a numeracy item (Science)
  *   group            – optional group key to keep stimulus-linked items together
+ *   preferCuratedAiBank – when true, bank fills should prefer curated AI-bank items before premade bank items
  *   skillIntent      – optional cognitive task tag (Science): 'passage-comprehension' | 'graph-interpretation' |
  *                      'data-table-calculation' | 'experimental-design' | 'formula-application' |
  *                      'inheritance-probability' | 'evidence-tradeoff' | 'dropdown-cloze' | 'concept-application'
@@ -101,24 +102,30 @@ function standaloneSlot(
   };
 }
 
-// ── 30% Bank / 70% AI Split ─────────────────────────────────────────
-// Reduces AI generation load by designating ~30% of questions to be
-// pulled from the premade question bank first, while keeping 70% as
-// fresh AI-generated content. This makes comprehensives faster and
-// more reliable without sacrificing variety.
+// ── ~40% Curated AI Bank Preferred / ~60% AI Split ──────────────────
+// Routes about 40% of comprehensive questions through the bank path,
+// but prefers curated AI-bank items ahead of premade bank items on
+// those slots. Remaining slots stay AI-first, which raises curated
+// AI-bank coverage without removing the existing fallback chain.
 
 /**
  * Apply bank/AI source priority split across plan slots.
  *
  * @param {Array} slots — mutable array of slot definitions
  * @param {Object} [options]
- * @param {number} [options.bankPct=0.30]  — target fraction for bank-first slots
+ * @param {number} [options.bankPct=0.40]  — target fraction for bank-routed slots
+ * @param {boolean} [options.preferCuratedAiBank=true] — prefer curated AI-bank items on bank-routed slots
  * @param {boolean} [options.forceEssayAI=true] — always use AI for essay slots
  * @param {string[]} [options.bankGroups]  — specific group keys forced to bank
  * @returns {{ bankCount: number, aiCount: number }}
  */
 function applyBankAiSplit(slots, options = {}) {
-  const { bankPct = 0.3, forceEssayAI = true, bankGroups = null } = options;
+  const {
+    bankPct = 0.4,
+    forceEssayAI = true,
+    bankGroups = null,
+    preferCuratedAiBank = true,
+  } = options;
   const totalQ = slots.reduce((s, sl) => s + sl.questionsNeeded, 0);
   const bankTarget = Math.round(totalQ * bankPct);
 
@@ -165,7 +172,11 @@ function applyBankAiSplit(slots, options = {}) {
     if (forceEssayAI && slots[i].responseType === 'essay') {
       slots[i] = { ...slots[i], sourcePriority: ['ai', 'bank'] };
     } else if (bankIndices.has(i)) {
-      slots[i] = { ...slots[i], sourcePriority: ['bank', 'template', 'ai'] };
+      slots[i] = {
+        ...slots[i],
+        sourcePriority: ['bank', 'template', 'ai'],
+        preferCuratedAiBank,
+      };
     } else {
       // For AI-designated slots: respect existing template-first if set
       const current = slots[i].sourcePriority;
@@ -206,7 +217,10 @@ function assignDifficulties(items, dist) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  SOCIAL STUDIES  —  35 questions
+//  SOCIAL STUDIES  —  30 questions
+//  Modeled after GED Ready® format: heavy on primary-source passages,
+//  data interpretation (tables/graphs/timelines), dual-source
+//  comparison, scenario/application, and 1-2 multi-select items.
 // ═══════════════════════════════════════════════════════════════════════
 
 function buildSocialStudiesPlan() {
@@ -214,77 +228,103 @@ function buildSocialStudiesPlan() {
   const P = 'ss';
   const slots = [];
 
-  // Category counts: Civics 18, History 7, Economics 5, Geography 5
-  // Passage: 14 total  (Civics 6, History 4, Econ 2, Geo 2)
-  // Image:   10 total  (Civics 4, History 2, Econ 2, Geo 2)
-  // Standalone: 11 total (Civics 8, History 1, Econ 1, Geo 1)
+  // Category counts: Civics 16, History 7, Economics 4, Geography 3  = 30
+  // Stimulus mix (GED Ready style):
+  //   passage: 18   (primary source excerpts, speeches, constitutional text)
+  //   image:    5   (charts, graphs, maps, photos)
+  //   standalone: 7 (scenario/application, knowledge recall)
+  // Includes: 2 dual-source comparison, 4 data-interpretation, 1 multi-select
 
-  // We build passage groups (each yields multiple questions) plus individual image/standalone slots.
-
-  // --- Civics & Government: 18 questions ---
-  // 3 passage groups × 2q = 6 passage questions  (we need 5 passage-type → use groups of mixed size)
-  const civicsGroup1 = `civ_passage_1`;
-  const civicsGroup2 = `civ_passage_2`;
-  const civicsGroup3 = `civ_passage_3`;
+  // --- Civics & Government: 16 questions ---
+  // 4 passage groups × 2q = 8 passage questions (primary sources, amendments, speeches)
   slots.push(
-    passageSlot(P, 'Civics & Government', 'easy', 2, { group: civicsGroup1 })
+    passageSlot(P, 'Civics & Government', 'easy', 2, { group: 'civ_passage_1' })
   );
   slots.push(
-    passageSlot(P, 'Civics & Government', 'medium', 2, { group: civicsGroup2 })
+    passageSlot(P, 'Civics & Government', 'medium', 2, {
+      group: 'civ_passage_2',
+    })
   );
   slots.push(
-    passageSlot(P, 'Civics & Government', 'medium', 2, { group: civicsGroup3 })
+    passageSlot(P, 'Civics & Government', 'medium', 2, {
+      group: 'civ_passage_3',
+    })
   );
-  // Images: 4 image slots × 1q each = 4
-  slots.push(imageSlot(P, 'Civics & Government', 'easy', 1));
+  slots.push(
+    passageSlot(P, 'Civics & Government', 'hard', 2, { group: 'civ_passage_4' })
+  );
+  // 1 dual-source comparison passage group (2 opposing excerpts → 1 question)
+  slots.push(
+    passageSlot(P, 'Civics & Government', 'hard', 1, {
+      group: 'civ_dual_source_1',
+      skillIntent: 'dual-source-comparison',
+    })
+  );
+  // 1 multi-select slot (e.g., identify which 1st Amendment rights apply)
+  slots.push(
+    standaloneSlot(P, 'Civics & Government', 'medium', 1, {
+      responseType: 'multi_select',
+      allowMultiSelect: true,
+    })
+  );
+  // Images: 2 image slots (graph, political cartoon, etc.)
   slots.push(imageSlot(P, 'Civics & Government', 'medium', 1));
   slots.push(imageSlot(P, 'Civics & Government', 'hard', 1));
-  slots.push(imageSlot(P, 'Civics & Government', 'medium', 1));
-  // Standalone: 8 slots to fill remaining  → 18 - 6(passage) - 4(image) = 8
-  for (let i = 0; i < 8; i++) {
-    const diff = i < 3 ? 'easy' : i < 7 ? 'medium' : 'hard';
-    slots.push(standaloneSlot(P, 'Civics & Government', diff, 1));
-  }
+  // Standalone: 16 - 9(passage) - 1(multi) - 2(image) = 4
+  slots.push(standaloneSlot(P, 'Civics & Government', 'easy', 1));
+  slots.push(standaloneSlot(P, 'Civics & Government', 'easy', 1));
+  slots.push(standaloneSlot(P, 'Civics & Government', 'medium', 1));
+  slots.push(standaloneSlot(P, 'Civics & Government', 'medium', 1));
 
   // --- U.S. History: 7 questions ---
-  // 2 passage groups × 2q = 4 passage questions
-  const histGroup1 = `hist_passage_1`;
-  const histGroup2 = `hist_passage_2`;
+  // 2 passage groups × 2q = 4 passage questions (Jim Crow, Eisenhower, etc.)
   slots.push(
-    passageSlot(P, 'U.S. History', 'medium', 2, { group: histGroup1 })
+    passageSlot(P, 'U.S. History', 'medium', 2, { group: 'hist_passage_1' })
   );
-  slots.push(passageSlot(P, 'U.S. History', 'hard', 2, { group: histGroup2 }));
-  // 2 image slots × 1q
-  slots.push(imageSlot(P, 'U.S. History', 'medium', 1));
+  slots.push(
+    passageSlot(P, 'U.S. History', 'hard', 2, { group: 'hist_passage_2' })
+  );
+  // 1 data-interpretation slot (timeline, table)
+  slots.push(
+    imageSlot(P, 'U.S. History', 'medium', 1, {
+      skillIntent: 'data-interpretation',
+    })
+  );
+  // 1 image slot (historical photo, map)
   slots.push(imageSlot(P, 'U.S. History', 'hard', 1));
-  // Standalone: 7 - 4 - 2 = 1
+  // 1 standalone
   slots.push(standaloneSlot(P, 'U.S. History', 'easy', 1));
 
-  // --- Economics: 5 questions ---
-  // 1 passage group × 2q = 2
-  const econGroup1 = `econ_passage_1`;
-  slots.push(passageSlot(P, 'Economics', 'medium', 2, { group: econGroup1 }));
-  // 2 image slots
-  slots.push(imageSlot(P, 'Economics', 'hard', 1));
-  slots.push(imageSlot(P, 'Economics', 'medium', 1));
-  // Standalone: 5 - 2 - 2 = 1
-  slots.push(standaloneSlot(P, 'Economics', 'easy', 1));
-
-  // --- Geography & the World: 5 questions ---
-  // 1 passage group × 2q = 2
-  const geoGroup1 = `geo_passage_1`;
+  // --- Economics: 4 questions ---
+  // 1 passage group × 2q = 2 (policy debates, financial reform)
   slots.push(
-    passageSlot(P, 'Geography & the World', 'medium', 2, { group: geoGroup1 })
+    passageSlot(P, 'Economics', 'medium', 2, {
+      group: 'econ_passage_1',
+      skillIntent: 'dual-source-comparison',
+    })
   );
-  // 2 image slots
-  slots.push(imageSlot(P, 'Geography & the World', 'easy', 1));
-  slots.push(imageSlot(P, 'Geography & the World', 'medium', 1));
-  // Standalone: 5 - 2 - 2 = 1
+  // 1 data-interpretation (table or graph)
+  slots.push(
+    imageSlot(P, 'Economics', 'hard', 1, {
+      skillIntent: 'data-interpretation',
+    })
+  );
+  // 1 scenario/application standalone
+  slots.push(standaloneSlot(P, 'Economics', 'medium', 1));
+
+  // --- Geography & the World: 3 questions ---
+  // 1 passage group × 2q = 2 (ancient democracy, world governance)
+  slots.push(
+    passageSlot(P, 'Geography & the World', 'medium', 2, {
+      group: 'geo_passage_1',
+    })
+  );
+  // 1 standalone
   slots.push(standaloneSlot(P, 'Geography & the World', 'hard', 1));
 
   // Verify totals
   const totalQ = slots.reduce((s, sl) => s + sl.questionsNeeded, 0);
-  // totalQ should be 35
+  // totalQ should be 30
 
   // Tally stimulus types
   const passageQ = slots
@@ -297,30 +337,30 @@ function buildSocialStudiesPlan() {
     .filter((s) => s.stimulusType === 'standalone')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Adjust difficulty distribution to hit: easy=10, medium=17, hard=8
+  // Difficulty distribution: easy=7, medium=15, hard=8
   const diffCounts = { easy: 0, medium: 0, hard: 0 };
   for (const s of slots) {
     diffCounts[s.difficulty] =
       (diffCounts[s.difficulty] || 0) + s.questionsNeeded;
   }
 
-  // Apply 30% bank / 70% AI split (11 bank, 24 AI)
+  // Apply ~40% curated-AI-bank-preferred / ~60% AI split (12 bank-routed, 18 AI-routed)
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {
     subject: 'Social Studies',
     type: 'single-part',
-    totalQuestions: 35,
+    totalQuestions: 30,
     invariants: {
-      totalQuestions: 35,
+      totalQuestions: 30,
       categories: {
-        'Civics & Government': 18,
+        'Civics & Government': 16,
         'U.S. History': 7,
-        Economics: 5,
-        'Geography & the World': 5,
+        Economics: 4,
+        'Geography & the World': 3,
       },
-      stimulus: { passage: 14, image: 10, standalone: 11 },
-      difficulty: { easy: 10, medium: 17, hard: 8 },
+      stimulus: { passage: passageQ, image: imageQ, standalone: standaloneQ },
+      difficulty: { easy: 7, medium: 15, hard: 8 },
     },
     slots,
     computed: {
@@ -580,7 +620,7 @@ function buildSciencePlan() {
     .filter((s) => s.numeracy)
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split (11 bank, 27 AI)
+  // Apply ~40% curated-AI-bank-preferred / ~60% AI split (15 bank-routed, 23 AI-routed)
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {
@@ -722,8 +762,8 @@ function buildRlaPlan() {
     .filter((s) => s.section === 'part3_language')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split.
-  // Designate 1 reading passage group + 3 language doc groups → ~14 from bank.
+  // Apply ~40% curated-AI-bank-preferred / ~60% AI split.
+  // Designate 1 reading passage group + 3 language doc groups, then fill to ~18 bank-routed questions.
   // Essay always uses AI.
   const bankAiSplit = applyBankAiSplit(slots, {
     bankGroups: [
@@ -1006,7 +1046,7 @@ function buildMathPlan() {
     .filter((s) => s.section === 'part2_calculator')
     .reduce((s, sl) => s + sl.questionsNeeded, 0);
 
-  // Apply 30% bank / 70% AI split (12 bank, 28 AI)
+  // Apply ~40% curated-AI-bank-preferred / ~60% AI split (16 bank-routed, 24 AI-routed)
   const bankAiSplit = applyBankAiSplit(slots);
 
   return {

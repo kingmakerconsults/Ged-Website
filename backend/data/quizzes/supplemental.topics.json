@@ -9128,5 +9128,77 @@
       "file": "backend/data/quizzes/science/sci_physical_science_scientific_notation_1.js",
       "tier": "foundations"
     }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_ged_ready_civics_passages",
+      "title": "GED Ready: Civics Primary Sources",
+      "description": "GED Ready-style passage-based questions using primary sources — presidential speeches, Constitutional text, policy debates, and amendment excerpts. Passages are 100-350 words with analytical question stems.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 10 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_civics_passages.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "U.S. History",
+    "topic": {
+      "id": "ss_ged_ready_history_passages",
+      "title": "GED Ready: U.S. History Primary Sources",
+      "description": "GED Ready-style passage-based questions on Jim Crow laws, Civil Rights, Federalist essays, and presidential actions. Extended primary-source excerpts with inference and evaluation questions.",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 5 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_history_passages.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Data & Scenarios",
+    "topic": {
+      "id": "ss_ged_ready_data_scenarios",
+      "title": "GED Ready: Data Interpretation & Scenarios",
+      "description": "GED Ready-style questions using tables, timelines, graphs, dual-source comparisons, and real-world scenarios about economics, government processes, and policy debates.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_data_scenarios.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_ged_ready_multi_select",
+      "title": "GED Ready: Multi-Select Civic Reasoning",
+      "description": "GED Ready-style multi-select questions requiring students to identify ALL correct answers — tests deeper analysis of constitutional rights and government principles.",
+      "config": {
+        "totalTime": 300,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 2 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_multi_select.js",
+      "tier": "challenge"
+    }
   }
 ]

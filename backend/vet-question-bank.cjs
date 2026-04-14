@@ -1,21 +1,51 @@
 #!/usr/bin/env node
-require('dotenv').config();
-const fs = require('fs');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+const fs = require('fs');
 const { Pool } = require('pg');
 const {
   sanitizeSubjectQuestion,
 } = require('./src/lib/mathQuestionBankSanitizer');
+const {
+  buildImageMetadataMap,
+  canonicalizeImageAssetPath,
+  loadMergedImageMetadata,
+} = require('./src/lib/imageMetadataRepository');
 
 const ROOT = path.resolve(__dirname, '..');
 const FRONTEND_PUBLIC_ROOT = path.join(ROOT, 'frontend', 'public');
 const REPORTS_DIR = path.join(ROOT, 'reports');
-const IMAGE_METADATA_PATH = path.join(__dirname, 'image_metadata_final.json');
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-});
+function createPool() {
+  const rawDatabaseUrl = process.env.DATABASE_URL;
+  const looksLikePlaceholder =
+    rawDatabaseUrl &&
+    /username:password@localhost:5432\/database/.test(rawDatabaseUrl);
+  const hasValidDatabaseUrl = rawDatabaseUrl && !looksLikePlaceholder;
+  const forceSSL =
+    String(process.env.DATABASE_SSL || '').toLowerCase() === 'true' ||
+    (hasValidDatabaseUrl && /render\.com/.test(rawDatabaseUrl));
+
+  const baseConfig = hasValidDatabaseUrl
+    ? { connectionString: rawDatabaseUrl }
+    : {
+        host: process.env.PGHOST || 'localhost',
+        port: Number(process.env.PGPORT || 5432),
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        database: process.env.PGDATABASE,
+      };
+
+  return new Pool({
+    ...baseConfig,
+    ssl:
+      forceSSL || process.env.NODE_ENV === 'production'
+        ? { rejectUnauthorized: false }
+        : false,
+  });
+}
+
+const pool = createPool();
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -46,21 +76,17 @@ function normalizeQuestionText(value) {
 }
 
 function normalizeAssetPath(rawPath) {
-  if (!rawPath || typeof rawPath !== 'string') return '';
-  const raw = rawPath.split(/[?#]/, 1)[0].trim();
-  if (!raw) return '';
-  let decoded = raw;
-  try {
-    decoded = decodeURIComponent(raw);
-  } catch {}
-  const clean = decoded.replace(/^\/frontend/i, '');
-  return clean.startsWith('/') ? clean : `/${clean}`;
+  return canonicalizeImageAssetPath(rawPath);
 }
 
 function resolvePublicAssetPath(webPath) {
   const normalized = normalizeAssetPath(webPath);
   if (!normalized) return null;
-  const relativePath = normalized.replace(/^\/+/, '').replace(/\//g, path.sep);
+  let decoded = normalized;
+  try {
+    decoded = decodeURIComponent(normalized);
+  } catch {}
+  const relativePath = decoded.replace(/^\/+/, '').replace(/\//g, path.sep);
   const absolutePath = path.resolve(FRONTEND_PUBLIC_ROOT, relativePath);
   if (!absolutePath.startsWith(FRONTEND_PUBLIC_ROOT)) return null;
   return absolutePath;
@@ -69,20 +95,6 @@ function resolvePublicAssetPath(webPath) {
 function doesPublicAssetExist(webPath) {
   const abs = resolvePublicAssetPath(webPath);
   return abs ? fs.existsSync(abs) : false;
-}
-
-function buildMetadataMap(items) {
-  const byPath = new Map();
-  for (const item of items) {
-    if (!item || typeof item !== 'object') continue;
-    const rawPath = item.filePath || item.src || item.path;
-    const normalized = normalizeAssetPath(rawPath);
-    if (!normalized) continue;
-    byPath.set(normalized, item);
-    byPath.set(normalized.slice(1), item);
-    if (rawPath) byPath.set(String(rawPath), item);
-  }
-  return byPath;
 }
 
 function countCorrectOptions(options) {
@@ -219,12 +231,11 @@ function addIssue(list, severity, code, detail) {
 async function run() {
   ensureDir(REPORTS_DIR);
 
-  const metadata = fs.existsSync(IMAGE_METADATA_PATH)
-    ? JSON.parse(fs.readFileSync(IMAGE_METADATA_PATH, 'utf8'))
-    : [];
-  const metadataByPath = buildMetadataMap(
-    Array.isArray(metadata) ? metadata : []
-  );
+  const metadata = loadMergedImageMetadata({
+    backendDir: __dirname,
+    assetExists: doesPublicAssetExist,
+  });
+  const metadataByPath = buildImageMetadataMap(metadata);
 
   const result = await pool.query(
     `SELECT fingerprint, subject, topic, source_model, difficulty, item_type, has_stimulus, created_at, question_json

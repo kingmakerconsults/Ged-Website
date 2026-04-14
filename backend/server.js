@@ -14,9 +14,15 @@ const {
   applyFractionPlainTextModeToItem,
   replaceLatexFractionsWithSlash,
 } = require('./utils/fractionPlainText');
+const {
+  canonicalizeImageAssetPath,
+  getImagePathAliases,
+  loadMergedImageMetadata,
+} = require('./src/lib/imageMetadataRepository');
 const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const ensureOnboardingColumns = require('./db/initOnboardingColumns');
 const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
+const ensureQuizAttemptItemsTable = require('./db/initQuizAttemptItems');
 const ensureEssayScoresTable = require('./db/initEssayScores');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
 const ensureUserNameColumns = require('./db/initUserNameColumns');
@@ -244,11 +250,9 @@ function rebuildImagePathIndex() {
     if (!im || typeof im !== 'object') continue;
     const rawPath = im.filePath || im.src || im.path;
     if (!rawPath) continue;
-    const clean = String(rawPath).replace(/^\/frontend/i, '');
-    const normalized = clean.startsWith('/') ? clean : `/${clean}`;
-    IMAGE_BY_PATH.set(normalized, im);
-    IMAGE_BY_PATH.set(normalized.slice(1), im);
-    IMAGE_BY_PATH.set(rawPath, im);
+    for (const alias of getImagePathAliases(rawPath)) {
+      IMAGE_BY_PATH.set(alias, im);
+    }
   }
 }
 
@@ -1102,25 +1106,9 @@ Do not invent a different scene than what you see. Do not output markdown.
 }
 
 async function loadAndAugmentImageMetadata() {
-  const primaryFile = path.join(__dirname, 'image_metadata_final.json');
-  const fallbackFile = path.join(
-    __dirname,
-    'data',
-    'image_metadata_final.json'
-  );
-
-  let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
-
-  if (!Array.isArray(db)) db = [];
-
-  // Normalize filePath for each image
-  db = db.map((img) => {
-    if (!img.filePath) {
-      const subjectPart = (img.subject || 'Misc').replace(/\s+/g, ' ');
-      img.filePath = `/images/${subjectPart}/${img.fileName}`;
-    }
-    img.__exists = doesPublicAssetExist(img.filePath);
-    return img;
+  const db = loadMergedImageMetadata({
+    backendDir: __dirname,
+    assetExists: doesPublicAssetExist,
   });
 
   // 🔒 TEMP: disable Gemini image analysis — use existing metadata only
@@ -3699,7 +3687,17 @@ function imageTokenBag(img) {
     img && img.category,
     img && img.altText,
     img && img.detailedDescription,
+    img && img.extractedText,
     Array.isArray(img && img.keywords) ? img.keywords.join(' ') : '',
+    Array.isArray(img && img.subjectAreas) ? img.subjectAreas.join(' ') : '',
+    Array.isArray(img && img.topicTags) ? img.topicTags.join(' ') : '',
+    Array.isArray(img && img.stimulusTypes) ? img.stimulusTypes.join(' ') : '',
+    Array.isArray(img && img.relatedSkills) ? img.relatedSkills.join(' ') : '',
+    Array.isArray(img && img.reasoningModes)
+      ? img.reasoningModes.join(' ')
+      : '',
+    Array.isArray(img && img.questionSeeds) ? img.questionSeeds.join(' ') : '',
+    img && img.usageDirectives,
   ]
     .map((x) => norm(x))
     .join(' ');
@@ -3714,62 +3712,19 @@ function imageTokenBag(img) {
 }
 
 function findImagesForSubjectTopic(subject, topic, limit = 5) {
-  const s = norm(subject);
-  const t = norm(topic);
-  const tTokens = topicTokens(topic);
-
-  // First, try a strict match on both subject and category (topic)
-  let pool = IMAGE_DB.filter(
-    (img) =>
-      img &&
-      img.__exists !== false &&
-      norm(img.subject).includes(s) &&
-      norm(img.category).includes(t)
-  );
-
-  // If no strict matches, fall back to searching keywords within the correct subject
-  if (pool.length < limit) {
-    const subjectPool = IMAGE_DB.filter(
-      (img) => img && img.__exists !== false && norm(img.subject).includes(s)
-    );
-
-    // Score matches by counting how many meaningful topic tokens appear in the image token bag.
-    // This avoids over-matching on tiny/common words like "and", "of", etc.
-    const scored = [];
-    for (const img of subjectPool) {
-      const bag = imageTokenBag(img);
-      let score = 0;
-      for (const tok of tTokens) {
-        if (bag.has(tok)) score++;
-      }
-
-      // If topic has no meaningful tokens, do not broaden matching.
-      if (tTokens.length === 0) continue;
-
-      // Require stronger evidence:
-      // - 2+ token matches, OR
-      // - 1 token match only if the token is long (>=6 chars)
-      const hasEnoughSignal =
-        score >= 2 ||
-        (score === 1 && tTokens.some((x) => x.length >= 6 && bag.has(x)));
-
-      if (hasEnoughSignal) scored.push({ img, score });
-    }
-
-    scored.sort((a, b) => b.score - a.score);
-    const keywordMatches = scored.map((x) => x.img);
-
-    // Combine strict matches with keyword matches, avoiding duplicates
-    const existingIds = new Set(pool.map((p) => p.id));
-    keywordMatches.forEach((match) => {
-      if (!existingIds.has(match.id)) {
-        pool.push(match);
-      }
+  const scored = (Array.isArray(IMAGE_DB) ? IMAGE_DB : [])
+    .filter((img) => img && img.__exists !== false)
+    .map((img) => ({ img, score: scoreImageForTopic(img, subject, topic) }))
+    .filter(({ score }) => score > 0)
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      return (
+        Number(right.img?.__groundingStrength || 0) -
+        Number(left.img?.__groundingStrength || 0)
+      );
     });
-  }
 
-  // If still nothing, return empty to let the prompt handle it
-  if (pool.length === 0) {
+  if (scored.length === 0) {
     console.warn(
       `No relevant images found for subject "${subject}" and topic "${topic}".`
     );
@@ -3778,8 +3733,8 @@ function findImagesForSubjectTopic(subject, topic, limit = 5) {
 
   const seen = new Set();
   const out = [];
-  for (const img of pool) {
-    const key = (img.fileName || '').split('.')[0];
+  for (const { img } of scored) {
+    const key = canonicalizeImageAssetPath(img.filePath || img.fileName || '');
     if (seen.has(key)) continue;
     seen.add(key);
     out.push(img);
@@ -3788,14 +3743,55 @@ function findImagesForSubjectTopic(subject, topic, limit = 5) {
   return out;
 }
 
+function normalizeImageStringList(values = []) {
+  return Array.isArray(values)
+    ? values
+        .map((value) => String(value || '').trim())
+        .filter(
+          (value, index, array) => value && array.indexOf(value) === index
+        )
+    : [];
+}
+
+function trimImageContextText(value, maxLength = 220) {
+  const normalized = String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (normalized.length <= maxLength) return normalized;
+  return `${normalized.slice(0, maxLength - 3).trim()}...`;
+}
+
 function buildImageContextBlock(images = []) {
   if (!images.length) return '';
-  const payload = images.map((im, i) => ({
-    id: `img${i + 1}`,
-    src: im.filePath,
-    alt: im.altText || '',
-    description: im.detailedDescription || '',
-  }));
+  const payload = images.map((im, i) => {
+    const context = {
+      id: `img${i + 1}`,
+      src: im.filePath,
+      alt: im.altText || '',
+      category: im.category || '',
+      description: trimImageContextText(im.detailedDescription || '', 320),
+      extractedText: trimImageContextText(im.extractedText || '', 220),
+      keywords: normalizeImageStringList(im.keywords).slice(0, 8),
+      questionSeeds: getImageQuestionSeeds(im).slice(0, 4),
+      usageDirectives: getImageUsageDirectives(im),
+      subjectAreas: normalizeImageStringList(im.subjectAreas).slice(0, 4),
+      topicTags: normalizeImageStringList(im.topicTags).slice(0, 6),
+      stimulusTypes: normalizeImageStringList(im.stimulusTypes).slice(0, 4),
+      qualityRank:
+        Number.isFinite(Number(im.qualityRank)) && Number(im.qualityRank) > 0
+          ? Number(im.qualityRank)
+          : undefined,
+      groundingStrength: Number(im.__groundingStrength || 0) || undefined,
+    };
+
+    return Object.fromEntries(
+      Object.entries(context).filter(([, value]) => {
+        if (value == null) return false;
+        if (Array.isArray(value)) return value.length > 0;
+        return String(value).trim() !== '';
+      })
+    );
+  });
   return `\nIMAGE_CONTEXT (local files you MUST reference): ${JSON.stringify(
     payload
   )}\n`;
@@ -3806,6 +3802,8 @@ Image rules:
 - Use an image ONLY if it genuinely helps answer the question.
 - When you use an image, set "stimulusImage":{"src":"<exact src from IMAGE_CONTEXT>","alt":"<alt from IMAGE_CONTEXT>"} in the JSON item.
 - Write the question so the learner must look at the image (interpretation of data, trend, map, symbolism, etc.).
+- Stay inside the image facts supplied in IMAGE_CONTEXT. Do not invent legend labels, dates, values, regions, scientific structures, or symbolic meanings that are not supported there.
+- If IMAGE_CONTEXT includes questionSeeds or usageDirectives, keep the question angle inside those bounds.
 - Do NOT add external links or unknown images. Use only provided local paths.
 `;
 
@@ -5707,6 +5705,9 @@ ensureOnboardingColumns().catch((e) =>
 );
 ensureQuizAttemptsTable().catch((e) =>
   console.error('Quiz attempt table init error:', e)
+);
+ensureQuizAttemptItemsTable().catch((e) =>
+  console.error('Quiz attempt items table init error:', e)
 );
 ensureEssayScoresTable().catch((e) =>
   console.error('Essay score table init error:', e)
@@ -9228,20 +9229,13 @@ app.get('/client-config.js', (req, res) => {
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(
-  __dirname,
-  'data',
-  'image_metadata_final.json'
-);
-
 try {
-  const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-  curatedImages = JSON.parse(imageData).map((img) => ({
-    ...img,
-    __exists: doesPublicAssetExist(img?.filePath),
-  }));
+  curatedImages = loadMergedImageMetadata({
+    backendDir: __dirname,
+    assetExists: doesPublicAssetExist,
+  });
   console.log(
-    `Successfully loaded and parsed ${curatedImages.length} images from the local repository.`
+    `Successfully loaded and merged ${curatedImages.length} images from the local repository.`
   );
 } catch (error) {
   console.error('Failed to load or parse image_metadata.json:', error);
@@ -9687,9 +9681,12 @@ const promptLibrary = {
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
         STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.
         NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.`,
-    comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
-        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
-        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`,
+    comprehensive: `Generate a 30-question comprehensive GED Social Studies exam modeled after the GED Ready® format.
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages: 53% Civics & Government (16 questions), 23% U.S. History (7 questions), 13% Economics (4 questions), and 10% Geography & the World (3 questions).
+        STRICT STIMULUS REQUIREMENTS: The exam must be PASSAGE-HEAVY, closely mirroring the real GED. At least 18 questions must be based on a reading passage (primary-source excerpts: presidential speeches, Constitutional text, historical essays, policy arguments, court opinions). Include at least 2 dual-source comparison questions (two passages with opposing or complementary viewpoints and a question asking students to compare assumptions or conclusions). Include 4-5 questions based on data interpretation (tables, charts, graphs, or timelines described in prose or HTML). Include 1 multi-select question where students must choose ALL correct answers (e.g., "Which 1st Amendment rights are exercised in this scenario? Select all that apply."). Remaining questions should be scenario/application-based with short contextual vignettes.
+        PASSAGE LENGTH: Most passages should be 100-350 words, drawn from real-style primary sources. Include numbered paragraphs for longer passages. Always provide historical context before the passage (e.g., "This excerpt is from a 1957 speech by President Dwight D. Eisenhower.").
+        QUESTION STEM STYLE: Use GED-style phrasing: "Based on the passage...", "According to the excerpt...", "Which statement from the excerpt is a fact and not an opinion?", "Which conclusion is supported by the information in the table?", "How did the historical circumstances shape the author's point of view?". Questions should test inference, evaluation, comparison, and application — NOT simple recall.
+        NO REDUNDANCY RULE: All 30 questions must feature distinct passages, scenarios, time periods, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.`,
   },
   Science: {
     topic: (
@@ -10901,14 +10898,20 @@ function getCuratedSocialStudiesImages(imageCatalog) {
   });
 }
 
+function getImageOverlayEntry(bank, img) {
+  if (!img?.filePath || !bank || typeof bank !== 'object') return null;
+  for (const alias of getImagePathAliases(img.filePath)) {
+    if (bank[alias]) return bank[alias];
+  }
+  return null;
+}
+
 function getSocialStudiesImageBankEntry(img) {
-  if (!img?.filePath) return null;
-  return SOCIAL_STUDIES_IMAGE_QUESTION_BANK[img.filePath] || null;
+  return getImageOverlayEntry(SOCIAL_STUDIES_IMAGE_QUESTION_BANK, img);
 }
 
 function getSocialStudiesImageQuestionSetEntry(img) {
-  if (!img?.filePath) return null;
-  return SOCIAL_STUDIES_IMAGE_QUESTION_SETS[img.filePath] || null;
+  return getImageOverlayEntry(SOCIAL_STUDIES_IMAGE_QUESTION_SETS, img);
 }
 
 const SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS = Object.freeze({
@@ -11028,35 +11031,30 @@ function socialStudiesImageSupportsCategory(img, category) {
 }
 
 function getScienceImageBankEntry(img) {
-  if (!img?.filePath) return null;
-  return SCIENCE_CURATED_IMAGE_BANK[img.filePath] || null;
+  return getImageOverlayEntry(SCIENCE_CURATED_IMAGE_BANK, img);
 }
 
 function getImageQuestionSeeds(img) {
+  const directSeeds = normalizeImageStringList(img?.questionSeeds);
   const curatedEntry = getSocialStudiesImageBankEntry(img);
   if (curatedEntry) {
-    return Array.isArray(curatedEntry.questionSeeds)
-      ? curatedEntry.questionSeeds
-          .map((seed) => String(seed).trim())
-          .filter(Boolean)
-      : [];
+    return normalizeImageStringList([
+      ...(Array.isArray(curatedEntry.questionSeeds)
+        ? curatedEntry.questionSeeds
+        : []),
+      ...directSeeds,
+    ]);
   }
 
   const scienceEntry = getScienceImageBankEntry(img);
   if (scienceEntry?.questionSeeds) {
-    return scienceEntry.questionSeeds
-      .map((seed) => String(seed).trim())
-      .filter(Boolean);
+    return normalizeImageStringList([
+      ...scienceEntry.questionSeeds,
+      ...directSeeds,
+    ]);
   }
 
-  const subject = String(img?.subject || '').toLowerCase();
-  if (subject.includes('social')) {
-    return [];
-  }
-
-  return Array.isArray(img?.questionSeeds)
-    ? img.questionSeeds.map((seed) => String(seed).trim()).filter(Boolean)
-    : [];
+  return directSeeds;
 }
 
 function getImageUsageDirectives(img) {
@@ -11922,25 +11920,68 @@ function shuffleQuestionsPreservingStimulus(questions) {
 // Science table stimulus functions removed - AI now generates tables dynamically
 
 function scoreImageForTopic(img, subject, topic) {
-  if (!img) return -1;
-  const subjMatch =
-    (img.subject || '').toLowerCase() === (subject || '').toLowerCase() ? 1 : 0;
+  if (!img || img.__exists === false) return -1;
 
-  const topicLc = (topic || '').toLowerCase();
-  const catLc = (img.category || '').toLowerCase();
-  const altLc = (img.altText || '').toLowerCase();
-  const descLc = (img.detailedDescription || '').toLowerCase();
+  const subjectLc = norm(subject);
+  const topicLc = norm(topic);
+  const tokenBag = imageTokenBag(img);
+  const topicLcTokens = topicTokens(topic);
+  const categoryLc = norm(img.category);
+  const subjectFields = [img.subject, ...(img.subjectAreas || [])]
+    .map((value) => norm(value))
+    .filter(Boolean)
+    .join(' ');
 
-  // exact category match is strongest
-  if (subjMatch && catLc === topicLc) return 100;
+  if (subjectLc && !subjectFields.includes(subjectLc)) {
+    return 0;
+  }
 
-  // otherwise look for the topic in alt/description
-  let textHit = 0;
-  if (altLc && topicLc && altLc.includes(topicLc)) textHit += 10;
-  if (descLc && topicLc && descLc.includes(topicLc)) textHit += 10;
+  let score = subjectLc ? 50 : 0;
 
-  // base score from subject match + text hits
-  return subjMatch * 50 + textHit;
+  if (topicLc && categoryLc === topicLc) {
+    score += 45;
+  } else if (
+    topicLc &&
+    categoryLc &&
+    (categoryLc.includes(topicLc) || topicLc.includes(categoryLc))
+  ) {
+    score += 30;
+  }
+
+  for (const token of topicLcTokens) {
+    if (tokenBag.has(token)) {
+      score += token.length >= 7 ? 9 : 6;
+    }
+  }
+
+  const topicalLists = [
+    ...(Array.isArray(img.topicTags) ? img.topicTags : []),
+    ...(Array.isArray(img.relatedSkills) ? img.relatedSkills : []),
+    ...(Array.isArray(img.reasoningModes) ? img.reasoningModes : []),
+    ...(Array.isArray(img.stimulusTypes) ? img.stimulusTypes : []),
+  ]
+    .map((value) => norm(value))
+    .filter(Boolean);
+
+  if (topicLc && topicalLists.some((value) => value === topicLc)) {
+    score += 20;
+  } else if (topicLc && topicalLists.some((value) => value.includes(topicLc))) {
+    score += 12;
+  }
+
+  const questionSeeds = getImageQuestionSeeds(img);
+  if (questionSeeds.length) score += Math.min(10, questionSeeds.length * 2);
+  if (getImageUsageDirectives(img)) score += 4;
+
+  const groundingStrength = Number(img.__groundingStrength || 0);
+  if (groundingStrength > 0) score += Math.min(12, groundingStrength);
+
+  const qualityRank = Number(img.qualityRank || 0);
+  if (Number.isFinite(qualityRank) && qualityRank > 0) {
+    score += Math.max(0, 8 - Math.min(7, qualityRank - 1));
+  }
+
+  return score;
 }
 
 // NEW version – smarter image selection with cartoon support and reuse prevention
@@ -12009,13 +12050,24 @@ ${JSON.stringify(
     filePath: pick.filePath,
     altText: pick.altText,
     detailedDescription: pick.detailedDescription,
+    extractedText: trimImageContextText(pick.extractedText || '', 220),
     category: pick.category,
+    keywords: normalizeImageStringList(pick.keywords).slice(0, 8),
+    questionSeeds: getImageQuestionSeeds(pick).slice(0, 4),
+    usageDirectives: getImageUsageDirectives(pick),
+    subjectAreas: normalizeImageStringList(pick.subjectAreas).slice(0, 4),
+    topicTags: normalizeImageStringList(pick.topicTags).slice(0, 6),
+    stimulusTypes: normalizeImageStringList(pick.stimulusTypes).slice(0, 4),
+    qualityRank: pick.qualityRank || null,
+    groundingStrength: pick.__groundingStrength || 0,
   },
   null,
   2
 )}
 Based ONLY on THIS image and staying within the subject "${subject}" and topic "${topic}", create ${numQuestions} multiple-choice questions.
 Each question must reference or rely on the image.
+If questionSeeds or usageDirectives are present, stay within those approved angles.
+Do not invent any label, value, region, date, scientific relationship, or symbolic meaning that is not explicitly supported by the image record.
 Return valid JSON only.
 `;
 
@@ -14540,6 +14592,45 @@ function pickFromPremadeBank(subject, slot) {
     return true;
   }
 
+  function shuffleInPlace(items) {
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+  }
+
+  function deprioritizeRecentlyUsed(items, recentlyUsed) {
+    if (recentlyUsed.size === 0) return;
+    const fresh = [];
+    const stale = [];
+    for (const q of items) {
+      if (recentlyUsed.has(q.questionText)) stale.push(q);
+      else fresh.push(q);
+    }
+    items.length = 0;
+    items.push(...fresh, ...stale);
+  }
+
+  function buildCuratedAiCandidates(recentlyUsed) {
+    const curatedAiCandidates = [];
+    for (const q of getCuratedAiQuestionsForSubject(subject)) {
+      addCandidate(curatedAiCandidates, q, slot.category, 'curatedAiBank');
+    }
+    shuffleInPlace(curatedAiCandidates);
+    deprioritizeRecentlyUsed(curatedAiCandidates, recentlyUsed);
+    return curatedAiCandidates;
+  }
+
+  function fillFromCandidates(candidates, picked, existingTexts) {
+    if (!Array.isArray(candidates) || candidates.length === 0) return;
+    for (const q of candidates) {
+      if (picked.length >= slot.questionsNeeded) break;
+      if (existingTexts.has(q.questionText)) continue;
+      existingTexts.add(q.questionText);
+      picked.push(q);
+    }
+  }
+
   function addCandidate(target, q, defaultCategory, sourceLabel) {
     if (!q.answerOptions || q.answerOptions.length < 2) return;
     const text = q.questionText || q.question || '';
@@ -14616,57 +14707,32 @@ function pickFromPremadeBank(subject, slot) {
     }
   }
 
-  for (let i = premadeQuestions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [premadeQuestions[i], premadeQuestions[j]] = [
-      premadeQuestions[j],
-      premadeQuestions[i],
-    ];
-  }
+  shuffleInPlace(premadeQuestions);
 
   // Deprioritize recently-served questions so consecutive requests get variety
   const recentlyUsed = _getRecentBankSet(subject);
-  if (recentlyUsed.size > 0) {
-    const fresh = [];
-    const stale = [];
-    for (const q of premadeQuestions) {
-      if (recentlyUsed.has(q.questionText)) stale.push(q);
-      else fresh.push(q);
-    }
-    premadeQuestions.length = 0;
-    premadeQuestions.push(...fresh, ...stale);
-  }
+  deprioritizeRecentlyUsed(premadeQuestions, recentlyUsed);
 
-  const picked = premadeQuestions.slice(0, slot.questionsNeeded);
-  if (picked.length < slot.questionsNeeded) {
-    const curatedAiCandidates = [];
-    const existingTexts = new Set(picked.map((q) => q.questionText));
-    for (const q of getCuratedAiQuestionsForSubject(subject)) {
-      addCandidate(curatedAiCandidates, q, slot.category, 'curatedAiBank');
+  const picked = [];
+  const existingTexts = new Set();
+
+  if (slot?.preferCuratedAiBank) {
+    fillFromCandidates(
+      buildCuratedAiCandidates(recentlyUsed),
+      picked,
+      existingTexts
+    );
+    if (picked.length < slot.questionsNeeded) {
+      fillFromCandidates(premadeQuestions, picked, existingTexts);
     }
-    for (let i = curatedAiCandidates.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [curatedAiCandidates[i], curatedAiCandidates[j]] = [
-        curatedAiCandidates[j],
-        curatedAiCandidates[i],
-      ];
-    }
-    // Deprioritize recently-served curated AI questions too
-    if (recentlyUsed.size > 0) {
-      const fresh = [];
-      const stale = [];
-      for (const q of curatedAiCandidates) {
-        if (recentlyUsed.has(q.questionText)) stale.push(q);
-        else fresh.push(q);
-      }
-      curatedAiCandidates.length = 0;
-      curatedAiCandidates.push(...fresh, ...stale);
-    }
-    for (const q of curatedAiCandidates) {
-      if (picked.length >= slot.questionsNeeded) break;
-      if (existingTexts.has(q.questionText)) continue;
-      existingTexts.add(q.questionText);
-      picked.push(q);
+  } else {
+    fillFromCandidates(premadeQuestions, picked, existingTexts);
+    if (picked.length < slot.questionsNeeded) {
+      fillFromCandidates(
+        buildCuratedAiCandidates(recentlyUsed),
+        picked,
+        existingTexts
+      );
     }
   }
 
@@ -15018,6 +15084,13 @@ function pickFromCuratedAiRlaBank(part, slot) {
 function pickFromPremadeRlaBank(part, slot) {
   try {
     const groupKey = slot.group || null;
+
+    if (slot?.preferCuratedAiBank) {
+      const curatedPicked = pickFromCuratedAiRlaBank(part, slot);
+      if (curatedPicked.length >= slot.questionsNeeded) {
+        return curatedPicked;
+      }
+    }
 
     // Check bank-specific slot-group cache
     if (groupKey && _rlaBankSlotGroupCache.has(groupKey)) {
@@ -17053,13 +17126,47 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
 
     const total = normalized.overallScore;
     try {
+      const wordCount = essayText.trim().split(/\s+/).filter(Boolean).length;
+      const feedbackJson = JSON.stringify({
+        trait1: {
+          feedback: normalized.trait1.feedback,
+          strengths: normalized.trait1.strengths,
+          nextSteps: normalized.trait1.nextSteps,
+        },
+        trait2: {
+          feedback: normalized.trait2.feedback,
+          strengths: normalized.trait2.strengths,
+          nextSteps: normalized.trait2.nextSteps,
+        },
+        trait3: {
+          feedback: normalized.trait3.feedback,
+          strengths: normalized.trait3.strengths,
+          nextSteps: normalized.trait3.nextSteps,
+        },
+        overallFeedback: normalized.overallFeedback,
+      });
       await pool.query(
-        `INSERT INTO essay_scores (user_id, total_score, prompt_id) VALUES ($1, $2, $3)`,
-        [userId, total, promptId || null]
+        `INSERT INTO essay_scores (user_id, total_score, prompt_id, trait1_score, trait2_score, trait3_score, feedback, word_count)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [
+          userId,
+          total,
+          promptId || null,
+          normalized.trait1.score,
+          normalized.trait2.score,
+          normalized.trait3.score,
+          feedbackJson,
+          wordCount,
+        ]
       );
       console.log('[ESSAY-SCORE] Saved total score', {
         userId,
         total,
+        traits: [
+          normalized.trait1.score,
+          normalized.trait2.score,
+          normalized.trait3.score,
+        ],
         promptId: promptId || null,
       });
     } catch (dbErr) {
@@ -18266,6 +18373,67 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
               }),
             ]
           );
+
+          // Persist normalised per-question items into quiz_attempt_items
+          try {
+            const itemValues = [];
+            const itemParams = [];
+            let paramIdx = 1;
+            for (let i = 0; i < responses.length; i++) {
+              const r = responses[i];
+              const tags =
+                Array.isArray(r.challenge_tags) && r.challenge_tags.length > 0
+                  ? r.challenge_tags
+                      .map((t) => String(t).trim().toLowerCase())
+                      .filter(Boolean)
+                  : null;
+              itemValues.push(
+                `($${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++}, $${paramIdx++})`
+              );
+              itemParams.push(
+                attemptId, // attempt_id
+                i, // question_index
+                r.question_id || null, // question_id
+                r.originalSubject || normalizedSubject, // subject
+                r.domain || null, // domain
+                r.topic || null, // topic
+                tags, // challenge_tags (TEXT[])
+                r.user_answer != null
+                  ? String(r.user_answer).slice(0, 2000)
+                  : null, // user_answer
+                r.correct_answer != null
+                  ? String(r.correct_answer).slice(0, 2000)
+                  : null, // correct_answer
+                !!r.correct, // is_correct
+                r.confidence || null, // confidence
+                typeof r.time_spent_ms === 'number'
+                  ? Math.round(r.time_spent_ms)
+                  : null, // time_spent_ms
+                r.question_type || null, // question_type
+                typeof r.points_earned === 'number'
+                  ? r.points_earned
+                  : r.correct
+                    ? 1
+                    : 0, // points_earned
+                typeof r.points_possible === 'number' ? r.points_possible : 1 // points_possible
+              );
+            }
+            if (itemValues.length > 0) {
+              await pool.query(
+                `INSERT INTO quiz_attempt_items
+                  (attempt_id, question_index, question_id, subject, domain, topic, challenge_tags,
+                   user_answer, correct_answer, is_correct, confidence, time_spent_ms, question_type,
+                   points_earned, points_possible)
+                 VALUES ${itemValues.join(', ')}`,
+                itemParams
+              );
+            }
+          } catch (itemErr) {
+            console.warn(
+              '[quiz-attempts] item-level insert failed:',
+              itemErr?.message || itemErr
+            );
+          }
         }
       }
     } catch (e) {
@@ -23279,6 +23447,269 @@ app.get(
 );
 
 // ========================================
+// STUDENT ANALYTICS ENDPOINTS (item-level)
+// ========================================
+
+// GET /api/student/attempt/:attemptId/items
+// Returns per-question item details for a specific attempt
+app.get(
+  '/api/student/attempt/:attemptId/items',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const attemptId = parseInt(req.params.attemptId, 10);
+      if (!Number.isFinite(attemptId))
+        return res.status(400).json({ error: 'Invalid attempt ID' });
+
+      // Ensure the attempt belongs to this user
+      const attempt = await pool.query(
+        `SELECT id FROM quiz_attempts WHERE id = $1 AND user_id = $2`,
+        [attemptId, userId]
+      );
+      if (attempt.rows.length === 0)
+        return res.status(404).json({ error: 'Attempt not found' });
+
+      const items = await pool.query(
+        `SELECT question_index, question_id, subject, domain, topic,
+              challenge_tags, user_answer, correct_answer, is_correct,
+              confidence, time_spent_ms, question_type,
+              points_earned, points_possible
+       FROM quiz_attempt_items
+       WHERE attempt_id = $1
+       ORDER BY question_index`,
+        [attemptId]
+      );
+
+      res.json({ attemptId, items: items.rows });
+    } catch (error) {
+      console.error('[/api/student/attempt/:id/items]', error);
+      res.status(500).json({ error: 'Failed to fetch attempt items' });
+    }
+  }
+);
+
+// GET /api/student/domain-mastery
+// Returns mastery breakdown by GED domain, computed from item-level data
+app.get(
+  '/api/student/domain-mastery',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      // Aggregate by domain from recent items (last 200 items keeps it performant)
+      const result = await pool.query(
+        `SELECT i.subject, i.domain,
+              COUNT(*)::int AS total_items,
+              SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct_items,
+              ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct,
+              AVG(i.time_spent_ms)::int AS avg_time_ms,
+              SUM(CASE WHEN i.confidence = 'sure' AND NOT i.is_correct THEN 1 ELSE 0 END)::int AS misconceptions,
+              SUM(CASE WHEN i.confidence = 'guessing' AND i.is_correct THEN 1 ELSE 0 END)::int AS lucky_guesses
+       FROM quiz_attempt_items i
+       JOIN quiz_attempts a ON a.id = i.attempt_id
+       WHERE a.user_id = $1 AND i.domain IS NOT NULL
+       GROUP BY i.subject, i.domain
+       ORDER BY accuracy_pct ASC`,
+        [userId]
+      );
+
+      res.json({ domains: result.rows });
+    } catch (error) {
+      console.error('[/api/student/domain-mastery]', error);
+      res.status(500).json({ error: 'Failed to fetch domain mastery' });
+    }
+  }
+);
+
+// GET /api/student/score-trends
+// Returns score trend data grouped by subject over time
+app.get(
+  '/api/student/score-trends',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const result = await pool.query(
+        `SELECT id, subject, quiz_type, score, total_questions, scaled_score, passed, attempted_at
+       FROM quiz_attempts
+       WHERE user_id = $1 AND scaled_score IS NOT NULL
+       ORDER BY attempted_at ASC`,
+        [userId]
+      );
+
+      // Group by subject
+      const bySubject = {};
+      for (const row of result.rows) {
+        const subj = row.subject || 'Unknown';
+        if (!bySubject[subj]) bySubject[subj] = [];
+        bySubject[subj].push({
+          id: row.id,
+          quizType: row.quiz_type,
+          score: row.score,
+          totalQuestions: row.total_questions,
+          scaledScore: parseInt(row.scaled_score) || 0,
+          passed: row.passed,
+          date: row.attempted_at,
+        });
+      }
+
+      // Compute per-subject stats
+      const subjects = {};
+      for (const [subj, attempts] of Object.entries(bySubject)) {
+        const scores = attempts.map((a) => a.scaledScore);
+        const latest = scores[scores.length - 1] || 0;
+        const best = Math.max(...scores);
+        const first = scores[0] || 0;
+        const growth = scores.length >= 2 ? latest - first : 0;
+        subjects[subj] = {
+          attempts,
+          latest,
+          best,
+          growth,
+          attemptCount: attempts.length,
+          passCount: attempts.filter((a) => a.passed).length,
+        };
+      }
+
+      res.json({ subjects });
+    } catch (error) {
+      console.error('[/api/student/score-trends]', error);
+      res.status(500).json({ error: 'Failed to fetch score trends' });
+    }
+  }
+);
+
+// GET /api/student/confidence-analysis
+// Returns confidence calibration stats: how well does the student know what they know?
+app.get(
+  '/api/student/confidence-analysis',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const result = await pool.query(
+        `SELECT i.confidence,
+              COUNT(*)::int AS total,
+              SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct,
+              ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct
+       FROM quiz_attempt_items i
+       JOIN quiz_attempts a ON a.id = i.attempt_id
+       WHERE a.user_id = $1 AND i.confidence IS NOT NULL
+       GROUP BY i.confidence`,
+        [userId]
+      );
+
+      const data = {};
+      for (const row of result.rows) {
+        data[row.confidence] = {
+          total: row.total,
+          correct: row.correct,
+          accuracyPct: parseFloat(row.accuracy_pct) || 0,
+        };
+      }
+
+      // Compute calibration score (0-100): perfect = saying "sure" and being right + "guessing" and being wrong
+      const sure = data['sure'] || { total: 0, correct: 0 };
+      const guessing = data['guessing'] || { total: 0, correct: 0 };
+      const sureAccuracy = sure.total > 0 ? sure.correct / sure.total : 0.5;
+      const guessingAccuracy =
+        guessing.total > 0 ? guessing.correct / guessing.total : 0.5;
+      // Ideal: sure accuracy = 1, guessing accuracy = 0; calibration = weighted average
+      const totalWithConf = sure.total + guessing.total;
+      const calibrationScore =
+        totalWithConf > 0
+          ? Math.round(
+              ((sureAccuracy * sure.total +
+                (1 - guessingAccuracy) * guessing.total) /
+                totalWithConf) *
+                100
+            )
+          : null;
+
+      res.json({ byConfidence: data, calibrationScore });
+    } catch (error) {
+      console.error('[/api/student/confidence-analysis]', error);
+      res.status(500).json({ error: 'Failed to fetch confidence analysis' });
+    }
+  }
+);
+
+// GET /api/student/weakest-areas
+// Returns the weakest domains/topics sorted by accuracy
+app.get(
+  '/api/student/weakest-areas',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const result = await pool.query(
+        `SELECT i.subject, i.domain, i.topic,
+              COUNT(*)::int AS total_items,
+              SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct_items,
+              ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct
+       FROM quiz_attempt_items i
+       JOIN quiz_attempts a ON a.id = i.attempt_id
+       WHERE a.user_id = $1
+         AND (i.domain IS NOT NULL OR i.topic IS NOT NULL)
+       GROUP BY i.subject, i.domain, i.topic
+       HAVING COUNT(*) >= 3
+       ORDER BY accuracy_pct ASC
+       LIMIT 15`,
+        [userId]
+      );
+
+      res.json({ areas: result.rows });
+    } catch (error) {
+      console.error('[/api/student/weakest-areas]', error);
+      res.status(500).json({ error: 'Failed to fetch weakest areas' });
+    }
+  }
+);
+
+// GET /api/student/recent-performance
+// Returns recent attempt summaries with richer data for the dashboard
+app.get(
+  '/api/student/recent-performance',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const limit = Math.min(parseInt(req.query.limit) || 20, 50);
+
+      const result = await pool.query(
+        `SELECT a.id, a.subject, a.quiz_code, a.quiz_title, a.quiz_type,
+              a.score, a.total_questions, a.scaled_score, a.passed, a.attempted_at,
+              (SELECT COUNT(*)::int FROM quiz_attempt_items WHERE attempt_id = a.id) AS item_count,
+              (SELECT ROUND(AVG(time_spent_ms))::int FROM quiz_attempt_items WHERE attempt_id = a.id) AS avg_time_ms
+       FROM quiz_attempts a
+       WHERE a.user_id = $1
+       ORDER BY a.attempted_at DESC
+       LIMIT $2`,
+        [userId, limit]
+      );
+
+      res.json({ attempts: result.rows });
+    } catch (error) {
+      console.error('[/api/student/recent-performance]', error);
+      res.status(500).json({ error: 'Failed to fetch recent performance' });
+    }
+  }
+);
+
+// ========================================
 // ADMIN API ENDPOINTS - STUDENT MANAGEMENT
 // ========================================
 
@@ -24262,6 +24693,160 @@ app.post(
     } catch (error) {
       console.error('[/api/admin/students/:id/ged-results] Error:', error);
       res.status(500).json({ error: 'Failed to record GED result' });
+    }
+  }
+);
+
+// ========================================
+// ADMIN ANALYTICS ENDPOINTS (item-level)
+// ========================================
+
+// GET /api/admin/students/:id/domain-mastery - Per-student domain mastery (admin)
+app.get(
+  '/api/admin/students/:id/domain-mastery',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const studentId = parseInt(req.params.id, 10);
+      if (!Number.isFinite(studentId))
+        return res.status(400).json({ error: 'Invalid student ID' });
+
+      const studentCheck = await pool.query(
+        `SELECT u.id, u.organization_id FROM users u WHERE u.id = $1 AND u.role = 'student'`,
+        [studentId]
+      );
+      if (studentCheck.rows.length === 0)
+        return res.status(404).json({ error: 'Student not found' });
+      if (!canAccessOrganization(req, studentCheck.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      const result = await pool.query(
+        `SELECT i.subject, i.domain,
+                COUNT(*)::int AS total_items,
+                SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct_items,
+                ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct,
+                SUM(CASE WHEN i.confidence = 'sure' AND NOT i.is_correct THEN 1 ELSE 0 END)::int AS misconceptions,
+                SUM(CASE WHEN i.confidence = 'guessing' AND i.is_correct THEN 1 ELSE 0 END)::int AS lucky_guesses
+         FROM quiz_attempt_items i
+         JOIN quiz_attempts a ON a.id = i.attempt_id
+         WHERE a.user_id = $1 AND i.domain IS NOT NULL
+         GROUP BY i.subject, i.domain
+         ORDER BY accuracy_pct ASC`,
+        [studentId]
+      );
+
+      res.json({ studentId, domains: result.rows });
+    } catch (error) {
+      console.error('[/api/admin/students/:id/domain-mastery]', error);
+      res.status(500).json({ error: 'Failed to fetch domain mastery' });
+    }
+  }
+);
+
+// GET /api/admin/students/:id/attempt/:attemptId/items - Admin view of attempt items
+app.get(
+  '/api/admin/students/:id/attempt/:attemptId/items',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const studentId = parseInt(req.params.id, 10);
+      const attemptId = parseInt(req.params.attemptId, 10);
+      if (!Number.isFinite(studentId) || !Number.isFinite(attemptId)) {
+        return res.status(400).json({ error: 'Invalid IDs' });
+      }
+
+      const studentCheck = await pool.query(
+        `SELECT u.id, u.organization_id FROM users u WHERE u.id = $1 AND u.role = 'student'`,
+        [studentId]
+      );
+      if (studentCheck.rows.length === 0)
+        return res.status(404).json({ error: 'Student not found' });
+      if (!canAccessOrganization(req, studentCheck.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      const attempt = await pool.query(
+        `SELECT id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed, attempted_at
+         FROM quiz_attempts WHERE id = $1 AND user_id = $2`,
+        [attemptId, studentId]
+      );
+      if (attempt.rows.length === 0)
+        return res.status(404).json({ error: 'Attempt not found' });
+
+      const items = await pool.query(
+        `SELECT question_index, question_id, subject, domain, topic,
+                challenge_tags, user_answer, correct_answer, is_correct,
+                confidence, time_spent_ms, question_type,
+                points_earned, points_possible
+         FROM quiz_attempt_items
+         WHERE attempt_id = $1
+         ORDER BY question_index`,
+        [attemptId]
+      );
+
+      res.json({
+        attempt: attempt.rows[0],
+        items: items.rows,
+      });
+    } catch (error) {
+      console.error('[/api/admin/students/:id/attempt/:id/items]', error);
+      res.status(500).json({ error: 'Failed to fetch attempt items' });
+    }
+  }
+);
+
+// GET /api/admin/reports/domain-weaknesses - Aggregate domain weaknesses across org/class
+app.get(
+  '/api/admin/reports/domain-weaknesses',
+  authenticateBearerToken,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { orgId, classId } = req.query;
+
+      const role = normalizeRole(req.user?.role);
+      let targetOrgId;
+      if (role === 'super_admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = req.user?.organization_id || null;
+      }
+
+      let userFilter = '';
+      const params = [];
+      let paramIdx = 1;
+
+      if (classId) {
+        userFilter = `AND a.user_id IN (SELECT user_id FROM class_enrollments WHERE class_id = $${paramIdx++})`;
+        params.push(classId);
+      } else if (targetOrgId) {
+        userFilter = `AND a.user_id IN (SELECT id FROM users WHERE organization_id = $${paramIdx++} AND role = 'student')`;
+        params.push(targetOrgId);
+      }
+
+      const result = await pool.query(
+        `SELECT i.subject, i.domain,
+                COUNT(DISTINCT a.user_id)::int AS student_count,
+                COUNT(*)::int AS total_items,
+                SUM(CASE WHEN i.is_correct THEN 1 ELSE 0 END)::int AS correct_items,
+                ROUND(AVG(CASE WHEN i.is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct,
+                SUM(CASE WHEN i.confidence = 'sure' AND NOT i.is_correct THEN 1 ELSE 0 END)::int AS misconceptions
+         FROM quiz_attempt_items i
+         JOIN quiz_attempts a ON a.id = i.attempt_id
+         WHERE i.domain IS NOT NULL ${userFilter}
+         GROUP BY i.subject, i.domain
+         HAVING COUNT(*) >= 5
+         ORDER BY accuracy_pct ASC`,
+        params
+      );
+
+      res.json({ weaknesses: result.rows });
+    } catch (error) {
+      console.error('[/api/admin/reports/domain-weaknesses]', error);
+      res.status(500).json({ error: 'Failed to fetch domain weaknesses' });
     }
   }
 );

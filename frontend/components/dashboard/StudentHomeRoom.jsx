@@ -9,6 +9,215 @@ import CareerMiniPanel from './CareerMiniPanel.jsx';
 import EstimatedStudyTime from './EstimatedStudyTime.jsx';
 import SkillHeatmap from './SkillHeatmap.jsx';
 
+// ---------------------------------------------------------------------------
+// Score Trends Card – shows per-subject growth over time
+// ---------------------------------------------------------------------------
+function ScoreTrendsCard({ subjects }) {
+  if (!subjects || Object.keys(subjects).length === 0) return null;
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+        📈 Score Trends
+      </h3>
+      <div className="space-y-4">
+        {Object.entries(subjects).map(([subj, data]) => {
+          const passColor =
+            data.latest >= 145
+              ? 'text-green-600 dark:text-green-400'
+              : 'text-amber-600 dark:text-amber-400';
+          const growthColor =
+            data.growth > 0
+              ? 'text-green-600'
+              : data.growth < 0
+                ? 'text-red-500'
+                : 'text-gray-500';
+          const growthIcon =
+            data.growth > 0 ? '↑' : data.growth < 0 ? '↓' : '→';
+          return (
+            <div
+              key={subj}
+              className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-0 last:pb-0"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-semibold text-gray-900 dark:text-white capitalize">
+                  {subj}
+                </span>
+                <span className={`text-sm font-medium ${passColor}`}>
+                  {data.latest}/200
+                </span>
+              </div>
+              <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                <span>Best: {data.best}</span>
+                <span>
+                  {data.attemptCount} attempt
+                  {data.attemptCount !== 1 ? 's' : ''}
+                </span>
+                <span>
+                  {data.passCount} pass{data.passCount !== 1 ? 'es' : ''}
+                </span>
+                <span className={`font-medium ${growthColor}`}>
+                  {growthIcon} {Math.abs(data.growth)} pts
+                </span>
+              </div>
+              {/* Mini sparkline bar */}
+              {data.attempts && data.attempts.length > 1 && (
+                <div className="flex items-end gap-0.5 mt-2 h-8">
+                  {data.attempts.slice(-15).map((a, idx) => {
+                    const pct = Math.max(
+                      0,
+                      Math.min(100, ((a.scaledScore - 100) / 100) * 100)
+                    );
+                    const barColor = a.passed
+                      ? 'bg-green-400'
+                      : a.scaledScore >= 135
+                        ? 'bg-amber-400'
+                        : 'bg-red-400';
+                    return (
+                      <div
+                        key={idx}
+                        className={`flex-1 rounded-t ${barColor} min-w-[4px]`}
+                        style={{ height: `${Math.max(8, pct)}%` }}
+                        title={`${a.scaledScore} - ${new Date(a.date).toLocaleDateString()}`}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Weakest Areas Card – shows lowest-accuracy domains/topics
+// ---------------------------------------------------------------------------
+function WeakestAreasCard({ areas }) {
+  if (!areas || areas.length === 0) return null;
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+        🎯 Areas to Improve
+      </h3>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+        Based on your quiz performance (min. 3 questions)
+      </p>
+      <div className="space-y-2">
+        {areas.slice(0, 8).map((area, idx) => {
+          const pct = parseFloat(area.accuracy_pct) || 0;
+          const barColor =
+            pct >= 70
+              ? 'bg-green-400'
+              : pct >= 50
+                ? 'bg-amber-400'
+                : 'bg-red-400';
+          return (
+            <div key={idx}>
+              <div className="flex items-center justify-between text-sm mb-1">
+                <span className="text-gray-700 dark:text-gray-300 capitalize">
+                  {area.domain || area.topic || 'General'}
+                  {area.subject ? ` (${area.subject})` : ''}
+                </span>
+                <span className="font-mono text-xs text-gray-500">
+                  {area.correct_items}/{area.total_items} ({pct}%)
+                </span>
+              </div>
+              <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  className={`h-full ${barColor} rounded-full transition-all`}
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Confidence Calibration Card – shows how well student knows what they know
+// ---------------------------------------------------------------------------
+function ConfidenceCalibrationCard({ data }) {
+  if (
+    !data ||
+    !data.byConfidence ||
+    Object.keys(data.byConfidence).length === 0
+  )
+    return null;
+
+  const sure = data.byConfidence['sure'] || {
+    total: 0,
+    correct: 0,
+    accuracyPct: 0,
+  };
+  const guessing = data.byConfidence['guessing'] || {
+    total: 0,
+    correct: 0,
+    accuracyPct: 0,
+  };
+  const calibration = data.calibrationScore;
+
+  const calibrationLabel =
+    calibration >= 80
+      ? 'Excellent'
+      : calibration >= 60
+        ? 'Good'
+        : calibration >= 40
+          ? 'Fair'
+          : 'Needs work';
+  const calibrationColor =
+    calibration >= 80
+      ? 'text-green-600'
+      : calibration >= 60
+        ? 'text-blue-600'
+        : calibration >= 40
+          ? 'text-amber-600'
+          : 'text-red-600';
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+        🧠 Confidence Calibration
+      </h3>
+      {calibration !== null && (
+        <div className="text-center mb-4">
+          <div className={`text-3xl font-bold ${calibrationColor}`}>
+            {calibration}%
+          </div>
+          <div className={`text-sm ${calibrationColor}`}>
+            {calibrationLabel}
+          </div>
+        </div>
+      )}
+      <div className="space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span className="text-gray-600 dark:text-gray-400">When "sure"</span>
+          <span className="font-medium">
+            {sure.accuracyPct}% correct ({sure.total} Qs)
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-600 dark:text-gray-400">
+            When "guessing"
+          </span>
+          <span className="font-medium">
+            {guessing.accuracyPct}% correct ({guessing.total} Qs)
+          </span>
+        </div>
+      </div>
+      <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
+        High calibration means you accurately predict when you know the answer.
+      </p>
+    </div>
+  );
+}
+
 export default function StudentHomeRoom({ user, onNavigate }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,6 +229,11 @@ export default function StudentHomeRoom({ user, onNavigate }) {
     scoreHistory: { history: [], highestScores: {} },
     studyEstimate: null,
     careerRecommendations: { recommendations: [], interests: [] },
+    scoreTrends: { subjects: {} },
+    domainMastery: { domains: [] },
+    confidenceAnalysis: { byConfidence: {}, calibrationScore: null },
+    weakestAreas: { areas: [] },
+    recentPerformance: { attempts: [] },
   });
 
   useEffect(() => {
@@ -46,6 +260,11 @@ export default function StudentHomeRoom({ user, onNavigate }) {
         scoreHistoryRes,
         studyEstimateRes,
         careerRes,
+        scoreTrendsRes,
+        domainMasteryRes,
+        confidenceRes,
+        weakestRes,
+        recentPerfRes,
       ] = await Promise.all([
         fetch('/api/student/next-task', { headers }),
         fetch('/api/student/mastery', { headers }),
@@ -54,7 +273,30 @@ export default function StudentHomeRoom({ user, onNavigate }) {
         fetch('/api/student/score-history', { headers }),
         fetch('/api/student/study-estimate', { headers }),
         fetch('/api/student/career-recommendations', { headers }),
+        fetch('/api/student/score-trends', { headers }).catch(() => ({
+          ok: false,
+        })),
+        fetch('/api/student/domain-mastery', { headers }).catch(() => ({
+          ok: false,
+        })),
+        fetch('/api/student/confidence-analysis', { headers }).catch(() => ({
+          ok: false,
+        })),
+        fetch('/api/student/weakest-areas', { headers }).catch(() => ({
+          ok: false,
+        })),
+        fetch('/api/student/recent-performance', { headers }).catch(() => ({
+          ok: false,
+        })),
       ]);
+
+      const safeJson = async (res, fallback) => {
+        try {
+          return res.ok ? await res.json() : fallback;
+        } catch {
+          return fallback;
+        }
+      };
 
       const data = {
         nextTask: await nextTaskRes.json(),
@@ -64,6 +306,14 @@ export default function StudentHomeRoom({ user, onNavigate }) {
         scoreHistory: await scoreHistoryRes.json(),
         studyEstimate: await studyEstimateRes.json(),
         careerRecommendations: await careerRes.json(),
+        scoreTrends: await safeJson(scoreTrendsRes, { subjects: {} }),
+        domainMastery: await safeJson(domainMasteryRes, { domains: [] }),
+        confidenceAnalysis: await safeJson(confidenceRes, {
+          byConfidence: {},
+          calibrationScore: null,
+        }),
+        weakestAreas: await safeJson(weakestRes, { areas: [] }),
+        recentPerformance: await safeJson(recentPerfRes, { attempts: [] }),
       };
 
       setDashboardData(data);
@@ -246,6 +496,12 @@ export default function StudentHomeRoom({ user, onNavigate }) {
               onImprove={handleImproveSkill}
             />
 
+            {/* Score Trends */}
+            <ScoreTrendsCard subjects={dashboardData.scoreTrends?.subjects} />
+
+            {/* Weakest Areas */}
+            <WeakestAreasCard areas={dashboardData.weakestAreas?.areas} />
+
             {/* Skill Heatmap - PREMIUM FEATURE */}
             <SkillHeatmap />
 
@@ -282,6 +538,11 @@ export default function StudentHomeRoom({ user, onNavigate }) {
 
             {/* Estimated Study Time */}
             <EstimatedStudyTime estimate={dashboardData.studyEstimate} />
+
+            {/* Confidence Calibration */}
+            <ConfidenceCalibrationCard
+              data={dashboardData.confidenceAnalysis}
+            />
 
             {/* Subject Badges */}
             <SubjectBadges badgeData={dashboardData.badges} />

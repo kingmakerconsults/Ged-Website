@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-19T17:35:17.407Z",
-  "sourceReport": "reports/question_bank_vetting_accepted_20260318-111256.json",
+  "generatedAt": "2026-04-14T01:41:41.040Z",
+  "sourceReport": "reports/question_bank_vetting_accepted_with_promotions_20260413-152124.json",
   "strictFilters": [
     "generic-stem",
     "logic-defect",
@@ -15,75 +15,78 @@
     "duplicate-rationales",
     "missing-stimulus"
   ],
-  "inputCount": 6365,
-  "reviewPromoted": 0,
-  "keptCount": 4993,
-  "removedCount": 1372,
+  "inputCount": 12517,
+  "reviewPromoted": 791,
+  "keptCount": 9715,
+  "removedCount": 2802,
   "bySubject": {
     "Science": {
-      "input": 1596,
-      "kept": 911,
-      "removed": 685,
+      "input": 2725,
+      "kept": 1617,
+      "removed": 1108,
       "removalReasons": {
-        "generic-stem": 634,
-        "science-thin-rationale": 14,
-        "duplicate-rationales": 27,
+        "generic-stem": 976,
+        "science-thin-rationale": 94,
+        "duplicate-rationales": 99,
         "terse-generic-rationale": 2,
         "short-correct-rationale": 2,
-        "embedded-choice-text": 9,
-        "weak-rationale": 5,
+        "embedded-choice-text": 11,
+        "weak-rationale": 8,
         "placeholder-option": 1
       }
     },
     "Social Studies": {
-      "input": 1354,
-      "kept": 1126,
-      "removed": 228,
+      "input": 2002,
+      "kept": 1617,
+      "removed": 385,
       "removalReasons": {
-        "generic-stem": 211,
-        "duplicate-rationales": 17,
-        "embedded-choice-text": 10,
-        "weak-rationale": 1
+        "generic-stem": 332,
+        "duplicate-rationales": 41,
+        "embedded-choice-text": 17,
+        "weak-rationale": 34,
+        "short-correct-rationale": 3
       }
     },
     "RLA Reading": {
-      "input": 1596,
-      "kept": 1330,
-      "removed": 266,
+      "input": 3382,
+      "kept": 2820,
+      "removed": 562,
       "removalReasons": {
-        "generic-stem": 253,
+        "generic-stem": 438,
         "duplicate-options": 1,
-        "duplicate-rationales": 9,
-        "placeholder-option": 6,
-        "weak-rationale": 2,
-        "short-correct-rationale": 2
+        "duplicate-rationales": 122,
+        "placeholder-option": 7,
+        "weak-rationale": 5,
+        "short-correct-rationale": 2,
+        "embedded-choice-text": 4
       }
     },
     "RLA Language": {
-      "input": 1040,
-      "kept": 964,
-      "removed": 76,
+      "input": 1587,
+      "kept": 1466,
+      "removed": 121,
       "removalReasons": {
-        "generic-stem": 67,
+        "generic-stem": 87,
         "placeholder-option": 2,
-        "embedded-choice-text": 3,
-        "duplicate-rationales": 4,
-        "weak-rationale": 3,
+        "embedded-choice-text": 7,
+        "duplicate-rationales": 24,
+        "weak-rationale": 5,
         "short-correct-rationale": 1
       }
     },
     "Math": {
-      "input": 779,
-      "kept": 662,
-      "removed": 117,
+      "input": 2821,
+      "kept": 2195,
+      "removed": 626,
       "removalReasons": {
-        "generic-stem": 25,
-        "placeholder-option": 16,
-        "terse-generic-rationale": 16,
-        "short-correct-rationale": 16,
-        "duplicate-rationales": 35,
-        "weak-rationale": 45,
-        "embedded-choice-text": 1
+        "generic-stem": 45,
+        "placeholder-option": 42,
+        "terse-generic-rationale": 81,
+        "short-correct-rationale": 50,
+        "duplicate-rationales": 182,
+        "weak-rationale": 384,
+        "embedded-choice-text": 3,
+        "logic-defect": 1
       }
     }
   }
