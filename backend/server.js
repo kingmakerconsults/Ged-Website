@@ -25,6 +25,7 @@ const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const ensureQuizAttemptItemsTable = require('./db/initQuizAttemptItems');
 const ensureEssayScoresTable = require('./db/initEssayScores');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
+const ensureActiveExamSessionsTable = require('./db/initActiveExamSessions');
 const ensureUserNameColumns = require('./db/initUserNameColumns');
 const MODEL_HTTP_TIMEOUT_MS =
   Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
@@ -5901,6 +5902,9 @@ if (typeof ensureQuestionBankTable === 'function') {
     console.error('Question bank init error:', e?.message || e);
   });
 }
+ensureActiveExamSessionsTable().catch((e) =>
+  console.error('Active exam sessions table init error:', e)
+);
 ensureUserNameColumns().catch((e) =>
   console.error('User name columns init error:', e)
 );
@@ -19267,6 +19271,19 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
       );
     }
 
+    // Clean up any active exam session for this quiz on successful submission
+    try {
+      if (normalizedQuizCode) {
+        await pool.query(
+          `DELETE FROM active_exam_sessions WHERE quiz_id = $1 AND user_id = $2`,
+          [normalizedQuizCode, userId]
+        );
+      }
+    } catch (e) {
+      // Non-critical: session cleanup failure should not block submission
+      console.warn('[quiz-attempts] session cleanup failed:', e?.message || e);
+    }
+
     res.status(201).json(formatQuizAttemptRow(result.rows[0]));
   } catch (error) {
     console.error(
@@ -19786,6 +19803,222 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch quiz attempts.' });
   }
 });
+
+// ─── Active Exam Sessions (resume-on-disconnect) ────────────────────────────
+
+// Clean up expired sessions periodically (every 30 min)
+setInterval(
+  async () => {
+    try {
+      const { rowCount } = await pool.query(
+        `DELETE FROM active_exam_sessions WHERE expires_at < NOW()`
+      );
+      if (rowCount > 0) {
+        console.log(
+          `[exam-sessions] Cleaned up ${rowCount} expired session(s)`
+        );
+      }
+    } catch (e) {
+      // Table may not exist yet on first boot
+    }
+  },
+  30 * 60 * 1000
+);
+
+// POST /api/exam-sessions — Create a new active exam session
+app.post('/api/exam-sessions', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const {
+      quizId,
+      subject,
+      quizType = null,
+      quizTitle = null,
+      quizPayload,
+      timeRemainingMs = null,
+    } = req.body || {};
+
+    if (!quizId || !subject || !quizPayload) {
+      return res.status(400).json({
+        error: 'Missing required fields: quizId, subject, quizPayload',
+      });
+    }
+
+    // Enforce one active session per subject: delete any existing session for this user+subject
+    await pool.query(
+      `DELETE FROM active_exam_sessions WHERE user_id = $1 AND subject = $2`,
+      [userId, subject]
+    );
+
+    const { rows } = await pool.query(
+      `INSERT INTO active_exam_sessions
+         (user_id, quiz_id, subject, quiz_type, quiz_title, quiz_payload, time_remaining_ms)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING id, quiz_id, started_at`,
+      [
+        userId,
+        quizId,
+        subject,
+        quizType,
+        quizTitle,
+        quizPayload,
+        timeRemainingMs,
+      ]
+    );
+
+    res.status(201).json(rows[0]);
+  } catch (error) {
+    console.error('[exam-sessions] Create error:', error?.message || error);
+    res.status(500).json({ error: 'Failed to create exam session.' });
+  }
+});
+
+// PATCH /api/exam-sessions/:quizId — Auto-save progress
+app.patch(
+  '/api/exam-sessions/:quizId',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const { quizId } = req.params;
+      const {
+        answers,
+        marked,
+        confidence,
+        timeSpent,
+        currentQuestionIndex,
+        currentPart,
+        timeRemainingMs,
+        essayText,
+        runnerState,
+      } = req.body || {};
+
+      const setClauses = ['updated_at = NOW()'];
+      const values = [];
+      let idx = 1;
+
+      if (answers !== undefined) {
+        setClauses.push(`answers = $${idx++}`);
+        values.push(JSON.stringify(answers));
+      }
+      if (marked !== undefined) {
+        setClauses.push(`marked = $${idx++}`);
+        values.push(JSON.stringify(marked));
+      }
+      if (confidence !== undefined) {
+        setClauses.push(`confidence = $${idx++}`);
+        values.push(JSON.stringify(confidence));
+      }
+      if (timeSpent !== undefined) {
+        setClauses.push(`time_spent = $${idx++}`);
+        values.push(JSON.stringify(timeSpent));
+      }
+      if (currentQuestionIndex !== undefined) {
+        setClauses.push(`current_question_index = $${idx++}`);
+        values.push(currentQuestionIndex);
+      }
+      if (currentPart !== undefined) {
+        setClauses.push(`current_part = $${idx++}`);
+        values.push(currentPart);
+      }
+      if (timeRemainingMs !== undefined) {
+        setClauses.push(`time_remaining_ms = $${idx++}`);
+        values.push(timeRemainingMs);
+      }
+      if (essayText !== undefined) {
+        setClauses.push(`essay_text = $${idx++}`);
+        values.push(essayText);
+      }
+      if (runnerState !== undefined) {
+        setClauses.push(`runner_state = $${idx++}`);
+        values.push(JSON.stringify(runnerState));
+      }
+
+      values.push(quizId, userId);
+      const { rowCount } = await pool.query(
+        `UPDATE active_exam_sessions
+       SET ${setClauses.join(', ')}
+       WHERE quiz_id = $${idx++} AND user_id = $${idx}`,
+        values
+      );
+
+      if (rowCount === 0) {
+        return res.status(404).json({ error: 'Session not found.' });
+      }
+
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      console.error('[exam-sessions] Save error:', error?.message || error);
+      res.status(500).json({ error: 'Failed to save exam progress.' });
+    }
+  }
+);
+
+// GET /api/exam-sessions/active — Return active (non-expired) sessions for the user
+app.get(
+  '/api/exam-sessions/active',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const { rows } = await pool.query(
+        `SELECT id, quiz_id, subject, quiz_type, quiz_title,
+              quiz_payload, answers, marked, confidence, time_spent,
+              current_question_index, current_part, time_remaining_ms,
+              essay_text, runner_state,
+              started_at, updated_at
+       FROM active_exam_sessions
+       WHERE user_id = $1 AND expires_at > NOW()
+       ORDER BY updated_at DESC`,
+        [userId]
+      );
+
+      res.status(200).json(rows);
+    } catch (error) {
+      console.error('[exam-sessions] Fetch error:', error?.message || error);
+      res.status(500).json({ error: 'Failed to fetch active sessions.' });
+    }
+  }
+);
+
+// DELETE /api/exam-sessions/:quizId — Remove a session (on submit or abandon)
+app.delete(
+  '/api/exam-sessions/:quizId',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const { quizId } = req.params;
+      await pool.query(
+        `DELETE FROM active_exam_sessions WHERE quiz_id = $1 AND user_id = $2`,
+        [quizId, userId]
+      );
+
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      console.error('[exam-sessions] Delete error:', error?.message || error);
+      res.status(500).json({ error: 'Failed to delete exam session.' });
+    }
+  }
+);
+
+// ─── End Active Exam Sessions ────────────────────────────────────────────────
 
 // Load quizzes from dynamic index which merges legacy and supplemental topics
 // Moved to top of file to ensure availability for adaptive logic

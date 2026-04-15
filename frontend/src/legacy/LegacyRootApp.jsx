@@ -14,6 +14,12 @@ import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen
 import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
 import SuperAdminQuestionBrowser from '../views/SuperAdminQuestionBrowser.jsx';
 import MathInputWithPad from '../../components/MathInputWithPad.jsx';
+import {
+  createExamSession,
+  saveExamProgress,
+  fetchActiveSessions,
+  deleteExamSession,
+} from '../../utils/examSessionManager.js';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -21516,6 +21522,87 @@ function normalizeMathText(text) {
   return t.trim();
 }
 
+function getAnswerOptionText(option) {
+  if (option == null) return '';
+  if (typeof option === 'string' || typeof option === 'number') {
+    return String(option);
+  }
+  if (typeof option === 'object' && !Array.isArray(option)) {
+    if (typeof option.text === 'string' || typeof option.text === 'number') {
+      return String(option.text);
+    }
+    if (typeof option.label === 'string' || typeof option.label === 'number') {
+      return String(option.label);
+    }
+    if (typeof option.value === 'string' || typeof option.value === 'number') {
+      return String(option.value);
+    }
+  }
+  return '';
+}
+
+function getQuestionCorrectAnswerValues(question, subjectName) {
+  const rawValues = Array.isArray(question?.correctAnswers)
+    ? question.correctAnswers
+    : question?.correctAnswer != null
+      ? [question.correctAnswer]
+      : [];
+
+  return rawValues
+    .map((value) => getAnswerOptionText(value).trim())
+    .map((value) =>
+      subjectName === 'Math' && value ? normalizeMathText(value) : value
+    )
+    .filter(Boolean);
+}
+
+function normalizeQuestionAnswerOptions(question, subjectName) {
+  const resolvedSubject =
+    subjectName || question?.subject || question?.subjectKey || null;
+  const rawOptions = Array.isArray(question?.answerOptions)
+    ? question.answerOptions
+    : [];
+  const correctValues = getQuestionCorrectAnswerValues(
+    question,
+    resolvedSubject
+  );
+  const hasExplicitCorrectFlags = rawOptions.some(
+    (opt) =>
+      opt &&
+      typeof opt === 'object' &&
+      !Array.isArray(opt) &&
+      typeof opt.isCorrect === 'boolean'
+  );
+
+  return rawOptions
+    .map((opt, index) => {
+      const base =
+        opt && typeof opt === 'object' && !Array.isArray(opt) ? { ...opt } : {};
+      let text = getAnswerOptionText(opt).trim();
+
+      if (!text) {
+        return null;
+      }
+
+      if (resolvedSubject === 'Math') {
+        text = normalizeMathText(text);
+      }
+
+      const normalized = {
+        ...base,
+        id: base.id ?? `${index + 1}`,
+        text,
+      };
+
+      if (!hasExplicitCorrectFlags && correctValues.length > 0) {
+        normalized.isCorrect = correctValues.includes(text);
+      }
+
+      return normalized;
+    })
+    .filter(Boolean);
+}
+
 function normalizeQuestionAssets(question, subjectName) {
   if (!question || typeof question !== 'object') return question;
   // Image URL variants
@@ -21539,13 +21626,20 @@ function normalizeQuestionAssets(question, subjectName) {
       question.question = normalizeMathText(question.question);
     if (typeof question.rationale === 'string')
       question.rationale = normalizeMathText(question.rationale);
-    if (Array.isArray(question.answerOptions)) {
-      question.answerOptions = question.answerOptions.map((opt) =>
-        opt && typeof opt === 'object' && typeof opt.text === 'string'
-          ? { ...opt, text: normalizeMathText(opt.text) }
-          : opt
+    if (typeof question.correctAnswer === 'string') {
+      question.correctAnswer = normalizeMathText(question.correctAnswer);
+    }
+    if (Array.isArray(question.correctAnswers)) {
+      question.correctAnswers = question.correctAnswers.map((value) =>
+        typeof value === 'string' ? normalizeMathText(value) : value
       );
     }
+  }
+  if (Array.isArray(question.answerOptions)) {
+    question.answerOptions = normalizeQuestionAnswerOptions(
+      question,
+      subjectName
+    );
   }
   // Preserve tool flags for Math interactive demos
   if (question.useGeometryTool) question.useGeometryTool = true;
@@ -24889,6 +24983,7 @@ function App({ externalTheme, onThemeChange }) {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [revolvingPrompt, setRevolvingPrompt] = useState('');
+  const [resumableSessions, setResumableSessions] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   // Global navigation state for top-level views
   const [activeView, setActiveView] = useState('dashboard'); // 'dashboard' | 'quizzes' | 'progress' | 'profile' | 'settings'
@@ -26183,6 +26278,17 @@ function App({ externalTheme, onThemeChange }) {
     loadProfileOnce();
   }, [currentUserId]);
 
+  // Check for resumable exam sessions after login
+  useEffect(() => {
+    if (!currentUserId) {
+      setResumableSessions([]);
+      return;
+    }
+    fetchActiveSessions()
+      .then((sessions) => setResumableSessions(sessions || []))
+      .catch(() => setResumableSessions([]));
+  }, [currentUserId]);
+
   // Optional gentle polling every 60s to keep dashboard fresh without spamming
   useEffect(() => {
     let stopped = false;
@@ -27091,6 +27197,66 @@ function App({ externalTheme, onThemeChange }) {
     }
   };
 
+  const handleResumeExam = useCallback(
+    (session) => {
+      if (!session?.quizPayload) return;
+
+      const quiz = {
+        ...session.quizPayload,
+        _resumed: true,
+        _resumedAnswers: session.answers || [],
+        _resumedMarked: session.marked || [],
+        _resumedConfidence: session.confidence || [],
+        _resumedTimeSpent: session.timeSpent || [],
+        _resumedCurrentIndex: session.currentQuestionIndex || 0,
+        _resumedCurrentPart: session.currentPart || null,
+        _resumedTimeRemainingMs: session.timeRemainingMs || null,
+        _resumedEssayText: session.essayText || '',
+        _resumedRunnerState: session.runnerState || null,
+      };
+
+      // Remove this session from the resumable list
+      setResumableSessions((prev) =>
+        prev.filter((s) => s.quizId !== session.quizId)
+      );
+
+      // Push nav history and launch
+      setNavHistory((prev) => [
+        ...prev,
+        {
+          activeView,
+          view,
+          selectedSubject,
+          selectedCategory,
+          activeQuiz,
+          quizResults,
+        },
+      ]);
+
+      setActiveQuiz(quiz);
+
+      // Go straight to quiz (skip intro since they already saw it)
+      setView(resolveQuizView(quiz));
+    },
+    [
+      activeView,
+      view,
+      selectedSubject,
+      selectedCategory,
+      activeQuiz,
+      quizResults,
+      resolveQuizView,
+    ]
+  );
+
+  const handleAbandonSession = useCallback(async (session) => {
+    if (!session?.quizId) return;
+    await deleteExamSession(session.quizId);
+    setResumableSessions((prev) =>
+      prev.filter((s) => s.quizId !== session.quizId)
+    );
+  }, []);
+
   const handleGenerateComprehensiveExam = async (subject) => {
     setIsLoading(true);
     setLoadingMessage(`Generating your comprehensive ${subject} exam...`);
@@ -27206,9 +27372,7 @@ function App({ externalTheme, onThemeChange }) {
       .filter((item) => item && typeof item === 'object')
       .map((item) => ({
         ...item,
-        answerOptions: shuffleArray(
-          Array.isArray(item.answerOptions) ? item.answerOptions : []
-        ),
+        answerOptions: shuffleArray(normalizeQuestionAnswerOptions(item)),
       }));
   };
 
@@ -27263,6 +27427,29 @@ function App({ externalTheme, onThemeChange }) {
       }
 
       setActiveQuiz(preparedQuiz);
+
+      // Persist exam session for resume-on-disconnect (comprehensive/AI exams only)
+      if (
+        preparedQuiz.isComprehensive &&
+        preparedQuiz.quizCode &&
+        !preparedQuiz._resumed
+      ) {
+        const totalTime =
+          typeof preparedQuiz.totalTime === 'number'
+            ? preparedQuiz.totalTime * 1000
+            : (preparedQuiz.questions?.length || 30) * 90 * 1000;
+        createExamSession({
+          quizId: preparedQuiz.quizCode,
+          subject: preparedQuiz.subject,
+          quizType: preparedQuiz.quizType || preparedQuiz.type || null,
+          quizTitle:
+            preparedQuiz.title ||
+            preparedQuiz.topicTitle ||
+            'Comprehensive Exam',
+          quizPayload: preparedQuiz,
+          timeRemainingMs: totalTime,
+        }).catch(() => {});
+      }
 
       if (showIntro && isComprehensiveQuiz(preparedQuiz)) {
         setView('comprehensiveStart');
@@ -27458,6 +27645,17 @@ function App({ externalTheme, onThemeChange }) {
 
     if (results.quiz) {
       setActiveQuiz(results.quiz);
+    }
+
+    // Clean up active exam session on quiz completion
+    const completedQuiz = results.quiz || activeQuiz;
+    const completedQuizCode =
+      completedQuiz?.quizCode ||
+      completedQuiz?.code ||
+      completedQuiz?.id ||
+      null;
+    if (completedQuizCode && completedQuiz?.isComprehensive) {
+      deleteExamSession(completedQuizCode).catch(() => {});
     }
 
     const { subject } = results;
@@ -28062,6 +28260,9 @@ function App({ externalTheme, onThemeChange }) {
             onRefreshProfile={loadProfileOnce}
             onStartPopQuiz={handleStartPopQuiz}
             onStartComprehensiveExam={handleGenerateComprehensiveExam}
+            resumableSessions={resumableSessions}
+            onResumeExam={handleResumeExam}
+            onAbandonSession={handleAbandonSession}
             setIsLoading={setIsLoading}
             setLoadingMessage={setLoadingMessage}
             setShowFormulaSheet={setShowFormulaSheet}
@@ -32202,6 +32403,9 @@ function StartScreen({
   onSelectGenerator,
   onStartPopQuiz,
   onStartComprehensiveExam,
+  resumableSessions = [],
+  onResumeExam,
+  onAbandonSession,
   setIsLoading,
   setLoadingMessage,
   setShowFormulaSheet,
@@ -32303,7 +32507,11 @@ function StartScreen({
         return;
       }
 
-      if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
+      if (
+        !payload ||
+        !Array.isArray(payload.questions) ||
+        !payload.questions.length
+      ) {
         throw new Error('No diagnostic quiz was returned.');
       }
 
@@ -35135,6 +35343,45 @@ function StartScreen({
                 >
                   Start Comprehensive Exam
                 </button>
+                {resumableSessions
+                  .filter((s) => s.subject === selectedSubject)
+                  .map((session) => (
+                    <div
+                      key={session.quizId}
+                      className="w-full mt-3 rounded-lg border-2 border-amber-400 bg-amber-50 p-3"
+                    >
+                      <p className="text-sm font-semibold text-amber-800 mb-2">
+                        You have an in-progress exam
+                        {session.timeRemainingMs != null
+                          ? ` (${Math.round(session.timeRemainingMs / 60000)} min remaining)`
+                          : ''}
+                      </p>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => onResumeExam(session)}
+                          className="flex-1 px-3 py-1.5 bg-amber-500 text-white font-semibold rounded-md hover:bg-amber-600 transition text-sm"
+                        >
+                          Resume Exam
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                'Abandon this exam? Your progress will be lost.'
+                              )
+                            ) {
+                              onAbandonSession(session);
+                            }
+                          }}
+                          className="px-3 py-1.5 bg-white text-amber-700 font-semibold rounded-md border border-amber-300 hover:bg-amber-100 transition text-sm"
+                        >
+                          Abandon
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               </div>
             </div>
           )}
@@ -35954,13 +36201,33 @@ function QuizInterface({
   article = null,
   articleImage = null,
   practiceMode = null, // 'standard' | 'timed' | 'olympics'
+  quizCode = null,
+  isComprehensive = false,
+  currentPart = null,
+  resumedState = null,
+  onAutoSave = null,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [marked, setMarked] = useState(Array(questions.length).fill(false));
-  const [confidence, setConfidence] = useState(
-    Array(questions.length).fill(null)
+  const [currentIndex, setCurrentIndex] = useState(
+    resumedState?.currentQuestionIndex || 0
   );
-  const [timeLeft, setTimeLeft] = useState(timeLimit || questions.length * 90);
+  const [marked, setMarked] = useState(() =>
+    Array.isArray(resumedState?.marked) &&
+    resumedState.marked.length === questions.length
+      ? resumedState.marked
+      : Array(questions.length).fill(false)
+  );
+  const [confidence, setConfidence] = useState(() =>
+    Array.isArray(resumedState?.confidence) &&
+    resumedState.confidence.length === questions.length
+      ? resumedState.confidence
+      : Array(questions.length).fill(null)
+  );
+  const [timeLeft, setTimeLeft] = useState(() => {
+    if (resumedState?.timeRemainingMs != null) {
+      return Math.max(0, Math.round(resumedState.timeRemainingMs / 1000));
+    }
+    return timeLimit || questions.length * 90;
+  });
   const [isPaused, setIsPaused] = useState(false);
   const [pausesRemaining, setPausesRemaining] = useState(2);
   const handleSubmitRef = useRef(() => {});
@@ -35973,7 +36240,12 @@ function QuizInterface({
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
 
   // Per-question timing: accumulate ms spent on each question
-  const timeSpentRef = useRef(Array(questions.length).fill(0));
+  const timeSpentRef = useRef(
+    Array.isArray(resumedState?.timeSpent) &&
+      resumedState.timeSpent.length === questions.length
+      ? [...resumedState.timeSpent]
+      : Array(questions.length).fill(0)
+  );
   const lastNavTsRef = useRef(Date.now());
 
   // Olympics mode state
@@ -36027,6 +36299,77 @@ function QuizInterface({
     }, 1000);
     return () => clearInterval(timer);
   }, [onComplete, isPaused, isOlympicsMode]);
+
+  // ── Auto-save exam progress for resume-on-disconnect ──────────────────────
+  const autoSaveTimerRef = useRef(null);
+  useEffect(() => {
+    if (!quizCode || !isComprehensive) return;
+
+    // Debounced save: wait 3 seconds after last change, also heartbeat every 30s
+    if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
+    autoSaveTimerRef.current = setTimeout(() => {
+      const payload = {
+        answers,
+        marked,
+        confidence,
+        timeSpent: [...timeSpentRef.current],
+        currentQuestionIndex: currentIndex,
+        currentPart: currentPart || null,
+        timeRemainingMs: timeLeft * 1000,
+      };
+      if (onAutoSave) {
+        onAutoSave(payload);
+      } else {
+        saveExamProgress(quizCode, payload).catch(() => {});
+      }
+    }, 3000);
+
+    return () => {
+      if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
+    };
+  }, [
+    answers,
+    marked,
+    confidence,
+    currentIndex,
+    timeLeft,
+    quizCode,
+    isComprehensive,
+    currentPart,
+    onAutoSave,
+  ]);
+
+  // Heartbeat: save every 30s regardless of changes (timer sync)
+  useEffect(() => {
+    if (!quizCode || !isComprehensive) return;
+    const heartbeat = setInterval(() => {
+      const payload = {
+        answers,
+        marked,
+        confidence,
+        timeSpent: [...timeSpentRef.current],
+        currentQuestionIndex: currentIndex,
+        currentPart: currentPart || null,
+        timeRemainingMs: timeLeft * 1000,
+      };
+      if (onAutoSave) {
+        onAutoSave(payload);
+      } else {
+        saveExamProgress(quizCode, payload).catch(() => {});
+      }
+    }, 30000);
+    return () => clearInterval(heartbeat);
+  }, [
+    quizCode,
+    isComprehensive,
+    answers,
+    marked,
+    confidence,
+    currentIndex,
+    timeLeft,
+    currentPart,
+    onAutoSave,
+  ]);
 
   const handleSelect = (optionText) => {
     const newAnswers = [...answers];
@@ -37604,7 +37947,16 @@ function QuizInterface({
 
 function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const questions = quiz.questions || [];
-  const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+  const [answers, setAnswers] = useState(() => {
+    if (
+      quiz._resumed &&
+      Array.isArray(quiz._resumedAnswers) &&
+      quiz._resumedAnswers.length === questions.length
+    ) {
+      return quiz._resumedAnswers;
+    }
+    return Array(questions.length).fill(null);
+  });
 
   const checkFillInQuestionCorrect = (q, userAns) => {
     return areEquivalentFillInAnswers(q?.correctAnswer, userAns, {
@@ -37728,6 +38080,19 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       article={quiz.article}
       articleImage={quiz.imageUrl}
       practiceMode={quiz.practiceMode}
+      quizCode={quiz.quizCode || quiz.code || quiz.id || null}
+      isComprehensive={quiz.isComprehensive}
+      resumedState={
+        quiz._resumed
+          ? {
+              currentQuestionIndex: quiz._resumedCurrentIndex,
+              marked: quiz._resumedMarked,
+              confidence: quiz._resumedConfidence,
+              timeSpent: quiz._resumedTimeSpent,
+              timeRemainingMs: quiz._resumedTimeRemainingMs,
+            }
+          : null
+      }
     />
   );
 }
@@ -37986,17 +38351,103 @@ function areEquivalentFillInAnswers(expected, user, options = {}) {
 }
 
 function MultiPartMathRunner({ quiz, onComplete, onExit }) {
-  const [part, setPart] = useState(1);
-  const [part1Result, setPart1Result] = useState(null);
-
   const part1Questions = quiz.questions.slice(0, 5);
   const part2Questions = quiz.questions.slice(5);
 
-  const [part1Answers, setPart1Answers] = useState(
-    Array(part1Questions.length).fill(null)
-  );
-  const [part2Answers, setPart2Answers] = useState(
-    Array(part2Questions.length).fill(null)
+  // Resume: restore which part the student was on
+  const [part, setPart] = useState(() => {
+    if (!quiz._resumed || !quiz._resumedCurrentPart) return 1;
+    if (quiz._resumedCurrentPart === 'part2') return 2;
+    if (quiz._resumedCurrentPart === 'interstitial') return 'interstitial';
+    return 1;
+  });
+
+  // Resume: split saved answers across parts
+  const [part1Answers, setPart1Answers] = useState(() => {
+    if (quiz._resumed && Array.isArray(quiz._resumedAnswers)) {
+      const restored = quiz._resumedAnswers.slice(0, part1Questions.length);
+      if (restored.length === part1Questions.length) return restored;
+    }
+    return Array(part1Questions.length).fill(null);
+  });
+  const [part2Answers, setPart2Answers] = useState(() => {
+    if (quiz._resumed && Array.isArray(quiz._resumedAnswers)) {
+      const restored = quiz._resumedAnswers.slice(
+        part1Questions.length,
+        part1Questions.length + part2Questions.length
+      );
+      if (restored.length === part2Questions.length) return restored;
+    }
+    return Array(part2Questions.length).fill(null);
+  });
+
+  // Resume: reconstruct part1Result if student was past Part 1
+  const [part1Result, setPart1Result] = useState(() => {
+    if (quiz._resumed && quiz._resumedRunnerState?.part1Result) {
+      return quiz._resumedRunnerState.part1Result;
+    }
+    if (
+      quiz._resumed &&
+      (quiz._resumedCurrentPart === 'part2' ||
+        quiz._resumedCurrentPart === 'interstitial')
+    ) {
+      // Reconstruct from split arrays
+      const p1Marked = Array.isArray(quiz._resumedMarked)
+        ? quiz._resumedMarked.slice(0, part1Questions.length)
+        : [];
+      const p1Confidence = Array.isArray(quiz._resumedConfidence)
+        ? quiz._resumedConfidence.slice(0, part1Questions.length)
+        : [];
+      const p1TimeSpent = Array.isArray(quiz._resumedTimeSpent)
+        ? quiz._resumedTimeSpent.slice(0, part1Questions.length)
+        : [];
+      return {
+        answers:
+          quiz._resumedAnswers?.slice(0, part1Questions.length) ||
+          Array(part1Questions.length).fill(null),
+        marked:
+          p1Marked.length === part1Questions.length
+            ? p1Marked
+            : Array(part1Questions.length).fill(false),
+        confidence:
+          p1Confidence.length === part1Questions.length
+            ? p1Confidence
+            : Array(part1Questions.length).fill(null),
+        timeSpent: p1TimeSpent,
+      };
+    }
+    return null;
+  });
+
+  const quizCode = quiz.quizCode || quiz.code || quiz.id || null;
+
+  // Auto-save callback: merges both parts into a single save payload
+  const handleAutoSave = useCallback(
+    (partPayload) => {
+      if (!quizCode) return;
+      const allAnswers = [...part1Answers, ...part2Answers];
+      // Overwrite with the active part's answers from the payload
+      if (partPayload.currentPart === 'part1') {
+        partPayload.answers.forEach((a, i) => {
+          allAnswers[i] = a;
+        });
+      } else if (partPayload.currentPart === 'part2') {
+        partPayload.answers.forEach((a, i) => {
+          allAnswers[part1Questions.length + i] = a;
+        });
+      }
+      saveExamProgress(quizCode, {
+        answers: allAnswers,
+        marked: partPayload.marked || [],
+        confidence: partPayload.confidence || [],
+        timeSpent: partPayload.timeSpent || [],
+        currentQuestionIndex: partPayload.currentQuestionIndex,
+        currentPart: partPayload.currentPart,
+        timeRemainingMs: partPayload.timeRemainingMs,
+        runnerState: { part1Result },
+      }).catch(() => {});
+    },
+    [quizCode, part1Answers, part2Answers, part1Questions.length, part1Result]
   );
 
   const handlePart1Complete = (result) => {
@@ -38243,6 +38694,27 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         onExit={onExit}
         subject={quiz.subject}
         quizConfig={quiz.config}
+        quizCode={quizCode}
+        isComprehensive={quiz.isComprehensive}
+        currentPart="part1"
+        onAutoSave={handleAutoSave}
+        resumedState={
+          quiz._resumed && quiz._resumedCurrentPart === 'part1'
+            ? {
+                currentQuestionIndex: quiz._resumedCurrentIndex,
+                marked: Array.isArray(quiz._resumedMarked)
+                  ? quiz._resumedMarked.slice(0, part1Questions.length)
+                  : null,
+                confidence: Array.isArray(quiz._resumedConfidence)
+                  ? quiz._resumedConfidence.slice(0, part1Questions.length)
+                  : null,
+                timeSpent: Array.isArray(quiz._resumedTimeSpent)
+                  ? quiz._resumedTimeSpent.slice(0, part1Questions.length)
+                  : null,
+                timeRemainingMs: quiz._resumedTimeRemainingMs,
+              }
+            : null
+        }
       />
     );
   }
@@ -38278,6 +38750,27 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         onExit={onExit}
         subject={quiz.subject}
         quizConfig={quiz.config}
+        quizCode={quizCode}
+        isComprehensive={quiz.isComprehensive}
+        currentPart="part2"
+        onAutoSave={handleAutoSave}
+        resumedState={
+          quiz._resumed && quiz._resumedCurrentPart === 'part2'
+            ? {
+                currentQuestionIndex: quiz._resumedCurrentIndex,
+                marked: Array.isArray(quiz._resumedMarked)
+                  ? quiz._resumedMarked.slice(part1Questions.length)
+                  : null,
+                confidence: Array.isArray(quiz._resumedConfidence)
+                  ? quiz._resumedConfidence.slice(part1Questions.length)
+                  : null,
+                timeSpent: Array.isArray(quiz._resumedTimeSpent)
+                  ? quiz._resumedTimeSpent.slice(part1Questions.length)
+                  : null,
+                timeRemainingMs: quiz._resumedTimeRemainingMs,
+              }
+            : null
+        }
       />
     );
   }
@@ -38319,27 +38812,191 @@ function QuizRunner({ quiz, onComplete, onExit }) {
 }
 
 function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
-  const [currentPart, setCurrentPart] = useState(1);
+  const PART_TIMES = { 1: 35 * 60, 2: 45 * 60, 3: 70 * 60 };
+
+  // Resume: restore which part the student was on
+  const [currentPart, setCurrentPart] = useState(() => {
+    if (!quiz._resumed || !quiz._resumedCurrentPart) return 1;
+    if (quiz._resumedCurrentPart === 'part2') return 2;
+    if (quiz._resumedCurrentPart === 'part3') return 3;
+    return 1;
+  });
   const [isPaused, setIsPaused] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(() => {
+    // If resuming, use saved time for the resumed part
+    if (quiz._resumed && quiz._resumedTimeRemainingMs != null) {
+      return Math.max(0, Math.round(quiz._resumedTimeRemainingMs / 1000));
+    }
+    // Otherwise use default for whichever part we start on
+    const startPart =
+      quiz._resumed && quiz._resumedCurrentPart === 'part3'
+        ? 3
+        : quiz._resumed && quiz._resumedCurrentPart === 'part2'
+          ? 2
+          : 1;
+    return PART_TIMES[startPart] || PART_TIMES[1];
+  });
   const [pausesRemaining, setPausesRemaining] = useState(2);
   const [showFiveMinWarning, setShowFiveMinWarning] = useState(false);
   const fiveMinWarningShownRef = React.useRef({});
+  const initialPartRef = useRef(true); // track initial render to skip timer reset
 
-  const PART_TIMES = { 1: 35 * 60, 2: 45 * 60, 3: 70 * 60 };
-
-  const [part1Answers, setPart1Answers] = useState(
-    Array(quiz.part1_reading.length).fill(null)
+  // Resume: split saved answers across parts
+  const [part1Answers, setPart1Answers] = useState(() => {
+    if (quiz._resumed && Array.isArray(quiz._resumedAnswers)) {
+      const restored = quiz._resumedAnswers.slice(0, quiz.part1_reading.length);
+      if (restored.length === quiz.part1_reading.length) return restored;
+    }
+    return Array(quiz.part1_reading.length).fill(null);
+  });
+  const [part3Answers, setPart3Answers] = useState(() => {
+    if (quiz._resumed && Array.isArray(quiz._resumedAnswers)) {
+      const restored = quiz._resumedAnswers.slice(
+        quiz.part1_reading.length,
+        quiz.part1_reading.length + quiz.part3_language.length
+      );
+      if (restored.length === quiz.part3_language.length) return restored;
+    }
+    return Array(quiz.part3_language.length).fill(null);
+  });
+  const [essayText, setEssayText] = useState(
+    quiz._resumed && quiz._resumedEssayText ? quiz._resumedEssayText : ''
   );
-  const [part3Answers, setPart3Answers] = useState(
-    Array(quiz.part3_language.length).fill(null)
-  );
-  const [essayText, setEssayText] = useState('');
   const [isScoring, setIsScoring] = useState(false);
-  const [essayScore, setEssayScore] = useState(null);
-  const [part1Result, setPart1Result] = useState(null);
+  const [essayScore, setEssayScore] = useState(() => {
+    if (quiz._resumed && quiz._resumedRunnerState?.essayScore)
+      return quiz._resumedRunnerState.essayScore;
+    return null;
+  });
+  const [part1Result, setPart1Result] = useState(() => {
+    if (quiz._resumed && quiz._resumedRunnerState?.part1Result) {
+      return quiz._resumedRunnerState.part1Result;
+    }
+    if (
+      quiz._resumed &&
+      (quiz._resumedCurrentPart === 'part2' ||
+        quiz._resumedCurrentPart === 'part3')
+    ) {
+      const p1Marked = Array.isArray(quiz._resumedMarked)
+        ? quiz._resumedMarked.slice(0, quiz.part1_reading.length)
+        : [];
+      const p1Confidence = Array.isArray(quiz._resumedConfidence)
+        ? quiz._resumedConfidence.slice(0, quiz.part1_reading.length)
+        : [];
+      const p1TimeSpent = Array.isArray(quiz._resumedTimeSpent)
+        ? quiz._resumedTimeSpent.slice(0, quiz.part1_reading.length)
+        : [];
+      return {
+        answers:
+          quiz._resumedAnswers?.slice(0, quiz.part1_reading.length) ||
+          Array(quiz.part1_reading.length).fill(null),
+        marked:
+          p1Marked.length === quiz.part1_reading.length
+            ? p1Marked
+            : Array(quiz.part1_reading.length).fill(false),
+        confidence:
+          p1Confidence.length === quiz.part1_reading.length
+            ? p1Confidence
+            : Array(quiz.part1_reading.length).fill(null),
+        timeSpent: p1TimeSpent,
+      };
+    }
+    return null;
+  });
 
+  const quizCode = quiz.quizCode || quiz.code || quiz.id || null;
+
+  // Auto-save callback: merges all parts + essay into a single save payload
+  const handleAutoSave = useCallback(
+    (partPayload) => {
+      if (!quizCode) return;
+      const allAnswers = [...part1Answers, ...part3Answers];
+      if (partPayload.currentPart === 'part1') {
+        partPayload.answers.forEach((a, i) => {
+          allAnswers[i] = a;
+        });
+      } else if (partPayload.currentPart === 'part3') {
+        partPayload.answers.forEach((a, i) => {
+          allAnswers[quiz.part1_reading.length + i] = a;
+        });
+      }
+      saveExamProgress(quizCode, {
+        answers: allAnswers,
+        marked: partPayload.marked || [],
+        confidence: partPayload.confidence || [],
+        timeSpent: partPayload.timeSpent || [],
+        currentQuestionIndex: partPayload.currentQuestionIndex,
+        currentPart: partPayload.currentPart,
+        timeRemainingMs: partPayload.timeRemainingMs,
+        essayText,
+        runnerState: { part1Result, essayScore },
+      }).catch(() => {});
+    },
+    [
+      quizCode,
+      part1Answers,
+      part3Answers,
+      quiz.part1_reading.length,
+      part1Result,
+      essayText,
+      essayScore,
+    ]
+  );
+
+  // Essay auto-save: debounced save when essay text changes (Part 2)
+  const essaySaveTimerRef = useRef(null);
   useEffect(() => {
+    if (!quizCode || !quiz.isComprehensive || currentPart !== 2) return;
+    if (essaySaveTimerRef.current) clearTimeout(essaySaveTimerRef.current);
+    essaySaveTimerRef.current = setTimeout(() => {
+      saveExamProgress(quizCode, {
+        essayText,
+        currentPart: 'part2',
+        timeRemainingMs: timeLeft * 1000,
+        runnerState: { part1Result, essayScore },
+      }).catch(() => {});
+    }, 3000);
+    return () => {
+      if (essaySaveTimerRef.current) clearTimeout(essaySaveTimerRef.current);
+    };
+  }, [
+    essayText,
+    quizCode,
+    quiz.isComprehensive,
+    currentPart,
+    timeLeft,
+    part1Result,
+    essayScore,
+  ]);
+
+  // Essay heartbeat: save every 30s during Part 2
+  useEffect(() => {
+    if (!quizCode || !quiz.isComprehensive || currentPart !== 2) return;
+    const heartbeat = setInterval(() => {
+      saveExamProgress(quizCode, {
+        essayText,
+        currentPart: 'part2',
+        timeRemainingMs: timeLeft * 1000,
+        runnerState: { part1Result, essayScore },
+      }).catch(() => {});
+    }, 30000);
+    return () => clearInterval(heartbeat);
+  }, [
+    essayText,
+    quizCode,
+    quiz.isComprehensive,
+    currentPart,
+    timeLeft,
+    part1Result,
+    essayScore,
+  ]);
+
+  // Reset timer when moving to a new part (skip on initial render — handled by useState)
+  useEffect(() => {
+    if (initialPartRef.current) {
+      initialPartRef.current = false;
+      return;
+    }
     setTimeLeft(PART_TIMES[currentPart]);
     setIsPaused(false);
     setPausesRemaining(2);
@@ -38655,6 +39312,36 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
               subject={quiz.subject}
               showTimer={false}
               quizConfig={quiz.config}
+              quizCode={quizCode}
+              isComprehensive={quiz.isComprehensive}
+              currentPart="part1"
+              onAutoSave={handleAutoSave}
+              resumedState={
+                quiz._resumed && quiz._resumedCurrentPart === 'part1'
+                  ? {
+                      currentQuestionIndex: quiz._resumedCurrentIndex,
+                      marked: Array.isArray(quiz._resumedMarked)
+                        ? quiz._resumedMarked.slice(
+                            0,
+                            quiz.part1_reading.length
+                          )
+                        : null,
+                      confidence: Array.isArray(quiz._resumedConfidence)
+                        ? quiz._resumedConfidence.slice(
+                            0,
+                            quiz.part1_reading.length
+                          )
+                        : null,
+                      timeSpent: Array.isArray(quiz._resumedTimeSpent)
+                        ? quiz._resumedTimeSpent.slice(
+                            0,
+                            quiz.part1_reading.length
+                          )
+                        : null,
+                      timeRemainingMs: quiz._resumedTimeRemainingMs,
+                    }
+                  : null
+              }
             />
           </div>
         );
@@ -38768,6 +39455,31 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
               subject={quiz.subject}
               showTimer={false}
               quizConfig={quiz.config}
+              quizCode={quizCode}
+              isComprehensive={quiz.isComprehensive}
+              currentPart="part3"
+              onAutoSave={handleAutoSave}
+              resumedState={
+                quiz._resumed && quiz._resumedCurrentPart === 'part3'
+                  ? {
+                      currentQuestionIndex: quiz._resumedCurrentIndex,
+                      marked: Array.isArray(quiz._resumedMarked)
+                        ? quiz._resumedMarked.slice(quiz.part1_reading.length)
+                        : null,
+                      confidence: Array.isArray(quiz._resumedConfidence)
+                        ? quiz._resumedConfidence.slice(
+                            quiz.part1_reading.length
+                          )
+                        : null,
+                      timeSpent: Array.isArray(quiz._resumedTimeSpent)
+                        ? quiz._resumedTimeSpent.slice(
+                            quiz.part1_reading.length
+                          )
+                        : null,
+                      timeRemainingMs: quiz._resumedTimeRemainingMs,
+                    }
+                  : null
+              }
             />
           </div>
         );
