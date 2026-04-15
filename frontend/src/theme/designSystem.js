@@ -7,8 +7,8 @@ export const designSystem = {
   // Base colors - Light Mode
   light: {
     // Page & surface colors
-    bgPage: '#f5f7fb',
-    bgPageAlt: '#f8fafc',
+    bgPage: '#f8fafc',
+    bgPageAlt: '#f1f5f9',
     surface: '#ffffff',
     surfaceAlt: '#f8fafc',
     surfaceHover: '#f1f5f9',
@@ -43,7 +43,7 @@ export const designSystem = {
   // Base colors - Dark Mode
   dark: {
     // Page & surface colors
-    bgPage: '#020617',
+    bgPage: '#0b1120',
     bgPageAlt: '#0f172a',
     surface: '#1e293b',
     surfaceAlt: '#334155',
@@ -74,6 +74,24 @@ export const designSystem = {
     dangerSoft: '#7f1d1d',
     info: '#60a5fa',
     infoSoft: '#1e3a8a',
+  },
+
+  // Glassmorphism tokens
+  glass: {
+    light: {
+      bg: 'rgba(255, 255, 255, 0.7)',
+      bgStrong: 'rgba(255, 255, 255, 0.85)',
+      border: 'rgba(255, 255, 255, 0.5)',
+      shadow: '0 8px 32px rgba(0, 0, 0, 0.06)',
+      blur: '16px',
+    },
+    dark: {
+      bg: 'rgba(15, 23, 42, 0.6)',
+      bgStrong: 'rgba(15, 23, 42, 0.8)',
+      border: 'rgba(148, 163, 184, 0.12)',
+      shadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+      blur: '16px',
+    },
   },
 
   // Subject themes
@@ -302,6 +320,10 @@ export const designSystem = {
     md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
     xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+    glass: '0 8px 32px rgba(0, 0, 0, 0.06)',
+    glassDark: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    cardLift: '0 12px 24px -4px rgba(0, 0, 0, 0.12)',
+    cardLiftDark: '0 12px 24px -4px rgba(0, 0, 0, 0.4)',
   },
 };
 

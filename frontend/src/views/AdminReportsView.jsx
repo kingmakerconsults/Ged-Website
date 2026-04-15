@@ -34,9 +34,9 @@ function ReadinessBar({ label, data }) {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-1">
           <span className="font-semibold">{label}</span>
-          <span className="text-sm text-gray-500">No data</span>
+          <span className="text-sm text-slate-500">No data</span>
         </div>
-        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden" />
+        <div className="h-6 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden" />
       </div>
     );
   }
@@ -49,12 +49,12 @@ function ReadinessBar({ label, data }) {
     <div className="mb-6">
       <div className="flex items-center justify-between mb-1">
         <span className="font-semibold">{label}</span>
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-slate-500">
           Mean Score: <strong>{data.meanScore || '—'}</strong> · {total} student
           {total !== 1 ? 's' : ''}
         </span>
       </div>
-      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden flex">
+      <div className="h-6 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden flex">
         {pctReady > 0 && (
           <div
             className="bg-green-500 h-full flex items-center justify-center text-xs text-white font-semibold"
@@ -181,7 +181,7 @@ export default function AdminReportsView() {
         <select
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
-          className="border rounded px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:border-gray-600"
+          className="border rounded-xl px-3 py-2 text-sm bg-white/80 dark:bg-white/5 dark:border-white/10 backdrop-blur"
         >
           <option value="">All Classes</option>
           {classes.map((c) => (
@@ -206,7 +206,7 @@ export default function AdminReportsView() {
         <>
           {/* Overall summary cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center">
+            <div className="glass-card card-lift rounded-2xl p-4 text-center">
               <div className="text-3xl font-bold text-green-700 dark:text-green-300">
                 {overall?.ready || 0}
               </div>
@@ -214,7 +214,7 @@ export default function AdminReportsView() {
                 GED Ready (≥145)
               </div>
             </div>
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 text-center">
+            <div className="glass-card card-lift rounded-2xl p-4 text-center">
               <div className="text-3xl font-bold text-yellow-700 dark:text-yellow-300">
                 {overall?.almostReady || 0}
               </div>
@@ -222,7 +222,7 @@ export default function AdminReportsView() {
                 Almost Ready (135–144)
               </div>
             </div>
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
+            <div className="glass-card card-lift rounded-2xl p-4 text-center">
               <div className="text-3xl font-bold text-red-700 dark:text-red-300">
                 {overall?.needMoreStudy || 0}
               </div>
@@ -237,7 +237,7 @@ export default function AdminReportsView() {
             {Object.entries(READINESS_COLORS).map(([key, cfg]) => (
               <div key={key} className="flex items-center gap-1.5">
                 <div className={`w-3 h-3 rounded-full ${cfg.bg}`} />
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-slate-600 dark:text-slate-400">
                   {cfg.label}
                 </span>
               </div>
@@ -245,7 +245,7 @@ export default function AdminReportsView() {
           </div>
 
           {/* Per-subject bars */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="glass-card rounded-2xl p-6">
             <h2 className="text-lg font-semibold mb-4">Readiness by Subject</h2>
             {SUBJECT_KEYS.map((key) => (
               <ReadinessBar
@@ -258,9 +258,9 @@ export default function AdminReportsView() {
 
           {/* Domain Weaknesses */}
           {domainWeaknesses.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mt-6">
+            <div className="glass-card rounded-2xl p-6 mt-6">
               <h2 className="text-lg font-semibold mb-1">Domain Weaknesses</h2>
-              <p className="text-xs text-gray-500 mb-4">
+              <p className="text-xs text-slate-500 mb-4">
                 Lowest accuracy domains across all students (min 3 questions)
               </p>
               <div className="space-y-3">
@@ -277,7 +277,7 @@ export default function AdminReportsView() {
                     <div key={d.domain}>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm font-medium">{d.domain}</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-slate-500">
                           {pct}% · {d.correct}/{d.total} · {d.student_count}{' '}
                           student{d.student_count !== 1 ? 's' : ''}
                           {d.misconception_count > 0 && (
@@ -287,7 +287,7 @@ export default function AdminReportsView() {
                           )}
                         </span>
                       </div>
-                      <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div className="h-3 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
                         <div
                           className={`${barColor} h-3 rounded-full transition-all`}
                           style={{ width: `${pct}%` }}

@@ -6,13 +6,13 @@ import React from 'react';
  */
 export function AppShell({ children, header = null, footer = null }) {
   return (
-    <div className="min-h-screen bg-page text-primary flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 flex flex-col">
       {header}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-12">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-20 pb-12">
         {children}
       </main>
       {footer && (
-        <footer className="mt-auto py-8 text-center text-xs text-muted">
+        <footer className="mt-auto py-8 text-center text-xs text-slate-400 dark:text-slate-500">
           {footer}
         </footer>
       )}

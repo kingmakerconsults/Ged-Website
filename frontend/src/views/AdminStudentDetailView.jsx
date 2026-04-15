@@ -20,23 +20,15 @@ function ScoreCard({ label, score }) {
   const almost = score != null && score >= 135 && score < 145;
   return (
     <div
-      className={`rounded-lg p-4 text-center border ${
-        passed
-          ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800'
-          : almost
-            ? 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800'
-            : score != null
-              ? 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800'
-              : 'bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700'
-      }`}
+      className={`glass-card card-lift rounded-xl p-4 text-center`}
     >
-      <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+      <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
         {label}
       </div>
       <div className="text-2xl font-bold">{score != null ? score : '—'}</div>
       {score != null && (
         <div
-          className={`text-xs mt-1 font-semibold ${passed ? 'text-green-700 dark:text-green-300' : almost ? 'text-yellow-700 dark:text-yellow-300' : 'text-red-700 dark:text-red-300'}`}
+          className={`text-xs mt-1 font-semibold ${passed ? 'text-emerald-700 dark:text-emerald-300' : almost ? 'text-yellow-700 dark:text-yellow-300' : 'text-red-700 dark:text-red-300'}`}
         >
           {passed ? 'PASSING' : almost ? 'ALMOST' : 'NEEDS STUDY'}
         </div>
@@ -254,7 +246,7 @@ export default function AdminStudentDetailView() {
 
       {/* Domain Mastery */}
       {domainMastery.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+        <div className="glass-card rounded-2xl p-4 sm:p-6 mb-6">
           <h2 className="text-lg font-semibold mb-3">Domain Mastery</h2>
           <div className="space-y-2">
             {domainMastery.map((d) => {
@@ -274,7 +266,7 @@ export default function AdminStudentDetailView() {
                   >
                     {d.domain}
                   </div>
-                  <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                  <div className="flex-1 bg-slate-200 dark:bg-white/10 rounded-full h-4 overflow-hidden">
                     <div
                       className={`${color} h-4 rounded-full transition-all`}
                       style={{ width: `${pct}%` }}
@@ -300,7 +292,7 @@ export default function AdminStudentDetailView() {
 
       {/* Attempt Detail Panel */}
       {selectedAttemptId && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+        <div className="glass-card rounded-2xl p-4 sm:p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Attempt Detail</h2>
             <button
@@ -425,7 +417,7 @@ export default function AdminStudentDetailView() {
       )}
 
       {/* Quiz Attempt History */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+      <div className="glass-card rounded-2xl shadow-lg">
         <div className="px-6 py-4 border-b dark:border-gray-700 flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-lg font-semibold">Quiz Attempt History</h2>
           <div className="flex flex-wrap gap-2">

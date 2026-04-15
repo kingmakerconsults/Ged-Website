@@ -27197,6 +27197,42 @@ function App({ externalTheme, onThemeChange }) {
     }
   };
 
+  const isComprehensiveQuiz = useCallback((quizPayload) => {
+    if (!quizPayload || typeof quizPayload !== 'object') {
+      return false;
+    }
+
+    if (
+      quizPayload.isComprehensive === true ||
+      quizPayload.quizType === 'comprehensive'
+    ) {
+      return true;
+    }
+
+    if (
+      quizPayload.type === 'multi-part-rla' ||
+      quizPayload.type === 'multi-part-math'
+    ) {
+      return true;
+    }
+
+    return /comprehensive/i.test(String(quizPayload.title || ''));
+  }, []);
+
+  const resolveQuizView = useCallback((quizPayload) => {
+    if (!quizPayload || typeof quizPayload !== 'object') {
+      return 'quiz';
+    }
+
+    const requiresStandardView =
+      quizPayload.type === 'multi-part-rla' ||
+      quizPayload.type === 'multi-part-math';
+    const normalizedType =
+      quizPayload.type === 'reading' ? 'quiz' : quizPayload.type || 'quiz';
+
+    return requiresStandardView ? 'quiz' : normalizedType;
+  }, []);
+
   const handleResumeExam = useCallback(
     (session) => {
       if (!session?.quizPayload) return;
@@ -27375,42 +27411,6 @@ function App({ externalTheme, onThemeChange }) {
         answerOptions: shuffleArray(normalizeQuestionAnswerOptions(item)),
       }));
   };
-
-  const isComprehensiveQuiz = useCallback((quizPayload) => {
-    if (!quizPayload || typeof quizPayload !== 'object') {
-      return false;
-    }
-
-    if (
-      quizPayload.isComprehensive === true ||
-      quizPayload.quizType === 'comprehensive'
-    ) {
-      return true;
-    }
-
-    if (
-      quizPayload.type === 'multi-part-rla' ||
-      quizPayload.type === 'multi-part-math'
-    ) {
-      return true;
-    }
-
-    return /comprehensive/i.test(String(quizPayload.title || ''));
-  }, []);
-
-  const resolveQuizView = useCallback((quizPayload) => {
-    if (!quizPayload || typeof quizPayload !== 'object') {
-      return 'quiz';
-    }
-
-    const requiresStandardView =
-      quizPayload.type === 'multi-part-rla' ||
-      quizPayload.type === 'multi-part-math';
-    const normalizedType =
-      quizPayload.type === 'reading' ? 'quiz' : quizPayload.type || 'quiz';
-
-    return requiresStandardView ? 'quiz' : normalizedType;
-  }, []);
 
   const launchPreparedQuiz = useCallback(
     (preparedQuiz, options = {}) => {

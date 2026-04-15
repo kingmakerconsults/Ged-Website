@@ -38,22 +38,16 @@ export default function MathView({ dark = false }) {
   )?.component;
 
   return (
-    <div
-      className="math-view min-h-screen p-6"
-      style={{
-        backgroundColor: dark ? '#0f172a' : '#f8fafc',
-        color: dark ? '#e2e8f0' : '#1e293b',
-      }}
-    >
+    <div className="math-view min-h-screen p-6 text-slate-900 dark:text-slate-100">
       {/* Header */}
       <div
-        className="header-section mb-8 p-6 rounded-xl shadow-lg"
+        className="header-section mb-8 p-6 rounded-2xl shadow-lg"
         style={{
           background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
         }}
       >
         <h1 className="text-3xl font-bold mb-2" style={{ color: theme.text }}>
-          🔢 Mathematical Reasoning
+          Mathematical Reasoning
         </h1>
         <p className="text-lg opacity-90" style={{ color: theme.text }}>
           Practice with GED-aligned math tools and formulas
@@ -64,13 +58,10 @@ export default function MathView({ dark = false }) {
       <div className="mb-6 flex gap-4">
         <button
           onClick={() => setShowFormulaSheet(true)}
-          className="px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
-          style={{
-            backgroundColor: theme.primary,
-            color: theme.text,
-          }}
+          className="px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all text-white"
+          style={{ backgroundColor: theme.primary }}
         >
-          📋 Open Formula Sheet
+          Open Formula Sheet
         </button>
       </div>
 
@@ -82,31 +73,11 @@ export default function MathView({ dark = false }) {
             <button
               key={tool.id}
               onClick={() => setSelectedTool(tool.id)}
-              className={`p-4 rounded-lg font-medium transition-all ${
+              className={`p-4 rounded-xl font-medium transition-all ${
                 selectedTool === tool.id
-                  ? 'ring-4 shadow-lg'
-                  : 'shadow hover:shadow-md'
+                  ? 'ring-2 ring-sky-500 shadow-lg bg-sky-50 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300'
+                  : 'glass-card card-lift text-slate-700 dark:text-slate-300'
               }`}
-              style={{
-                backgroundColor:
-                  selectedTool === tool.id
-                    ? dark
-                      ? '#1e3a8a'
-                      : '#dbeafe'
-                    : dark
-                    ? '#334155'
-                    : '#ffffff',
-                color:
-                  selectedTool === tool.id
-                    ? dark
-                      ? '#93c5fd'
-                      : '#1e40af'
-                    : dark
-                    ? '#e2e8f0'
-                    : '#1e293b',
-                borderColor:
-                  selectedTool === tool.id ? theme.primary : 'transparent',
-              }}
             >
               {tool.name}
             </button>
@@ -131,13 +102,7 @@ export default function MathView({ dark = false }) {
       )}
 
       {/* Info Section */}
-      <div
-        className="info-section mt-8 p-6 rounded-lg"
-        style={{
-          backgroundColor: dark ? '#1e293b' : '#ffffff',
-          border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-        }}
-      >
+      <div className="info-section mt-8 glass-card rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-3">About Math Tools</h3>
         <ul className="space-y-2 text-sm">
           <li>

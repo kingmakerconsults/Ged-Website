@@ -1,34 +1,15 @@
 // Canonical Modal component
 import React from 'react';
-import { colors, radii, shadows } from '../theme';
 
 export default function Modal({ open, onClose, children }) {
   if (!open) return null;
   return (
     <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(0,0,0,0.3)',
-        zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/30 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        style={{
-          background: colors.surface,
-          borderRadius: radii.lg,
-          boxShadow: shadows.lg,
-          padding: '2rem',
-          minWidth: 320,
-          maxWidth: '90vw',
-        }}
+        className="glass-card rounded-2xl p-8 min-w-[320px] max-w-[90vw] shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

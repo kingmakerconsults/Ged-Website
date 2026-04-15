@@ -249,7 +249,7 @@ html[data-theme='light'] button.bg-white {
 
 .dark {
   color-scheme: dark;
-  --bg-page: #020617;
+  --bg-page: #0b1120;
   --bg-surface: rgba(15, 23, 42, 0.9);
   --bg-overlay: rgba(30, 41, 59, 0.72);
   --bg-muted: rgba(51, 65, 85, 0.6);
@@ -410,21 +410,50 @@ html.dark body {
 }
 
 /* Glassmorphism Panel */
-.glass-panel {
+.glass-panel,
+.glass-card {
   background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   border-radius: 1rem;
 }
 
 /* Dark mode glassmorphism */
 :root.dark .glass-panel,
-[data-theme='dark'] .glass-panel {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+[data-theme='dark'] .glass-panel,
+:root.dark .glass-card,
+[data-theme='dark'] .glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Glass surface — lighter, for nav/header */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+:root.dark .glass-surface,
+[data-theme='dark'] .glass-surface {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+/* Card lift hover effect */
+.card-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+}
+:root.dark .card-lift:hover,
+[data-theme='dark'] .card-lift:hover {
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.4);
 }
 /* Offset content below fixed AppHeader */
 :root {
@@ -527,19 +556,19 @@ body::after {
 }
 .glass {
   background: var(--bg-overlay);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-strong);
   border-radius: 1rem;
   box-shadow: var(--shadow-strong);
   color: var(--text-primary);
 }
 .subject-card {
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   transform: translateY(0);
 }
 .subject-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
 }
 .quiz-nav::-webkit-scrollbar {

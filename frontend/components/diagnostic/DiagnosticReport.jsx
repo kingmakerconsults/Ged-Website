@@ -116,7 +116,7 @@ export function DiagnosticReport({ results, quiz, onHome, onViewProfile }) {
 
       {/* Overall Score Card */}
       <div className="mb-8 max-w-2xl mx-auto">
-        <div className="p-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800">
+        <div className="glass-card rounded-2xl p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
           <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2">
             {overallPercent}%
           </div>
@@ -172,7 +172,7 @@ export function DiagnosticReport({ results, quiz, onHome, onViewProfile }) {
             return (
               <div
                 key={subject}
-                className={`p-4 rounded-lg ${colors.bg} border ${colors.border} text-left`}
+                className={`glass-card card-lift rounded-xl p-4 text-left`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-100">
@@ -213,7 +213,7 @@ export function DiagnosticReport({ results, quiz, onHome, onViewProfile }) {
               return (
                 <div
                   key={tag}
-                  className="p-4 rounded-lg bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 text-left flex items-start gap-3"
+                  className="glass-card rounded-xl p-4 text-left flex items-start gap-3"
                 >
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-200 dark:bg-amber-800 flex items-center justify-center font-semibold text-sm text-amber-900 dark:text-amber-200">
                     {idx + 1}
@@ -239,7 +239,7 @@ export function DiagnosticReport({ results, quiz, onHome, onViewProfile }) {
         <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4 text-left">
           Recommended Next Steps
         </h2>
-        <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg p-6 text-left">
+        <div className="glass-card rounded-2xl p-6 text-left">
           <ul className="space-y-3">
             {topChallenges.length > 0 ? (
               <>

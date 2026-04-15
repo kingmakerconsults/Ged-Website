@@ -157,7 +157,7 @@ const MathInputWithPad = ({
         placeholder={placeholder}
         disabled={disabled}
         className={`
-          w-full px-4 py-3 mb-3 text-lg border-2 rounded-lg
+          w-full px-4 py-3 mb-3 text-lg border-2 rounded-lg placeholder:text-gray-500
           ${
             disabled
               ? 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'
@@ -165,6 +165,12 @@ const MathInputWithPad = ({
           }
           dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:border-blue-500
         `}
+        style={{
+          backgroundColor: disabled ? '#f3f4f6' : '#ffffff',
+          color: disabled ? '#6b7280' : '#111827',
+          WebkitTextFillColor: disabled ? '#6b7280' : '#111827',
+          caretColor: disabled ? '#6b7280' : '#111827',
+        }}
         aria-label="Math answer input"
       />
 

@@ -14,22 +14,16 @@ export default function ScienceView({ dark = false }) {
   const theme = getSubjectTheme('science', dark);
 
   return (
-    <div
-      className="science-view min-h-screen p-6"
-      style={{
-        backgroundColor: dark ? '#0f172a' : '#f8fafc',
-        color: dark ? '#e2e8f0' : '#1e293b',
-      }}
-    >
+    <div className="science-view min-h-screen p-6 text-slate-900 dark:text-slate-100">
       {/* Header */}
       <div
-        className="header-section mb-8 p-6 rounded-xl shadow-lg"
+        className="header-section mb-8 p-6 rounded-2xl shadow-lg"
         style={{
           background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
         }}
       >
         <h1 className="text-3xl font-bold mb-2" style={{ color: theme.text }}>
-          🧪 Science
+          Science
         </h1>
         <p className="text-lg opacity-90" style={{ color: theme.text }}>
           Practice with GED-aligned science formulas and concepts
@@ -40,137 +34,67 @@ export default function ScienceView({ dark = false }) {
       <div className="mb-6">
         <button
           onClick={() => setShowFormulaSheet(true)}
-          className="px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
-          style={{
-            backgroundColor: theme.primary,
-            color: theme.text,
-          }}
+          className="px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all text-white"
+          style={{ backgroundColor: theme.primary }}
         >
-          🧪 Open Science Formula Sheet
+          Open Science Formula Sheet
         </button>
       </div>
 
       {/* Content Area */}
-      <div
-        className="content-section p-6 rounded-lg"
-        style={{
-          backgroundColor: dark ? '#1e293b' : '#ffffff',
-          border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-        }}
-      >
+      <div className="glass-card rounded-2xl p-6">
         <h2 className="text-2xl font-bold mb-4">Science Practice Tools</h2>
 
         <div className="tools-grid grid md:grid-cols-2 gap-6">
           <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${theme.primary}`,
-            }}
+            className="glass-card card-lift rounded-xl p-6"
+            style={{ borderLeft: `4px solid ${theme.primary}` }}
           >
-            <div className="text-4xl mb-3">🧪</div>
             <h3 className="text-xl font-semibold mb-2">Formula Sheet</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
+            <p className="text-sm mb-4 text-slate-600 dark:text-slate-400">
               Access key science formulas including density, speed, force, work,
               and statistical measures.
             </p>
             <button
               onClick={() => setShowFormulaSheet(true)}
-              className="px-4 py-2 rounded font-medium"
-              style={{
-                backgroundColor: theme.primary,
-                color: theme.text,
-              }}
+              className="px-4 py-2 rounded-xl font-medium text-white"
+              style={{ backgroundColor: theme.primary }}
             >
               Open
             </button>
           </div>
 
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-            }}
-          >
-            <div className="text-4xl mb-3">🔬</div>
+          <div className="glass-card rounded-xl p-6 opacity-60">
             <h3 className="text-xl font-semibold mb-2">Practice Questions</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
+            <p className="text-sm mb-4 text-slate-600 dark:text-slate-400">
               Coming soon: Interactive science questions covering life science,
               physical science, and earth/space science.
             </p>
-            <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
-              style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
-              }}
-            >
+            <span className="px-4 py-2 rounded-xl font-medium inline-block bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed">
               Coming Soon
-            </button>
+            </span>
           </div>
 
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-            }}
-          >
-            <div className="text-4xl mb-3">🌍</div>
+          <div className="glass-card rounded-xl p-6 opacity-60">
             <h3 className="text-xl font-semibold mb-2">Interactive Diagrams</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
+            <p className="text-sm mb-4 text-slate-600 dark:text-slate-400">
               Coming soon: Label diagrams, explore systems, and visualize
               scientific concepts.
             </p>
-            <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
-              style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
-              }}
-            >
+            <span className="px-4 py-2 rounded-xl font-medium inline-block bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed">
               Coming Soon
-            </button>
+            </span>
           </div>
 
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-            }}
-          >
-            <div className="text-4xl mb-3">📊</div>
+          <div className="glass-card rounded-xl p-6 opacity-60">
             <h3 className="text-xl font-semibold mb-2">Data Analysis</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
+            <p className="text-sm mb-4 text-slate-600 dark:text-slate-400">
               Coming soon: Analyze scientific data, interpret graphs, and draw
               evidence-based conclusions.
             </p>
-            <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
-              style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
-              }}
-            >
+            <span className="px-4 py-2 rounded-xl font-medium inline-block bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed">
               Coming Soon
-            </button>
+            </span>
           </div>
         </div>
       </div>
@@ -181,13 +105,7 @@ export default function ScienceView({ dark = false }) {
       )}
 
       {/* Info Section */}
-      <div
-        className="info-section mt-8 p-6 rounded-lg"
-        style={{
-          backgroundColor: dark ? '#1e293b' : '#ffffff',
-          border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-        }}
-      >
+      <div className="info-section mt-8 glass-card rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-3">GED Science Topics</h3>
         <ul className="space-y-2 text-sm">
           <li>

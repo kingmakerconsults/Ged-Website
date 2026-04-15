@@ -16,38 +16,38 @@ function ScoreTrendsCard({ subjects }) {
   if (!subjects || Object.keys(subjects).length === 0) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        📈 Score Trends
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+        Score Trends
       </h3>
       <div className="space-y-4">
         {Object.entries(subjects).map(([subj, data]) => {
           const passColor =
             data.latest >= 145
-              ? 'text-green-600 dark:text-green-400'
+              ? 'text-emerald-600 dark:text-emerald-400'
               : 'text-amber-600 dark:text-amber-400';
           const growthColor =
             data.growth > 0
-              ? 'text-green-600'
+              ? 'text-emerald-600'
               : data.growth < 0
                 ? 'text-red-500'
-                : 'text-gray-500';
+                : 'text-slate-500';
           const growthIcon =
             data.growth > 0 ? '↑' : data.growth < 0 ? '↓' : '→';
           return (
             <div
               key={subj}
-              className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-0 last:pb-0"
+              className="border-b border-slate-100 dark:border-slate-700/50 pb-3 last:border-0 last:pb-0"
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="font-semibold text-gray-900 dark:text-white capitalize">
+                <span className="font-semibold text-slate-900 dark:text-white capitalize">
                   {subj}
                 </span>
                 <span className={`text-sm font-medium ${passColor}`}>
                   {data.latest}/200
                 </span>
               </div>
-              <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                 <span>Best: {data.best}</span>
                 <span>
                   {data.attemptCount} attempt
@@ -69,7 +69,7 @@ function ScoreTrendsCard({ subjects }) {
                       Math.min(100, ((a.scaledScore - 100) / 100) * 100)
                     );
                     const barColor = a.passed
-                      ? 'bg-green-400'
+                      ? 'bg-emerald-400'
                       : a.scaledScore >= 135
                         ? 'bg-amber-400'
                         : 'bg-red-400';
@@ -99,11 +99,11 @@ function WeakestAreasCard({ areas }) {
   if (!areas || areas.length === 0) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        🎯 Areas to Improve
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+        Areas to Improve
       </h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
         Based on your quiz performance (min. 3 questions)
       </p>
       <div className="space-y-2">
@@ -111,22 +111,22 @@ function WeakestAreasCard({ areas }) {
           const pct = parseFloat(area.accuracy_pct) || 0;
           const barColor =
             pct >= 70
-              ? 'bg-green-400'
+              ? 'bg-emerald-400'
               : pct >= 50
                 ? 'bg-amber-400'
                 : 'bg-red-400';
           return (
             <div key={idx}>
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="text-gray-700 dark:text-gray-300 capitalize">
+                <span className="text-slate-700 dark:text-slate-300 capitalize">
                   {area.domain || area.topic || 'General'}
                   {area.subject ? ` (${area.subject})` : ''}
                 </span>
-                <span className="font-mono text-xs text-gray-500">
+                <span className="font-mono text-xs text-slate-500">
                   {area.correct_items}/{area.total_items} ({pct}%)
                 </span>
               </div>
-              <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                 <div
                   className={`h-full ${barColor} rounded-full transition-all`}
                   style={{ width: `${pct}%` }}
@@ -173,7 +173,7 @@ function ConfidenceCalibrationCard({ data }) {
           : 'Needs work';
   const calibrationColor =
     calibration >= 80
-      ? 'text-green-600'
+      ? 'text-emerald-600'
       : calibration >= 60
         ? 'text-blue-600'
         : calibration >= 40
@@ -181,9 +181,9 @@ function ConfidenceCalibrationCard({ data }) {
           : 'text-red-600';
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
-        🧠 Confidence Calibration
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">
+        Confidence Calibration
       </h3>
       {calibration !== null && (
         <div className="text-center mb-4">
@@ -197,13 +197,13 @@ function ConfidenceCalibrationCard({ data }) {
       )}
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
-          <span className="text-gray-600 dark:text-gray-400">When "sure"</span>
+          <span className="text-slate-600 dark:text-slate-400">When "sure"</span>
           <span className="font-medium">
             {sure.accuracyPct}% correct ({sure.total} Qs)
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-600 dark:text-gray-400">
+          <span className="text-slate-600 dark:text-slate-400">
             When "guessing"
           </span>
           <span className="font-medium">
@@ -211,7 +211,7 @@ function ConfidenceCalibrationCard({ data }) {
           </span>
         </div>
       </div>
-      <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
+      <p className="text-xs text-slate-400 dark:text-slate-500 mt-3">
         High calibration means you accurately predict when you know the answer.
       </p>
     </div>
@@ -393,7 +393,11 @@ export default function StudentHomeRoom({ user, onNavigate }) {
         return;
       }
 
-      if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
+      if (
+        !payload ||
+        !Array.isArray(payload.questions) ||
+        !payload.questions.length
+      ) {
         throw new Error('No diagnostic quiz was returned.');
       }
 
@@ -423,10 +427,10 @@ export default function StudentHomeRoom({ user, onNavigate }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-sky-600 mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">
             Loading your dashboard...
           </p>
         </div>
@@ -436,12 +440,12 @@ export default function StudentHomeRoom({ user, onNavigate }) {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md">
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="glass-card rounded-2xl p-6 max-w-md border-red-200 dark:border-red-800">
           <p className="text-red-700 dark:text-red-300 mb-4">{error}</p>
           <button
             onClick={loadDashboardData}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            className="px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors"
           >
             Try Again
           </button>
@@ -454,25 +458,27 @@ export default function StudentHomeRoom({ user, onNavigate }) {
     Object.values(dashboardData.scoreHistory.highestScores || {})[0] || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className="min-h-screen transition-colors">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+      <div className="glass-surface border-b border-white/20 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                Welcome back, {user?.name || 'Student'}! 👋
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+                Welcome back, {user?.name || 'Student'}!
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
+              <p className="text-slate-600 dark:text-slate-400 mt-1">
                 Here's your learning progress
               </p>
             </div>
             <button
               onClick={loadDashboardData}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
               title="Refresh dashboard"
             >
-              🔄 Refresh
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
             </button>
           </div>
         </div>
@@ -484,8 +490,8 @@ export default function StudentHomeRoom({ user, onNavigate }) {
           {/* Left Column (2/3 width on desktop) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Diagnostic Assessment Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-10 text-indigo-600 dark:text-indigo-400">
+            <div className="glass-card card-lift rounded-2xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10 text-sky-600 dark:text-sky-400">
                 <svg
                   className="w-32 h-32"
                   fill="currentColor"
@@ -495,17 +501,17 @@ export default function StudentHomeRoom({ user, onNavigate }) {
                 </svg>
               </div>
               <div className="relative z-10">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                   Day 0 Diagnostic
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-lg">
+                <p className="text-slate-600 dark:text-slate-400 mb-4 max-w-lg">
                   Take a comprehensive 40-question assessment to determine your
                   baseline readiness across all subjects. This will help Coach
                   Smith personalize your learning plan.
                 </p>
                 <button
                   onClick={handleStartDiagnostic}
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                  className="inline-flex items-center px-6 py-3 text-base font-medium rounded-xl text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-lg shadow-sky-500/25 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all"
                 >
                   Start Diagnostic Test
                 </button>
@@ -534,12 +540,12 @@ export default function StudentHomeRoom({ user, onNavigate }) {
             <SkillHeatmap />
 
             {/* Tutorial Video Placeholder (for future) */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                📹 Tutorial Video
+            <div className="glass-card card-lift rounded-2xl p-6">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                Tutorial Video
               </h3>
-              <div className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                <p className="text-gray-500 dark:text-gray-400">
+              <div className="aspect-video bg-slate-100 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                <p className="text-slate-500 dark:text-slate-400">
                   Coming soon...
                 </p>
               </div>
