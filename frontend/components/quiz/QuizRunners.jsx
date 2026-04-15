@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * QuizRunners.jsx
  * Quiz execution components for different quiz types

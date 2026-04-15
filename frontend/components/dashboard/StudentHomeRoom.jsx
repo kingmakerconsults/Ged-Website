@@ -360,14 +360,42 @@ export default function StudentHomeRoom({ user, onNavigate }) {
         localStorage.getItem('token') || localStorage.getItem('appToken');
       const res = await fetch(`${getApiBaseUrl()}/api/diagnostic-test`, {
         method: 'POST',
-        headers: {
-          Authorization: token ? `Bearer ${token}` : '',
-        },
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : {},
       });
 
-      if (!res.ok) throw new Error('Failed to start diagnostic');
+      let payload = null;
+      try {
+        payload = await res.json();
+      } catch (_error) {
+        payload = null;
+      }
 
-      const quiz = await res.json();
+      if (!res.ok) {
+        if (payload?.alreadyCompleted) {
+          alert(
+            payload?.message ||
+              'You have already completed the GED Diagnostic. Each student may take it only once.'
+          );
+          return;
+        }
+        throw new Error(payload?.error || 'Failed to start diagnostic');
+      }
+
+      if (payload?.alreadyCompleted) {
+        alert(
+          payload?.message ||
+            'You have already completed the GED Diagnostic. Each student may take it only once.'
+        );
+        return;
+      }
+
+      if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
+        throw new Error('No diagnostic quiz was returned.');
+      }
 
       // Navigate to quiz runner with the quiz data
       // We use a special route or pass state.
@@ -381,7 +409,7 @@ export default function StudentHomeRoom({ user, onNavigate }) {
       // But let's assume the app handles it or we can use a special ID.
 
       // If we can't pass state, we might need to save it to a temporary store or local storage.
-      localStorage.setItem('current_quiz_data', JSON.stringify(quiz));
+      localStorage.setItem('current_quiz_data', JSON.stringify(payload));
       onNavigate?.('/quiz/local-diagnostic');
     } catch (err) {
       console.error(err);

@@ -1,3 +1,5 @@
+import React, { useCallback, useRef } from 'react';
+
 // Math Input with Pad Component
 // Reusable onscreen calculator pad for all math fill-in questions
 // Pure client-side, no AI or backend calls
@@ -9,7 +11,6 @@ const MathInputWithPad = ({
   disabled = false,
   className = '',
 }) => {
-  const { useRef, useCallback } = React;
   const inputRef = useRef(null);
 
   // Insert text at cursor position

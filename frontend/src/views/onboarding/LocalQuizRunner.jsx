@@ -20,6 +20,10 @@ export default function LocalQuizRunner() {
     return <div className="p-6">Quiz not found.</div>;
   }
 
+  if (!Array.isArray(quiz.questions) || quiz.questions.length === 0) {
+    return <div className="p-6">Diagnostic quiz is not available.</div>;
+  }
+
   const handleComplete = async ({ answers: submittedAnswers }) => {
     try {
       const token =
@@ -28,7 +32,11 @@ export default function LocalQuizRunner() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token ? `Bearer ${token}` : '',
+          ...(token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : {}),
         },
         body: JSON.stringify({
           quiz,

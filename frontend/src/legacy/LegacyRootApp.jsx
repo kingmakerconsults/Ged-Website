@@ -32265,30 +32265,50 @@ function StartScreen({
       setIsLoading(true);
       setLoadingMessage('Preparing your diagnostic test...');
 
-      const token = localStorage.getItem('appToken');
+      const token =
+        localStorage.getItem('appToken') || localStorage.getItem('token');
       const res = await fetch('/api/diagnostic-test', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : {},
       });
 
+      let payload = null;
+      try {
+        payload = await res.json();
+      } catch (_error) {
+        payload = null;
+      }
+
       if (!res.ok) {
-        const errData = await res.json();
         // Check if diagnostic already completed
-        if (errData.alreadyCompleted) {
+        if (payload?.alreadyCompleted) {
           alert(
-            'You have already completed the GED Diagnostic. Each student may take it only once.'
+            payload?.message ||
+              'You have already completed the GED Diagnostic. Each student may take it only once.'
           );
           return;
         }
-        throw new Error(errData.error || 'Failed to start diagnostic');
+        throw new Error(payload?.error || 'Failed to start diagnostic');
       }
 
-      const quiz = await res.json();
+      if (payload?.alreadyCompleted) {
+        alert(
+          payload?.message ||
+            'You have already completed the GED Diagnostic. Each student may take it only once.'
+        );
+        return;
+      }
+
+      if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
+        throw new Error('No diagnostic quiz was returned.');
+      }
 
       // Use onSelectQuiz to launch it
-      onSelectQuiz(quiz, 'Diagnostic');
+      onSelectQuiz(payload, payload.subject || 'Diagnostic');
     } catch (err) {
       console.error(err);
       alert('Failed to start diagnostic test. Please try again.');
