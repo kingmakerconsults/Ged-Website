@@ -10,6 +10,9 @@ const {
   canonicalizeImageAssetPath,
   loadMergedImageMetadata,
 } = require('./src/lib/imageMetadataRepository');
+const {
+  classifyCoreQuestionQualityIssues,
+} = require('./src/lib/questionQualityCore');
 
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'reports');
@@ -142,94 +145,7 @@ function hasDuplicateRationales(options) {
 }
 
 function classifyQualityIssues(question) {
-  const issues = [];
-  const questionText = String(question.questionText || '').trim();
-  const options = Array.isArray(question.answerOptions)
-    ? question.answerOptions
-    : [];
-  const subject = String(question.subject || '').trim();
-  const referencesStimulus =
-    /\b(passage|table|chart|graph|diagram|image|map|photo|cartoon)\b/i.test(
-      questionText
-    );
-
-  if (!questionText || questionText.length < 15) {
-    issues.push('short-question-text');
-  }
-  if (GENERIC_STEM_PATTERN.test(questionText)) {
-    issues.push('generic-stem');
-  }
-  if (LOGIC_DEFECT_PATTERN.test(questionText)) {
-    issues.push('logic-defect');
-  }
-  if (/\bA\.|\bB\.|\bC\.|\bD\./.test(questionText)) {
-    issues.push('embedded-choice-text');
-  }
-  if (options.length !== 4) {
-    issues.push('non-four-options');
-  }
-  if (countCorrectOptions(options) !== 1) {
-    issues.push('invalid-correct-count');
-  }
-  if (hasDuplicateOptions(options)) {
-    issues.push('duplicate-options');
-  }
-  if (hasDuplicateRationales(options)) {
-    issues.push('duplicate-rationales');
-  }
-  if (
-    options.some((option) =>
-      PLACEHOLDER_OPTION_PATTERN.test(String(option?.text || '').trim())
-    )
-  ) {
-    issues.push('placeholder-option');
-  }
-  if (
-    options.some((option) =>
-      WEAK_RATIONALE_PATTERN.test(String(option?.rationale || '').trim())
-    )
-  ) {
-    issues.push('weak-rationale');
-  }
-  if (
-    options.some((option) =>
-      GENERIC_TERSER_RATIONALE_PATTERN.test(
-        String(option?.rationale || '').trim()
-      )
-    )
-  ) {
-    issues.push('terse-generic-rationale');
-  }
-  const correctOption = options.find((option) => option?.isCorrect === true);
-  if (
-    correctOption &&
-    normalizeQuestionText(correctOption.rationale || '').length < 24
-  ) {
-    issues.push('short-correct-rationale');
-  }
-  if (subject === 'Science' && correctOption) {
-    const rationale = String(correctOption.rationale || '').trim();
-    const hasExplanatoryConnector =
-      /(because|when|which|shows|indicates|means|results|therefore|so that|equals|due to|since)/i.test(
-        rationale
-      );
-    if (
-      /^Correctly balanced equation/i.test(rationale) ||
-      (/^Correct\./i.test(rationale) && rationale.length < 55) ||
-      (!hasExplanatoryConnector && rationale.length < 42)
-    ) {
-      issues.push('science-thin-rationale');
-    }
-  }
-  if (
-    referencesStimulus &&
-    !String(question.passage || '').trim() &&
-    !String(question.imageUrl || question?.stimulusImage?.src || '').trim()
-  ) {
-    issues.push('missing-stimulus');
-  }
-
-  return issues;
+  return classifyCoreQuestionQualityIssues(question);
 }
 
 function buildExportQuestion(entry, canonicalSubject, imageMetadataByPath) {
