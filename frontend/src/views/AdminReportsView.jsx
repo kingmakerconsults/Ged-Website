@@ -34,7 +34,9 @@ function ReadinessBar({ label, data }) {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-1">
           <span className="font-semibold">{label}</span>
-          <span className="text-sm text-slate-500">No data</span>
+          <span className="text-sm text-slate-600 dark:text-slate-400">
+            No data
+          </span>
         </div>
         <div className="h-6 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden" />
       </div>
@@ -49,7 +51,7 @@ function ReadinessBar({ label, data }) {
     <div className="mb-6">
       <div className="flex items-center justify-between mb-1">
         <span className="font-semibold">{label}</span>
-        <span className="text-sm text-slate-500">
+        <span className="text-sm text-slate-600 dark:text-slate-400">
           Mean Score: <strong>{data.meanScore || '—'}</strong> · {total} student
           {total !== 1 ? 's' : ''}
         </span>
@@ -181,7 +183,7 @@ export default function AdminReportsView() {
         <select
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
-          className="border rounded-xl px-3 py-2 text-sm bg-white/80 dark:bg-white/5 dark:border-white/10 backdrop-blur"
+          className="border rounded-xl px-3 py-2 text-sm bg-white/80 dark:bg-white/5 dark:border-white/10 text-slate-900 dark:text-slate-100 backdrop-blur"
         >
           <option value="">All Classes</option>
           {classes.map((c) => (
@@ -199,7 +201,7 @@ export default function AdminReportsView() {
       )}
 
       {loading ? (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-slate-500 dark:text-slate-400">
           Loading readiness data...
         </div>
       ) : readiness ? (
@@ -260,7 +262,7 @@ export default function AdminReportsView() {
           {domainWeaknesses.length > 0 && (
             <div className="glass-card rounded-2xl p-6 mt-6">
               <h2 className="text-lg font-semibold mb-1">Domain Weaknesses</h2>
-              <p className="text-xs text-slate-500 mb-4">
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
                 Lowest accuracy domains across all students (min 3 questions)
               </p>
               <div className="space-y-3">
@@ -277,7 +279,7 @@ export default function AdminReportsView() {
                     <div key={d.domain}>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm font-medium">{d.domain}</span>
-                        <span className="text-xs text-slate-500">
+                        <span className="text-xs text-slate-600 dark:text-slate-400">
                           {pct}% · {d.correct}/{d.total} · {d.student_count}{' '}
                           student{d.student_count !== 1 ? 's' : ''}
                           {d.misconception_count > 0 && (

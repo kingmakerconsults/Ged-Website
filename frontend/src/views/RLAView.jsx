@@ -94,8 +94,7 @@ export default function RLAView({ dark = false }) {
             evidence-based arguments
           </li>
           <li>
-            <strong>Language Conventions:</strong> Grammar, usage, and
-            mechanics
+            <strong>Language Conventions:</strong> Grammar, usage, and mechanics
           </li>
           <li>
             <strong>Critical Thinking:</strong> Analysis, inference, and

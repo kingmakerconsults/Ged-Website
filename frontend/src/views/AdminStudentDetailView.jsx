@@ -19,9 +19,7 @@ function ScoreCard({ label, score }) {
   const passed = score != null && score >= 145;
   const almost = score != null && score >= 135 && score < 145;
   return (
-    <div
-      className={`glass-card card-lift rounded-xl p-4 text-center`}
-    >
+    <div className={`glass-card card-lift rounded-xl p-4 text-center`}>
       <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
         {label}
       </div>
@@ -155,7 +153,9 @@ export default function AdminStudentDetailView() {
 
   if (loading)
     return (
-      <div className="p-8 text-center text-gray-400">Loading student...</div>
+      <div className="p-8 text-center text-slate-500 dark:text-slate-400">
+        Loading student...
+      </div>
     );
   if (error)
     return (
@@ -186,16 +186,16 @@ export default function AdminStudentDetailView() {
       </div>
 
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 mb-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold">
               {student.name || 'Unnamed Student'}
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+            <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">
               {student.email}
             </p>
-            <div className="flex flex-wrap gap-3 mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex flex-wrap gap-3 mt-2 text-sm text-slate-600 dark:text-slate-400">
               {student.className && (
                 <span>
                   Class: <strong>{student.className}</strong>
@@ -209,7 +209,7 @@ export default function AdminStudentDetailView() {
               )}
             </div>
           </div>
-          <div className="text-right text-xs text-gray-400">
+          <div className="text-right text-xs text-slate-500 dark:text-slate-400">
             <div>
               Joined:{' '}
               {student.createdAt
@@ -275,7 +275,7 @@ export default function AdminStudentDetailView() {
                   <div className="w-16 text-right text-sm font-semibold">
                     {pct}%
                   </div>
-                  <div className="w-20 text-right text-xs text-gray-500">
+                  <div className="w-20 text-right text-xs text-slate-600 dark:text-slate-400">
                     {d.correct}/{d.total}
                   </div>
                   {d.misconception_count > 0 && (
@@ -303,11 +303,11 @@ export default function AdminStudentDetailView() {
             </button>
           </div>
           {itemsLoading ? (
-            <div className="text-center py-6 text-gray-400">
+            <div className="text-center py-6 text-slate-500 dark:text-slate-400">
               Loading items...
             </div>
           ) : attemptItems.length === 0 ? (
-            <div className="text-center py-6 text-gray-400">
+            <div className="text-center py-6 text-slate-500 dark:text-slate-400">
               No per-question data available for this attempt.
             </div>
           ) : (
@@ -318,7 +318,9 @@ export default function AdminStudentDetailView() {
                     {attemptItems.filter((i) => i.is_correct).length}/
                     {attemptItems.length}
                   </div>
-                  <div className="text-xs text-gray-500">Correct</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400">
+                    Correct
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold">
@@ -331,7 +333,9 @@ export default function AdminStudentDetailView() {
                       : 0}
                     %
                   </div>
-                  <div className="text-xs text-gray-500">Accuracy</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400">
+                    Accuracy
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold">
@@ -347,7 +351,9 @@ export default function AdminStudentDetailView() {
                         )}s`
                       : '—'}
                   </div>
-                  <div className="text-xs text-gray-500">Total Time</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400">
+                    Total Time
+                  </div>
                 </div>
               </div>
               <div className="space-y-2 max-h-[500px] overflow-y-auto">
@@ -391,14 +397,14 @@ export default function AdminStudentDetailView() {
                           </span>
                         )}
                         {item.time_spent_ms > 0 && (
-                          <span className="text-gray-500">
+                          <span className="text-slate-600 dark:text-slate-400">
                             {(item.time_spent_ms / 1000).toFixed(1)}s
                           </span>
                         )}
                       </div>
                     </div>
                     {!item.is_correct && (
-                      <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                      <div className="mt-2 text-xs text-slate-600 dark:text-slate-400">
                         <span className="text-red-600">
                           Answered: {item.user_answer || '—'}
                         </span>
@@ -427,7 +433,7 @@ export default function AdminStudentDetailView() {
                 setSubjectFilter(e.target.value);
                 setAttemptsPage(1);
               }}
-              className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 dark:border-gray-600"
+              className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 dark:border-gray-600 text-slate-900 dark:text-slate-100"
             >
               <option value="">All Subjects</option>
               <option value="Math">Math</option>
@@ -441,7 +447,7 @@ export default function AdminStudentDetailView() {
                 setQuizTypeFilter(e.target.value);
                 setAttemptsPage(1);
               }}
-              className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 dark:border-gray-600"
+              className="border rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 dark:border-gray-600 text-slate-900 dark:text-slate-100"
             >
               <option value="">All Types</option>
               <option value="comprehensive">Comprehensive</option>
@@ -451,7 +457,7 @@ export default function AdminStudentDetailView() {
               <option value="practice">Practice</option>
               <option value="practice_test">Practice Test</option>
             </select>
-            <span className="text-xs text-gray-500 self-center">
+            <span className="text-xs text-slate-600 dark:text-slate-400 self-center">
               {attemptsTotal} attempt{attemptsTotal !== 1 ? 's' : ''}
             </span>
           </div>
@@ -474,13 +480,19 @@ export default function AdminStudentDetailView() {
             <tbody>
               {attemptsLoading ? (
                 <tr>
-                  <td colSpan={8} className="text-center py-6 text-gray-400">
+                  <td
+                    colSpan={8}
+                    className="text-center py-6 text-slate-500 dark:text-slate-400"
+                  >
                     Loading...
                   </td>
                 </tr>
               ) : attempts.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center py-6 text-gray-400">
+                  <td
+                    colSpan={8}
+                    className="text-center py-6 text-slate-500 dark:text-slate-400"
+                  >
                     No quiz attempts found
                   </td>
                 </tr>
@@ -490,7 +502,7 @@ export default function AdminStudentDetailView() {
                     key={a.id}
                     className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750"
                   >
-                    <td className="px-4 py-2 text-gray-500 text-xs">
+                    <td className="px-4 py-2 text-slate-600 dark:text-slate-400 text-xs">
                       {a.attemptedAt
                         ? new Date(a.attemptedAt).toLocaleString()
                         : '—'}
@@ -503,7 +515,7 @@ export default function AdminStudentDetailView() {
                       {a.quizTitle || a.quizCode}
                     </td>
                     <td className="px-4 py-2">
-                      <span className="inline-block px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                      <span className="inline-block px-2 py-0.5 rounded text-xs bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
                         {a.quizType || 'unknown'}
                       </span>
                     </td>

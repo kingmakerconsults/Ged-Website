@@ -335,8 +335,8 @@ export function getSubjectTheme(subject, isDark = false) {
     subjectKey === 'socialstudies'
       ? 'socialStudies'
       : subjectKey === 'ged'
-      ? 'coach'
-      : subjectKey;
+        ? 'coach'
+        : subjectKey;
 
   return (
     designSystem.subjects[normalizedKey]?.[mode] ||

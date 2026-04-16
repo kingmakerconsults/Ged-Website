@@ -29,8 +29,8 @@ const badges = {
 
 export default function SubjectBadges({ badgeData }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
         Subject Badges
       </h3>
 
@@ -46,7 +46,7 @@ export default function SubjectBadges({ badgeData }) {
               className={`relative p-4 rounded-xl transition-all ${
                 earned
                   ? `bg-gradient-to-br ${badge.color} text-white shadow-lg hover:shadow-xl hover:scale-105`
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500'
+                  : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-400'
               }`}
             >
               {/* Badge Icon */}
@@ -57,7 +57,7 @@ export default function SubjectBadges({ badgeData }) {
               {/* Badge Label */}
               <p
                 className={`text-sm font-bold text-center mb-1 ${
-                  earned ? 'text-white' : 'text-gray-600 dark:text-gray-400'
+                  earned ? 'text-white' : 'text-slate-700 dark:text-slate-300'
                 }`}
               >
                 {badge.label}
@@ -66,7 +66,9 @@ export default function SubjectBadges({ badgeData }) {
               {/* Badge Description */}
               <p
                 className={`text-xs text-center ${
-                  earned ? 'text-white/80' : 'text-gray-500 dark:text-gray-500'
+                  earned
+                    ? 'text-white/80'
+                    : 'text-slate-600 dark:text-slate-400'
                 }`}
               >
                 {earned ? badge.description : 'Not earned yet'}
@@ -78,8 +80,8 @@ export default function SubjectBadges({ badgeData }) {
                   {score
                     ? `Score: ${score}`
                     : date
-                    ? new Date(date).toLocaleDateString()
-                    : ''}
+                      ? new Date(date).toLocaleDateString()
+                      : ''}
                 </p>
               )}
 

@@ -31,8 +31,8 @@ const masteryLevels = [
   {
     level: 0,
     label: 'Not Started',
-    color: 'bg-gray-300 dark:bg-gray-700',
-    textColor: 'text-gray-600 dark:text-gray-400',
+    color: 'bg-slate-300 dark:bg-white/20',
+    textColor: 'text-slate-600 dark:text-slate-400',
   },
   {
     level: 1,
@@ -90,7 +90,7 @@ export default function MasteryPanel({ mastery, onImprove }) {
             <div
               key={i}
               className={`w-2 h-2 rounded-full ${
-                i <= level ? config.color : 'bg-gray-200 dark:bg-gray-700'
+                i <= level ? config.color : 'bg-slate-200 dark:bg-white/20'
               }`}
             />
           );
@@ -102,8 +102,8 @@ export default function MasteryPanel({ mastery, onImprove }) {
   const activeTabData = tabs.find((t) => t.key === activeTab);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
         Mastery by Domain
       </h2>
 
@@ -116,7 +116,7 @@ export default function MasteryPanel({ mastery, onImprove }) {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all ${
               activeTab === tab.key
                 ? `bg-${tab.color}-500 text-white shadow-md`
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                : 'bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/20'
             }`}
           >
             <span>{tab.icon}</span>
@@ -135,11 +135,11 @@ export default function MasteryPanel({ mastery, onImprove }) {
           return (
             <div
               key={idx}
-              className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="font-semibold text-slate-900 dark:text-white">
                     {skillDef.label}
                   </span>
                   {renderMasteryDots(masteryData.mastery)}
@@ -150,7 +150,7 @@ export default function MasteryPanel({ mastery, onImprove }) {
                   </span>
                 </div>
                 {masteryData.score && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
                     Last Score:{' '}
                     <span className="font-semibold">{masteryData.score}</span>
                   </p>

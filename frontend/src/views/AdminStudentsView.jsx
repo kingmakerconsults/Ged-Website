@@ -5,7 +5,10 @@ import { getApiBaseUrl } from '../utils/apiBase.js';
 const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
 
 function ScoreBadge({ score }) {
-  if (score == null) return <span className="text-slate-400 text-xs">—</span>;
+  if (score == null)
+    return (
+      <span className="text-slate-500 dark:text-slate-400 text-xs">—</span>
+    );
   const passed = score >= 145;
   return (
     <span
@@ -107,7 +110,7 @@ export default function AdminStudentsView() {
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-6">
         <h1 className="text-2xl font-bold">Student Management</h1>
-        <span className="text-sm text-slate-500">
+        <span className="text-sm text-slate-600 dark:text-slate-400">
           {total} student{total !== 1 ? 's' : ''}
         </span>
       </div>
@@ -119,12 +122,13 @@ export default function AdminStudentsView() {
           placeholder="Search by name..."
           value={nameFilter}
           onChange={(e) => setNameFilter(e.target.value)}
-          className="border rounded-xl px-3 py-2 text-sm flex-1 min-w-[200px] bg-white/80 dark:bg-white/5 dark:border-white/10 backdrop-blur"
+          className="border rounded-xl px-3 py-2 text-sm flex-1 min-w-[200px] bg-white/80 dark:bg-white/5 dark:border-white/10 text-slate-900 dark:text-slate-100 backdrop-blur"
         />
         <select
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
-          className="border rounded-xl px-3 py-2 text-sm bg-white/80 dark:bg-white/5 dark:border-white/10 backdrop-blur"
+          className="border rounded-xl px-3 py-2 text-sm bg-white/80 dark:bg-white/5 dark:border-white/10 text-slate-900 dark:text-slate-100 backdrop-blur"
+        >
           <option value="">All Classes</option>
           {classes.map((c) => (
             <option key={c.id} value={c.id}>
@@ -164,13 +168,19 @@ export default function AdminStudentsView() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} className="text-center py-8 text-gray-400">
+                <td
+                  colSpan={8}
+                  className="text-center py-8 text-slate-500 dark:text-slate-400"
+                >
                   Loading...
                 </td>
               </tr>
             ) : students.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-8 text-gray-400">
+                <td
+                  colSpan={8}
+                  className="text-center py-8 text-slate-500 dark:text-slate-400"
+                >
                   No students found
                 </td>
               </tr>
@@ -204,7 +214,7 @@ export default function AdminStudentsView() {
                   <td className="text-center px-3 py-3">
                     <ScoreBadge score={s.highestScores?.['Social Studies']} />
                   </td>
-                  <td className="px-4 py-3 text-slate-500 text-xs">
+                  <td className="px-4 py-3 text-slate-600 dark:text-slate-400 text-xs">
                     {s.lastLoginAt
                       ? new Date(s.lastLoginAt).toLocaleDateString()
                       : '—'}
@@ -226,7 +236,7 @@ export default function AdminStudentsView() {
           >
             Previous
           </button>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-slate-600 dark:text-slate-400">
             Page {page} of {totalPages}
           </span>
           <button

@@ -115,22 +115,22 @@ export default function StudyTimeChart({ studyTime }) {
   }, [studyTime, view]);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+    <div className="glass-card card-lift rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white">
           Study Time
         </h3>
 
         {/* View Selector */}
-        <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+        <div className="flex gap-1 bg-slate-100 dark:bg-white/10 rounded-xl p-1">
           {['week', 'month', 'allTime'].map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
               className={`px-3 py-1 text-sm font-medium rounded transition-colors ${
                 view === v
-                  ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-white/20 text-slate-900 dark:text-white shadow'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {v === 'week' ? 'Week' : v === 'month' ? 'Month' : 'All Time'}
@@ -145,19 +145,23 @@ export default function StudyTimeChart({ studyTime }) {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
         <div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">This Week</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            This Week
+          </p>
           <p className="text-lg font-bold text-gray-900 dark:text-white">
             {studyTime.week?.hours || 0}h
           </p>
         </div>
         <div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">This Month</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            This Month
+          </p>
           <p className="text-lg font-bold text-gray-900 dark:text-white">
             {studyTime.month?.hours || 0}h
           </p>
         </div>
         <div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">All Time</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400">All Time</p>
           <p className="text-lg font-bold text-gray-900 dark:text-white">
             {studyTime.allTime?.hours || 0}h
           </p>

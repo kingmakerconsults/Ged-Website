@@ -3,6 +3,8 @@
  * Only active in development mode on localhost
  */
 
+import { getApiBaseUrl } from '../utils/apiBase.js';
+
 const isDev =
   import.meta.env.MODE === 'development' &&
   (window.location.hostname === 'localhost' ||
@@ -17,7 +19,7 @@ export async function devLoginAs(role = 'student') {
   }
 
   try {
-    const response = await fetch('/api/dev-login-as', {
+    const response = await fetch(`${getApiBaseUrl()}/api/dev-login-as`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

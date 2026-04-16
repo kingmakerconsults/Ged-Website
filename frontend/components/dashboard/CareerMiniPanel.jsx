@@ -3,11 +3,11 @@ import React from 'react';
 export default function CareerMiniPanel({ recommendations, onExploreMore }) {
   if (!recommendations || recommendations.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="glass-card card-lift rounded-2xl p-6">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
           Career Paths
         </h3>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <p className="text-slate-600 dark:text-slate-400 text-sm">
           Complete some quizzes to get personalized career recommendations!
         </p>
       </div>

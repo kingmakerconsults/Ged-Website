@@ -44,9 +44,7 @@ export function SubjectCard({
           </span>
         )}
         <div className="flex-1">
-          <h3
-            className="font-extrabold text-xl md:text-2xl mb-1 text-slate-900 dark:text-white"
-          >
+          <h3 className="font-extrabold text-xl md:text-2xl mb-1 text-slate-900 dark:text-white">
             {subject}
           </h3>
           <div className="text-sm md:text-base leading-snug text-slate-600 dark:text-slate-400">

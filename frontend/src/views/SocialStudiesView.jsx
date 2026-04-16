@@ -88,7 +88,10 @@ export default function SocialStudiesView({ dark = false }) {
               onClick={() => navigate(card.href)}
               className="glass-card card-lift rounded-xl p-6 text-left transition-all"
               style={{
-                borderLeft: card.status === 'active' ? `4px solid ${theme.primary}` : undefined,
+                borderLeft:
+                  card.status === 'active'
+                    ? `4px solid ${theme.primary}`
+                    : undefined,
               }}
             >
               <div className="text-4xl mb-3">{card.icon}</div>
@@ -102,7 +105,11 @@ export default function SocialStudiesView({ dark = false }) {
                     ? 'text-white'
                     : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
                 }`}
-                style={card.status === 'active' ? { backgroundColor: theme.primary } : undefined}
+                style={
+                  card.status === 'active'
+                    ? { backgroundColor: theme.primary }
+                    : undefined
+                }
               >
                 {card.status === 'active' ? 'Start' : 'Coming Soon'}
               </span>
@@ -130,8 +137,8 @@ export default function SocialStudiesView({ dark = false }) {
             human-environment interaction
           </li>
           <li>
-            <strong>Economics (15%):</strong> Market systems, supply and
-            demand, financial literacy
+            <strong>Economics (15%):</strong> Market systems, supply and demand,
+            financial literacy
           </li>
         </ul>
 

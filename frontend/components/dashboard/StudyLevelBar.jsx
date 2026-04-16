@@ -47,15 +47,15 @@ export default function StudyLevelBar({ highestScore, onViewHistory }) {
   const percentage = Math.min(100, Math.max(0, ((score - 100) / 100) * 100));
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
         Study Level Progress
       </h3>
 
       {/* Score Display */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
             Highest Score
           </p>
           <p className="text-4xl font-bold text-gray-900 dark:text-white">
@@ -71,7 +71,7 @@ export default function StudyLevelBar({ highestScore, onViewHistory }) {
 
       {/* Progress Bar */}
       <div className="mb-6">
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
+        <div className="w-full bg-slate-200 dark:bg-white/10 rounded-full h-4 overflow-hidden shadow-inner">
           <div
             className={`${levelConfig.barColor} h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end pr-2`}
             style={{ width: `${percentage}%` }}
@@ -83,7 +83,7 @@ export default function StudyLevelBar({ highestScore, onViewHistory }) {
         </div>
 
         {/* Scale markers */}
-        <div className="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
+        <div className="flex justify-between mt-2 text-xs text-slate-600 dark:text-slate-400">
           <span>100</span>
           <span className="font-semibold">135</span>
           <span className="font-semibold">145</span>
@@ -102,15 +102,15 @@ export default function StudyLevelBar({ highestScore, onViewHistory }) {
           {score >= 145
             ? "✅ You're ready to pass the GED! Keep practicing to maintain your skills."
             : score >= 135
-            ? "💪 You're close! Just a few more points to reach passing level."
-            : '📚 Keep studying! Focus on your weak areas to improve quickly.'}
+              ? "💪 You're close! Just a few more points to reach passing level."
+              : '📚 Keep studying! Focus on your weak areas to improve quickly.'}
         </p>
       </div>
 
       {/* View History Button */}
       <button
         onClick={onViewHistory}
-        className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        className="w-full px-4 py-3 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200 dark:hover:bg-white/20 transition-colors"
       >
         View Practice Exam History →
       </button>

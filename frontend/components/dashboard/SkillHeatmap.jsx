@@ -51,14 +51,14 @@ export default function SkillHeatmap() {
 
   if (loading) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          🎯 Skill Galaxy
+      <div className="glass-card card-lift rounded-2xl p-6">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+          Skill Galaxy
         </h3>
         <div className="animate-pulse space-y-3">
-          <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          <div className="h-20 bg-slate-200 dark:bg-white/10 rounded"></div>
+          <div className="h-20 bg-slate-200 dark:bg-white/10 rounded"></div>
+          <div className="h-20 bg-slate-200 dark:bg-white/10 rounded"></div>
         </div>
       </div>
     );
@@ -66,11 +66,11 @@ export default function SkillHeatmap() {
 
   if (skills.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          🎯 Skill Galaxy
+      <div className="glass-card card-lift rounded-2xl p-6">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+          Skill Galaxy
         </h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-slate-600 dark:text-slate-400">
           Complete some quizzes to see your skill breakdown here!
         </p>
       </div>
@@ -78,11 +78,11 @@ export default function SkillHeatmap() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        🎯 Skill Galaxy
+    <div className="glass-card card-lift rounded-2xl p-6">
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+        Skill Galaxy
       </h3>
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
         Your performance on specific challenge areas, with confidence insights:
       </p>
       <div className="skill-heatmap">

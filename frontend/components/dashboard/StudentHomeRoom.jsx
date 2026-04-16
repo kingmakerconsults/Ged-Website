@@ -31,7 +31,7 @@ function ScoreTrendsCard({ subjects }) {
               ? 'text-emerald-600'
               : data.growth < 0
                 ? 'text-red-500'
-                : 'text-slate-500';
+                : 'text-slate-600';
           const growthIcon =
             data.growth > 0 ? '↑' : data.growth < 0 ? '↓' : '→';
           return (
@@ -47,7 +47,7 @@ function ScoreTrendsCard({ subjects }) {
                   {data.latest}/200
                 </span>
               </div>
-              <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
                 <span>Best: {data.best}</span>
                 <span>
                   {data.attemptCount} attempt
@@ -103,7 +103,7 @@ function WeakestAreasCard({ areas }) {
       <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
         Areas to Improve
       </h3>
-      <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
         Based on your quiz performance (min. 3 questions)
       </p>
       <div className="space-y-2">
@@ -122,7 +122,7 @@ function WeakestAreasCard({ areas }) {
                   {area.domain || area.topic || 'General'}
                   {area.subject ? ` (${area.subject})` : ''}
                 </span>
-                <span className="font-mono text-xs text-slate-500">
+                <span className="font-mono text-xs text-slate-600 dark:text-slate-400">
                   {area.correct_items}/{area.total_items} ({pct}%)
                 </span>
               </div>
@@ -197,7 +197,9 @@ function ConfidenceCalibrationCard({ data }) {
       )}
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
-          <span className="text-slate-600 dark:text-slate-400">When "sure"</span>
+          <span className="text-slate-600 dark:text-slate-400">
+            When "sure"
+          </span>
           <span className="font-medium">
             {sure.accuracyPct}% correct ({sure.total} Qs)
           </span>
@@ -211,7 +213,7 @@ function ConfidenceCalibrationCard({ data }) {
           </span>
         </div>
       </div>
-      <p className="text-xs text-slate-400 dark:text-slate-500 mt-3">
+      <p className="text-xs text-slate-600 dark:text-slate-400 mt-3">
         High calibration means you accurately predict when you know the answer.
       </p>
     </div>
@@ -473,11 +475,21 @@ export default function StudentHomeRoom({ user, onNavigate }) {
             </div>
             <button
               onClick={loadDashboardData}
-              className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
               title="Refresh dashboard"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
             </button>
           </div>
@@ -545,7 +557,7 @@ export default function StudentHomeRoom({ user, onNavigate }) {
                 Tutorial Video
               </h3>
               <div className="aspect-video bg-slate-100 dark:bg-white/5 rounded-xl flex items-center justify-center">
-                <p className="text-slate-500 dark:text-slate-400">
+                <p className="text-slate-600 dark:text-slate-400">
                   Coming soon...
                 </p>
               </div>
