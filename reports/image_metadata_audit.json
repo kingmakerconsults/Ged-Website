@@ -1,12 +1,65 @@
 {
   "summary": {
-    "imageFilesOnDisk": 560,
-    "metadataEntries": 560,
+    "imageFilesOnDisk": 368,
+    "metadataEntries": 381,
     "missingMetadataForFiles": 0,
-    "metadataEntriesMissingFiles": 0,
+    "metadataEntriesMissingFiles": 13,
     "incompleteMetadataEntries": 0
   },
   "missingMetadataForFiles": [],
-  "metadataEntriesMissingFiles": [],
+  "metadataEntriesMissingFiles": [
+    {
+      "subject": "Science",
+      "fileName": "earth_s_magnetic_field_0001.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "five_questions_to_help_you_understand_hurricanes_0001.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "five_questions_to_help_you_understand_hurricanes_0003.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "ged_scince_fig_8_0001.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "how_does_nasa_study_hurricanes_nasa_0001.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "how_does_nasa_study_hurricanes_nasa_0002.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "human_anatomy_0001.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "measuring_hurricanes_q_a_with_nasa_marshall_s_da_0001.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "measuring_hurricanes_q_a_with_nasa_marshall_s_da_0002.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "measuring_hurricanes_q_a_with_nasa_marshall_s_da_0003.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "unclassified_0008.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "unclassified_0024.png"
+    },
+    {
+      "subject": "Science",
+      "fileName": "unclassified_0025.png"
+    }
+  ],
   "incompleteMetadataEntries": []
 }

@@ -21,12 +21,15 @@ const METADATA_FILE = path.resolve(
 const PROMPT = `You are labeling images for a GED learning platform.
 You will receive one image at a time.
 Return only valid JSON. No markdown, no backticks.
-Your job is to make the image easy for other AIs to find and turn into questions.
+Your job is to make the image easy for other AIs to retrieve, understand, and turn into grounded questions.
 
-Important safety rules:
+Important grounding rules:
+- Describe only what is visibly supported by the image.
+- Do NOT invent symbolic meaning, hidden causes, unlabeled regions, unlabeled values, or context that is not shown.
 - Do NOT quote long passages of text from the image.
-- For extractedText: only include short labels (max ~200 characters total). If the image contains a paragraph/article, summarize it instead and set extractedText to "".
-- If you are uncertain about transcription or it might be copyrighted, set extractedText to "".
+- For extractedText: include only short visible labels, titles, headers, legends, or captions. Keep the total around 200 characters or less.
+- If the image contains a paragraph, article, worksheet, or anything copyright-sensitive, summarize it in detailedDescription and set extractedText to "".
+- If you are uncertain about transcription, set extractedText to "".
 
 Output exactly this JSON shape:
 {
@@ -46,13 +49,21 @@ Field rules:
 - fileName: set to the actual image filename.
 - subject: one of "Math", "Science", "Social Studies", "RLA", or "" if unknown.
 - category: short folder-style label like "graphs", "tables", "biology-diagrams", "civics-documents", or "".
-- altText: <= 125 characters, literal description of the image.
-- detailedDescription: 2–4 sentences explaining the layout and purpose.
-- extractedText: transcribe any visible text in order.
-- visualElements: array naming important parts you see.
-- keywords: 6–15 search terms mixing subject and visual terms.
-- questionSeeds: 2–5 short instructions other AIs can turn into questions; make them depend on the image.
-- usageDirectives: short note like "Use for data-interpretation questions at easy/medium level."
+- altText: 1 sentence, <= 125 characters, literal and concrete.
+- detailedDescription: 2 to 4 sentences. Sentence 1 should identify the image type and main topic. Sentence 2 should describe the layout or major sections. Remaining sentences should mention visible labels, values, arrows, legends, headers, regions, speakers, or other concrete evidence that question generation can rely on.
+- extractedText: visible labels only, in reading order, never a long passage.
+- visualElements: 4 to 12 concrete nouns or short noun phrases.
+- keywords: 6 to 15 terms mixing subject concepts, visual type, and important labels.
+- questionSeeds: 2 to 5 short instructions for other AIs. Each one must depend on visible evidence in the image, such as a labeled part, bar, row, region, caption, or date.
+- usageDirectives: 1 or 2 sentences naming allowed question moves and any important limits. Example: "Use for comparing labeled bar values and identifying the highest category. Do not ask about causes or trends that are not explicitly shown."
+
+Image-type guidance:
+- Charts and graphs: name the chart type, axes or units, legend or series, and the compared categories or values.
+- Tables: mention headers, rows, columns, units, and any notable labeled cells.
+- Maps: mention the region, labeled or shaded areas, boundaries, routes, and legend or key if present.
+- Diagrams: mention labeled parts, arrows, stages, layers, inputs, or outputs.
+- Documents, posters, and cartoons: mention the document type, headline or caption, visible speakers or symbols, and any short labels or dates that can be safely referenced.
+- Photos: mention the subject, setting, visible objects or actions, and any signage if present.
 
 If something is missing in the image, leave "" or [].
 Return only the JSON object.`;
@@ -61,10 +72,11 @@ const SAFE_PROMPT = `You are labeling images for a GED learning platform.
 You will receive one image at a time.
 Return only valid JSON. No markdown, no backticks.
 
-Important safety rules:
+Important grounding rules:
+- Describe only what is visibly supported by the image.
 - Do NOT quote or transcribe text from the image.
 - Always set extractedText to "".
-- If the image appears to contain a passage/article/document, describe it generally without copying.
+- If the image appears to contain a passage, article, worksheet, letter, or document, describe it generally without copying text.
 
 Output exactly this JSON shape:
 {
@@ -84,13 +96,13 @@ Field rules:
 - fileName: set to the actual image filename.
 - subject: one of "Math", "Science", "Social Studies", "RLA", or "" if unknown.
 - category: short folder-style label like "graphs", "tables", "biology-diagrams", "civics-documents", or "".
-- altText: <= 125 characters, literal description of the image.
-- detailedDescription: 2–4 sentences explaining the layout and purpose.
+- altText: 1 sentence, <= 125 characters, literal and concrete.
+- detailedDescription: 2 to 4 sentences naming the image type, layout, and the concrete evidence a question writer can rely on without quoting the source.
 - extractedText: must be "".
-- visualElements: array naming important parts you see.
-- keywords: 6–15 search terms mixing subject and visual terms.
-- questionSeeds: 2–5 short instructions other AIs can turn into questions; make them depend on the image.
-- usageDirectives: short note like "Use for data-interpretation questions at easy/medium level."
+- visualElements: 4 to 12 concrete nouns or short noun phrases.
+- keywords: 6 to 15 terms mixing subject concepts, visual type, and important visible features.
+- questionSeeds: 2 to 5 short instructions for other AIs that stay tightly tied to visible evidence.
+- usageDirectives: 1 or 2 sentences naming allowed question moves and explicit limits.
 
 If something is missing in the image, leave "" or [].
 Return only the JSON object.`;
@@ -219,6 +231,34 @@ function makeKey(subject, fileName) {
   return `${normalizeSubjectName(subject)}/${String(fileName || '').trim()}`;
 }
 
+function normalizeTextField(value) {
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function truncateText(value, maxLength) {
+  const normalized = normalizeTextField(value);
+  if (!maxLength || normalized.length <= maxLength) return normalized;
+  return normalized.slice(0, maxLength).trim();
+}
+
+function normalizeStringArray(values, maxItems) {
+  if (!Array.isArray(values)) return [];
+  const seen = new Set();
+  const out = [];
+  for (const value of values) {
+    const normalized = normalizeTextField(value);
+    if (!normalized) continue;
+    const key = normalized.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(normalized);
+    if (maxItems && out.length >= maxItems) break;
+  }
+  return out;
+}
+
 function makeBaseEntryFromImagePath(imagePath) {
   const fileName = path.basename(imagePath);
   const subjectMatch = imagePath.match(
@@ -247,39 +287,62 @@ function makeBaseEntryFromImagePath(imagePath) {
 async function buildImageListFromAudit(auditPath) {
   const raw = await fs.readFile(auditPath, 'utf8');
   const parsed = safeJsonParse(raw);
-  const refs = Array.isArray(parsed)
-    ? parsed
-    : Array.isArray(parsed?.refs)
-    ? parsed.refs
-    : [];
 
   const unique = new Set();
   const files = [];
 
-  for (const r of refs) {
-    const url = String(r?.url || r?.imageUrl || '').trim();
-    if (!url) continue;
+  function addImagePathFromRecord(record) {
+    if (!record || typeof record !== 'object') return;
 
-    // Normalize protocol-relative and legacy forms
-    const cleaned = url
-      .replace(/^https?:\/\/[^/]+/i, '')
-      .replace(/^\/\//, '/')
-      .replace(/^\/frontend\/\/images\//i, '/images/')
-      .replace(/^\/frontend\/(?:Images|images)\//i, '/images/')
-      .replace(/^\/?(?:Images|images)\//i, '/images/');
+    const rawUrl = String(
+      record.filePath || record.url || record.imageUrl || ''
+    ).trim();
+    if (rawUrl) {
+      const cleaned = rawUrl
+        .replace(/^https?:\/\/[^/]+/i, '')
+        .replace(/^\/\//, '/')
+        .replace(/^\/frontend\/\/images\//i, '/images/')
+        .replace(/^\/frontend\/(?:Images|images)\//i, '/images/')
+        .replace(/^\/?(?:Images|images)\//i, '/images/');
 
-    if (!cleaned.toLowerCase().startsWith('/images/')) continue;
+      if (cleaned.toLowerCase().startsWith('/images/')) {
+        const parts = cleaned.split('/').filter(Boolean);
+        if (parts.length >= 3) {
+          const subject = normalizeSubjectName(decodeURIComponent(parts[1]));
+          const fileName = decodeURIComponent(parts.slice(2).join('/'));
+          const abs = path.join(IMAGE_DIR, subject, fileName);
+          const key = makeKey(subject, path.basename(fileName));
+          if (!unique.has(key)) {
+            unique.add(key);
+            files.push(abs);
+          }
+        }
+        return;
+      }
+    }
 
-    const parts = cleaned.split('/').filter(Boolean);
-    // [images, Subject, filename]
-    if (parts.length < 3) continue;
-    const subject = normalizeSubjectName(decodeURIComponent(parts[1]));
-    const fileName = decodeURIComponent(parts.slice(2).join('/'));
+    const subject = normalizeSubjectName(record.subject || '');
+    const fileName = normalizeTextField(record.fileName);
+    if (!subject || !fileName) return;
     const abs = path.join(IMAGE_DIR, subject, fileName);
     const key = makeKey(subject, path.basename(fileName));
-    if (unique.has(key)) continue;
+    if (unique.has(key)) return;
     unique.add(key);
     files.push(abs);
+  }
+
+  const refs = Array.isArray(parsed)
+    ? parsed
+    : Array.isArray(parsed?.refs)
+      ? parsed.refs
+      : Array.isArray(parsed?.priorityQueue)
+        ? parsed.priorityQueue
+        : Array.isArray(parsed?.entries)
+          ? parsed.entries
+          : [];
+
+  for (const r of refs) {
+    addImagePathFromRecord(r);
   }
 
   return files;
@@ -344,14 +407,14 @@ function normalizeMetadata(metadata, imagePath) {
     filePath: `/images/${encodeURIComponent(
       normalizedSubject
     )}/${encodeURIComponent(fileName)}`.replace(/%2F/g, '/'),
-    category: metadata.category || '',
-    altText: metadata.altText || '',
-    detailedDescription: metadata.detailedDescription || '',
-    extractedText: metadata.extractedText || '',
-    visualElements: metadata.visualElements || [],
-    keywords: metadata.keywords || [],
-    questionSeeds: metadata.questionSeeds || [],
-    usageDirectives: metadata.usageDirectives || '',
+    category: normalizeTextField(metadata.category || ''),
+    altText: truncateText(metadata.altText || '', 125),
+    detailedDescription: truncateText(metadata.detailedDescription || '', 700),
+    extractedText: truncateText(metadata.extractedText || '', 240),
+    visualElements: normalizeStringArray(metadata.visualElements || [], 12),
+    keywords: normalizeStringArray(metadata.keywords || [], 15),
+    questionSeeds: normalizeStringArray(metadata.questionSeeds || [], 5),
+    usageDirectives: truncateText(metadata.usageDirectives || '', 280),
   };
 
   return normalized;

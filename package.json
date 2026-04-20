@@ -41,6 +41,8 @@
     "audit:premade:quality": "node scripts/audit_backend_premade_quality.cjs",
     "audit:math:compute": "node scripts/audit_math_computation.mjs",
     "audit:tier:progression": "node scripts/audit_tier_progression.js",
+    "audit:image:metadata": "node scripts/audit_image_metadata.cjs",
+    "audit:image:usage": "node scripts/benchmark_static_image_generation.cjs",
     "audit:image:quality": "node scripts/audit_image_question_quality.cjs",
     "rectify:image:quality": "node scripts/rectify_image_question_issues.cjs",
     "rebuild:image:quality": "node scripts/rebuild_image_question_replacements.cjs",

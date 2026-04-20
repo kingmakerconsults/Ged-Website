@@ -1,0 +1,3380 @@
+{
+  "generatedAt": "2026-04-17T16:12:10.407Z",
+  "staticCoverage": {
+    "totalImages": 42,
+    "totalQuestions": 101,
+    "supportedQuestions": 101,
+    "fullySupportedImages": 42,
+    "partiallySupportedImages": 0,
+    "unsupportedImages": 0,
+    "bySubject": {
+      "Science": {
+        "images": 12,
+        "questions": 21,
+        "supportedQuestions": 21
+      },
+      "Social Studies": {
+        "images": 30,
+        "questions": 80,
+        "supportedQuestions": 80
+      }
+    },
+    "byImageType": {
+      "table": {
+        "images": 2,
+        "questions": 4,
+        "supportedQuestions": 4
+      },
+      "chart": {
+        "images": 14,
+        "questions": 33,
+        "supportedQuestions": 33
+      },
+      "diagram": {
+        "images": 6,
+        "questions": 11,
+        "supportedQuestions": 11
+      },
+      "map": {
+        "images": 12,
+        "questions": 31,
+        "supportedQuestions": 31
+      },
+      "document": {
+        "images": 1,
+        "questions": 2,
+        "supportedQuestions": 2
+      },
+      "cartoon": {
+        "images": 7,
+        "questions": 20,
+        "supportedQuestions": 20
+      }
+    },
+    "questionSupportRate": 100
+  },
+  "weakestStaticCases": [
+    {
+      "filePath": "/images/Science/dominance_genetics_0001.png",
+      "fileName": "dominance_genetics_0001.png",
+      "subject": "Science",
+      "category": "genetics-diagrams",
+      "imageType": "table",
+      "questionCount": 1,
+      "supportedQuestions": 1,
+      "supportRate": 100,
+      "qualityRank": 29,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation.",
+        "description": "This image displays a Punnett square diagramming a monohybrid genetic cross. It shows the cross between two heterozygous 'Gg' parents from the F1 generation, resulting in the F2 generation offspring. The square illustrates the possible genotypes: one homozygou",
+        "extractedText": "F1-generation, Heterozygot, Gg, X, Gg, G, g, G, g, GG, Gg, Gg, gg, F2-generation",
+        "questionSeeds": [
+          "Calculate the genotypic ratio for the F2 generation shown.",
+          "Determine the phenotypic ratio for the F2 generation if 'G' is a dominant allele.",
+          "Explain how the alleles from the F1 generation parents are distributed into the Punnett square.",
+          "Identify the probability of an F2 generation offspring being homozygous recessive."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, specifically for Mendelian genetics and probability in biology."
+      },
+      "questionResults": [
+        {
+          "questionText": "The completed Punnett square shows offspring genotypes GG, Gg, Gg, and gg. What is the genotype ratio for this cross?",
+          "correctAnswer": "1 GG : 2 Gg : 1 gg",
+          "stemOverlap": [
+            "punnett",
+            "square",
+            "offspring",
+            "genotypes",
+            "genotype",
+            "ratio",
+            "cross"
+          ],
+          "correctOverlap": [],
+          "combinedOverlap": [
+            "punnett",
+            "square",
+            "offspring",
+            "genotypes",
+            "genotype",
+            "ratio",
+            "cross"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Calculate the genotypic ratio for the F2 generation shown.",
+          "bestSeedOverlap": 1,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "fileName": "ged_sci_1_1024x847_0001.png",
+      "subject": "Science",
+      "category": "earth-science-data",
+      "imageType": "chart",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 3,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water.",
+        "description": "The upper part of the image displays a black and white satellite view of a large hurricane, showing its distinct eye and spiraling cloud bands over an expanse of ocean. Below the image, there is a two-column table titled 'Average Temperature of Various Large B",
+        "extractedText": "Source: Shutterstock. Average Temperature of Various Large Bodies of Water. Atlantic Ocean: 46°F. Arctic Ocean: 36°F. Baltic Sea: 45°F. Great Lakes: 44°F. Gulf of Mexico: 60°F.",
+        "questionSeeds": [
+          "Explain how the temperature table provides numerical evidence for interpreting the hurricane image.",
+          "Use the satellite view and the temperature table together to explain the storm conditions shown.",
+          "Compare the average temperatures of the warmest and coldest bodies of water listed in the table.",
+          "Hypothesize a possible connection between high ocean temperatures and the formation of powerful weather systems like the hurricane shown."
+        ],
+        "usageDirectives": "Use for paired-stimulus questions that connect the hurricane image to the temperature table. Allow grounded questions about how numerical temperature evidence helps explain the storm conditions or how warm water supports hurricane strength."
+      },
+      "questionResults": [
+        {
+          "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+          "correctAnswer": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "stemOverlap": [
+            "hurricane",
+            "temperature"
+          ],
+          "correctOverlap": [
+            "ocean",
+            "water",
+            "that",
+            "helps",
+            "hurricane",
+            "paired",
+            "connect",
+            "warm"
+          ],
+          "combinedOverlap": [
+            "hurricane",
+            "temperature",
+            "ocean",
+            "water",
+            "that",
+            "helps",
+            "paired",
+            "connect",
+            "warm"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Explain how the temperature table provides numerical evidence for interpreting the hurricane image.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+          "correctAnswer": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "stemOverlap": [
+            "temperature",
+            "satellite",
+            "view",
+            "storm"
+          ],
+          "correctOverlap": [
+            "numerical",
+            "evidence",
+            "that",
+            "explain",
+            "storm",
+            "conditions",
+            "image.",
+            "helps",
+            "satellite"
+          ],
+          "combinedOverlap": [
+            "temperature",
+            "satellite",
+            "view",
+            "storm",
+            "numerical",
+            "evidence",
+            "that",
+            "explain",
+            "conditions",
+            "image.",
+            "helps"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Use the satellite view and the temperature table together to explain the storm conditions shown.",
+          "bestSeedOverlap": 6,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/ged_scince_fig_13_0001.png",
+      "fileName": "ged_scince_fig_13_0001.png",
+      "subject": "Science",
+      "category": "earth-science-diagrams",
+      "imageType": "chart",
+      "questionCount": 1,
+      "supportedQuestions": 1,
+      "supportRate": 100,
+      "qualityRank": 1,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Diagram showing prevailing winds causing a rain shadow effect over mountains near an ocean, with elevation and distance scales.",
+        "description": "This is a cross-section diagram illustrating the effect of prevailing winds on climate across a mountain range adjacent to an ocean. It displays varying elevations from sea level up to 15,000 feet over a horizontal distance of 540 miles. Key points A, B, C, D,",
+        "extractedText": "Weather and Climate, PREVAILING WINDS, A OCEAN, B, C, D, MOUNTAINS, E, Elevation (feet), 0, 3,000, 6,000, 9,000, 12,000, 15,000, (Sea level), Distance (miles), 0, 60, 120, 180, 240",
+        "questionSeeds": [
+          "Describe the likely weather conditions at point A compared to point E, considering the prevailing winds.",
+          "Explain the climatic phenomenon illustrated by this diagram.",
+          "Identify the approximate maximum elevation of the mountain range shown.",
+          "Calculate the approximate horizontal distance from the ocean to the highest peak C."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, particularly for explaining geographic and atmospheric phenomena related to climate."
+      },
+      "questionResults": [
+        {
+          "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+          "correctAnswer": "Point E",
+          "stemOverlap": [
+            "from",
+            "ocean",
+            "direction",
+            "prevailing",
+            "winds.",
+            "labeled",
+            "likely",
+            "precipitation"
+          ],
+          "correctOverlap": [
+            "point",
+            "side"
+          ],
+          "combinedOverlap": [
+            "from",
+            "ocean",
+            "direction",
+            "prevailing",
+            "winds.",
+            "labeled",
+            "likely",
+            "precipitation",
+            "point",
+            "side"
+          ],
+          "supportedPhrases": [
+            "Point E"
+          ],
+          "bestSeed": "Describe the likely weather conditions at point A compared to point E, considering the prevailing winds.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/ged_scince_fig_3_0001.png",
+      "fileName": "ged_scince_fig_3_0001.png",
+      "subject": "Science",
+      "category": "chemistry-tables",
+      "imageType": "chart",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 14,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z.",
+        "description": "This table presents key atomic and ionic properties for five common elements: Lithium, Sodium, Calcium, Magnesium, and Aluminum. For each element, it lists its symbol, the number of protons, neutrons, and electrons, its atomic mass in amu, the most common char",
+        "extractedText": "Element, Symbol, # protons, # neutrons, # electrons, Atomic mass (amu), Most common charge of ion, Sample compound with Cl. Values for Lithium, Sodium, Calcium, Magnesium, Aluminum",
+        "questionSeeds": [
+          "Determine the number of neutrons represented by X for Lithium.",
+          "Identify the chemical formula represented by Z for Aluminum when combined with Chlorine.",
+          "Compare the number of electrons in a neutral atom of Calcium versus a neutral atom of Magnesium.",
+          "Calculate the mass number of Sodium given its protons and neutrons."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level."
+      },
+      "questionResults": [
+        {
+          "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+          "correctAnswer": "4",
+          "stemOverlap": [
+            "element",
+            "lithium",
+            "atomic",
+            "mass",
+            "number",
+            "neutrons"
+          ],
+          "correctOverlap": [
+            "neutrons",
+            "atomic",
+            "mass",
+            "protons"
+          ],
+          "combinedOverlap": [
+            "element",
+            "lithium",
+            "atomic",
+            "mass",
+            "number",
+            "neutrons",
+            "protons"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Calculate the mass number of Sodium given its protons and neutrons.",
+          "bestSeedOverlap": 3,
+          "supported": true
+        },
+        {
+          "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+          "correctAnswer": "AlCl3",
+          "stemOverlap": [
+            "aluminum",
+            "chlorine.",
+            "formula",
+            "sample",
+            "compound"
+          ],
+          "correctOverlap": [
+            "ions",
+            "charge",
+            "aluminum."
+          ],
+          "combinedOverlap": [
+            "aluminum",
+            "chlorine.",
+            "formula",
+            "sample",
+            "compound",
+            "ions",
+            "charge",
+            "aluminum."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify the chemical formula represented by Z for Aluminum when combined with Chlorine.",
+          "bestSeedOverlap": 3,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/human_body_0003.png",
+      "fileName": "human_body_0003.png",
+      "subject": "Science",
+      "category": "biology-diagrams",
+      "imageType": "diagram",
+      "questionCount": 1,
+      "supportedQuestions": 1,
+      "supportRate": 100,
+      "qualityRank": 19,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "A diagram illustrating the steps and cell types involved in the primary immune response.",
+        "description": "This detailed diagram visually explains the processes of the primary immune response, showing both cellular and humoral immunity. It depicts macrophages engulfing pathogens, antigen presentation to T-lymphocytes, activation of B-lymphocytes, antibody productio",
+        "extractedText": "Pathogen, Macrophage, T-lymphocyte, B-lymphocyte, Activation, Cytotoxic T cell, Plasma cells, Memory cells, Primary immune response.",
+        "questionSeeds": [
+          "Describe the initial step of the primary immune response involving the macrophage.",
+          "Explain the role of T-lymphocytes in activating other immune cells.",
+          "Outline how B-lymphocytes contribute to the production of antibodies.",
+          "Identify the cells responsible for destroying infected body cells."
+        ],
+        "usageDirectives": "Use for data-interpretation questions on the stages and cell types of the primary immune response at a medium difficulty level."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the immune-response diagram, which cells are produced after B-lymphocyte activation and release specific antibodies?",
+          "correctAnswer": "Plasma cells",
+          "stemOverlap": [
+            "immune",
+            "response",
+            "cells",
+            "lymphocyte",
+            "activation",
+            "specific",
+            "antibodies"
+          ],
+          "correctOverlap": [
+            "plasma",
+            "cells",
+            "antibodies."
+          ],
+          "combinedOverlap": [
+            "immune",
+            "response",
+            "cells",
+            "lymphocyte",
+            "activation",
+            "specific",
+            "antibodies",
+            "plasma",
+            "antibodies."
+          ],
+          "supportedPhrases": [
+            "Plasma cells"
+          ],
+          "bestSeed": "Describe the initial step of the primary immune response involving the macrophage.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/licensed_image_0009.jpg",
+      "fileName": "licensed_image_0009.jpg",
+      "subject": "Science",
+      "category": "geology-diagrams",
+      "imageType": "diagram",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 8,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "A diagram illustrating the internal layers of Earth and its atmospheric layers.",
+        "description": "This diagram presents two main views of Earth's layers. On the left, a cutaway globe shows the internal structure: Crust, Mantle, Outer Core (Liquid), and Inner Core (Solid). On the right, a detailed cutaway section of the Earth's surface extends upwards to sh",
+        "extractedText": "Earth's Layers, Exosphere, Thermosphere, Mesosphere, Stratosphere, Troposphere, Lithosphere, Asthenosphere, Crust 0-100km thick, Crust, Mantle, Outer Core, Inner Core, Liquid, Soli",
+        "questionSeeds": [
+          "Identify the atmospheric layer closest to Earth's surface.",
+          "Name the two parts of Earth's core and their states of matter.",
+          "Describe the thickness of Earth's crust based on the diagram.",
+          "List the layers of the atmosphere in order from lowest to highest."
+        ],
+        "usageDirectives": "Use for identifying and comparing Earth's internal and atmospheric layers for science questions at a medium difficulty level."
+      },
+      "questionResults": [
+        {
+          "questionText": "If a student wants to identify the lowest layer of Earth’s atmosphere on the diagram, which layer should the student choose?",
+          "correctAnswer": "Troposphere",
+          "stemOverlap": [
+            "identify",
+            "lowest",
+            "layer",
+            "earth",
+            "atmosphere"
+          ],
+          "correctOverlap": [
+            "troposphere",
+            "lowest",
+            "atmospheric",
+            "layer",
+            "earth",
+            "surface."
+          ],
+          "combinedOverlap": [
+            "identify",
+            "lowest",
+            "layer",
+            "earth",
+            "atmosphere",
+            "troposphere",
+            "atmospheric",
+            "surface."
+          ],
+          "supportedPhrases": [
+            "Troposphere"
+          ],
+          "bestSeed": "Identify the atmospheric layer closest to Earth's surface.",
+          "bestSeedOverlap": 5,
+          "supported": true
+        },
+        {
+          "questionText": "How does the combined Earth-and-atmosphere diagram help a student compare the two systems?",
+          "correctAnswer": "It shows that Earth can be divided into internal layers and also surrounded by layered gases.",
+          "stemOverlap": [
+            "earth",
+            "atmosphere"
+          ],
+          "correctOverlap": [
+            "earth",
+            "internal",
+            "layers",
+            "structure",
+            "surface."
+          ],
+          "combinedOverlap": [
+            "earth",
+            "atmosphere",
+            "internal",
+            "layers",
+            "structure",
+            "surface."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify the atmospheric layer closest to Earth's surface.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0007.png",
+      "fileName": "unclassified_0007.png",
+      "subject": "Science",
+      "category": "science-graphs",
+      "imageType": "chart",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 9,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Line graph showing relative humidity percentage over eight days, from May 1 to May 8.",
+        "description": "This image presents a line graph titled 'Relative Humidity,' illustrating the percentage of humidity in the air over a period of eight days, from May 1st to May 8th. The y-axis represents Humidity in percentages from 0 to 100, while the x-axis represents the d",
+        "extractedText": "Relative Humidity, Humidity (%), Date, Relative humidity, May 1, May 2, May 3, May 4, May 5, May 6, May 7, May 8, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100",
+        "questionSeeds": [
+          "Identify the day with the highest relative humidity.",
+          "Describe the trend of relative humidity between May 5 and May 6.",
+          "Estimate the approximate relative humidity on the morning of May 3.",
+          "Which two consecutive days showed the steepest decrease in relative humidity?"
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, focusing on identifying trends and specific data points related to atmospheric humidity."
+      },
+      "questionResults": [
+        {
+          "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+          "correctAnswer": "Humidity as a percentage",
+          "stemOverlap": [
+            "axis",
+            "relative",
+            "humidity"
+          ],
+          "correctOverlap": [
+            "humidity",
+            "percentage",
+            "axis"
+          ],
+          "combinedOverlap": [
+            "axis",
+            "relative",
+            "humidity",
+            "percentage"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Describe the trend of relative humidity between May 5 and May 6.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "Why is this graph useful for studying weather over the eight-day period?",
+          "correctAnswer": "It makes it easier to see changes and trends in humidity from day to day.",
+          "stemOverlap": [
+            "weather",
+            "over",
+            "eight",
+            "period"
+          ],
+          "correctOverlap": [
+            "trends",
+            "humidity",
+            "from",
+            "line",
+            "over"
+          ],
+          "combinedOverlap": [
+            "weather",
+            "over",
+            "eight",
+            "period",
+            "trends",
+            "humidity",
+            "from",
+            "line"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Calculate the approximate range of relative humidity during the entire period shown.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0027.png",
+      "fileName": "unclassified_0027.png",
+      "subject": "Science",
+      "category": "energy-statistics",
+      "imageType": "chart",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 11,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types.",
+        "description": "This image presents a pie chart showing the U.S. energy consumption by source in 2012, with a total of 95 quadrillion Btu. Key sources include Petroleum, Natural Gas, Coal, Nuclear Electric Power, and Renewable Energy. A segment of the pie chart, 'Renewable En",
+        "extractedText": "U.S. Energy Consumption by Energy Source, 2012. Total = 95 quadrillion Btu. Petroleum 36%, Natural Gas 27%, Coal 18%, Nuclear Electric Power 8%, Renewable Energy 9%. Renewable Tota",
+        "questionSeeds": [
+          "Identify the largest source of U.S. energy consumption in 2012.",
+          "Calculate the combined percentage of fossil fuels consumed in the U.S. in 2012.",
+          "Determine which renewable energy source contributed the most to U.S. energy in 2012.",
+          "Compare the total energy from nuclear power to that from all renewable sources."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, focusing on energy sources and percentages."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+          "correctAnswer": "81%",
+          "stemOverlap": [
+            "2012",
+            "energy",
+            "consumption",
+            "percentage",
+            "u.s.",
+            "from",
+            "fossil",
+            "fuels"
+          ],
+          "correctOverlap": [
+            "petroleum",
+            "36%",
+            "natural",
+            "27%",
+            "coal",
+            "18%"
+          ],
+          "combinedOverlap": [
+            "2012",
+            "energy",
+            "consumption",
+            "percentage",
+            "u.s.",
+            "from",
+            "fossil",
+            "fuels",
+            "petroleum",
+            "36%",
+            "natural",
+            "27%",
+            "coal",
+            "18%"
+          ],
+          "supportedPhrases": [
+            "36%",
+            "27%",
+            "18%",
+            "2012"
+          ],
+          "bestSeed": "Calculate the combined percentage of fossil fuels consumed in the U.S. in 2012.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        },
+        {
+          "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+          "correctAnswer": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "stemOverlap": [
+            "include",
+            "breakdown",
+            "renewable",
+            "energy",
+            "sources"
+          ],
+          "correctOverlap": [
+            "renewable",
+            "energy",
+            "total",
+            "sources",
+            "that",
+            "expanded"
+          ],
+          "combinedOverlap": [
+            "include",
+            "breakdown",
+            "renewable",
+            "energy",
+            "sources",
+            "total",
+            "that",
+            "expanded"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Compare the total energy from nuclear power to that from all renewable sources.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0032.png",
+      "fileName": "unclassified_0032.png",
+      "subject": "Science",
+      "category": "earth-science-diagrams",
+      "imageType": "diagram",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 6,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "A grayscale diagram illustrating the water cycle, showing evaporation, condensation, precipitation, transport, runoff, and groundwater.",
+        "description": "This grayscale diagram depicts the key processes of the water cycle in a simplified natural setting. It illustrates water evaporating from a body of water, condensing into clouds, and being transported across the sky. Precipitation falls over mountains, leadin",
+        "extractedText": "Transport, Condensation, Evaporation, Precipitation, Runoff, Groundwater",
+        "questionSeeds": [
+          "Identify the process that transforms liquid water into water vapor.",
+          "Describe the path water takes after it falls as precipitation on the mountains.",
+          "What two processes are involved in the formation and movement of clouds?",
+          "Explain the continuous nature of the water cycle based on this diagram."
+        ],
+        "usageDirectives": "Use for conceptual understanding and process identification questions in Earth science at an easy to medium level."
+      },
+      "questionResults": [
+        {
+          "questionText": "In the water-cycle diagram, which process changes liquid water at the surface into water vapor in the air?",
+          "correctAnswer": "Evaporation",
+          "stemOverlap": [
+            "water",
+            "cycle",
+            "process",
+            "liquid",
+            "surface",
+            "into"
+          ],
+          "correctOverlap": [
+            "evaporation",
+            "process",
+            "that",
+            "liquid",
+            "water",
+            "into",
+            "vapor."
+          ],
+          "combinedOverlap": [
+            "water",
+            "cycle",
+            "process",
+            "liquid",
+            "surface",
+            "into",
+            "evaporation",
+            "that",
+            "vapor."
+          ],
+          "supportedPhrases": [
+            "Evaporation"
+          ],
+          "bestSeed": "Identify the process that transforms liquid water into water vapor.",
+          "bestSeedOverlap": 6,
+          "supported": true
+        },
+        {
+          "questionText": "After precipitation falls on land in the diagram, which pathway returns some of that water directly across the ground toward larger bodies of water?",
+          "correctAnswer": "Runoff",
+          "stemOverlap": [
+            "precipitation",
+            "falls",
+            "land",
+            "that",
+            "water",
+            "across"
+          ],
+          "correctOverlap": [
+            "runoff",
+            "that",
+            "water"
+          ],
+          "combinedOverlap": [
+            "precipitation",
+            "falls",
+            "land",
+            "that",
+            "water",
+            "across",
+            "runoff"
+          ],
+          "supportedPhrases": [
+            "Runoff"
+          ],
+          "bestSeed": "Describe the path water takes after it falls as precipitation on the mountains.",
+          "bestSeedOverlap": 3,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0033.png",
+      "fileName": "unclassified_0033.png",
+      "subject": "Science",
+      "category": "biology-diagrams",
+      "imageType": "diagram",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 7,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth.",
+        "description": "This diagram visually represents the global carbon cycle, showing how carbon moves through different reservoirs. It depicts atmospheric carbon dioxide (CO2), sunlight, and key biological processes such as photosynthesis and respiration in plants and animals. T",
+        "extractedText": "The Carbon Cycle, Sunlight, CO2 cycle, Photosynthesis, Organic carbon, Decay organisms, Animal respiration, Dead organisms and waste products, Fossils and fossil fuels, Plant respi",
+        "questionSeeds": [
+          "Describe the role of photosynthesis in the atmospheric carbon cycle according to the diagram.",
+          "Identify two ways humans impact the carbon cycle based on the illustration.",
+          "Explain how carbon from dead organisms can eventually form fossil fuels.",
+          "Trace the path of a carbon atom from the atmosphere into a plant and then into an animal, as depicted."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, focusing on ecological processes and human impact."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+          "correctAnswer": "Photosynthesis",
+          "stemOverlap": [
+            "carbon",
+            "cycle",
+            "dioxide",
+            "from",
+            "atmosphere",
+            "organic"
+          ],
+          "correctOverlap": [
+            "photosynthesis",
+            "atmospheric",
+            "carbon",
+            "dioxide",
+            "into",
+            "organic"
+          ],
+          "combinedOverlap": [
+            "carbon",
+            "cycle",
+            "dioxide",
+            "from",
+            "atmosphere",
+            "organic",
+            "photosynthesis",
+            "atmospheric",
+            "into"
+          ],
+          "supportedPhrases": [
+            "Photosynthesis"
+          ],
+          "bestSeed": "Describe the role of photosynthesis in the atmospheric carbon cycle according to the diagram.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        },
+        {
+          "questionText": "Which change would most directly increase the amount of carbon dioxide entering the atmosphere in the diagram?",
+          "correctAnswer": "An increase in auto and factory emissions",
+          "stemOverlap": [
+            "carbon",
+            "dioxide",
+            "atmosphere"
+          ],
+          "correctOverlap": [
+            "auto",
+            "factory",
+            "emissions",
+            "from",
+            "factories",
+            "carbon",
+            "dioxide",
+            "into"
+          ],
+          "combinedOverlap": [
+            "carbon",
+            "dioxide",
+            "atmosphere",
+            "auto",
+            "factory",
+            "emissions",
+            "from",
+            "factories",
+            "into"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Trace the path of a carbon atom from the atmosphere into a plant and then into an animal, as depicted.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0041.png",
+      "fileName": "unclassified_0041.png",
+      "subject": "Science",
+      "category": "geology-diagrams",
+      "imageType": "diagram",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 5,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Diagram showing Earth's internal structure: crust, mantle, core, lithosphere, asthenosphere, and oceanic/continental crust.",
+        "description": "This image displays a cutaway diagram illustrating the layers of the Earth, divided into crust, mantle, and core, with further subdivisions for each. A magnified inset provides a detailed view of the uppermost layers, specifically highlighting the relationship",
+        "extractedText": "Mid-Ocean Ridge, Oceanic Crust, LAB, Asthenosphere, Continental Crust, Lithosphere, Mantle, Outer Core, Inner Core, Core, Crust, Upper Solid Mantle, Asthenosphere (Part of Ductile ",
+        "questionSeeds": [
+          "Identify the primary layers of the Earth depicted in the diagram.",
+          "Describe the difference between oceanic crust and continental crust as shown.",
+          "Explain the relationship between the lithosphere and the asthenosphere, referring to the zoomed-in section.",
+          "Name the two sub-layers of the Earth's core illustrated in the diagram."
+        ],
+        "usageDirectives": "Use for identifying Earth's layers and understanding their relationships in an earth science context."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the Earth-layer diagram, which layer lies directly beneath the lithosphere?",
+          "correctAnswer": "The asthenosphere",
+          "stemOverlap": [
+            "earth",
+            "lithosphere"
+          ],
+          "correctOverlap": [
+            "asthenosphere"
+          ],
+          "combinedOverlap": [
+            "earth",
+            "lithosphere",
+            "asthenosphere"
+          ],
+          "supportedPhrases": [
+            "The asthenosphere"
+          ],
+          "bestSeed": "Explain the relationship between the lithosphere and the asthenosphere, referring to the zoomed-in section.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "Why do many diagrams of plate motion include the asthenosphere beneath the lithosphere?",
+          "correctAnswer": "Because the asthenosphere can flow slowly, allowing tectonic plates above it to move.",
+          "stemOverlap": [
+            "diagrams",
+            "plate",
+            "asthenosphere",
+            "lithosphere"
+          ],
+          "correctOverlap": [
+            "asthenosphere",
+            "explain",
+            "plate"
+          ],
+          "combinedOverlap": [
+            "diagrams",
+            "plate",
+            "asthenosphere",
+            "lithosphere",
+            "explain"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Explain the relationship between the lithosphere and the asthenosphere, referring to the zoomed-in section.",
+          "bestSeedOverlap": 3,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0052.png",
+      "fileName": "unclassified_0052.png",
+      "subject": "Science",
+      "category": "geology-diagrams",
+      "imageType": "diagram",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 4,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Cross-section diagram illustrating different types of plate tectonic boundaries and associated geological features.",
+        "description": "This detailed diagram displays a cross-section of Earth's crust and upper mantle, showing various plate tectonic boundaries: convergent, divergent, and transform. It labels key geological features such as island arcs, trenches, stratovolcanoes, shield volcanoe",
+        "extractedText": "CONVERGENT PLATE BOUNDARY, TRANSFORM PLATE BOUNDARY, DIVERGENT PLATE BOUNDARY, CONTINENTAL RIFT ZONE (YOUNG DIVERGENT PLATE BOUNDARY), ISLAND ARC, TRENCH, STRATO-VOLCANO, SHIELD VO",
+        "questionSeeds": [
+          "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+          "Describe the process occurring at the oceanic spreading ridge.",
+          "Explain how a hot spot leads to the formation of a shield volcano.",
+          "Compare the characteristics of a stratovolcano with a shield volcano as shown in the diagram."
+        ],
+        "usageDirectives": "Use for identifying geological features and processes at plate boundaries for medium to advanced level science questions. Good for diagram interpretation."
+      },
+      "questionResults": [
+        {
+          "questionText": "Which statement about a transform plate boundary is best supported by the diagram?",
+          "correctAnswer": "Two plates slide past each other, often causing earthquakes.",
+          "stemOverlap": [
+            "transform",
+            "plate",
+            "boundary"
+          ],
+          "correctOverlap": [
+            "plates",
+            "transform",
+            "boundary"
+          ],
+          "combinedOverlap": [
+            "transform",
+            "plate",
+            "boundary",
+            "plates"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "If two oceanic plates move away from each other, which feature would most likely form according to the plate-boundary diagram?",
+          "correctAnswer": "A ridge where new crust forms",
+          "stemOverlap": [
+            "oceanic",
+            "plates",
+            "plate",
+            "boundary"
+          ],
+          "correctOverlap": [
+            "ridge",
+            "crust",
+            "divergent",
+            "oceanic",
+            "boundaries",
+            "associated",
+            "ridges",
+            "formation",
+            "crust."
+          ],
+          "combinedOverlap": [
+            "oceanic",
+            "plates",
+            "plate",
+            "boundary",
+            "ridge",
+            "crust",
+            "divergent",
+            "boundaries",
+            "associated",
+            "ridges",
+            "formation",
+            "crust."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+          "bestSeedOverlap": 5,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/035fa172_2083_4c13_9485_0001.png",
+      "fileName": "035fa172_2083_4c13_9485_0001.png",
+      "subject": "Social Studies",
+      "category": "pie-charts",
+      "imageType": "chart",
+      "questionCount": 3,
+      "supportedQuestions": 3,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Pie chart illustrating the percentage breakdown of government spending across various categories like Health, Social Security, and Defense.",
+        "description": "This is a colorful pie chart titled 'Percent of spending, Including discretionary and mandatory'. It visualizes the allocation of total spending across different governmental sectors and programs. Each slice represents a category, with its size proportional to",
+        "extractedText": "Percent of spending, Including discretionary and mandatory; Health 28%; Social Security 25.3%; Defense/Homeland Security 16.2%; Remainder 9.1%; Veterans 4%; Transportation 4%; Food",
+        "questionSeeds": [
+          "Which two categories together account for just over half of the total spending shown in the chart?",
+          "How much larger is Health spending than Defense/Homeland Security in the chart?",
+          "Which programs are tied at 1% each, according to the chart labels?",
+          "If Housing spending doubled, would it be larger than Education, smaller than Education, or the same size?"
+        ],
+        "usageDirectives": "Use only for budget-allocation questions tied to the labeled percentages in the pie chart."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the pie chart, which category makes up the largest share of federal spending shown?",
+          "correctAnswer": "Health",
+          "stemOverlap": [
+            "category",
+            "largest",
+            "spending"
+          ],
+          "correctOverlap": [
+            "health",
+            "28%",
+            "largest",
+            "slice"
+          ],
+          "combinedOverlap": [
+            "category",
+            "largest",
+            "spending",
+            "health",
+            "28%",
+            "slice"
+          ],
+          "supportedPhrases": [
+            "Health",
+            "28%"
+          ],
+          "bestSeed": "How much larger is Health spending than Defense/Homeland Security in the chart?",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "If Health spending is combined with Social Security spending, what total share of spending do those two categories represent?",
+          "correctAnswer": "53.3%",
+          "stemOverlap": [
+            "health",
+            "spending",
+            "combined",
+            "social",
+            "security",
+            "total",
+            "categories",
+            "represent"
+          ],
+          "correctOverlap": [
+            "28%",
+            "health",
+            "25.3%",
+            "social",
+            "security"
+          ],
+          "combinedOverlap": [
+            "health",
+            "spending",
+            "combined",
+            "social",
+            "security",
+            "total",
+            "categories",
+            "represent",
+            "28%",
+            "25.3%"
+          ],
+          "supportedPhrases": [
+            "28%",
+            "25.3%"
+          ],
+          "bestSeed": "Calculate the combined percentage of Health and Social Security spending.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        },
+        {
+          "questionText": "Which group of programs is shown as taking 1% each of spending in the chart?",
+          "correctAnswer": "Housing, Energy, Science, and Labor",
+          "stemOverlap": [
+            "programs",
+            "1%",
+            "each",
+            "spending"
+          ],
+          "correctOverlap": [
+            "housing",
+            "energy",
+            "science",
+            "labor",
+            "each",
+            "categories",
+            "labeled",
+            "1%",
+            "chart."
+          ],
+          "combinedOverlap": [
+            "programs",
+            "1%",
+            "each",
+            "spending",
+            "housing",
+            "energy",
+            "science",
+            "labor",
+            "categories",
+            "labeled",
+            "chart."
+          ],
+          "supportedPhrases": [
+            "1%"
+          ],
+          "bestSeed": "Which programs are tied at 1% each, according to the chart labels?",
+          "bestSeedOverlap": 3,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg",
+      "fileName": "a_map_of_the_triangular_trade_routes_0001.jpg",
+      "subject": "Social Studies",
+      "category": "historical-maps",
+      "imageType": "map",
+      "questionCount": 3,
+      "supportedQuestions": 3,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Map illustrating the transatlantic African slave trade from 1500 to 1870, showing routes, origins, and destinations.",
+        "description": "This image displays a world map centered on the Atlantic Ocean, depicting the African slave trade from 1500 to 1870. It highlights North America, South America, Europe, and Africa, using purple arrows to illustrate major slave trade routes from various points ",
+        "extractedText": "",
+        "questionSeeds": [
+          "Which continents are connected by the slave-trade routes shown on the map?",
+          "What does the map suggest about the main direction of forced movement from Africa to the Americas?",
+          "According to the inset pie chart, which African region contributed the largest share of enslaved people taken to North America?",
+          "Which European empires are identified in the legend as controlling colonial areas tied to this trade network?"
+        ],
+        "usageDirectives": "Use for map-reading questions about the transatlantic slave trade, forced migration, and the colonial powers shown in the legend."
+      },
+      "questionResults": [
+        {
+          "questionText": "What movement is most clearly shown by the arrows leaving Africa on the triangular trade map?",
+          "correctAnswer": "The forced transport of enslaved Africans to the Americas",
+          "stemOverlap": [
+            "movement",
+            "arrows",
+            "africa",
+            "trade"
+          ],
+          "correctOverlap": [
+            "forced",
+            "enslaved",
+            "africans",
+            "americas",
+            "atlantic",
+            "slave",
+            "trade",
+            "routes",
+            "from",
+            "africa",
+            "destinations",
+            "americas."
+          ],
+          "combinedOverlap": [
+            "movement",
+            "arrows",
+            "africa",
+            "trade",
+            "forced",
+            "enslaved",
+            "africans",
+            "americas",
+            "atlantic",
+            "slave",
+            "routes",
+            "from",
+            "destinations",
+            "americas."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does the map suggest about the main direction of forced movement from Africa to the Americas?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        },
+        {
+          "questionText": "What additional information does the inset pie chart provide on this map?",
+          "correctAnswer": "The regional origins of enslaved Africans taken to North America",
+          "stemOverlap": [
+            "does",
+            "inset"
+          ],
+          "correctOverlap": [
+            "origins",
+            "enslaved",
+            "africans",
+            "taken",
+            "north",
+            "america",
+            "inset",
+            "about",
+            "share",
+            "from",
+            "african"
+          ],
+          "combinedOverlap": [
+            "does",
+            "inset",
+            "origins",
+            "enslaved",
+            "africans",
+            "taken",
+            "north",
+            "america",
+            "about",
+            "share",
+            "from",
+            "african"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "According to the inset pie chart, which African region contributed the largest share of enslaved people taken to North America?",
+          "bestSeedOverlap": 7,
+          "supported": true
+        },
+        {
+          "questionText": "Which set of continents is directly connected by the main trade network shown on the map?",
+          "correctAnswer": "Africa, Europe, and the Americas",
+          "stemOverlap": [
+            "continents",
+            "connected",
+            "main",
+            "trade",
+            "network"
+          ],
+          "correctOverlap": [
+            "africa",
+            "europe",
+            "americas",
+            "trade",
+            "european",
+            "colonial",
+            "powers",
+            "destinations",
+            "north",
+            "south",
+            "america."
+          ],
+          "combinedOverlap": [
+            "continents",
+            "connected",
+            "main",
+            "trade",
+            "network",
+            "africa",
+            "europe",
+            "americas",
+            "european",
+            "colonial",
+            "powers",
+            "destinations",
+            "north",
+            "south",
+            "america."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Which European empires are identified in the legend as controlling colonial areas tied to this trade network?",
+          "bestSeedOverlap": 4,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/a_new_nation_quiz_2_0001.png",
+      "fileName": "a_new_nation_quiz_2_0001.png",
+      "subject": "Social Studies",
+      "category": "historical-maps",
+      "imageType": "map",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Map of North America highlighting the Louisiana Purchase in white, surrounded by other US states, Canada, and Mexico.",
+        "description": "This historical map illustrates the territory of the Louisiana Purchase, highlighted in white, in relation to the broader geography of North America. The map outlines the borders of various present-day U.S. states that were part of or bordered this acquisition",
+        "extractedText": "",
+        "questionSeeds": [
+          "What major land acquisition is highlighted in white on the map?",
+          "Which two present-day countries border the highlighted territory to the north and southwest?",
+          "Why do St. Louis and New Orleans appear as important locations on a map of the Louisiana Purchase?",
+          "What does the highlighted area reveal about how much the purchase expanded the United States?"
+        ],
+        "usageDirectives": "Use for territorial-expansion questions anchored to the highlighted Louisiana Purchase region and its neighboring countries and cities."
+      },
+      "questionResults": [
+        {
+          "questionText": "On the map, what territory is highlighted in white?",
+          "correctAnswer": "The Louisiana Purchase",
+          "stemOverlap": [
+            "territory",
+            "highlighted",
+            "white"
+          ],
+          "correctOverlap": [
+            "louisiana",
+            "purchase",
+            "white",
+            "region",
+            "territory."
+          ],
+          "combinedOverlap": [
+            "territory",
+            "highlighted",
+            "white",
+            "louisiana",
+            "purchase",
+            "region",
+            "territory."
+          ],
+          "supportedPhrases": [
+            "The Louisiana Purchase"
+          ],
+          "bestSeed": "What major land acquisition is highlighted in white on the map?",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "What does the map best show about the Louisiana Purchase?",
+          "correctAnswer": "It greatly expanded U.S. territory west of the Mississippi River.",
+          "stemOverlap": [
+            "does",
+            "about",
+            "louisiana",
+            "purchase"
+          ],
+          "correctOverlap": [
+            "expanded",
+            "u.s.",
+            "territory",
+            "mississippi",
+            "land",
+            "acquisition",
+            "united"
+          ],
+          "combinedOverlap": [
+            "does",
+            "about",
+            "louisiana",
+            "purchase",
+            "expanded",
+            "u.s.",
+            "territory",
+            "mississippi",
+            "land",
+            "acquisition",
+            "united"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does the highlighted area reveal about how much the purchase expanded the United States?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/american_civil_war_0002.png",
+      "fileName": "american_civil_war_0002.png",
+      "subject": "Social Studies",
+      "category": "history-maps",
+      "imageType": "map",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Map illustrating the progression of Union control and Confederate territory loss during the U.S. Civil War, 1861-1865.",
+        "description": "This grayscale historical map displays the shifting lines of control during the American Civil War from 1861 to 1865. It highlights areas under Union control in 1861, coastal areas also under Union control, and territories progressively lost by the Confederacy",
+        "extractedText": "THE CIVIL WAR 1861-1865, AREA UNDER UNION CONTROL, 1861, COASTAL AREA UNDER UNION CONTROL, AREA LOST BY CONFEDERACY, 1862, 1863, 1864, 1865, MILES, Washington, Richmond, VA, TENN, ",
+        "questionSeeds": [
+          "How does the map show the Confederacy shrinking between 1862 and 1865?",
+          "Why do the Mississippi River and coastal areas appear strategically important on this Civil War map?",
+          "What does the legend allow a reader to distinguish about Union control versus Confederate losses over time?",
+          "What does the position of Richmond on the map suggest about its importance to the Confederacy?"
+        ],
+        "usageDirectives": "Use for Civil War geography questions that rely on the legend, dates, rivers, and shifting areas of Union control."
+      },
+      "questionResults": [
+        {
+          "questionText": "What overall change does the Civil War map show from 1861 to 1865?",
+          "correctAnswer": "The Confederacy lost territory over time as Union control expanded.",
+          "stemOverlap": [
+            "does",
+            "civil",
+            "show",
+            "from",
+            "1861",
+            "1865"
+          ],
+          "correctOverlap": [
+            "confederacy",
+            "lost",
+            "territory",
+            "over",
+            "time",
+            "union",
+            "control",
+            "shaded",
+            "regions",
+            "show",
+            "shrinking",
+            "areas"
+          ],
+          "combinedOverlap": [
+            "does",
+            "civil",
+            "show",
+            "from",
+            "1861",
+            "1865",
+            "confederacy",
+            "lost",
+            "territory",
+            "over",
+            "time",
+            "union",
+            "control",
+            "shaded",
+            "regions",
+            "shrinking",
+            "areas"
+          ],
+          "supportedPhrases": [
+            "1861",
+            "1865"
+          ],
+          "bestSeed": "How does the map show the Confederacy shrinking between 1862 and 1865?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        },
+        {
+          "questionText": "Why is the legend important for interpreting this map?",
+          "correctAnswer": "It explains which patterns represent Union control and which represent territory lost by the Confederacy in different years.",
+          "stemOverlap": [
+            "important"
+          ],
+          "correctOverlap": [
+            "union",
+            "control",
+            "territory",
+            "lost",
+            "confederacy",
+            "shaded",
+            "regions",
+            "dates",
+            "interpret"
+          ],
+          "combinedOverlap": [
+            "important",
+            "union",
+            "control",
+            "territory",
+            "lost",
+            "confederacy",
+            "shaded",
+            "regions",
+            "dates",
+            "interpret"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify states where significant portions of territory were lost by the Confederacy in 1862.",
+          "bestSeedOverlap": 3,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/civil_rights_act_of_1964_0001.png",
+      "fileName": "civil_rights_act_of_1964_0001.png",
+      "subject": "Social Studies",
+      "category": "political-maps",
+      "imageType": "map",
+      "questionCount": 3,
+      "supportedQuestions": 3,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Map of US states showing Senator's votes on the Civil Rights Act of 1964 by 'Yea', 'Nay', or 'Split'.",
+        "description": "This is a color-coded political map of the United States, including Alaska and Hawaii, illustrating how each state's senators voted on the Civil Rights Act of 1964. States are filled with one of three colors: green for 'Yea' votes, light blue for 'Nay' votes, ",
+        "extractedText": "Senator's vote for the Civil Rights Act of 1964 (H.R. 7152) \"Yea\" \"Nay\" \"Split\" Created with mapchart.net",
+        "questionSeeds": [
+          "Which region of the United States shows the strongest concentration of Nay or Split votes on this map?",
+          "What does a yellow state represent in the legend for this Senate vote map?",
+          "How does support for the Civil Rights Act in the Northeast compare with support in much of the Deep South on the map?",
+          "What regional political divide is made visible by this voting map?"
+        ],
+        "usageDirectives": "Use only for region-based interpretation of Senate voting patterns on the Civil Rights Act of 1964."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the legend, what does a yellow state represent on the Senate vote map?",
+          "correctAnswer": "The state's senators were split on the bill",
+          "stemOverlap": [
+            "does",
+            "yellow",
+            "state",
+            "represent",
+            "senate",
+            "vote"
+          ],
+          "correctOverlap": [
+            "state",
+            "senators",
+            "split",
+            "yellow"
+          ],
+          "combinedOverlap": [
+            "does",
+            "yellow",
+            "state",
+            "represent",
+            "senate",
+            "vote",
+            "senators",
+            "split"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does a yellow state represent in the legend for this Senate vote map?",
+          "bestSeedOverlap": 6,
+          "supported": true
+        },
+        {
+          "questionText": "Which region shows the strongest concentration of opposition or divided support for the Civil Rights Act on this map?",
+          "correctAnswer": "The South",
+          "stemOverlap": [
+            "region",
+            "strongest",
+            "concentration",
+            "opposition",
+            "civil",
+            "rights"
+          ],
+          "correctOverlap": [
+            "south",
+            "southern",
+            "states",
+            "split",
+            "map."
+          ],
+          "combinedOverlap": [
+            "region",
+            "strongest",
+            "concentration",
+            "opposition",
+            "civil",
+            "rights",
+            "south",
+            "southern",
+            "states",
+            "split",
+            "map."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Which region of the United States shows the strongest concentration of Nay or Split votes on this map?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        },
+        {
+          "questionText": "What broader conclusion does this map support about Senate votes on the Civil Rights Act of 1964?",
+          "correctAnswer": "Support was generally stronger outside the Deep South",
+          "stemOverlap": [
+            "does",
+            "senate",
+            "votes",
+            "civil",
+            "rights",
+            "1964"
+          ],
+          "correctOverlap": [
+            "deep",
+            "south",
+            "pattern",
+            "strongest",
+            "much"
+          ],
+          "combinedOverlap": [
+            "does",
+            "senate",
+            "votes",
+            "civil",
+            "rights",
+            "1964",
+            "deep",
+            "south",
+            "pattern",
+            "strongest",
+            "much"
+          ],
+          "supportedPhrases": [
+            "1964"
+          ],
+          "bestSeed": "How does support for the Civil Rights Act in the Northeast compare with support in much of the Deep South on the map?",
+          "bestSeedOverlap": 6,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/civil_rights_movement_0001.png",
+      "fileName": "civil_rights_movement_0001.png",
+      "subject": "Social Studies",
+      "category": "historical-photos",
+      "imageType": "chart",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Black and white photo of civil rights marchers holding signs, including Martin Luther King Jr. and other leaders.",
+        "description": "This black and white photograph captures a pivotal moment during the Civil Rights Movement, likely the 1963 March on Washington. A large crowd of marchers, including prominent leaders like Martin Luther King Jr., are seen walking arm-in-arm down a street. They",
+        "extractedText": "WE MARCH FOR JOBS FOR ALL NOW! WE DEMAND VOTING RIGHTS NOW! END SEGREGATED PUBLIC SCHOOLS! INTEGRATED SCHOOLS NOW! DECENT PAY NOW! EQUAL RIGHTS NOW!",
+        "questionSeeds": [
+          "Which demands are stated directly on the marchers' signs in the photograph?",
+          "What form of civic action is shown in this image, and how does it fit the Civil Rights Movement?",
+          "Why is this photograph strong primary-source evidence of what protesters wanted to change?",
+          "What does the combination of signs about jobs, voting rights, and school integration suggest about the movement's goals?"
+        ],
+        "usageDirectives": "Use for primary-source questions about the goals, tactics, and demands visible in the Civil Rights march photograph."
+      },
+      "questionResults": [
+        {
+          "questionText": "Which goal is most clearly shown by the protest signs in the photograph?",
+          "correctAnswer": "Expanding civil rights such as voting rights, school integration, and equal opportunity",
+          "stemOverlap": [
+            "protest",
+            "signs",
+            "photograph"
+          ],
+          "correctOverlap": [
+            "civil",
+            "rights",
+            "voting",
+            "school",
+            "integration",
+            "equal",
+            "signs",
+            "integrated",
+            "schools",
+            "jobs"
+          ],
+          "combinedOverlap": [
+            "protest",
+            "signs",
+            "photograph",
+            "civil",
+            "rights",
+            "voting",
+            "school",
+            "integration",
+            "equal",
+            "integrated",
+            "schools",
+            "jobs"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does the combination of signs about jobs, voting rights, and school integration suggest about the movement's goals?",
+          "bestSeedOverlap": 6,
+          "supported": true
+        },
+        {
+          "questionText": "What does this image suggest about how many civil rights activists tried to create change?",
+          "correctAnswer": "They used organized public marches to draw attention to injustice and demand reform.",
+          "stemOverlap": [
+            "does",
+            "suggest",
+            "about",
+            "civil",
+            "rights",
+            "change"
+          ],
+          "correctOverlap": [
+            "public",
+            "demand",
+            "large",
+            "crowd",
+            "signs",
+            "leaders"
+          ],
+          "combinedOverlap": [
+            "does",
+            "suggest",
+            "about",
+            "civil",
+            "rights",
+            "change",
+            "public",
+            "demand",
+            "large",
+            "crowd",
+            "signs",
+            "leaders"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does the combination of signs about jobs, voting rights, and school integration suggest about the movement's goals?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/colonial_history_of_the_united_states_0003.png",
+      "fileName": "colonial_history_of_the_united_states_0003.png",
+      "subject": "Social Studies",
+      "category": "historical-maps",
+      "imageType": "map",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "A historical map displaying the territorial claims of France, Great Britain, and Spain in North America, circa 1713.",
+        "description": "This political map illustrates the territorial divisions of North America among European powers around the early 18th century. It uses color coding to show land claimed by France, Great Britain, and Spain, and specifically highlights areas ceded by France to G",
+        "extractedText": "France, Great Britain, Territories ceded by France to Great Britain by the Treaty of Utrecht in 1713, Spain, Cities, Forts, Hudson Bay, Pacific Ocean, Gulf of Mexico, Atlantic Ocea",
+        "questionSeeds": [
+          "Which European power controls most of the North American interior on this 1713 map?",
+          "How does the map show the effect of the Treaty of Utrecht on France's northeastern claims?",
+          "Why would the marked forts and cities help a reader understand imperial competition in North America?",
+          "Which region around the Gulf of Mexico remains under Spanish control on the map?"
+        ],
+        "usageDirectives": "Use for colonial-era map questions tied to the Treaty of Utrecht, imperial claims, and the labeled regions in North America."
+      },
+      "questionResults": [
+        {
+          "questionText": "Before the Treaty of Utrecht, which European power controlled the largest continuous land area shown on the map?",
+          "correctAnswer": "France",
+          "stemOverlap": [
+            "treaty",
+            "utrecht",
+            "european",
+            "power",
+            "controlled",
+            "largest",
+            "continuous",
+            "land"
+          ],
+          "correctOverlap": [
+            "france",
+            "french",
+            "claims",
+            "canada",
+            "louisiana."
+          ],
+          "combinedOverlap": [
+            "treaty",
+            "utrecht",
+            "european",
+            "power",
+            "controlled",
+            "largest",
+            "continuous",
+            "land",
+            "france",
+            "french",
+            "claims",
+            "canada",
+            "louisiana."
+          ],
+          "supportedPhrases": [
+            "France"
+          ],
+          "bestSeed": "Identify the European power that controlled the largest continuous landmass in North America prior to the Treaty of Utrecht.",
+          "bestSeedOverlap": 6,
+          "supported": true
+        },
+        {
+          "questionText": "What does the map suggest was one effect of the Treaty of Utrecht in 1713?",
+          "correctAnswer": "France gave up some northeastern territory to Great Britain.",
+          "stemOverlap": [
+            "does",
+            "effect",
+            "treaty",
+            "utrecht",
+            "1713"
+          ],
+          "correctOverlap": [
+            "france",
+            "northeastern",
+            "great",
+            "specifically",
+            "highlights",
+            "territories",
+            "ceded",
+            "britain",
+            "under"
+          ],
+          "combinedOverlap": [
+            "does",
+            "effect",
+            "treaty",
+            "utrecht",
+            "1713",
+            "france",
+            "northeastern",
+            "great",
+            "specifically",
+            "highlights",
+            "territories",
+            "ceded",
+            "britain",
+            "under"
+          ],
+          "supportedPhrases": [
+            "1713"
+          ],
+          "bestSeed": "How does the map show the effect of the Treaty of Utrecht on France's northeastern claims?",
+          "bestSeedOverlap": 6,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/ged_grsph_0001.png",
+      "fileName": "ged_grsph_0001.png",
+      "subject": "Social Studies",
+      "category": "bar-graphs",
+      "imageType": "chart",
+      "questionCount": 3,
+      "supportedQuestions": 3,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.",
+        "description": "The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x-",
+        "extractedText": "Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+        "questionSeeds": [
+          "Which river is the longest according to the left bar graph?",
+          "Which river has the largest drainage basin according to the right bar graph?",
+          "How do the Missouri and Mississippi rivers compare when you look at both length and drainage area?",
+          "Which river appears to rank differently when measured by length versus drainage basin size?"
+        ],
+        "usageDirectives": "Use for direct graph-reading questions comparing river length with drainage-basin size."
+      },
+      "questionResults": [
+        {
+          "questionText": "According to the left graph, which river is the longest of the ones listed?",
+          "correctAnswer": "Missouri",
+          "stemOverlap": [
+            "left",
+            "river",
+            "longest"
+          ],
+          "correctOverlap": [
+            "missouri",
+            "left",
+            "river",
+            "longest"
+          ],
+          "combinedOverlap": [
+            "left",
+            "river",
+            "longest",
+            "missouri"
+          ],
+          "supportedPhrases": [
+            "Missouri"
+          ],
+          "bestSeed": "Which river is the longest according to the left bar graph?",
+          "bestSeedOverlap": 3,
+          "supported": true
+        },
+        {
+          "questionText": "According to the right graph, which river has the largest drainage basin?",
+          "correctAnswer": "Mississippi",
+          "stemOverlap": [
+            "right",
+            "river",
+            "largest",
+            "drainage",
+            "basin"
+          ],
+          "correctOverlap": [
+            "mississippi",
+            "drainage",
+            "area",
+            "river",
+            "largest",
+            "basin"
+          ],
+          "combinedOverlap": [
+            "right",
+            "river",
+            "largest",
+            "drainage",
+            "basin",
+            "mississippi",
+            "area"
+          ],
+          "supportedPhrases": [
+            "Mississippi"
+          ],
+          "bestSeed": "Which river has the largest drainage basin according to the right bar graph?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        },
+        {
+          "questionText": "Which graph should a student use to determine which river drains the largest land area?",
+          "correctAnswer": "The drainage-area graph on the right",
+          "stemOverlap": [
+            "determine",
+            "river",
+            "largest",
+            "area"
+          ],
+          "correctOverlap": [
+            "drainage",
+            "area",
+            "right",
+            "basin",
+            "size",
+            "length"
+          ],
+          "combinedOverlap": [
+            "determine",
+            "river",
+            "largest",
+            "area",
+            "drainage",
+            "right",
+            "basin",
+            "size",
+            "length"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Which river has the largest drainage basin according to the right bar graph?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        }
+      ]
+    }
+  ],
+  "selectedCases": [
+    {
+      "filePath": "/images/Science/ged_scince_fig_13_0001.png",
+      "fileName": "ged_scince_fig_13_0001.png",
+      "subject": "Science",
+      "category": "earth-science-diagrams",
+      "imageType": "chart",
+      "questionCount": 1,
+      "supportedQuestions": 1,
+      "supportRate": 100,
+      "qualityRank": 1,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Diagram showing prevailing winds causing a rain shadow effect over mountains near an ocean, with elevation and distance scales.",
+        "description": "This is a cross-section diagram illustrating the effect of prevailing winds on climate across a mountain range adjacent to an ocean. It displays varying elevations from sea level up to 15,000 feet over a horizontal distance of 540 miles. Key points A, B, C, D,",
+        "extractedText": "Weather and Climate, PREVAILING WINDS, A OCEAN, B, C, D, MOUNTAINS, E, Elevation (feet), 0, 3,000, 6,000, 9,000, 12,000, 15,000, (Sea level), Distance (miles), 0, 60, 120, 180, 240",
+        "questionSeeds": [
+          "Describe the likely weather conditions at point A compared to point E, considering the prevailing winds.",
+          "Explain the climatic phenomenon illustrated by this diagram.",
+          "Identify the approximate maximum elevation of the mountain range shown.",
+          "Calculate the approximate horizontal distance from the ocean to the highest peak C."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, particularly for explaining geographic and atmospheric phenomena related to climate."
+      },
+      "questionResults": [
+        {
+          "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+          "correctAnswer": "Point E",
+          "stemOverlap": [
+            "from",
+            "ocean",
+            "direction",
+            "prevailing",
+            "winds.",
+            "labeled",
+            "likely",
+            "precipitation"
+          ],
+          "correctOverlap": [
+            "point",
+            "side"
+          ],
+          "combinedOverlap": [
+            "from",
+            "ocean",
+            "direction",
+            "prevailing",
+            "winds.",
+            "labeled",
+            "likely",
+            "precipitation",
+            "point",
+            "side"
+          ],
+          "supportedPhrases": [
+            "Point E"
+          ],
+          "bestSeed": "Describe the likely weather conditions at point A compared to point E, considering the prevailing winds.",
+          "bestSeedOverlap": 4,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg",
+      "fileName": "a_map_of_the_triangular_trade_routes_0001.jpg",
+      "subject": "Social Studies",
+      "category": "historical-maps",
+      "imageType": "map",
+      "questionCount": 3,
+      "supportedQuestions": 3,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Map illustrating the transatlantic African slave trade from 1500 to 1870, showing routes, origins, and destinations.",
+        "description": "This image displays a world map centered on the Atlantic Ocean, depicting the African slave trade from 1500 to 1870. It highlights North America, South America, Europe, and Africa, using purple arrows to illustrate major slave trade routes from various points ",
+        "extractedText": "",
+        "questionSeeds": [
+          "Which continents are connected by the slave-trade routes shown on the map?",
+          "What does the map suggest about the main direction of forced movement from Africa to the Americas?",
+          "According to the inset pie chart, which African region contributed the largest share of enslaved people taken to North America?",
+          "Which European empires are identified in the legend as controlling colonial areas tied to this trade network?"
+        ],
+        "usageDirectives": "Use for map-reading questions about the transatlantic slave trade, forced migration, and the colonial powers shown in the legend."
+      },
+      "questionResults": [
+        {
+          "questionText": "What movement is most clearly shown by the arrows leaving Africa on the triangular trade map?",
+          "correctAnswer": "The forced transport of enslaved Africans to the Americas",
+          "stemOverlap": [
+            "movement",
+            "arrows",
+            "africa",
+            "trade"
+          ],
+          "correctOverlap": [
+            "forced",
+            "enslaved",
+            "africans",
+            "americas",
+            "atlantic",
+            "slave",
+            "trade",
+            "routes",
+            "from",
+            "africa",
+            "destinations",
+            "americas."
+          ],
+          "combinedOverlap": [
+            "movement",
+            "arrows",
+            "africa",
+            "trade",
+            "forced",
+            "enslaved",
+            "africans",
+            "americas",
+            "atlantic",
+            "slave",
+            "routes",
+            "from",
+            "destinations",
+            "americas."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does the map suggest about the main direction of forced movement from Africa to the Americas?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        },
+        {
+          "questionText": "What additional information does the inset pie chart provide on this map?",
+          "correctAnswer": "The regional origins of enslaved Africans taken to North America",
+          "stemOverlap": [
+            "does",
+            "inset"
+          ],
+          "correctOverlap": [
+            "origins",
+            "enslaved",
+            "africans",
+            "taken",
+            "north",
+            "america",
+            "inset",
+            "about",
+            "share",
+            "from",
+            "african"
+          ],
+          "combinedOverlap": [
+            "does",
+            "inset",
+            "origins",
+            "enslaved",
+            "africans",
+            "taken",
+            "north",
+            "america",
+            "about",
+            "share",
+            "from",
+            "african"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "According to the inset pie chart, which African region contributed the largest share of enslaved people taken to North America?",
+          "bestSeedOverlap": 7,
+          "supported": true
+        },
+        {
+          "questionText": "Which set of continents is directly connected by the main trade network shown on the map?",
+          "correctAnswer": "Africa, Europe, and the Americas",
+          "stemOverlap": [
+            "continents",
+            "connected",
+            "main",
+            "trade",
+            "network"
+          ],
+          "correctOverlap": [
+            "africa",
+            "europe",
+            "americas",
+            "trade",
+            "european",
+            "colonial",
+            "powers",
+            "destinations",
+            "north",
+            "south",
+            "america."
+          ],
+          "combinedOverlap": [
+            "continents",
+            "connected",
+            "main",
+            "trade",
+            "network",
+            "africa",
+            "europe",
+            "americas",
+            "european",
+            "colonial",
+            "powers",
+            "destinations",
+            "north",
+            "south",
+            "america."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Which European empires are identified in the legend as controlling colonial areas tied to this trade network?",
+          "bestSeedOverlap": 4,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/unclassified_0052.png",
+      "fileName": "unclassified_0052.png",
+      "subject": "Science",
+      "category": "geology-diagrams",
+      "imageType": "diagram",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": 4,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "Cross-section diagram illustrating different types of plate tectonic boundaries and associated geological features.",
+        "description": "This detailed diagram displays a cross-section of Earth's crust and upper mantle, showing various plate tectonic boundaries: convergent, divergent, and transform. It labels key geological features such as island arcs, trenches, stratovolcanoes, shield volcanoe",
+        "extractedText": "CONVERGENT PLATE BOUNDARY, TRANSFORM PLATE BOUNDARY, DIVERGENT PLATE BOUNDARY, CONTINENTAL RIFT ZONE (YOUNG DIVERGENT PLATE BOUNDARY), ISLAND ARC, TRENCH, STRATO-VOLCANO, SHIELD VO",
+        "questionSeeds": [
+          "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+          "Describe the process occurring at the oceanic spreading ridge.",
+          "Explain how a hot spot leads to the formation of a shield volcano.",
+          "Compare the characteristics of a stratovolcano with a shield volcano as shown in the diagram."
+        ],
+        "usageDirectives": "Use for identifying geological features and processes at plate boundaries for medium to advanced level science questions. Good for diagram interpretation."
+      },
+      "questionResults": [
+        {
+          "questionText": "Which statement about a transform plate boundary is best supported by the diagram?",
+          "correctAnswer": "Two plates slide past each other, often causing earthquakes.",
+          "stemOverlap": [
+            "transform",
+            "plate",
+            "boundary"
+          ],
+          "correctOverlap": [
+            "plates",
+            "transform",
+            "boundary"
+          ],
+          "combinedOverlap": [
+            "transform",
+            "plate",
+            "boundary",
+            "plates"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+          "bestSeedOverlap": 2,
+          "supported": true
+        },
+        {
+          "questionText": "If two oceanic plates move away from each other, which feature would most likely form according to the plate-boundary diagram?",
+          "correctAnswer": "A ridge where new crust forms",
+          "stemOverlap": [
+            "oceanic",
+            "plates",
+            "plate",
+            "boundary"
+          ],
+          "correctOverlap": [
+            "ridge",
+            "crust",
+            "divergent",
+            "oceanic",
+            "boundaries",
+            "associated",
+            "ridges",
+            "formation",
+            "crust."
+          ],
+          "combinedOverlap": [
+            "oceanic",
+            "plates",
+            "plate",
+            "boundary",
+            "ridge",
+            "crust",
+            "divergent",
+            "boundaries",
+            "associated",
+            "ridges",
+            "formation",
+            "crust."
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+          "bestSeedOverlap": 5,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Science/dominance_genetics_0001.png",
+      "fileName": "dominance_genetics_0001.png",
+      "subject": "Science",
+      "category": "genetics-diagrams",
+      "imageType": "table",
+      "questionCount": 1,
+      "supportedQuestions": 1,
+      "supportRate": 100,
+      "qualityRank": 29,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "science-curated-bank"
+      ],
+      "metadataPreview": {
+        "altText": "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation.",
+        "description": "This image displays a Punnett square diagramming a monohybrid genetic cross. It shows the cross between two heterozygous 'Gg' parents from the F1 generation, resulting in the F2 generation offspring. The square illustrates the possible genotypes: one homozygou",
+        "extractedText": "F1-generation, Heterozygot, Gg, X, Gg, G, g, G, g, GG, Gg, Gg, gg, F2-generation",
+        "questionSeeds": [
+          "Calculate the genotypic ratio for the F2 generation shown.",
+          "Determine the phenotypic ratio for the F2 generation if 'G' is a dominant allele.",
+          "Explain how the alleles from the F1 generation parents are distributed into the Punnett square.",
+          "Identify the probability of an F2 generation offspring being homozygous recessive."
+        ],
+        "usageDirectives": "Use for data-interpretation questions at easy/medium level, specifically for Mendelian genetics and probability in biology."
+      },
+      "questionResults": [
+        {
+          "questionText": "The completed Punnett square shows offspring genotypes GG, Gg, Gg, and gg. What is the genotype ratio for this cross?",
+          "correctAnswer": "1 GG : 2 Gg : 1 gg",
+          "stemOverlap": [
+            "punnett",
+            "square",
+            "offspring",
+            "genotypes",
+            "genotype",
+            "ratio",
+            "cross"
+          ],
+          "correctOverlap": [],
+          "combinedOverlap": [
+            "punnett",
+            "square",
+            "offspring",
+            "genotypes",
+            "genotype",
+            "ratio",
+            "cross"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "Calculate the genotypic ratio for the F2 generation shown.",
+          "bestSeedOverlap": 1,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/join_or_die_0001.png",
+      "fileName": "join_or_die_0001.png",
+      "subject": "Social Studies",
+      "category": "historical-documents",
+      "imageType": "cartoon",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "Masthead of The Massachusetts Spy newspaper from July 7, 1774, featuring a segmented snake and dragons.",
+        "description": "The image presents the masthead and upper portion of 'The Massachusetts Spy, Or, Thomas's Boston Journal,' dated Thursday, July 7, 1774. It prominently features the iconic 'Join, or Die' woodcut depicting a segmented snake, each segment labeled with a colonial",
+        "extractedText": "THE, Massachusetts Spy Or, Thomas's Boston Journal., VOL. IV., THURSDAY, JULY 7, 1774:, NUMB. 179., JOIN OR DIE, S.C., N.C., V., M., P., N.J., N.Y., N.E.",
+        "questionSeeds": [
+          "What does the segmented snake suggest about the relationship among the colonies?",
+          "Why is the 1774 publication date important for interpreting the political message of this newspaper?",
+          "What do the abbreviations inside the snake represent in the Join or Die image?",
+          "How would a masthead like this try to persuade readers during the years just before independence?"
+        ],
+        "usageDirectives": "Use for Revolutionary-era symbolism and propaganda questions tied to the masthead, date, and segmented snake graphic."
+      },
+      "questionResults": [
+        {
+          "questionText": "What is the main idea of the segmented snake labeled Join, or Die?",
+          "correctAnswer": "The colonies needed to unite in order to resist British pressure effectively.",
+          "stemOverlap": [
+            "segmented",
+            "snake",
+            "labeled",
+            "join"
+          ],
+          "correctOverlap": [
+            "colonies",
+            "british",
+            "snake"
+          ],
+          "combinedOverlap": [
+            "segmented",
+            "snake",
+            "labeled",
+            "join",
+            "colonies",
+            "british"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What does the segmented snake suggest about the relationship among the colonies?",
+          "bestSeedOverlap": 3,
+          "supported": true
+        },
+        {
+          "questionText": "Why is the 1774 date on the newspaper important to understanding the image?",
+          "correctAnswer": "It places the masthead in the tense pre-Revolution period when colonial unity was becoming urgent.",
+          "stemOverlap": [
+            "1774",
+            "date",
+            "newspaper",
+            "important"
+          ],
+          "correctOverlap": [
+            "masthead",
+            "revolution",
+            "colonial",
+            "unity",
+            "1774",
+            "political"
+          ],
+          "combinedOverlap": [
+            "1774",
+            "date",
+            "newspaper",
+            "important",
+            "masthead",
+            "revolution",
+            "colonial",
+            "unity",
+            "political"
+          ],
+          "supportedPhrases": [
+            "1774"
+          ],
+          "bestSeed": "Why is the 1774 publication date important for interpreting the political message of this newspaper?",
+          "bestSeedOverlap": 5,
+          "supported": true
+        }
+      ]
+    },
+    {
+      "filePath": "/images/Social%20Studies/history_of_propaganda_0002.png",
+      "fileName": "history_of_propaganda_0002.png",
+      "subject": "Social Studies",
+      "category": "historical-posters",
+      "imageType": "document",
+      "questionCount": 2,
+      "supportedQuestions": 2,
+      "supportRate": 100,
+      "qualityRank": null,
+      "metadataSources": [
+        "canonical-json",
+        "secondary-json",
+        "social-studies-question-bank",
+        "social-studies-question-set"
+      ],
+      "metadataPreview": {
+        "altText": "A World War II propaganda poster depicting US Infantry soldiers in intense combat with a machine gun.",
+        "description": "This historical poster from 1943 shows three U.S. Infantry soldiers in a combat scene, with one soldier firing a machine gun as spent shell casings fly. Smoke and explosions fill the background, emphasizing the intensity of battle. The poster's purpose is to i",
+        "extractedText": "In the face of obstacles ~ COURAGE INFANTRY UNITED STATES ARMY SCHLAIKJER 1943 © WAR DEPARTMENT, U. S. A.",
+        "questionSeeds": [
+          "What emotion is the poster trying to build by pairing the word COURAGE with soldiers under fire?",
+          "How does the poster portray infantry service as central to the war effort?",
+          "Why would the War Department use dramatic battle imagery in a poster like this?",
+          "How do the text and combat scene work together to persuade viewers rather than simply inform them?"
+        ],
+        "usageDirectives": "Use for wartime-propaganda questions about morale, recruitment, sacrifice, and the emotional effect of the poster."
+      },
+      "questionResults": [
+        {
+          "questionText": "What message is this World War II poster most clearly designed to promote?",
+          "correctAnswer": "Infantry service requires courage and deserves public respect and support.",
+          "stemOverlap": [
+            "message",
+            "world",
+            "poster",
+            "promote"
+          ],
+          "correctOverlap": [
+            "infantry",
+            "service",
+            "courage",
+            "dramatic",
+            "combat",
+            "scene",
+            "word",
+            "promote"
+          ],
+          "combinedOverlap": [
+            "message",
+            "world",
+            "poster",
+            "promote",
+            "infantry",
+            "service",
+            "courage",
+            "dramatic",
+            "combat",
+            "scene",
+            "word"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What emotion is the poster trying to build by pairing the word COURAGE with soldiers under fire?",
+          "bestSeedOverlap": 3,
+          "supported": true
+        },
+        {
+          "questionText": "How do the text and imagery work together in this poster?",
+          "correctAnswer": "The battle scene visually dramatizes the bravery named in the slogan.",
+          "stemOverlap": [
+            "text",
+            "imagery",
+            "work",
+            "together",
+            "poster"
+          ],
+          "correctOverlap": [
+            "battle",
+            "scene",
+            "poster",
+            "word",
+            "courage",
+            "soldiers",
+            "under",
+            "fire",
+            "message"
+          ],
+          "combinedOverlap": [
+            "text",
+            "imagery",
+            "work",
+            "together",
+            "poster",
+            "battle",
+            "scene",
+            "word",
+            "courage",
+            "soldiers",
+            "under",
+            "fire",
+            "message"
+          ],
+          "supportedPhrases": [],
+          "bestSeed": "What emotion is the poster trying to build by pairing the word COURAGE with soldiers under fire?",
+          "bestSeedOverlap": 6,
+          "supported": true
+        }
+      ]
+    }
+  ],
+  "generationSummary": {
+    "totalSelected": 6,
+    "totalRun": 6,
+    "passCount": 6,
+    "errorCount": 0
+  },
+  "generationSamples": [
+    {
+      "filePath": "/images/Science/ged_scince_fig_13_0001.png",
+      "fileName": "ged_scince_fig_13_0001.png",
+      "subject": "Science",
+      "imageType": "chart",
+      "generated": {
+        "questionText": "Based on the diagram, what is the approximate maximum elevation of the mountain range shown?",
+        "answerOptions": [
+          {
+            "text": "Approximately 3,000 feet",
+            "isCorrect": false,
+            "rationale": "3,000 feet represents a much lower elevation on the mountain range, not its maximum height, as shown on the diagram's elevation scale."
+          },
+          {
+            "text": "Approximately 9,000 feet",
+            "isCorrect": false,
+            "rationale": "9,000 feet is an intermediate elevation shown on the scale, but it is not the maximum elevation of the mountain range, which is higher at point C."
+          },
+          {
+            "text": "Approximately 12,000 feet",
+            "isCorrect": true,
+            "rationale": "The diagram's elevation scale indicates that the highest point of the mountain range, labeled C, reaches approximately 12,000 feet."
+          },
+          {
+            "text": "Approximately 15,000 feet",
+            "isCorrect": false,
+            "rationale": "15,000 feet is the maximum value on the elevation scale provided, but the highest point of the mountain range (C) only reaches approximately 12,000 feet, not the full 15,000 feet."
+          }
+        ],
+        "evidenceUsed": [
+          "Elevation (feet)",
+          "12,000",
+          "Key points A, B, C, D, and E are labeled",
+          "varying elevations from sea level up to 15,000 feet"
+        ],
+        "followedSeed": "Identify the approximate maximum elevation of the mountain range shown.",
+        "stimulusImage": {
+          "src": "/images/Science/ged_scince_fig_13_0001.png",
+          "alt": "Diagram showing prevailing winds causing a rain shadow effect over mountains near an ocean, with elevation and distance scales."
+        }
+      },
+      "evaluation": {
+        "pass": true,
+        "correctCount": 1,
+        "evidenceUsed": [
+          "Elevation (feet)",
+          "12,000",
+          "Key points A, B, C, D, and E are labeled",
+          "varying elevations from sea level up to 15,000 feet"
+        ],
+        "evidenceVerified": [
+          "Elevation (feet)",
+          "12,000",
+          "Key points A, B, C, D, and E are labeled",
+          "varying elevations from sea level up to 15,000 feet"
+        ],
+        "followedSeed": "Identify the approximate maximum elevation of the mountain range shown.",
+        "followedSeedMatched": true,
+        "stemOverlap": [
+          "approximate",
+          "maximum",
+          "elevation",
+          "mountain",
+          "range"
+        ],
+        "rationaleOverlap": [
+          "12",
+          "000",
+          "feet",
+          "elevation",
+          "scale",
+          "highest",
+          "point",
+          "mountain",
+          "range",
+          "labeled"
+        ],
+        "stimulusOk": true
+      },
+      "staticReference": {
+        "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+        "correctAnswer": "Point E",
+        "stemOverlap": [
+          "from",
+          "ocean",
+          "direction",
+          "prevailing",
+          "winds.",
+          "labeled",
+          "likely",
+          "precipitation"
+        ],
+        "correctOverlap": [
+          "point",
+          "side"
+        ],
+        "combinedOverlap": [
+          "from",
+          "ocean",
+          "direction",
+          "prevailing",
+          "winds.",
+          "labeled",
+          "likely",
+          "precipitation",
+          "point",
+          "side"
+        ],
+        "supportedPhrases": [
+          "Point E"
+        ],
+        "bestSeed": "Describe the likely weather conditions at point A compared to point E, considering the prevailing winds.",
+        "bestSeedOverlap": 4,
+        "supported": true
+      }
+    },
+    {
+      "filePath": "/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg",
+      "fileName": "a_map_of_the_triangular_trade_routes_0001.jpg",
+      "subject": "Social Studies",
+      "imageType": "map",
+      "generated": {
+        "questionText": "Which continents are connected by the slave-trade routes shown on the map?",
+        "answerOptions": [
+          {
+            "text": "Africa and North America",
+            "isCorrect": false,
+            "rationale": "While Africa and North America were key parts of the slave trade, this option is incomplete as it omits South America and Europe, which were also connected by these routes."
+          },
+          {
+            "text": "Africa, North America, and South America",
+            "isCorrect": false,
+            "rationale": "This option is incomplete. The map illustrates the transatlantic African slave trade, which involved Europe as a central part of the triangular trade network, in addition to Africa, North America, and South America."
+          },
+          {
+            "text": "Europe, Africa, North America, and South America",
+            "isCorrect": true,
+            "rationale": "The map illustrates the transatlantic African slave trade, which is commonly understood as a triangular trade system connecting Europe, Africa, North America, and South America. The detailed description explicitly states the map 'highlights North America, South America, Europe, and Africa' in this context."
+          },
+          {
+            "text": "Europe and Africa",
+            "isCorrect": false,
+            "rationale": "This option is incomplete. The slave-trade routes shown on the map primarily connected Africa to destinations in North and South America, with Europe also being a key part of the overall trade network."
+          }
+        ],
+        "evidenceUsed": [
+          "Map illustrating the transatlantic African slave trade",
+          "showing routes, origins, and destinations",
+          "highlights North America, South America, Europe, and Africa"
+        ],
+        "followedSeed": "Which continents are connected by the slave-trade routes shown on the map?",
+        "stimulusImage": {
+          "src": "/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg",
+          "alt": "Map illustrating the transatlantic African slave trade from 1500 to 1870, showing routes, origins, and destinations."
+        }
+      },
+      "evaluation": {
+        "pass": true,
+        "correctCount": 1,
+        "evidenceUsed": [
+          "Map illustrating the transatlantic African slave trade",
+          "showing routes, origins, and destinations",
+          "highlights North America, South America, Europe, and Africa"
+        ],
+        "evidenceVerified": [
+          "Map illustrating the transatlantic African slave trade",
+          "showing routes, origins, and destinations",
+          "highlights North America, South America, Europe, and Africa"
+        ],
+        "followedSeed": "Which continents are connected by the slave-trade routes shown on the map?",
+        "followedSeedMatched": true,
+        "stemOverlap": [
+          "continents",
+          "connected",
+          "slave",
+          "trade",
+          "routes"
+        ],
+        "rationaleOverlap": [
+          "europe",
+          "africa",
+          "north",
+          "america",
+          "south",
+          "transatlantic",
+          "african",
+          "slave",
+          "trade",
+          "america.",
+          "highlights"
+        ],
+        "stimulusOk": true
+      },
+      "staticReference": {
+        "questionText": "What movement is most clearly shown by the arrows leaving Africa on the triangular trade map?",
+        "correctAnswer": "The forced transport of enslaved Africans to the Americas",
+        "stemOverlap": [
+          "movement",
+          "arrows",
+          "africa",
+          "trade"
+        ],
+        "correctOverlap": [
+          "forced",
+          "enslaved",
+          "africans",
+          "americas",
+          "atlantic",
+          "slave",
+          "trade",
+          "routes",
+          "from",
+          "africa",
+          "destinations",
+          "americas."
+        ],
+        "combinedOverlap": [
+          "movement",
+          "arrows",
+          "africa",
+          "trade",
+          "forced",
+          "enslaved",
+          "africans",
+          "americas",
+          "atlantic",
+          "slave",
+          "routes",
+          "from",
+          "destinations",
+          "americas."
+        ],
+        "supportedPhrases": [],
+        "bestSeed": "What does the map suggest about the main direction of forced movement from Africa to the Americas?",
+        "bestSeedOverlap": 5,
+        "supported": true
+      }
+    },
+    {
+      "filePath": "/images/Science/unclassified_0052.png",
+      "fileName": "unclassified_0052.png",
+      "subject": "Science",
+      "imageType": "diagram",
+      "generated": {
+        "questionText": "Based on the diagram, which geological features are typically formed at a convergent plate boundary where oceanic crust subducts under continental crust?",
+        "answerOptions": [
+          {
+            "text": "Oceanic spreading ridges and continental rift zones",
+            "isCorrect": false,
+            "rationale": "The diagram shows oceanic spreading ridges and continental rift zones are associated with divergent plate boundaries, not convergent subduction zones."
+          },
+          {
+            "text": "Island arcs, trenches, and stratovolcanoes",
+            "isCorrect": true,
+            "rationale": "The diagram illustrates that island arcs, trenches, and stratovolcanoes are formed at a convergent plate boundary where oceanic crust subducts beneath another plate."
+          },
+          {
+            "text": "Shield volcanoes and hot spots",
+            "isCorrect": false,
+            "rationale": "The diagram indicates that shield volcanoes are typically formed over hot spots, which are not directly associated with convergent plate boundaries in the context of subduction."
+          },
+          {
+            "text": "Transform plate boundaries and shield volcanoes",
+            "isCorrect": false,
+            "rationale": "The diagram shows transform plate boundaries involve plates sliding past each other, and shield volcanoes are associated with hot spots; neither are the primary features of oceanic-continental subduction."
+          }
+        ],
+        "evidenceUsed": [
+          "CONVERGENT PLATE BOUNDARY",
+          "SUBDUCTING PLATE",
+          "ISLAND ARC",
+          "STRATO-VOLCANO"
+        ],
+        "followedSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+        "stimulusImage": {
+          "src": "/images/Science/unclassified_0052.png",
+          "alt": "Cross-section diagram illustrating different types of plate tectonic boundaries and associated geological features."
+        }
+      },
+      "evaluation": {
+        "pass": true,
+        "correctCount": 1,
+        "evidenceUsed": [
+          "CONVERGENT PLATE BOUNDARY",
+          "SUBDUCTING PLATE",
+          "ISLAND ARC",
+          "STRATO-VOLCANO"
+        ],
+        "evidenceVerified": [
+          "CONVERGENT PLATE BOUNDARY",
+          "SUBDUCTING PLATE",
+          "ISLAND ARC",
+          "STRATO-VOLCANO"
+        ],
+        "followedSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+        "followedSeedMatched": true,
+        "stemOverlap": [
+          "geological",
+          "features",
+          "formed",
+          "convergent",
+          "plate",
+          "boundary",
+          "oceanic",
+          "crust",
+          "subducts",
+          "under",
+          "continental"
+        ],
+        "rationaleOverlap": [
+          "island",
+          "arcs",
+          "trenches",
+          "stratovolcanoes",
+          "formed",
+          "convergent",
+          "plate",
+          "boundary",
+          "oceanic",
+          "crust",
+          "subducts"
+        ],
+        "stimulusOk": true
+      },
+      "staticReference": {
+        "questionText": "Which statement about a transform plate boundary is best supported by the diagram?",
+        "correctAnswer": "Two plates slide past each other, often causing earthquakes.",
+        "stemOverlap": [
+          "transform",
+          "plate",
+          "boundary"
+        ],
+        "correctOverlap": [
+          "plates",
+          "transform",
+          "boundary"
+        ],
+        "combinedOverlap": [
+          "transform",
+          "plate",
+          "boundary",
+          "plates"
+        ],
+        "supportedPhrases": [],
+        "bestSeed": "Identify the geological features formed at a convergent plate boundary where oceanic crust subducts under continental crust.",
+        "bestSeedOverlap": 2,
+        "supported": true
+      }
+    },
+    {
+      "filePath": "/images/Science/dominance_genetics_0001.png",
+      "fileName": "dominance_genetics_0001.png",
+      "subject": "Science",
+      "imageType": "table",
+      "generated": {
+        "questionText": "Based on the Punnett square, what is the probability of an F2 generation offspring being homozygous recessive?",
+        "answerOptions": [
+          {
+            "text": "1/4",
+            "isCorrect": true,
+            "rationale": "The Punnett square shows one 'gg' genotype out of four possible F2 generation outcomes, indicating a 1/4 probability for homozygous recessive offspring."
+          },
+          {
+            "text": "1/2",
+            "isCorrect": false,
+            "rationale": "This represents the probability of heterozygous offspring (Gg), not homozygous recessive (gg)."
+          },
+          {
+            "text": "3/4",
+            "isCorrect": false,
+            "rationale": "This represents the probability of offspring showing the dominant phenotype (GG or Gg), not homozygous recessive (gg)."
+          },
+          {
+            "text": "1/1",
+            "isCorrect": false,
+            "rationale": "This would imply all offspring are homozygous recessive, which is not shown in the Punnett square."
+          }
+        ],
+        "evidenceUsed": [
+          "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation.",
+          "one homozygous recessive (gg)",
+          "F2-generation",
+          "Punnett square"
+        ],
+        "followedSeed": "Identify the probability of an F2 generation offspring being homozygous recessive.",
+        "stimulusImage": {
+          "src": "/images/Science/dominance_genetics_0001.png",
+          "alt": "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation."
+        }
+      },
+      "evaluation": {
+        "pass": true,
+        "correctCount": 1,
+        "evidenceUsed": [
+          "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation.",
+          "one homozygous recessive (gg)",
+          "F2-generation",
+          "Punnett square"
+        ],
+        "evidenceVerified": [
+          "A Punnett square illustrating a monohybrid cross between two heterozygous (Gg) parents for the F2 generation.",
+          "one homozygous recessive (gg)",
+          "F2-generation",
+          "Punnett square"
+        ],
+        "followedSeed": "Identify the probability of an F2 generation offspring being homozygous recessive.",
+        "followedSeedMatched": true,
+        "stemOverlap": [
+          "punnett",
+          "square",
+          "probability",
+          "generation",
+          "offspring",
+          "being",
+          "homozygous",
+          "recessive"
+        ],
+        "rationaleOverlap": [
+          "punnett",
+          "square",
+          "genotype",
+          "possible",
+          "generation",
+          "indicating",
+          "probability",
+          "homozygous",
+          "recessive",
+          "offspring."
+        ],
+        "stimulusOk": true
+      },
+      "staticReference": {
+        "questionText": "The completed Punnett square shows offspring genotypes GG, Gg, Gg, and gg. What is the genotype ratio for this cross?",
+        "correctAnswer": "1 GG : 2 Gg : 1 gg",
+        "stemOverlap": [
+          "punnett",
+          "square",
+          "offspring",
+          "genotypes",
+          "genotype",
+          "ratio",
+          "cross"
+        ],
+        "correctOverlap": [],
+        "combinedOverlap": [
+          "punnett",
+          "square",
+          "offspring",
+          "genotypes",
+          "genotype",
+          "ratio",
+          "cross"
+        ],
+        "supportedPhrases": [],
+        "bestSeed": "Calculate the genotypic ratio for the F2 generation shown.",
+        "bestSeedOverlap": 1,
+        "supported": true
+      }
+    },
+    {
+      "filePath": "/images/Social%20Studies/join_or_die_0001.png",
+      "fileName": "join_or_die_0001.png",
+      "subject": "Social Studies",
+      "imageType": "cartoon",
+      "generated": {
+        "questionText": "Based on the image and its description, what do the abbreviations 'S.C., N.C., V., M., P., N.J., N.Y., N.E.' within the segmented snake symbolize?",
+        "answerOptions": [
+          {
+            "text": "Individual American colonies",
+            "isCorrect": true,
+            "rationale": "The detailed description explicitly states that the 'Join, or Die' woodcut depicts a 'segmented snake, each segment labeled with a colonial abbreviation,' and the extracted text lists these abbreviations."
+          },
+          {
+            "text": "Different European countries",
+            "isCorrect": false,
+            "rationale": "The metadata clearly identifies the labels as 'colonial abbreviations,' not European countries."
+          },
+          {
+            "text": "Sections of the newspaper's articles",
+            "isCorrect": false,
+            "rationale": "The abbreviations are part of the 'Join, or Die' woodcut, which is a political cartoon, not a structural element of the newspaper's text columns."
+          },
+          {
+            "text": "Key figures of the American Revolution",
+            "isCorrect": false,
+            "rationale": "The metadata describes them as 'colonial abbreviations' within the 'Join, or Die' image, not names of historical figures."
+          }
+        ],
+        "evidenceUsed": [
+          "segmented snake, each segment labeled with a colonial abbreviation",
+          "JOIN OR DIE",
+          "S.C., N.C., V., M., P., N.J., N.Y., N.E."
+        ],
+        "followedSeed": "What do the abbreviations inside the snake represent in the Join or Die image?",
+        "stimulusImage": {
+          "src": "/images/Social%20Studies/join_or_die_0001.png",
+          "alt": "Masthead of The Massachusetts Spy newspaper from July 7, 1774, featuring a segmented snake and dragons."
+        }
+      },
+      "evaluation": {
+        "pass": true,
+        "correctCount": 1,
+        "evidenceUsed": [
+          "segmented snake, each segment labeled with a colonial abbreviation",
+          "JOIN OR DIE",
+          "S.C., N.C., V., M., P., N.J., N.Y., N.E."
+        ],
+        "evidenceVerified": [
+          "segmented snake, each segment labeled with a colonial abbreviation",
+          "JOIN OR DIE",
+          "S.C., N.C., V., M., P., N.J., N.Y., N.E."
+        ],
+        "followedSeed": "What do the abbreviations inside the snake represent in the Join or Die image?",
+        "followedSeedMatched": true,
+        "stemOverlap": [
+          "abbreviations",
+          "s.c.",
+          "n.c.",
+          "n.j.",
+          "n.y.",
+          "n.e.",
+          "segmented",
+          "snake"
+        ],
+        "rationaleOverlap": [
+          "american",
+          "colonies",
+          "join",
+          "woodcut",
+          "segmented",
+          "snake",
+          "each",
+          "segment",
+          "labeled",
+          "colonial",
+          "abbreviation",
+          "text"
+        ],
+        "stimulusOk": true
+      },
+      "staticReference": {
+        "questionText": "What is the main idea of the segmented snake labeled Join, or Die?",
+        "correctAnswer": "The colonies needed to unite in order to resist British pressure effectively.",
+        "stemOverlap": [
+          "segmented",
+          "snake",
+          "labeled",
+          "join"
+        ],
+        "correctOverlap": [
+          "colonies",
+          "british",
+          "snake"
+        ],
+        "combinedOverlap": [
+          "segmented",
+          "snake",
+          "labeled",
+          "join",
+          "colonies",
+          "british"
+        ],
+        "supportedPhrases": [],
+        "bestSeed": "What does the segmented snake suggest about the relationship among the colonies?",
+        "bestSeedOverlap": 3,
+        "supported": true
+      }
+    },
+    {
+      "filePath": "/images/Social%20Studies/history_of_propaganda_0002.png",
+      "fileName": "history_of_propaganda_0002.png",
+      "subject": "Social Studies",
+      "imageType": "document",
+      "generated": {
+        "questionText": "According to the poster and its context, why would the War Department use dramatic battle imagery depicting US Infantry soldiers in intense combat?",
+        "answerOptions": [
+          {
+            "text": "To instill courage and highlight the critical role of the infantry in the United States Army during World War II.",
+            "isCorrect": true,
+            "rationale": "The detailed description explicitly states that the poster's purpose is 'to instill courage and highlight the importance of the infantry in the United States Army during World War II'."
+          },
+          {
+            "text": "To accurately document the specific combat tactics used by US Infantry soldiers in 1943.",
+            "isCorrect": false,
+            "rationale": "While the poster depicts combat, its primary purpose as propaganda is not to provide a factual tactical record but to influence public sentiment and morale."
+          },
+          {
+            "text": "To demonstrate the overwhelming strength of the enemy forces faced by the US Army.",
+            "isCorrect": false,
+            "rationale": "Propaganda posters like this aim to boost morale and confidence in one's own forces, not to highlight the enemy's strength, which could be demoralizing."
+          },
+          {
+            "text": "To serve as a training aid for new recruits on how to operate a machine gun in battle.",
+            "isCorrect": false,
+            "rationale": "The poster's dramatic and stylized nature, combined with its explicit purpose as propaganda, indicates it is not intended as a practical training manual."
+          }
+        ],
+        "evidenceUsed": [
+          "A World War II propaganda poster",
+          "depicting US Infantry soldiers in intense combat",
+          "The poster's purpose is to instill courage",
+          "highlight the importance of the infantry in the United States Army during World War II"
+        ],
+        "followedSeed": "Why would the War Department use dramatic battle imagery in a poster like this?",
+        "stimulusImage": {
+          "src": "/images/Social%20Studies/history_of_propaganda_0002.png",
+          "alt": "A World War II propaganda poster depicting US Infantry soldiers in intense combat with a machine gun."
+        }
+      },
+      "evaluation": {
+        "pass": true,
+        "correctCount": 1,
+        "evidenceUsed": [
+          "A World War II propaganda poster",
+          "depicting US Infantry soldiers in intense combat",
+          "The poster's purpose is to instill courage",
+          "highlight the importance of the infantry in the United States Army during World War II"
+        ],
+        "evidenceVerified": [
+          "A World War II propaganda poster",
+          "depicting US Infantry soldiers in intense combat",
+          "The poster's purpose is to instill courage",
+          "highlight the importance of the infantry in the United States Army during World War II"
+        ],
+        "followedSeed": "Why would the War Department use dramatic battle imagery in a poster like this?",
+        "followedSeedMatched": true,
+        "stemOverlap": [
+          "poster",
+          "department",
+          "dramatic",
+          "battle",
+          "imagery",
+          "depicting",
+          "infantry",
+          "soldiers",
+          "intense",
+          "combat"
+        ],
+        "rationaleOverlap": [
+          "instill",
+          "courage",
+          "highlight",
+          "role",
+          "infantry",
+          "united",
+          "states",
+          "army",
+          "during",
+          "world",
+          "that",
+          "poster",
+          "purpose",
+          "importance"
+        ],
+        "stimulusOk": true
+      },
+      "staticReference": {
+        "questionText": "What message is this World War II poster most clearly designed to promote?",
+        "correctAnswer": "Infantry service requires courage and deserves public respect and support.",
+        "stemOverlap": [
+          "message",
+          "world",
+          "poster",
+          "promote"
+        ],
+        "correctOverlap": [
+          "infantry",
+          "service",
+          "courage",
+          "dramatic",
+          "combat",
+          "scene",
+          "word",
+          "promote"
+        ],
+        "combinedOverlap": [
+          "message",
+          "world",
+          "poster",
+          "promote",
+          "infantry",
+          "service",
+          "courage",
+          "dramatic",
+          "combat",
+          "scene",
+          "word"
+        ],
+        "supportedPhrases": [],
+        "bestSeed": "What emotion is the poster trying to build by pairing the word COURAGE with soldiers under fire?",
+        "bestSeedOverlap": 3,
+        "supported": true
+      }
+    }
+  ]
+}

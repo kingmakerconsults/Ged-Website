@@ -110,6 +110,12 @@ const SCIENCE_CURATED_IMAGE_BANK = {
     stimulusTypes: ['table', 'image', 'chart'],
     topicTags: ['hurricane', 'temperature', 'climate-data'],
     qualityRank: 3,
+    questionSeeds: [
+      'Explain how the temperature table provides numerical evidence for interpreting the hurricane image.',
+      'Use the satellite view and the temperature table together to explain the storm conditions shown.',
+    ],
+    usageDirectives:
+      'Use for paired-stimulus questions that connect the hurricane image to the temperature table. Allow grounded questions about how numerical temperature evidence helps explain the storm conditions or how warm water supports hurricane strength.',
     questions: [
       {
         questionText:
