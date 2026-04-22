@@ -182,17 +182,27 @@ export default function App() {
         <p className="text-sm text-gray-600 mb-4">Current theme: {theme}</p>
 
         <nav className="flex flex-wrap gap-3 mb-6 items-center">
-          <Link to="/" className="text-blue-600 underline">Dashboard</Link>
-          <Link to="/social-studies" className="text-blue-600 underline">Social Studies</Link>
+          <Link to="/" className="text-blue-600 underline">
+            Dashboard
+          </Link>
+          <Link to="/social-studies" className="text-blue-600 underline">
+            Social Studies
+          </Link>
           <Link
             to="/collab"
             className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline"
           >
             🎯 Play Together
           </Link>
-          <Link to="/profile" className="text-blue-600 underline">Profile</Link>
-          <Link to="/settings" className="text-blue-600 underline">Settings</Link>
-          <Link to="/demo/math" className="text-blue-600 underline">Math Quiz Demo</Link>
+          <Link to="/profile" className="text-blue-600 underline">
+            Profile
+          </Link>
+          <Link to="/settings" className="text-blue-600 underline">
+            Settings
+          </Link>
+          <Link to="/demo/math" className="text-blue-600 underline">
+            Math Quiz Demo
+          </Link>
           {['org_admin', 'super_admin', 'instructor', 'admin'].includes(
             user?.role
           ) && (

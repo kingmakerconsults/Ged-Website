@@ -18,9 +18,12 @@ export default function DashboardView() {
           to="/collab"
           className="block p-5 rounded-xl border-2 border-purple-400 dark:border-purple-600 shadow-md hover:shadow-lg transition bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900 dark:to-blue-900 text-slate-900 dark:text-white"
         >
-          <div className="font-bold text-lg mb-1">🎯 Play Together — Live Collaboration</div>
+          <div className="font-bold text-lg mb-1">
+            🎯 Play Together — Live Collaboration
+          </div>
           <div className="text-sm text-slate-600 dark:text-slate-300">
-            Join an instructor-led quiz, partner up with a classmate for instant practice, or write a collaborative essay. Tap here to get started.
+            Join an instructor-led quiz, partner up with a classmate for instant
+            practice, or write a collaborative essay. Tap here to get started.
           </div>
           <div className="mt-3 inline-block px-4 py-1.5 bg-purple-600 text-white text-sm font-semibold rounded-full">
             Open Play Together →
