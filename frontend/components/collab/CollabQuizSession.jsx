@@ -28,21 +28,33 @@ function getOptions(q) {
     return q.answerOptions.map((o) => {
       if (typeof o === 'string') return { value: o, label: o };
       const v = o.text ?? o.value ?? o.label ?? '';
-      return { value: v, label: o.text ?? o.label ?? v, isCorrect: !!o.isCorrect };
+      return {
+        value: v,
+        label: o.text ?? o.label ?? v,
+        isCorrect: !!o.isCorrect,
+      };
     });
   }
   if (Array.isArray(q.options)) {
     return q.options.map((o) =>
       typeof o === 'string'
         ? { value: o, label: o }
-        : { value: o.value ?? o.text ?? o.label, label: o.label ?? o.text ?? o.value, isCorrect: !!o.isCorrect }
+        : {
+            value: o.value ?? o.text ?? o.label,
+            label: o.label ?? o.text ?? o.value,
+            isCorrect: !!o.isCorrect,
+          }
     );
   }
   if (Array.isArray(q.choices)) {
     return q.choices.map((o) =>
       typeof o === 'string'
         ? { value: o, label: o }
-        : { value: o.value ?? o.text ?? o.label, label: o.label ?? o.text ?? o.value, isCorrect: !!o.isCorrect }
+        : {
+            value: o.value ?? o.text ?? o.label,
+            label: o.label ?? o.text ?? o.value,
+            isCorrect: !!o.isCorrect,
+          }
     );
   }
   if (q.A && q.B) {
@@ -91,6 +103,52 @@ function isCorrectAnswer(answer, correct) {
   );
 }
 
+// Render text that may contain inline LaTeX delimited by \( ... \) or $ ... $
+// using the globally-loaded KaTeX (CDN, available across the legacy app).
+function renderInlineLatex(latex) {
+  try {
+    if (typeof window === 'undefined' || !window.katex) return null;
+    return window.katex.renderToString(latex, {
+      throwOnError: false,
+      strict: 'ignore',
+    });
+  } catch {
+    return null;
+  }
+}
+
+function MathText({ children }) {
+  if (children == null) return null;
+  const text = String(children);
+  if (!text) return null;
+  // Match \( ... \) or \[ ... \] or $...$ (single-$, non-greedy)
+  const regex = /\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]|\$([^$\n]+?)\$/g;
+  const parts = [];
+  let lastIndex = 0;
+  let m;
+  let key = 0;
+  while ((m = regex.exec(text)) !== null) {
+    if (m.index > lastIndex) {
+      parts.push(text.slice(lastIndex, m.index));
+    }
+    const latex = m[1] ?? m[2] ?? m[3] ?? '';
+    const html = renderInlineLatex(latex);
+    if (html) {
+      parts.push(
+        <span
+          key={`m${key++}`}
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      );
+    } else {
+      parts.push(m[0]);
+    }
+    lastIndex = m.index + m[0].length;
+  }
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  return <>{parts}</>;
+}
+
 function QuestionBody({ q }) {
   if (!q) return null;
   return (
@@ -103,14 +161,14 @@ function QuestionBody({ q }) {
             color: PALETTE.pageText,
           }}
         >
-          {q.passage}
+          <MathText>{q.passage}</MathText>
         </div>
       )}
       <div
         className="text-base font-medium leading-relaxed"
         style={{ color: PALETTE.pageText }}
       >
-        {q.question || q.prompt || q.text}
+        <MathText>{q.question || q.prompt || q.text}</MathText>
       </div>
     </div>
   );
@@ -250,7 +308,7 @@ function ReviewScreen({ roomState, currentUserId }) {
                         <span className="font-semibold mr-2">
                           {String.fromCharCode(65 + oi)}.
                         </span>
-                        {label}
+                        <MathText>{label}</MathText>
                         {isCorrect && (
                           <span
                             className="ml-2 text-xs font-semibold"
@@ -328,7 +386,7 @@ function ReviewScreen({ roomState, currentUserId }) {
                     }}
                   >
                     <span className="font-semibold">Rationale:</span>{' '}
-                    {rat}
+                    <MathText>{rat}</MathText>
                   </div>
                 ) : null;
               })()}
@@ -535,7 +593,7 @@ export default function CollabQuizSession({
                       <span className="font-semibold mr-2">
                         {String.fromCharCode(65 + idx)}.
                       </span>
-                      {label}
+                      <MathText>{label}</MathText>
                     </button>
                   );
                 })}
@@ -674,7 +732,7 @@ export default function CollabQuizSession({
                     return rat ? (
                       <div className="mt-2">
                         <span className="font-semibold">Rationale:</span>{' '}
-                        {rat}
+                        <MathText>{rat}</MathText>
                       </div>
                     ) : null;
                   })()}
