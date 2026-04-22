@@ -5906,11 +5906,10 @@ if (typeof ensureQuestionBankTable === 'function') {
     console.error('Question bank init error:', e?.message || e);
   });
 }
-en;
 ensureCollabTables().catch((e) =>
   console.error('Collab tables init error:', e)
 );
-sureActiveExamSessionsTable().catch((e) =>
+ensureActiveExamSessionsTable().catch((e) =>
   console.error('Active exam sessions table init error:', e)
 );
 ensureUserNameColumns().catch((e) =>
