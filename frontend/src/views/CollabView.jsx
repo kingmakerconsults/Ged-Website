@@ -82,8 +82,8 @@ export default function CollabView() {
           >
             <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
             <p className="text-sm text-slate-700 mb-4">
-              You need to be signed in to use Work Together — it lets you
-              create or join live study rooms with classmates and instructors.
+              You need to be signed in to use Work Together — it lets you create
+              or join live study rooms with classmates and instructors.
             </p>
             <button
               type="button"
@@ -276,9 +276,7 @@ export default function CollabView() {
     if (!cat) return [];
     const topics = cat.topics || [];
     const matchTopic = (t) => (t.title || t.id) === form.topicTitle;
-    const targetTopics = form.topicTitle
-      ? topics.filter(matchTopic)
-      : topics;
+    const targetTopics = form.topicTitle ? topics.filter(matchTopic) : topics;
     const out = [];
     for (const t of targetTopics) {
       for (const q of t.quizzes || []) {
@@ -430,8 +428,8 @@ export default function CollabView() {
           >
             <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
             <p className="text-sm text-slate-700 mb-4">
-              You need to be signed in to use Work Together — it lets you
-              create or join live study rooms with classmates and instructors.
+              You need to be signed in to use Work Together — it lets you create
+              or join live study rooms with classmates and instructors.
             </p>
             <button
               type="button"
@@ -509,6 +507,10 @@ export default function CollabView() {
             <h3 className="font-semibold mb-3 text-slate-800">
               Join with Code
             </h3>
+            <p className="text-xs text-slate-500 mb-2">
+              Got a code from a host? You can jump in any time — even after the
+              session has started.
+            </p>
             <form onSubmit={handleJoin} className="flex gap-2">
               <input
                 value={joinCode}
@@ -648,9 +650,7 @@ export default function CollabView() {
                 </div>
                 <div>
                   <label className={labelCls}>
-                    {form.quizSource === 'generated'
-                      ? 'Subject'
-                      : 'Subject'}
+                    {form.quizSource === 'generated' ? 'Subject' : 'Subject'}
                   </label>
                   <select
                     value={form.subject}
@@ -719,9 +719,7 @@ export default function CollabView() {
                     </div>
                     {topicOptions.length > 1 && (
                       <div>
-                        <label className={labelCls}>
-                          Sub-topic (optional)
-                        </label>
+                        <label className={labelCls}>Sub-topic (optional)</label>
                         <select
                           value={form.topicTitle}
                           onChange={(e) =>
@@ -749,7 +747,9 @@ export default function CollabView() {
                         onChange={(e) =>
                           setForm((f) => ({ ...f, quizId: e.target.value }))
                         }
-                        disabled={!form.categoryName || quizOptions.length === 0}
+                        disabled={
+                          !form.categoryName || quizOptions.length === 0
+                        }
                         className={inputCls}
                       >
                         <option value="">

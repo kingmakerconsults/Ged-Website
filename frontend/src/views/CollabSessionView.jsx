@@ -1,5 +1,5 @@
 // frontend/src/views/CollabSessionView.jsx
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
 import CollabLobby from '../../components/collab/CollabLobby.jsx';
@@ -26,14 +26,74 @@ function getCurrentUserId() {
   }
 }
 
-function PageShell({ children }) {
+function PageShell({ children, roomCode }) {
   return (
     <div
       className="min-h-screen w-full"
       style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
     >
       <CollabHeader />
+      {roomCode ? <RoomCodeBanner roomCode={roomCode} /> : null}
       <div className="max-w-5xl mx-auto p-6">{children}</div>
+    </div>
+  );
+}
+
+function RoomCodeBanner({ roomCode }) {
+  const [copied, setCopied] = useState(null);
+  const shareUrl = `${window.location.origin}/collab/${roomCode}`;
+
+  const copy = async (text, label) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(label);
+      setTimeout(() => setCopied(null), 1600);
+    } catch (_) {
+      // ignore
+    }
+  };
+
+  return (
+    <div
+      className="w-full border-b"
+      style={{ backgroundColor: '#eef2ff', borderColor: '#c7d2fe' }}
+    >
+      <div className="max-w-5xl mx-auto px-6 py-2 flex flex-wrap items-center gap-3 text-sm">
+        <span className="font-semibold text-slate-700">Room code:</span>
+        <code
+          className="px-2 py-1 rounded font-mono text-base font-bold tracking-widest"
+          style={{ backgroundColor: '#ffffff', color: '#4338ca' }}
+        >
+          {roomCode}
+        </code>
+        <button
+          type="button"
+          onClick={() => copy(roomCode, 'code')}
+          className="px-2 py-1 rounded text-xs font-semibold border"
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#4338ca',
+            borderColor: '#c7d2fe',
+          }}
+        >
+          {copied === 'code' ? '✓ Copied' : 'Copy code'}
+        </button>
+        <button
+          type="button"
+          onClick={() => copy(shareUrl, 'link')}
+          className="px-2 py-1 rounded text-xs font-semibold border"
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#4338ca',
+            borderColor: '#c7d2fe',
+          }}
+        >
+          {copied === 'link' ? '✓ Copied' : 'Copy join link'}
+        </button>
+        <span className="text-xs text-slate-500 ml-auto hidden sm:inline">
+          Anyone signed in can join with this code at any time.
+        </span>
+      </div>
     </div>
   );
 }
@@ -88,7 +148,7 @@ export default function CollabSessionView() {
 
   if (error) {
     return (
-      <PageShell>
+      <PageShell roomCode={roomCode}>
         <div className="p-4 rounded bg-red-100 text-red-800 border border-red-200">
           {error === 'websocket error'
             ? 'Could not reach the collaboration server. The backend may still be deploying — please try again in a minute.'
@@ -106,7 +166,7 @@ export default function CollabSessionView() {
 
   if (!roomState) {
     return (
-      <PageShell>
+      <PageShell roomCode={roomCode}>
         <div className="text-center p-8 text-slate-500">
           Connecting to room…
         </div>
@@ -121,7 +181,7 @@ export default function CollabSessionView() {
       roomState.sessionType === 'peer'
     ) {
       return (
-        <PageShell>
+        <PageShell roomCode={roomCode}>
           <CollabQuizSession
             roomState={roomState}
             currentUserId={userId}
@@ -141,7 +201,7 @@ export default function CollabSessionView() {
       );
     }
     return (
-      <PageShell>
+      <PageShell roomCode={roomCode}>
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-2 text-slate-900">
             Session Complete
@@ -160,7 +220,7 @@ export default function CollabSessionView() {
 
   if (roomState.status === 'lobby') {
     return (
-      <PageShell>
+      <PageShell roomCode={roomCode}>
         <CollabLobby
           roomState={roomState}
           currentUserId={userId}
@@ -173,7 +233,7 @@ export default function CollabSessionView() {
 
   if (roomState.sessionType === 'essay') {
     return (
-      <PageShell>
+      <PageShell roomCode={roomCode}>
         <CollabEssaySession
           roomState={roomState}
           currentUserId={userId}
@@ -183,7 +243,7 @@ export default function CollabSessionView() {
     );
   }
   return (
-    <PageShell>
+    <PageShell roomCode={roomCode}>
       <CollabQuizSession
         roomState={roomState}
         currentUserId={userId}
