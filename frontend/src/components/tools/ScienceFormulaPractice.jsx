@@ -168,6 +168,7 @@ export default function ScienceFormulaPractice({ onClose, dark = false }) {
   const [studentAnswer, setStudentAnswer] = useState('');
   const [feedback, setFeedback] = useState(null);
   const [showSteps, setShowSteps] = useState(false);
+  const [notice, setNotice] = useState('');
 
   const categories = useMemo(() => {
     const cats = [...new Set(SCIENCE_FORMULA_PRACTICE.map((p) => p.category))];
@@ -175,8 +176,9 @@ export default function ScienceFormulaPractice({ onClose, dark = false }) {
   }, []);
 
   const selectNewProblem = () => {
+    setNotice('');
     if (!selectedCategory) {
-      alert('Please select a category first.');
+      setNotice('Please select a category first.');
       return;
     }
 
@@ -185,7 +187,7 @@ export default function ScienceFormulaPractice({ onClose, dark = false }) {
     );
 
     if (categoryProblems.length === 0) {
-      alert('No problems available for this category.');
+      setNotice('No problems available for this category.');
       return;
     }
 
@@ -199,14 +201,15 @@ export default function ScienceFormulaPractice({ onClose, dark = false }) {
 
   const checkAnswer = () => {
     if (!currentProblem) return;
+    setNotice('');
     if (studentAnswer.trim() === '') {
-      alert('Please enter an answer.');
+      setNotice('Please enter an answer.');
       return;
     }
 
     const numericAnswer = parseFloat(studentAnswer);
     if (isNaN(numericAnswer)) {
-      alert('Please enter a valid number.');
+      setNotice('Please enter a valid number.');
       return;
     }
 
@@ -266,6 +269,14 @@ export default function ScienceFormulaPractice({ onClose, dark = false }) {
         >
           New Problem
         </button>
+        {notice && (
+          <p
+            role="alert"
+            className="mt-2 text-sm text-red-700 dark:text-red-300"
+          >
+            {notice}
+          </p>
+        )}
       </div>
 
       {/* Current Problem Display */}

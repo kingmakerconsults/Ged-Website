@@ -84,6 +84,7 @@ export default function StatisticsTool({ onCalculate = null }) {
   const [currentProblem, setCurrentProblem] = useState(null);
   const [studentAnswer, setStudentAnswer] = useState('');
   const [feedback, setFeedback] = useState(null);
+  const [practiceError, setPracticeError] = useState('');
 
   const parseNumbers = (text) => {
     const numbers = text
@@ -171,18 +172,20 @@ export default function StatisticsTool({ onCalculate = null }) {
     setCurrentProblem(randomProblem);
     setStudentAnswer('');
     setFeedback(null);
+    setPracticeError('');
   };
 
   const checkPracticeAnswer = () => {
     if (!currentProblem) return;
+    setPracticeError('');
     if (studentAnswer.trim() === '') {
-      alert('Please enter an answer.');
+      setPracticeError('Please enter an answer.');
       return;
     }
 
     const numericAnswer = parseFloat(studentAnswer);
     if (isNaN(numericAnswer)) {
-      alert('Please enter a valid number.');
+      setPracticeError('Please enter a valid number.');
       return;
     }
 
@@ -399,12 +402,27 @@ export default function StatisticsTool({ onCalculate = null }) {
                 </label>
                 <input
                   type="text"
+                  inputMode="decimal"
                   value={studentAnswer}
-                  onChange={(e) => setStudentAnswer(e.target.value)}
+                  onChange={(e) => {
+                    setStudentAnswer(e.target.value);
+                    if (practiceError) setPracticeError('');
+                  }}
                   onKeyPress={(e) => e.key === 'Enter' && checkPracticeAnswer()}
+                  aria-invalid={!!practiceError}
+                  aria-describedby={practiceError ? 'stats-practice-error' : undefined}
                   className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg"
                   placeholder="Enter your answer"
                 />
+                {practiceError && (
+                  <p
+                    id="stats-practice-error"
+                    role="alert"
+                    className="mt-2 text-sm text-red-700 dark:text-red-300"
+                  >
+                    {practiceError}
+                  </p>
+                )}
               </div>
 
               <button

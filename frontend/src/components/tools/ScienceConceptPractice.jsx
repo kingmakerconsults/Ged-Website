@@ -242,6 +242,7 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [revealed, setRevealed] = useState(false);
+  const [notice, setNotice] = useState('');
 
   const categories = useMemo(() => {
     const unique = [
@@ -258,8 +259,9 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
   }, []);
 
   function selectNewQuestion() {
+    setNotice('');
     if (!selectedCategory) {
-      alert('Please select a category first.');
+      setNotice('Please select a category first.');
       return;
     }
     let pool = SCIENCE_CONCEPT_QUESTIONS.filter(
@@ -269,7 +271,7 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
       pool = pool.filter((q) => q.difficulty === selectedDifficulty);
     }
     if (pool.length === 0) {
-      alert('No questions available for this selection.');
+      setNotice('No questions available for this selection.');
       return;
     }
     const picked = pool[Math.floor(Math.random() * pool.length)];
@@ -281,9 +283,10 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
   function grade() {
     if (!currentQuestion) return;
     if (selectedChoice === null) {
-      alert('Please select an answer first.');
+      setNotice('Please select an answer first.');
       return;
     }
+    setNotice('');
     setRevealed(true);
   }
 
@@ -354,6 +357,14 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
         >
           New Question
         </button>
+        {notice && (
+          <p
+            role="alert"
+            className="mt-2 text-sm text-red-700 dark:text-red-300"
+          >
+            {notice}
+          </p>
+        )}
       </div>
 
       {/* Question Display */}

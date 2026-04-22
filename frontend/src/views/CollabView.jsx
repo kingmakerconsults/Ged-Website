@@ -46,18 +46,66 @@ function isInstructorRole(role) {
   ].includes(String(role || '').toLowerCase());
 }
 
+// Layout-only classes; colors are driven by a scoped <style> block fed by
+// useCollabTheme because the legacy app toggles `html.dark` independently of
+// /collab's visible theme, which made `dark:` Tailwind variants leak into
+// light mode.
 const inputCls =
-  'w-full px-3 py-2 border border-slate-300 rounded bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 dark:placeholder-slate-500';
-const cardCls =
-  'rounded-lg border border-slate-200 p-4 bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700';
-const labelCls =
-  'block text-sm font-medium mb-1 text-slate-700 dark:text-slate-200';
+  'collab-input w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500';
+const cardCls = 'collab-card rounded-lg border p-4 shadow-sm';
+const labelCls = 'collab-label block text-sm font-medium mb-1';
 
 export default function CollabView() {
   const navigate = useNavigate();
   const location = useLocation();
   const apiBase = useMemo(() => getApiBaseUrl(), []);
   const t = useCollabTheme();
+  const themeStyleCss = `
+    .collab-view-root .collab-card {
+      background-color: ${t.cardBg};
+      color: ${t.pageText};
+      border-color: ${t.cardBorder};
+    }
+    .collab-view-root .collab-input,
+    .collab-view-root .collab-input:focus {
+      background-color: ${t.inputBg};
+      color: ${t.inputText};
+      border-color: ${t.inputBorder};
+    }
+    .collab-view-root .collab-input::placeholder {
+      color: ${t.subtleText};
+      opacity: 1;
+    }
+    .collab-view-root .collab-input option {
+      background-color: ${t.cardBg};
+      color: ${t.inputText};
+    }
+    .collab-view-root .collab-label { color: ${t.mutedText}; }
+    .collab-view-root .collab-subtle { color: ${t.subtleText}; }
+    /* Force-override leftover slate text colors so they follow the theme */
+    .collab-view-root .text-slate-900,
+    .collab-view-root .text-slate-800 { color: ${t.pageText} !important; }
+    .collab-view-root .text-slate-700,
+    .collab-view-root .text-slate-600,
+    .collab-view-root .text-slate-300,
+    .collab-view-root .text-slate-200 { color: ${t.mutedText} !important; }
+    .collab-view-root .text-slate-500,
+    .collab-view-root .text-slate-400 { color: ${t.subtleText} !important; }
+    /* Source-toggle / outlined buttons */
+    .collab-view-root .collab-toggle {
+      background-color: ${t.cardBg};
+      color: ${t.pageText};
+      border-color: ${t.inputBorder};
+    }
+    .collab-view-root .collab-toggle:hover {
+      background-color: ${t.isDark ? '#334155' : '#f1f5f9'};
+    }
+    .collab-view-root .collab-toggle.is-active {
+      background-color: #7c3aed;
+      color: #ffffff;
+      border-color: #7c3aed;
+    }
+  `;
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [joinCode, setJoinCode] = useState('');
@@ -492,24 +540,32 @@ export default function CollabView() {
 
   return (
     <div
-      className="min-h-screen w-full"
+      className="collab-view-root min-h-screen w-full"
       style={{ backgroundColor: t.pageBg, color: t.pageText }}
     >
+      <style>{themeStyleCss}</style>
       <CollabHeader />
       <div className="max-w-5xl mx-auto p-6 space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <h2
+              className="text-2xl font-bold"
+              style={{ color: t.pageText }}
+            >
               🤝 Work Together
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+            <p
+              className="text-sm mt-1"
+              style={{ color: t.mutedText }}
+            >
               Live collaboration: practice with a classmate, take a quiz with
               your instructor, or write an essay together.
             </p>
           </div>
           <button
             onClick={() => navigate('/')}
-            className="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100 underline"
+            className="text-sm underline"
+            style={{ color: t.mutedText }}
           >
             ← Back to Dashboard
           </button>
@@ -673,10 +729,8 @@ export default function CollabView() {
                       onClick={() =>
                         setForm((f) => ({ ...f, quizSource: 'premade' }))
                       }
-                      className={`flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
-                        form.quizSource === 'premade'
-                          ? 'bg-purple-600 text-white border-purple-600'
-                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
+                      className={`collab-toggle flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
+                        form.quizSource === 'premade' ? 'is-active' : ''
                       }`}
                     >
                       📚 Pick a Premade Quiz
@@ -686,10 +740,8 @@ export default function CollabView() {
                       onClick={() =>
                         setForm((f) => ({ ...f, quizSource: 'generated' }))
                       }
-                      className={`flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
-                        form.quizSource === 'generated'
-                          ? 'bg-purple-600 text-white border-purple-600'
-                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
+                      className={`collab-toggle flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
+                        form.quizSource === 'generated' ? 'is-active' : ''
                       }`}
                     >
                       ⚡ Generate (Practice-style)
@@ -699,10 +751,8 @@ export default function CollabView() {
                       onClick={() =>
                         setForm((f) => ({ ...f, quizSource: 'vocabulary' }))
                       }
-                      className={`flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
-                        form.quizSource === 'vocabulary'
-                          ? 'bg-purple-600 text-white border-purple-600'
-                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
+                      className={`collab-toggle flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
+                        form.quizSource === 'vocabulary' ? 'is-active' : ''
                       }`}
                     >
                       🔤 Vocabulary Review

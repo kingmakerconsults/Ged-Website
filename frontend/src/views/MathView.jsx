@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { getSubjectTheme } from '../theme/designSystem';
-import GeometryFigure from '../components/tools/GeometryFigure';
-import GraphTool from '../components/tools/GraphTool';
-import StepByStepSolver from '../components/tools/StepByStepSolver';
-import StatisticsTool from '../components/tools/StatisticsTool';
 import FormulaSheetModal from '../components/tools/FormulaSheetModal';
+import { getToolsForSubject } from '../components/tools/registry';
 
 /**
  * MathView - Mathematical Reasoning subject view
@@ -14,24 +11,23 @@ import FormulaSheetModal from '../components/tools/FormulaSheetModal';
  */
 export default function MathView({ dark = false }) {
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
-  const [selectedTool, setSelectedTool] = useState('geometry');
 
   const theme = getSubjectTheme('math', dark);
 
-  const tools = [
-    { id: 'geometry', name: '📐 Geometry Figures', component: GeometryFigure },
-    { id: 'graph', name: '📊 Graphing Tool', component: GraphTool },
-    {
-      id: 'solver',
-      name: '🧮 Step-by-Step Solver',
-      component: StepByStepSolver,
-    },
-    {
-      id: 'statistics',
-      name: '📈 Statistics Calculator',
-      component: StatisticsTool,
-    },
-  ];
+  // Pull tools from the central registry, but skip the formula sheet (we expose
+  // it via the dedicated button) and the calculator (handled elsewhere).
+  const registryTools = getToolsForSubject('Math').filter(
+    (t) => t.id !== 'formulas' && t.id !== 'calculator'
+  );
+  const tools = registryTools.map((t) => ({
+    id: t.id,
+    name: `${t.icon} ${t.name}`,
+    component: t.component,
+    comingSoon: !!t.comingSoon,
+  }));
+
+  const initialTool = tools.find((t) => !t.comingSoon)?.id || tools[0]?.id;
+  const [selectedTool, setSelectedTool] = useState(initialTool);
 
   const ActiveToolComponent = tools.find(
     (t) => t.id === selectedTool
@@ -98,7 +94,11 @@ export default function MathView({ dark = false }) {
 
       {/* Formula Sheet Modal */}
       {showFormulaSheet && (
-        <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />
+        <FormulaSheetModal
+          asModal
+          dark={dark}
+          onClose={() => setShowFormulaSheet(false)}
+        />
       )}
 
       {/* Info Section */}

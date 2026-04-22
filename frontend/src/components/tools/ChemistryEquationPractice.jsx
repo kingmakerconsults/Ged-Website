@@ -15,6 +15,7 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
   const [showAnswer, setShowAnswer] = useState(false);
   const [statistics, setStatistics] = useState({ correct: 0, total: 0 });
   const [difficulty, setDifficulty] = useState('all');
+  const [notice, setNotice] = useState('');
 
   const isDark = dark;
 
@@ -105,7 +106,7 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
     }
 
     if (filtered.length === 0) {
-      alert('No equations match your filters.');
+      setNotice('No equations match your filters.');
       return null;
     }
 
@@ -115,6 +116,7 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
 
   // Load new equation
   const loadNewEquation = (type = null) => {
+    setNotice('');
     const eq = pickRandomEquation(type, difficulty);
     if (eq) {
       setCurrentEquation(eq);
@@ -152,14 +154,15 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
     });
 
     if (coeffs.some((c) => c === null)) {
-      alert('Please fill in all coefficients.');
+      setNotice('Please fill in all coefficients.');
       return;
     }
 
     if (coeffs.some((c) => c <= 0)) {
-      alert('Coefficients must be positive integers.');
+      setNotice('Coefficients must be positive integers.');
       return;
     }
+    setNotice('');
 
     const balanced = isBalanced(currentEquation, coeffs);
 
@@ -269,6 +272,20 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
           </p>
         )}
       </div>
+
+      {/* Inline notice for validation messages */}
+      {notice && (
+        <div
+          role="alert"
+          className={`mb-4 p-3 rounded-lg border-2 text-sm font-semibold ${
+            isDark
+              ? 'bg-red-900/30 border-red-700 text-red-200'
+              : 'bg-red-50 border-red-300 text-red-800'
+          }`}
+        >
+          {notice}
+        </div>
+      )}
 
       {/* Equation Display */}
       {currentEquation && (
