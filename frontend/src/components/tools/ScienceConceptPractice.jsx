@@ -240,9 +240,19 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [shuffledChoices, setShuffledChoices] = useState([]);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [revealed, setRevealed] = useState(false);
   const [notice, setNotice] = useState('');
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
 
   const categories = useMemo(() => {
     const unique = [
@@ -276,6 +286,7 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
     }
     const picked = pool[Math.floor(Math.random() * pool.length)];
     setCurrentQuestion(picked);
+    setShuffledChoices(shuffle(picked.choices));
     setSelectedChoice(null);
     setRevealed(false);
   }
@@ -395,7 +406,7 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
           <p className="mb-4">{currentQuestion.question}</p>
 
           <div className="space-y-2 mb-4">
-            {currentQuestion.choices.map((ch, idx) => {
+            {shuffledChoices.map((ch, idx) => {
               const chosen = selectedChoice === idx;
               const correct = ch.correct;
               let btnStyle = chosen ? 'ring-2 ring-blue-500' : '';
@@ -441,13 +452,13 @@ export default function ScienceConceptPractice({ onClose, dark = false }) {
           {revealed && (
             <div
               className={`mt-4 p-3 rounded-lg ${
-                currentQuestion.choices[selectedChoice].correct
+                shuffledChoices[selectedChoice]?.correct
                   ? 'bg-green-100 text-green-800 border-2 border-green-500'
                   : 'bg-red-100 text-red-800 border-2 border-red-500'
               }`}
             >
               <p className="font-bold mb-2">
-                {currentQuestion.choices[selectedChoice].correct
+                {shuffledChoices[selectedChoice]?.correct
                   ? '✓ Correct!'
                   : '✗ Incorrect'}
               </p>

@@ -22,7 +22,10 @@ export default function HistoryTimelineBuilder({ onExit }) {
     setFeedback(null);
   }, [currentSetIndex]);
 
-  const correctOrder = currentSet.events.sort((a, b) => a.year - b.year);
+  // Non-mutating sort: do NOT use the in-place .sort() on the dataset array,
+  // because that re-orders the source events and breaks the shuffled order
+  // shown to the student on subsequent renders.
+  const correctOrder = [...currentSet.events].sort((a, b) => a.year - b.year);
 
   const handleMoveUp = (index) => {
     if (index === 0) return;

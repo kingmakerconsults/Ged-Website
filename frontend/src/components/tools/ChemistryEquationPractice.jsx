@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { getChemistryEquations } from '../../data/chemistryEquations';
 
-// Chemistry equations data
-const SCIENCE_CHEMISTRY_EQUATIONS = window.SCIENCE_CHEMISTRY_EQUATIONS || [];
+// Lazy snapshot of the chemistry equations dataset (loaded once per render
+// of the module). Pulling from the legacy global script via a typed wrapper.
+const SCIENCE_CHEMISTRY_EQUATIONS = getChemistryEquations();
 
 /**
  * ChemistryEquationPractice - Chemical equation balancing practice tool
@@ -19,31 +21,47 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
 
   const isDark = dark;
 
-  // Helper: Count atoms in a compound
+  // Helper: Count atoms in a compound. Supports parenthesized groups
+  // (e.g. Ca(OH)2, Al2(SO4)3) and Unicode subscripts.
   const parseFormula = (formula) => {
-    // Convert Unicode subscripts to regular numbers
-    const normalizedFormula = formula
-      .replace(/₀/g, '0')
-      .replace(/₁/g, '1')
-      .replace(/₂/g, '2')
-      .replace(/₃/g, '3')
-      .replace(/₄/g, '4')
-      .replace(/₅/g, '5')
-      .replace(/₆/g, '6')
-      .replace(/₇/g, '7')
-      .replace(/₈/g, '8')
-      .replace(/₉/g, '9');
+    const normalized = formula
+      .replace(/\u2080/g, '0')
+      .replace(/\u2081/g, '1')
+      .replace(/\u2082/g, '2')
+      .replace(/\u2083/g, '3')
+      .replace(/\u2084/g, '4')
+      .replace(/\u2085/g, '5')
+      .replace(/\u2086/g, '6')
+      .replace(/\u2087/g, '7')
+      .replace(/\u2088/g, '8')
+      .replace(/\u2089/g, '9');
 
-    const atomCounts = {};
-    const regex = /([A-Z][a-z]?)(\d*)/g;
-    let match;
-
-    while ((match = regex.exec(normalizedFormula)) !== null) {
-      const atom = match[1];
-      const count = match[2] ? parseInt(match[2]) : 1;
-      atomCounts[atom] = (atomCounts[atom] || 0) + count;
+    // Stack-based parser: each frame is an atom-count map.
+    const stack = [{}];
+    const tokenRe = /([A-Z][a-z]?)(\d*)|(\()|(\))(\d*)/g;
+    let m;
+    while ((m = tokenRe.exec(normalized)) !== null) {
+      if (m[1]) {
+        // Element + optional subscript
+        const atom = m[1];
+        const count = m[2] ? parseInt(m[2], 10) : 1;
+        const top = stack[stack.length - 1];
+        top[atom] = (top[atom] || 0) + count;
+      } else if (m[3]) {
+        // Open paren
+        stack.push({});
+      } else if (m[4]) {
+        // Close paren + optional multiplier
+        if (stack.length < 2) continue; // unbalanced, skip
+        const group = stack.pop();
+        const mult = m[5] ? parseInt(m[5], 10) : 1;
+        const top = stack[stack.length - 1];
+        Object.entries(group).forEach(([atom, n]) => {
+          top[atom] = (top[atom] || 0) + n * mult;
+        });
+      }
     }
-    return atomCounts;
+    return stack[0] || {};
   };
 
   // Helper: Check if equation is balanced

@@ -749,6 +749,13 @@ function attachCollabSockets(io, { getAllQuizzes }) {
           ]
         );
 
+        // Broadcast updated room state so everyone sees the live
+        // "X of N answered" count update for this question. The sanitized
+        // state only exposes per-participant `answeredQuestions` (indices),
+        // not the actual answer values, so this does not leak choices
+        // before reveal.
+        await emitRoomState(socket, sessionId, { toAll: true });
+
         // Notify host (instructor_led free mode) of progress
         if (session.session_type === 'instructor_led' && session.host_id) {
           const sockets = await nsp.in(`session:${sessionId}`).fetchSockets();

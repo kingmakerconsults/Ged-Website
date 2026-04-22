@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ELECTORAL_COLLEGE_SCENARIOS } from '../data/social/electoral_college_scenarios.js';
+import USElectoralMap from './USElectoralMap.jsx';
 
 /**
  * ElectoralCollegeSimulator - Electoral Vote Math & Scenarios
@@ -12,6 +13,7 @@ export default function ElectoralCollegeSimulator({ onExit }) {
   const [selectedMultiChoice, setSelectedMultiChoice] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [sessionComplete, setSessionComplete] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   const currentScenario = ELECTORAL_COLLEGE_SCENARIOS[currentScenarioIndex];
   const isNumeric = currentScenario.type === 'numeric';
@@ -99,6 +101,22 @@ export default function ElectoralCollegeSimulator({ onExit }) {
 
         {!sessionComplete && (
           <div className="space-y-6">
+            {/* Sandbox map toggle */}
+            <div>
+              <button
+                onClick={() => setShowMap((v) => !v)}
+                className="text-sm font-semibold text-sky-700 dark:text-sky-300 hover:underline"
+                aria-expanded={showMap}
+              >
+                {showMap ? '▾ Hide map sandbox' : '▸ Try the interactive map'}
+              </button>
+              {showMap && (
+                <div className="mt-3">
+                  <USElectoralMap dark={typeof document !== 'undefined' && document.documentElement.classList.contains('dark')} />
+                </div>
+              )}
+            </div>
+
             {/* Scenario Header */}
             <div>
               <div className="flex items-center gap-3 mb-2">

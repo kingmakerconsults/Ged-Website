@@ -520,13 +520,21 @@ export default function CollabQuizSession({
     }
   };
 
-  const answeredCount = useMemo(() => {
-    let n = 0;
-    for (const p of roomState.participants || []) {
-      if (p.answeredQuestions?.includes(currentIndex)) n += 1;
-    }
-    return n;
-  }, [currentIndex, roomState.participants]);
+  const answeredStats = useMemo(() => {
+    const all = roomState.participants || [];
+    // For instructor-led, the host doesn't answer questions, so only count
+    // students. For peer, both partners answer (the host is a student too).
+    const responders =
+      sessionType === 'instructor_led'
+        ? all.filter((p) => p.role !== 'host')
+        : all;
+    const total = responders.length;
+    const answered = responders.filter((p) =>
+      p.answeredQuestions?.includes(currentIndex)
+    ).length;
+    return { answered, total };
+  }, [currentIndex, roomState.participants, sessionType]);
+  const answeredCount = answeredStats.answered;
 
   const distribution = useMemo(() => {
     if (!revealed || !lastReveal || lastReveal.questionIndex !== currentIndex)
@@ -569,6 +577,29 @@ export default function CollabQuizSession({
                   style={{ backgroundColor: '#dbeafe', color: '#1e40af' }}
                 >
                   {paceMode === 'locked' ? 'Locked Pace' : 'Free Pace'}
+                </span>
+              )}
+              {answeredStats.total > 0 && (
+                <span
+                  className="ml-2 px-2 py-0.5 text-xs rounded font-medium"
+                  title={
+                    sessionType === 'instructor_led'
+                      ? 'Number of students who have answered this question'
+                      : 'Number of participants who have answered this question'
+                  }
+                  style={{
+                    backgroundColor:
+                      answeredStats.answered >= answeredStats.total
+                        ? '#dcfce7'
+                        : '#fef3c7',
+                    color:
+                      answeredStats.answered >= answeredStats.total
+                        ? '#166534'
+                        : '#92400e',
+                  }}
+                >
+                  {answeredStats.answered >= answeredStats.total ? '✓ ' : ''}
+                  {answeredStats.answered} of {answeredStats.total} answered
                 </span>
               )}
             </div>

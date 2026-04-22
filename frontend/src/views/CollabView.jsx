@@ -548,16 +548,10 @@ export default function CollabView() {
       <div className="max-w-5xl mx-auto p-6 space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h2
-              className="text-2xl font-bold"
-              style={{ color: t.pageText }}
-            >
+            <h2 className="text-2xl font-bold" style={{ color: t.pageText }}>
               🤝 Work Together
             </h2>
-            <p
-              className="text-sm mt-1"
-              style={{ color: t.mutedText }}
-            >
+            <p className="text-sm mt-1" style={{ color: t.mutedText }}>
               Live collaboration: practice with a classmate, take a quiz with
               your instructor, or write an essay together.
             </p>
@@ -814,12 +808,8 @@ export default function CollabView() {
                           className={inputCls}
                         >
                           <option value="mixed">Mixed</option>
-                          <option value="def-to-term">
-                            Definition → Term
-                          </option>
-                          <option value="term-to-def">
-                            Term → Definition
-                          </option>
+                          <option value="def-to-term">Definition → Term</option>
+                          <option value="term-to-def">Term → Definition</option>
                         </select>
                       </div>
                     </div>
@@ -831,44 +821,44 @@ export default function CollabView() {
                   </>
                 ) : null}
                 {form.quizSource !== 'vocabulary' && (
-                <div>
-                  <label className={labelCls}>
-                    {form.quizSource === 'generated' ? 'Subject' : 'Subject'}
-                  </label>
-                  <select
-                    value={form.subject}
-                    onChange={(e) =>
-                      setForm((f) => ({
-                        ...f,
-                        subject: e.target.value,
-                        categoryName: '',
-                        topicTitle: '',
-                        quizId: '',
-                      }))
-                    }
-                    className={inputCls}
-                  >
-                    <option value="">
-                      {form.quizSource === 'generated'
-                        ? 'Balanced (all 4 subjects)'
-                        : '— pick a subject —'}
-                    </option>
-                    {form.quizSource === 'generated' ? (
-                      <>
-                        <option value="math">Math</option>
-                        <option value="rla">RLA</option>
-                        <option value="science">Science</option>
-                        <option value="social">Social Studies</option>
-                      </>
-                    ) : (
-                      subjectsWithQuizzes.map((s) => (
-                        <option key={s.key} value={s.key}>
-                          {s.label}
-                        </option>
-                      ))
-                    )}
-                  </select>
-                </div>
+                  <div>
+                    <label className={labelCls}>
+                      {form.quizSource === 'generated' ? 'Subject' : 'Subject'}
+                    </label>
+                    <select
+                      value={form.subject}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          subject: e.target.value,
+                          categoryName: '',
+                          topicTitle: '',
+                          quizId: '',
+                        }))
+                      }
+                      className={inputCls}
+                    >
+                      <option value="">
+                        {form.quizSource === 'generated'
+                          ? 'Balanced (all 4 subjects)'
+                          : '— pick a subject —'}
+                      </option>
+                      {form.quizSource === 'generated' ? (
+                        <>
+                          <option value="math">Math</option>
+                          <option value="rla">RLA</option>
+                          <option value="science">Science</option>
+                          <option value="social">Social Studies</option>
+                        </>
+                      ) : (
+                        subjectsWithQuizzes.map((s) => (
+                          <option key={s.key} value={s.key}>
+                            {s.label}
+                          </option>
+                        ))
+                      )}
+                    </select>
+                  </div>
                 )}
                 {form.quizSource === 'premade' ? (
                   <>
