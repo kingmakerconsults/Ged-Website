@@ -88,6 +88,10 @@ export default function CollabView() {
           setError(
             'Collaboration server is not yet available. The backend may still be deploying — please try again in a minute.'
           );
+        } else if (res.status === 401 || res.status === 403) {
+          setError(
+            'You need to be logged in to use Work Together. Please sign in from the dashboard, then come back.'
+          );
         } else {
           setError(`Server error (${res.status}). Please try again later.`);
         }
