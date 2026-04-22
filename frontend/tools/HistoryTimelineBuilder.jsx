@@ -141,8 +141,8 @@ export default function HistoryTimelineBuilder({ onExit, dark = false }) {
                     currentSet.difficulty === 'easy'
                       ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200'
                       : currentSet.difficulty === 'medium'
-                      ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
-                      : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
+                        ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
+                        : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
                   }`}
                 >
                   {currentSet.difficulty.charAt(0).toUpperCase() +
@@ -179,8 +179,8 @@ export default function HistoryTimelineBuilder({ onExit, dark = false }) {
                     isMisordered(index)
                       ? 'border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900/20'
                       : feedback?.isCorrect
-                      ? 'border-emerald-400 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
-                      : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600'
+                        ? 'border-emerald-400 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
+                        : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600'
                   }`}
                 >
                   {/* Position Number */}

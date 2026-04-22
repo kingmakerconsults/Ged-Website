@@ -10,6 +10,10 @@
 const jwt = require('jsonwebtoken');
 const db = require('./db');
 
+// Shared between REST and socket modules so REST handlers (e.g. session
+// create) can emit "class:session_started" presence events.
+let _collabNsp = null;
+
 // ---------- Helpers ----------
 
 function generateRoomCode() {
@@ -275,15 +279,52 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
     async (req, res) => {
       try {
         const user = req.user || {};
-        const {
+        let {
           sessionType,
           quizId,
           subject,
           title,
           classId,
+          curriculumItemId,
           questions, // optional inline questions array
           config,
         } = req.body || {};
+
+        // If launching from a curriculum item, resolve it server-side and
+        // force instructor_led + locked. The curriculum item is the source
+        // of truth for class, subject, quiz, and title.
+        let curriculumItem = null;
+        if (curriculumItemId) {
+          if (!isInstructorRole(user.role)) {
+            return res
+              .status(403)
+              .json({ error: 'Instructor role required' });
+          }
+          curriculumItem = await db.oneOrNone(
+            `SELECT ci.*, c.teacher_id, c.organization_id AS class_org_id
+               FROM class_curriculum_items ci
+               JOIN classes c ON c.id = ci.class_id
+              WHERE ci.id = $1`,
+            [Number(curriculumItemId)]
+          );
+          if (!curriculumItem) {
+            return res
+              .status(404)
+              .json({ error: 'Curriculum item not found' });
+          }
+          const isOwner = Number(curriculumItem.teacher_id) === Number(user.id);
+          const isSuper = String(user.role || '').toLowerCase() === 'super_admin';
+          if (!isOwner && !isSuper) {
+            return res
+              .status(403)
+              .json({ error: 'You do not own this class' });
+          }
+          sessionType = 'instructor_led';
+          classId = curriculumItem.class_id;
+          quizId = curriculumItem.quiz_id || quizId;
+          subject = curriculumItem.subject || subject;
+          title = curriculumItem.title || title;
+        }
 
         if (!['instructor_led', 'peer', 'essay'].includes(sessionType)) {
           return res.status(400).json({ error: 'Invalid sessionType' });
@@ -337,8 +378,8 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
 
         const inserted = await db.one(
           `INSERT INTO collab_sessions
-          (room_code, session_type, host_id, class_id, organization_id, title, subject, quiz_id, quiz_snapshot, quiz_config, session_state, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'lobby')
+          (room_code, session_type, host_id, class_id, organization_id, title, subject, quiz_id, quiz_snapshot, quiz_config, session_state, status, curriculum_item_id)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'lobby', $12)
          RETURNING *`,
           [
             roomCode,
@@ -352,6 +393,7 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
             quizSnapshot ? JSON.stringify(quizSnapshot) : null,
             JSON.stringify(config || {}),
             JSON.stringify(initialState),
+            curriculumItem ? curriculumItem.id : null,
           ]
         );
 
@@ -363,6 +405,51 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
          ON CONFLICT (session_id, user_id) DO NOTHING`,
           [inserted.id, user.id, hostName]
         );
+
+        // If session is tied to a class, pre-create participant rows for
+        // every enrolled student. They start `connected = false` and don't
+        // consume a slot until they actually join. Then broadcast a
+        // "class:session_started" presence event so their app can show the
+        // one-click join banner without them needing to type the code.
+        if (classId && sessionType === 'instructor_led') {
+          try {
+            const enrollees = await db
+              .many(
+                `SELECT u.id AS user_id,
+                        COALESCE(u.name, u.email, 'Learner ' || u.id::text) AS display_name
+                   FROM class_enrollments e
+                   JOIN users u ON u.id = e.user_id
+                  WHERE e.class_id = $1 AND u.id != $2`,
+                [classId, user.id]
+              )
+              .catch(() => []);
+            for (const en of enrollees) {
+              await db.none(
+                `INSERT INTO collab_participants (session_id, user_id, display_name, role)
+                 VALUES ($1, $2, $3, 'participant')
+                 ON CONFLICT (session_id, user_id) DO NOTHING`,
+                [inserted.id, en.user_id, en.display_name]
+              );
+            }
+
+            if (_collabNsp) {
+              _collabNsp.to(`class:${classId}`).emit('class:session_started', {
+                classId: Number(classId),
+                roomCode: inserted.room_code,
+                sessionId: inserted.id,
+                title: inserted.title,
+                subject: inserted.subject,
+                instructorName: hostName,
+                curriculumItemId: curriculumItem ? curriculumItem.id : null,
+              });
+            }
+          } catch (e) {
+            console.error(
+              '[collab] class auto-enroll/presence emit failed:',
+              e?.message || e
+            );
+          }
+        }
 
         return res.json({
           sessionId: inserted.id,
@@ -575,12 +662,487 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
       }
     }
   );
+
+  // ---------- Class roster: add/remove from org ----------
+
+  async function loadClassForInstructor(classId, user) {
+    const cls = await db.oneOrNone('SELECT * FROM classes WHERE id = $1', [
+      Number(classId),
+    ]);
+    if (!cls) return { error: 404 };
+    const isOwner = Number(cls.teacher_id) === Number(user.id);
+    const isSuper = String(user.role || '').toLowerCase() === 'super_admin';
+    const isOrgAdmin =
+      ['org_admin', 'orgadmin', 'admin'].includes(
+        String(user.role || '').toLowerCase()
+      ) &&
+      Number(cls.organization_id) === Number(user.organization_id || -1);
+    if (!isOwner && !isSuper && !isOrgAdmin) return { error: 403 };
+    return { cls };
+  }
+
+  app.get(
+    '/api/classes/:id/eligible-students',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        if (!cls.organization_id) {
+          return res.json({ students: [] });
+        }
+        const rows = await db
+          .many(
+            `SELECT u.id, u.email, u.name
+               FROM users u
+              WHERE u.organization_id = $1
+                AND LOWER(COALESCE(u.role, 'student')) IN ('student','learner')
+                AND NOT EXISTS (
+                  SELECT 1 FROM class_enrollments e
+                   WHERE e.class_id = $2 AND e.user_id = u.id
+                )
+              ORDER BY COALESCE(u.name, u.email) ASC
+              LIMIT 500`,
+            [cls.organization_id, cls.id]
+          )
+          .catch(() => []);
+        return res.json({ students: rows });
+      } catch (err) {
+        console.error('[collab] eligible-students error:', err);
+        return res.status(500).json({ error: 'Failed to load students' });
+      }
+    }
+  );
+
+  app.post(
+    '/api/classes/:id/members',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const userIds = Array.isArray(req.body?.userIds)
+          ? req.body.userIds.map((n) => Number(n)).filter((n) => n > 0)
+          : [];
+        if (userIds.length === 0) {
+          return res.status(400).json({ error: 'userIds required' });
+        }
+        // Verify each user belongs to the same org as the class
+        const sameOrg = await db
+          .many(
+            `SELECT id FROM users WHERE id = ANY($1) AND organization_id = $2`,
+            [userIds, cls.organization_id]
+          )
+          .catch(() => []);
+        const valid = sameOrg.map((r) => r.id);
+        let added = 0;
+        for (const uid of valid) {
+          const r = await db.result(
+            `INSERT INTO class_enrollments (class_id, user_id)
+               VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+            [cls.id, uid]
+          );
+          if (r.rowCount > 0) added += 1;
+        }
+        return res.json({ added, requested: userIds.length, valid: valid.length });
+      } catch (err) {
+        console.error('[collab] add members error:', err);
+        return res.status(500).json({ error: 'Failed to add members' });
+      }
+    }
+  );
+
+  app.delete(
+    '/api/classes/:id/members/:userId',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const uid = Number(req.params.userId);
+        await db.none(
+          'DELETE FROM class_enrollments WHERE class_id = $1 AND user_id = $2',
+          [cls.id, uid]
+        );
+        return res.json({ ok: true });
+      } catch (err) {
+        console.error('[collab] remove member error:', err);
+        return res.status(500).json({ error: 'Failed to remove member' });
+      }
+    }
+  );
+
+  // ---------- Curriculum CRUD ----------
+
+  async function userCanViewClass(classId, user) {
+    if (isInstructorRole(user.role)) {
+      const r = await loadClassForInstructor(classId, user);
+      if (!r.error) return r.cls;
+    }
+    const enrolled = await db.oneOrNone(
+      `SELECT c.* FROM classes c
+         JOIN class_enrollments e ON e.class_id = c.id
+        WHERE c.id = $1 AND e.user_id = $2`,
+      [Number(classId), Number(user.id)]
+    );
+    return enrolled || null;
+  }
+
+  app.get(
+    '/api/classes/:id/curriculum',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        const cls = await userCanViewClass(req.params.id, user);
+        if (!cls) return res.status(403).json({ error: 'Forbidden' });
+        const items = await db
+          .many(
+            `SELECT * FROM class_curriculum_items
+              WHERE class_id = $1
+              ORDER BY position ASC, id ASC`,
+            [cls.id]
+          )
+          .catch(() => []);
+        const coverage = await db
+          .many(
+            `SELECT DISTINCT ON (curriculum_item_id)
+                    curriculum_item_id, covered_at, source, session_id
+               FROM class_curriculum_coverage
+              WHERE class_id = $1
+              ORDER BY curriculum_item_id, covered_at DESC`,
+            [cls.id]
+          )
+          .catch(() => []);
+        const covMap = new Map(
+          coverage.map((c) => [c.curriculum_item_id, c])
+        );
+        // Expose any active live session per item so the student UI can
+        // show "in progress now" markers.
+        const liveSessions = await db
+          .many(
+            `SELECT curriculum_item_id, room_code
+               FROM collab_sessions
+              WHERE class_id = $1
+                AND curriculum_item_id IS NOT NULL
+                AND status != 'complete'
+                AND expires_at > NOW()`,
+            [cls.id]
+          )
+          .catch(() => []);
+        const liveMap = new Map(
+          liveSessions.map((s) => [s.curriculum_item_id, s.room_code])
+        );
+        return res.json({
+          classId: cls.id,
+          className: cls.name,
+          joinCode: cls.join_code,
+          isInstructor: Number(cls.teacher_id) === Number(user.id),
+          items: items.map((it) => ({
+            id: it.id,
+            position: it.position,
+            subject: it.subject,
+            categoryName: it.category_name,
+            topicId: it.topic_id,
+            quizId: it.quiz_id,
+            title: it.title,
+            plannedDate: it.planned_date,
+            manuallyMarkedCovered: it.manually_marked_covered,
+            coverage: covMap.get(it.id)
+              ? {
+                  coveredAt: covMap.get(it.id).covered_at,
+                  source: covMap.get(it.id).source,
+                  sessionId: covMap.get(it.id).session_id,
+                }
+              : null,
+            liveRoomCode: liveMap.get(it.id) || null,
+          })),
+        });
+      } catch (err) {
+        console.error('[collab] curriculum get error:', err);
+        return res.status(500).json({ error: 'Failed to load curriculum' });
+      }
+    }
+  );
+
+  app.post(
+    '/api/classes/:id/curriculum',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const {
+          subject,
+          categoryName,
+          topicId,
+          quizId,
+          title,
+          plannedDate,
+        } = req.body || {};
+        if (!title || !String(title).trim()) {
+          return res.status(400).json({ error: 'title required' });
+        }
+        const max = await db.oneOrNone(
+          'SELECT COALESCE(MAX(position), -1) AS m FROM class_curriculum_items WHERE class_id = $1',
+          [cls.id]
+        );
+        const nextPos = (max?.m ?? -1) + 1;
+        const row = await db.one(
+          `INSERT INTO class_curriculum_items
+             (class_id, position, subject, category_name, topic_id, quiz_id, title, planned_date)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+           RETURNING *`,
+          [
+            cls.id,
+            nextPos,
+            subject || null,
+            categoryName || null,
+            topicId || null,
+            quizId || null,
+            String(title).trim(),
+            plannedDate || null,
+          ]
+        );
+        return res.json({ item: row });
+      } catch (err) {
+        console.error('[collab] curriculum create error:', err);
+        return res.status(500).json({ error: 'Failed to create item' });
+      }
+    }
+  );
+
+  app.patch(
+    '/api/classes/:id/curriculum/:itemId',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const itemId = Number(req.params.itemId);
+        const fields = req.body || {};
+        const map = {
+          subject: 'subject',
+          categoryName: 'category_name',
+          topicId: 'topic_id',
+          quizId: 'quiz_id',
+          title: 'title',
+          plannedDate: 'planned_date',
+        };
+        const sets = [];
+        const vals = [];
+        let i = 1;
+        for (const [k, col] of Object.entries(map)) {
+          if (k in fields) {
+            sets.push(`${col} = $${i++}`);
+            vals.push(fields[k] === '' ? null : fields[k]);
+          }
+        }
+        if (sets.length === 0) return res.json({ ok: true });
+        sets.push(`updated_at = NOW()`);
+        vals.push(itemId, cls.id);
+        await db.none(
+          `UPDATE class_curriculum_items SET ${sets.join(', ')}
+             WHERE id = $${i++} AND class_id = $${i}`,
+          vals
+        );
+        return res.json({ ok: true });
+      } catch (err) {
+        console.error('[collab] curriculum update error:', err);
+        return res.status(500).json({ error: 'Failed to update item' });
+      }
+    }
+  );
+
+  app.post(
+    '/api/classes/:id/curriculum/reorder',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const ids = Array.isArray(req.body?.orderedIds)
+          ? req.body.orderedIds.map((n) => Number(n)).filter((n) => n > 0)
+          : [];
+        for (let pos = 0; pos < ids.length; pos++) {
+          await db.none(
+            `UPDATE class_curriculum_items SET position = $1, updated_at = NOW()
+               WHERE id = $2 AND class_id = $3`,
+            [pos, ids[pos], cls.id]
+          );
+        }
+        return res.json({ ok: true });
+      } catch (err) {
+        console.error('[collab] curriculum reorder error:', err);
+        return res.status(500).json({ error: 'Failed to reorder' });
+      }
+    }
+  );
+
+  app.delete(
+    '/api/classes/:id/curriculum/:itemId',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const itemId = Number(req.params.itemId);
+        await db.none(
+          'DELETE FROM class_curriculum_items WHERE id = $1 AND class_id = $2',
+          [itemId, cls.id]
+        );
+        return res.json({ ok: true });
+      } catch (err) {
+        console.error('[collab] curriculum delete error:', err);
+        return res.status(500).json({ error: 'Failed to delete item' });
+      }
+    }
+  );
+
+  app.post(
+    '/api/classes/:id/curriculum/:itemId/cover',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        if (!isInstructorRole(user.role)) {
+          return res.status(403).json({ error: 'Instructor role required' });
+        }
+        const { cls, error } = await loadClassForInstructor(
+          req.params.id,
+          user
+        );
+        if (error) return res.status(error).json({ error: 'Forbidden' });
+        const itemId = Number(req.params.itemId);
+        const covered = !!req.body?.covered;
+        if (covered) {
+          await db.none(
+            `UPDATE class_curriculum_items
+                SET manually_marked_covered = TRUE, updated_at = NOW()
+              WHERE id = $1 AND class_id = $2`,
+            [itemId, cls.id]
+          );
+          await db.none(
+            `INSERT INTO class_curriculum_coverage
+                 (class_id, curriculum_item_id, source)
+               VALUES ($1, $2, 'manual')`,
+            [cls.id, itemId]
+          );
+        } else {
+          await db.none(
+            `UPDATE class_curriculum_items
+                SET manually_marked_covered = FALSE, updated_at = NOW()
+              WHERE id = $1 AND class_id = $2`,
+            [itemId, cls.id]
+          );
+          // Remove manual coverage rows; preserve session-based coverage history.
+          await db.none(
+            `DELETE FROM class_curriculum_coverage
+              WHERE class_id = $1 AND curriculum_item_id = $2 AND source = 'manual'`,
+            [cls.id, itemId]
+          );
+        }
+        return res.json({ ok: true });
+      } catch (err) {
+        console.error('[collab] coverage toggle error:', err);
+        return res.status(500).json({ error: 'Failed to toggle coverage' });
+      }
+    }
+  );
+
+  // ---------- Class-led one-click join ----------
+  app.post(
+    '/api/classes/:id/join-current-session',
+    authenticateBearerToken,
+    async (req, res) => {
+      try {
+        const user = req.user || {};
+        const classId = Number(req.params.id);
+        const enrolled = await db.oneOrNone(
+          `SELECT 1 FROM class_enrollments
+            WHERE class_id = $1 AND user_id = $2`,
+          [classId, user.id]
+        );
+        const isOwnerInstructor = await db.oneOrNone(
+          `SELECT 1 FROM classes WHERE id = $1 AND teacher_id = $2`,
+          [classId, user.id]
+        );
+        if (!enrolled && !isOwnerInstructor) {
+          return res.status(403).json({ error: 'Not enrolled in this class' });
+        }
+        const live = await db.oneOrNone(
+          `SELECT room_code FROM collab_sessions
+            WHERE class_id = $1
+              AND status != 'complete'
+              AND expires_at > NOW()
+            ORDER BY created_at DESC
+            LIMIT 1`,
+          [classId]
+        );
+        if (!live) return res.status(404).json({ error: 'No active session' });
+        return res.json({ roomCode: live.room_code });
+      } catch (err) {
+        console.error('[collab] join-current-session error:', err);
+        return res.status(500).json({ error: 'Failed' });
+      }
+    }
+  );
 }
 
 // ---------- Socket.io ----------
 
 function attachCollabSockets(io, { getAllQuizzes }) {
   const nsp = io.of('/collab');
+  _collabNsp = nsp;
 
   // Periodic cleanup: stale matchmaking entries (> 5 min) and expired sessions
   setInterval(async () => {
@@ -649,6 +1211,31 @@ function attachCollabSockets(io, { getAllQuizzes }) {
 
   nsp.on('connection', (socket) => {
     const user = socket.user;
+
+    // Subscribe to class presence rooms so this user receives
+    // `class:session_started` / `class:session_ended` for any class they're
+    // enrolled in (or teach). The client may also call this with an explicit
+    // list of classIds; we still verify membership server-side.
+    socket.on('class:subscribe', async (_payload, ack) => {
+      try {
+        const rows = await db
+          .many(
+            `SELECT id FROM classes WHERE teacher_id = $1
+             UNION
+             SELECT class_id AS id FROM class_enrollments WHERE user_id = $1`,
+            [user.id]
+          )
+          .catch(() => []);
+        const classIds = rows.map((r) => Number(r.id)).filter(Boolean);
+        for (const cid of classIds) {
+          socket.join(`class:${cid}`);
+        }
+        socket.data.classIds = classIds;
+        if (ack) ack({ ok: true, classIds });
+      } catch (err) {
+        if (ack) ack({ error: 'failed' });
+      }
+    });
 
     socket.on('room:join', async ({ roomCode } = {}, ack) => {
       try {
@@ -908,6 +1495,35 @@ function attachCollabSockets(io, { getAllQuizzes }) {
         `UPDATE collab_sessions SET status = 'complete' WHERE id = $1`,
         [sessionId]
       );
+
+      // Auto-mark curriculum coverage + notify class presence subscribers.
+      try {
+        if (session.curriculum_item_id && session.class_id) {
+          await db.none(
+            `INSERT INTO class_curriculum_coverage
+                 (class_id, curriculum_item_id, session_id, source)
+               SELECT $1, $2, $3, 'session'
+               WHERE NOT EXISTS (
+                 SELECT 1 FROM class_curriculum_coverage
+                  WHERE curriculum_item_id = $2 AND session_id = $3
+               )`,
+            [session.class_id, session.curriculum_item_id, session.id]
+          );
+        }
+        if (session.class_id) {
+          nsp.to(`class:${session.class_id}`).emit('class:session_ended', {
+            classId: Number(session.class_id),
+            roomCode: session.room_code,
+            sessionId: session.id,
+          });
+        }
+      } catch (e) {
+        console.error(
+          '[collab] end-of-session coverage/presence error:',
+          e?.message || e
+        );
+      }
+
       nsp.to(`session:${sessionId}`).emit('session:ended', {});
       // Push a final room-state snapshot that includes answers + full questions
       // so every client can render the review screen.

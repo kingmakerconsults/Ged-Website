@@ -36,6 +36,11 @@ import OnboardingComplete from './views/onboarding/OnboardingComplete.jsx';
 import LocalQuizRunner from './views/onboarding/LocalQuizRunner.jsx';
 import CollabView from './views/CollabView.jsx';
 import CollabSessionView from './views/CollabSessionView.jsx';
+import InstructorDashboardView from './views/InstructorDashboardView.jsx';
+import InstructorClassView from './views/InstructorClassView.jsx';
+import StudentClassView from './views/StudentClassView.jsx';
+import NowTeachingBanner from '../components/collab/NowTeachingBanner.jsx';
+import useClassPresence from '../components/collab/useClassPresence.js';
 import { getApiBaseUrl } from './utils/apiBase.js';
 const QuizInterface = React.lazy(() =>
   import('../components/quiz/QuizInterface.jsx').then((m) => ({
@@ -62,6 +67,8 @@ export default function App() {
   );
   const { theme, toggleTheme } = useThemeController();
   const apiBase = useMemo(() => getApiBaseUrl(), []);
+  const { activeSessions: liveClassSessions, dismiss: dismissClassBanner } =
+    useClassPresence({ enabled: !!user });
 
   useEffect(() => {
     // Initialize premade quizzes once data is available.
@@ -207,6 +214,7 @@ export default function App() {
             user?.role
           ) && (
             <>
+              <Link to="/instructor">Teach</Link>
               <Link to="/admin/students">Students</Link>
               <Link to="/admin/reports">Reports</Link>
             </>
@@ -215,6 +223,11 @@ export default function App() {
             <Link to="/super-admin/all-questions">All Questions</Link>
           )}
         </nav>
+
+        <NowTeachingBanner
+          activeSessions={liveClassSessions}
+          onDismiss={dismissClassBanner}
+        />
 
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
@@ -404,6 +417,42 @@ export default function App() {
               element={
                 <OnboardingGate>
                   <CollabSessionView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/instructor"
+              element={
+                ['org_admin', 'super_admin', 'instructor', 'admin'].includes(
+                  user?.role
+                ) ? (
+                  <OnboardingGate>
+                    <InstructorDashboardView />
+                  </OnboardingGate>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route
+              path="/instructor/classes/:id"
+              element={
+                ['org_admin', 'super_admin', 'instructor', 'admin'].includes(
+                  user?.role
+                ) ? (
+                  <OnboardingGate>
+                    <InstructorClassView />
+                  </OnboardingGate>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route
+              path="/classes/:id"
+              element={
+                <OnboardingGate>
+                  <StudentClassView />
                 </OnboardingGate>
               }
             />

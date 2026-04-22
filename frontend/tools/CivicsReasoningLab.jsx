@@ -151,8 +151,8 @@ export default function CivicsReasoningLab({ onExit, dark = false }) {
                       currentScenario.difficulty === 'easy'
                         ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200'
                         : currentScenario.difficulty === 'medium'
-                        ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
-                        : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
+                          ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
+                          : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
                     }`}
                   >
                     {currentScenario.difficulty.charAt(0).toUpperCase() +
@@ -198,9 +198,9 @@ export default function CivicsReasoningLab({ onExit, dark = false }) {
                               : 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100'
                             : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100'
                           : feedback?.partialCorrect?.branch &&
-                            option.id === currentScenario.correctBranch
-                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
+                              option.id === currentScenario.correctBranch
+                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
+                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       {option.label}
@@ -224,9 +224,9 @@ export default function CivicsReasoningLab({ onExit, dark = false }) {
                               : 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100'
                             : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100'
                           : feedback?.partialCorrect?.level &&
-                            option.id === currentScenario.correctLevel
-                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
+                              option.id === currentScenario.correctLevel
+                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
+                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       {option.label}
@@ -250,9 +250,9 @@ export default function CivicsReasoningLab({ onExit, dark = false }) {
                               : 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100'
                             : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100'
                           : feedback?.partialCorrect?.powerType &&
-                            option.id === currentScenario.correctPowerType
-                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
+                              option.id === currentScenario.correctPowerType
+                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
+                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       {option.label}
