@@ -41198,9 +41198,7 @@ function EssayGuide({ onExit }) {
       const params = new URLSearchParams(window.location.search);
       const requested = params.get('essayTopic');
       if (!requested) return;
-      const idx = passagesData.findIndex(
-        (p) => p && p.topic === requested
-      );
+      const idx = passagesData.findIndex((p) => p && p.topic === requested);
       if (idx >= 0) setSelectedTopic(idx);
     } catch (_) {}
     // eslint-disable-next-line react-hooks/exhaustive-deps

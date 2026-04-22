@@ -40,14 +40,8 @@ export default function CollabSessionView() {
   const { roomCode } = useParams();
   const navigate = useNavigate();
   const userId = useMemo(() => getCurrentUserId(), []);
-  const {
-    roomState,
-    lastReveal,
-    lastEvent,
-    error,
-    emit,
-    leaveRoom,
-  } = useCollabSocket({ roomCode, autoJoin: true });
+  const { roomState, lastReveal, lastEvent, error, emit, leaveRoom } =
+    useCollabSocket({ roomCode, autoJoin: true });
 
   const handleLeave = () => {
     leaveRoom();

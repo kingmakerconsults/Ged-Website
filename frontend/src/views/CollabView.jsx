@@ -8,10 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getApiBaseUrl } from '../utils/apiBase.js';
 import { PREMADE_QUIZ_CATALOG } from '../../utils/quizProgress.js';
-import {
-  ESSAY_TOPICS,
-  buildEssayPromptForTopic,
-} from '../data/essayTopics.js';
+import { ESSAY_TOPICS, buildEssayPromptForTopic } from '../data/essayTopics.js';
 import CollabSessionCard from '../../components/collab/CollabSessionCard.jsx';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
 
@@ -119,12 +116,17 @@ export default function CollabView() {
     const prefillQuiz = location.state?.prefillQuiz || '';
     return {
       sessionType: 'instructor_led',
+      quizSource: prefillQuiz ? 'premade' : 'premade',
       subject: prefillSubject,
       quizId: prefillQuiz,
       title: '',
       essayTopic: ESSAY_TOPICS[0],
+      // Generated-quiz options (mirrors Practice Session)
+      genDuration: 20,
+      genMode: 'single-subject',
     };
   });
+  const [generating, setGenerating] = useState(false);
 
   const quizOptions = useMemo(() => {
     const out = [];
@@ -156,11 +158,49 @@ export default function CollabView() {
         title: form.title || null,
       };
       if (form.sessionType !== 'essay') {
-        if (!form.quizId) {
-          setError('Please pick a quiz.');
-          return;
+        if (form.quizSource === 'generated') {
+          // Build a fresh quiz via the same endpoint the Practice Session uses
+          setGenerating(true);
+          try {
+            const subj = form.subject || '';
+            const mode = subj ? 'single-subject' : 'balanced';
+            const psRes = await fetch(`${apiBase}/api/practice-session`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${getToken()}`,
+              },
+              body: JSON.stringify({
+                durationMinutes: Number(form.genDuration) || 20,
+                mode,
+                subject: subj || undefined,
+              }),
+            });
+            if (!psRes.ok) {
+              const t = await psRes.text();
+              setError(`Could not generate quiz (${psRes.status}). ${t.slice(0, 200)}`);
+              return;
+            }
+            const psData = await psRes.json();
+            const qs = Array.isArray(psData.questions) ? psData.questions : [];
+            if (!qs.length) {
+              setError('Generated quiz had no questions. Try a different subject.');
+              return;
+            }
+            body.questions = qs;
+            body.title =
+              form.title ||
+              `${psData.title || 'Practice Quiz'} (${qs.length} questions)`;
+          } finally {
+            setGenerating(false);
+          }
+        } else {
+          if (!form.quizId) {
+            setError('Please pick a quiz.');
+            return;
+          }
+          body.quizId = form.quizId;
         }
-        body.quizId = form.quizId;
       } else {
         body.subject = 'rla';
         const topic = form.essayTopic || ESSAY_TOPICS[0];
@@ -285,7 +325,9 @@ export default function CollabView() {
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className={cardCls}>
-            <h3 className="font-semibold mb-3 text-slate-800">Join with Code</h3>
+            <h3 className="font-semibold mb-3 text-slate-800">
+              Join with Code
+            </h3>
             <form onSubmit={handleJoin} className="flex gap-2">
               <input
                 value={joinCode}
@@ -304,7 +346,9 @@ export default function CollabView() {
           </div>
 
           <div className={cardCls}>
-            <h3 className="font-semibold mb-3 text-slate-800">Find a Partner</h3>
+            <h3 className="font-semibold mb-3 text-slate-800">
+              Find a Partner
+            </h3>
             {matchmakingState === 'searching' ? (
               <div className="space-y-3">
                 <div className="text-sm text-slate-700 flex items-center">
@@ -346,7 +390,9 @@ export default function CollabView() {
         </section>
 
         <section className={`${cardCls} p-5`}>
-          <h3 className="font-semibold mb-3 text-slate-800">Create a Session</h3>
+          <h3 className="font-semibold mb-3 text-slate-800">
+            Create a Session
+          </h3>
           <form onSubmit={handleCreate} className="space-y-3">
             <div>
               <label className={labelCls}>Type</label>
@@ -389,7 +435,42 @@ export default function CollabView() {
             {form.sessionType !== 'essay' ? (
               <>
                 <div>
-                  <label className={labelCls}>Subject (filter)</label>
+                  <label className={labelCls}>Quiz Source</label>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({ ...f, quizSource: 'premade' }))
+                      }
+                      className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
+                        form.quizSource === 'premade'
+                          ? 'bg-purple-600 text-white border-purple-600'
+                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                      }`}
+                    >
+                      📚 Pick a Premade Quiz
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({ ...f, quizSource: 'generated' }))
+                      }
+                      className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
+                        form.quizSource === 'generated'
+                          ? 'bg-purple-600 text-white border-purple-600'
+                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                      }`}
+                    >
+                      ⚡ Generate (Practice-style)
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <label className={labelCls}>
+                    {form.quizSource === 'generated'
+                      ? 'Subject'
+                      : 'Subject (filter)'}
+                  </label>
                   <select
                     value={form.subject}
                     onChange={(e) =>
@@ -401,31 +482,65 @@ export default function CollabView() {
                     }
                     className={inputCls}
                   >
-                    <option value="">All</option>
+                    <option value="">
+                      {form.quizSource === 'generated'
+                        ? 'Balanced (all 4 subjects)'
+                        : 'All'}
+                    </option>
                     <option value="math">Math</option>
                     <option value="rla">RLA</option>
                     <option value="science">Science</option>
                     <option value="social">Social Studies</option>
-                    <option value="vocabulary">Vocabulary</option>
+                    {form.quizSource === 'premade' && (
+                      <option value="vocabulary">Vocabulary</option>
+                    )}
                   </select>
                 </div>
-                <div>
-                  <label className={labelCls}>Quiz</label>
-                  <select
-                    value={form.quizId}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, quizId: e.target.value }))
-                    }
-                    className={inputCls}
-                  >
-                    <option value="">— pick a quiz —</option>
-                    {quizOptions.map((q) => (
-                      <option key={`${q.subject}/${q.id}`} value={q.id}>
-                        [{q.subject}] {q.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {form.quizSource === 'premade' ? (
+                  <div>
+                    <label className={labelCls}>Quiz</label>
+                    <select
+                      value={form.quizId}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, quizId: e.target.value }))
+                      }
+                      className={inputCls}
+                    >
+                      <option value="">— pick a quiz —</option>
+                      {quizOptions.map((q) => (
+                        <option key={`${q.subject}/${q.id}`} value={q.id}>
+                          [{q.subject}] {q.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div>
+                    <label className={labelCls}>Length</label>
+                    <select
+                      value={form.genDuration}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          genDuration: Number(e.target.value),
+                        }))
+                      }
+                      className={inputCls}
+                    >
+                      <option value={10}>10 min (~5 questions)</option>
+                      <option value={20}>20 min (~10 questions)</option>
+                      <option value={30}>30 min (~15 questions)</option>
+                      <option value={40}>40 min (~20 questions)</option>
+                      <option value={50}>50 min (~25 questions)</option>
+                      <option value={60}>60 min (~30 questions)</option>
+                    </select>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Pulls a fresh mix of questions from the same pool used by
+                      the Practice Session. Both partners get the exact same
+                      questions.
+                    </p>
+                  </div>
+                )}
               </>
             ) : (
               <div>
@@ -452,10 +567,10 @@ export default function CollabView() {
 
             <button
               type="submit"
-              disabled={!canCreate}
+              disabled={!canCreate || generating}
               className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold disabled:opacity-50"
             >
-              Create Session
+              {generating ? 'Generating quiz…' : 'Create Session'}
             </button>
           </form>
         </section>
