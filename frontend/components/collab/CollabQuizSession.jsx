@@ -103,8 +103,10 @@ function isCorrectAnswer(answer, correct) {
   );
 }
 
-// Render text that may contain inline LaTeX delimited by \( ... \) or $ ... $
-// using the globally-loaded KaTeX (CDN, available across the legacy app).
+// Render text that may contain inline LaTeX delimited by \( ... \), \[ ... \],
+// or $ ... $ using the globally-loaded KaTeX (CDN, available across the
+// legacy app). Also decodes numeric HTML entities (e.g. &#36; → $) and
+// strips backslashes that escape currency $ from the source data.
 function renderInlineLatex(latex) {
   try {
     if (typeof window === 'undefined' || !window.katex) return null;
@@ -117,9 +119,53 @@ function renderInlineLatex(latex) {
   }
 }
 
+function decodeHtmlEntities(s) {
+  if (typeof s !== 'string') return s;
+  return s
+    .replace(/&#(\d+);/g, (_m, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_m, n) => String.fromCharCode(parseInt(n, 16)))
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+// Outside math segments, "\$120" should display as "$120" (the source
+// often escapes $ to keep it from being treated as a math delimiter).
+function unescapeCurrencyDollars(s) {
+  return typeof s === 'string' ? s.replace(/\\\$/g, '$') : s;
+}
+
+function useKatexReady() {
+  const [ready, setReady] = useState(
+    () => typeof window !== 'undefined' && !!window.katex
+  );
+  useEffect(() => {
+    if (ready) return undefined;
+    if (typeof window === 'undefined') return undefined;
+    let alive = true;
+    const tick = () => {
+      if (!alive) return;
+      if (window.katex) {
+        setReady(true);
+      } else {
+        setTimeout(tick, 100);
+      }
+    };
+    tick();
+    return () => {
+      alive = false;
+    };
+  }, [ready]);
+  return ready;
+}
+
 function MathText({ children }) {
+  // Re-render once KaTeX finishes loading from the CDN.
+  useKatexReady();
   if (children == null) return null;
-  const text = String(children);
+  let text = decodeHtmlEntities(String(children));
   if (!text) return null;
   // Match \( ... \) or \[ ... \] or $...$ (single-$, non-greedy)
   const regex = /\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]|\$([^$\n]+?)\$/g;
@@ -129,23 +175,22 @@ function MathText({ children }) {
   let key = 0;
   while ((m = regex.exec(text)) !== null) {
     if (m.index > lastIndex) {
-      parts.push(text.slice(lastIndex, m.index));
+      parts.push(unescapeCurrencyDollars(text.slice(lastIndex, m.index)));
     }
     const latex = m[1] ?? m[2] ?? m[3] ?? '';
     const html = renderInlineLatex(latex);
     if (html) {
       parts.push(
-        <span
-          key={`m${key++}`}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <span key={`m${key++}`} dangerouslySetInnerHTML={{ __html: html }} />
       );
     } else {
       parts.push(m[0]);
     }
     lastIndex = m.index + m[0].length;
   }
-  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  if (lastIndex < text.length) {
+    parts.push(unescapeCurrencyDollars(text.slice(lastIndex)));
+  }
   return <>{parts}</>;
 }
 
