@@ -6369,9 +6369,26 @@ app.get('/api/vocabulary-quiz/:subject', (req, res) => {
     });
   }
 
-  // target counts
-  const total = Math.min(15, Math.max(6, deduped.length));
-  const defCount = Math.min(10, Math.max(3, Math.floor((total * 2) / 3)));
+  // target counts (allow caller to override via ?count=)
+  const requestedCount = Number.parseInt(req.query?.count, 10);
+  const hasRequested = Number.isFinite(requestedCount) && requestedCount > 0;
+  const fallbackTotal = Math.min(15, Math.max(6, deduped.length));
+  const total = hasRequested
+    ? Math.min(Math.max(requestedCount, 4), deduped.length)
+    : fallbackTotal;
+  const style = String(req.query?.style || 'mixed').toLowerCase();
+  let defCount;
+  if (style === 'def-to-term' || style === 'definition') {
+    defCount = total;
+  } else if (style === 'term-to-def' || style === 'term') {
+    defCount = 0;
+  } else {
+    defCount = Math.min(
+      Math.max(3, Math.floor((total * 2) / 3)),
+      total,
+      deduped.length
+    );
+  }
   const termCount = Math.min(total - defCount, deduped.length - defCount);
 
   const poolShuffled = shuffleInPlace(deduped.slice());

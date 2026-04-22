@@ -68,10 +68,7 @@ function RoomCodeBanner({ roomCode }) {
       style={{ backgroundColor: t.bannerBg, borderColor: t.bannerBorder }}
     >
       <div className="max-w-5xl mx-auto px-6 py-2 flex flex-wrap items-center gap-3 text-sm">
-        <span
-          className="font-semibold"
-          style={{ color: t.bannerText }}
-        >
+        <span className="font-semibold" style={{ color: t.bannerText }}>
           Room code:
         </span>
         <code

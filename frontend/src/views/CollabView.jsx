@@ -145,6 +145,10 @@ export default function CollabView() {
       // Generated-quiz options (mirrors Practice Session)
       genDuration: 20,
       genMode: 'single-subject',
+      // Vocabulary review options
+      vocabSubject: 'science',
+      vocabCount: 12,
+      vocabStyle: 'mixed',
     };
   });
   const [generating, setGenerating] = useState(false);
@@ -297,7 +301,54 @@ export default function CollabView() {
         title: form.title || null,
       };
       if (form.sessionType !== 'essay') {
-        if (form.quizSource === 'generated') {
+        if (form.quizSource === 'vocabulary') {
+          setGenerating(true);
+          try {
+            const subj = form.vocabSubject || 'science';
+            const count = Number(form.vocabCount) || 12;
+            const style = form.vocabStyle || 'mixed';
+            const vRes = await fetch(
+              `${apiBase}/api/vocabulary-quiz/${encodeURIComponent(
+                subj
+              )}?count=${count}&style=${encodeURIComponent(style)}`,
+              { headers: { Authorization: `Bearer ${getToken()}` } }
+            );
+            if (!vRes.ok) {
+              const t = await vRes.text();
+              setError(
+                `Could not load vocabulary (${vRes.status}). ${t.slice(0, 200)}`
+              );
+              return;
+            }
+            const vData = await vRes.json();
+            const rawQs = Array.isArray(vData?.quiz?.questions)
+              ? vData.quiz.questions
+              : [];
+            if (!rawQs.length) {
+              setError(
+                'No vocabulary questions could be built for that subject.'
+              );
+              return;
+            }
+            // Normalize to the shape collab quiz session expects
+            // ({ question, type:'multipleChoice', answerOptions: [...] }).
+            const normalized = rawQs.map((q, i) => ({
+              questionNumber: i + 1,
+              type: 'multipleChoice',
+              question: q.questionText || q.question || q.prompt || '',
+              answerOptions: Array.isArray(q.answerOptions)
+                ? q.answerOptions
+                : [],
+            }));
+            body.questions = normalized;
+            body.subject = subj;
+            body.title =
+              form.title ||
+              `${vData.subject || 'Vocabulary'} — Vocabulary Review (${normalized.length} q)`;
+          } finally {
+            setGenerating(false);
+          }
+        } else if (form.quizSource === 'generated') {
           // Build a fresh quiz via the same endpoint the Practice Session uses
           setGenerating(true);
           try {
@@ -422,10 +473,7 @@ export default function CollabView() {
             style={{ backgroundColor: t.cardBg, borderColor: t.cardBorder }}
           >
             <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
-            <p
-              className="text-sm mb-4"
-              style={{ color: t.mutedText }}
-            >
+            <p className="text-sm mb-4" style={{ color: t.mutedText }}>
               You need to be signed in to use Work Together — it lets you create
               or join live study rooms with classmates and instructors.
             </p>
@@ -486,7 +534,9 @@ export default function CollabView() {
             </button>
           </div>
           {loading ? (
-            <div className="text-sm text-slate-500 dark:text-slate-400">Loading…</div>
+            <div className="text-sm text-slate-500 dark:text-slate-400">
+              Loading…
+            </div>
           ) : sessions.length === 0 ? (
             <div className="text-sm text-slate-500 dark:text-slate-400 italic">
               No active sessions. Start one below.
@@ -617,13 +667,13 @@ export default function CollabView() {
               <>
                 <div>
                   <label className={labelCls}>Quiz Source</label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() =>
                         setForm((f) => ({ ...f, quizSource: 'premade' }))
                       }
-                      className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
+                      className={`flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
                         form.quizSource === 'premade'
                           ? 'bg-purple-600 text-white border-purple-600'
                           : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
@@ -636,7 +686,7 @@ export default function CollabView() {
                       onClick={() =>
                         setForm((f) => ({ ...f, quizSource: 'generated' }))
                       }
-                      className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
+                      className={`flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
                         form.quizSource === 'generated'
                           ? 'bg-purple-600 text-white border-purple-600'
                           : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
@@ -644,8 +694,93 @@ export default function CollabView() {
                     >
                       ⚡ Generate (Practice-style)
                     </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({ ...f, quizSource: 'vocabulary' }))
+                      }
+                      className={`flex-1 min-w-[140px] px-3 py-2 rounded border text-sm font-medium ${
+                        form.quizSource === 'vocabulary'
+                          ? 'bg-purple-600 text-white border-purple-600'
+                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
+                      }`}
+                    >
+                      🔤 Vocabulary Review
+                    </button>
                   </div>
                 </div>
+                {form.quizSource === 'vocabulary' ? (
+                  <>
+                    <div>
+                      <label className={labelCls}>Subject</label>
+                      <select
+                        value={form.vocabSubject}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            vocabSubject: e.target.value,
+                          }))
+                        }
+                        className={inputCls}
+                      >
+                        <option value="science">Science</option>
+                        <option value="math">Math</option>
+                        <option value="rla">
+                          Reasoning Through Language Arts (RLA)
+                        </option>
+                        <option value="social">Social Studies</option>
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className={labelCls}>Number of words</label>
+                        <select
+                          value={form.vocabCount}
+                          onChange={(e) =>
+                            setForm((f) => ({
+                              ...f,
+                              vocabCount: Number(e.target.value),
+                            }))
+                          }
+                          className={inputCls}
+                        >
+                          <option value={6}>6</option>
+                          <option value={10}>10</option>
+                          <option value={12}>12</option>
+                          <option value={15}>15</option>
+                          <option value={20}>20</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelCls}>Question style</label>
+                        <select
+                          value={form.vocabStyle}
+                          onChange={(e) =>
+                            setForm((f) => ({
+                              ...f,
+                              vocabStyle: e.target.value,
+                            }))
+                          }
+                          className={inputCls}
+                        >
+                          <option value="mixed">Mixed</option>
+                          <option value="def-to-term">
+                            Definition → Term
+                          </option>
+                          <option value="term-to-def">
+                            Term → Definition
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Builds a fresh multiple-choice vocabulary quiz from the
+                      shared word list. Both partners get the exact same
+                      questions.
+                    </p>
+                  </>
+                ) : null}
+                {form.quizSource !== 'vocabulary' && (
                 <div>
                   <label className={labelCls}>
                     {form.quizSource === 'generated' ? 'Subject' : 'Subject'}
@@ -684,6 +819,7 @@ export default function CollabView() {
                     )}
                   </select>
                 </div>
+                )}
                 {form.quizSource === 'premade' ? (
                   <>
                     <div>
@@ -766,7 +902,7 @@ export default function CollabView() {
                       </select>
                     </div>
                   </>
-                ) : (
+                ) : form.quizSource === 'generated' ? (
                   <div>
                     <label className={labelCls}>Length</label>
                     <select
@@ -792,7 +928,7 @@ export default function CollabView() {
                       questions.
                     </p>
                   </div>
-                )}
+                ) : null}
               </>
             ) : (
               <div>
