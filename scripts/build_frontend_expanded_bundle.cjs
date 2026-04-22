@@ -8,6 +8,13 @@ const supplementalPath = path.join(workspaceRoot, 'backend', 'data', 'quizzes', 
 const quizzesRoot = path.join(workspaceRoot, 'backend', 'data', 'quizzes');
 const outDir = path.join(workspaceRoot, 'frontend', 'Expanded');
 const outFile = path.join(outDir, 'expanded.quizzes.bundle.js');
+const SUBJECT_KEY_ALIASES = new Map([
+  ['RLA', 'Reasoning Through Language Arts (RLA)'],
+]);
+
+function normalizeSubjectKey(subjectKey) {
+  return SUBJECT_KEY_ALIASES.get(subjectKey) || subjectKey;
+}
 
 function loadQuestions(subjectFolder, topicId) {
   const p = path.join(quizzesRoot, subjectFolder, `${topicId}.js`);
@@ -35,7 +42,7 @@ function main() {
 
   for (const entry of entries) {
     if (!entry || !entry.subjectKey || !entry.categoryName || !entry.topic) continue;
-    const subjectKey = entry.subjectKey;
+    const subjectKey = normalizeSubjectKey(entry.subjectKey);
     const categoryName = entry.categoryName;
     const questions = loadQuestions(entry.subjectFolder || '', entry.topic.id);
     if (!Array.isArray(questions) || questions.length === 0) continue;

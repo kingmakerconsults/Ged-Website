@@ -5,25 +5,21 @@
 // - Count each item in category.quizzes (if present)
 // - Count each item in subject.quizzes (if present)
 
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
+const requireCJS = createRequire(import.meta.url);
+const {
+  loadExpandedQuizBundleData,
+} = requireCJS('../utils/expandedQuizBundleLoader.cjs');
 
 function loadExpandedBundleObject() {
   const abs = path.join(root, 'frontend', 'Expanded', 'expanded.quizzes.bundle.js');
-  const raw = fs.readFileSync(abs, 'utf8');
-  const marker = 'window.ExpandedQuizData = ';
-  const idx = raw.indexOf(marker);
-  if (idx === -1) throw new Error('Could not find ExpandedQuizData marker');
-  const jsonStart = raw.indexOf('{', idx);
-  const jsonEnd = raw.lastIndexOf('}');
-  const jsonStr = raw.slice(jsonStart, jsonEnd + 1);
-  const data = JSON.parse(jsonStr);
-  return data;
+  return loadExpandedQuizBundleData(abs);
 }
 
 function countExamsBySubject(data) {

@@ -10,6 +10,9 @@ const { createRequire } = require('module');
 
 const root = path.resolve(__dirname, '..');
 const requireCJS = createRequire(__filename);
+const {
+  loadExpandedQuizBundleData,
+} = require('../utils/expandedQuizBundleLoader.cjs');
 
 // Placeholder patterns with word boundaries to avoid false positives like 'democracy'
 const PLACEHOLDER_PATTERNS = [
@@ -74,14 +77,7 @@ function loadQuizzesTxt() {
 function loadExpandedBundle() {
   const filePath = path.join(root, 'frontend', 'Expanded', 'expanded.quizzes.bundle.js');
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const marker = 'window.ExpandedQuizData = ';
-    const idx = raw.indexOf(marker);
-    if (idx === -1) throw new Error('marker not found');
-    const jsonStart = raw.indexOf('{', idx);
-    const jsonEnd = raw.lastIndexOf('}');
-    const jsonStr = raw.slice(jsonStart, jsonEnd + 1);
-    const data = JSON.parse(jsonStr);
+    const data = loadExpandedQuizBundleData(filePath);
     return [{ filePath: 'frontend/Expanded/expanded.quizzes.bundle.js', kind: 'bundle', data }];
   } catch (err) {
     return [];

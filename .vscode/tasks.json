@@ -37,18 +37,6 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "backend: start (3003)",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"--prefix",
-				"backend",
-				"start"
-			],
-			"isBackground": false,
-			"group": "build"
-		},
-		{
 			"label": "validate-quizzes",
 			"type": "shell",
 			"command": "npm",
@@ -60,18 +48,6 @@
 			"problemMatcher": [
 				"$eslint-stylish"
 			],
-			"group": "build"
-		},
-		{
-			"label": "validate-quizzes",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"validate-quizzes"
-			],
-			"isBackground": false,
-			"problemMatcher": [],
 			"group": "build"
 		},
 		{
@@ -96,16 +72,6 @@
 			],
 			"isBackground": false,
 			"problemMatcher": [],
-			"group": "build"
-		},
-		{
-			"label": "adhoc: validate-quizzes",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"validate-quizzes"
-			],
 			"group": "build"
 		}
 	]

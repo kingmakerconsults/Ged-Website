@@ -260,7 +260,6 @@ window.__APP_CONFIG__.geometryFiguresEnabled = true;
 **Features:**
 
 - **Calculations:**
-
   - Count (n)
   - Mean (average)
   - Median (middle value)
@@ -381,14 +380,12 @@ Access via: **🛠️ Science Tools** button on Science subject page
 **Features:**
 
 - **Practice Categories:**
-
   - Density problems
   - Speed/velocity problems
   - Force problems
   - Work problems
 
 - **Problem Structure:**
-
   - Formula display with LaTeX
   - Variable legend
   - Given values
@@ -457,14 +454,12 @@ Steps:
 **Features:**
 
 - **Question Categories:**
-
   - Physics (Force, Energy, Motion)
   - Biology (Cells, Genetics, Ecosystems)
   - Chemistry (Atoms, Molecules, Reactions)
   - Earth Science (Geology, Weather, Climate)
 
 - **Difficulty Levels:**
-
   - Easy
   - Medium
   - Hard
@@ -650,19 +645,16 @@ All practice modes accessible via **Practice Session Modal**
 **Features:**
 
 - **3-Lives System:**
-
   - Start with 3 lives
   - Lose 1 life per wrong answer
   - Game ends when lives = 0
 
 - **No Timer:**
-
   - Untimed practice
   - Focus on accuracy
   - Reduce pressure
 
 - **Immediate Feedback:**
-
   - Instant right/wrong indication
   - Cannot proceed until answered
   - Explanation after each question
@@ -777,14 +769,12 @@ All practice modes accessible via **Practice Session Modal**
 #### **Lifetime Mode** (After initial stages)
 
 - **Time Progression:**
-
   - Runs from start age to retirement (67)
   - 100ms tick interval
   - Monthly advancement
   - Decade markers on timeline
 
 - **Checkpoints:**
-
   - Every 5 years after age 25
   - Pause for major decisions:
     - Home purchase
@@ -793,14 +783,12 @@ All practice modes accessible via **Practice Session Modal**
     - Investment allocation
 
 - **HUD Panels:**
-
   - **Time Panel:** Current age, progress bar
   - **Money Panel:** Cash, investments, home equity
   - **Loans Panel:** Total balance, monthly payment, mortgage
   - **Household Panel:** Partner status, children count
 
 - **Life Events:**
-
   - Age-windowed events
   - Random occurrences
   - Financial impacts
@@ -1160,17 +1148,14 @@ const Component = ({ dark }) => (
 #### Accessing Tools
 
 1. **Navigate to Subject:**
-
    - Click subject card on dashboard
    - Or select from subject menu
 
 2. **Open Tools Modal:**
-
    - Click **🛠️ [Subject] Tools** button
    - Modal appears with tool grid
 
 3. **Select Tool:**
-
    - Click tool card to activate
    - Tool opens in modal view
 
@@ -1182,18 +1167,15 @@ const Component = ({ dark }) => (
 #### Practice Session Workflow
 
 1. **Choose Practice Mode:**
-
    - Standard (untimed, self-paced)
    - Timed (90s per question)
    - Olympics (3 lives, high stakes)
 
 2. **Select Duration:**
-
    - 5, 10, 20, 30 questions
    - Or full quiz
 
 3. **Start Practice:**
-
    - Answer questions
    - Use tools as needed
    - Track progress
@@ -1206,24 +1188,20 @@ const Component = ({ dark }) => (
 #### Game of Life Simulation
 
 1. **Setup:**
-
    - Enter starting age (16-65)
    - Enter current year
    - Optional: Choose scenario preset
 
 2. **Personality Quiz:**
-
    - Answer 10 questions honestly
    - Results determine personality type
 
 3. **Life Stages:**
-
    - Make decisions at each stage
    - Choose career, education, housing
    - Manage finances wisely
 
 4. **Lifetime Mode:**
-
    - Watch life unfold month-by-month
    - Make checkpoint decisions
    - Reach retirement
@@ -1402,20 +1380,17 @@ console.log(`Practice mode: ${practiceMode}`);
 **Common Issues:**
 
 1. **Tool not appearing:**
-
    - Check import in SubjectToolsModal
    - Verify component exported correctly
    - Check toolsConfig structure
 
 2. **Data not loading:**
-
    - Check script tag in index.html
    - Verify file path correct
    - Check browser network tab
    - Verify dist/ has files after build
 
 3. **Calculator not working:**
-
    - Check for JavaScript errors
    - Verify eval() expressions valid
    - Test keyboard event listeners
@@ -1481,19 +1456,16 @@ console.log(`Practice mode: ${practiceMode}`);
 ### Known Limitations
 
 1. **Step-by-Step Solver:**
-
    - UI complete, logic placeholder
    - Needs equation parser integration
    - Manual steps for now
 
 2. **Calculator:**
-
    - Uses eval() (security consideration)
    - No complex expressions (matrices, integrals)
    - Limited to TI-30XS feature set
 
 3. **Game of Life:**
-
    - Single HTML file (not React)
    - Separate from main app routing
    - Manual navigation required
@@ -1536,8 +1508,8 @@ console.log(`Practice mode: ${practiceMode}`);
 
 - `TOOLS_DOCUMENTATION.md` (this file)
 - `TOOL_RESTORATION_COMPLETE.md` - Original restoration summary
-- `VITE_MIGRATION_COMPLETE.md` - Build system docs
-- `UI_IMPROVEMENTS_SUMMARY.md` - UI changes log
+- `docs/current/vite-migration/VITE_MIGRATION_COMPLETE.md` - Build system docs
+- `docs/current/ui/UI_IMPROVEMENTS_SUMMARY.md` - UI changes log
 
 ### Key Files Reference
 

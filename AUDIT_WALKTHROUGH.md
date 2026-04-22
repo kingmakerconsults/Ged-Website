@@ -53,7 +53,7 @@ Questions used multiple incompatible data structures:
 
 ### Phase 4: Implementation
 
-**Script: fix-math-quizzes-complete.js**
+**Script: scripts/archive/legacy/fix-math-quizzes-complete.js (archived)**
 
 ```javascript
 // Core algorithm:
@@ -74,7 +74,9 @@ Result: 720 questions processed, 0 deleted, 284 answers fixed
 
 ### Phase 5: Verification
 
-**Script: audit-math-quizzes.js**
+**Script: scripts/archive/legacy/audit-math-quizzes.js (archived)**
+
+Current maintained structural audit: `npm run audit:math:premade` via `scripts/audit_premade_math_quizzes.js`.
 
 Tests performed on each of 720 questions:
 

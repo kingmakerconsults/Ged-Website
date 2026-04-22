@@ -12,6 +12,25 @@ export default function DashboardView() {
       </div>
 
       <div>
+        <h3 className="text-lg font-semibold mb-3">Play Together</h3>
+        <a
+          href="/collab"
+          onClick={(e) => {
+            e.preventDefault();
+            window.history.pushState({}, '', '/collab');
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          }}
+          className="block p-4 rounded-xl border border-purple-300 dark:border-purple-700 shadow-sm hover:shadow-md transition bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900 dark:to-blue-900 text-slate-900 dark:text-white"
+        >
+          <div className="font-bold">🎯 Live Collaboration</div>
+          <div className="text-sm text-slate-600 dark:text-slate-300">
+            Take a quiz with your instructor, partner up with a classmate, or
+            write an essay together.
+          </div>
+        </a>
+      </div>
+
+      <div>
         <h3 className="text-lg font-semibold mb-3">Social Studies Tools</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <a

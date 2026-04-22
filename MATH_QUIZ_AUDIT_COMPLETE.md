@@ -260,10 +260,12 @@ A comprehensive audit of the premade math quiz questions revealed significant st
 
 ### Scripts Used
 
-1. **audit-math-quizzes.js** - Comprehensive issue detection
-2. **fix-math-quizzes-complete.js** - Remediation and normalization
-3. **verify-fixes.js** - Post-fix validation
-4. **check-exponents.js** - LaTeX format verification
+Note: the original first-pass detector from this audit now lives at `scripts/archive/legacy/audit-math-quizzes.js`. The maintained structural audit command is `npm run audit:math:premade` via `scripts/audit_premade_math_quizzes.js`.
+
+1. **scripts/archive/legacy/audit-math-quizzes.js** - Archived first-pass issue detection
+2. **scripts/archive/legacy/fix-math-quizzes-complete.js** - Archived remediation and normalization script
+3. **scripts/archive/legacy/verify-fixes.js** - Archived post-fix validation script
+4. **scripts/archive/legacy/check-exponents.js** - Archived LaTeX exponent-format verification script
 
 ### Processing Pipeline
 

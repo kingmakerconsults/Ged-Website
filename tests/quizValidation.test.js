@@ -13,6 +13,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
 const requireCJS = createRequire(import.meta.url);
+const {
+  loadExpandedQuizBundleData,
+} = requireCJS('../utils/expandedQuizBundleLoader.cjs');
 
 const FIX_MODE = String(process.env.FIX_QUIZZES || '').trim() === '1';
 
@@ -95,6 +98,12 @@ function validateImageAsset(q, idx, issues, filePath, quizId) {
   }
 }
 
+function shouldValidateImageAssets(tag) {
+  // The expanded browser bundle is generated from backend supplemental topics.
+  // Keep it in structural validation, but leave asset integrity to canonical-source checks.
+  return tag.kind !== 'bundle';
+}
+
 function safeRead(p) {
   try {
     return fs.readFileSync(p, 'utf8');
@@ -158,14 +167,7 @@ function loadExpandedBundle() {
     'expanded.quizzes.bundle.js'
   );
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const marker = 'window.ExpandedQuizData = ';
-    const idx = raw.indexOf(marker);
-    if (idx === -1) throw new Error('marker not found');
-    const jsonStart = raw.indexOf('{', idx);
-    const jsonEnd = raw.lastIndexOf('}');
-    const jsonStr = raw.slice(jsonStart, jsonEnd + 1);
-    const data = JSON.parse(jsonStr);
+    const data = loadExpandedQuizBundleData(filePath);
     return [
       {
         filePath: 'frontend/Expanded/expanded.quizzes.bundle.js',
@@ -316,6 +318,40 @@ function isStringOptionStyle(q) {
   );
 }
 
+function isMultiSelectQuestion(q) {
+  if (q?.multiSelect === true) return true;
+
+  const type = String(q?.type || '')
+    .trim()
+    .toLowerCase();
+  if (type.includes('multi-select') || type.includes('multiselect')) {
+    return true;
+  }
+
+  const prompt = String(
+    q?.question || q?.questionText || q?.content?.questionText || ''
+  );
+  return /select\s*<strong>all<\/strong>|select\s+all|choose\s+all/i.test(
+    prompt
+  );
+}
+
+function hasGraphExpectedAnswer(q) {
+  const expected = q?.expectedAnswer;
+  if (!expected || typeof expected !== 'object') return false;
+
+  return Boolean(
+    (Array.isArray(expected.points) && expected.points.length > 0) ||
+      (Array.isArray(expected.lines) && expected.lines.length > 0)
+  );
+}
+
+function isGraphPlotQuestion(q) {
+  return String(q?.answerType || '')
+    .trim()
+    .toLowerCase() === 'graphplot';
+}
+
 function normalizeBooleans(q) {
   if (!Array.isArray(q?.answerOptions)) return;
   for (const opt of q.answerOptions) {
@@ -338,13 +374,20 @@ function validateQuestion(q, idx, issues, filePath, quizId) {
   const hasOptions =
     Array.isArray(q.answerOptions) && q.answerOptions.length > 0;
   const context = `[${filePath}][${quizId} Q#${idx}]`;
+  const isMultiSelect = isMultiSelectQuestion(q);
 
   if (hasOptions && isObjectOptionStyle(q)) {
     normalizeBooleans(q);
     const correctOptions = q.answerOptions.filter(
       (opt) => opt.isCorrect === true
     );
-    if (correctOptions.length !== 1) {
+    if (isMultiSelect) {
+      if (correctOptions.length < 2) {
+        issues.push(
+          `${context} Expected at least 2 correct options for multi-select, found ${correctOptions.length}`
+        );
+      }
+    } else if (correctOptions.length !== 1) {
       issues.push(
         `${context} Expected exactly 1 correct option, found ${correctOptions.length}`
       );
@@ -363,7 +406,7 @@ function validateQuestion(q, idx, issues, filePath, quizId) {
         issues.push(`${context} opt ${oi + 1} Missing or empty rationale text`);
       }
     });
-    if (correctOptions.length === 1) {
+    if (!isMultiSelect && correctOptions.length === 1) {
       const correctOpt = correctOptions[0];
       const rat = String(correctOpt.rationale || '');
       const multipleClaim =
@@ -386,6 +429,13 @@ function validateQuestion(q, idx, issues, filePath, quizId) {
       }
     }
   } else {
+    if (isGraphPlotQuestion(q)) {
+      if (!hasGraphExpectedAnswer(q)) {
+        issues.push(`${context} Graph-response question missing expectedAnswer`);
+      }
+      return;
+    }
+
     // fill-in / free response
     if (!('correctAnswer' in q)) {
       issues.push(
@@ -615,7 +665,7 @@ function applyStructuralFixes(datasetTag, fixesSummary) {
     const correctCount = q.answerOptions.filter(
       (o) => o.isCorrect === true
     ).length;
-    if (correctCount !== 1) {
+    if (!isMultiSelectQuestion(q) && correctCount !== 1) {
       const pick = autoPickCorrect(q);
       if (pick >= 0) {
         q.answerOptions.forEach((o, i) => {
@@ -697,7 +747,9 @@ async function main() {
     totalQuestions += questions.length;
     for (const it of questions) {
       validateQuestion(it.question, it.index, issues, it.filePath, it.quizId);
-      validateImageAsset(it.question, it.index, issues, it.filePath, it.quizId);
+      if (shouldValidateImageAssets(tag)) {
+        validateImageAsset(it.question, it.index, issues, it.filePath, it.quizId);
+      }
       // Only run math check for recognizable patterns to avoid false positives
       try {
         maybeCheckMath(it.question, issues, it.filePath, it.quizId, it.index);

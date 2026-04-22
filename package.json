@@ -65,6 +65,7 @@
     "react-router-dom": "^6.30.2",
     "robots-parser": "^3",
     "sharp": "^0.33",
+    "socket.io-client": "^4.8.3",
     "undici": "^6"
   },
   "devDependencies": {

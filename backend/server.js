@@ -2,10 +2,12 @@
 
 const path = require('path');
 const fs = require('fs');
+const nodeHttp = require('http');
 const crypto = require('crypto');
 // Load local environment variables for development before any other imports that use them
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
+const { Server: SocketIOServer } = require('socket.io');
 const cors = require('cors');
 const axios = require('axios');
 const db = require('./db');
@@ -27,6 +29,8 @@ const ensureEssayScoresTable = require('./db/initEssayScores');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
 const ensureActiveExamSessionsTable = require('./db/initActiveExamSessions');
 const ensureUserNameColumns = require('./db/initUserNameColumns');
+const ensureCollabTables = require('./db/initCollab');
+const { registerCollabRest, attachCollabSockets } = require('./collab');
 const MODEL_HTTP_TIMEOUT_MS =
   Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
@@ -5902,7 +5906,11 @@ if (typeof ensureQuestionBankTable === 'function') {
     console.error('Question bank init error:', e?.message || e);
   });
 }
-ensureActiveExamSessionsTable().catch((e) =>
+en;
+ensureCollabTables().catch((e) =>
+  console.error('Collab tables init error:', e)
+);
+sureActiveExamSessionsTable().catch((e) =>
   console.error('Active exam sessions table init error:', e)
 );
 ensureUserNameColumns().catch((e) =>
@@ -25962,7 +25970,36 @@ if (require.main === module) {
       }
     );
 
-    const server = app.listen(port, '0.0.0.0', () => {
+    // Register collaboration ("Play Together") REST + socket routes.
+    try {
+      registerCollabRest(app, {
+        authenticateBearerToken,
+        getAllQuizzes: () => ALL_QUIZZES,
+      });
+    } catch (e) {
+      console.error('[collab] REST registration failed:', e);
+    }
+
+    function startSocketServer(srv) {
+      try {
+        const io = new SocketIOServer(srv, {
+          cors: {
+            origin: corsOptions.origin,
+            credentials: true,
+          },
+          path: '/socket.io',
+        });
+        attachCollabSockets(io, { getAllQuizzes: () => ALL_QUIZZES });
+        console.log('[collab] socket.io attached');
+      } catch (e) {
+        console.error('[collab] socket.io attach failed:', e);
+      }
+    }
+
+    const httpServer = nodeHttp.createServer(app);
+    startSocketServer(httpServer);
+
+    const server = httpServer.listen(port, '0.0.0.0', () => {
       console.log(`Your service is live 🚀`);
       console.log(`Server listening on port ${port}`);
     });
@@ -25975,7 +26012,9 @@ if (require.main === module) {
             `EADDRINUSE on ${port}. Attempting fallback port ${fallback}...`
           );
           server.close(() => {
-            app.listen(fallback, '0.0.0.0', () => {
+            const fallbackHttp = nodeHttp.createServer(app);
+            startSocketServer(fallbackHttp);
+            fallbackHttp.listen(fallback, '0.0.0.0', () => {
               port = fallback;
               console.log(`Server listening on fallback port ${port}`);
             });

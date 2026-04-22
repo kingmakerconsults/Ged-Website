@@ -20,6 +20,9 @@ const { createRequire } = require('module');
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS = path.join(ROOT, 'reports');
 const requireCJS = createRequire(__filename);
+const {
+  loadExpandedQuizBundleData,
+} = require('../utils/expandedQuizBundleLoader.cjs');
 
 function ensureDir(p) {
   if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
@@ -108,14 +111,7 @@ function loadExpandedBundle() {
     'expanded.quizzes.bundle.js'
   );
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const marker = 'window.ExpandedQuizData = ';
-    const idx = raw.indexOf(marker);
-    if (idx === -1) throw new Error('marker not found');
-    const jsonStart = raw.indexOf('{', idx);
-    const jsonEnd = raw.lastIndexOf('}');
-    const jsonStr = raw.slice(jsonStart, jsonEnd + 1);
-    const data = JSON.parse(jsonStr);
+    const data = loadExpandedQuizBundleData(filePath);
     return [
       {
         filePath: 'frontend/Expanded/expanded.quizzes.bundle.js',

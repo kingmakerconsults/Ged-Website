@@ -8,6 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
 const requireCJS = createRequire(import.meta.url);
+const {
+  loadExpandedQuizBundleData,
+} = requireCJS('../utils/expandedQuizBundleLoader.cjs');
 
 function safeRead(p) { try { return fs.readFileSync(p, 'utf8'); } catch { return null; } }
 function log(...args) { console.log(...args); }
@@ -62,15 +65,7 @@ async function loadFrontendQuizData() {
 function loadExpandedBundle() {
   const filePath = path.join(root, 'frontend', 'Expanded', 'expanded.quizzes.bundle.js');
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const marker = 'window.ExpandedQuizData = ';
-    const idx = raw.indexOf(marker);
-    if (idx === -1) throw new Error('marker not found');
-    const jsonStart = raw.indexOf('{', idx);
-    const jsonEnd = raw.lastIndexOf('}');
-    const jsonStr = raw.slice(jsonStart, jsonEnd + 1);
-    const data = JSON.parse(jsonStr);
-    return data;
+    return loadExpandedQuizBundleData(filePath);
   } catch (err) {
     warn(`[WARN] Could not parse Expanded bundle: ${err.message}`);
     return null;

@@ -34,6 +34,8 @@ import OnboardingDiagnosticComposite from './views/onboarding/OnboardingDiagnost
 import OnboardingDiagnosticSubject from './views/onboarding/OnboardingDiagnosticSubject.jsx';
 import OnboardingComplete from './views/onboarding/OnboardingComplete.jsx';
 import LocalQuizRunner from './views/onboarding/LocalQuizRunner.jsx';
+import CollabView from './views/CollabView.jsx';
+import CollabSessionView from './views/CollabSessionView.jsx';
 import { getApiBaseUrl } from './utils/apiBase.js';
 const QuizInterface = React.lazy(() =>
   import('../components/quiz/QuizInterface.jsx').then((m) => ({
@@ -103,6 +105,11 @@ export default function App() {
             localStorage.setItem('token', token);
             setToken(token);
           }
+          try {
+            if (loggedInUser) {
+              localStorage.setItem('appUser', JSON.stringify(loggedInUser));
+            }
+          } catch (_) {}
           console.log('User logged in:', loggedInUser);
         }}
       />
@@ -177,6 +184,7 @@ export default function App() {
         <nav className="flex gap-4 mb-6 text-blue-600 underline">
           <Link to="/">Dashboard</Link>
           <Link to="/social-studies">Social Studies</Link>
+          <Link to="/collab">Play Together</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/settings">Settings</Link>
           <Link to="/demo/math">Math Quiz Demo</Link>
@@ -365,6 +373,22 @@ export default function App() {
                   <ElectoralCollegeSimulator
                     onExit={() => window.history.back()}
                   />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/collab"
+              element={
+                <OnboardingGate>
+                  <CollabView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/collab/:roomCode"
+              element={
+                <OnboardingGate>
+                  <CollabSessionView />
                 </OnboardingGate>
               }
             />
