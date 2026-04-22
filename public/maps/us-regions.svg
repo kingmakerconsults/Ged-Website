@@ -1,5 +1,106 @@
-<!-- Placeholder to be replaced by fetch script. See README.txt in this folder. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="US Regions Map (placeholder)">
-  <rect x="0" y="0" width="960" height="600" fill="#f3f4f6" stroke="#d1d5db" />
-  <text x="480" y="300" text-anchor="middle" fill="#6b7280" font-size="18" font-family="system-ui, sans-serif">Awaiting public-domain US Regions SVG</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-label="U.S. regions tilegrid map">
+  <style>
+    .usrg-tile-label { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #ffffff; pointer-events: none; }
+  </style>
+  <path id="AK" data-state="AK" data-region="west" d="M12 336 h50 v50 h-50 z"/>
+  <path id="HI" data-state="HI" data-region="west" d="M12 390 h50 v50 h-50 z"/>
+  <path id="WA" data-state="WA" data-region="west" d="M66 66 h50 v50 h-50 z"/>
+  <path id="OR" data-state="OR" data-region="west" d="M66 120 h50 v50 h-50 z"/>
+  <path id="CA" data-state="CA" data-region="west" d="M66 174 h50 v50 h-50 z"/>
+  <path id="ID" data-state="ID" data-region="west" d="M120 120 h50 v50 h-50 z"/>
+  <path id="NV" data-state="NV" data-region="west" d="M120 174 h50 v50 h-50 z"/>
+  <path id="AZ" data-state="AZ" data-region="west" d="M120 228 h50 v50 h-50 z"/>
+  <path id="MT" data-state="MT" data-region="west" d="M174 66 h50 v50 h-50 z"/>
+  <path id="WY" data-state="WY" data-region="west" d="M174 120 h50 v50 h-50 z"/>
+  <path id="UT" data-state="UT" data-region="west" d="M174 174 h50 v50 h-50 z"/>
+  <path id="NM" data-state="NM" data-region="west" d="M174 228 h50 v50 h-50 z"/>
+  <path id="ND" data-state="ND" data-region="midwest" d="M228 66 h50 v50 h-50 z"/>
+  <path id="SD" data-state="SD" data-region="midwest" d="M228 120 h50 v50 h-50 z"/>
+  <path id="CO" data-state="CO" data-region="west" d="M228 174 h50 v50 h-50 z"/>
+  <path id="TX" data-state="TX" data-region="south" d="M228 282 h50 v50 h-50 z"/>
+  <path id="MN" data-state="MN" data-region="midwest" d="M282 66 h50 v50 h-50 z"/>
+  <path id="NE" data-state="NE" data-region="midwest" d="M282 120 h50 v50 h-50 z"/>
+  <path id="KS" data-state="KS" data-region="midwest" d="M282 174 h50 v50 h-50 z"/>
+  <path id="OK" data-state="OK" data-region="south" d="M282 228 h50 v50 h-50 z"/>
+  <path id="WI" data-state="WI" data-region="midwest" d="M336 66 h50 v50 h-50 z"/>
+  <path id="IA" data-state="IA" data-region="midwest" d="M336 120 h50 v50 h-50 z"/>
+  <path id="MO" data-state="MO" data-region="midwest" d="M336 174 h50 v50 h-50 z"/>
+  <path id="AR" data-state="AR" data-region="south" d="M336 228 h50 v50 h-50 z"/>
+  <path id="LA" data-state="LA" data-region="south" d="M336 282 h50 v50 h-50 z"/>
+  <path id="IL" data-state="IL" data-region="midwest" d="M390 120 h50 v50 h-50 z"/>
+  <path id="KY" data-state="KY" data-region="south" d="M390 174 h50 v50 h-50 z"/>
+  <path id="TN" data-state="TN" data-region="south" d="M390 228 h50 v50 h-50 z"/>
+  <path id="MS" data-state="MS" data-region="south" d="M390 282 h50 v50 h-50 z"/>
+  <path id="MI" data-state="MI" data-region="midwest" d="M444 66 h50 v50 h-50 z"/>
+  <path id="IN" data-state="IN" data-region="midwest" d="M444 120 h50 v50 h-50 z"/>
+  <path id="AL" data-state="AL" data-region="south" d="M444 282 h50 v50 h-50 z"/>
+  <path id="OH" data-state="OH" data-region="midwest" d="M498 120 h50 v50 h-50 z"/>
+  <path id="WV" data-state="WV" data-region="south" d="M498 174 h50 v50 h-50 z"/>
+  <path id="GA" data-state="GA" data-region="south" d="M498 282 h50 v50 h-50 z"/>
+  <path id="VT" data-state="VT" data-region="northeast" d="M552 12 h50 v50 h-50 z"/>
+  <path id="NY" data-state="NY" data-region="northeast" d="M552 66 h50 v50 h-50 z"/>
+  <path id="PA" data-state="PA" data-region="northeast" d="M552 120 h50 v50 h-50 z"/>
+  <path id="VA" data-state="VA" data-region="south" d="M552 174 h50 v50 h-50 z"/>
+  <path id="NC" data-state="NC" data-region="south" d="M552 228 h50 v50 h-50 z"/>
+  <path id="SC" data-state="SC" data-region="south" d="M552 282 h50 v50 h-50 z"/>
+  <path id="FL" data-state="FL" data-region="south" d="M552 336 h50 v50 h-50 z"/>
+  <path id="ME" data-state="ME" data-region="northeast" d="M660 12 h50 v50 h-50 z"/>
+  <path id="NH" data-state="NH" data-region="northeast" d="M606 12 h50 v50 h-50 z"/>
+  <path id="MA" data-state="MA" data-region="northeast" d="M606 66 h50 v50 h-50 z"/>
+  <path id="RI" data-state="RI" data-region="northeast" d="M660 66 h50 v50 h-50 z"/>
+  <path id="CT" data-state="CT" data-region="northeast" d="M660 120 h50 v50 h-50 z"/>
+  <path id="NJ" data-state="NJ" data-region="northeast" d="M606 120 h50 v50 h-50 z"/>
+  <path id="DE" data-state="DE" data-region="south" d="M606 174 h50 v50 h-50 z"/>
+  <path id="MD" data-state="MD" data-region="south" d="M606 228 h50 v50 h-50 z"/>
+  <text x="37" y="366" text-anchor="middle" class="usrg-tile-label">AK</text>
+  <text x="37" y="420" text-anchor="middle" class="usrg-tile-label">HI</text>
+  <text x="91" y="96" text-anchor="middle" class="usrg-tile-label">WA</text>
+  <text x="91" y="150" text-anchor="middle" class="usrg-tile-label">OR</text>
+  <text x="91" y="204" text-anchor="middle" class="usrg-tile-label">CA</text>
+  <text x="145" y="150" text-anchor="middle" class="usrg-tile-label">ID</text>
+  <text x="145" y="204" text-anchor="middle" class="usrg-tile-label">NV</text>
+  <text x="145" y="258" text-anchor="middle" class="usrg-tile-label">AZ</text>
+  <text x="199" y="96" text-anchor="middle" class="usrg-tile-label">MT</text>
+  <text x="199" y="150" text-anchor="middle" class="usrg-tile-label">WY</text>
+  <text x="199" y="204" text-anchor="middle" class="usrg-tile-label">UT</text>
+  <text x="199" y="258" text-anchor="middle" class="usrg-tile-label">NM</text>
+  <text x="253" y="96" text-anchor="middle" class="usrg-tile-label">ND</text>
+  <text x="253" y="150" text-anchor="middle" class="usrg-tile-label">SD</text>
+  <text x="253" y="204" text-anchor="middle" class="usrg-tile-label">CO</text>
+  <text x="253" y="312" text-anchor="middle" class="usrg-tile-label">TX</text>
+  <text x="307" y="96" text-anchor="middle" class="usrg-tile-label">MN</text>
+  <text x="307" y="150" text-anchor="middle" class="usrg-tile-label">NE</text>
+  <text x="307" y="204" text-anchor="middle" class="usrg-tile-label">KS</text>
+  <text x="307" y="258" text-anchor="middle" class="usrg-tile-label">OK</text>
+  <text x="361" y="96" text-anchor="middle" class="usrg-tile-label">WI</text>
+  <text x="361" y="150" text-anchor="middle" class="usrg-tile-label">IA</text>
+  <text x="361" y="204" text-anchor="middle" class="usrg-tile-label">MO</text>
+  <text x="361" y="258" text-anchor="middle" class="usrg-tile-label">AR</text>
+  <text x="361" y="312" text-anchor="middle" class="usrg-tile-label">LA</text>
+  <text x="415" y="150" text-anchor="middle" class="usrg-tile-label">IL</text>
+  <text x="415" y="204" text-anchor="middle" class="usrg-tile-label">KY</text>
+  <text x="415" y="258" text-anchor="middle" class="usrg-tile-label">TN</text>
+  <text x="415" y="312" text-anchor="middle" class="usrg-tile-label">MS</text>
+  <text x="469" y="96" text-anchor="middle" class="usrg-tile-label">MI</text>
+  <text x="469" y="150" text-anchor="middle" class="usrg-tile-label">IN</text>
+  <text x="469" y="312" text-anchor="middle" class="usrg-tile-label">AL</text>
+  <text x="523" y="150" text-anchor="middle" class="usrg-tile-label">OH</text>
+  <text x="523" y="204" text-anchor="middle" class="usrg-tile-label">WV</text>
+  <text x="523" y="312" text-anchor="middle" class="usrg-tile-label">GA</text>
+  <text x="577" y="42" text-anchor="middle" class="usrg-tile-label">VT</text>
+  <text x="577" y="96" text-anchor="middle" class="usrg-tile-label">NY</text>
+  <text x="577" y="150" text-anchor="middle" class="usrg-tile-label">PA</text>
+  <text x="577" y="204" text-anchor="middle" class="usrg-tile-label">VA</text>
+  <text x="577" y="258" text-anchor="middle" class="usrg-tile-label">NC</text>
+  <text x="577" y="312" text-anchor="middle" class="usrg-tile-label">SC</text>
+  <text x="577" y="366" text-anchor="middle" class="usrg-tile-label">FL</text>
+  <text x="685" y="42" text-anchor="middle" class="usrg-tile-label">ME</text>
+  <text x="631" y="42" text-anchor="middle" class="usrg-tile-label">NH</text>
+  <text x="631" y="96" text-anchor="middle" class="usrg-tile-label">MA</text>
+  <text x="685" y="96" text-anchor="middle" class="usrg-tile-label">RI</text>
+  <text x="685" y="150" text-anchor="middle" class="usrg-tile-label">CT</text>
+  <text x="631" y="150" text-anchor="middle" class="usrg-tile-label">NJ</text>
+  <text x="631" y="204" text-anchor="middle" class="usrg-tile-label">DE</text>
+  <text x="631" y="258" text-anchor="middle" class="usrg-tile-label">MD</text>
 </svg>

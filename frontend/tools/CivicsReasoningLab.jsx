@@ -14,7 +14,7 @@ const civicsStyles = `
  * CivicsReasoningLab - Branches & Levels of Government Tool
  * Students identify the correct branch, level, and power type for government scenarios
  */
-export default function CivicsReasoningLab({ onExit }) {
+export default function CivicsReasoningLab({ onExit, dark = false }) {
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [selectedBranch, setSelectedBranch] = useState(null);
@@ -95,8 +95,10 @@ export default function CivicsReasoningLab({ onExit }) {
     <>
       <style>{civicsStyles}</style>
       <div
-        className="fade-in min-h-screen civics-text"
-        style={{ backgroundColor: '#ffffff' }}
+        className={`fade-in civics-text ${
+          dark ? 'text-slate-100' : 'text-slate-900'
+        }`}
+        style={{ backgroundColor: dark ? '#334155' : '#ffffff' }}
       >
         <div className="max-w-4xl mx-auto p-6 space-y-6">
           {/* Header */}

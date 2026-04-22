@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SCENARIOS } from '../data/economics/econ_scenarios.js';
 
-export default function EconomicsGraphTool({ onExit }) {
+export default function EconomicsGraphTool({ onExit, dark = false }) {
   const boardRef = useRef(null);
   const boardInstance = useRef(null);
   const initialized = useRef(false);
@@ -237,7 +237,11 @@ export default function EconomicsGraphTool({ onExit }) {
   };
 
   return (
-    <div className="fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 p-6">
+    <div
+      className={`fade-in p-6 ${
+        dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'
+      }`}
+    >
       <header className="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6">
         <button
           onClick={onExit}

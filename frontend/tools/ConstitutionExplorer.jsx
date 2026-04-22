@@ -11,7 +11,7 @@ const constitutionStyles = `
   }
 `;
 
-export default function ConstitutionExplorer({ onExit, pack }) {
+export default function ConstitutionExplorer({ onExit, pack, dark = false }) {
   const [mode, setMode] = useState('simple'); // 'simple' | 'original'
   const [search, setSearch] = useState('');
   const [selectedScenario, setSelectedScenario] = useState(null);
@@ -56,7 +56,11 @@ export default function ConstitutionExplorer({ onExit, pack }) {
   return (
     <>
       <style>{constitutionStyles}</style>
-      <div className="fade-in min-h-screen bg-white dark:bg-slate-700 constitution-text">
+      <div
+        className={`fade-in constitution-text ${
+          dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'
+        }`}
+      >
         <div className="max-w-6xl mx-auto p-6 space-y-6">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
             <button

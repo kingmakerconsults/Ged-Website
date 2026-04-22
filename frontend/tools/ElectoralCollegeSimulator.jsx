@@ -6,7 +6,7 @@ import USElectoralMap from './USElectoralMap.jsx';
  * ElectoralCollegeSimulator - Electoral Vote Math & Scenarios
  * Students practice electoral math, winner-takes-all, and swing state scenarios
  */
-export default function ElectoralCollegeSimulator({ onExit }) {
+export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [numericInput, setNumericInput] = useState('');
@@ -59,7 +59,11 @@ export default function ElectoralCollegeSimulator({ onExit }) {
   };
 
   return (
-    <div className="fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+    <div
+      className={`fade-in ${
+        dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'
+      }`}
+    >
       <div className="max-w-4xl mx-auto p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">

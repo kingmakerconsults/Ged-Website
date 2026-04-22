@@ -5,7 +5,7 @@ import { HISTORY_TIMELINE_SETS } from '../data/social/history_timeline_sets.js';
  * HistoryTimelineBuilder - Chronology & Cause-Effect Tool
  * Students reorder historical events to practice chronological reasoning
  */
-export default function HistoryTimelineBuilder({ onExit }) {
+export default function HistoryTimelineBuilder({ onExit, dark = false }) {
   const [currentSetIndex, setCurrentSetIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [events, setEvents] = useState([]);
@@ -86,7 +86,11 @@ export default function HistoryTimelineBuilder({ onExit }) {
   };
 
   return (
-    <div className="fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+    <div
+      className={`fade-in ${
+        dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'
+      }`}
+    >
       <div className="max-w-4xl mx-auto p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">

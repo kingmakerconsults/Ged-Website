@@ -1027,7 +1027,7 @@ const MapVisualizer = ({ imageKey, title }) => {
  * MapExplorer - Geography & Map-Reading Tool
  * Allows students to practice interpreting maps like those in GED Social Studies
  */
-export default function MapExplorer({ onExit }) {
+export default function MapExplorer({ onExit, dark = false }) {
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState(null);
@@ -1071,7 +1071,11 @@ export default function MapExplorer({ onExit }) {
   };
 
   return (
-    <div className="fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+    <div
+      className={`fade-in ${
+        dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'
+      }`}
+    >
       <div className="max-w-6xl mx-auto p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
