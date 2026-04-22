@@ -23,22 +23,71 @@ const PALETTE = {
 
 function getOptions(q) {
   if (!q) return [];
-  if (Array.isArray(q.options)) return q.options;
-  if (Array.isArray(q.choices)) return q.choices;
-  if (q.A && q.B) return [q.A, q.B, q.C, q.D].filter(Boolean);
+  // Project's primary schema: answerOptions = [{text, isCorrect, rationale}, ...]
+  if (Array.isArray(q.answerOptions)) {
+    return q.answerOptions.map((o) => {
+      if (typeof o === 'string') return { value: o, label: o };
+      const v = o.text ?? o.value ?? o.label ?? '';
+      return { value: v, label: o.text ?? o.label ?? v, isCorrect: !!o.isCorrect };
+    });
+  }
+  if (Array.isArray(q.options)) {
+    return q.options.map((o) =>
+      typeof o === 'string'
+        ? { value: o, label: o }
+        : { value: o.value ?? o.text ?? o.label, label: o.label ?? o.text ?? o.value, isCorrect: !!o.isCorrect }
+    );
+  }
+  if (Array.isArray(q.choices)) {
+    return q.choices.map((o) =>
+      typeof o === 'string'
+        ? { value: o, label: o }
+        : { value: o.value ?? o.text ?? o.label, label: o.label ?? o.text ?? o.value, isCorrect: !!o.isCorrect }
+    );
+  }
+  if (q.A && q.B) {
+    return [q.A, q.B, q.C, q.D]
+      .filter(Boolean)
+      .map((t) => ({ value: t, label: t }));
+  }
   return [];
 }
 
 function getCorrectAnswer(q) {
   if (!q) return null;
-  return q.correctAnswer ?? q.answer ?? q.correct ?? null;
+  if (q.correctAnswer != null) return q.correctAnswer;
+  if (q.answer != null) return q.answer;
+  if (q.correct != null) return q.correct;
+  if (Array.isArray(q.answerOptions)) {
+    const c = q.answerOptions.find((o) => o && o.isCorrect);
+    if (c) return c.text ?? c.value ?? c.label ?? null;
+  }
+  if (Array.isArray(q.options)) {
+    const c = q.options.find((o) => o && typeof o === 'object' && o.isCorrect);
+    if (c) return c.value ?? c.text ?? c.label ?? null;
+  }
+  return null;
+}
+
+function getRationale(q, correctValue) {
+  if (!q) return null;
+  if (q.explanation) return q.explanation;
+  if (q.rationale) return q.rationale;
+  if (Array.isArray(q.answerOptions) && correctValue != null) {
+    const match = q.answerOptions.find(
+      (o) => o && (o.text === correctValue || o.value === correctValue)
+    );
+    if (match && match.rationale) return match.rationale;
+    const correctOpt = q.answerOptions.find((o) => o && o.isCorrect);
+    if (correctOpt && correctOpt.rationale) return correctOpt.rationale;
+  }
+  return null;
 }
 
 function isCorrectAnswer(answer, correct) {
   if (answer == null || correct == null) return false;
   return (
-    String(answer).trim().toLowerCase() ===
-    String(correct).trim().toLowerCase()
+    String(answer).trim().toLowerCase() === String(correct).trim().toLowerCase()
   );
 }
 
@@ -181,14 +230,8 @@ function ReviewScreen({ roomState, currentUserId }) {
               {opts.length > 0 && (
                 <div className="mt-3 space-y-1">
                   {opts.map((opt, oi) => {
-                    const value =
-                      typeof opt === 'string'
-                        ? opt
-                        : opt.value || opt.label || opt.text || String(oi);
-                    const label =
-                      typeof opt === 'string'
-                        ? opt
-                        : opt.label || opt.text || value;
+                    const value = opt.value;
+                    const label = opt.label ?? value;
                     const isCorrect = isCorrectAnswer(value, correct);
                     return (
                       <div
@@ -274,18 +317,21 @@ function ReviewScreen({ roomState, currentUserId }) {
                 </ul>
               </div>
 
-              {q.explanation && (
-                <div
-                  className="mt-3 p-3 rounded text-sm"
-                  style={{
-                    backgroundColor: PALETTE.passageBg,
-                    color: PALETTE.pageText,
-                  }}
-                >
-                  <span className="font-semibold">Rationale:</span>{' '}
-                  {q.explanation}
-                </div>
-              )}
+              {(() => {
+                const rat = getRationale(q, correct);
+                return rat ? (
+                  <div
+                    className="mt-3 p-3 rounded text-sm"
+                    style={{
+                      backgroundColor: PALETTE.passageBg,
+                      color: PALETTE.pageText,
+                    }}
+                  >
+                    <span className="font-semibold">Rationale:</span>{' '}
+                    {rat}
+                  </div>
+                ) : null;
+              })()}
             </div>
           );
         })}
@@ -453,14 +499,8 @@ export default function CollabQuizSession({
             {isMC ? (
               <div className="space-y-2 mb-4">
                 {options.map((opt, idx) => {
-                  const value =
-                    typeof opt === 'string'
-                      ? opt
-                      : opt.value || opt.label || opt.text || String(idx);
-                  const label =
-                    typeof opt === 'string'
-                      ? opt
-                      : opt.label || opt.text || value;
+                  const value = opt.value;
+                  const label = opt.label ?? value;
                   const isMine = myAnswer === value;
                   const isCorrect =
                     revealed && isCorrectAnswer(value, correctAnswerForReveal);
@@ -553,10 +593,7 @@ export default function CollabQuizSession({
                           (count / (lastReveal.answers?.length || 1)) * 100
                         );
                         return (
-                          <div
-                            key={value}
-                            className="flex items-center gap-2"
-                          >
+                          <div key={value} className="flex items-center gap-2">
                             <div
                               className="font-mono text-xs px-2 py-0.5 rounded"
                               style={{
@@ -613,9 +650,7 @@ export default function CollabQuizSession({
                             {a.answer == null ? '—' : String(a.answer)}
                           </span>{' '}
                           {a.answer != null && (
-                            <span
-                              style={{ color: ok ? '#15803d' : '#b91c1c' }}
-                            >
+                            <span style={{ color: ok ? '#15803d' : '#b91c1c' }}>
                               {ok ? '✓' : '✗'}
                             </span>
                           )}
@@ -632,12 +667,17 @@ export default function CollabQuizSession({
                       </span>
                     </div>
                   )}
-                  {lastReveal.explanation && (
-                    <div className="mt-2">
-                      <span className="font-semibold">Rationale:</span>{' '}
-                      {lastReveal.explanation}
-                    </div>
-                  )}
+                  {(() => {
+                    const rat =
+                      lastReveal.explanation ||
+                      getRationale(currentQ, correctAnswerForReveal);
+                    return rat ? (
+                      <div className="mt-2">
+                        <span className="font-semibold">Rationale:</span>{' '}
+                        {rat}
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               )}
 
@@ -646,8 +686,7 @@ export default function CollabQuizSession({
                 className="mt-4 text-xs"
                 style={{ color: PALETTE.pageMuted }}
               >
-                {answeredCount} / {roomState.participants?.length || 0}{' '}
-                answered
+                {answeredCount} / {roomState.participants?.length || 0} answered
               </div>
             )}
 
@@ -677,9 +716,7 @@ export default function CollabQuizSession({
               )}
               <button
                 onClick={() => advance(1)}
-                disabled={
-                  currentIndex >= questions.length - 1 || lockedToHost
-                }
+                disabled={currentIndex >= questions.length - 1 || lockedToHost}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded disabled:opacity-50 font-semibold"
               >
                 Next

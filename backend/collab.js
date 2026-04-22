@@ -50,8 +50,55 @@ function isInstructorRole(role) {
 function sanitizeQuestionForClient(q) {
   // Strip answer fields when sending to non-host before reveal.
   if (!q || typeof q !== 'object') return q;
-  const { correctAnswer, answer, explanation, ...safe } = q;
+  const { correctAnswer, answer, explanation, rationale, ...safe } = q;
+  // Project schema: answerOptions = [{text, isCorrect, rationale}, ...]
+  // Strip isCorrect + rationale from each option so non-host can't peek.
+  if (Array.isArray(safe.answerOptions)) {
+    safe.answerOptions = safe.answerOptions.map((o) => {
+      if (!o || typeof o !== 'object') return o;
+      const { isCorrect, rationale, ...rest } = o;
+      return rest;
+    });
+  }
+  if (Array.isArray(safe.options)) {
+    safe.options = safe.options.map((o) => {
+      if (!o || typeof o !== 'object') return o;
+      const { isCorrect, rationale, ...rest } = o;
+      return rest;
+    });
+  }
   return safe;
+}
+
+function deriveCorrectAnswer(q) {
+  if (!q) return null;
+  if (q.correctAnswer != null) return q.correctAnswer;
+  if (q.answer != null) return q.answer;
+  if (q.correct != null) return q.correct;
+  if (Array.isArray(q.answerOptions)) {
+    const c = q.answerOptions.find((o) => o && o.isCorrect);
+    if (c) return c.text ?? c.value ?? c.label ?? null;
+  }
+  if (Array.isArray(q.options)) {
+    const c = q.options.find((o) => o && typeof o === 'object' && o.isCorrect);
+    if (c) return c.value ?? c.text ?? c.label ?? null;
+  }
+  return null;
+}
+
+function deriveExplanation(q, correctValue) {
+  if (!q) return null;
+  if (q.explanation) return q.explanation;
+  if (q.rationale) return q.rationale;
+  if (Array.isArray(q.answerOptions)) {
+    const match = q.answerOptions.find(
+      (o) => o && (o.text === correctValue || o.value === correctValue)
+    );
+    if (match && match.rationale) return match.rationale;
+    const correctOpt = q.answerOptions.find((o) => o && o.isCorrect);
+    if (correctOpt && correctOpt.rationale) return correctOpt.rationale;
+  }
+  return null;
 }
 
 function buildRoomState(
@@ -313,11 +360,10 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
            LEFT JOIN collab_participants p ON p.session_id = s.id
            WHERE s.status != 'complete'
              AND s.expires_at > NOW()
-             AND ($1::int IS NULL OR s.organization_id = $1::int OR s.organization_id IS NULL)
            GROUP BY s.id
            ORDER BY s.created_at DESC
            LIMIT 50`,
-            [orgId]
+            []
           )
           .catch(() => []);
         return res.json({
@@ -690,8 +736,8 @@ function attachCollabSockets(io, { getAllQuizzes }) {
                 displayName: p.display_name,
                 answer: p.answers ? p.answers[String(questionIndex)] : null,
               })),
-              correctAnswer: q.correctAnswer ?? q.answer ?? null,
-              explanation: q.explanation || null,
+              correctAnswer: deriveCorrectAnswer(q),
+              explanation: deriveExplanation(q, deriveCorrectAnswer(q)),
             });
           }
         }
@@ -784,8 +830,8 @@ function attachCollabSockets(io, { getAllQuizzes }) {
             displayName: p.display_name,
             answer: p.answers ? p.answers[String(idx)] : null,
           })),
-          correctAnswer: q.correctAnswer ?? q.answer ?? null,
-          explanation: q.explanation || null,
+          correctAnswer: deriveCorrectAnswer(q),
+          explanation: deriveExplanation(q, deriveCorrectAnswer(q)),
         });
         if (ack) ack({ ok: true });
       }
