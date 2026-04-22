@@ -24510,13 +24510,15 @@ function AppHeader({
             >
               Progress
             </button>
-            <a
-              href="/collab"
-              className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline"
-              style={{ textDecoration: 'none' }}
-            >
-              🤝 Work Together
-            </a>
+            {currentUser && (
+              <a
+                href="/collab"
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline"
+                style={{ textDecoration: 'none' }}
+              >
+                🤝 Work Together
+              </a>
+            )}
           </nav>
         </div>
         <div className="flex items-center gap-4">
@@ -24645,14 +24647,16 @@ function AppHeader({
             >
               Progress
             </button>
-            <a
-              href="/collab"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline text-center"
-              style={{ textDecoration: 'none' }}
-            >
-              🤝 Work Together
-            </a>
+            {currentUser && (
+              <a
+                href="/collab"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline text-center"
+                style={{ textDecoration: 'none' }}
+              >
+                🤝 Work Together
+              </a>
+            )}
             {currentUser && (
               <>
                 <button

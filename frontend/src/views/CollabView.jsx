@@ -7,7 +7,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getApiBaseUrl } from '../utils/apiBase.js';
-import { PREMADE_QUIZ_CATALOG } from '../../utils/quizProgress.js';
 import { ESSAY_TOPICS, buildEssayPromptForTopic } from '../data/essayTopics.js';
 import CollabSessionCard from '../../components/collab/CollabSessionCard.jsx';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
@@ -64,6 +63,40 @@ export default function CollabView() {
   const user = getCurrentUser();
   const userRole = user?.role || 'student';
   const canCreate = true;
+
+  // Auth gate: /collab requires a logged-in user.
+  const isLoggedIn = !!user && !!getToken();
+
+  // Auth gate: /collab requires a logged-in user.
+  if (!user || !getToken()) {
+    return (
+      <div
+        className="min-h-screen w-full"
+        style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+      >
+        <CollabHeader />
+        <div className="max-w-xl mx-auto p-6 mt-10">
+          <div
+            className="rounded-lg border p-6 shadow-sm"
+            style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
+          >
+            <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
+            <p className="text-sm text-slate-700 mb-4">
+              You need to be signed in to use Work Together — it lets you
+              create or join live study rooms with classmates and instructors.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-semibold"
+            >
+              Sign in from the Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const collab = useCollabSocket({ autoJoin: false });
   const [matchmakingState, setMatchmakingState] = useState('idle');
@@ -131,6 +164,9 @@ export default function CollabView() {
       sessionType: 'instructor_led',
       quizSource: prefillQuiz ? 'premade' : 'premade',
       subject: prefillSubject,
+      // Cascading premade picker: subject -> category -> topic -> quiz
+      categoryName: '',
+      topicTitle: '',
       quizId: prefillQuiz,
       title: '',
       essayTopic: ESSAY_TOPICS[0],
@@ -141,25 +177,122 @@ export default function CollabView() {
   });
   const [generating, setGenerating] = useState(false);
 
-  const quizOptions = useMemo(() => {
+  // Fetch the full quiz catalog from the backend so we can offer an organized
+  // Subject -> Category -> Topic -> Quiz picker that works even when the
+  // legacy app hasn't hydrated window.PREMADE_QUIZ_CATALOG.
+  const [catalog, setCatalog] = useState(null);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch(`${apiBase}/api/all-quizzes`);
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = await res.json();
+        if (alive) setCatalog(data || {});
+      } catch (_e) {
+        if (alive) setCatalog({});
+      } finally {
+        if (alive) setCatalogLoading(false);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [apiBase]);
+
+  // Map UI subject keys to the backend subject names used by the catalog.
+  const SUBJECT_LABELS = {
+    math: 'Math',
+    rla: 'Reasoning Through Language Arts (RLA)',
+    science: 'Science',
+    social: 'Social Studies',
+    workforce: 'Workforce Readiness',
+  };
+
+  // Available subjects (only those that actually have quizzes with questions)
+  const subjectsWithQuizzes = useMemo(() => {
+    if (!catalog) return [];
     const out = [];
-    const catalog = PREMADE_QUIZ_CATALOG || {};
-    for (const subjectKey of Object.keys(catalog)) {
-      const subj = catalog[subjectKey];
-      if (!subj || typeof subj !== 'object') continue;
-      for (const qid of Object.keys(subj)) {
-        const q = subj[qid];
-        if (!q || typeof q !== 'object') continue;
-        if (
-          form.subject &&
-          !subjectKey.toLowerCase().includes(form.subject.toLowerCase())
+    for (const [key, label] of Object.entries(SUBJECT_LABELS)) {
+      const data = catalog[label];
+      if (!data) continue;
+      const cats = data.categories || {};
+      let hasAny = false;
+      for (const c of Object.values(cats)) {
+        for (const t of c?.topics || []) {
+          for (const q of t?.quizzes || []) {
+            if (Array.isArray(q.questions) && q.questions.length > 0) {
+              hasAny = true;
+              break;
+            }
+          }
+          if (hasAny) break;
+        }
+        if (hasAny) break;
+      }
+      if (hasAny) out.push({ key, label });
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalog]);
+
+  const subjectData = useMemo(() => {
+    if (!catalog || !form.subject) return null;
+    const label = SUBJECT_LABELS[form.subject];
+    return label ? catalog[label] || null : null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalog, form.subject]);
+
+  const categoryOptions = useMemo(() => {
+    const cats = subjectData?.categories || {};
+    return Object.keys(cats).filter((name) => {
+      const c = cats[name];
+      for (const t of c?.topics || []) {
+        for (const q of t?.quizzes || []) {
+          if (Array.isArray(q.questions) && q.questions.length > 0) return true;
+        }
+      }
+      return false;
+    });
+  }, [subjectData]);
+
+  const topicOptions = useMemo(() => {
+    if (!subjectData || !form.categoryName) return [];
+    const cat = subjectData.categories?.[form.categoryName];
+    if (!cat) return [];
+    return (cat.topics || [])
+      .filter((t) =>
+        (t.quizzes || []).some(
+          (q) => Array.isArray(q.questions) && q.questions.length > 0
         )
-          continue;
-        out.push({ id: qid, subject: subjectKey, title: q.title || qid });
+      )
+      .map((t) => t.title || t.id);
+  }, [subjectData, form.categoryName]);
+
+  const quizOptions = useMemo(() => {
+    if (!subjectData || !form.categoryName) return [];
+    const cat = subjectData.categories?.[form.categoryName];
+    if (!cat) return [];
+    const topics = cat.topics || [];
+    const matchTopic = (t) => (t.title || t.id) === form.topicTitle;
+    const targetTopics = form.topicTitle
+      ? topics.filter(matchTopic)
+      : topics;
+    const out = [];
+    for (const t of targetTopics) {
+      for (const q of t.quizzes || []) {
+        if (!Array.isArray(q.questions) || q.questions.length === 0) continue;
+        out.push({
+          id: q.quizId || q.id,
+          title: q.title || q.quizId || 'Untitled Quiz',
+          topic: t.title || t.id,
+          count: q.questions.length,
+        });
       }
     }
-    return out.slice(0, 200);
-  }, [form.subject]);
+    return out;
+  }, [subjectData, form.categoryName, form.topicTitle]);
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -282,6 +415,36 @@ export default function CollabView() {
     collab.emit('matchmaking:cancel', {}, () => {});
     setMatchmakingState('idle');
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div
+        className="min-h-screen w-full"
+        style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+      >
+        <CollabHeader />
+        <div className="max-w-xl mx-auto p-6 mt-10">
+          <div
+            className="rounded-lg border p-6 shadow-sm"
+            style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
+          >
+            <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
+            <p className="text-sm text-slate-700 mb-4">
+              You need to be signed in to use Work Together — it lets you
+              create or join live study rooms with classmates and instructors.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-semibold"
+            >
+              Sign in from the Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -487,7 +650,7 @@ export default function CollabView() {
                   <label className={labelCls}>
                     {form.quizSource === 'generated'
                       ? 'Subject'
-                      : 'Subject (filter)'}
+                      : 'Subject'}
                   </label>
                   <select
                     value={form.subject}
@@ -495,6 +658,8 @@ export default function CollabView() {
                       setForm((f) => ({
                         ...f,
                         subject: e.target.value,
+                        categoryName: '',
+                        topicTitle: '',
                         quizId: '',
                       }))
                     }
@@ -503,35 +668,106 @@ export default function CollabView() {
                     <option value="">
                       {form.quizSource === 'generated'
                         ? 'Balanced (all 4 subjects)'
-                        : 'All'}
+                        : '— pick a subject —'}
                     </option>
-                    <option value="math">Math</option>
-                    <option value="rla">RLA</option>
-                    <option value="science">Science</option>
-                    <option value="social">Social Studies</option>
-                    {form.quizSource === 'premade' && (
-                      <option value="vocabulary">Vocabulary</option>
+                    {form.quizSource === 'generated' ? (
+                      <>
+                        <option value="math">Math</option>
+                        <option value="rla">RLA</option>
+                        <option value="science">Science</option>
+                        <option value="social">Social Studies</option>
+                      </>
+                    ) : (
+                      subjectsWithQuizzes.map((s) => (
+                        <option key={s.key} value={s.key}>
+                          {s.label}
+                        </option>
+                      ))
                     )}
                   </select>
                 </div>
                 {form.quizSource === 'premade' ? (
-                  <div>
-                    <label className={labelCls}>Quiz</label>
-                    <select
-                      value={form.quizId}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, quizId: e.target.value }))
-                      }
-                      className={inputCls}
-                    >
-                      <option value="">— pick a quiz —</option>
-                      {quizOptions.map((q) => (
-                        <option key={`${q.subject}/${q.id}`} value={q.id}>
-                          [{q.subject}] {q.title}
+                  <>
+                    <div>
+                      <label className={labelCls}>Topic Area</label>
+                      <select
+                        value={form.categoryName}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            categoryName: e.target.value,
+                            topicTitle: '',
+                            quizId: '',
+                          }))
+                        }
+                        disabled={!form.subject || catalogLoading}
+                        className={inputCls}
+                      >
+                        <option value="">
+                          {catalogLoading
+                            ? 'Loading…'
+                            : form.subject
+                              ? '— pick a topic area —'
+                              : 'Pick a subject first'}
                         </option>
-                      ))}
-                    </select>
-                  </div>
+                        {categoryOptions.map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {topicOptions.length > 1 && (
+                      <div>
+                        <label className={labelCls}>
+                          Sub-topic (optional)
+                        </label>
+                        <select
+                          value={form.topicTitle}
+                          onChange={(e) =>
+                            setForm((f) => ({
+                              ...f,
+                              topicTitle: e.target.value,
+                              quizId: '',
+                            }))
+                          }
+                          className={inputCls}
+                        >
+                          <option value="">All sub-topics</option>
+                          {topicOptions.map((t) => (
+                            <option key={t} value={t}>
+                              {t}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    <div>
+                      <label className={labelCls}>Quiz</label>
+                      <select
+                        value={form.quizId}
+                        onChange={(e) =>
+                          setForm((f) => ({ ...f, quizId: e.target.value }))
+                        }
+                        disabled={!form.categoryName || quizOptions.length === 0}
+                        className={inputCls}
+                      >
+                        <option value="">
+                          {!form.categoryName
+                            ? 'Pick a topic area first'
+                            : quizOptions.length === 0
+                              ? 'No quizzes available'
+                              : `— pick a quiz (${quizOptions.length} available) —`}
+                        </option>
+                        {quizOptions.map((q) => (
+                          <option key={q.id} value={q.id}>
+                            {q.title} ({q.count} q)
+                            {!form.topicTitle ? ` — ${q.topic}` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </>
                 ) : (
                   <div>
                     <label className={labelCls}>Length</label>

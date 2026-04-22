@@ -42,8 +42,44 @@ export default function CollabSessionView() {
   const { roomCode } = useParams();
   const navigate = useNavigate();
   const userId = useMemo(() => getCurrentUserId(), []);
+  const hasToken = useMemo(() => {
+    try {
+      return !!(
+        localStorage.getItem('token') || localStorage.getItem('appToken')
+      );
+    } catch (_) {
+      return false;
+    }
+  }, []);
+  const isLoggedIn = !!userId && hasToken;
+
+  // Only attempt to join the room when the user is authenticated; otherwise
+  // we'll render an auth prompt below.
   const { roomState, lastReveal, lastEvent, error, emit, leaveRoom } =
-    useCollabSocket({ roomCode, autoJoin: true });
+    useCollabSocket({ roomCode, autoJoin: isLoggedIn });
+
+  if (!isLoggedIn) {
+    return (
+      <PageShell>
+        <div
+          className="rounded-lg border p-6 shadow-sm"
+          style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
+        >
+          <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
+          <p className="text-sm text-slate-700 mb-4">
+            You need to be signed in to join a Work Together session.
+          </p>
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-semibold"
+          >
+            Sign in from the Dashboard
+          </button>
+        </div>
+      </PageShell>
+    );
+  }
 
   const handleLeave = () => {
     leaveRoom();

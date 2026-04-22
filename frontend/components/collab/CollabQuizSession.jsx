@@ -123,7 +123,9 @@ function decodeHtmlEntities(s) {
   if (typeof s !== 'string') return s;
   return s
     .replace(/&#(\d+);/g, (_m, n) => String.fromCharCode(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_m, n) => String.fromCharCode(parseInt(n, 16)))
+    .replace(/&#x([0-9a-f]+);/gi, (_m, n) =>
+      String.fromCharCode(parseInt(n, 16))
+    )
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
