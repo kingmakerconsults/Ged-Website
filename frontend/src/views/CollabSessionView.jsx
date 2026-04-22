@@ -6,6 +6,7 @@ import CollabLobby from '../../components/collab/CollabLobby.jsx';
 import CollabQuizSession from '../../components/collab/CollabQuizSession.jsx';
 import CollabEssaySession from '../../components/collab/CollabEssaySession.jsx';
 import CollabHeader from '../../components/collab/CollabHeader.jsx';
+import useCollabTheme from '../../components/collab/useCollabTheme.js';
 
 function getCurrentUserId() {
   try {
@@ -27,10 +28,11 @@ function getCurrentUserId() {
 }
 
 function PageShell({ children, roomCode }) {
+  const t = useCollabTheme();
   return (
     <div
       className="min-h-screen w-full"
-      style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+      style={{ backgroundColor: t.pageBg, color: t.pageText, ...t.cssVars }}
     >
       <CollabHeader />
       {roomCode ? <RoomCodeBanner roomCode={roomCode} /> : null}
@@ -40,6 +42,7 @@ function PageShell({ children, roomCode }) {
 }
 
 function RoomCodeBanner({ roomCode }) {
+  const t = useCollabTheme();
   const [copied, setCopied] = useState(null);
   const shareUrl = `${window.location.origin}/collab/${roomCode}`;
 
@@ -53,16 +56,27 @@ function RoomCodeBanner({ roomCode }) {
     }
   };
 
+  const btnStyle = {
+    backgroundColor: t.pillBg,
+    color: t.pillText,
+    borderColor: t.bannerBorder,
+  };
+
   return (
     <div
       className="w-full border-b"
-      style={{ backgroundColor: '#eef2ff', borderColor: '#c7d2fe' }}
+      style={{ backgroundColor: t.bannerBg, borderColor: t.bannerBorder }}
     >
       <div className="max-w-5xl mx-auto px-6 py-2 flex flex-wrap items-center gap-3 text-sm">
-        <span className="font-semibold text-slate-700">Room code:</span>
+        <span
+          className="font-semibold"
+          style={{ color: t.bannerText }}
+        >
+          Room code:
+        </span>
         <code
           className="px-2 py-1 rounded font-mono text-base font-bold tracking-widest"
-          style={{ backgroundColor: '#ffffff', color: '#4338ca' }}
+          style={{ backgroundColor: t.pillBg, color: t.pillText }}
         >
           {roomCode}
         </code>
@@ -70,11 +84,7 @@ function RoomCodeBanner({ roomCode }) {
           type="button"
           onClick={() => copy(roomCode, 'code')}
           className="px-2 py-1 rounded text-xs font-semibold border"
-          style={{
-            backgroundColor: '#ffffff',
-            color: '#4338ca',
-            borderColor: '#c7d2fe',
-          }}
+          style={btnStyle}
         >
           {copied === 'code' ? '✓ Copied' : 'Copy code'}
         </button>
@@ -82,15 +92,14 @@ function RoomCodeBanner({ roomCode }) {
           type="button"
           onClick={() => copy(shareUrl, 'link')}
           className="px-2 py-1 rounded text-xs font-semibold border"
-          style={{
-            backgroundColor: '#ffffff',
-            color: '#4338ca',
-            borderColor: '#c7d2fe',
-          }}
+          style={btnStyle}
         >
           {copied === 'link' ? '✓ Copied' : 'Copy join link'}
         </button>
-        <span className="text-xs text-slate-500 ml-auto hidden sm:inline">
+        <span
+          className="text-xs ml-auto hidden sm:inline"
+          style={{ color: t.subtleText }}
+        >
           Anyone signed in can join with this code at any time.
         </span>
       </div>

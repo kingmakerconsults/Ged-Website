@@ -11,6 +11,7 @@ import { ESSAY_TOPICS, buildEssayPromptForTopic } from '../data/essayTopics.js';
 import CollabSessionCard from '../../components/collab/CollabSessionCard.jsx';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
 import CollabHeader from '../../components/collab/CollabHeader.jsx';
+import useCollabTheme from '../../components/collab/useCollabTheme.js';
 
 const SESSION_TYPES = [
   { value: 'instructor_led', label: 'Instructor-Led (class/group)' },
@@ -46,15 +47,17 @@ function isInstructorRole(role) {
 }
 
 const inputCls =
-  'w-full px-3 py-2 border border-slate-300 rounded bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500';
+  'w-full px-3 py-2 border border-slate-300 rounded bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 dark:placeholder-slate-500';
 const cardCls =
-  'rounded-lg border border-slate-200 p-4 bg-white text-slate-900 shadow-sm';
-const labelCls = 'block text-sm font-medium mb-1 text-slate-700';
+  'rounded-lg border border-slate-200 p-4 bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700';
+const labelCls =
+  'block text-sm font-medium mb-1 text-slate-700 dark:text-slate-200';
 
 export default function CollabView() {
   const navigate = useNavigate();
   const location = useLocation();
   const apiBase = useMemo(() => getApiBaseUrl(), []);
+  const t = useCollabTheme();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [joinCode, setJoinCode] = useState('');
@@ -66,37 +69,6 @@ export default function CollabView() {
 
   // Auth gate: /collab requires a logged-in user.
   const isLoggedIn = !!user && !!getToken();
-
-  // Auth gate: /collab requires a logged-in user.
-  if (!user || !getToken()) {
-    return (
-      <div
-        className="min-h-screen w-full"
-        style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
-      >
-        <CollabHeader />
-        <div className="max-w-xl mx-auto p-6 mt-10">
-          <div
-            className="rounded-lg border p-6 shadow-sm"
-            style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
-          >
-            <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
-            <p className="text-sm text-slate-700 mb-4">
-              You need to be signed in to use Work Together — it lets you create
-              or join live study rooms with classmates and instructors.
-            </p>
-            <button
-              type="button"
-              onClick={() => navigate('/')}
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-semibold"
-            >
-              Sign in from the Dashboard
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const collab = useCollabSocket({ autoJoin: false });
   const [matchmakingState, setMatchmakingState] = useState('idle');
@@ -441,16 +413,19 @@ export default function CollabView() {
     return (
       <div
         className="min-h-screen w-full"
-        style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+        style={{ backgroundColor: t.pageBg, color: t.pageText }}
       >
         <CollabHeader />
         <div className="max-w-xl mx-auto p-6 mt-10">
           <div
             className="rounded-lg border p-6 shadow-sm"
-            style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
+            style={{ backgroundColor: t.cardBg, borderColor: t.cardBorder }}
           >
             <h2 className="text-2xl font-bold mb-2">🤝 Work Together</h2>
-            <p className="text-sm text-slate-700 mb-4">
+            <p
+              className="text-sm mb-4"
+              style={{ color: t.mutedText }}
+            >
               You need to be signed in to use Work Together — it lets you create
               or join live study rooms with classmates and instructors.
             </p>
@@ -470,23 +445,23 @@ export default function CollabView() {
   return (
     <div
       className="min-h-screen w-full"
-      style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+      style={{ backgroundColor: t.pageBg, color: t.pageText }}
     >
       <CollabHeader />
       <div className="max-w-5xl mx-auto p-6 space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
               🤝 Work Together
             </h2>
-            <p className="text-sm text-slate-600 mt-1">
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
               Live collaboration: practice with a classmate, take a quiz with
               your instructor, or write an essay together.
             </p>
           </div>
           <button
             onClick={() => navigate('/')}
-            className="text-sm text-slate-600 hover:text-slate-900 underline"
+            className="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100 underline"
           >
             ← Back to Dashboard
           </button>
@@ -500,7 +475,7 @@ export default function CollabView() {
 
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold text-slate-800">
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
               Active Sessions
             </h3>
             <button
@@ -511,9 +486,9 @@ export default function CollabView() {
             </button>
           </div>
           {loading ? (
-            <div className="text-sm text-slate-500">Loading…</div>
+            <div className="text-sm text-slate-500 dark:text-slate-400">Loading…</div>
           ) : sessions.length === 0 ? (
-            <div className="text-sm text-slate-500 italic">
+            <div className="text-sm text-slate-500 dark:text-slate-400 italic">
               No active sessions. Start one below.
             </div>
           ) : (
@@ -527,10 +502,10 @@ export default function CollabView() {
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className={cardCls}>
-            <h3 className="font-semibold mb-3 text-slate-800">
+            <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-100">
               Join with Code
             </h3>
-            <p className="text-xs text-slate-500 mb-2">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
               Got a code from a host? You can jump in any time — even after the
               session has started.
             </p>
@@ -552,12 +527,12 @@ export default function CollabView() {
           </div>
 
           <div className={cardCls}>
-            <h3 className="font-semibold mb-3 text-slate-800">
+            <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-100">
               Find a Partner
             </h3>
             {matchmakingState === 'searching' ? (
               <div className="space-y-3">
-                <div className="text-sm text-slate-700 flex items-center">
+                <div className="text-sm text-slate-700 dark:text-slate-200 flex items-center">
                   <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse" />
                   Searching for a partner in your organization…
                 </div>
@@ -596,7 +571,7 @@ export default function CollabView() {
         </section>
 
         <section className={`${cardCls} p-5`}>
-          <h3 className="font-semibold mb-3 text-slate-800">
+          <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-100">
             Create a Session
           </h3>
           <form onSubmit={handleCreate} className="space-y-3">
@@ -651,7 +626,7 @@ export default function CollabView() {
                       className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
                         form.quizSource === 'premade'
                           ? 'bg-purple-600 text-white border-purple-600'
-                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
                       }`}
                     >
                       📚 Pick a Premade Quiz
@@ -664,7 +639,7 @@ export default function CollabView() {
                       className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
                         form.quizSource === 'generated'
                           ? 'bg-purple-600 text-white border-purple-600'
-                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700'
                       }`}
                     >
                       ⚡ Generate (Practice-style)
@@ -811,7 +786,7 @@ export default function CollabView() {
                       <option value={50}>50 min (~25 questions)</option>
                       <option value={60}>60 min (~30 questions)</option>
                     </select>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                       Pulls a fresh mix of questions from the same pool used by
                       the Practice Session. Both partners get the exact same
                       questions.
@@ -835,7 +810,7 @@ export default function CollabView() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Both partners will see this topic and can open the full Essay
                   Practice Tool (with passages) once the session starts.
                 </p>

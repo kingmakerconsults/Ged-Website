@@ -1,24 +1,25 @@
 // frontend/components/collab/CollabQuizSession.jsx
-// Solid-light styling (no `dark:` variants) so contrast is reliable when
-// rendered outside the legacy app's theme provider. Supports MC and
+// Solid styling driven by CSS variables so the same component can render in
+// either light or dark mode (the variables are set on the PageShell wrapper
+// in CollabSessionView based on the active theme). Supports MC and
 // fill-in/text-input questions, shows per-question reveal stats with each
 // participant's answer, and renders a final review when the session ends.
 import React, { useEffect, useMemo, useState } from 'react';
 
 const PALETTE = {
-  pageText: '#0f172a',
-  pageMuted: '#475569',
-  cardBg: '#ffffff',
-  cardBorder: '#e2e8f0',
-  passageBg: '#f8fafc',
-  optionBg: '#ffffff',
-  optionBorder: '#cbd5e1',
-  myChoice: '#dbeafe',
-  myChoiceBorder: '#3b82f6',
-  correct: '#dcfce7',
-  correctBorder: '#16a34a',
-  wrong: '#fee2e2',
-  wrongBorder: '#dc2626',
+  pageText: 'var(--collab-pageText, #0f172a)',
+  pageMuted: 'var(--collab-pageMuted, #475569)',
+  cardBg: 'var(--collab-cardBg, #ffffff)',
+  cardBorder: 'var(--collab-cardBorder, #e2e8f0)',
+  passageBg: 'var(--collab-passageBg, #f8fafc)',
+  optionBg: 'var(--collab-optionBg, #ffffff)',
+  optionBorder: 'var(--collab-optionBorder, #cbd5e1)',
+  myChoice: 'var(--collab-myChoice, #dbeafe)',
+  myChoiceBorder: 'var(--collab-myChoiceBorder, #3b82f6)',
+  correct: 'var(--collab-correct, #dcfce7)',
+  correctBorder: 'var(--collab-correctBorder, #16a34a)',
+  wrong: 'var(--collab-wrong, #fee2e2)',
+  wrongBorder: 'var(--collab-wrongBorder, #dc2626)',
 };
 
 function getOptions(q) {
