@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function DashboardView() {
   return (
@@ -13,21 +14,18 @@ export default function DashboardView() {
 
       <div>
         <h3 className="text-lg font-semibold mb-3">Play Together</h3>
-        <a
-          href="/collab"
-          onClick={(e) => {
-            e.preventDefault();
-            window.history.pushState({}, '', '/collab');
-            window.dispatchEvent(new PopStateEvent('popstate'));
-          }}
-          className="block p-4 rounded-xl border border-purple-300 dark:border-purple-700 shadow-sm hover:shadow-md transition bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900 dark:to-blue-900 text-slate-900 dark:text-white"
+        <Link
+          to="/collab"
+          className="block p-5 rounded-xl border-2 border-purple-400 dark:border-purple-600 shadow-md hover:shadow-lg transition bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900 dark:to-blue-900 text-slate-900 dark:text-white"
         >
-          <div className="font-bold">🎯 Live Collaboration</div>
+          <div className="font-bold text-lg mb-1">🎯 Play Together — Live Collaboration</div>
           <div className="text-sm text-slate-600 dark:text-slate-300">
-            Take a quiz with your instructor, partner up with a classmate, or
-            write an essay together.
+            Join an instructor-led quiz, partner up with a classmate for instant practice, or write a collaborative essay. Tap here to get started.
           </div>
-        </a>
+          <div className="mt-3 inline-block px-4 py-1.5 bg-purple-600 text-white text-sm font-semibold rounded-full">
+            Open Play Together →
+          </div>
+        </Link>
       </div>
 
       <div>
