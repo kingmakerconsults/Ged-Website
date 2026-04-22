@@ -77,6 +77,31 @@ export default function CollabSessionView() {
   }
 
   if (roomState.status === 'complete') {
+    // Quiz sessions render a full review screen inside CollabQuizSession.
+    if (
+      roomState.sessionType === 'instructor_led' ||
+      roomState.sessionType === 'peer'
+    ) {
+      return (
+        <PageShell>
+          <CollabQuizSession
+            roomState={roomState}
+            currentUserId={userId}
+            emit={emit}
+            lastReveal={lastReveal}
+            lastEvent={lastEvent}
+          />
+          <div className="text-center mt-6">
+            <button
+              onClick={() => navigate('/collab')}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+            >
+              ← Back to Work Together
+            </button>
+          </div>
+        </PageShell>
+      );
+    }
     return (
       <PageShell>
         <div className="max-w-xl mx-auto text-center">

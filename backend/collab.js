@@ -60,6 +60,7 @@ function buildRoomState(
   { includeAnswers = false } = {}
 ) {
   const state = session.session_state || {};
+  const isComplete = session.status === 'complete';
   const revealed = new Set(state.revealedQuestions || []);
   const quiz = session.quiz_snapshot || null;
   const sanitizedQuiz = quiz
@@ -67,7 +68,7 @@ function buildRoomState(
         ...quiz,
         questions: Array.isArray(quiz.questions)
           ? quiz.questions.map((q, idx) =>
-              includeAnswers || revealed.has(idx)
+              includeAnswers || isComplete || revealed.has(idx)
                 ? q
                 : sanitizeQuestionForClient(q)
             )
@@ -95,8 +96,10 @@ function buildRoomState(
       displayName: p.display_name,
       role: p.role,
       connected: p.connected,
-      // For privacy, do not include raw answers; collab events stream answer counts.
       answeredQuestions: p.answers ? Object.keys(p.answers).map(Number) : [],
+      // Include raw answers when session is complete (for the review screen)
+      // or when the consumer explicitly asks (host-side).
+      answers: includeAnswers || isComplete ? p.answers || {} : undefined,
     })),
   };
 }
@@ -797,6 +800,9 @@ function attachCollabSockets(io, { getAllQuizzes }) {
         [sessionId]
       );
       nsp.to(`session:${sessionId}`).emit('session:ended', {});
+      // Push a final room-state snapshot that includes answers + full questions
+      // so every client can render the review screen.
+      await emitRoomState(socket, sessionId, { toAll: true });
       if (ack) ack({ ok: true });
     });
 
