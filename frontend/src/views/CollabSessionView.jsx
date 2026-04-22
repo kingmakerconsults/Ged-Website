@@ -5,6 +5,7 @@ import useCollabSocket from '../../components/collab/useCollabSocket.js';
 import CollabLobby from '../../components/collab/CollabLobby.jsx';
 import CollabQuizSession from '../../components/collab/CollabQuizSession.jsx';
 import CollabEssaySession from '../../components/collab/CollabEssaySession.jsx';
+import CollabHeader from '../../components/collab/CollabHeader.jsx';
 
 function getCurrentUserId() {
   try {
@@ -31,6 +32,7 @@ function PageShell({ children }) {
       className="min-h-screen w-full"
       style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
     >
+      <CollabHeader />
       <div className="max-w-5xl mx-auto p-6">{children}</div>
     </div>
   );

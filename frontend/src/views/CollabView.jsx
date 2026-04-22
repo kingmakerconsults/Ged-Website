@@ -11,6 +11,7 @@ import { PREMADE_QUIZ_CATALOG } from '../../utils/quizProgress.js';
 import { ESSAY_TOPICS, buildEssayPromptForTopic } from '../data/essayTopics.js';
 import CollabSessionCard from '../../components/collab/CollabSessionCard.jsx';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
+import CollabHeader from '../../components/collab/CollabHeader.jsx';
 
 const SESSION_TYPES = [
   { value: 'instructor_led', label: 'Instructor-Led (class/group)' },
@@ -287,6 +288,7 @@ export default function CollabView() {
       className="min-h-screen w-full"
       style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
     >
+      <CollabHeader />
       <div className="max-w-5xl mx-auto p-6 space-y-8">
         <div className="flex items-center justify-between">
           <div>
