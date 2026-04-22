@@ -79,19 +79,27 @@ export default function CollabView() {
 
   const fetchSessions = async () => {
     setLoading(true);
+    const url = `${apiBase}/api/collab/sessions/active`;
     try {
-      const res = await fetch(`${apiBase}/api/collab/sessions/active`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
+      const token = getToken();
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
         if (res.status === 404) {
           setError(
-            'Collaboration server is not yet available. The backend may still be deploying — please try again in a minute.'
+            `Collaboration server is not yet available (404 from ${url}). The backend may still be deploying — please try again in a minute.`
           );
         } else if (res.status === 401 || res.status === 403) {
-          setError(
-            'You need to be logged in to use Work Together. Please sign in from the dashboard, then come back.'
-          );
+          if (!token) {
+            setError(
+              'You need to be logged in to use Work Together. Please sign in from the dashboard, then come back. (No auth token found in this browser.)'
+            );
+          } else {
+            setError(
+              'Your login session has expired. Please sign in again from the dashboard.'
+            );
+          }
         } else {
           setError(`Server error (${res.status}). Please try again later.`);
         }
@@ -182,13 +190,17 @@ export default function CollabView() {
             });
             if (!psRes.ok) {
               const t = await psRes.text();
-              setError(`Could not generate quiz (${psRes.status}). ${t.slice(0, 200)}`);
+              setError(
+                `Could not generate quiz (${psRes.status}). ${t.slice(0, 200)}`
+              );
               return;
             }
             const psData = await psRes.json();
             const qs = Array.isArray(psData.questions) ? psData.questions : [];
             if (!qs.length) {
-              setError('Generated quiz had no questions. Try a different subject.');
+              setError(
+                'Generated quiz had no questions. Try a different subject.'
+              );
               return;
             }
             body.questions = qs;
