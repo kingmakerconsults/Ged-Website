@@ -14,7 +14,6 @@ function getCurrentUserId() {
       return Number(u.id || u.userId);
     }
   } catch (_) {}
-  // Decode JWT payload as fallback
   try {
     const token =
       localStorage.getItem('token') || localStorage.getItem('appToken');
@@ -26,13 +25,23 @@ function getCurrentUserId() {
   }
 }
 
+function PageShell({ children }) {
+  return (
+    <div
+      className="min-h-screen w-full"
+      style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+    >
+      <div className="max-w-5xl mx-auto p-6">{children}</div>
+    </div>
+  );
+}
+
 export default function CollabSessionView() {
   const { roomCode } = useParams();
   const navigate = useNavigate();
   const userId = useMemo(() => getCurrentUserId(), []);
   const {
     roomState,
-    participants,
     lastReveal,
     lastEvent,
     error,
@@ -47,73 +56,84 @@ export default function CollabSessionView() {
 
   if (error) {
     return (
-      <div className="max-w-xl mx-auto p-6">
-        <div className="p-4 rounded bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
-          {error}
+      <PageShell>
+        <div className="p-4 rounded bg-red-100 text-red-800 border border-red-200">
+          {error === 'websocket error'
+            ? 'Could not reach the collaboration server. The backend may still be deploying — please try again in a minute.'
+            : error}
         </div>
         <button
           onClick={() => navigate('/collab')}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+          className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
         >
-          Back to Play Together
+          ← Back to Work Together
         </button>
-      </div>
+      </PageShell>
     );
   }
 
   if (!roomState) {
     return (
-      <div className="text-center p-8 text-slate-500">Connecting to room…</div>
+      <PageShell>
+        <div className="text-center p-8 text-slate-500">
+          Connecting to room…
+        </div>
+      </PageShell>
     );
   }
 
-  // End screen
   if (roomState.status === 'complete') {
     return (
-      <div className="max-w-xl mx-auto p-6 text-center">
-        <h2 className="text-2xl font-bold mb-2">Session Complete</h2>
-        <p className="text-slate-600 dark:text-slate-400 mb-4">
-          Thanks for playing together!
-        </p>
-        <button
-          onClick={() => navigate('/collab')}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Back to Play Together
-        </button>
-      </div>
+      <PageShell>
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-2 text-slate-900">
+            Session Complete
+          </h2>
+          <p className="text-slate-600 mb-4">Thanks for working together!</p>
+          <button
+            onClick={() => navigate('/collab')}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+          >
+            ← Back to Work Together
+          </button>
+        </div>
+      </PageShell>
     );
   }
 
-  // Lobby
   if (roomState.status === 'lobby') {
     return (
-      <CollabLobby
-        roomState={roomState}
-        currentUserId={userId}
-        emit={emit}
-        onLeave={handleLeave}
-      />
+      <PageShell>
+        <CollabLobby
+          roomState={roomState}
+          currentUserId={userId}
+          emit={emit}
+          onLeave={handleLeave}
+        />
+      </PageShell>
     );
   }
 
-  // Active
   if (roomState.sessionType === 'essay') {
     return (
-      <CollabEssaySession
-        roomState={roomState}
-        currentUserId={userId}
-        emit={emit}
-      />
+      <PageShell>
+        <CollabEssaySession
+          roomState={roomState}
+          currentUserId={userId}
+          emit={emit}
+        />
+      </PageShell>
     );
   }
   return (
-    <CollabQuizSession
-      roomState={roomState}
-      currentUserId={userId}
-      emit={emit}
-      lastReveal={lastReveal}
-      lastEvent={lastEvent}
-    />
+    <PageShell>
+      <CollabQuizSession
+        roomState={roomState}
+        currentUserId={userId}
+        emit={emit}
+        lastReveal={lastReveal}
+        lastEvent={lastEvent}
+      />
+    </PageShell>
   );
 }

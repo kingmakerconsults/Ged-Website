@@ -1,9 +1,17 @@
 // frontend/src/views/CollabView.jsx
-// "Play Together" hub: list active sessions, create, join by code, find partner.
+// "Work Together" hub: list active sessions, create, join by code, find partner.
+// NOTE: This view is rendered OUTSIDE the legacy app's theme provider, so we
+// avoid `dark:` Tailwind variants (the legacy app's `dark` class on <html>
+// would otherwise turn inputs into black-on-black). We use a solid, high-
+// contrast light styling that works in either theme.
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getApiBaseUrl } from '../utils/apiBase.js';
 import { PREMADE_QUIZ_CATALOG } from '../../utils/quizProgress.js';
+import {
+  ESSAY_TOPICS,
+  buildEssayPromptForTopic,
+} from '../data/essayTopics.js';
 import CollabSessionCard from '../../components/collab/CollabSessionCard.jsx';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
 
@@ -40,6 +48,12 @@ function isInstructorRole(role) {
   ].includes(String(role || '').toLowerCase());
 }
 
+const inputCls =
+  'w-full px-3 py-2 border border-slate-300 rounded bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500';
+const cardCls =
+  'rounded-lg border border-slate-200 p-4 bg-white text-slate-900 shadow-sm';
+const labelCls = 'block text-sm font-medium mb-1 text-slate-700';
+
 export default function CollabView() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -51,11 +65,10 @@ export default function CollabView() {
 
   const user = getCurrentUser();
   const userRole = user?.role || 'student';
-  const canCreate = true; // Allow students to create peer/essay; instructor-led requires role.
+  const canCreate = true;
 
-  // Socket only for matchmaking
   const collab = useCollabSocket({ autoJoin: false });
-  const [matchmakingState, setMatchmakingState] = useState('idle'); // idle | searching | matched
+  const [matchmakingState, setMatchmakingState] = useState('idle');
 
   useEffect(() => {
     if (collab.lastEvent?.type === 'matchmaking:matched') {
@@ -73,12 +86,22 @@ export default function CollabView() {
       const res = await fetch(`${apiBase}/api/collab/sessions/active`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      if (res.ok) {
-        const data = await res.json();
-        setSessions(data.sessions || []);
+      if (!res.ok) {
+        if (res.status === 404) {
+          setError(
+            'Collaboration server is not yet available. The backend may still be deploying — please try again in a minute.'
+          );
+        } else {
+          setError(`Server error (${res.status}). Please try again later.`);
+        }
+        setSessions([]);
+        return;
       }
+      const data = await res.json();
+      setSessions(data.sessions || []);
+      setError(null);
     } catch (e) {
-      // ignore
+      setError('Network error contacting collaboration server.');
     } finally {
       setLoading(false);
     }
@@ -91,7 +114,6 @@ export default function CollabView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create form state
   const [form, setForm] = useState(() => {
     const prefillSubject = location.state?.prefillSubject || '';
     const prefillQuiz = location.state?.prefillQuiz || '';
@@ -100,8 +122,7 @@ export default function CollabView() {
       subject: prefillSubject,
       quizId: prefillQuiz,
       title: '',
-      essayPrompt:
-        'Discuss whether the benefits of [topic] outweigh the risks. Use evidence to support your view.',
+      essayTopic: ESSAY_TOPICS[0],
     };
   });
 
@@ -119,11 +140,7 @@ export default function CollabView() {
           !subjectKey.toLowerCase().includes(form.subject.toLowerCase())
         )
           continue;
-        out.push({
-          id: qid,
-          subject: subjectKey,
-          title: q.title || qid,
-        });
+        out.push({ id: qid, subject: subjectKey, title: q.title || qid });
       }
     }
     return out.slice(0, 200);
@@ -145,7 +162,12 @@ export default function CollabView() {
         }
         body.quizId = form.quizId;
       } else {
-        body.config = { essayPrompt: form.essayPrompt };
+        body.subject = 'rla';
+        const topic = form.essayTopic || ESSAY_TOPICS[0];
+        body.config = {
+          essayPrompt: buildEssayPromptForTopic(topic),
+          essayTopic: topic,
+        };
       }
       const res = await fetch(`${apiBase}/api/collab/sessions`, {
         method: 'POST',
@@ -155,11 +177,22 @@ export default function CollabView() {
         },
         body: JSON.stringify(body),
       });
-      const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Create failed');
+        const text = await res.text();
+        let msg = `Create failed (${res.status})`;
+        try {
+          const j = JSON.parse(text);
+          if (j.error) msg = j.error;
+        } catch (_) {
+          if (res.status === 404) {
+            msg =
+              'Collaboration server is not yet available. Backend may still be deploying.';
+          }
+        }
+        setError(msg);
         return;
       }
+      const data = await res.json();
       navigate(`/collab/${data.roomCode}`);
     } catch (err) {
       setError(err?.message || 'Network error');
@@ -194,232 +227,239 @@ export default function CollabView() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
-      <div>
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Play Together
-        </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-          Live collaboration: practice with a classmate, take a quiz with your
-          instructor, or write an essay together.
-        </p>
-      </div>
-
-      {error && (
-        <div className="p-3 rounded bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-sm">
-          {error}
-        </div>
-      )}
-
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">
-            Active Sessions
-          </h3>
+    <div
+      className="min-h-screen w-full"
+      style={{ backgroundColor: '#f8fafc', color: '#0f172a' }}
+    >
+      <div className="max-w-5xl mx-auto p-6 space-y-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900">
+              🤝 Work Together
+            </h2>
+            <p className="text-sm text-slate-600 mt-1">
+              Live collaboration: practice with a classmate, take a quiz with
+              your instructor, or write an essay together.
+            </p>
+          </div>
           <button
-            onClick={fetchSessions}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+            onClick={() => navigate('/')}
+            className="text-sm text-slate-600 hover:text-slate-900 underline"
           >
-            Refresh
+            ← Back to Dashboard
           </button>
         </div>
-        {loading ? (
-          <div className="text-sm text-slate-500">Loading…</div>
-        ) : sessions.length === 0 ? (
-          <div className="text-sm text-slate-500 italic">
-            No active sessions. Start one below.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {sessions.map((s) => (
-              <CollabSessionCard key={s.sessionId} session={s} />
-            ))}
+
+        {error && (
+          <div className="p-3 rounded bg-red-100 text-red-800 text-sm border border-red-200">
+            {error}
           </div>
         )}
-      </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4 bg-white dark:bg-slate-800">
-          <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-200">
-            Join with Code
-          </h3>
-          <form onSubmit={handleJoin} className="flex gap-2">
-            <input
-              value={joinCode}
-              onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-              placeholder="GEDXXX"
-              maxLength={12}
-              className="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-600 rounded font-mono uppercase bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-            />
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-semibold text-slate-800">
+              Active Sessions
+            </h3>
             <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+              onClick={fetchSessions}
+              className="text-sm text-blue-600 hover:underline"
             >
-              Join
+              Refresh
             </button>
-          </form>
-        </div>
-
-        <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4 bg-white dark:bg-slate-800">
-          <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-200">
-            Find a Partner
-          </h3>
-          {matchmakingState === 'searching' ? (
-            <div className="space-y-3">
-              <div className="text-sm text-slate-600 dark:text-slate-300 flex items-center">
-                <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse" />
-                Searching for a partner in your organization…
-              </div>
-              <button
-                onClick={cancelMatchmaking}
-                className="text-sm text-red-600 hover:underline"
-              >
-                Cancel
-              </button>
+          </div>
+          {loading ? (
+            <div className="text-sm text-slate-500">Loading…</div>
+          ) : sessions.length === 0 ? (
+            <div className="text-sm text-slate-500 italic">
+              No active sessions. Start one below.
             </div>
           ) : (
-            <div className="space-y-2">
-              <select
-                value={form.subject}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, subject: e.target.value }))
-                }
-                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-              >
-                <option value="">Any Subject</option>
-                <option value="math">Math</option>
-                <option value="rla">RLA</option>
-                <option value="science">Science</option>
-                <option value="social">Social Studies</option>
-              </select>
-              <button
-                onClick={findPartner}
-                disabled={!collab.connected}
-                className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded disabled:opacity-50"
-              >
-                {collab.connected ? 'Find Partner' : 'Connecting…'}
-              </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {sessions.map((s) => (
+                <CollabSessionCard key={s.sessionId} session={s} />
+              ))}
             </div>
           )}
-        </div>
-      </section>
+        </section>
 
-      <section className="rounded-lg border border-slate-200 dark:border-slate-700 p-5 bg-white dark:bg-slate-800">
-        <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-200">
-          Create a Session
-        </h3>
-        <form onSubmit={handleCreate} className="space-y-3">
-          <div>
-            <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Type
-            </label>
-            <select
-              value={form.sessionType}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, sessionType: e.target.value }))
-              }
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-            >
-              {SESSION_TYPES.map((t) => (
-                <option
-                  key={t.value}
-                  value={t.value}
-                  disabled={
-                    t.value === 'instructor_led' && !isInstructorRole(userRole)
-                  }
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={cardCls}>
+            <h3 className="font-semibold mb-3 text-slate-800">Join with Code</h3>
+            <form onSubmit={handleJoin} className="flex gap-2">
+              <input
+                value={joinCode}
+                onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                placeholder="GEDXXX"
+                maxLength={12}
+                className={`${inputCls} flex-1 font-mono uppercase`}
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+              >
+                Join
+              </button>
+            </form>
+          </div>
+
+          <div className={cardCls}>
+            <h3 className="font-semibold mb-3 text-slate-800">Find a Partner</h3>
+            {matchmakingState === 'searching' ? (
+              <div className="space-y-3">
+                <div className="text-sm text-slate-700 flex items-center">
+                  <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse" />
+                  Searching for a partner in your organization…
+                </div>
+                <button
+                  onClick={cancelMatchmaking}
+                  className="text-sm text-red-600 hover:underline"
                 >
-                  {t.label}
-                  {t.value === 'instructor_led' && !isInstructorRole(userRole)
-                    ? ' (instructor only)'
-                    : ''}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Title (optional)
-            </label>
-            <input
-              value={form.title}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, title: e.target.value }))
-              }
-              placeholder="Period 3 — Algebra Practice"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-            />
-          </div>
-
-          {form.sessionType !== 'essay' ? (
-            <>
-              <div>
-                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-                  Subject (filter)
-                </label>
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
                 <select
                   value={form.subject}
                   onChange={(e) =>
-                    setForm((f) => ({
-                      ...f,
-                      subject: e.target.value,
-                      quizId: '',
-                    }))
+                    setForm((f) => ({ ...f, subject: e.target.value }))
                   }
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                  className={inputCls}
                 >
-                  <option value="">All</option>
+                  <option value="">Any Subject</option>
                   <option value="math">Math</option>
                   <option value="rla">RLA</option>
                   <option value="science">Science</option>
                   <option value="social">Social Studies</option>
-                  <option value="vocabulary">Vocabulary</option>
                 </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-                  Quiz
-                </label>
-                <select
-                  value={form.quizId}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, quizId: e.target.value }))
-                  }
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                <button
+                  onClick={findPartner}
+                  disabled={!collab.connected}
+                  className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded disabled:opacity-50 font-semibold"
                 >
-                  <option value="">— pick a quiz —</option>
-                  {quizOptions.map((q) => (
-                    <option key={`${q.subject}/${q.id}`} value={q.id}>
-                      [{q.subject}] {q.title}
+                  {collab.connected ? 'Find Partner' : 'Connecting…'}
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className={`${cardCls} p-5`}>
+          <h3 className="font-semibold mb-3 text-slate-800">Create a Session</h3>
+          <form onSubmit={handleCreate} className="space-y-3">
+            <div>
+              <label className={labelCls}>Type</label>
+              <select
+                value={form.sessionType}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, sessionType: e.target.value }))
+                }
+                className={inputCls}
+              >
+                {SESSION_TYPES.map((t) => (
+                  <option
+                    key={t.value}
+                    value={t.value}
+                    disabled={
+                      t.value === 'instructor_led' &&
+                      !isInstructorRole(userRole)
+                    }
+                  >
+                    {t.label}
+                    {t.value === 'instructor_led' && !isInstructorRole(userRole)
+                      ? ' (instructor only)'
+                      : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={labelCls}>Title (optional)</label>
+              <input
+                value={form.title}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, title: e.target.value }))
+                }
+                placeholder="Period 3 — Algebra Practice"
+                className={inputCls}
+              />
+            </div>
+
+            {form.sessionType !== 'essay' ? (
+              <>
+                <div>
+                  <label className={labelCls}>Subject (filter)</label>
+                  <select
+                    value={form.subject}
+                    onChange={(e) =>
+                      setForm((f) => ({
+                        ...f,
+                        subject: e.target.value,
+                        quizId: '',
+                      }))
+                    }
+                    className={inputCls}
+                  >
+                    <option value="">All</option>
+                    <option value="math">Math</option>
+                    <option value="rla">RLA</option>
+                    <option value="science">Science</option>
+                    <option value="social">Social Studies</option>
+                    <option value="vocabulary">Vocabulary</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelCls}>Quiz</label>
+                  <select
+                    value={form.quizId}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, quizId: e.target.value }))
+                    }
+                    className={inputCls}
+                  >
+                    <option value="">— pick a quiz —</option>
+                    {quizOptions.map((q) => (
+                      <option key={`${q.subject}/${q.id}`} value={q.id}>
+                        [{q.subject}] {q.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            ) : (
+              <div>
+                <label className={labelCls}>Essay Topic</label>
+                <select
+                  value={form.essayTopic}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, essayTopic: e.target.value }))
+                  }
+                  className={inputCls}
+                >
+                  {ESSAY_TOPICS.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
                     </option>
                   ))}
                 </select>
+                <p className="text-xs text-slate-500 mt-1">
+                  Both partners will see this topic and can open the full Essay
+                  Practice Tool (with passages) once the session starts.
+                </p>
               </div>
-            </>
-          ) : (
-            <div>
-              <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-                Essay Prompt
-              </label>
-              <textarea
-                value={form.essayPrompt}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, essayPrompt: e.target.value }))
-                }
-                rows={3}
-                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-              />
-            </div>
-          )}
+            )}
 
-          <button
-            type="submit"
-            disabled={!canCreate}
-            className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold disabled:opacity-50"
-          >
-            Create Session
-          </button>
-        </form>
-      </section>
+            <button
+              type="submit"
+              disabled={!canCreate}
+              className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold disabled:opacity-50"
+            >
+              Create Session
+            </button>
+          </form>
+        </section>
+      </div>
     </div>
   );
 }

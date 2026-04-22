@@ -24515,7 +24515,7 @@ function AppHeader({
               className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline"
               style={{ textDecoration: 'none' }}
             >
-              🎯 Play Together
+              🤝 Work Together
             </a>
           </nav>
         </div>
@@ -24651,7 +24651,7 @@ function AppHeader({
               className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline text-center"
               style={{ textDecoration: 'none' }}
             >
-              🎯 Play Together
+              🤝 Work Together
             </a>
             {currentUser && (
               <>
@@ -41188,6 +41188,23 @@ function EssayGuide({ onExit }) {
       },
     },
   ];
+
+  // Deep-link from collaborative essay session: ?essayTopic=<title>
+  // Preselect the matching passage on first mount so users land on the
+  // same topic their partner picked.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const requested = params.get('essayTopic');
+      if (!requested) return;
+      const idx = passagesData.findIndex(
+        (p) => p && p.topic === requested
+      );
+      if (idx >= 0) setSelectedTopic(idx);
+    } catch (_) {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const essayPassageExpansions = {
     'Should the Voting Age Be Lowered to 16?': {

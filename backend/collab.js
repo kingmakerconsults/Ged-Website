@@ -223,6 +223,8 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
               ? config?.essayPrompt ||
                 'Write a collaborative essay on a topic of your choice.'
               : null,
+          essayTopic:
+            sessionType === 'essay' ? config?.essayTopic || null : null,
         };
 
         const roomCode = await generateUniqueRoomCode();
