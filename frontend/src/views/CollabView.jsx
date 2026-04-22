@@ -210,6 +210,50 @@ export default function CollabView() {
     workforce: 'Workforce Readiness',
   };
 
+  // Some topics in the catalog expose questions directly (legacy shape) and
+  // have no `quizzes` array. Treat those topics as a single quiz so the
+  // picker still surfaces them.
+  const collectTopicQuizzes = (topic) => {
+    const out = [];
+    if (Array.isArray(topic?.quizzes)) {
+      for (const q of topic.quizzes) {
+        if (q && Array.isArray(q.questions) && q.questions.length > 0) {
+          out.push({
+            id: q.quizId || q.id,
+            title: q.title || q.quizId || 'Untitled Quiz',
+            count: q.questions.length,
+          });
+        }
+      }
+    }
+    if (
+      out.length === 0 &&
+      Array.isArray(topic?.questions) &&
+      topic.questions.length > 0
+    ) {
+      out.push({
+        id: topic.id || topic.title,
+        title: topic.title || topic.id || 'Untitled Quiz',
+        count: topic.questions.length,
+      });
+    }
+    return out;
+  };
+
+  const categoryHasQuizzes = (cat) => {
+    if (!cat) return false;
+    for (const t of cat.topics || []) {
+      if (collectTopicQuizzes(t).length > 0) return true;
+    }
+    if (Array.isArray(cat.quizzes)) {
+      for (const q of cat.quizzes) {
+        if (q && Array.isArray(q.questions) && q.questions.length > 0)
+          return true;
+      }
+    }
+    return false;
+  };
+
   // Available subjects (only those that actually have quizzes with questions)
   const subjectsWithQuizzes = useMemo(() => {
     if (!catalog) return [];
@@ -218,20 +262,9 @@ export default function CollabView() {
       const data = catalog[label];
       if (!data) continue;
       const cats = data.categories || {};
-      let hasAny = false;
-      for (const c of Object.values(cats)) {
-        for (const t of c?.topics || []) {
-          for (const q of t?.quizzes || []) {
-            if (Array.isArray(q.questions) && q.questions.length > 0) {
-              hasAny = true;
-              break;
-            }
-          }
-          if (hasAny) break;
-        }
-        if (hasAny) break;
+      if (Object.values(cats).some(categoryHasQuizzes)) {
+        out.push({ key, label });
       }
-      if (hasAny) out.push({ key, label });
     }
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -246,15 +279,8 @@ export default function CollabView() {
 
   const categoryOptions = useMemo(() => {
     const cats = subjectData?.categories || {};
-    return Object.keys(cats).filter((name) => {
-      const c = cats[name];
-      for (const t of c?.topics || []) {
-        for (const q of t?.quizzes || []) {
-          if (Array.isArray(q.questions) && q.questions.length > 0) return true;
-        }
-      }
-      return false;
-    });
+    return Object.keys(cats).filter((name) => categoryHasQuizzes(cats[name]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectData]);
 
   const topicOptions = useMemo(() => {
@@ -262,12 +288,9 @@ export default function CollabView() {
     const cat = subjectData.categories?.[form.categoryName];
     if (!cat) return [];
     return (cat.topics || [])
-      .filter((t) =>
-        (t.quizzes || []).some(
-          (q) => Array.isArray(q.questions) && q.questions.length > 0
-        )
-      )
+      .filter((t) => collectTopicQuizzes(t).length > 0)
       .map((t) => t.title || t.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectData, form.categoryName]);
 
   const quizOptions = useMemo(() => {
@@ -279,17 +302,17 @@ export default function CollabView() {
     const targetTopics = form.topicTitle ? topics.filter(matchTopic) : topics;
     const out = [];
     for (const t of targetTopics) {
-      for (const q of t.quizzes || []) {
-        if (!Array.isArray(q.questions) || q.questions.length === 0) continue;
+      for (const q of collectTopicQuizzes(t)) {
         out.push({
-          id: q.quizId || q.id,
-          title: q.title || q.quizId || 'Untitled Quiz',
+          id: q.id,
+          title: q.title,
           topic: t.title || t.id,
-          count: q.questions.length,
+          count: q.count,
         });
       }
     }
     return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectData, form.categoryName, form.topicTitle]);
 
   const handleCreate = async (e) => {

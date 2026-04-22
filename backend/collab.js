@@ -197,12 +197,68 @@ async function getQuizById(quizId, allQuizzesGetter) {
     const all =
       typeof allQuizzesGetter === 'function' ? allQuizzesGetter() : null;
     if (!all) return null;
-    // ALL_QUIZZES is { subject: { quizId: { title, questions } } } or flat — try both.
-    if (all[quizId]) return { id: quizId, ...all[quizId] };
+    // Legacy flat shapes: { quizId: {...} } or { subject: { quizId: {...} } }
+    if (all[quizId] && Array.isArray(all[quizId].questions)) {
+      return { id: quizId, ...all[quizId] };
+    }
     for (const subjectKey of Object.keys(all)) {
       const subj = all[subjectKey];
-      if (subj && typeof subj === 'object' && subj[quizId]) {
+      if (!subj || typeof subj !== 'object') continue;
+      if (subj[quizId] && Array.isArray(subj[quizId].questions)) {
         return { id: quizId, subject: subjectKey, ...subj[quizId] };
+      }
+      // Nested catalog shape: subj.categories[catName].topics[].quizzes[]
+      const cats = subj.categories || {};
+      for (const catName of Object.keys(cats)) {
+        const cat = cats[catName];
+        const topics = (cat && cat.topics) || [];
+        for (const topic of topics) {
+          if (Array.isArray(topic.quizzes)) {
+            for (const q of topic.quizzes) {
+              if (
+                q &&
+                (q.quizId === quizId || q.id === quizId) &&
+                Array.isArray(q.questions)
+              ) {
+                return {
+                  id: quizId,
+                  subject: subjectKey,
+                  title: q.title || quizId,
+                  questions: q.questions,
+                };
+              }
+            }
+          }
+          // Topic itself may be a "quiz" (legacy: topic.questions, no quizzes array)
+          if (
+            (topic.id === quizId || topic.title === quizId) &&
+            Array.isArray(topic.questions) &&
+            topic.questions.length > 0
+          ) {
+            return {
+              id: quizId,
+              subject: subjectKey,
+              title: topic.title || quizId,
+              questions: topic.questions,
+            };
+          }
+        }
+        if (Array.isArray(cat && cat.quizzes)) {
+          for (const q of cat.quizzes) {
+            if (
+              q &&
+              (q.quizId === quizId || q.id === quizId) &&
+              Array.isArray(q.questions)
+            ) {
+              return {
+                id: quizId,
+                subject: subjectKey,
+                title: q.title || quizId,
+                questions: q.questions,
+              };
+            }
+          }
+        }
       }
     }
   } catch (_) {}
