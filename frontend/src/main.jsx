@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LegacyRootApp from './legacy/LegacyRootApp.jsx';
+import CollabView from './views/CollabView.jsx';
+import CollabSessionView from './views/CollabSessionView.jsx';
 import '../style.css';
 
 async function bootstrap() {
@@ -12,7 +15,13 @@ async function bootstrap() {
 
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-      <LegacyRootApp />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/collab" element={<CollabView />} />
+          <Route path="/collab/:roomCode" element={<CollabSessionView />} />
+          <Route path="*" element={<LegacyRootApp />} />
+        </Routes>
+      </BrowserRouter>
     </React.StrictMode>
   );
 }
