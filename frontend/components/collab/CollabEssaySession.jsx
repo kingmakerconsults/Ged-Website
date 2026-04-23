@@ -2,6 +2,7 @@
 // Solid-light styling (no dark: variants) so contrast is reliable when
 // rendered outside the legacy app's theme provider.
 import React, { useEffect, useRef, useState } from 'react';
+import { getEssayPassagesForTopic } from '../../src/data/essayPassages.js';
 
 export default function CollabEssaySession({ roomState, currentUserId, emit }) {
   const state = roomState.state || {};
@@ -44,17 +45,15 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
     (p) => p.userId === state.essayTurn
   );
 
-  // Embed the existing Essay Practice Tool with the topic preselected.
-  // The legacy app reads ?essayTopic=<title> on mount and opens the tool,
-  // so the iframe shows the actual passages, prompt, and reading helpers.
-  const essayToolHref = topic
-    ? `/?essayTopic=${encodeURIComponent(topic)}`
-    : '/';
+  // Inline reading passages for the current essay topic. The legacy Essay
+  // Practice Tool rendered these in a modal; here we show them directly so
+  // collab users don't need a second browser window.
+  const passages = getEssayPassagesForTopic(topic);
 
   return (
     <div className="max-w-7xl mx-auto px-2">
       <div className="flex flex-col lg:flex-row gap-4">
-        {/* LEFT: passages from the existing Essay Practice Tool, embedded */}
+        {/* LEFT: raw passages inline (no iframe). */}
         {showPassages && (
           <div className="flex-1 min-w-0 rounded-lg border border-slate-200 bg-white shadow overflow-hidden">
             <div className="flex items-center justify-between px-3 py-2 bg-slate-50 border-b border-slate-200">
@@ -62,14 +61,6 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
                 📖 Reading Passages
               </div>
               <div className="flex items-center gap-2">
-                <a
-                  href={essayToolHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-indigo-700 hover:text-indigo-900 underline"
-                >
-                  Open in new tab ↗
-                </a>
                 <button
                   type="button"
                   onClick={() => setShowPassages(false)}
@@ -80,12 +71,73 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
                 </button>
               </div>
             </div>
-            <iframe
-              src={essayToolHref}
-              title="Essay Practice Tool — Passages"
-              className="w-full"
-              style={{ height: '720px', border: '0' }}
-            />
+            <div
+              className="px-5 py-4 overflow-y-auto text-slate-900"
+              style={{ maxHeight: '720px' }}
+            >
+              {passages ? (
+                <>
+                  {topic && (
+                    <div className="mb-4 pb-3 border-b border-slate-200">
+                      <div className="text-[11px] uppercase tracking-wider text-slate-500">
+                        Topic
+                      </div>
+                      <div className="text-base font-bold text-slate-900">
+                        {topic}
+                      </div>
+                    </div>
+                  )}
+                  <article className="mb-6">
+                    <h3 className="text-sm font-bold text-indigo-800 mb-1">
+                      Passage A
+                    </h3>
+                    <div className="text-xs italic text-slate-600 mb-2">
+                      {passages.passage1.title}
+                    </div>
+                    <div
+                      className="collab-essay-passage text-[15px] leading-relaxed text-slate-800 space-y-3"
+                      dangerouslySetInnerHTML={{
+                        __html: passages.passage1.content,
+                      }}
+                    />
+                  </article>
+                  <article>
+                    <h3 className="text-sm font-bold text-indigo-800 mb-1">
+                      Passage B
+                    </h3>
+                    <div className="text-xs italic text-slate-600 mb-2">
+                      {passages.passage2.title}
+                    </div>
+                    <div
+                      className="collab-essay-passage text-[15px] leading-relaxed text-slate-800 space-y-3"
+                      dangerouslySetInnerHTML={{
+                        __html: passages.passage2.content,
+                      }}
+                    />
+                  </article>
+                  <style>{`
+                    .collab-essay-passage p { margin: 0 0 0.85rem 0; }
+                    .collab-essay-passage p:last-child { margin-bottom: 0; }
+                    .collab-essay-passage .good-evidence {
+                      background-color: #dcfce7;
+                      border-bottom: 2px solid #16a34a;
+                      padding: 0 2px;
+                    }
+                    .collab-essay-passage .bad-evidence {
+                      background-color: #fee2e2;
+                      border-bottom: 2px solid #dc2626;
+                      padding: 0 2px;
+                    }
+                  `}</style>
+                </>
+              ) : (
+                <div className="text-sm text-slate-600">
+                  {topic
+                    ? `No stored passages found for "${topic}". Use the prompt on the right to begin writing.`
+                    : 'No topic selected yet.'}
+                </div>
+              )}
+            </div>
           </div>
         )}
 

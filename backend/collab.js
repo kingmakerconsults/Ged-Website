@@ -296,9 +296,7 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
         let curriculumItem = null;
         if (curriculumItemId) {
           if (!isInstructorRole(user.role)) {
-            return res
-              .status(403)
-              .json({ error: 'Instructor role required' });
+            return res.status(403).json({ error: 'Instructor role required' });
           }
           curriculumItem = await db.oneOrNone(
             `SELECT ci.*, c.teacher_id, c.organization_id AS class_org_id
@@ -308,16 +306,13 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
             [Number(curriculumItemId)]
           );
           if (!curriculumItem) {
-            return res
-              .status(404)
-              .json({ error: 'Curriculum item not found' });
+            return res.status(404).json({ error: 'Curriculum item not found' });
           }
           const isOwner = Number(curriculumItem.teacher_id) === Number(user.id);
-          const isSuper = String(user.role || '').toLowerCase() === 'super_admin';
+          const isSuper =
+            String(user.role || '').toLowerCase() === 'super_admin';
           if (!isOwner && !isSuper) {
-            return res
-              .status(403)
-              .json({ error: 'You do not own this class' });
+            return res.status(403).json({ error: 'You do not own this class' });
           }
           sessionType = 'instructor_led';
           classId = curriculumItem.class_id;
@@ -675,8 +670,7 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
     const isOrgAdmin =
       ['org_admin', 'orgadmin', 'admin'].includes(
         String(user.role || '').toLowerCase()
-      ) &&
-      Number(cls.organization_id) === Number(user.organization_id || -1);
+      ) && Number(cls.organization_id) === Number(user.organization_id || -1);
     if (!isOwner && !isSuper && !isOrgAdmin) return { error: 403 };
     return { cls };
   }
@@ -758,7 +752,11 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
           );
           if (r.rowCount > 0) added += 1;
         }
-        return res.json({ added, requested: userIds.length, valid: valid.length });
+        return res.json({
+          added,
+          requested: userIds.length,
+          valid: valid.length,
+        });
       } catch (err) {
         console.error('[collab] add members error:', err);
         return res.status(500).json({ error: 'Failed to add members' });
@@ -835,9 +833,7 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
             [cls.id]
           )
           .catch(() => []);
-        const covMap = new Map(
-          coverage.map((c) => [c.curriculum_item_id, c])
-        );
+        const covMap = new Map(coverage.map((c) => [c.curriculum_item_id, c]));
         // Expose any active live session per item so the student UI can
         // show "in progress now" markers.
         const liveSessions = await db
@@ -900,14 +896,8 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
           user
         );
         if (error) return res.status(error).json({ error: 'Forbidden' });
-        const {
-          subject,
-          categoryName,
-          topicId,
-          quizId,
-          title,
-          plannedDate,
-        } = req.body || {};
+        const { subject, categoryName, topicId, quizId, title, plannedDate } =
+          req.body || {};
         if (!title || !String(title).trim()) {
           return res.status(400).json({ error: 'title required' });
         }

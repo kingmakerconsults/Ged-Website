@@ -129,7 +129,9 @@ export default function QuizPicker({
     }
     if (Array.isArray(cat.quizzes)) {
       return cat.quizzes
-        .filter((q) => q && Array.isArray(q.questions) && q.questions.length > 0)
+        .filter(
+          (q) => q && Array.isArray(q.questions) && q.questions.length > 0
+        )
         .map((q) => ({
           id: q.quizId || q.id,
           title: q.title || q.quizId,
@@ -196,9 +198,7 @@ export default function QuizPicker({
           <select
             className={inputCls}
             value={value?.topicTitle || ''}
-            onChange={(e) =>
-              set({ topicTitle: e.target.value, quizId: '' })
-            }
+            onChange={(e) => set({ topicTitle: e.target.value, quizId: '' })}
           >
             <option value="">Choose topic…</option>
             {topicOptions.map((t) => (

@@ -15,8 +15,7 @@ export default function useClassPresence({ enabled = true } = {}) {
     if (!enabled) return undefined;
     const token =
       (typeof window !== 'undefined' &&
-        (localStorage.getItem('token') ||
-          localStorage.getItem('appToken'))) ||
+        (localStorage.getItem('token') || localStorage.getItem('appToken'))) ||
       null;
     if (!token) return undefined;
 
@@ -78,10 +77,7 @@ export default function useClassPresence({ enabled = true } = {}) {
       const cur = s[classId];
       if (cur) {
         try {
-          sessionStorage.setItem(
-            `nowTeachingDismissed:${cur.sessionId}`,
-            '1'
-          );
+          sessionStorage.setItem(`nowTeachingDismissed:${cur.sessionId}`, '1');
         } catch (_) {}
       }
       const next = { ...s };

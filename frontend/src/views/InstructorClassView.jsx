@@ -179,10 +179,10 @@ function CurriculumTab({ classId, items, onChange, navigate, apiBase }) {
 
   const remove = async (itemId) => {
     if (!window.confirm('Remove this item from the curriculum?')) return;
-    await fetch(
-      `${apiBase}/api/classes/${classId}/curriculum/${itemId}`,
-      { method: 'DELETE', headers: authHeaders() }
-    );
+    await fetch(`${apiBase}/api/classes/${classId}/curriculum/${itemId}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
     onChange();
   };
 
