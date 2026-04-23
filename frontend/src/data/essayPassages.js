@@ -63,7 +63,8 @@ const PASSAGES = [
     },
   },
   {
-    topic: 'Is a Four-Year College Degree the Best Path to a Successful Career?',
+    topic:
+      'Is a Four-Year College Degree the Best Path to a Successful Career?',
     passage1: {
       title: 'Dr. Anya Sharma, Education Policy Analyst (Weaker Argument)',
       content:
@@ -89,7 +90,8 @@ const PASSAGES = [
     },
   },
   {
-    topic: 'Should Fast-Food Restaurants Be Required to Display Calorie Counts?',
+    topic:
+      'Should Fast-Food Restaurants Be Required to Display Calorie Counts?',
     passage1: {
       title: 'Center for Public Health (Stronger Argument)',
       content:
@@ -102,7 +104,8 @@ const PASSAGES = [
     },
   },
   {
-    topic: 'Should National Parks Implement a Lottery System to Manage Overcrowding?',
+    topic:
+      'Should National Parks Implement a Lottery System to Manage Overcrowding?',
     passage1: {
       title: 'Dr. David Chen, Conservation Biologist (Stronger Argument)',
       content:
@@ -115,20 +118,23 @@ const PASSAGES = [
     },
   },
   {
-    topic: 'Should Standardized Test Scores Be a Primary Factor in College Admissions?',
+    topic:
+      'Should Standardized Test Scores Be a Primary Factor in College Admissions?',
     passage1: {
       title: 'Dr. Richard Evans, Admissions Counselor (Stronger Argument)',
       content:
         "<p>Relying heavily on standardized test scores like the SAT and ACT in college admissions is an outdated and inequitable practice. These tests are not a pure measure of merit; they are strongly correlated with a student's family income and access to resources. Students from affluent families can afford expensive test prep courses, giving them an unfair advantage.</p><p><span class='good-evidence'>A landmark study of over 123,000 students at 33 test-optional colleges found that there was virtually no difference in college GPA or graduation rates between students who submitted scores and those who did not.</span> This proves that high school grades are a far better predictor of college success. A student's performance over four years is a much more holistic and accurate measure of their ability and work ethic.</p><p>By moving to a test-optional system, colleges can assess applicants more equitably, considering their academic record, essays, and activities. This allows them to build a more diverse and capable student body, rewarding long-term diligence over the ability to perform well on a single, high-stakes exam.</p>",
     },
     passage2: {
-      title: 'Dr. Susan Gerson, Education Measurement Specialist (Weaker Argument)',
+      title:
+        'Dr. Susan Gerson, Education Measurement Specialist (Weaker Argument)',
       content:
         "<p>While standardized tests are not perfect, they are the most objective and reliable tool we have for comparing students from tens of thousands of different high schools. Grade inflation is rampant, and an 'A' in one school is not equivalent to an 'A' in another. The SAT and ACT provide a common yardstick to measure core academic skills.</p><p><span class='bad-evidence'>Without tests, admissions would just become a subjective guessing game about who wrote the prettiest essay.</span> It would be chaos. These tests can help identify promising students from less well-known high schools whose grades might otherwise be overlooked. To ignore test scores is to ignore a valuable piece of data.</p><p>Rather than eliminating these tests, we should focus on ensuring all students have access to free, high-quality test preparation resources. Fixing the access problem is a better solution than throwing away our only objective measurement tool.</p>",
     },
   },
   {
-    topic: 'Is a Remote Work Model More Beneficial Than a Traditional In-Office Model?',
+    topic:
+      'Is a Remote Work Model More Beneficial Than a Traditional In-Office Model?',
     passage1: {
       title: 'Jennifer Lee, Chief Financial Officer (Stronger Argument)',
       content:
@@ -258,7 +264,8 @@ const PASSAGES = [
     },
   },
   {
-    topic: 'Should High Schools Require a Financial Literacy Course for Graduation?',
+    topic:
+      'Should High Schools Require a Financial Literacy Course for Graduation?',
     passage1: {
       title: 'Council on Economic Education (Stronger Argument)',
       content:

@@ -71,10 +71,7 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
                 </button>
               </div>
             </div>
-            <div
-              className="px-5 py-4 overflow-y-auto text-slate-900"
-              style={{ maxHeight: '720px' }}
-            >
+            <div className="px-5 py-4 text-slate-900">
               {passages ? (
                 <>
                   {topic && (
