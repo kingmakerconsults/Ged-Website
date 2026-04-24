@@ -1130,7 +1130,12 @@ const {
 const API_BASE = API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45000;
 
-async function generateTopicQuiz(subjectParam, topic, difficulty, options = {}) {
+async function generateTopicQuiz(
+  subjectParam,
+  topic,
+  difficulty,
+  options = {}
+) {
   const body = { topic, difficulty };
   if (typeof options.includeImages === 'boolean') {
     body.includeImages = options.includeImages;
@@ -35344,9 +35349,7 @@ function StartScreen({
                         type="checkbox"
                         className="mt-1 h-4 w-4 rounded"
                         checked={aiIncludeImages}
-                        onChange={(e) =>
-                          setAiIncludeImages(e.target.checked)
-                        }
+                        onChange={(e) => setAiIncludeImages(e.target.checked)}
                       />
                       <span>
                         Include image-based questions (charts, maps, political
@@ -43225,9 +43228,14 @@ function AIQuizGenerator({
     setError(null);
 
     try {
-      const questions = await generateTopicQuiz(subjectParam, selectedTopic, undefined, {
-        includeImages: supportsImageQuestions ? includeImages : false,
-      });
+      const questions = await generateTopicQuiz(
+        subjectParam,
+        selectedTopic,
+        undefined,
+        {
+          includeImages: supportsImageQuestions ? includeImages : false,
+        }
+      );
 
       if (!questions.length) {
         throw new Error('The quiz service returned an empty quiz.');
