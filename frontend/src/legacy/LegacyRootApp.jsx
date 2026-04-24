@@ -28302,7 +28302,8 @@ function App({ externalTheme, onThemeChange }) {
               subject,
               topic,
               setIsLoading,
-              setLoadingMessage
+              setLoadingMessage,
+              options = {}
             ) => {
               if (!topic) {
                 alert('Please select a topic first.');
@@ -28319,7 +28320,17 @@ function App({ externalTheme, onThemeChange }) {
               setIsLoading(true);
 
               try {
-                const questions = await generateTopicQuiz(subjectParam, topic);
+                const questions = await generateTopicQuiz(
+                  subjectParam,
+                  topic,
+                  undefined,
+                  {
+                    includeImages:
+                      typeof options.includeImages === 'boolean'
+                        ? options.includeImages
+                        : undefined,
+                  }
+                );
 
                 if (!questions.length) {
                   throw new Error('The quiz service returned an empty quiz.');
@@ -32444,6 +32455,9 @@ function StartScreen({
   onBack,
 }) {
   const [aiQuizTopic, setAiQuizTopic] = useState('');
+  // Image-based questions are only available for Science / Social Studies.
+  // Default ON so users get the richer experience without an extra click.
+  const [aiIncludeImages, setAiIncludeImages] = useState(true);
   const [detailedViewSubject, setDetailedViewSubject] = useState(null);
 
   // Back button handler to return to dashboard from progress view
@@ -35320,6 +35334,26 @@ function StartScreen({
                       )}
                     </select>
                   </div>
+                  {(selectedSubject === 'Science' ||
+                    selectedSubject === 'Social Studies') && (
+                    <label
+                      className="mt-3 flex items-start gap-2 text-left text-sm"
+                      style={heroMutedTextStyle}
+                    >
+                      <input
+                        type="checkbox"
+                        className="mt-1 h-4 w-4 rounded"
+                        checked={aiIncludeImages}
+                        onChange={(e) =>
+                          setAiIncludeImages(e.target.checked)
+                        }
+                      />
+                      <span>
+                        Include image-based questions (charts, maps, political
+                        cartoons, diagrams).
+                      </span>
+                    </label>
+                  )}
                 </div>
                 <button
                   onClick={() =>
@@ -35327,7 +35361,14 @@ function StartScreen({
                       selectedSubject,
                       aiQuizTopic,
                       setIsLoading,
-                      setLoadingMessage
+                      setLoadingMessage,
+                      {
+                        includeImages:
+                          selectedSubject === 'Science' ||
+                          selectedSubject === 'Social Studies'
+                            ? aiIncludeImages
+                            : false,
+                      }
                     )
                   }
                   disabled={!aiQuizTopic}
