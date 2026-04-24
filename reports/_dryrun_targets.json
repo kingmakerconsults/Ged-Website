@@ -1,0 +1,34 @@
+{
+  "priorityQueue": [
+    {
+      "subject": "Social Studies",
+      "fileName": "monroe_doctrine_0005.jpg",
+      "filePath": "/images/Social%20Studies/monroe_doctrine_0005.jpg",
+      "category": "political-cartoons"
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "american_civil_war_0007.png",
+      "filePath": "/images/Social%20Studies/american_civil_war_0007.png",
+      "category": "historical-maps"
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "a_map_of_the_triangular_trade_routes_0001.jpg",
+      "filePath": "/images/Social%20Studies/a_map_of_the_triangular_trade_routes_0001.jpg",
+      "category": "historical-maps"
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "american_school_join_or_die_drawing_considers_th_0001.jpg",
+      "filePath": "/images/Social%20Studies/american_school_join_or_die_drawing_considers_th_0001.jpg",
+      "category": "historical-cartoons"
+    },
+    {
+      "subject": "Science",
+      "fileName": "ged_scince_fig_12_0001.png",
+      "filePath": "/images/Science/ged_scince_fig_12_0001.png",
+      "category": "labor statistics charts"
+    }
+  ]
+}

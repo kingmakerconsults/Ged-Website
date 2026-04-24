@@ -1,0 +1,183 @@
+{
+  "generatedAt": "2026-04-23T22:15:06.310Z",
+  "summary": {
+    "total": 5,
+    "matches": 0,
+    "minor": 1,
+    "major": 4,
+    "topicMismatch": 0,
+    "errors": 0
+  },
+  "results": [
+    {
+      "subject": "Science",
+      "fileName": "ged_scince_fig_12_0001.png",
+      "verdict": "minor-issues",
+      "confidence": 0.95,
+      "issues": [
+        {
+          "type": "wrong-detail",
+          "field": "subject",
+          "detail": "The subject 'Science' is too broad; 'Social Studies' or 'Demographics' would be more precise given the content of labor statistics and social trends, especially in a GED context."
+        },
+        {
+          "type": "wrong-detail",
+          "field": "altText",
+          "detail": "The phrase 'and husbands' is incorrectly generalized to all three charts; the bottom-left chart's title does not include this condition for 'women who work'."
+        }
+      ],
+      "missingElements": [],
+      "summary": "The metadata is mostly accurate but includes a less precise subject classification and a minor overgeneralization in the altText."
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "a_map_of_the_triangular_trade_routes_0001.jpg",
+      "verdict": "major-issues",
+      "confidence": 1,
+      "issues": [
+        {
+          "type": "missing-key-element",
+          "field": "extractedText",
+          "detail": "The 'extractedText' field is empty, but the image contains numerous prominent text elements, including the map's main title, legend titles, pie chart title, copyright information, continent/ocean names, country/region names, city/port names, and cultural group labels."
+        },
+        {
+          "type": "ungrounded-inference",
+          "field": "keywords",
+          "detail": "The keyword 'human trafficking' is a modern term for slavery; while conceptually related, it is not explicitly labeled or directly implied by any text or visual element on this historical map."
+        }
+      ],
+      "missingElements": [
+        "Map title 'AFRICAN SLAVE TRADE, 1500-1870'",
+        "Legend title 'AREAS OF NATIONAL DOMINATION'",
+        "Pie chart title 'ORIGIN OF AFRICANS IN NORTH AMERICA'",
+        "Copyright notice 'Copyright © 2003 by Pearson Education, Inc.'",
+        "Continent and ocean names (e.g., North America, Atlantic Ocean, Africa, Europe)",
+        "Major colonial region names (e.g., British North America, Spanish Main, Brazil)",
+        "Key city and port names (e.g., London, New York, Elmina Castle, Rio de Janeiro)",
+        "African culture area names (e.g., Mandinka, Yoruba, Kongo)",
+        "Pie chart segment labels and percentages (e.g., Angola 37%, Bight of Benin 23%)",
+        "Legend items (e.g., British, Portuguese, Slave trade route)"
+      ],
+      "summary": "The metadata has major issues due to the complete absence of extracted text despite significant visible text on the map, along with one ungrounded keyword."
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "american_civil_war_0007.png",
+      "verdict": "major-issues",
+      "confidence": 0.9,
+      "issues": [
+        {
+          "type": "wrong-detail",
+          "field": "detailedDescription",
+          "detail": "The description incorrectly infers the meaning of the dates as 'admission to the Union or a key historical event related to its status.' Many dates on the map (e.g., California 1821, Hawaii 1819, Texas 1865) do not correspond to state admission or typical territorial acquisition dates, and the map provides no legend to confirm the meaning of the dates."
+        },
+        {
+          "type": "missing-key-element",
+          "field": "extractedText",
+          "detail": "The 'extractedText' field is empty, but the image prominently displays numerous dates (e.g., 1777, 1783, 1821, 1865, 1867, 1900) that should be extracted."
+        },
+        {
+          "type": "wrong-detail",
+          "field": "keywords",
+          "detail": "The keywords 'statehood' and 'admission dates' incorrectly assume the meaning of the dates shown on the map, which is not visibly supported and appears inaccurate for many regions."
+        },
+        {
+          "type": "ungrounded-directive",
+          "field": "questionSeeds",
+          "detail": "The question seed 'Compare the dates of state/territory acquisition in the eastern and western US.' makes an ungrounded assumption about the meaning of the dates, as the map does not provide a legend or context to confirm these are 'acquisition' dates."
+        },
+        {
+          "type": "ungrounded-directive",
+          "field": "usageDirectives",
+          "detail": "The usage directives 'statehood, territorial development' are ungrounded as they imply the image specifically supports questions on these topics based on the dates, but the actual meaning of the dates is ambiguous and not visibly confirmed by the map."
+        }
+      ],
+      "missingElements": [
+        "Map legend or title explaining the meaning of the dates",
+        "Specific dates displayed on the map (e.g., 1777, 1865, 1821, 1867, 1900)"
+      ],
+      "summary": "The metadata has major issues due to incorrect inferences about the meaning of the dates on the map and a critical omission of extracted text."
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "american_school_join_or_die_drawing_considers_th_0001.jpg",
+      "verdict": "major-issues",
+      "confidence": 0.9,
+      "issues": [
+        {
+          "type": "wrong-detail",
+          "field": "extractedText",
+          "detail": "The 'extractedText' field is empty, but the image clearly contains the phrase 'JOIN, or DIE.' and several abbreviations (S.C., N.C., V., M., P., N.J., N.Y., N.E., R)."
+        },
+        {
+          "type": "missing-key-element",
+          "field": "detailedDescription",
+          "detail": "The visible abbreviation 'R' (located above the 'M' segment) is omitted from the description of segments."
+        },
+        {
+          "type": "missing-key-element",
+          "field": "visualElements",
+          "detail": "The visible abbreviation 'R' is not included in the list of colonial abbreviations."
+        },
+        {
+          "type": "invented-detail",
+          "field": "detailedDescription",
+          "detail": "The author 'Benjamin Franklin', the date '1754', and the specific purpose 'to encourage colonial unity' are not visibly supported by information within the image itself."
+        },
+        {
+          "type": "invented-detail",
+          "field": "detailedDescription",
+          "detail": "The assertion that each segment 'representing a British American colony or region' provides an interpretation that is not visibly present in the image without external knowledge."
+        },
+        {
+          "type": "invented-detail",
+          "field": "keywords",
+          "detail": "Several keywords ('Benjamin Franklin', 'American Revolution', 'French and Indian War', 'American colonies', 'independence', 'colonial history', '18th century') rely on external historical context not visibly supported by the image."
+        },
+        {
+          "type": "ungrounded-directive",
+          "field": "questionSeeds",
+          "detail": "Multiple question seeds ('Explain the historical context...', 'Identify the colonies or regions...', 'Describe how this image contributed...') prompt for information that is not directly visible or answerable from the image alone."
+        },
+        {
+          "type": "ungrounded-directive",
+          "field": "usageDirectives",
+          "detail": "The directive to use for questions on 'causes of the American Revolution' implies information not explicitly available within the image."
+        }
+      ],
+      "missingElements": [
+        "The abbreviation 'R'"
+      ],
+      "summary": "The metadata has significant issues, including an empty 'extractedText' field, omitted visible elements, and numerous invented details about historical context and authorship not present in the image."
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "monroe_doctrine_0005.jpg",
+      "verdict": "major-issues",
+      "confidence": 0.9,
+      "issues": [
+        {
+          "type": "missing-key-element",
+          "field": "extractedText",
+          "detail": "The 'extractedText' field is empty, but the image clearly contains the title 'THE PULL OF THE MONROE MAGNET.', the magazine name 'PUCK' at the top, and 'THE PUCK PRESS' at the bottom left."
+        },
+        {
+          "type": "invented-detail",
+          "field": "visualElements",
+          "detail": "'Honduras' is listed as a visual element, but no figure in the cartoon is visibly labeled 'Honduras'."
+        },
+        {
+          "type": "wrong-detail",
+          "field": "visualElements",
+          "detail": "'Monroe Magnet' is listed as a visual element. While the cartoon's title is 'THE PULL OF THE MONROE MAGNET.', the magnet itself is explicitly labeled 'UNITED STATES' and 'PROTECTORATE', not 'Monroe Magnet'."
+        }
+      ],
+      "missingElements": [
+        "The Pull of the Monroe Magnet (cartoon title)",
+        "Puck (magazine name)",
+        "The Puck Press (publisher credit)"
+      ],
+      "summary": "The metadata contains invented details and significant omissions, particularly in extracted text and visual elements."
+    }
+  ]
+}

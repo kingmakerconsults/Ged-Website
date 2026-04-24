@@ -9200,5 +9200,185 @@
       "file": "backend/data/quizzes/social-studies/ss_ged_ready_multi_select.js",
       "tier": "challenge"
     }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "U.S. History",
+    "topic": {
+      "id": "ss_ged_ready_history_passages_2",
+      "title": "GED Ready: U.S. History Primary Sources II",
+      "description": "GED Ready-style passage set covering the Emancipation Proclamation, Reconstruction, the Gilded Age, Theodore Roosevelt, the WWII home front, Eisenhower's farewell, and the Civil Rights and Voting Rights Acts. Extended primary-source excerpts with inference and evaluation questions.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_history_passages_2.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Economics",
+    "topic": {
+      "id": "ss_ged_ready_economics",
+      "title": "GED Ready: Economics Passages & Data",
+      "description": "GED Ready-style economics set blending short passages (supply and demand, fiscal vs. monetary policy, market structures, taxation, minimum wage trade-offs) with BLS-style data tables on the U.S. labor force, education, and earnings.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_economics.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Geography",
+    "topic": {
+      "id": "ss_ged_ready_geography",
+      "title": "GED Ready: Geography Passages & Data",
+      "description": "GED Ready-style geography set covering migration push/pull factors, climate and settlement, U.S. urbanization data, regional economic specialization, the Dust Bowl, coastal climate adaptation, map scale, and globalization.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_geography.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "U.S. History",
+    "topic": {
+      "id": "ss_ged_ready_visual_sources",
+      "title": "GED Ready: Visual Sources & Political Cartoons",
+      "description": "GED Ready-style image-based questions using historical political cartoons, maps, and infographics — Join or Die, the Anaconda Plan, Puck cartoons of monopolies and the press, the Hitler-Stalin pact, Reconstruction imagery, the Triangular Trade, the Louisiana Purchase, the Civil Rights Act vote map, and federal receipts.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 10 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_visual_sources.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_ged_ready_multi_select_2",
+      "title": "GED Ready: Multi-Select Civic Reasoning II",
+      "description": "Additional GED Ready-style multi-select questions on separation of powers, federalism, voting rights amendments, and historical voting barriers — requiring students to identify all correct answers.",
+      "config": {
+        "totalTime": 600,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 4 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_ged_ready_multi_select_2.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_ged_ready_life_passages",
+      "title": "GED Ready: Life Science Passages & Genetics",
+      "description": "GED Ready-style Life Science passages on cell structure, photosynthesis vs. cellular respiration, ecosystem energy flow, and keystone species, paired with Punnett-square genetics items including a sex-linked colorblindness cross.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 10 }]
+      },
+      "file": "backend/data/quizzes/science/sci_ged_ready_life_passages.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_ged_ready_physical_numeracy",
+      "title": "GED Ready: Physical Science Numeracy",
+      "description": "GED Ready-style Physical Science set: short passages on Newton's laws and energy transformations followed by numeracy items using the GED formula sheet (density, speed, acceleration, force, work, power).",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/science/sci_ged_ready_physical_numeracy.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth & Space Science",
+    "topic": {
+      "id": "sci_ged_ready_earth_passages",
+      "title": "GED Ready: Earth & Space Passages & Charts",
+      "description": "GED Ready-style Earth & Space Science set covering hurricane formation, plate tectonics, the rock cycle, the water cycle, climate-change data, U.S. city climate comparison, the inner planets, and the cause of the seasons.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/science/sci_ged_ready_earth_passages.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_ged_ready_data_charts",
+      "title": "GED Ready: Cross-Domain Data & Charts",
+      "description": "GED Ready-style Scientific Practices set: identifying independent variables and controls, interpreting tables and heating curves, distinguishing correlation from causation, and recognizing predator-prey patterns and how scientific theories are established.",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 8 }]
+      },
+      "file": "backend/data/quizzes/science/sci_ged_ready_data_charts.js",
+      "tier": "challenge"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_ged_ready_multi_select",
+      "title": "GED Ready: Science Multi-Select",
+      "description": "GED Ready-style multi-select questions spanning life, physical, and earth science — antibiotic resistance and natural selection, kinetic energy evidence, climate-change attribution evidence, and processes that require energy from food.",
+      "config": {
+        "totalTime": 600,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 4 }]
+      },
+      "file": "backend/data/quizzes/science/sci_ged_ready_multi_select.js",
+      "tier": "challenge"
+    }
   }
 ]

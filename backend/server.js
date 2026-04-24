@@ -16377,8 +16377,18 @@ app.post('/generate-quiz', async (req, res) => {
           .status(400)
           .json({ error: 'Topic is required for non-comprehensive quizzes.' });
       }
+      // Image-based question opt-in (Science / Social Studies only).
+      // Default: include for Science and Social Studies (preserves prior
+      // behavior); disabled for everything else. Frontend may explicitly pass
+      // includeImages: false to suppress image questions.
+      const imageEligibleSubject =
+        subject === 'Science' || subject === 'Social Studies';
+      const includeImages =
+        typeof req.body?.includeImages === 'boolean'
+          ? req.body.includeImages && imageEligibleSubject
+          : imageEligibleSubject;
       console.log(
-        `Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`
+        `Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic} (includeImages=${includeImages})`
       );
 
       const TOTAL_QUESTIONS = 15;
@@ -16422,8 +16432,11 @@ app.post('/generate-quiz', async (req, res) => {
       } else {
         // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
         console.log(`Generating ${subject} quiz with passage preference.`);
-        const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
-        const numImageSets = 2; // e.g., 2 images with 2 questions each = 4 questions
+        // For RLA we never inject the curated image bank (those images are
+        // Science/Social Studies content). For Science/Social Studies, the
+        // user can opt out via includeImages=false from the Smith-a-Quiz UI.
+        const numImageSets = includeImages ? 2 : 0; // 2 sets × 2 = 4 image qs
+        const numPassageSets = includeImages ? 3 : 4; // backfill with one extra passage when no images
         // Attempt to pick a predefined passage for ~40-60% of items
         const picked = pickPassageFor(subject, { topic });
         if (picked) {

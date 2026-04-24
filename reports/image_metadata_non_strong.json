@@ -1,0 +1,221 @@
+{
+  "generatedAt": "2026-04-24T02:01:06.697Z",
+  "summary": {
+    "totalEntries": 381,
+    "strong": 367,
+    "adequate": 1,
+    "thin": 13,
+    "selectedTiers": [
+      "adequate",
+      "thin"
+    ],
+    "selectedCount": 14
+  },
+  "priorityQueue": [
+    {
+      "subject": "Science",
+      "fileName": "earth_s_magnetic_field_0001.png",
+      "filePath": "/images/Science/earth_s_magnetic_field_0001.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "five_questions_to_help_you_understand_hurricanes_0001.png",
+      "filePath": "/images/Science/five_questions_to_help_you_understand_hurricanes_0001.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "five_questions_to_help_you_understand_hurricanes_0003.png",
+      "filePath": "/images/Science/five_questions_to_help_you_understand_hurricanes_0003.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "ged_scince_fig_8_0001.png",
+      "filePath": "/images/Science/ged_scince_fig_8_0001.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "how_does_nasa_study_hurricanes_nasa_0001.png",
+      "filePath": "/images/Science/how_does_nasa_study_hurricanes_nasa_0001.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "how_does_nasa_study_hurricanes_nasa_0002.png",
+      "filePath": "/images/Science/how_does_nasa_study_hurricanes_nasa_0002.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "human_anatomy_0001.png",
+      "filePath": "/images/Science/human_anatomy_0001.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "measuring_hurricanes_q_a_with_nasa_marshall_s_da_0001.png",
+      "filePath": "/images/Science/measuring_hurricanes_q_a_with_nasa_marshall_s_da_0001.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "measuring_hurricanes_q_a_with_nasa_marshall_s_da_0002.png",
+      "filePath": "/images/Science/measuring_hurricanes_q_a_with_nasa_marshall_s_da_0002.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "measuring_hurricanes_q_a_with_nasa_marshall_s_da_0003.png",
+      "filePath": "/images/Science/measuring_hurricanes_q_a_with_nasa_marshall_s_da_0003.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "unclassified_0008.png",
+      "filePath": "/images/Science/unclassified_0008.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "unclassified_0024.png",
+      "filePath": "/images/Science/unclassified_0024.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Science",
+      "fileName": "unclassified_0025.png",
+      "filePath": "/images/Science/unclassified_0025.png",
+      "currentTier": "thin",
+      "reasons": [
+        "altText<25 (0)",
+        "desc<140 (0)",
+        "visualElements<4 (0)",
+        "keywords<5 (0)",
+        "questionSeeds<3 (0)",
+        "usageDirectives missing"
+      ],
+      "priorityScore": 90
+    },
+    {
+      "subject": "Social Studies",
+      "fileName": "unclassified_0023.png",
+      "filePath": "/images/Social%20Studies/unclassified_0023.png",
+      "currentTier": "adequate",
+      "reasons": [
+        "desc lacks date/named-entity/quoted-label"
+      ],
+      "priorityScore": 40
+    }
+  ]
+}

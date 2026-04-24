@@ -1130,13 +1130,17 @@ const {
 const API_BASE = API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45000;
 
-async function generateTopicQuiz(subjectParam, topic, difficulty) {
+async function generateTopicQuiz(subjectParam, topic, difficulty, options = {}) {
+  const body = { topic, difficulty };
+  if (typeof options.includeImages === 'boolean') {
+    body.includeImages = options.includeImages;
+  }
   const response = await fetch(
     `${API_BASE_URL}/api/topic-based/${encodeURIComponent(subjectParam)}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic, difficulty }),
+      body: JSON.stringify(body),
     }
   );
 
@@ -43124,6 +43128,12 @@ function AIQuizGenerator({
 }) {
   const [selectedTopic, setSelectedTopic] = useState('');
   const [error, setError] = useState(null);
+  // Image-based questions are only meaningful for Science / Social Studies
+  // (those are the subjects with curated image metadata). Default ON so users
+  // get the richer experience without an extra click; they can opt out.
+  const supportsImageQuestions =
+    subject === 'Science' || subject === 'Social Studies';
+  const [includeImages, setIncludeImages] = useState(true);
 
   // Canonical-only list for Smith-a-Quiz dropdown
   const availableTopics = React.useMemo(() => {
@@ -43174,7 +43184,9 @@ function AIQuizGenerator({
     setError(null);
 
     try {
-      const questions = await generateTopicQuiz(subjectParam, selectedTopic);
+      const questions = await generateTopicQuiz(subjectParam, selectedTopic, undefined, {
+        includeImages: supportsImageQuestions ? includeImages : false,
+      });
 
       if (!questions.length) {
         throw new Error('The quiz service returned an empty quiz.');
@@ -43230,6 +43242,21 @@ function AIQuizGenerator({
             </option>
           ))}
         </select>
+
+        {supportsImageQuestions && (
+          <label className="flex items-start gap-2 text-left text-sm text-slate-700 mb-4 px-1">
+            <input
+              type="checkbox"
+              className="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded"
+              checked={includeImages}
+              onChange={(e) => setIncludeImages(e.target.checked)}
+            />
+            <span>
+              Include image-based questions (charts, maps, political cartoons,
+              diagrams). Recommended for {subject}.
+            </span>
+          </label>
+        )}
 
         <button
           onClick={handleGenerate}

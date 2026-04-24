@@ -9,6 +9,15 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
+// Don't crash the long-running batch on a stray rejection (e.g. a stale timeout
+// that fires after Promise.race already settled).
+process.on('unhandledRejection', (reason) => {
+  console.error(
+    'Unhandled rejection (continuing):',
+    reason && reason.message ? reason.message : reason
+  );
+});
+
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
@@ -107,6 +116,59 @@ Field rules:
 If something is missing in the image, leave "" or [].
 Return only the JSON object.`;
 
+const STRONG_PROMPT = `You are labeling images for a GED learning platform.
+You will receive one image at a time.
+The metadata you produce is the ONLY context another AI will see when it writes a quiz question about this image. If your description is vague, the resulting questions will be vague or wrong. Be concrete, specific, and image-grounded.
+
+Return only valid JSON. No markdown, no backticks.
+
+Grounding rules:
+- Describe only what is visibly supported by the image. Never invent dates, names, values, or context that is not shown.
+- Prefer specific named entities, dated events, axis labels, legend categories, region names, and visible numbers over generic words like "chart" or "document".
+- For extractedText: include short visible labels, titles, headers, legend entries, axis labels, captions, speech bubbles, and signage in reading order. Aim for ~250 characters; never quote a full passage or paragraph.
+- If the image contains a passage, article, worksheet, or copyright-sensitive paragraph, summarize it in detailedDescription and set extractedText to "".
+- If you are uncertain about a transcription, omit it rather than guess.
+
+Output exactly this JSON shape:
+{
+  "fileName": "",
+  "subject": "",
+  "category": "",
+  "altText": "",
+  "detailedDescription": "",
+  "extractedText": "",
+  "visualElements": [],
+  "keywords": [],
+  "questionSeeds": [],
+  "allowedActions": [],
+  "forbiddenActions": [],
+  "usageDirectives": ""
+}
+
+Field rules (REQUIRED minimums — outputs that fall short will be rejected):
+- fileName: actual image filename.
+- subject: one of "Math", "Science", "Social Studies", "RLA".
+- category: lowercase hyphenated tag like "political-cartoons", "historical-maps", "bar-graphs", "biology-diagrams", "civics-tables". Use only ONE category.
+- altText: 1 sentence, 60-125 characters, literal and concrete (mention the image type and main subject by name).
+- detailedDescription: 4 to 7 sentences, total length 280-700 characters. Sentence 1 names the image type and primary subject (with date, region, or named entity if visible). Sentence 2 describes the layout or major sections. Remaining sentences must reference concrete visible evidence: labeled parts, legend entries, axis units, specific values or rows, named figures, captions, dates, arrows, or symbols. A reader who has not seen the image must be able to picture what is on it.
+- extractedText: short visible labels in reading order, never a full passage. May be "" only if the image truly has no readable text.
+- visualElements: 8 to 14 concrete noun phrases naming distinct things in the image (e.g., "x-axis labeled 'Year'", "red curve", "caption: 'Join, or Die.'", "Mississippi River", "Uncle Sam figure"). Avoid duplicates.
+- keywords: 10 to 18 terms mixing subject concepts, the visual type, named entities, dates, and important labels. Lowercase preferred.
+- questionSeeds: 5 to 7 short instructions for another AI. EACH seed must reference a specific visible element by name ("Compare the 1860 and 1900 bars for cotton exports", not "Compare the bars"). Avoid generic prompts like "Discuss the topic".
+- allowedActions: 2 to 5 short tags from this set when applicable: "data-interpretation", "label-identification", "trend-analysis", "comparison", "calculation", "primary-source-analysis", "symbolism-analysis", "cause-effect-from-image", "map-region-identification", "diagram-part-identification", "caption-quote-analysis".
+- forbiddenActions: 1 to 3 short tags naming question moves the image cannot support, e.g. "causes-not-shown", "events-after-depicted-date", "unlabeled-region-comparison".
+- usageDirectives: 1 to 2 sentences naming what the image is good for and the most important limit. Reference visible features.
+
+Image-type guidance:
+- Charts/graphs: name chart type, axes with units, legend categories, time range, and at least one specific value or comparison visible.
+- Tables: name headers, row count, units, and at least one notable cell or row.
+- Maps: name the region, year/era, shaded categories, key boundaries or routes, and labeled cities or countries.
+- Diagrams: name labeled parts, arrows, stages, layers, inputs/outputs.
+- Political cartoons / posters / documents: name the publication, date or era if visible, depicted figures by name, captions and speech, and the symbolic devices actually drawn.
+- Photos: name the depicted people/objects, setting, era cues, signage, and any visible captions.
+
+Return only the JSON object.`;
+
 function parseArgs(argv) {
   const out = {
     refresh: argv.includes('--refresh'),
@@ -115,6 +177,7 @@ function parseArgs(argv) {
     fromAudit: null,
     only: null,
     safe: argv.includes('--safe'),
+    strong: argv.includes('--strong'),
   };
 
   const limitIdx = argv.indexOf('--limit');
@@ -349,10 +412,12 @@ async function buildImageListFromAudit(auditPath) {
 }
 
 async function generateMetadataForImage(imagePath) {
+  let timeoutId;
   try {
     const timeoutPromise = new Promise(
-      (_, reject) =>
-        setTimeout(() => reject(new Error('Request timed out')), 60000) // 60 second timeout
+      (_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error('Request timed out')), 60000);
+      }
     );
 
     const imageParts = [await fileToGenerativePart(imagePath)];
@@ -368,14 +433,17 @@ async function generateMetadataForImage(imagePath) {
       `Failed to process ${path.basename(imagePath)}: ${error.message}`
     );
     return null;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
   }
 }
 
 async function generateMetadataForImageWithPrompt(imagePath, prompt) {
+  let timeoutId;
   try {
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Request timed out')), 60000)
-    );
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error('Request timed out')), 60000);
+    });
 
     const imageParts = [await fileToGenerativePart(imagePath)];
     const generationPromise = model.generateContent([prompt, ...imageParts]);
@@ -388,10 +456,23 @@ async function generateMetadataForImageWithPrompt(imagePath, prompt) {
       `Failed to process ${path.basename(imagePath)}: ${error.message}`
     );
     return null;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
   }
 }
 
-function normalizeMetadata(metadata, imagePath) {
+function normalizeCategoryTag(value) {
+  return normalizeTextField(value)
+    .toLowerCase()
+    .replace(/\s*,\s*/g, ' ')
+    .replace(/[^a-z0-9\- ]+/g, ' ')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function normalizeMetadata(metadata, imagePath, opts = {}) {
+  const strong = !!opts.strong;
   const fileName = path.basename(imagePath);
   const subjectMatch = imagePath.match(
     /[\\/](Math|Science|Social Studies|RLA)[\\/]/
@@ -407,17 +488,84 @@ function normalizeMetadata(metadata, imagePath) {
     filePath: `/images/${encodeURIComponent(
       normalizedSubject
     )}/${encodeURIComponent(fileName)}`.replace(/%2F/g, '/'),
-    category: normalizeTextField(metadata.category || ''),
-    altText: truncateText(metadata.altText || '', 125),
-    detailedDescription: truncateText(metadata.detailedDescription || '', 700),
-    extractedText: truncateText(metadata.extractedText || '', 240),
-    visualElements: normalizeStringArray(metadata.visualElements || [], 12),
-    keywords: normalizeStringArray(metadata.keywords || [], 15),
-    questionSeeds: normalizeStringArray(metadata.questionSeeds || [], 5),
-    usageDirectives: truncateText(metadata.usageDirectives || '', 280),
+    category: normalizeCategoryTag(metadata.category || ''),
+    altText: truncateText(metadata.altText || '', 160),
+    detailedDescription: truncateText(
+      metadata.detailedDescription || '',
+      strong ? 1200 : 700
+    ),
+    extractedText: truncateText(
+      metadata.extractedText || '',
+      strong ? 400 : 240
+    ),
+    visualElements: normalizeStringArray(
+      metadata.visualElements || [],
+      strong ? 16 : 12
+    ),
+    keywords: normalizeStringArray(metadata.keywords || [], strong ? 20 : 15),
+    questionSeeds: normalizeStringArray(
+      metadata.questionSeeds || [],
+      strong ? 7 : 5
+    ),
+    usageDirectives: truncateText(metadata.usageDirectives || '', 320),
   };
 
+  if (strong) {
+    normalized.allowedActions = normalizeStringArray(
+      metadata.allowedActions || [],
+      6
+    ).map((s) => s.toLowerCase());
+    normalized.forbiddenActions = normalizeStringArray(
+      metadata.forbiddenActions || [],
+      4
+    ).map((s) => s.toLowerCase());
+  }
+
   return normalized;
+}
+
+// Strong-tier acceptance floors. Used to decide whether to retry the model with
+// a corrective follow-up prompt and to flag entries that should be re-run.
+function strongTierIssues(entry) {
+  const issues = [];
+  const desc = String(entry.detailedDescription || '').trim();
+  const alt = String(entry.altText || '').trim();
+  const ve = Array.isArray(entry.visualElements) ? entry.visualElements : [];
+  const kw = Array.isArray(entry.keywords) ? entry.keywords : [];
+  const qs = Array.isArray(entry.questionSeeds) ? entry.questionSeeds : [];
+  const aa = Array.isArray(entry.allowedActions) ? entry.allowedActions : [];
+  const ud = String(entry.usageDirectives || '').trim();
+
+  if (alt.length < 40)
+    issues.push(`altText too short (${alt.length} chars; need >=40)`);
+  if (desc.length < 280)
+    issues.push(
+      `detailedDescription too short (${desc.length} chars; need >=280)`
+    );
+  if (ve.length < 8)
+    issues.push(`visualElements too few (${ve.length}; need >=8)`);
+  if (kw.length < 10) issues.push(`keywords too few (${kw.length}; need >=10)`);
+  if (qs.length < 5)
+    issues.push(`questionSeeds too few (${qs.length}; need >=5)`);
+  if (aa.length < 2)
+    issues.push(`allowedActions too few (${aa.length}; need >=2)`);
+  if (!ud) issues.push('usageDirectives missing');
+  // Each seed must reference a specific visible element. We approximate that by
+  // requiring more than just a verb + topic word.
+  const vagueSeeds = qs.filter((s) => String(s).trim().split(/\s+/).length < 6);
+  if (vagueSeeds.length > 0)
+    issues.push(`${vagueSeeds.length} questionSeed(s) too short/vague`);
+  // Description should mention at least one specific anchor: a digit, a Proper
+  // Noun phrase, or a quoted label.
+  const hasAnchor =
+    /\d/.test(desc) ||
+    /[A-Z][a-z]+(?:\s+[A-Z][a-z]+)/.test(desc) ||
+    /"[^"]+"|'[^']+'/.test(desc);
+  if (!hasAnchor)
+    issues.push(
+      'detailedDescription lacks a concrete anchor (date, named entity, or quoted label)'
+    );
+  return issues;
 }
 
 async function main() {
@@ -530,23 +678,79 @@ async function main() {
       continue;
     }
 
+    // In --strong mode, skip entries that already meet the strong-tier floors
+    // even when --refresh is set. This makes the long batch resumable: if it
+    // crashes mid-run, we can re-invoke and only the still-non-strong entries
+    // will be re-processed.
+    if (args.strong && metadata[key] && strongTierIssues(metadata[key]).length === 0) {
+      skippedCount++;
+      continue;
+    }
+
     console.log(`Processing ${fileName}...`);
-    const prompt = args.safe ? SAFE_PROMPT : PROMPT;
-    const generatedMetadata = await generateMetadataForImageWithPrompt(
+    const prompt = args.safe
+      ? SAFE_PROMPT
+      : args.strong
+        ? STRONG_PROMPT
+        : PROMPT;
+    let generatedMetadata = await generateMetadataForImageWithPrompt(
       imagePath,
       prompt
     );
 
+    if (generatedMetadata && args.strong) {
+      const tentative = normalizeMetadata(generatedMetadata, imagePath, {
+        strong: true,
+      });
+      const issues = strongTierIssues(tentative);
+      if (issues.length > 0) {
+        console.log(
+          `  Retry: strong-tier floors not met (${issues.join('; ')})`
+        );
+        const retryPrompt = `${STRONG_PROMPT}\n\nYour previous attempt for this image fell short of the strong-tier requirements. Specific problems:\n- ${issues.join('\n- ')}\n\nRegenerate the JSON for THIS image. Add more specific visible evidence (named entities, dates, axis labels, legend categories, quoted captions, specific values). Do not invent details that are not in the image. Return only the JSON object.`;
+        const retry = await generateMetadataForImageWithPrompt(
+          imagePath,
+          retryPrompt
+        );
+        if (retry) generatedMetadata = retry;
+      }
+    }
+
     if (generatedMetadata) {
-      const normalized = normalizeMetadata(generatedMetadata, imagePath);
+      const normalized = normalizeMetadata(generatedMetadata, imagePath, {
+        strong: !!args.strong,
+      });
+      const inputKey = key;
       const outKey = makeKey(normalized.subject, normalized.fileName);
-      const prev = metadata[outKey];
+      // If the model reclassified the subject, force the saved entry to the
+      // folder-derived subject so we don't orphan the original metadata under a
+      // mismatched key. The folder is the source of truth for where the image
+      // actually lives on disk.
+      if (outKey !== inputKey) {
+        console.log(
+          `  Note: model returned subject "${normalized.subject}" but image lives under "${subject}"; keeping folder-derived subject.`
+        );
+        normalized.subject = subject;
+        normalized.filePath = `/images/${encodeURIComponent(
+          subject
+        )}/${encodeURIComponent(normalized.fileName)}`.replace(/%2F/g, '/');
+      }
+      const finalKey = makeKey(normalized.subject, normalized.fileName);
+      const prev = metadata[finalKey];
       // preserve stable fields if present
       if (prev && prev.id) normalized.id = prev.id;
       if (prev && prev.sha1) normalized.sha1 = prev.sha1;
       if (prev && prev.width !== undefined) normalized.width = prev.width;
       if (prev && prev.height !== undefined) normalized.height = prev.height;
-      metadata[outKey] = { ...(prev || {}), ...normalized };
+      metadata[finalKey] = { ...(prev || {}), ...normalized };
+      if (args.strong) {
+        const finalIssues = strongTierIssues(metadata[finalKey]);
+        if (finalIssues.length > 0) {
+          console.log(
+            `  Note: still short of strong floors after retry: ${finalIssues.join('; ')}`
+          );
+        }
+      }
       updatedCount++;
     } else {
       failedCount++;
@@ -557,6 +761,25 @@ async function main() {
       const outKey = makeKey(base.subject, base.fileName);
       const prev = metadata[outKey];
       metadata[outKey] = { ...(prev || {}), ...base };
+    }
+
+    // Incremental save every 5 processed images so a mid-batch crash doesn't
+    // discard hours of work.
+    if ((updatedCount + failedCount) % 5 === 0) {
+      try {
+        const arr = Object.values(metadata).sort((a, b) => {
+          const sa = String(a.subject || '').toLowerCase();
+          const sb = String(b.subject || '').toLowerCase();
+          if (sa < sb) return -1;
+          if (sa > sb) return 1;
+          return String(a.fileName || '')
+            .toLowerCase()
+            .localeCompare(String(b.fileName || '').toLowerCase());
+        });
+        await fs.writeFile(METADATA_FILE, JSON.stringify(arr, null, 2));
+      } catch (e) {
+        console.error('  (incremental save failed:', e.message, ')');
+      }
     }
   }
 
