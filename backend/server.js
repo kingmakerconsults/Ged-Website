@@ -43,6 +43,9 @@ const ensureEssayScoresTable = require('./db/initEssayScores');
 const ensureVocabularyAttemptsTable = require('./db/initVocabularyAttempts');
 const ensureQuizSurveysTable = require('./db/initQuizSurveys');
 const ensureQuestionReportsTable = require('./db/initQuestionReports');
+const ensureNotificationsTable = require('./db/initNotifications');
+const ensureAssignmentsTables = require('./db/initAssignments');
+const notify = require('./lib/notify');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
 const ensureActiveExamSessionsTable = require('./db/initActiveExamSessions');
 const ensureUserNameColumns = require('./db/initUserNameColumns');
@@ -5947,6 +5950,12 @@ ensureQuizSurveysTable().catch((e) =>
 );
 ensureQuestionReportsTable().catch((e) =>
   console.error('Question reports table init error:', e)
+);
+ensureNotificationsTable().catch((e) =>
+  console.error('Notifications table init error:', e)
+);
+ensureAssignmentsTables().catch((e) =>
+  console.error('Assignments tables init error:', e)
 );
 if (typeof ensureQuestionBankTable === 'function') {
   ensureQuestionBankTable().catch((e) => {
@@ -19534,9 +19543,41 @@ app.get(
   }
 );
 
+// ---------------------------------------------------------------------------
+// INSTRUCTOR: classes, assignments, curriculum.
+// Backed by the real `classes` / `class_enrollments` / `class_curriculum_items`
+// tables from initCollab.js plus the new `assignments` / `assignment_targets`
+// tables from initAssignments.js. The legacy INSTRUCTOR_ASSIGNMENTS feature
+// flag has been retired \u2014 these are first-class features now.
+// ---------------------------------------------------------------------------
+
+function _instructorRoleAllowsAllOrg(role) {
+  const r = String(role || '').toLowerCase();
+  return (
+    r === 'org_admin' ||
+    r === 'admin' ||
+    r === 'super_admin' ||
+    r === 'superadmin'
+  );
+}
+
+async function _instructorOwnsClass(req, classId) {
+  const orgId = req.user?.organization_id;
+  const instructorId = req.user?.id || req.user?.userId;
+  if (!orgId || !Number.isFinite(classId)) return false;
+  const r = await db.query(
+    `SELECT teacher_id, organization_id FROM classes WHERE id=$1`,
+    [classId]
+  );
+  if (r.rowCount === 0) return false;
+  const row = r.rows[0];
+  if (row.organization_id !== orgId) return false;
+  if (_instructorRoleAllowsAllOrg(req.user?.role)) return true;
+  return row.teacher_id === instructorId;
+}
+
 app.get(
   '/api/instructor/classes',
-  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
   logAdminAccess,
   requireAuth,
   requireInstructorOrOrgAdminOrSuper,
@@ -19546,14 +19587,15 @@ app.get(
       const instructorId = req.user.id || req.user.userId;
       if (!orgId)
         return res.status(400).json({ error: 'No organization scope' });
+      const allOrg = _instructorRoleAllowsAllOrg(req.user?.role);
       const { rows } = await db.query(
-        `SELECT c.id, c.name, c.description, c.created_at, c.archived_at,
-                (SELECT COUNT(*) FROM instructor_class_members m WHERE m.class_id = c.id) AS member_count
-           FROM instructor_classes c
+        `SELECT c.id, c.name, c.color, c.is_active, c.join_code, c.created_at,
+                (SELECT COUNT(*) FROM class_enrollments e WHERE e.class_id = c.id) AS member_count
+           FROM classes c
           WHERE c.organization_id = $1
-            AND (c.instructor_id = $2 OR LOWER($3) IN ('org_admin','super_admin'))
+            AND ($2::bool OR c.teacher_id = $3)
           ORDER BY c.created_at DESC`,
-        [orgId, instructorId, String(req.user.role || '')]
+        [orgId, allOrg, instructorId]
       );
       return res.json({ classes: rows });
     } catch (err) {
@@ -19565,7 +19607,6 @@ app.get(
 
 app.post(
   '/api/instructor/classes',
-  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
   logAdminAccess,
   requireAuth,
   requireInstructorOrOrgAdminOrSuper,
@@ -19576,18 +19617,17 @@ app.post(
       const name = String(req.body?.name || '')
         .trim()
         .slice(0, 255);
-      const description =
-        req.body?.description == null
-          ? null
-          : String(req.body.description).slice(0, 4000);
+      const color = req.body?.color
+        ? String(req.body.color).slice(0, 32)
+        : null;
       if (!orgId || !instructorId)
         return res.status(400).json({ error: 'invalid_request' });
       if (!name) return res.status(400).json({ error: 'name_required' });
       const r = await db.query(
-        `INSERT INTO instructor_classes (organization_id, instructor_id, name, description)
+        `INSERT INTO classes (organization_id, teacher_id, name, color)
          VALUES ($1, $2, $3, $4)
-         RETURNING id, name, description, created_at`,
-        [orgId, instructorId, name, description]
+         RETURNING id, name, color, is_active, created_at`,
+        [orgId, instructorId, name, color]
       );
       await _audit({
         db,
@@ -19604,9 +19644,288 @@ app.post(
   }
 );
 
+// Roster of a single class
+app.get(
+  '/api/instructor/classes/:classId/roster',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { rows } = await db.query(
+        `SELECT u.id, u.name, u.email, e.enrolled_at
+           FROM class_enrollments e
+           JOIN users u ON u.id = e.user_id
+          WHERE e.class_id = $1
+          ORDER BY u.name NULLS LAST, u.email`,
+        [classId]
+      );
+      return res.json({ members: rows });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/roster] failed:', err);
+      return res.status(500).json({ error: 'Unable to load roster' });
+    }
+  }
+);
+
+app.post(
+  '/api/instructor/classes/:classId/roster',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const userIds = Array.isArray(req.body?.userIds) ? req.body.userIds : [];
+      const orgId = req.user.organization_id;
+      let added = 0;
+      for (const raw of userIds) {
+        const uid = parseInt(raw, 10);
+        if (!Number.isFinite(uid)) continue;
+        // org isolation
+        const own = await db.query(
+          'SELECT 1 FROM users WHERE id=$1 AND organization_id=$2',
+          [uid, orgId]
+        );
+        if (own.rowCount === 0) continue;
+        const r = await db.query(
+          `INSERT INTO class_enrollments (class_id, user_id)
+           VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+          [classId, uid]
+        );
+        added += r.rowCount || 0;
+      }
+      return res.json({ added });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/roster POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to update roster' });
+    }
+  }
+);
+
+app.delete(
+  '/api/instructor/classes/:classId/roster/:userId',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      const uid = parseInt(req.params.userId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      await db.query(
+        `DELETE FROM class_enrollments WHERE class_id=$1 AND user_id=$2`,
+        [classId, uid]
+      );
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/roster DELETE] failed:', err);
+      return res.status(500).json({ error: 'Unable to remove enrollment' });
+    }
+  }
+);
+
+// ---------- Curriculum CRUD ----------
+app.get(
+  '/api/instructor/classes/:classId/curriculum',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { rows } = await db.query(
+        `SELECT id, position, subject, category_name, topic_id, quiz_id,
+                title, planned_date, manually_marked_covered, created_at
+           FROM class_curriculum_items
+          WHERE class_id = $1
+          ORDER BY position ASC, id ASC`,
+        [classId]
+      );
+      return res.json({ items: rows });
+    } catch (err) {
+      console.error(
+        '[/api/instructor/classes/:id/curriculum GET] failed:',
+        err
+      );
+      return res.status(500).json({ error: 'Unable to load curriculum' });
+    }
+  }
+);
+
+app.post(
+  '/api/instructor/classes/:classId/curriculum',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { title, subject, quiz_id, category_name, topic_id, planned_date } =
+        req.body || {};
+      const cleanTitle = String(title || '')
+        .trim()
+        .slice(0, 255);
+      if (!cleanTitle) return res.status(400).json({ error: 'title_required' });
+      let pd = null;
+      if (planned_date) {
+        const d = new Date(planned_date);
+        if (Number.isFinite(d.getTime())) pd = d;
+      }
+      const posR = await db.query(
+        `SELECT COALESCE(MAX(position), -1) + 1 AS next_pos
+           FROM class_curriculum_items WHERE class_id=$1`,
+        [classId]
+      );
+      const nextPos = posR.rows[0]?.next_pos ?? 0;
+      const r = await db.query(
+        `INSERT INTO class_curriculum_items
+           (class_id, position, subject, category_name, topic_id, quiz_id, title, planned_date)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+         RETURNING id, position, subject, category_name, topic_id, quiz_id,
+                   title, planned_date, manually_marked_covered, created_at`,
+        [
+          classId,
+          nextPos,
+          subject ? String(subject).slice(0, 100) : null,
+          category_name ? String(category_name).slice(0, 200) : null,
+          topic_id ? String(topic_id).slice(0, 200) : null,
+          quiz_id ? String(quiz_id).slice(0, 255) : null,
+          cleanTitle,
+          pd,
+        ]
+      );
+      return res.status(201).json({ item: r.rows[0] });
+    } catch (err) {
+      console.error(
+        '[/api/instructor/classes/:id/curriculum POST] failed:',
+        err
+      );
+      return res.status(500).json({ error: 'Unable to create item' });
+    }
+  }
+);
+
+app.patch(
+  '/api/instructor/curriculum/:id',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      if (!Number.isFinite(id))
+        return res.status(400).json({ error: 'invalid_id' });
+      // Lookup class to enforce ownership
+      const lookup = await db.query(
+        `SELECT class_id FROM class_curriculum_items WHERE id=$1`,
+        [id]
+      );
+      if (lookup.rowCount === 0)
+        return res.status(404).json({ error: 'not_found' });
+      const classId = lookup.rows[0].class_id;
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(403).json({ error: 'forbidden' });
+
+      const {
+        title,
+        position,
+        planned_date,
+        manually_marked_covered,
+        quiz_id,
+        subject,
+      } = req.body || {};
+      const sets = [];
+      const params = [];
+      if (typeof title === 'string') {
+        params.push(title.trim().slice(0, 255));
+        sets.push(`title = $${params.length}`);
+      }
+      if (Number.isFinite(Number(position))) {
+        params.push(Math.max(0, Math.round(Number(position))));
+        sets.push(`position = $${params.length}`);
+      }
+      if (planned_date !== undefined) {
+        if (planned_date === null) {
+          sets.push(`planned_date = NULL`);
+        } else {
+          const d = new Date(planned_date);
+          if (Number.isFinite(d.getTime())) {
+            params.push(d);
+            sets.push(`planned_date = $${params.length}`);
+          }
+        }
+      }
+      if (typeof manually_marked_covered === 'boolean') {
+        params.push(manually_marked_covered);
+        sets.push(`manually_marked_covered = $${params.length}`);
+      }
+      if (typeof quiz_id === 'string' || quiz_id === null) {
+        params.push(quiz_id ? String(quiz_id).slice(0, 255) : null);
+        sets.push(`quiz_id = $${params.length}`);
+      }
+      if (typeof subject === 'string' || subject === null) {
+        params.push(subject ? String(subject).slice(0, 100) : null);
+        sets.push(`subject = $${params.length}`);
+      }
+      if (sets.length === 0)
+        return res.status(400).json({ error: 'nothing_to_update' });
+      sets.push(`updated_at = NOW()`);
+      params.push(id);
+      const r = await db.query(
+        `UPDATE class_curriculum_items SET ${sets.join(', ')}
+          WHERE id = $${params.length}
+          RETURNING id, position, subject, category_name, topic_id, quiz_id,
+                    title, planned_date, manually_marked_covered`,
+        params
+      );
+      return res.json({ item: r.rows[0] });
+    } catch (err) {
+      console.error('[/api/instructor/curriculum/:id PATCH] failed:', err);
+      return res.status(500).json({ error: 'Unable to update item' });
+    }
+  }
+);
+
+app.delete(
+  '/api/instructor/curriculum/:id',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      if (!Number.isFinite(id))
+        return res.status(400).json({ error: 'invalid_id' });
+      const lookup = await db.query(
+        `SELECT class_id FROM class_curriculum_items WHERE id=$1`,
+        [id]
+      );
+      if (lookup.rowCount === 0) return res.json({ ok: true });
+      if (!(await _instructorOwnsClass(req, lookup.rows[0].class_id)))
+        return res.status(403).json({ error: 'forbidden' });
+      await db.query(`DELETE FROM class_curriculum_items WHERE id=$1`, [id]);
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/instructor/curriculum/:id DELETE] failed:', err);
+      return res.status(500).json({ error: 'Unable to delete item' });
+    }
+  }
+);
+
+// ---------- Assignments ----------
 app.get(
   '/api/instructor/assignments',
-  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
   logAdminAccess,
   requireAuth,
   requireInstructorOrOrgAdminOrSuper,
@@ -19616,16 +19935,18 @@ app.get(
       const instructorId = req.user.id || req.user.userId;
       if (!orgId)
         return res.status(400).json({ error: 'No organization scope' });
+      const allOrg = _instructorRoleAllowsAllOrg(req.user?.role);
       const { rows } = await db.query(
-        `SELECT a.id, a.title, a.subject, a.quiz_id, a.due_at, a.created_at, a.archived_at,
-                a.class_id, c.name AS class_name
+        `SELECT a.id, a.title, a.subject, a.quiz_id, a.due_at, a.notes,
+                a.created_at, a.archived_at, a.class_id, c.name AS class_name,
+                (SELECT COUNT(*) FROM assignment_targets t WHERE t.assignment_id = a.id) AS target_count
            FROM assignments a
-           LEFT JOIN instructor_classes c ON c.id = a.class_id
+           LEFT JOIN classes c ON c.id = a.class_id
           WHERE a.organization_id = $1
-            AND (a.instructor_id = $2 OR LOWER($3) IN ('org_admin','super_admin'))
+            AND ($2::bool OR a.instructor_id = $3)
           ORDER BY a.created_at DESC
           LIMIT 200`,
-        [orgId, instructorId, String(req.user.role || '')]
+        [orgId, allOrg, instructorId]
       );
       return res.json({ assignments: rows });
     } catch (err) {
@@ -19637,7 +19958,6 @@ app.get(
 
 app.post(
   '/api/instructor/assignments',
-  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
   logAdminAccess,
   requireAuth,
   requireInstructorOrOrgAdminOrSuper,
@@ -19645,8 +19965,15 @@ app.post(
     try {
       const orgId = req.user.organization_id;
       const instructorId = req.user.id || req.user.userId;
-      const { title, subject, quiz_id, class_id, due_at, notes } =
-        req.body || {};
+      const {
+        title,
+        subject,
+        quiz_id,
+        class_id,
+        due_at,
+        notes,
+        target_user_ids,
+      } = req.body || {};
       if (!orgId || !instructorId)
         return res.status(400).json({ error: 'invalid_request' });
       const cleanTitle = String(title || '')
@@ -19660,15 +19987,19 @@ app.post(
           return res.status(400).json({ error: 'invalid_due_at' });
         dueAt = d;
       }
+      const classIdNum = class_id ? parseInt(class_id, 10) : null;
+      if (classIdNum && !(await _instructorOwnsClass(req, classIdNum)))
+        return res.status(403).json({ error: 'class_forbidden' });
+
       const r = await db.query(
         `INSERT INTO assignments
            (organization_id, instructor_id, class_id, title, subject, quiz_id, due_at, notes)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-         RETURNING id, title, subject, quiz_id, class_id, due_at, created_at`,
+         RETURNING id, title, subject, quiz_id, class_id, due_at, notes, created_at`,
         [
           orgId,
           instructorId,
-          class_id ? parseInt(class_id, 10) : null,
+          classIdNum,
           cleanTitle,
           subject ? String(subject).slice(0, 100) : null,
           quiz_id ? String(quiz_id).slice(0, 255) : null,
@@ -19676,14 +20007,75 @@ app.post(
           notes ? String(notes).slice(0, 4000) : null,
         ]
       );
+      const assignmentId = r.rows[0].id;
+
+      const targetIds = Array.isArray(target_user_ids) ? target_user_ids : [];
+      let addedTargets = 0;
+      const notifyIds = new Set();
+      for (const raw of targetIds) {
+        const uid = parseInt(raw, 10);
+        if (!Number.isFinite(uid)) continue;
+        const own = await db.query(
+          'SELECT 1 FROM users WHERE id=$1 AND organization_id=$2',
+          [uid, orgId]
+        );
+        if (own.rowCount === 0) continue;
+        const ins = await db.query(
+          `INSERT INTO assignment_targets (assignment_id, user_id)
+           VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+          [assignmentId, uid]
+        );
+        if (ins.rowCount) {
+          addedTargets++;
+          notifyIds.add(uid);
+        }
+      }
+
+      // Also notify class enrollees, if any
+      if (classIdNum) {
+        const enr = await db.query(
+          `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
+          [classIdNum]
+        );
+        for (const row of enr.rows) notifyIds.add(row.user_id);
+      }
+
+      // Best-effort student notifications
+      try {
+        const link = `/student#assignments/${assignmentId}`;
+        await notify.notifyUsers(Array.from(notifyIds), {
+          type: 'assignment_new',
+          title: `New assignment: ${cleanTitle}`,
+          body: subject
+            ? `${subject} \u2014 due ${dueAt ? dueAt.toISOString().slice(0, 10) : 'no due date'}`
+            : null,
+          link,
+          payload: {
+            assignmentId,
+            classId: classIdNum,
+            quizId: quiz_id || null,
+          },
+        });
+      } catch (e) {
+        console.warn('[notify assignment_new] skipped:', e.message);
+      }
+
       await _audit({
         db,
         req,
         action: 'instructor.assignment.create',
-        target: { type: 'assignment', id: r.rows[0].id },
-        payload: { title: cleanTitle, subject, quiz_id },
+        target: { type: 'assignment', id: assignmentId },
+        payload: {
+          title: cleanTitle,
+          subject,
+          quiz_id,
+          target_count: addedTargets,
+        },
       });
-      return res.status(201).json({ assignment: r.rows[0] });
+      return res.status(201).json({
+        assignment: r.rows[0],
+        target_count: addedTargets,
+      });
     } catch (err) {
       console.error('[/api/instructor/assignments POST] failed:', err);
       return res.status(500).json({ error: 'Unable to create assignment' });
@@ -19691,8 +20083,48 @@ app.post(
   }
 );
 
-// Student-facing: list assignments visible to me. Returns [] when flag is off
-// or the user has no org \u2014 never throws so the dashboard can call it freely.
+app.patch(
+  '/api/instructor/assignments/:id',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const orgId = req.user.organization_id;
+      const instructorId = req.user.id || req.user.userId;
+      const allOrg = _instructorRoleAllowsAllOrg(req.user?.role);
+      const own = await db.query(
+        `SELECT id FROM assignments
+          WHERE id=$1 AND organization_id=$2
+            AND ($3::bool OR instructor_id=$4)`,
+        [id, orgId, allOrg, instructorId]
+      );
+      if (own.rowCount === 0)
+        return res.status(404).json({ error: 'not_found' });
+      const { archived } = req.body || {};
+      if (archived === true) {
+        await db.query(
+          `UPDATE assignments SET archived_at = NOW() WHERE id=$1`,
+          [id]
+        );
+      } else if (archived === false) {
+        await db.query(
+          `UPDATE assignments SET archived_at = NULL WHERE id=$1`,
+          [id]
+        );
+      } else {
+        return res.status(400).json({ error: 'nothing_to_update' });
+      }
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/instructor/assignments/:id PATCH] failed:', err);
+      return res.status(500).json({ error: 'Unable to update assignment' });
+    }
+  }
+);
+
+// Student-facing: list assignments visible to me (class membership OR direct target).
 app.get(
   '/api/me/assignments',
   devAuth,
@@ -19700,25 +20132,25 @@ app.get(
   requireAuthInProd,
   authRequired,
   async (req, res) => {
-    if (!isFeatureEnabled('INSTRUCTOR_ASSIGNMENTS')) {
-      return res.json({ assignments: [] });
-    }
     try {
       const userId = req.user?.id || req.user?.userId;
       const orgId = req.user?.organization_id;
       if (!userId || !orgId) return res.json({ assignments: [] });
       const { rows } = await db.query(
-        `SELECT a.id, a.title, a.subject, a.quiz_id, a.due_at, a.created_at,
-                a.class_id, c.name AS class_name
+        `SELECT a.id, a.title, a.subject, a.quiz_id, a.due_at, a.notes,
+                a.created_at, a.class_id, c.name AS class_name
            FROM assignments a
-           LEFT JOIN instructor_classes c ON c.id = a.class_id
+           LEFT JOIN classes c ON c.id = a.class_id
           WHERE a.archived_at IS NULL
             AND a.organization_id = $1
             AND (
-              a.class_id IS NULL
+              EXISTS (
+                SELECT 1 FROM class_enrollments e
+                 WHERE e.class_id = a.class_id AND e.user_id = $2
+              )
               OR EXISTS (
-                SELECT 1 FROM instructor_class_members m
-                 WHERE m.class_id = a.class_id AND m.user_id = $2
+                SELECT 1 FROM assignment_targets t
+                 WHERE t.assignment_id = a.id AND t.user_id = $2
               )
             )
           ORDER BY a.due_at NULLS LAST, a.created_at DESC
@@ -26528,6 +26960,38 @@ app.post('/api/question-reports', authenticateBearerToken, async (req, res) => {
       ]
     );
 
+    // Best-effort: notify instructors in the reporter's organization.
+    try {
+      const reportId = result.rows[0].id;
+      const reporter = await pool.query(
+        `SELECT organization_id, email, name FROM users WHERE id=$1`,
+        [userId]
+      );
+      const orgId = reporter.rows[0]?.organization_id;
+      if (orgId) {
+        const reporterLabel =
+          reporter.rows[0]?.name ||
+          reporter.rows[0]?.email ||
+          `student #${userId}`;
+        const subjectLabel =
+          (typeof subject === 'string' && subject) || 'a quiz';
+        await notify.notifyInstructorsInOrg(orgId, userId, {
+          type: 'question_report',
+          title: `New question report: ${cleanReason.replace(/_/g, ' ')}`,
+          body: `${reporterLabel} flagged ${subjectLabel}${quizTitle ? ` (${String(quizTitle).slice(0, 80)})` : ''}.`,
+          link: `/instructor#reports/${reportId}`,
+          payload: {
+            reportId,
+            subject: typeof subject === 'string' ? subject : null,
+            reason: cleanReason,
+            quizCode: typeof quizCode === 'string' ? quizCode : null,
+          },
+        });
+      }
+    } catch (notifyErr) {
+      console.warn('[notify question_report] skipped:', notifyErr.message);
+    }
+
     res.json({
       id: result.rows[0].id,
       status: result.rows[0].status,
@@ -26711,6 +27175,463 @@ app.patch(
     } catch (error) {
       console.error('[/api/admin/question-reports/:id] PATCH error:', error);
       res.status(500).json({ error: 'Failed to update report' });
+    }
+  }
+);
+
+// ========================================
+// INSTRUCTOR STATS — per-student rollups + org-scoped reports + notifications
+// ========================================
+
+function _isInstructorOrAdminRole(role) {
+  const r = String(role || '').toLowerCase();
+  return (
+    r === 'instructor' ||
+    r === 'teacher' ||
+    r === 'org_admin' ||
+    r === 'admin' ||
+    r === 'super_admin' ||
+    r === 'superadmin'
+  );
+}
+
+async function _instructorStudentGuard(req, res, next) {
+  try {
+    if (!_isInstructorOrAdminRole(req.user?.role)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const studentId = parseInt(req.params.userId, 10);
+    if (!Number.isFinite(studentId)) {
+      return res.status(400).json({ error: 'invalid_user_id' });
+    }
+    const orgId = req.user?.organization_id;
+    if (!orgId) return res.status(403).json({ error: 'no_org_scope' });
+    const r = await pool.query(
+      'SELECT 1 FROM users WHERE id=$1 AND organization_id=$2',
+      [studentId, orgId]
+    );
+    if (r.rowCount === 0)
+      return res.status(404).json({ error: 'student_not_found' });
+    req.targetStudentId = studentId;
+    next();
+  } catch (err) {
+    console.error('[_instructorStudentGuard] failed:', err);
+    res.status(500).json({ error: 'Guard failure' });
+  }
+}
+
+// GET /api/instructor/students/:userId/stats
+// Per-student rollup: scores, weak areas, vocab, essay, surveys.
+app.get(
+  '/api/instructor/students/:userId/stats',
+  authenticateBearerToken,
+  _instructorStudentGuard,
+  async (req, res) => {
+    const userId = req.targetStudentId;
+    try {
+      // Recent attempts (50)
+      const attempts = await pool.query(
+        `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
+                attempted_at, scaled_score, passed
+           FROM quiz_attempts
+          WHERE user_id = $1
+          ORDER BY attempted_at DESC
+          LIMIT 50`,
+        [userId]
+      );
+
+      // Subject mastery rollup
+      const mastery = await pool.query(
+        `SELECT subject,
+                COUNT(*)::int AS attempts,
+                AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
+                MAX(attempted_at) AS last_attempt_at
+           FROM quiz_attempts
+          WHERE user_id = $1
+          GROUP BY subject
+          ORDER BY subject`,
+        [userId]
+      );
+
+      // Weak areas (per-item incorrect by domain/topic)
+      let weakAreas = [];
+      try {
+        const w = await pool.query(
+          `SELECT COALESCE(NULLIF(topic,''), NULLIF(domain,''), 'Unspecified') AS area,
+                  COUNT(*)::int AS attempted,
+                  SUM(CASE WHEN is_correct THEN 0 ELSE 1 END)::int AS missed
+             FROM quiz_attempt_items
+            WHERE user_id = $1
+            GROUP BY area
+           HAVING COUNT(*) >= 3
+            ORDER BY missed DESC, attempted DESC
+            LIMIT 12`,
+          [userId]
+        );
+        weakAreas = w.rows;
+      } catch (e) {
+        // Table may not exist in older DBs — never fail the rollup
+        console.warn('[instructor stats] weakAreas skipped:', e.message);
+      }
+
+      // Vocabulary
+      let vocabulary = { subjects: [], strugglingTerms: [], recent: [] };
+      try {
+        const subj = await pool.query(
+          `SELECT subject,
+                  COUNT(*)::int AS attempts,
+                  SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int AS correct
+             FROM vocabulary_attempts
+            WHERE user_id = $1
+            GROUP BY subject ORDER BY attempts DESC`,
+          [userId]
+        );
+        const strug = await pool.query(
+          `SELECT term, subject,
+                  COUNT(*)::int AS attempts,
+                  SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int AS correct
+             FROM vocabulary_attempts
+            WHERE user_id = $1
+            GROUP BY term, subject
+           HAVING COUNT(*) >= 2
+              AND SUM(CASE WHEN is_correct THEN 0 ELSE 1 END) >= 1
+            ORDER BY (COUNT(*) - SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)) DESC,
+                     attempts DESC
+            LIMIT 20`,
+          [userId]
+        );
+        const recent = await pool.query(
+          `SELECT term, subject, is_correct, attempted_at
+             FROM vocabulary_attempts
+            WHERE user_id = $1
+            ORDER BY attempted_at DESC LIMIT 20`,
+          [userId]
+        );
+        vocabulary = {
+          subjects: subj.rows,
+          strugglingTerms: strug.rows,
+          recent: recent.rows,
+        };
+      } catch (e) {
+        console.warn('[instructor stats] vocabulary skipped:', e.message);
+      }
+
+      // Essay
+      let essay = { summary: null, recent: [] };
+      try {
+        const sum = await pool.query(
+          `SELECT COUNT(*)::int AS attempts,
+                  AVG(total_score)::float AS avg_total,
+                  AVG(trait1_score)::float AS avg_t1,
+                  AVG(trait2_score)::float AS avg_t2,
+                  AVG(trait3_score)::float AS avg_t3,
+                  AVG(word_count)::float AS avg_words
+             FROM essay_scores
+            WHERE user_id = $1`,
+          [userId]
+        );
+        const rec = await pool.query(
+          `SELECT id, prompt_id, total_score, trait1_score, trait2_score,
+                  trait3_score, word_count, created_at
+             FROM essay_scores
+            WHERE user_id = $1
+            ORDER BY created_at DESC LIMIT 10`,
+          [userId]
+        );
+        essay = { summary: sum.rows[0], recent: rec.rows };
+      } catch (e) {
+        console.warn('[instructor stats] essay skipped:', e.message);
+      }
+
+      // Surveys
+      let surveys = { summary: null, bySubject: [], recent: [] };
+      try {
+        const sum = await pool.query(
+          `SELECT COUNT(*)::int AS responses,
+                  AVG(difficulty_rating)::float AS avg_difficulty,
+                  AVG(confidence_rating)::float AS avg_confidence
+             FROM quiz_surveys
+            WHERE user_id = $1`,
+          [userId]
+        );
+        const bySubj = await pool.query(
+          `SELECT subject,
+                  COUNT(*)::int AS responses,
+                  AVG(difficulty_rating)::float AS avg_difficulty,
+                  AVG(confidence_rating)::float AS avg_confidence
+             FROM quiz_surveys
+            WHERE user_id = $1
+            GROUP BY subject ORDER BY responses DESC`,
+          [userId]
+        );
+        const recent = await pool.query(
+          `SELECT id, subject, difficulty_rating, confidence_rating,
+                  pace_rating, free_text, created_at
+             FROM quiz_surveys
+            WHERE user_id = $1
+            ORDER BY created_at DESC LIMIT 10`,
+          [userId]
+        );
+        surveys = {
+          summary: sum.rows[0],
+          bySubject: bySubj.rows,
+          recent: recent.rows,
+        };
+      } catch (e) {
+        console.warn('[instructor stats] surveys skipped:', e.message);
+      }
+
+      res.json({
+        attempts: attempts.rows,
+        mastery: mastery.rows,
+        weakAreas,
+        vocabulary,
+        essay,
+        surveys,
+      });
+    } catch (err) {
+      console.error('[/api/instructor/students/:id/stats] failed:', err);
+      res.status(500).json({ error: 'Failed to load stats' });
+    }
+  }
+);
+
+// GET /api/instructor/question-reports — org-scoped triage list
+app.get(
+  '/api/instructor/question-reports',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      if (!_isInstructorOrAdminRole(req.user?.role)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+      const orgId = req.user?.organization_id;
+      if (!orgId) return res.json({ reports: [], summary: { total: 0 } });
+
+      const status =
+        typeof req.query.status === 'string' &&
+        ['open', 'triaged', 'resolved', 'dismissed'].includes(req.query.status)
+          ? req.query.status
+          : null;
+      const subject =
+        typeof req.query.subject === 'string' ? req.query.subject.trim() : null;
+      const limit = Math.min(
+        Math.max(parseInt(req.query.limit, 10) || 50, 1),
+        200
+      );
+      const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+
+      const params = [orgId];
+      const where = [`u.organization_id = $1`];
+      if (status) {
+        params.push(status);
+        where.push(`r.status = $${params.length}`);
+      }
+      if (subject) {
+        params.push(subject);
+        where.push(`r.subject = $${params.length}`);
+      }
+      params.push(limit, offset);
+      const limitIdx = params.length - 1;
+      const offsetIdx = params.length;
+
+      const list = await pool.query(
+        `SELECT r.*, u.email AS reporter_email, u.name AS reporter_name
+           FROM question_reports r
+           JOIN users u ON u.id = r.user_id
+          WHERE ${where.join(' AND ')}
+          ORDER BY r.created_at DESC
+          LIMIT $${limitIdx} OFFSET $${offsetIdx}`,
+        params
+      );
+
+      const counts = await pool.query(
+        `SELECT r.status, COUNT(*)::int AS count
+           FROM question_reports r
+           JOIN users u ON u.id = r.user_id
+          WHERE u.organization_id = $1
+          GROUP BY r.status`,
+        [orgId]
+      );
+      const summary = {
+        open: 0,
+        triaged: 0,
+        resolved: 0,
+        dismissed: 0,
+        total: 0,
+      };
+      for (const row of counts.rows) {
+        if (Object.prototype.hasOwnProperty.call(summary, row.status))
+          summary[row.status] = row.count;
+        summary.total += row.count;
+      }
+      res.json({ reports: list.rows, summary });
+    } catch (err) {
+      console.error('[/api/instructor/question-reports] failed:', err);
+      res.status(500).json({ error: 'Failed to fetch reports' });
+    }
+  }
+);
+
+// PATCH /api/instructor/question-reports/:id
+app.patch(
+  '/api/instructor/question-reports/:id',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      if (!_isInstructorOrAdminRole(req.user?.role)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+      const orgId = req.user?.organization_id;
+      const adminId = getNumericUserId(req.user?.userId || req.user?.sub);
+      const id = parseInt(req.params.id, 10);
+      if (!Number.isFinite(id))
+        return res.status(400).json({ error: 'invalid_id' });
+
+      // Org isolation: ensure the reporting student is in this instructor's org
+      const own = await pool.query(
+        `SELECT r.id FROM question_reports r
+           JOIN users u ON u.id = r.user_id
+          WHERE r.id = $1 AND u.organization_id = $2`,
+        [id, orgId]
+      );
+      if (own.rowCount === 0)
+        return res.status(404).json({ error: 'not_found' });
+
+      const { status, resolutionNote } = req.body || {};
+      const cleanStatus =
+        typeof status === 'string' &&
+        ['open', 'triaged', 'resolved', 'dismissed'].includes(status)
+          ? status
+          : null;
+      const cleanNote =
+        typeof resolutionNote === 'string'
+          ? resolutionNote.trim().slice(0, 2000)
+          : null;
+      if (!cleanStatus && cleanNote == null) {
+        return res.status(400).json({ error: 'nothing_to_update' });
+      }
+
+      const sets = [];
+      const params = [];
+      if (cleanStatus) {
+        params.push(cleanStatus);
+        sets.push(`status = $${params.length}`);
+        if (cleanStatus === 'resolved' || cleanStatus === 'dismissed') {
+          params.push(adminId || null);
+          sets.push(`resolved_by = $${params.length}`);
+          sets.push(`resolved_at = NOW()`);
+        } else {
+          sets.push(`resolved_by = NULL`);
+          sets.push(`resolved_at = NULL`);
+        }
+      }
+      if (cleanNote != null) {
+        params.push(cleanNote);
+        sets.push(`resolution_note = $${params.length}`);
+      }
+      params.push(id);
+      const r = await pool.query(
+        `UPDATE question_reports SET ${sets.join(', ')}
+          WHERE id = $${params.length}
+          RETURNING id, status, resolution_note, resolved_by, resolved_at`,
+        params
+      );
+      res.json(r.rows[0]);
+    } catch (err) {
+      console.error(
+        '[/api/instructor/question-reports/:id] PATCH failed:',
+        err
+      );
+      res.status(500).json({ error: 'Failed to update report' });
+    }
+  }
+);
+
+// ========================================
+// NOTIFICATIONS (per-user inbox)
+// ========================================
+
+// GET /api/notifications — recent (limit 50). Optional ?unread=1.
+app.get('/api/notifications', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+    const onlyUnread = req.query.unread === '1' || req.query.unread === 'true';
+    const limit = Math.min(
+      Math.max(parseInt(req.query.limit, 10) || 50, 1),
+      200
+    );
+    const where = onlyUnread ? `AND read_at IS NULL` : '';
+    const r = await pool.query(
+      `SELECT id, type, title, body, link, payload, read_at, created_at
+           FROM notifications
+          WHERE user_id = $1 ${where}
+          ORDER BY created_at DESC
+          LIMIT $2`,
+      [userId, limit]
+    );
+    res.json({ notifications: r.rows });
+  } catch (err) {
+    console.error('[/api/notifications] failed:', err);
+    res.status(500).json({ error: 'Failed to fetch notifications' });
+  }
+});
+
+// GET /api/notifications/unread-count
+app.get(
+  '/api/notifications/unread-count',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const r = await pool.query(
+        `SELECT COUNT(*)::int AS count
+           FROM notifications WHERE user_id = $1 AND read_at IS NULL`,
+        [userId]
+      );
+      res.json({ count: r.rows[0]?.count || 0 });
+    } catch (err) {
+      console.error('[/api/notifications/unread-count] failed:', err);
+      res.status(500).json({ error: 'Failed to fetch count' });
+    }
+  }
+);
+
+// POST /api/notifications/mark-read — body { ids: [], all: bool }
+app.post(
+  '/api/notifications/mark-read',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const { ids, all } = req.body || {};
+      if (all === true) {
+        await pool.query(
+          `UPDATE notifications SET read_at = NOW()
+            WHERE user_id = $1 AND read_at IS NULL`,
+          [userId]
+        );
+        return res.json({ ok: true });
+      }
+      if (Array.isArray(ids) && ids.length) {
+        const cleanIds = ids
+          .map((x) => parseInt(x, 10))
+          .filter((n) => Number.isFinite(n));
+        if (cleanIds.length === 0) return res.json({ ok: true });
+        await pool.query(
+          `UPDATE notifications SET read_at = NOW()
+            WHERE user_id = $1 AND id = ANY($2::int[]) AND read_at IS NULL`,
+          [userId, cleanIds]
+        );
+        return res.json({ ok: true });
+      }
+      return res.status(400).json({ error: 'nothing_to_mark' });
+    } catch (err) {
+      console.error('[/api/notifications/mark-read] failed:', err);
+      res.status(500).json({ error: 'Failed to mark read' });
     }
   }
 );
