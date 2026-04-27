@@ -36033,6 +36033,35 @@ function StartScreen({
                   </SubjectCard>
                 );
               })}
+              <a
+                href="/workforce"
+                className="group block rounded-xl border border-subtle bg-surface p-5 hover:shadow-lg transition-shadow no-underline"
+                style={{ borderLeft: '4px solid #0ea5e9' }}
+                aria-label="Open Workforce Readiness area"
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    className="flex items-center justify-center w-14 h-14 rounded-lg"
+                    style={{ background: 'linear-gradient(135deg,#0ea5e9,#6366f1)' }}
+                    aria-hidden="true"
+                  >
+                    <img
+                      src="/icons/briefcase-svgrepo-com.svg"
+                      alt=""
+                      className="w-8 h-8"
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                  </div>
+                  <div>
+                    <div className="text-lg font-bold text-primary">
+                      Workforce
+                    </div>
+                    <div className="text-sm text-primary opacity-80">
+                      Digital Literacy Academy + job tools
+                    </div>
+                  </div>
+                </div>
+              </a>
             </div>
           </section>
         </div>
