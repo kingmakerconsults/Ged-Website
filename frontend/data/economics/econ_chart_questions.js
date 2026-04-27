@@ -25,8 +25,7 @@ export const ECON_CHART_QUESTIONS = [
   },
   {
     id: 'cq_002',
-    prompt:
-      'Looking at the chart, what is the equilibrium quantity?',
+    prompt: 'Looking at the chart, what is the equilibrium quantity?',
     chart: { type: 'sd-baseline', dIntercept: 10, sIntercept: 0 },
     choices: ['3 units', '5 units', '7 units', '10 units'],
     correct: 1,

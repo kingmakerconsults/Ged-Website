@@ -14,7 +14,10 @@ export default function KaTeXSpan({ tex, display = false, className = '' }) {
       return;
     }
     try {
-      window.katex.render(tex, el, { throwOnError: false, displayMode: display });
+      window.katex.render(tex, el, {
+        throwOnError: false,
+        displayMode: display,
+      });
     } catch {
       el.textContent = tex;
     }

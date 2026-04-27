@@ -5,56 +5,56 @@ import React, { useMemo, useState } from 'react';
 // in dark/light mode and avoids loading a topojson dependency.
 // Data: standard NPR-style cartogram layout.
 const STATES = [
-  { id: 'AK', name: 'Alaska',         ev: 3,  col: 0,  row: 6 },
-  { id: 'HI', name: 'Hawaii',         ev: 4,  col: 0,  row: 7 },
-  { id: 'WA', name: 'Washington',     ev: 12, col: 1,  row: 1 },
-  { id: 'OR', name: 'Oregon',         ev: 8,  col: 1,  row: 2 },
-  { id: 'CA', name: 'California',     ev: 54, col: 1,  row: 3 },
-  { id: 'NV', name: 'Nevada',         ev: 6,  col: 2,  row: 3 },
-  { id: 'ID', name: 'Idaho',          ev: 4,  col: 2,  row: 2 },
-  { id: 'MT', name: 'Montana',        ev: 4,  col: 3,  row: 1 },
-  { id: 'WY', name: 'Wyoming',        ev: 3,  col: 3,  row: 2 },
-  { id: 'UT', name: 'Utah',           ev: 6,  col: 3,  row: 3 },
-  { id: 'AZ', name: 'Arizona',        ev: 11, col: 2,  row: 4 },
-  { id: 'NM', name: 'New Mexico',     ev: 5,  col: 3,  row: 4 },
-  { id: 'CO', name: 'Colorado',       ev: 10, col: 4,  row: 3 },
-  { id: 'ND', name: 'North Dakota',   ev: 3,  col: 4,  row: 1 },
-  { id: 'SD', name: 'South Dakota',   ev: 3,  col: 4,  row: 2 },
-  { id: 'NE', name: 'Nebraska',       ev: 5,  col: 5,  row: 2 },
-  { id: 'KS', name: 'Kansas',         ev: 6,  col: 5,  row: 3 },
-  { id: 'OK', name: 'Oklahoma',       ev: 7,  col: 5,  row: 4 },
-  { id: 'TX', name: 'Texas',          ev: 40, col: 4,  row: 5 },
-  { id: 'MN', name: 'Minnesota',      ev: 10, col: 5,  row: 1 },
-  { id: 'IA', name: 'Iowa',           ev: 6,  col: 6,  row: 2 },
-  { id: 'MO', name: 'Missouri',       ev: 10, col: 6,  row: 3 },
-  { id: 'AR', name: 'Arkansas',       ev: 6,  col: 6,  row: 4 },
-  { id: 'LA', name: 'Louisiana',      ev: 8,  col: 6,  row: 5 },
-  { id: 'WI', name: 'Wisconsin',      ev: 10, col: 6,  row: 1 },
-  { id: 'IL', name: 'Illinois',       ev: 19, col: 7,  row: 2 },
-  { id: 'MS', name: 'Mississippi',    ev: 6,  col: 7,  row: 5 },
-  { id: 'AL', name: 'Alabama',        ev: 9,  col: 8,  row: 5 },
-  { id: 'TN', name: 'Tennessee',      ev: 11, col: 7,  row: 4 },
-  { id: 'KY', name: 'Kentucky',       ev: 8,  col: 7,  row: 3 },
-  { id: 'IN', name: 'Indiana',        ev: 11, col: 8,  row: 2 },
-  { id: 'MI', name: 'Michigan',       ev: 15, col: 8,  row: 1 },
-  { id: 'OH', name: 'Ohio',           ev: 17, col: 9,  row: 2 },
-  { id: 'WV', name: 'West Virginia',  ev: 4,  col: 9,  row: 3 },
-  { id: 'GA', name: 'Georgia',        ev: 16, col: 9,  row: 5 },
-  { id: 'FL', name: 'Florida',        ev: 30, col: 10, row: 6 },
-  { id: 'SC', name: 'South Carolina', ev: 9,  col: 10, row: 5 },
+  { id: 'AK', name: 'Alaska', ev: 3, col: 0, row: 6 },
+  { id: 'HI', name: 'Hawaii', ev: 4, col: 0, row: 7 },
+  { id: 'WA', name: 'Washington', ev: 12, col: 1, row: 1 },
+  { id: 'OR', name: 'Oregon', ev: 8, col: 1, row: 2 },
+  { id: 'CA', name: 'California', ev: 54, col: 1, row: 3 },
+  { id: 'NV', name: 'Nevada', ev: 6, col: 2, row: 3 },
+  { id: 'ID', name: 'Idaho', ev: 4, col: 2, row: 2 },
+  { id: 'MT', name: 'Montana', ev: 4, col: 3, row: 1 },
+  { id: 'WY', name: 'Wyoming', ev: 3, col: 3, row: 2 },
+  { id: 'UT', name: 'Utah', ev: 6, col: 3, row: 3 },
+  { id: 'AZ', name: 'Arizona', ev: 11, col: 2, row: 4 },
+  { id: 'NM', name: 'New Mexico', ev: 5, col: 3, row: 4 },
+  { id: 'CO', name: 'Colorado', ev: 10, col: 4, row: 3 },
+  { id: 'ND', name: 'North Dakota', ev: 3, col: 4, row: 1 },
+  { id: 'SD', name: 'South Dakota', ev: 3, col: 4, row: 2 },
+  { id: 'NE', name: 'Nebraska', ev: 5, col: 5, row: 2 },
+  { id: 'KS', name: 'Kansas', ev: 6, col: 5, row: 3 },
+  { id: 'OK', name: 'Oklahoma', ev: 7, col: 5, row: 4 },
+  { id: 'TX', name: 'Texas', ev: 40, col: 4, row: 5 },
+  { id: 'MN', name: 'Minnesota', ev: 10, col: 5, row: 1 },
+  { id: 'IA', name: 'Iowa', ev: 6, col: 6, row: 2 },
+  { id: 'MO', name: 'Missouri', ev: 10, col: 6, row: 3 },
+  { id: 'AR', name: 'Arkansas', ev: 6, col: 6, row: 4 },
+  { id: 'LA', name: 'Louisiana', ev: 8, col: 6, row: 5 },
+  { id: 'WI', name: 'Wisconsin', ev: 10, col: 6, row: 1 },
+  { id: 'IL', name: 'Illinois', ev: 19, col: 7, row: 2 },
+  { id: 'MS', name: 'Mississippi', ev: 6, col: 7, row: 5 },
+  { id: 'AL', name: 'Alabama', ev: 9, col: 8, row: 5 },
+  { id: 'TN', name: 'Tennessee', ev: 11, col: 7, row: 4 },
+  { id: 'KY', name: 'Kentucky', ev: 8, col: 7, row: 3 },
+  { id: 'IN', name: 'Indiana', ev: 11, col: 8, row: 2 },
+  { id: 'MI', name: 'Michigan', ev: 15, col: 8, row: 1 },
+  { id: 'OH', name: 'Ohio', ev: 17, col: 9, row: 2 },
+  { id: 'WV', name: 'West Virginia', ev: 4, col: 9, row: 3 },
+  { id: 'GA', name: 'Georgia', ev: 16, col: 9, row: 5 },
+  { id: 'FL', name: 'Florida', ev: 30, col: 10, row: 6 },
+  { id: 'SC', name: 'South Carolina', ev: 9, col: 10, row: 5 },
   { id: 'NC', name: 'North Carolina', ev: 16, col: 10, row: 4 },
-  { id: 'VA', name: 'Virginia',       ev: 13, col: 10, row: 3 },
-  { id: 'MD', name: 'Maryland',       ev: 10, col: 11, row: 3 },
-  { id: 'DE', name: 'Delaware',       ev: 3,  col: 11, row: 2 },
-  { id: 'PA', name: 'Pennsylvania',   ev: 19, col: 10, row: 2 },
-  { id: 'NJ', name: 'New Jersey',     ev: 14, col: 11, row: 1 },
-  { id: 'NY', name: 'New York',       ev: 28, col: 10, row: 1 },
-  { id: 'CT', name: 'Connecticut',    ev: 7,  col: 11, row: 0 },
-  { id: 'RI', name: 'Rhode Island',   ev: 4,  col: 12, row: 0 },
-  { id: 'MA', name: 'Massachusetts',  ev: 11, col: 11, row: -1 },
-  { id: 'VT', name: 'Vermont',        ev: 3,  col: 10, row: 0 },
-  { id: 'NH', name: 'New Hampshire',  ev: 4,  col: 12, row: -1 },
-  { id: 'ME', name: 'Maine',          ev: 4,  col: 12, row: -2 },
+  { id: 'VA', name: 'Virginia', ev: 13, col: 10, row: 3 },
+  { id: 'MD', name: 'Maryland', ev: 10, col: 11, row: 3 },
+  { id: 'DE', name: 'Delaware', ev: 3, col: 11, row: 2 },
+  { id: 'PA', name: 'Pennsylvania', ev: 19, col: 10, row: 2 },
+  { id: 'NJ', name: 'New Jersey', ev: 14, col: 11, row: 1 },
+  { id: 'NY', name: 'New York', ev: 28, col: 10, row: 1 },
+  { id: 'CT', name: 'Connecticut', ev: 7, col: 11, row: 0 },
+  { id: 'RI', name: 'Rhode Island', ev: 4, col: 12, row: 0 },
+  { id: 'MA', name: 'Massachusetts', ev: 11, col: 11, row: -1 },
+  { id: 'VT', name: 'Vermont', ev: 3, col: 10, row: 0 },
+  { id: 'NH', name: 'New Hampshire', ev: 4, col: 12, row: -1 },
+  { id: 'ME', name: 'Maine', ev: 4, col: 12, row: -2 },
   { id: 'DC', name: 'District of Col.', ev: 3, col: 12, row: 3 },
 ];
 
@@ -62,7 +62,12 @@ const TOTAL_EV = 538;
 const WIN_THRESHOLD = 270;
 
 const COLORS = {
-  unassigned: { bg: '#e2e8f0', dark: '#475569', text: '#0f172a', textDark: '#f1f5f9' },
+  unassigned: {
+    bg: '#e2e8f0',
+    dark: '#475569',
+    text: '#0f172a',
+    textDark: '#f1f5f9',
+  },
   D: { bg: '#3b82f6', dark: '#2563eb', text: '#ffffff', textDark: '#ffffff' },
   R: { bg: '#ef4444', dark: '#dc2626', text: '#ffffff', textDark: '#ffffff' },
 };
@@ -76,8 +81,14 @@ const COLORS = {
  *   - initialAssignments { [stateId]: 'D' | 'R' }  preload an EV map
  *   - resetKey          any   bumping this resets to initialAssignments
  */
-export default function USElectoralMap({ dark = false, initialAssignments = null, resetKey = 0 }) {
-  const [assignments, setAssignments] = useState(() => ({ ...(initialAssignments || {}) }));
+export default function USElectoralMap({
+  dark = false,
+  initialAssignments = null,
+  resetKey = 0,
+}) {
+  const [assignments, setAssignments] = useState(() => ({
+    ...(initialAssignments || {}),
+  }));
 
   // When resetKey or initialAssignments change, re-seed.
   React.useEffect(() => {
@@ -111,8 +122,46 @@ export default function USElectoralMap({ dark = false, initialAssignments = null
   const fillSafeStates = (party) => {
     // Quick-start: assign known reliably-blue or reliably-red states
     const safe = {
-      D: ['CA', 'NY', 'IL', 'MA', 'WA', 'OR', 'NJ', 'MD', 'CT', 'RI', 'VT', 'HI', 'DE', 'DC'],
-      R: ['TX', 'FL', 'TN', 'OK', 'AR', 'LA', 'AL', 'MS', 'KY', 'WV', 'WY', 'ID', 'MT', 'ND', 'SD', 'NE', 'KS', 'UT', 'IN', 'MO', 'AK', 'SC'],
+      D: [
+        'CA',
+        'NY',
+        'IL',
+        'MA',
+        'WA',
+        'OR',
+        'NJ',
+        'MD',
+        'CT',
+        'RI',
+        'VT',
+        'HI',
+        'DE',
+        'DC',
+      ],
+      R: [
+        'TX',
+        'FL',
+        'TN',
+        'OK',
+        'AR',
+        'LA',
+        'AL',
+        'MS',
+        'KY',
+        'WV',
+        'WY',
+        'ID',
+        'MT',
+        'ND',
+        'SD',
+        'NE',
+        'KS',
+        'UT',
+        'IN',
+        'MO',
+        'AK',
+        'SC',
+      ],
     };
     setAssignments((prev) => {
       const out = { ...prev };
@@ -158,8 +207,7 @@ export default function USElectoralMap({ dark = false, initialAssignments = null
             270 to win · {tally.remaining} unassigned
           </span>
           <span className="text-red-600 dark:text-red-300">
-            {rWins && '🏆 '}
-            R {tally.r}
+            {rWins && '🏆 '}R {tally.r}
           </span>
         </div>
         <div

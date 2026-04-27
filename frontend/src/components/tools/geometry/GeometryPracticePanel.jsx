@@ -1,6 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import KaTeXSpan from './KaTeXSpan';
-import { GEOMETRY_PROBLEMS, GEOMETRY_TOPICS } from '../../../data/geometryProblems';
+import {
+  GEOMETRY_PROBLEMS,
+  GEOMETRY_TOPICS,
+} from '../../../data/geometryProblems';
 
 // Inline-SVG renderer for the small figure attached to image problems.
 function ProblemFigure({ figure, dark }) {
@@ -15,9 +18,32 @@ function ProblemFigure({ figure, dark }) {
     const sh = Math.min(h * 12, 160);
     return (
       <svg viewBox={`0 0 ${sw + 60} ${sh + 60}`} className="max-h-[180px]">
-        <rect x="30" y="30" width={sw} height={sh} fill={fill} stroke={stroke} strokeWidth="2" />
-        <text x={30 + sw / 2} y={30 + sh + 18} textAnchor="middle" fontSize="13" fill={labelFill}>{w}</text>
-        <text x={30 + sw + 8} y={30 + sh / 2 + 4} fontSize="13" fill={labelFill}>{h}</text>
+        <rect
+          x="30"
+          y="30"
+          width={sw}
+          height={sh}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <text
+          x={30 + sw / 2}
+          y={30 + sh + 18}
+          textAnchor="middle"
+          fontSize="13"
+          fill={labelFill}
+        >
+          {w}
+        </text>
+        <text
+          x={30 + sw + 8}
+          y={30 + sh / 2 + 4}
+          fontSize="13"
+          fill={labelFill}
+        >
+          {h}
+        </text>
       </svg>
     );
   }
@@ -33,9 +59,27 @@ function ProblemFigure({ figure, dark }) {
           stroke={stroke}
           strokeWidth="2"
         />
-        <rect x="30" y={30 + sa - 10} width="10" height="10" fill="none" stroke={stroke} strokeWidth="1.5" />
-        <text x="14" y={30 + sa / 2} fontSize="13" fill={labelFill}>{a}</text>
-        <text x={30 + sb / 2} y={30 + sa + 18} textAnchor="middle" fontSize="13" fill={labelFill}>{b}</text>
+        <rect
+          x="30"
+          y={30 + sa - 10}
+          width="10"
+          height="10"
+          fill="none"
+          stroke={stroke}
+          strokeWidth="1.5"
+        />
+        <text x="14" y={30 + sa / 2} fontSize="13" fill={labelFill}>
+          {a}
+        </text>
+        <text
+          x={30 + sb / 2}
+          y={30 + sa + 18}
+          textAnchor="middle"
+          fontSize="13"
+          fill={labelFill}
+        >
+          {b}
+        </text>
       </svg>
     );
   }
@@ -43,8 +87,18 @@ function ProblemFigure({ figure, dark }) {
     const { r } = figure.vals;
     const sr = Math.min(r * 14, 90);
     return (
-      <svg viewBox={`0 0 ${sr * 2 + 60} ${sr * 2 + 60}`} className="max-h-[180px]">
-        <circle cx={30 + sr} cy={30 + sr} r={sr} fill={fill} stroke={stroke} strokeWidth="2" />
+      <svg
+        viewBox={`0 0 ${sr * 2 + 60} ${sr * 2 + 60}`}
+        className="max-h-[180px]"
+      >
+        <circle
+          cx={30 + sr}
+          cy={30 + sr}
+          r={sr}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="2"
+        />
         <line
           x1={30 + sr}
           y1={30 + sr}
@@ -54,7 +108,15 @@ function ProblemFigure({ figure, dark }) {
           strokeWidth="1.5"
           strokeDasharray="4 3"
         />
-        <text x={30 + sr + sr / 2} y={30 + sr - 6} textAnchor="middle" fontSize="13" fill={labelFill}>r = {r}</text>
+        <text
+          x={30 + sr + sr / 2}
+          y={30 + sr - 6}
+          textAnchor="middle"
+          fontSize="13"
+          fill={labelFill}
+        >
+          r = {r}
+        </text>
       </svg>
     );
   }
@@ -72,9 +134,27 @@ function ProblemFigure({ figure, dark }) {
           stroke={stroke}
           strokeWidth="2"
         />
-        <text x={30 + offset + sb2 / 2} y="22" textAnchor="middle" fontSize="13" fill={labelFill}>b₂ = {b2}</text>
-        <text x={30 + sb1 / 2} y={30 + sh + 18} textAnchor="middle" fontSize="13" fill={labelFill}>b₁ = {b1}</text>
-        <text x={30 + sb1 + 8} y={30 + sh / 2} fontSize="13" fill={labelFill}>h = {h}</text>
+        <text
+          x={30 + offset + sb2 / 2}
+          y="22"
+          textAnchor="middle"
+          fontSize="13"
+          fill={labelFill}
+        >
+          b₂ = {b2}
+        </text>
+        <text
+          x={30 + sb1 / 2}
+          y={30 + sh + 18}
+          textAnchor="middle"
+          fontSize="13"
+          fill={labelFill}
+        >
+          b₁ = {b1}
+        </text>
+        <text x={30 + sb1 + 8} y={30 + sh / 2} fontSize="13" fill={labelFill}>
+          h = {h}
+        </text>
       </svg>
     );
   }
@@ -86,8 +166,19 @@ function ProblemFigure({ figure, dark }) {
     const dx = sw * 0.55;
     const dy = -sw * 0.35;
     return (
-      <svg viewBox={`0 0 ${sl + dx + 60} ${sh - dy + 60}`} className="max-h-[200px]">
-        <rect x="30" y={30 - dy} width={sl} height={sh} fill={fill} stroke={stroke} strokeWidth="2" />
+      <svg
+        viewBox={`0 0 ${sl + dx + 60} ${sh - dy + 60}`}
+        className="max-h-[200px]"
+      >
+        <rect
+          x="30"
+          y={30 - dy}
+          width={sl}
+          height={sh}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="2"
+        />
         <polygon
           points={`30,${30 - dy} ${30 + dx},30 ${30 + dx + sl},30 ${30 + sl},${30 - dy}`}
           fill={fill}
@@ -100,9 +191,31 @@ function ProblemFigure({ figure, dark }) {
           stroke={stroke}
           strokeWidth="2"
         />
-        <text x={30 + sl / 2} y={30 + sh - dy + 18} textAnchor="middle" fontSize="13" fill={labelFill}>l = {l}</text>
-        <text x={30 + sl + dx + 6} y={30 + sh / 2 - dy} fontSize="13" fill={labelFill}>h = {h}</text>
-        <text x={30 + sl + dx / 2 + 6} y={26 - dy} fontSize="13" fill={labelFill}>w = {w}</text>
+        <text
+          x={30 + sl / 2}
+          y={30 + sh - dy + 18}
+          textAnchor="middle"
+          fontSize="13"
+          fill={labelFill}
+        >
+          l = {l}
+        </text>
+        <text
+          x={30 + sl + dx + 6}
+          y={30 + sh / 2 - dy}
+          fontSize="13"
+          fill={labelFill}
+        >
+          h = {h}
+        </text>
+        <text
+          x={30 + sl + dx / 2 + 6}
+          y={26 - dy}
+          fontSize="13"
+          fill={labelFill}
+        >
+          w = {w}
+        </text>
       </svg>
     );
   }
@@ -112,13 +225,61 @@ function ProblemFigure({ figure, dark }) {
     const sh = Math.min(h * 14, 180);
     const ery = sr * 0.35;
     return (
-      <svg viewBox={`0 0 ${sr * 2 + 60} ${sh + ery * 2 + 60}`} className="max-h-[220px]">
-        <ellipse cx={30 + sr} cy={30 + ery} rx={sr} ry={ery} fill={fill} stroke={stroke} strokeWidth="2" />
-        <line x1="30" y1={30 + ery} x2="30" y2={30 + sh + ery} stroke={stroke} strokeWidth="2" />
-        <line x1={30 + sr * 2} y1={30 + ery} x2={30 + sr * 2} y2={30 + sh + ery} stroke={stroke} strokeWidth="2" />
-        <ellipse cx={30 + sr} cy={30 + sh + ery} rx={sr} ry={ery} fill={fill} stroke={stroke} strokeWidth="2" />
-        <text x={30 + sr} y={30 + ery + 4} textAnchor="middle" fontSize="12" fill={labelFill}>r = {r}</text>
-        <text x={30 + sr * 2 + 6} y={30 + sh / 2 + ery} fontSize="13" fill={labelFill}>h = {h}</text>
+      <svg
+        viewBox={`0 0 ${sr * 2 + 60} ${sh + ery * 2 + 60}`}
+        className="max-h-[220px]"
+      >
+        <ellipse
+          cx={30 + sr}
+          cy={30 + ery}
+          rx={sr}
+          ry={ery}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <line
+          x1="30"
+          y1={30 + ery}
+          x2="30"
+          y2={30 + sh + ery}
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <line
+          x1={30 + sr * 2}
+          y1={30 + ery}
+          x2={30 + sr * 2}
+          y2={30 + sh + ery}
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <ellipse
+          cx={30 + sr}
+          cy={30 + sh + ery}
+          rx={sr}
+          ry={ery}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <text
+          x={30 + sr}
+          y={30 + ery + 4}
+          textAnchor="middle"
+          fontSize="12"
+          fill={labelFill}
+        >
+          r = {r}
+        </text>
+        <text
+          x={30 + sr * 2 + 6}
+          y={30 + sh / 2 + ery}
+          fontSize="13"
+          fill={labelFill}
+        >
+          h = {h}
+        </text>
       </svg>
     );
   }
@@ -130,10 +291,39 @@ function ProblemFigure({ figure, dark }) {
     const cy2 = 180;
     return (
       <svg viewBox="0 0 460 240" className="max-h-[220px]">
-        <line x1="20" y1="60" x2="440" y2="60" stroke={stroke} strokeWidth="2" />
-        <line x1="20" y1="180" x2="440" y2="180" stroke={stroke} strokeWidth="2" />
-        <line x1={cx1 - 80} y1={cy1 - 80 * (cy2 - cy1) / (cx2 - cx1)} x2={cx2 + 80} y2={cy2 + 80 * (cy2 - cy1) / (cx2 - cx1)} stroke={dark ? '#60a5fa' : '#2563eb'} strokeWidth="2" />
-        <text x={cx1 + 30} y={cy1 - 8} fontSize="14" fontWeight="bold" fill={dark ? '#fbbf24' : '#d97706'}>{angle}°</text>
+        <line
+          x1="20"
+          y1="60"
+          x2="440"
+          y2="60"
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <line
+          x1="20"
+          y1="180"
+          x2="440"
+          y2="180"
+          stroke={stroke}
+          strokeWidth="2"
+        />
+        <line
+          x1={cx1 - 80}
+          y1={cy1 - (80 * (cy2 - cy1)) / (cx2 - cx1)}
+          x2={cx2 + 80}
+          y2={cy2 + (80 * (cy2 - cy1)) / (cx2 - cx1)}
+          stroke={dark ? '#60a5fa' : '#2563eb'}
+          strokeWidth="2"
+        />
+        <text
+          x={cx1 + 30}
+          y={cy1 - 8}
+          fontSize="14"
+          fontWeight="bold"
+          fill={dark ? '#fbbf24' : '#d97706'}
+        >
+          {angle}°
+        </text>
         <circle cx={cx1} cy={cy1} r="3" fill={labelFill} />
         <circle cx={cx2} cy={cy2} r="3" fill={labelFill} />
       </svg>
@@ -155,8 +345,11 @@ export default function GeometryPracticePanel({ dark = false }) {
   const [stats, setStats] = useState({ correct: 0, attempted: 0 });
 
   const filtered = useMemo(
-    () => (topic === 'All' ? GEOMETRY_PROBLEMS : GEOMETRY_PROBLEMS.filter((p) => p.topic === topic)),
-    [topic],
+    () =>
+      topic === 'All'
+        ? GEOMETRY_PROBLEMS
+        : GEOMETRY_PROBLEMS.filter((p) => p.topic === topic),
+    [topic]
   );
 
   const safeIdx = filtered.length === 0 ? 0 : idx % filtered.length;
@@ -178,14 +371,18 @@ export default function GeometryPracticePanel({ dark = false }) {
     setRevealed(false);
   };
   const prev = () => {
-    setIdx((i) => (i - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1));
+    setIdx(
+      (i) =>
+        (i - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1)
+    );
     setPicked(null);
     setRevealed(false);
   };
 
   const setTopicSafe = (t) => {
     setTopic(t);
-    if (typeof window !== 'undefined') window.sessionStorage?.setItem(STORAGE_KEY, t);
+    if (typeof window !== 'undefined')
+      window.sessionStorage?.setItem(STORAGE_KEY, t);
     setIdx(0);
     setPicked(null);
     setRevealed(false);
@@ -200,7 +397,9 @@ export default function GeometryPracticePanel({ dark = false }) {
   }
 
   const cardCls = `rounded-lg p-4 ${
-    dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+    dark
+      ? 'bg-slate-800 border border-slate-700'
+      : 'bg-slate-50 border border-slate-200'
   }`;
   const choiceBase = `w-full text-left px-3 py-2 rounded border transition focus:outline-none focus:ring-2 focus:ring-blue-500 ${
     dark ? 'border-slate-600' : 'border-slate-300'
@@ -229,8 +428,11 @@ export default function GeometryPracticePanel({ dark = false }) {
             </button>
           );
         })}
-        <span className={`ml-auto text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
-          {stats.correct}/{stats.attempted} correct · Q {safeIdx + 1} of {filtered.length}
+        <span
+          className={`ml-auto text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}
+        >
+          {stats.correct}/{stats.attempted} correct · Q {safeIdx + 1} of{' '}
+          {filtered.length}
         </span>
       </div>
 
@@ -239,12 +441,16 @@ export default function GeometryPracticePanel({ dark = false }) {
           <div>
             <span
               className={`inline-block px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wide ${
-                dark ? 'bg-slate-700 text-slate-200' : 'bg-slate-200 text-slate-700'
+                dark
+                  ? 'bg-slate-700 text-slate-200'
+                  : 'bg-slate-200 text-slate-700'
               }`}
             >
               {problem.topic}
             </span>
-            <span className={`ml-2 text-[10px] uppercase ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+            <span
+              className={`ml-2 text-[10px] uppercase ${dark ? 'text-slate-400' : 'text-slate-500'}`}
+            >
               {problem.kind === 'image' ? 'figure question' : 'word problem'}
             </span>
           </div>
@@ -256,7 +462,9 @@ export default function GeometryPracticePanel({ dark = false }) {
           </div>
         )}
 
-        <p className={`text-base mb-3 ${dark ? 'text-slate-100' : 'text-slate-800'}`}>
+        <p
+          className={`text-base mb-3 ${dark ? 'text-slate-100' : 'text-slate-800'}`}
+        >
           {problem.prompt}
         </p>
 
@@ -266,11 +474,22 @@ export default function GeometryPracticePanel({ dark = false }) {
             const isPicked = i === picked;
             let cls = '';
             if (revealed) {
-              if (isCorrect) cls = dark ? 'bg-emerald-900/40 border-emerald-500 text-emerald-100' : 'bg-emerald-100 border-emerald-500 text-emerald-900';
-              else if (isPicked) cls = dark ? 'bg-red-900/40 border-red-500 text-red-100' : 'bg-red-100 border-red-500 text-red-900';
-              else cls = dark ? 'bg-slate-900 text-slate-300' : 'bg-white text-slate-700';
+              if (isCorrect)
+                cls = dark
+                  ? 'bg-emerald-900/40 border-emerald-500 text-emerald-100'
+                  : 'bg-emerald-100 border-emerald-500 text-emerald-900';
+              else if (isPicked)
+                cls = dark
+                  ? 'bg-red-900/40 border-red-500 text-red-100'
+                  : 'bg-red-100 border-red-500 text-red-900';
+              else
+                cls = dark
+                  ? 'bg-slate-900 text-slate-300'
+                  : 'bg-white text-slate-700';
             } else {
-              cls = dark ? 'bg-slate-900 text-slate-100 hover:bg-slate-700' : 'bg-white text-slate-800 hover:bg-slate-100';
+              cls = dark
+                ? 'bg-slate-900 text-slate-100 hover:bg-slate-700'
+                : 'bg-white text-slate-800 hover:bg-slate-100';
             }
             return (
               <button
@@ -280,10 +499,14 @@ export default function GeometryPracticePanel({ dark = false }) {
                 disabled={revealed}
                 className={`${choiceBase} ${cls}`}
               >
-                <span className="font-semibold mr-2">{String.fromCharCode(65 + i)}.</span>
+                <span className="font-semibold mr-2">
+                  {String.fromCharCode(65 + i)}.
+                </span>
                 {c}
                 {revealed && isCorrect && <span className="ml-2">✓</span>}
-                {revealed && isPicked && !isCorrect && <span className="ml-2">✗</span>}
+                {revealed && isPicked && !isCorrect && (
+                  <span className="ml-2">✗</span>
+                )}
               </button>
             );
           })}
@@ -292,7 +515,9 @@ export default function GeometryPracticePanel({ dark = false }) {
         {revealed && (
           <div
             className={`p-3 rounded text-sm space-y-2 ${
-              dark ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200'
+              dark
+                ? 'bg-slate-900 border border-slate-700'
+                : 'bg-white border border-slate-200'
             }`}
           >
             <p>
@@ -311,7 +536,9 @@ export default function GeometryPracticePanel({ dark = false }) {
             type="button"
             onClick={prev}
             className={`px-3 py-1.5 rounded text-sm font-semibold ${
-              dark ? 'bg-slate-700 hover:bg-slate-600 text-slate-100' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+              dark
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+                : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
             }`}
           >
             ← Previous

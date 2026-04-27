@@ -19,7 +19,10 @@ function Math({ tex, display = false, className = '' }) {
       return;
     }
     try {
-      window.katex.render(tex, el, { throwOnError: false, displayMode: display });
+      window.katex.render(tex, el, {
+        throwOnError: false,
+        displayMode: display,
+      });
     } catch {
       el.textContent = tex;
     }
@@ -33,27 +36,36 @@ const PROBLEM_TYPES = [
     label: 'Linear equation',
     icon: '🟰',
     blurb: 'Solve equations like 3x + 5 = 14 or 7 − x = 2x + 1.',
-    samples: ['2x + 5 = 13', '3x - 4 = x + 8', '4x = 20', 'x/2 + 3 = 7', '7 - x = 2x + 1'],
+    samples: [
+      '2x + 5 = 13',
+      '3x - 4 = x + 8',
+      '4x = 20',
+      'x/2 + 3 = 7',
+      '7 - x = 2x + 1',
+    ],
   },
   {
     id: 'inequality',
     label: 'Inequality',
     icon: '↔️',
-    blurb: 'Solve inequalities. Remember: dividing by a negative FLIPS the sign.',
+    blurb:
+      'Solve inequalities. Remember: dividing by a negative FLIPS the sign.',
     samples: ['2x - 5 > 7', '4x <= 12', '-3x + 1 < 10', 'x + 4 >= 2x - 1'],
   },
   {
     id: 'percent',
     label: 'Percent',
     icon: '％',
-    blurb: 'Three classic GED forms: P% of W, X is what % of Y, P% of WHAT is X.',
+    blurb:
+      'Three classic GED forms: P% of W, X is what % of Y, P% of WHAT is X.',
     samples: [],
   },
   {
     id: 'proportion',
     label: 'Proportion',
     icon: '⚖️',
-    blurb: 'Cross-multiply to solve a proportion. Leave one field blank for the unknown.',
+    blurb:
+      'Cross-multiply to solve a proportion. Leave one field blank for the unknown.',
     samples: [],
   },
   {
@@ -67,7 +79,10 @@ const PROBLEM_TYPES = [
 
 const STORAGE_KEY = 'stepByStepSolver:lastType';
 
-export default function StepByStepSolver({ dark = false, onSolutionFound = null }) {
+export default function StepByStepSolver({
+  dark = false,
+  onSolutionFound = null,
+}) {
   const [typeId, setTypeId] = useState(() => {
     if (typeof window === 'undefined') return 'linear';
     return window.sessionStorage?.getItem(STORAGE_KEY) || 'linear';
@@ -140,13 +155,19 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
   }, [typeId]);
 
   const inputCls = `w-full px-3 py-2 rounded border text-base font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-    dark ? 'bg-slate-900 border-slate-600 text-slate-100' : 'bg-white border-slate-300 text-slate-900'
+    dark
+      ? 'bg-slate-900 border-slate-600 text-slate-100'
+      : 'bg-white border-slate-300 text-slate-900'
   }`;
   const numCls = `w-24 px-2 py-1 rounded border text-base focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-    dark ? 'bg-slate-900 border-slate-600 text-slate-100' : 'bg-white border-slate-300 text-slate-900'
+    dark
+      ? 'bg-slate-900 border-slate-600 text-slate-100'
+      : 'bg-white border-slate-300 text-slate-900'
   }`;
   const cardCls = `rounded-lg p-4 ${
-    dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+    dark
+      ? 'bg-slate-800 border border-slate-700'
+      : 'bg-slate-50 border border-slate-200'
   }`;
 
   return (
@@ -178,14 +199,18 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
-              <span className="mr-1.5" aria-hidden>{t.icon}</span>
+              <span className="mr-1.5" aria-hidden>
+                {t.icon}
+              </span>
               {t.label}
             </button>
           );
         })}
       </div>
 
-      <p className={`text-sm mb-4 ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+      <p
+        className={`text-sm mb-4 ${dark ? 'text-slate-400' : 'text-slate-600'}`}
+      >
         {activeType?.blurb}
       </p>
 
@@ -193,7 +218,10 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
       <div className={`${cardCls} mb-4`}>
         {typeId === 'linear' && (
           <div>
-            <label htmlFor="solver-eq" className="block text-sm font-semibold mb-2">
+            <label
+              htmlFor="solver-eq"
+              className="block text-sm font-semibold mb-2"
+            >
               Equation (use x for the variable)
             </label>
             <input
@@ -208,7 +236,10 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
         )}
         {typeId === 'inequality' && (
           <div>
-            <label htmlFor="solver-ineq" className="block text-sm font-semibold mb-2">
+            <label
+              htmlFor="solver-ineq"
+              className="block text-sm font-semibold mb-2"
+            >
               Inequality (use &lt;, &gt;, &lt;=, &gt;=)
             </label>
             <input
@@ -223,7 +254,10 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
         )}
         {typeId === 'expression' && (
           <div>
-            <label htmlFor="solver-expr" className="block text-sm font-semibold mb-2">
+            <label
+              htmlFor="solver-expr"
+              className="block text-sm font-semibold mb-2"
+            >
               Expression
             </label>
             <input
@@ -254,7 +288,9 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
                     className={`px-2.5 py-1 rounded text-xs font-semibold ${
                       active
                         ? 'bg-blue-600 text-white'
-                        : dark ? 'bg-slate-700 text-slate-200' : 'bg-slate-200 text-slate-800'
+                        : dark
+                          ? 'bg-slate-700 text-slate-200'
+                          : 'bg-slate-200 text-slate-800'
                     }`}
                   >
                     {k.label}
@@ -265,23 +301,53 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
             <div className="flex flex-wrap items-center gap-2 text-sm">
               {pctKind === 'percentOf' && (
                 <>
-                  <input aria-label="percent" value={pctP} onChange={(e) => setPctP(e.target.value)} className={numCls} />
+                  <input
+                    aria-label="percent"
+                    value={pctP}
+                    onChange={(e) => setPctP(e.target.value)}
+                    className={numCls}
+                  />
                   <span>% of</span>
-                  <input aria-label="whole" value={pctW} onChange={(e) => setPctW(e.target.value)} className={numCls} />
+                  <input
+                    aria-label="whole"
+                    value={pctW}
+                    onChange={(e) => setPctW(e.target.value)}
+                    className={numCls}
+                  />
                 </>
               )}
               {pctKind === 'isWhatPct' && (
                 <>
-                  <input aria-label="part" value={pctX} onChange={(e) => setPctX(e.target.value)} className={numCls} />
+                  <input
+                    aria-label="part"
+                    value={pctX}
+                    onChange={(e) => setPctX(e.target.value)}
+                    className={numCls}
+                  />
                   <span>is what % of</span>
-                  <input aria-label="whole" value={pctW} onChange={(e) => setPctW(e.target.value)} className={numCls} />
+                  <input
+                    aria-label="whole"
+                    value={pctW}
+                    onChange={(e) => setPctW(e.target.value)}
+                    className={numCls}
+                  />
                 </>
               )}
               {pctKind === 'pctIsX' && (
                 <>
-                  <input aria-label="percent" value={pctP} onChange={(e) => setPctP(e.target.value)} className={numCls} />
+                  <input
+                    aria-label="percent"
+                    value={pctP}
+                    onChange={(e) => setPctP(e.target.value)}
+                    className={numCls}
+                  />
                   <span>% of WHAT is</span>
-                  <input aria-label="part" value={pctX} onChange={(e) => setPctX(e.target.value)} className={numCls} />
+                  <input
+                    aria-label="part"
+                    value={pctX}
+                    onChange={(e) => setPctX(e.target.value)}
+                    className={numCls}
+                  />
                 </>
               )}
             </div>
@@ -289,18 +355,46 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
         )}
         {typeId === 'proportion' && (
           <div className="space-y-2">
-            <p className="text-xs opacity-75">Leave the unknown field <em>blank</em>.</p>
+            <p className="text-xs opacity-75">
+              Leave the unknown field <em>blank</em>.
+            </p>
             <div className="flex items-center gap-2 text-base">
               <div className="flex flex-col items-center">
-                <input aria-label="a" value={propA} onChange={(e) => setPropA(e.target.value)} className={numCls} />
-                <div className="w-24 border-t-2 my-1" style={{ borderColor: dark ? '#475569' : '#94a3b8' }} />
-                <input aria-label="b" value={propB} onChange={(e) => setPropB(e.target.value)} className={numCls} />
+                <input
+                  aria-label="a"
+                  value={propA}
+                  onChange={(e) => setPropA(e.target.value)}
+                  className={numCls}
+                />
+                <div
+                  className="w-24 border-t-2 my-1"
+                  style={{ borderColor: dark ? '#475569' : '#94a3b8' }}
+                />
+                <input
+                  aria-label="b"
+                  value={propB}
+                  onChange={(e) => setPropB(e.target.value)}
+                  className={numCls}
+                />
               </div>
               <span className="text-2xl mx-2">=</span>
               <div className="flex flex-col items-center">
-                <input aria-label="c" value={propC} onChange={(e) => setPropC(e.target.value)} className={numCls} />
-                <div className="w-24 border-t-2 my-1" style={{ borderColor: dark ? '#475569' : '#94a3b8' }} />
-                <input aria-label="d" value={propD} onChange={(e) => setPropD(e.target.value)} className={numCls} />
+                <input
+                  aria-label="c"
+                  value={propC}
+                  onChange={(e) => setPropC(e.target.value)}
+                  className={numCls}
+                />
+                <div
+                  className="w-24 border-t-2 my-1"
+                  style={{ borderColor: dark ? '#475569' : '#94a3b8' }}
+                />
+                <input
+                  aria-label="d"
+                  value={propD}
+                  onChange={(e) => setPropD(e.target.value)}
+                  className={numCls}
+                />
               </div>
             </div>
           </div>
@@ -310,7 +404,9 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
       {/* Samples */}
       {activeType?.samples?.length > 0 && (
         <div className="mb-4">
-          <p className="text-xs uppercase font-semibold opacity-70 mb-2">Try a sample</p>
+          <p className="text-xs uppercase font-semibold opacity-70 mb-2">
+            Try a sample
+          </p>
           <div className="flex flex-wrap gap-2">
             {activeType.samples.map((s) => (
               <button
@@ -318,7 +414,9 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
                 type="button"
                 onClick={() => loadSample(s)}
                 className={`px-2.5 py-1 rounded text-sm font-mono ${
-                  dark ? 'bg-slate-700 hover:bg-slate-600 text-slate-100' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                  dark
+                    ? 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
                 }`}
               >
                 {s}
@@ -340,7 +438,9 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
           type="button"
           onClick={clearAll}
           className={`px-5 py-2 rounded-md font-semibold ${
-            dark ? 'bg-slate-700 hover:bg-slate-600 text-slate-100' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+            dark
+              ? 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+              : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
           }`}
         >
           Clear
@@ -348,7 +448,10 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
       </div>
 
       {error && (
-        <p role="alert" className={`text-sm mb-4 ${dark ? 'text-red-300' : 'text-red-700'}`}>
+        <p
+          role="alert"
+          className={`text-sm mb-4 ${dark ? 'text-red-300' : 'text-red-700'}`}
+        >
           ⚠ {error}
         </p>
       )}
@@ -360,7 +463,9 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
             <div
               key={i}
               className={`p-3 rounded-lg ${
-                dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+                dark
+                  ? 'bg-slate-800 border border-slate-700'
+                  : 'bg-slate-50 border border-slate-200'
               }`}
             >
               <div className="flex items-start gap-3">
@@ -372,12 +477,18 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium mb-1.5">{s.narration}</p>
-                  <div className={`text-base ${dark ? 'text-slate-100' : 'text-slate-800'}`}>
+                  <div
+                    className={`text-base ${dark ? 'text-slate-100' : 'text-slate-800'}`}
+                  >
                     <Math tex={s.latex} display />
                   </div>
                   {s.why && (
-                    <details className={`mt-2 text-xs ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      <summary className="cursor-pointer font-semibold">Why?</summary>
+                    <details
+                      className={`mt-2 text-xs ${dark ? 'text-slate-400' : 'text-slate-600'}`}
+                    >
+                      <summary className="cursor-pointer font-semibold">
+                        Why?
+                      </summary>
                       <p className="mt-1 leading-snug">{s.why}</p>
                     </details>
                   )}
@@ -398,8 +509,11 @@ export default function StepByStepSolver({ dark = false, onSolutionFound = null 
       )}
 
       {!result && !error && (
-        <div className={`text-center py-6 text-sm ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
-          Pick a problem type, fill in the fields, and press Solve to see each step explained.
+        <div
+          className={`text-center py-6 text-sm ${dark ? 'text-slate-400' : 'text-slate-500'}`}
+        >
+          Pick a problem type, fill in the fields, and press Solve to see each
+          step explained.
         </div>
       )}
     </div>

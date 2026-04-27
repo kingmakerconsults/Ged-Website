@@ -15,7 +15,8 @@ export const SCENARIOS = [
   // ── Supply-side determinants ──────────────────────────────────────────────
   {
     id: 'econ_001',
-    prompt: 'A new technology lowers production costs across the bicycle industry.',
+    prompt:
+      'A new technology lowers production costs across the bicycle industry.',
     determinant: 'Production technology',
     curve: 'supply',
     affect: 'supply',
@@ -266,8 +267,7 @@ export const SCENARIOS = [
   },
   {
     id: 'econ_018',
-    prompt:
-      'A new study shows red meat is healthier than previously thought.',
+    prompt: 'A new study shows red meat is healthier than previously thought.',
     determinant: 'Tastes & preferences',
     curve: 'demand',
     affect: 'demand',

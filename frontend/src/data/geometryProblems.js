@@ -172,8 +172,7 @@ export const GEOMETRY_PROBLEMS = [
     id: 'pyth-4',
     kind: 'word',
     topic: 'Pythagorean',
-    prompt:
-      'A right triangle has legs of 9 and 12 cm. What is the hypotenuse?',
+    prompt: 'A right triangle has legs of 9 and 12 cm. What is the hypotenuse?',
     choices: ['10 cm', '15 cm', '18 cm', '21 cm'],
     correct: 1,
     explanation: 'c² = 81 + 144 = 225, so c = 15 cm.',
@@ -222,7 +221,8 @@ export const GEOMETRY_PROBLEMS = [
       'A cylindrical water tank has radius 4 ft and height 6 ft. What is its volume to the nearest tenth? (Use π ≈ 3.14)',
     choices: ['75.4', '150.8', '301.4', '301.6'],
     correct: 3,
-    explanation: 'V = πr²h = 3.14 × 16 × 6 = 301.44 ≈ 301.6 cubic ft. (rounded — choice closest)',
+    explanation:
+      'V = πr²h = 3.14 × 16 × 6 = 301.44 ≈ 301.6 cubic ft. (rounded — choice closest)',
     formula: 'V = \\pi r^2 h',
   },
   {
@@ -242,8 +242,7 @@ export const GEOMETRY_PROBLEMS = [
     id: 'sa-1',
     kind: 'word',
     topic: 'Surface area',
-    prompt:
-      'A cube has a side length of 5 in. What is its total surface area?',
+    prompt: 'A cube has a side length of 5 in. What is its total surface area?',
     choices: ['25', '125', '150', '300'],
     correct: 2,
     explanation: 'SA = 6s² = 6 × 25 = 150 sq in.',
@@ -253,8 +252,7 @@ export const GEOMETRY_PROBLEMS = [
     id: 'sa-2',
     kind: 'word',
     topic: 'Surface area',
-    prompt:
-      'A rectangular box is 4 by 3 by 2 cm. What is its surface area?',
+    prompt: 'A rectangular box is 4 by 3 by 2 cm. What is its surface area?',
     choices: ['24', '26', '48', '52'],
     correct: 3,
     explanation: 'SA = 2(lw + lh + wh) = 2(12 + 8 + 6) = 2(26) = 52 sq cm.',
@@ -266,7 +264,8 @@ export const GEOMETRY_PROBLEMS = [
     id: 'ang-1',
     kind: 'word',
     topic: 'Angles',
-    prompt: 'Two angles are complementary. One angle is 35°. What is the other?',
+    prompt:
+      'Two angles are complementary. One angle is 35°. What is the other?',
     choices: ['45°', '55°', '65°', '145°'],
     correct: 1,
     explanation: 'Complementary angles sum to 90°. 90 − 35 = 55°.',
@@ -276,7 +275,8 @@ export const GEOMETRY_PROBLEMS = [
     id: 'ang-2',
     kind: 'word',
     topic: 'Angles',
-    prompt: 'Two angles are supplementary. One angle is 110°. What is the other?',
+    prompt:
+      'Two angles are supplementary. One angle is 110°. What is the other?',
     choices: ['20°', '70°', '90°', '250°'],
     correct: 1,
     explanation: 'Supplementary angles sum to 180°. 180 − 110 = 70°.',
@@ -327,7 +327,8 @@ export const GEOMETRY_PROBLEMS = [
       'Vertical angles are formed when two lines cross. If one vertical angle is 73°, what is the other?',
     choices: ['17°', '73°', '107°', '180°'],
     correct: 1,
-    explanation: 'Vertical angles are always equal in measure. So both are 73°.',
+    explanation:
+      'Vertical angles are always equal in measure. So both are 73°.',
     formula: '\\text{vertical angles are } \\cong',
   },
 
@@ -336,8 +337,7 @@ export const GEOMETRY_PROBLEMS = [
     id: 'mix-1',
     kind: 'word',
     topic: 'Mixed',
-    prompt:
-      'A square has an area of 64 sq cm. What is the length of one side?',
+    prompt: 'A square has an area of 64 sq cm. What is the length of one side?',
     choices: ['4 cm', '6 cm', '8 cm', '32 cm'],
     correct: 2,
     explanation: 's = √64 = 8 cm.',

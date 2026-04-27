@@ -73,7 +73,8 @@ const MATH_TOOLS = [
     id: 'solver',
     name: 'Step-by-Step Solver',
     icon: '🧮',
-    description: 'Walk through algebra, percent, proportion, and PEMDAS problems step by step.',
+    description:
+      'Walk through algebra, percent, proportion, and PEMDAS problems step by step.',
     component: StepByStepSolver,
   },
 ];

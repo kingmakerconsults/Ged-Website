@@ -71,7 +71,14 @@ export default function AnglesPanel({ dark = false }) {
   );
 }
 
-function ParallelLinesDemo({ stroke, accent, accent2, labelFill, muted, dark }) {
+function ParallelLinesDemo({
+  stroke,
+  accent,
+  accent2,
+  labelFill,
+  muted,
+  dark,
+}) {
   const [angle, setAngle] = useState(60); // angle the transversal makes with the lines (acute angle)
   const supp = 180 - angle;
 
@@ -93,16 +100,36 @@ function ParallelLinesDemo({ stroke, accent, accent2, labelFill, muted, dark }) 
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div
         className={`rounded-lg p-3 ${
-          dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+          dark
+            ? 'bg-slate-800 border border-slate-700'
+            : 'bg-slate-50 border border-slate-200'
         }`}
       >
         <svg viewBox="0 0 500 280" className="w-full max-h-[300px]">
           {/* Parallel lines */}
-          <line x1="20" y1="80" x2="480" y2="80" stroke={stroke} strokeWidth="2" />
-          <line x1="20" y1="200" x2="480" y2="200" stroke={stroke} strokeWidth="2" />
+          <line
+            x1="20"
+            y1="80"
+            x2="480"
+            y2="80"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <line
+            x1="20"
+            y1="200"
+            x2="480"
+            y2="200"
+            stroke={stroke}
+            strokeWidth="2"
+          />
           {/* Arrow markers (parallel indicator) */}
-          <text x="470" y="74" fontSize="14" fill={muted}>›</text>
-          <text x="470" y="194" fontSize="14" fill={muted}>›</text>
+          <text x="470" y="74" fontSize="14" fill={muted}>
+            ›
+          </text>
+          <text x="470" y="194" fontSize="14" fill={muted}>
+            ›
+          </text>
           {/* Transversal */}
           <line
             x1={tx1}
@@ -152,12 +179,7 @@ function ParallelLinesDemo({ stroke, accent, accent2, labelFill, muted, dark }) 
             stroke={accent}
             strokeWidth="2"
           />
-          <text
-            x={cx1 - 60}
-            y={cy1 + 24}
-            fontSize="13"
-            fill={accent}
-          >
+          <text x={cx1 - 60} y={cy1 + 24} fontSize="13" fill={accent}>
             {supp}°
           </text>
           {/* Intersection dots */}
@@ -181,38 +203,46 @@ function ParallelLinesDemo({ stroke, accent, accent2, labelFill, muted, dark }) 
         </div>
       </div>
 
-      <div className={`text-sm space-y-2 ${dark ? 'text-slate-200' : 'text-slate-800'}`}>
+      <div
+        className={`text-sm space-y-2 ${dark ? 'text-slate-200' : 'text-slate-800'}`}
+      >
         <h4 className="font-semibold text-base">Angle relationships</h4>
         <ul className="space-y-1.5 list-disc pl-5">
           <li>
-            <strong>Corresponding angles</strong> (same position at each intersection) are equal:
-            both are <span style={{ color: accent2 }}>{angle}°</span>.
-          </li>
-          <li>
-            <strong>Alternate interior angles</strong> (between the parallel lines, opposite sides
-            of the transversal) are equal: both are{' '}
+            <strong>Corresponding angles</strong> (same position at each
+            intersection) are equal: both are{' '}
             <span style={{ color: accent2 }}>{angle}°</span>.
           </li>
           <li>
-            <strong>Alternate exterior angles</strong> (outside the parallel lines, opposite sides
-            of the transversal) are equal.
+            <strong>Alternate interior angles</strong> (between the parallel
+            lines, opposite sides of the transversal) are equal: both are{' '}
+            <span style={{ color: accent2 }}>{angle}°</span>.
           </li>
           <li>
-            <strong>Co-interior (same-side interior)</strong> angles are <em>supplementary</em>:{' '}
+            <strong>Alternate exterior angles</strong> (outside the parallel
+            lines, opposite sides of the transversal) are equal.
+          </li>
+          <li>
+            <strong>Co-interior (same-side interior)</strong> angles are{' '}
+            <em>supplementary</em>:{' '}
             <KaTeXSpan tex={`${angle}^\\circ + ${supp}^\\circ = 180^\\circ`} />.
           </li>
           <li>
-            <strong>Vertical angles</strong> (across the intersection) are equal.
+            <strong>Vertical angles</strong> (across the intersection) are
+            equal.
           </li>
         </ul>
         <div
           className={`mt-3 p-3 rounded ${
-            dark ? 'bg-slate-800 border border-slate-700' : 'bg-blue-50 border border-blue-200'
+            dark
+              ? 'bg-slate-800 border border-slate-700'
+              : 'bg-blue-50 border border-blue-200'
           }`}
         >
           <p className="text-xs leading-snug">
-            <strong>GED tip:</strong> If you spot two parallel lines crossed by a transversal, the
-            8 angles formed only have 2 distinct measures: the acute angle and its supplement.
+            <strong>GED tip:</strong> If you spot two parallel lines crossed by
+            a transversal, the 8 angles formed only have 2 distinct measures:
+            the acute angle and its supplement.
           </p>
         </div>
       </div>
@@ -237,7 +267,8 @@ function TriangleSumDemo({ stroke, accent, labelFill, muted, dark }) {
   // Side opposite A has length proportional to sin(A); etc.
   const aRad = (angA * Math.PI) / 180;
   const bRad = (angB * Math.PI) / 180;
-  const sideAC = (baseLen * Math.sin(bRad)) / Math.sin(((angC || 1) * Math.PI) / 180);
+  const sideAC =
+    (baseLen * Math.sin(bRad)) / Math.sin(((angC || 1) * Math.PI) / 180);
   const cx = ax + sideAC * Math.cos(aRad);
   const cy = ay - sideAC * Math.sin(aRad);
 
@@ -245,7 +276,9 @@ function TriangleSumDemo({ stroke, accent, labelFill, muted, dark }) {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div
         className={`rounded-lg p-3 ${
-          dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+          dark
+            ? 'bg-slate-800 border border-slate-700'
+            : 'bg-slate-50 border border-slate-200'
         }`}
       >
         <svg viewBox="0 0 440 260" className="w-full max-h-[280px]">
@@ -259,19 +292,43 @@ function TriangleSumDemo({ stroke, accent, labelFill, muted, dark }) {
           )}
           {valid && (
             <>
-              <text x={ax - 20} y={ay + 8} fontSize="13" fontWeight="bold" fill={accent}>
+              <text
+                x={ax - 20}
+                y={ay + 8}
+                fontSize="13"
+                fontWeight="bold"
+                fill={accent}
+              >
                 A: {angA}°
               </text>
-              <text x={bx + 6} y={by + 8} fontSize="13" fontWeight="bold" fill={accent}>
+              <text
+                x={bx + 6}
+                y={by + 8}
+                fontSize="13"
+                fontWeight="bold"
+                fill={accent}
+              >
                 B: {angB}°
               </text>
-              <text x={cx - 14} y={cy - 8} fontSize="13" fontWeight="bold" fill={accent}>
+              <text
+                x={cx - 14}
+                y={cy - 8}
+                fontSize="13"
+                fontWeight="bold"
+                fill={accent}
+              >
                 C: {Math.round(angC)}°
               </text>
             </>
           )}
           {!valid && (
-            <text x="220" y="130" textAnchor="middle" fontSize="14" fill={muted}>
+            <text
+              x="220"
+              y="130"
+              textAnchor="middle"
+              fontSize="14"
+              fill={muted}
+            >
               Angles must sum to less than 180°.
             </text>
           )}
@@ -303,21 +360,29 @@ function TriangleSumDemo({ stroke, accent, labelFill, muted, dark }) {
         </div>
       </div>
 
-      <div className={`text-sm space-y-2 ${dark ? 'text-slate-200' : 'text-slate-800'}`}>
+      <div
+        className={`text-sm space-y-2 ${dark ? 'text-slate-200' : 'text-slate-800'}`}
+      >
         <h4 className="font-semibold text-base">Triangle angle sum</h4>
-        <p>
-          The interior angles of every triangle add up to 180°:
-        </p>
+        <p>The interior angles of every triangle add up to 180°:</p>
         <div className="text-center my-2">
           <KaTeXSpan tex="\angle A + \angle B + \angle C = 180^\circ" display />
         </div>
         <div className="text-center my-2">
-          <KaTeXSpan tex={`${angA}^\\circ + ${angB}^\\circ + ${Math.round(angC)}^\\circ = ${angA + angB + Math.round(angC)}^\\circ`} display />
+          <KaTeXSpan
+            tex={`${angA}^\\circ + ${angB}^\\circ + ${Math.round(angC)}^\\circ = ${angA + angB + Math.round(angC)}^\\circ`}
+            display
+          />
         </div>
         <ul className="space-y-1.5 list-disc pl-5">
-          <li>If two angles are known, subtract their sum from 180° to find the third.</li>
+          <li>
+            If two angles are known, subtract their sum from 180° to find the
+            third.
+          </li>
           <li>An equilateral triangle has all three angles = 60°.</li>
-          <li>A right triangle has one 90° angle, so the other two sum to 90°.</li>
+          <li>
+            A right triangle has one 90° angle, so the other two sum to 90°.
+          </li>
         </ul>
       </div>
     </div>
@@ -326,31 +391,50 @@ function TriangleSumDemo({ stroke, accent, labelFill, muted, dark }) {
 
 function AnglePairsReference({ dark }) {
   const cardCls = `p-4 rounded-lg ${
-    dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+    dark
+      ? 'bg-slate-800 border border-slate-700'
+      : 'bg-slate-50 border border-slate-200'
   }`;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
       <div className={cardCls}>
         <h5 className="font-semibold mb-1">Complementary angles</h5>
         <p>Two angles whose measures add to 90°.</p>
-        <div className="mt-1"><KaTeXSpan tex="\angle 1 + \angle 2 = 90^\circ" display /></div>
-        <p className="text-xs opacity-70 mt-1">Example: 35° and 55° are complementary.</p>
+        <div className="mt-1">
+          <KaTeXSpan tex="\angle 1 + \angle 2 = 90^\circ" display />
+        </div>
+        <p className="text-xs opacity-70 mt-1">
+          Example: 35° and 55° are complementary.
+        </p>
       </div>
       <div className={cardCls}>
         <h5 className="font-semibold mb-1">Supplementary angles</h5>
         <p>Two angles whose measures add to 180°.</p>
-        <div className="mt-1"><KaTeXSpan tex="\angle 1 + \angle 2 = 180^\circ" display /></div>
-        <p className="text-xs opacity-70 mt-1">Example: 110° and 70° are supplementary.</p>
+        <div className="mt-1">
+          <KaTeXSpan tex="\angle 1 + \angle 2 = 180^\circ" display />
+        </div>
+        <p className="text-xs opacity-70 mt-1">
+          Example: 110° and 70° are supplementary.
+        </p>
       </div>
       <div className={cardCls}>
         <h5 className="font-semibold mb-1">Vertical angles</h5>
-        <p>When two straight lines cross, the angles directly opposite each other are equal.</p>
-        <div className="mt-1"><KaTeXSpan tex="\angle A \cong \angle C" display /></div>
+        <p>
+          When two straight lines cross, the angles directly opposite each other
+          are equal.
+        </p>
+        <div className="mt-1">
+          <KaTeXSpan tex="\angle A \cong \angle C" display />
+        </div>
       </div>
       <div className={cardCls}>
         <h5 className="font-semibold mb-1">Linear pair</h5>
-        <p>Two adjacent angles on a straight line. They are always supplementary.</p>
-        <div className="mt-1"><KaTeXSpan tex="\angle A + \angle B = 180^\circ" display /></div>
+        <p>
+          Two adjacent angles on a straight line. They are always supplementary.
+        </p>
+        <div className="mt-1">
+          <KaTeXSpan tex="\angle A + \angle B = 180^\circ" display />
+        </div>
       </div>
     </div>
   );

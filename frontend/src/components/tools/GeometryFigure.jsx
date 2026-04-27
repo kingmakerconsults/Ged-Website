@@ -194,9 +194,7 @@ const SHAPE_FORMULAS = {
   },
   trapezoid: {
     title: 'Trapezoid',
-    formulas: [
-      { label: 'Area', tex: 'A = \\tfrac{1}{2}(b_1 + b_2) h' },
-    ],
+    formulas: [{ label: 'Area', tex: 'A = \\tfrac{1}{2}(b_1 + b_2) h' }],
     legend: 'b₁, b₂ = the two parallel bases, h = height between them',
   },
   circle: {
@@ -258,7 +256,15 @@ const round = (n, p = 2) => {
   return Math.round(n * f) / f;
 };
 
-function NumberControl({ label, value, onChange, min = 1, max = 200, step = 1, unit }) {
+function NumberControl({
+  label,
+  value,
+  onChange,
+  min = 1,
+  max = 200,
+  step = 1,
+  unit,
+}) {
   return (
     <label className="block">
       <span className="block text-xs font-semibold mb-1 opacity-80">
@@ -306,7 +312,8 @@ export default function GeometryPlayground({ dark = false }) {
   });
   const setTabSafe = (t) => {
     setTab(t);
-    if (typeof window !== 'undefined') window.sessionStorage?.setItem('geometryTool:tab', t);
+    if (typeof window !== 'undefined')
+      window.sessionStorage?.setItem('geometryTool:tab', t);
   };
 
   const tabBtn = (id, label) => {
@@ -351,16 +358,22 @@ function FormulaCard({ shape, dark }) {
   return (
     <div
       className={`rounded-lg p-3 ${
-        dark ? 'bg-slate-800 border border-slate-700' : 'bg-blue-50 border border-blue-200'
+        dark
+          ? 'bg-slate-800 border border-slate-700'
+          : 'bg-blue-50 border border-blue-200'
       }`}
     >
-      <h5 className={`font-semibold mb-2 ${dark ? 'text-blue-200' : 'text-blue-900'}`}>
+      <h5
+        className={`font-semibold mb-2 ${dark ? 'text-blue-200' : 'text-blue-900'}`}
+      >
         📘 {data.title} — formulas
       </h5>
       <div className="space-y-1.5">
         {data.formulas.map((f) => (
           <div key={f.label} className="flex items-baseline gap-2 text-sm">
-            <span className={`font-medium ${dark ? 'text-slate-300' : 'text-slate-700'}`}>
+            <span
+              className={`font-medium ${dark ? 'text-slate-300' : 'text-slate-700'}`}
+            >
               {f.label}:
             </span>
             <span className={dark ? 'text-slate-100' : 'text-slate-900'}>
@@ -369,7 +382,9 @@ function FormulaCard({ shape, dark }) {
           </div>
         ))}
       </div>
-      <p className={`mt-2 text-xs ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+      <p
+        className={`mt-2 text-xs ${dark ? 'text-slate-400' : 'text-slate-600'}`}
+      >
         {data.legend}
       </p>
     </div>
@@ -402,13 +417,20 @@ function SandboxTab({ dark }) {
         return { perimeter: 2 * (base + h), area: base * h };
       case 'triangle': {
         const hyp = Math.sqrt(legA * legA + legB * legB);
-        return { perimeter: legA + legB + hyp, area: (legA * legB) / 2, hypotenuse: hyp };
+        return {
+          perimeter: legA + legB + hyp,
+          area: (legA * legB) / 2,
+          hypotenuse: hyp,
+        };
       }
       case 'equilateral':
         return { perimeter: 3 * s, area: (Math.sqrt(3) / 4) * s * s };
       case 'trapezoid': {
         const slant = Math.sqrt(((base - base2) / 2) ** 2 + h * h);
-        return { perimeter: base + base2 + 2 * slant, area: ((base + base2) / 2) * h };
+        return {
+          perimeter: base + base2 + 2 * slant,
+          area: ((base + base2) / 2) * h,
+        };
       }
       case 'circle':
         return { perimeter: 2 * Math.PI * r, area: Math.PI * r * r };
@@ -453,10 +475,21 @@ function SandboxTab({ dark }) {
           />
           {showLabels && (
             <>
-              <text x={pad + w / 2} y={pad + h + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              <text
+                x={pad + w / 2}
+                y={pad + h + 18}
+                textAnchor="middle"
+                fontSize="13"
+                fill={labelFill}
+              >
                 w = {w}
               </text>
-              <text x={pad + w + 8} y={pad + h / 2} fontSize="13" fill={labelFill}>
+              <text
+                x={pad + w + 8}
+                y={pad + h / 2}
+                fontSize="13"
+                fill={labelFill}
+              >
                 h = {h}
               </text>
             </>
@@ -480,7 +513,13 @@ function SandboxTab({ dark }) {
           <polygon points={pts} fill={fill} stroke={stroke} strokeWidth="2" />
           {showLabels && (
             <>
-              <text x={pad + base / 2} y={pad + h + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              <text
+                x={pad + base / 2}
+                y={pad + h + 18}
+                textAnchor="middle"
+                fontSize="13"
+                fill={labelFill}
+              >
                 b = {base}
               </text>
               <text x={pad - 24} y={pad + h / 2} fontSize="13" fill={labelFill}>
@@ -515,10 +554,21 @@ function SandboxTab({ dark }) {
           />
           {showLabels && (
             <>
-              <text x={pad - 22} y={pad + legA / 2} fontSize="13" fill={labelFill}>
+              <text
+                x={pad - 22}
+                y={pad + legA / 2}
+                fontSize="13"
+                fill={labelFill}
+              >
                 a = {legA}
               </text>
-              <text x={pad + legB / 2} y={pad + legA + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              <text
+                x={pad + legB / 2}
+                y={pad + legA + 18}
+                textAnchor="middle"
+                fontSize="13"
+                fill={labelFill}
+              >
                 b = {legB}
               </text>
               <text
@@ -550,13 +600,30 @@ function SandboxTab({ dark }) {
           <polygon points={pts} fill={fill} stroke={stroke} strokeWidth="2" />
           {showLabels && (
             <>
-              <text x={pad + offset + base2 / 2} y={pad - 8} textAnchor="middle" fontSize="13" fill={labelFill}>
+              <text
+                x={pad + offset + base2 / 2}
+                y={pad - 8}
+                textAnchor="middle"
+                fontSize="13"
+                fill={labelFill}
+              >
                 b₂ = {base2}
               </text>
-              <text x={pad + base / 2} y={pad + h + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              <text
+                x={pad + base / 2}
+                y={pad + h + 18}
+                textAnchor="middle"
+                fontSize="13"
+                fill={labelFill}
+              >
                 b₁ = {base}
               </text>
-              <text x={pad + base + 8} y={pad + h / 2} fontSize="13" fill={labelFill}>
+              <text
+                x={pad + base + 8}
+                y={pad + h / 2}
+                fontSize="13"
+                fill={labelFill}
+              >
                 h = {h}
               </text>
             </>
@@ -603,9 +670,23 @@ function SandboxTab({ dark }) {
       const vb = `0 0 ${s + pad * 2} ${s + pad * 2}`;
       return (
         <svg viewBox={vb} className="w-full max-h-[260px]">
-          <rect x={pad} y={pad} width={s} height={s} fill={fill} stroke={stroke} strokeWidth="2" />
+          <rect
+            x={pad}
+            y={pad}
+            width={s}
+            height={s}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
           {showLabels && (
-            <text x={pad + s / 2} y={pad + s + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+            <text
+              x={pad + s / 2}
+              y={pad + s + 18}
+              textAnchor="middle"
+              fontSize="13"
+              fill={labelFill}
+            >
               s = {s}
             </text>
           )}
@@ -620,7 +701,13 @@ function SandboxTab({ dark }) {
         <svg viewBox={vb} className="w-full max-h-[260px]">
           <polygon points={pts} fill={fill} stroke={stroke} strokeWidth="2" />
           {showLabels && (
-            <text x={pad + s / 2} y={pad + tH + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+            <text
+              x={pad + s / 2}
+              y={pad + tH + 18}
+              textAnchor="middle"
+              fontSize="13"
+              fill={labelFill}
+            >
               s = {s}
             </text>
           )}
@@ -638,7 +725,13 @@ function SandboxTab({ dark }) {
             strokeWidth="2"
           />
           {showLabels && (
-            <text x={pad + r} y={pad + r + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+            <text
+              x={pad + r}
+              y={pad + r + 18}
+              textAnchor="middle"
+              fontSize="13"
+              fill={labelFill}
+            >
               r = {r}
             </text>
           )}
@@ -657,7 +750,13 @@ function SandboxTab({ dark }) {
         <svg viewBox={vb} className="w-full max-h-[260px]">
           <polygon points={pts} fill={fill} stroke={stroke} strokeWidth="2" />
           {showLabels && (
-            <text x={cx} y={cy + s + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+            <text
+              x={cx}
+              y={cy + s + 18}
+              textAnchor="middle"
+              fontSize="13"
+              fill={labelFill}
+            >
               s = {s}
             </text>
           )}
@@ -670,7 +769,15 @@ function SandboxTab({ dark }) {
       const vb = `0 0 ${w + dx + pad * 2} ${legA - dy + pad * 2}`;
       return (
         <svg viewBox={vb} className="w-full max-h-[280px]">
-          <rect x={pad} y={pad - dy} width={w} height={legA} fill={fill} stroke={stroke} strokeWidth="2" />
+          <rect
+            x={pad}
+            y={pad - dy}
+            width={w}
+            height={legA}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
           <polygon
             points={`${pad},${pad - dy} ${pad + dx},${pad} ${pad + dx + w},${pad} ${pad + w},${pad - dy}`}
             fill={fill}
@@ -685,13 +792,29 @@ function SandboxTab({ dark }) {
           />
           {showLabels && (
             <>
-              <text x={pad + w / 2} y={pad + legA - dy + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              <text
+                x={pad + w / 2}
+                y={pad + legA - dy + 18}
+                textAnchor="middle"
+                fontSize="13"
+                fill={labelFill}
+              >
                 l = {w}
               </text>
-              <text x={pad + w + dx + 6} y={pad + legA / 2 - dy} fontSize="13" fill={labelFill}>
+              <text
+                x={pad + w + dx + 6}
+                y={pad + legA / 2 - dy}
+                fontSize="13"
+                fill={labelFill}
+              >
                 h = {legA}
               </text>
-              <text x={pad + w + dx / 2 + 6} y={pad - dy - 4} fontSize="13" fill={labelFill}>
+              <text
+                x={pad + w + dx / 2 + 6}
+                y={pad - dy - 4}
+                fontSize="13"
+                fill={labelFill}
+              >
                 w = {h}
               </text>
             </>
@@ -704,14 +827,59 @@ function SandboxTab({ dark }) {
       const vb = `0 0 ${r * 2 + pad * 2} ${h + ery * 2 + pad * 2}`;
       return (
         <svg viewBox={vb} className="w-full max-h-[280px]">
-          <ellipse cx={pad + r} cy={pad + ery} rx={r} ry={ery} fill={fill} stroke={stroke} strokeWidth="2" />
-          <line x1={pad} y1={pad + ery} x2={pad} y2={pad + h + ery} stroke={stroke} strokeWidth="2" />
-          <line x1={pad + r * 2} y1={pad + ery} x2={pad + r * 2} y2={pad + h + ery} stroke={stroke} strokeWidth="2" />
-          <ellipse cx={pad + r} cy={pad + h + ery} rx={r} ry={ery} fill={fill} stroke={stroke} strokeWidth="2" />
+          <ellipse
+            cx={pad + r}
+            cy={pad + ery}
+            rx={r}
+            ry={ery}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <line
+            x1={pad}
+            y1={pad + ery}
+            x2={pad}
+            y2={pad + h + ery}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <line
+            x1={pad + r * 2}
+            y1={pad + ery}
+            x2={pad + r * 2}
+            y2={pad + h + ery}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <ellipse
+            cx={pad + r}
+            cy={pad + h + ery}
+            rx={r}
+            ry={ery}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
           {showLabels && (
             <>
-              <text x={pad + r} y={pad + ery + 4} textAnchor="middle" fontSize="12" fill={labelFill}>r = {r}</text>
-              <text x={pad + r * 2 + 6} y={pad + h / 2 + ery} fontSize="13" fill={labelFill}>h = {h}</text>
+              <text
+                x={pad + r}
+                y={pad + ery + 4}
+                textAnchor="middle"
+                fontSize="12"
+                fill={labelFill}
+              >
+                r = {r}
+              </text>
+              <text
+                x={pad + r * 2 + 6}
+                y={pad + h / 2 + ery}
+                fontSize="13"
+                fill={labelFill}
+              >
+                h = {h}
+              </text>
             </>
           )}
         </svg>
@@ -721,11 +889,43 @@ function SandboxTab({ dark }) {
       const vb = `0 0 ${r * 2 + pad * 2} ${r * 2 + pad * 2}`;
       return (
         <svg viewBox={vb} className="w-full max-h-[260px]">
-          <circle cx={pad + r} cy={pad + r} r={r} fill={fill} stroke={stroke} strokeWidth="2" />
-          <ellipse cx={pad + r} cy={pad + r} rx={r} ry={r * 0.3} fill="none" stroke={stroke} strokeWidth="1.2" strokeDasharray="3 3" />
-          <line x1={pad + r} y1={pad + r} x2={pad + r * 2} y2={pad + r} stroke={stroke} strokeWidth="1.5" strokeDasharray="4 3" />
+          <circle
+            cx={pad + r}
+            cy={pad + r}
+            r={r}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <ellipse
+            cx={pad + r}
+            cy={pad + r}
+            rx={r}
+            ry={r * 0.3}
+            fill="none"
+            stroke={stroke}
+            strokeWidth="1.2"
+            strokeDasharray="3 3"
+          />
+          <line
+            x1={pad + r}
+            y1={pad + r}
+            x2={pad + r * 2}
+            y2={pad + r}
+            stroke={stroke}
+            strokeWidth="1.5"
+            strokeDasharray="4 3"
+          />
           {showLabels && (
-            <text x={pad + r + r / 2} y={pad + r - 6} textAnchor="middle" fontSize="13" fill={labelFill}>r = {r}</text>
+            <text
+              x={pad + r + r / 2}
+              y={pad + r - 6}
+              textAnchor="middle"
+              fontSize="13"
+              fill={labelFill}
+            >
+              r = {r}
+            </text>
           )}
         </svg>
       );
@@ -766,7 +966,9 @@ function SandboxTab({ dark }) {
         {/* Drawing */}
         <div
           className={`rounded-lg p-4 flex items-center justify-center ${
-            dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'
+            dark
+              ? 'bg-slate-800 border border-slate-700'
+              : 'bg-slate-50 border border-slate-200'
           }`}
         >
           {renderShape()}
@@ -802,7 +1004,11 @@ function SandboxTab({ dark }) {
             {shape === 'trapezoid' && (
               <>
                 <NumberControl label="Base 1" value={base} onChange={setBase} />
-                <NumberControl label="Base 2" value={base2} onChange={setBase2} />
+                <NumberControl
+                  label="Base 2"
+                  value={base2}
+                  onChange={setBase2}
+                />
                 <NumberControl label="Height" value={h} onChange={setH} />
               </>
             )}
@@ -819,7 +1025,11 @@ function SandboxTab({ dark }) {
               <>
                 <NumberControl label="Length l" value={w} onChange={setW} />
                 <NumberControl label="Width w" value={h} onChange={setH} />
-                <NumberControl label="Height h" value={legA} onChange={setLegA} />
+                <NumberControl
+                  label="Height h"
+                  value={legA}
+                  onChange={setLegA}
+                />
               </>
             )}
             {shape === 'cylinder' && (
@@ -845,7 +1055,13 @@ function SandboxTab({ dark }) {
           <div className="grid grid-cols-2 gap-2">
             {computed.perimeter !== undefined && (
               <Stat
-                label={shape === 'circle' ? 'Circumference' : shape === 'semicircle' ? 'Perimeter' : 'Perimeter'}
+                label={
+                  shape === 'circle'
+                    ? 'Circumference'
+                    : shape === 'semicircle'
+                      ? 'Perimeter'
+                      : 'Perimeter'
+                }
                 value={round(computed.perimeter)}
                 accent={dark ? '#60a5fa' : '#2563eb'}
               />

@@ -266,7 +266,9 @@ export function solveLinearInequality(input) {
           narration: trueAlways
             ? 'The inequality is true for every real number.'
             : 'No value of x makes the inequality true.',
-          latex: trueAlways ? '\\text{All real numbers}' : '\\text{No solution}',
+          latex: trueAlways
+            ? '\\text{All real numbers}'
+            : '\\text{No solution}',
         },
       ],
     };
@@ -319,7 +321,10 @@ export function solvePercent({ kind, percent, part, whole }) {
     const x = Number(part);
     const y = Number(whole);
     if (!Number.isFinite(x) || !Number.isFinite(y) || y === 0) {
-      return { ok: false, error: 'Both fields must be numbers and the whole cannot be 0.' };
+      return {
+        ok: false,
+        error: 'Both fields must be numbers and the whole cannot be 0.',
+      };
     }
     const answer = (x / y) * 100;
     return {
@@ -343,7 +348,10 @@ export function solvePercent({ kind, percent, part, whole }) {
     const p = Number(percent);
     const x = Number(part);
     if (!Number.isFinite(p) || !Number.isFinite(x) || p === 0) {
-      return { ok: false, error: 'Both fields must be numbers and the percent cannot be 0.' };
+      return {
+        ok: false,
+        error: 'Both fields must be numbers and the percent cannot be 0.',
+      };
     }
     const answer = x / (p / 100);
     return {
@@ -434,7 +442,10 @@ export function evaluateExpression(input) {
   }
   const cleaned = input.replace(/\s+/g, '');
   if (!/^[\d+\-*/().^]+$/.test(cleaned)) {
-    return { ok: false, error: 'Only digits, decimals, + - * / ^ ( ) are allowed.' };
+    return {
+      ok: false,
+      error: 'Only digits, decimals, + - * / ^ ( ) are allowed.',
+    };
   }
   const jsExpr = cleaned.replace(/\^/g, '**');
   let answer;
@@ -457,8 +468,7 @@ export function evaluateExpression(input) {
         narration:
           'Apply order of operations (PEMDAS): parentheses, exponents, multiplication/division, addition/subtraction.',
         latex: `= ${fmt(answer)}`,
-        why:
-          'Evaluate parentheses first, then exponents, then multiplication and division left-to-right, and finally addition and subtraction left-to-right.',
+        why: 'Evaluate parentheses first, then exponents, then multiplication and division left-to-right, and finally addition and subtraction left-to-right.',
       },
     ],
   };

@@ -39,22 +39,28 @@ group('solveLinearEquation', () => {
   assert(r.ok && r.answer === 'x = 8', `x/2+3=7 → got ${JSON.stringify(r)}`);
 
   r = solveLinearEquation('x = x + 1');
-  assert(r.ok && r.answer === 'No solution', `x=x+1 → got ${JSON.stringify(r)}`);
+  assert(
+    r.ok && r.answer === 'No solution',
+    `x=x+1 → got ${JSON.stringify(r)}`
+  );
 
   r = solveLinearEquation('2x + 3 = 2x + 3');
   assert(
     r.ok && r.answer === 'Infinitely many solutions',
-    `identity → got ${JSON.stringify(r)}`,
+    `identity → got ${JSON.stringify(r)}`
   );
 
   r = solveLinearEquation('not an equation');
   assert(!r.ok, 'malformed input should error');
 
   r = solveLinearEquation('2x + 5 = 14');
-  assert(r.ok && r.answer === 'x = 4.5', `non-integer → got ${JSON.stringify(r)}`);
+  assert(
+    r.ok && r.answer === 'x = 4.5',
+    `non-integer → got ${JSON.stringify(r)}`
+  );
   assert(
     r.steps.some((s) => /\\dfrac/.test(s.latex) || /\\approx/.test(s.latex)),
-    'should show fractional or decimal step',
+    'should show fractional or decimal step'
   );
 });
 
@@ -63,7 +69,10 @@ group('solveLinearInequality', () => {
   assert(r.ok && r.answer === 'x > 6', `2x-5>7 → got ${JSON.stringify(r)}`);
 
   r = solveLinearInequality('-3x + 1 < 10');
-  assert(r.ok && r.answer === 'x > -3', `negative coef should flip: got ${JSON.stringify(r)}`);
+  assert(
+    r.ok && r.answer === 'x > -3',
+    `negative coef should flip: got ${JSON.stringify(r)}`
+  );
 
   r = solveLinearInequality('4x <= 12');
   assert(r.ok && r.answer === 'x <= 3', `4x<=12 → got ${JSON.stringify(r)}`);
@@ -80,7 +89,10 @@ group('solvePercent', () => {
   assert(r.ok && r.answer === '25%', `15 of 60 → got ${JSON.stringify(r)}`);
 
   r = solvePercent({ kind: 'pctIsX', percent: 20, part: 30 });
-  assert(r.ok && r.answer === '150', `20% of W = 30 → got ${JSON.stringify(r)}`);
+  assert(
+    r.ok && r.answer === '150',
+    `20% of W = 30 → got ${JSON.stringify(r)}`
+  );
 
   r = solvePercent({ kind: 'isWhatPct', part: 5, whole: 0 });
   assert(!r.ok, 'divide by zero whole should error');

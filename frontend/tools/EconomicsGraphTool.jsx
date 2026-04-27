@@ -11,7 +11,8 @@ export default function EconomicsGraphTool({ onExit, dark = false }) {
   });
   const setTabSafe = (t) => {
     setTab(t);
-    if (typeof window !== 'undefined') window.sessionStorage?.setItem(TAB_KEY, t);
+    if (typeof window !== 'undefined')
+      window.sessionStorage?.setItem(TAB_KEY, t);
   };
 
   const tabBtn = (id, label) => {
@@ -37,7 +38,9 @@ export default function EconomicsGraphTool({ onExit, dark = false }) {
   };
 
   return (
-    <div className={`fade-in p-6 ${dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'}`}>
+    <div
+      className={`fade-in p-6 ${dark ? 'bg-slate-700 text-slate-100' : 'bg-white text-slate-900'}`}
+    >
       <header className="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-4">
         <button
           onClick={onExit}
@@ -260,7 +263,6 @@ function SandboxTab({ dark }) {
 
   return (
     <div>
-
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="flex-1 bg-white/95 dark:bg-slate-600/95 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-[500px] relative">
           <div
@@ -431,7 +433,6 @@ function SandboxTab({ dark }) {
               </span>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -450,7 +451,7 @@ function ScenarioTab({ dark }) {
   const [stats, setStats] = useState({ correct: 0, total: 0 });
 
   const filtered = SCENARIOS.filter(
-    (s) => filter === 'all' || s.difficulty === filter,
+    (s) => filter === 'all' || s.difficulty === filter
   );
   const safeIdx = filtered.length === 0 ? 0 : idx % filtered.length;
   const sc = filtered[safeIdx];
@@ -467,7 +468,10 @@ function ScenarioTab({ dark }) {
     reset();
   };
   const prev = () => {
-    setIdx((i) => (i - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1));
+    setIdx(
+      (i) =>
+        (i - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1)
+    );
     reset();
   };
 
@@ -481,7 +485,10 @@ function ScenarioTab({ dark }) {
       pickDir === sc.direction &&
       priceChoice === sc.eqPriceChange &&
       qtyChoice === sc.eqQtyChange;
-    setStats((s) => ({ correct: s.correct + (allCorrect ? 1 : 0), total: s.total + 1 }));
+    setStats((s) => ({
+      correct: s.correct + (allCorrect ? 1 : 0),
+      total: s.total + 1,
+    }));
     setStep(4);
   };
 
@@ -519,7 +526,11 @@ function ScenarioTab({ dark }) {
           <button
             key={d}
             type="button"
-            onClick={() => { setFilter(d); setIdx(0); reset(); }}
+            onClick={() => {
+              setFilter(d);
+              setIdx(0);
+              reset();
+            }}
             className={`px-2.5 py-1 rounded text-xs font-semibold transition ${
               filter === d
                 ? 'bg-emerald-600 text-white'
@@ -531,30 +542,44 @@ function ScenarioTab({ dark }) {
             {d === 'all' ? 'All difficulties' : d}
           </button>
         ))}
-        <span className={`ml-auto text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
-          {stats.correct}/{stats.total} correct · #{safeIdx + 1} of {filtered.length}
+        <span
+          className={`ml-auto text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}
+        >
+          {stats.correct}/{stats.total} correct · #{safeIdx + 1} of{' '}
+          {filtered.length}
         </span>
       </div>
 
       <div className={`rounded-lg p-5 ${cardCls}`}>
         <div className="flex items-start justify-between gap-3 mb-3">
-          <span className={`text-xs uppercase font-bold tracking-wide ${dark ? 'text-emerald-300' : 'text-emerald-700'}`}>
+          <span
+            className={`text-xs uppercase font-bold tracking-wide ${dark ? 'text-emerald-300' : 'text-emerald-700'}`}
+          >
             {sc.determinant} · {sc.difficulty}
           </span>
         </div>
-        <p className={`text-base mb-4 ${dark ? 'text-slate-100' : 'text-slate-800'}`}>
+        <p
+          className={`text-base mb-4 ${dark ? 'text-slate-100' : 'text-slate-800'}`}
+        >
           {sc.prompt}
         </p>
 
         {/* Step 1: which curve? */}
         <div className="mb-4">
-          <p className="text-sm font-semibold mb-2">Step 1: Which curve shifts?</p>
+          <p className="text-sm font-semibold mb-2">
+            Step 1: Which curve shifts?
+          </p>
           <div className="flex gap-2">
             {['supply', 'demand'].map((c) => (
               <Btn
                 key={c}
                 active={pickCurve === c}
-                onClick={() => { if (step >= 1 && step < 4) { setPickCurve(c); setStep(2); } }}
+                onClick={() => {
+                  if (step >= 1 && step < 4) {
+                    setPickCurve(c);
+                    setStep(2);
+                  }
+                }}
                 color="sky"
               >
                 {c === 'supply' ? 'Supply' : 'Demand'}
@@ -566,16 +591,25 @@ function ScenarioTab({ dark }) {
         {/* Step 2: direction? */}
         {step >= 2 && (
           <div className="mb-4">
-            <p className="text-sm font-semibold mb-2">Step 2: Which direction?</p>
+            <p className="text-sm font-semibold mb-2">
+              Step 2: Which direction?
+            </p>
             <div className="flex gap-2">
               {['increase', 'decrease'].map((d) => (
                 <Btn
                   key={d}
                   active={pickDir === d}
-                  onClick={() => { if (step < 4) { setPickDir(d); setStep(3); } }}
+                  onClick={() => {
+                    if (step < 4) {
+                      setPickDir(d);
+                      setStep(3);
+                    }
+                  }}
                   color="sky"
                 >
-                  {d === 'increase' ? 'Increase (shift right)' : 'Decrease (shift left)'}
+                  {d === 'increase'
+                    ? 'Increase (shift right)'
+                    : 'Decrease (shift left)'}
                 </Btn>
               ))}
             </div>
@@ -585,7 +619,9 @@ function ScenarioTab({ dark }) {
         {/* Step 3: equilibrium effect? */}
         {step >= 3 && (
           <div className="mb-4">
-            <p className="text-sm font-semibold mb-2">Step 3: What happens to equilibrium price &amp; quantity?</p>
+            <p className="text-sm font-semibold mb-2">
+              Step 3: What happens to equilibrium price &amp; quantity?
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {[
                 { p: 'up', q: 'up', label: 'Price ↑   Quantity ↑' },
@@ -596,12 +632,21 @@ function ScenarioTab({ dark }) {
                 const picked = pickPrice === opt.p && pickQty === opt.q;
                 let cls = '';
                 if (step === 4) {
-                  const isRight = opt.p === sc.eqPriceChange && opt.q === sc.eqQtyChange;
-                  if (isRight) cls = dark ? 'bg-emerald-900/40 border-emerald-500' : 'bg-emerald-100 border-emerald-500';
-                  else if (picked) cls = dark ? 'bg-red-900/40 border-red-500' : 'bg-red-100 border-red-500';
+                  const isRight =
+                    opt.p === sc.eqPriceChange && opt.q === sc.eqQtyChange;
+                  if (isRight)
+                    cls = dark
+                      ? 'bg-emerald-900/40 border-emerald-500'
+                      : 'bg-emerald-100 border-emerald-500';
+                  else if (picked)
+                    cls = dark
+                      ? 'bg-red-900/40 border-red-500'
+                      : 'bg-red-100 border-red-500';
                   else cls = dark ? 'bg-slate-900' : 'bg-white';
                 } else {
-                  cls = dark ? 'bg-slate-900 hover:bg-slate-700' : 'bg-white hover:bg-slate-100';
+                  cls = dark
+                    ? 'bg-slate-900 hover:bg-slate-700'
+                    : 'bg-white hover:bg-slate-100';
                 }
                 return (
                   <button
@@ -610,7 +655,9 @@ function ScenarioTab({ dark }) {
                     disabled={step === 4}
                     onClick={() => submitFinal(opt.p, opt.q)}
                     className={`px-3 py-2 rounded border text-left text-sm transition ${cls} ${
-                      dark ? 'border-slate-600 text-slate-100' : 'border-slate-300 text-slate-800'
+                      dark
+                        ? 'border-slate-600 text-slate-100'
+                        : 'border-slate-300 text-slate-800'
                     }`}
                   >
                     {opt.label}
@@ -622,16 +669,35 @@ function ScenarioTab({ dark }) {
         )}
 
         {step === 4 && (
-          <div className={`p-3 rounded text-sm ${dark ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200'}`}>
-            <p className={`font-semibold mb-1 ${allCorrect ? 'text-emerald-600' : 'text-amber-600'}`}>
-              {allCorrect ? '✓ All steps correct!' : 'Some steps were off — review below.'}
+          <div
+            className={`p-3 rounded text-sm ${dark ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200'}`}
+          >
+            <p
+              className={`font-semibold mb-1 ${allCorrect ? 'text-emerald-600' : 'text-amber-600'}`}
+            >
+              {allCorrect
+                ? '✓ All steps correct!'
+                : 'Some steps were off — review below.'}
             </p>
             <ul className="space-y-1">
-              <li>Curve: <strong>{sc.curve}</strong> {pickCurve === sc.curve ? '✓' : `(you picked ${pickCurve})`}</li>
-              <li>Direction: <strong>{sc.direction}</strong> {pickDir === sc.direction ? '✓' : `(you picked ${pickDir})`}</li>
-              <li>Effect: <strong>price {sc.eqPriceChange}, quantity {sc.eqQtyChange}</strong></li>
+              <li>
+                Curve: <strong>{sc.curve}</strong>{' '}
+                {pickCurve === sc.curve ? '✓' : `(you picked ${pickCurve})`}
+              </li>
+              <li>
+                Direction: <strong>{sc.direction}</strong>{' '}
+                {pickDir === sc.direction ? '✓' : `(you picked ${pickDir})`}
+              </li>
+              <li>
+                Effect:{' '}
+                <strong>
+                  price {sc.eqPriceChange}, quantity {sc.eqQtyChange}
+                </strong>
+              </li>
             </ul>
-            <p className="mt-2 text-xs"><strong>Why:</strong> {sc.explanation}</p>
+            <p className="mt-2 text-xs">
+              <strong>Why:</strong> {sc.explanation}
+            </p>
           </div>
         )}
 
@@ -640,7 +706,9 @@ function ScenarioTab({ dark }) {
             type="button"
             onClick={prev}
             className={`px-3 py-1.5 rounded text-sm font-semibold ${
-              dark ? 'bg-slate-700 hover:bg-slate-600 text-slate-100' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+              dark
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+                : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
             }`}
           >
             ← Previous
@@ -649,7 +717,9 @@ function ScenarioTab({ dark }) {
             type="button"
             onClick={reset}
             className={`px-3 py-1.5 rounded text-sm font-semibold ${
-              dark ? 'bg-slate-700 hover:bg-slate-600 text-slate-100' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+              dark
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+                : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
             }`}
           >
             Reset
@@ -691,25 +761,37 @@ function ChartPracticeTab({ dark }) {
     setRevealed(false);
   };
   const prev = () => {
-    setIdx((i) => (i - 1 + ECON_CHART_QUESTIONS.length) % ECON_CHART_QUESTIONS.length);
+    setIdx(
+      (i) => (i - 1 + ECON_CHART_QUESTIONS.length) % ECON_CHART_QUESTIONS.length
+    );
     setPicked(null);
     setRevealed(false);
   };
 
-  const cardCls = dark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200';
+  const cardCls = dark
+    ? 'bg-slate-800 border border-slate-700'
+    : 'bg-slate-50 border border-slate-200';
 
   return (
     <div className="space-y-4">
       <div className="flex items-center">
-        <span className={`text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+        <span
+          className={`text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}
+        >
           Use these to practice reading supply &amp; demand graphs.
         </span>
-        <span className={`ml-auto text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
-          {stats.correct}/{stats.attempted} correct · #{(idx % ECON_CHART_QUESTIONS.length) + 1} of {ECON_CHART_QUESTIONS.length}
+        <span
+          className={`ml-auto text-xs ${dark ? 'text-slate-400' : 'text-slate-500'}`}
+        >
+          {stats.correct}/{stats.attempted} correct · #
+          {(idx % ECON_CHART_QUESTIONS.length) + 1} of{' '}
+          {ECON_CHART_QUESTIONS.length}
         </span>
       </div>
       <div className={`rounded-lg p-5 ${cardCls}`}>
-        <p className={`text-base mb-3 ${dark ? 'text-slate-100' : 'text-slate-800'}`}>
+        <p
+          className={`text-base mb-3 ${dark ? 'text-slate-100' : 'text-slate-800'}`}
+        >
           {q.prompt}
         </p>
         <div className="flex justify-center mb-4">
@@ -721,11 +803,22 @@ function ChartPracticeTab({ dark }) {
             const isPicked = i === picked;
             let cls = '';
             if (revealed) {
-              if (isCorrect) cls = dark ? 'bg-emerald-900/40 border-emerald-500 text-emerald-100' : 'bg-emerald-100 border-emerald-500 text-emerald-900';
-              else if (isPicked) cls = dark ? 'bg-red-900/40 border-red-500 text-red-100' : 'bg-red-100 border-red-500 text-red-900';
-              else cls = dark ? 'bg-slate-900 text-slate-300' : 'bg-white text-slate-700';
+              if (isCorrect)
+                cls = dark
+                  ? 'bg-emerald-900/40 border-emerald-500 text-emerald-100'
+                  : 'bg-emerald-100 border-emerald-500 text-emerald-900';
+              else if (isPicked)
+                cls = dark
+                  ? 'bg-red-900/40 border-red-500 text-red-100'
+                  : 'bg-red-100 border-red-500 text-red-900';
+              else
+                cls = dark
+                  ? 'bg-slate-900 text-slate-300'
+                  : 'bg-white text-slate-700';
             } else {
-              cls = dark ? 'bg-slate-900 text-slate-100 hover:bg-slate-700' : 'bg-white text-slate-800 hover:bg-slate-100';
+              cls = dark
+                ? 'bg-slate-900 text-slate-100 hover:bg-slate-700'
+                : 'bg-white text-slate-800 hover:bg-slate-100';
             }
             return (
               <button
@@ -735,7 +828,10 @@ function ChartPracticeTab({ dark }) {
                 disabled={revealed}
                 className={`text-left px-3 py-2 rounded border ${cls} ${dark ? 'border-slate-600' : 'border-slate-300'}`}
               >
-                <span className="font-semibold mr-2">{String.fromCharCode(65 + i)}.</span>{c}
+                <span className="font-semibold mr-2">
+                  {String.fromCharCode(65 + i)}.
+                </span>
+                {c}
                 {revealed && isCorrect && ' ✓'}
                 {revealed && isPicked && !isCorrect && ' ✗'}
               </button>
@@ -743,7 +839,9 @@ function ChartPracticeTab({ dark }) {
           })}
         </div>
         {revealed && (
-          <div className={`p-3 rounded text-sm ${dark ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200'}`}>
+          <div
+            className={`p-3 rounded text-sm ${dark ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200'}`}
+          >
             <strong>Explanation:</strong> {q.explanation}
           </div>
         )}
@@ -752,7 +850,9 @@ function ChartPracticeTab({ dark }) {
             type="button"
             onClick={prev}
             className={`px-3 py-1.5 rounded text-sm font-semibold ${
-              dark ? 'bg-slate-700 hover:bg-slate-600 text-slate-100' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+              dark
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+                : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
             }`}
           >
             ← Previous
@@ -809,7 +909,7 @@ function SDChart({ spec, dark }) {
       y2={scaleY(Math.max(dInt - 10, 0))}
       stroke={dColor}
       strokeWidth="2.5"
-    />,
+    />
   );
   lines.push(
     <line
@@ -820,7 +920,7 @@ function SDChart({ spec, dark }) {
       y2={scaleY(Math.min(sInt + 10, 10))}
       stroke={sColor}
       strokeWidth="2.5"
-    />,
+    />
   );
 
   if (spec.type === 'sd-shift') {
@@ -836,7 +936,7 @@ function SDChart({ spec, dark }) {
           stroke={dColor2}
           strokeWidth="2.5"
           strokeDasharray="6 4"
-        />,
+        />
       );
     } else {
       const newS = sInt + (spec.shift || 0);
@@ -850,7 +950,7 @@ function SDChart({ spec, dark }) {
           stroke={sColor2}
           strokeWidth="2.5"
           strokeDasharray="6 4"
-        />,
+        />
       );
     }
   }
@@ -866,44 +966,118 @@ function SDChart({ spec, dark }) {
         stroke={dark ? '#fbbf24' : '#d97706'}
         strokeWidth="2"
         strokeDasharray="4 3"
-      />,
+      />
     );
   }
 
   // Equilibrium dot for baseline / reading
-  lines.push(<circle key="eq" cx={scaleX(eqQ)} cy={scaleY(eqP)} r="4" fill="#22c55e" />);
+  lines.push(
+    <circle key="eq" cx={scaleX(eqQ)} cy={scaleY(eqP)} r="4" fill="#22c55e" />
+  );
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-md">
       {/* axes */}
-      <line x1={PAD_L} y1={PAD_T} x2={PAD_L} y2={H - PAD_B} stroke={axis} strokeWidth="1.5" />
-      <line x1={PAD_L} y1={H - PAD_B} x2={W - PAD_R} y2={H - PAD_B} stroke={axis} strokeWidth="1.5" />
+      <line
+        x1={PAD_L}
+        y1={PAD_T}
+        x2={PAD_L}
+        y2={H - PAD_B}
+        stroke={axis}
+        strokeWidth="1.5"
+      />
+      <line
+        x1={PAD_L}
+        y1={H - PAD_B}
+        x2={W - PAD_R}
+        y2={H - PAD_B}
+        stroke={axis}
+        strokeWidth="1.5"
+      />
       {/* gridlines */}
       {[2, 4, 6, 8, 10].map((g) => (
         <g key={g}>
-          <line x1={scaleX(g)} y1={PAD_T} x2={scaleX(g)} y2={H - PAD_B} stroke={axis} strokeWidth="0.5" strokeDasharray="2 3" opacity="0.5" />
-          <line x1={PAD_L} y1={scaleY(g)} x2={W - PAD_R} y2={scaleY(g)} stroke={axis} strokeWidth="0.5" strokeDasharray="2 3" opacity="0.5" />
-          <text x={scaleX(g)} y={H - PAD_B + 14} fontSize="10" fill={text} textAnchor="middle">{g}</text>
-          <text x={PAD_L - 6} y={scaleY(g) + 3} fontSize="10" fill={text} textAnchor="end">{g}</text>
+          <line
+            x1={scaleX(g)}
+            y1={PAD_T}
+            x2={scaleX(g)}
+            y2={H - PAD_B}
+            stroke={axis}
+            strokeWidth="0.5"
+            strokeDasharray="2 3"
+            opacity="0.5"
+          />
+          <line
+            x1={PAD_L}
+            y1={scaleY(g)}
+            x2={W - PAD_R}
+            y2={scaleY(g)}
+            stroke={axis}
+            strokeWidth="0.5"
+            strokeDasharray="2 3"
+            opacity="0.5"
+          />
+          <text
+            x={scaleX(g)}
+            y={H - PAD_B + 14}
+            fontSize="10"
+            fill={text}
+            textAnchor="middle"
+          >
+            {g}
+          </text>
+          <text
+            x={PAD_L - 6}
+            y={scaleY(g) + 3}
+            fontSize="10"
+            fill={text}
+            textAnchor="end"
+          >
+            {g}
+          </text>
         </g>
       ))}
-      <text x={W / 2} y={H - 4} fontSize="11" fill={text} textAnchor="middle">Quantity</text>
-      <text x={10} y={PAD_T + 8} fontSize="11" fill={text}>Price ($)</text>
+      <text x={W / 2} y={H - 4} fontSize="11" fill={text} textAnchor="middle">
+        Quantity
+      </text>
+      <text x={10} y={PAD_T + 8} fontSize="11" fill={text}>
+        Price ($)
+      </text>
       {lines}
       {/* legend */}
       <g transform={`translate(${W - 90}, ${PAD_T + 6})`}>
         <line x1="0" y1="6" x2="14" y2="6" stroke={dColor} strokeWidth="2.5" />
-        <text x="18" y="10" fontSize="10" fill={text}>Demand</text>
-        <line x1="0" y1="22" x2="14" y2="22" stroke={sColor} strokeWidth="2.5" />
-        <text x="18" y="26" fontSize="10" fill={text}>Supply</text>
+        <text x="18" y="10" fontSize="10" fill={text}>
+          Demand
+        </text>
+        <line
+          x1="0"
+          y1="22"
+          x2="14"
+          y2="22"
+          stroke={sColor}
+          strokeWidth="2.5"
+        />
+        <text x="18" y="26" fontSize="10" fill={text}>
+          Supply
+        </text>
         {spec.type === 'sd-shift' && (
           <>
-            <line x1="0" y1="38" x2="14" y2="38" stroke={spec.curve === 'demand' ? dColor2 : sColor2} strokeWidth="2.5" strokeDasharray="6 4" />
-            <text x="18" y="42" fontSize="10" fill={text}>{spec.curve === 'demand' ? "Demand'" : "Supply'"}</text>
+            <line
+              x1="0"
+              y1="38"
+              x2="14"
+              y2="38"
+              stroke={spec.curve === 'demand' ? dColor2 : sColor2}
+              strokeWidth="2.5"
+              strokeDasharray="6 4"
+            />
+            <text x="18" y="42" fontSize="10" fill={text}>
+              {spec.curve === 'demand' ? "Demand'" : "Supply'"}
+            </text>
           </>
         )}
       </g>
     </svg>
   );
 }
-

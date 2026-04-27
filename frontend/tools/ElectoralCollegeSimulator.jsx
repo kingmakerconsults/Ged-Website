@@ -129,7 +129,10 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
               {showMap && (
                 <div className="mt-3">
                   <USElectoralMap
-                    dark={typeof document !== 'undefined' && document.documentElement.classList.contains('dark')}
+                    dark={
+                      typeof document !== 'undefined' &&
+                      document.documentElement.classList.contains('dark')
+                    }
                     initialAssignments={mapAssignments}
                     resetKey={mapResetKey}
                   />
@@ -146,8 +149,8 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
                     currentScenario.difficulty === 'easy'
                       ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200'
                       : currentScenario.difficulty === 'medium'
-                      ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
-                      : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
+                        ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
+                        : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
                   }`}
                 >
                   {currentScenario.difficulty.charAt(0).toUpperCase() +
@@ -222,8 +225,8 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
                             ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
                             : 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100'
                           : feedback && choice.isCorrect
-                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
+                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
+                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       <span className="font-bold text-lg mr-3">
@@ -316,9 +319,13 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
 // ── Table renderer for table-type scenarios ─────────────────────────────────
 function ScenarioTable({ data, dark }) {
   return (
-    <div className={`rounded-lg overflow-hidden border ${dark ? 'border-slate-600 bg-slate-800' : 'border-slate-300 bg-white'}`}>
+    <div
+      className={`rounded-lg overflow-hidden border ${dark ? 'border-slate-600 bg-slate-800' : 'border-slate-300 bg-white'}`}
+    >
       {data.caption && (
-        <div className={`px-4 py-2 text-sm font-semibold ${dark ? 'bg-slate-700 text-slate-100' : 'bg-slate-100 text-slate-800'}`}>
+        <div
+          className={`px-4 py-2 text-sm font-semibold ${dark ? 'bg-slate-700 text-slate-100' : 'bg-slate-100 text-slate-800'}`}
+        >
           {data.caption}
         </div>
       )}
@@ -337,9 +344,23 @@ function ScenarioTable({ data, dark }) {
         </thead>
         <tbody>
           {data.rows.map((row, ri) => (
-            <tr key={ri} className={ri % 2 ? (dark ? 'bg-slate-800' : 'bg-white') : (dark ? 'bg-slate-800/60' : 'bg-slate-50/40')}>
+            <tr
+              key={ri}
+              className={
+                ri % 2
+                  ? dark
+                    ? 'bg-slate-800'
+                    : 'bg-white'
+                  : dark
+                    ? 'bg-slate-800/60'
+                    : 'bg-slate-50/40'
+              }
+            >
               {row.map((cell, ci) => (
-                <td key={ci} className={`px-4 py-2 ${dark ? 'text-slate-100' : 'text-slate-800'}`}>
+                <td
+                  key={ci}
+                  className={`px-4 py-2 ${dark ? 'text-slate-100' : 'text-slate-800'}`}
+                >
                   {cell}
                 </td>
               ))}
@@ -372,27 +393,66 @@ function ScenarioBarChart({ data, dark }) {
   for (let v = 0; v <= max; v += tickStep) ticks.push(v);
 
   return (
-    <div className={`rounded-lg p-4 ${dark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-slate-200'}`}>
+    <div
+      className={`rounded-lg p-4 ${dark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-slate-200'}`}
+    >
       {data.caption && (
-        <p className={`text-sm font-semibold mb-2 ${dark ? 'text-slate-200' : 'text-slate-700'}`}>{data.caption}</p>
+        <p
+          className={`text-sm font-semibold mb-2 ${dark ? 'text-slate-200' : 'text-slate-700'}`}
+        >
+          {data.caption}
+        </p>
       )}
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-xl">
         {/* axes */}
-        <line x1={PAD_L} y1={PAD_T} x2={PAD_L} y2={H - PAD_B} stroke={axis} strokeWidth="1.5" />
-        <line x1={PAD_L} y1={H - PAD_B} x2={W - PAD_R} y2={H - PAD_B} stroke={axis} strokeWidth="1.5" />
+        <line
+          x1={PAD_L}
+          y1={PAD_T}
+          x2={PAD_L}
+          y2={H - PAD_B}
+          stroke={axis}
+          strokeWidth="1.5"
+        />
+        <line
+          x1={PAD_L}
+          y1={H - PAD_B}
+          x2={W - PAD_R}
+          y2={H - PAD_B}
+          stroke={axis}
+          strokeWidth="1.5"
+        />
         {/* y ticks + gridlines */}
         {ticks.map((t) => {
           const y = PAD_T + innerH - (t / max) * innerH;
           return (
             <g key={t}>
-              <line x1={PAD_L} y1={y} x2={W - PAD_R} y2={y} stroke={axis} strokeWidth="0.5" strokeDasharray="2 3" opacity="0.5" />
-              <text x={PAD_L - 6} y={y + 3} fontSize="10" fill={text} textAnchor="end">{t}</text>
+              <line
+                x1={PAD_L}
+                y1={y}
+                x2={W - PAD_R}
+                y2={y}
+                stroke={axis}
+                strokeWidth="0.5"
+                strokeDasharray="2 3"
+                opacity="0.5"
+              />
+              <text
+                x={PAD_L - 6}
+                y={y + 3}
+                fontSize="10"
+                fill={text}
+                textAnchor="end"
+              >
+                {t}
+              </text>
             </g>
           );
         })}
         {/* y label */}
         {data.yAxisLabel && (
-          <text x={4} y={PAD_T + 8} fontSize="10" fill={text}>{data.yAxisLabel}</text>
+          <text x={4} y={PAD_T + 8} fontSize="10" fill={text}>
+            {data.yAxisLabel}
+          </text>
         )}
         {/* bars */}
         {data.bars.map((b, i) => {
@@ -401,11 +461,31 @@ function ScenarioBarChart({ data, dark }) {
           const y = H - PAD_B - h;
           return (
             <g key={i}>
-              <rect x={x} y={y} width={barW * 0.7} height={h} fill={barFill} rx="3" />
-              <text x={x + (barW * 0.7) / 2} y={y - 4} fontSize="11" fill={text} textAnchor="middle" fontWeight="bold">
+              <rect
+                x={x}
+                y={y}
+                width={barW * 0.7}
+                height={h}
+                fill={barFill}
+                rx="3"
+              />
+              <text
+                x={x + (barW * 0.7) / 2}
+                y={y - 4}
+                fontSize="11"
+                fill={text}
+                textAnchor="middle"
+                fontWeight="bold"
+              >
                 {b.value}
               </text>
-              <text x={x + (barW * 0.7) / 2} y={H - PAD_B + 14} fontSize="11" fill={text} textAnchor="middle">
+              <text
+                x={x + (barW * 0.7) / 2}
+                y={H - PAD_B + 14}
+                fontSize="11"
+                fill={text}
+                textAnchor="middle"
+              >
                 {b.label}
               </text>
             </g>
@@ -415,4 +495,3 @@ function ScenarioBarChart({ data, dark }) {
     </div>
   );
 }
-
