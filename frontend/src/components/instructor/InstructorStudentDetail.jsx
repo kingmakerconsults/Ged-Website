@@ -27,7 +27,26 @@ async function fetchJson(path) {
   const res = await fetch(`${getApiBase()}${path}`, {
     headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
-  if (!res.ok) throw new Error(`${path} → ${res.status}`);
+  if (!res.ok) {
+    let suffix = '';
+    try {
+      const text = await res.text();
+      try {
+        const j = JSON.parse(text);
+        const parts = [];
+        if (j?.error) parts.push(j.error);
+        if (j?.detail && j.detail !== j?.error) parts.push(j.detail);
+        if (!parts.length && j?.message) parts.push(j.message);
+        if (parts.length) suffix = `: ${parts.join(' — ')}`;
+        else if (text) suffix = `: ${text}`;
+      } catch {
+        if (text) suffix = `: ${text}`;
+      }
+    } catch {
+      /* ignore */
+    }
+    throw new Error(`${path} → ${res.status}${suffix}`);
+  }
   return res.json();
 }
 

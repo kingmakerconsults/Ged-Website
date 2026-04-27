@@ -30506,8 +30506,8 @@ function InstructorDashboard({ user, token, onLogout }) {
                   Classes
                 </h2>
                 <p className="text-sm text-muted mb-4">
-                  Create classes and manage which students are enrolled in
-                  each one.
+                  Create classes and manage which students are enrolled in each
+                  one.
                 </p>
                 <InstructorClassesPanel students={students} />
               </section>

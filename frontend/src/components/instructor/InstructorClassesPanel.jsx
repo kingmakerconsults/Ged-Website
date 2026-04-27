@@ -38,7 +38,11 @@ async function apiFetch(path, options = {}) {
       const text = await res.text();
       try {
         const j = JSON.parse(text);
-        detail = j?.error || j?.message || text;
+        const parts = [];
+        if (j?.error) parts.push(j.error);
+        if (j?.detail && j.detail !== j?.error) parts.push(j.detail);
+        if (!parts.length && j?.message) parts.push(j.message);
+        detail = parts.join(' — ') || text;
       } catch {
         detail = text;
       }
@@ -159,18 +163,15 @@ export default function InstructorClassesPanel({ students = [] }) {
 
   const removeMember = async (classId, studentId, studentName) => {
     if (
-      !window.confirm(
-        `Remove ${studentName || 'this student'} from the class?`
-      )
+      !window.confirm(`Remove ${studentName || 'this student'} from the class?`)
     ) {
       return;
     }
     setMemberError(null);
     try {
-      await apiFetch(
-        `/api/instructor/classes/${classId}/roster/${studentId}`,
-        { method: 'DELETE' }
-      );
+      await apiFetch(`/api/instructor/classes/${classId}/roster/${studentId}`, {
+        method: 'DELETE',
+      });
       await Promise.all([loadMembers(classId), loadClasses()]);
     } catch (e) {
       console.warn('[classes] remove member failed', e);
@@ -215,7 +216,8 @@ export default function InstructorClassesPanel({ students = [] }) {
             padding: '8px 16px',
             border: 'none',
             borderRadius: 8,
-            background: creating || !newClassName.trim() ? '#94a3b8' : '#0ea5e9',
+            background:
+              creating || !newClassName.trim() ? '#94a3b8' : '#0ea5e9',
             color: '#ffffff',
             fontWeight: 600,
             cursor: creating || !newClassName.trim() ? 'default' : 'pointer',

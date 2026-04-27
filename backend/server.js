@@ -27256,28 +27256,52 @@ app.get(
     const userId = req.targetStudentId;
     try {
       // Recent attempts (50)
-      const attempts = await pool.query(
-        `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
-                attempted_at, scaled_score, passed
-           FROM quiz_attempts
-          WHERE user_id = $1
-          ORDER BY attempted_at DESC
-          LIMIT 50`,
-        [userId]
-      );
+      let attempts = { rows: [] };
+      try {
+        attempts = await pool.query(
+          `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
+                  attempted_at, scaled_score, passed
+             FROM quiz_attempts
+            WHERE user_id = $1
+            ORDER BY attempted_at DESC
+            LIMIT 50`,
+          [userId]
+        );
+      } catch (e) {
+        console.warn('[instructor stats] attempts failed:', e.message);
+        // Retry without optional columns that may be missing on legacy DBs.
+        try {
+          attempts = await pool.query(
+            `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
+                    attempted_at
+               FROM quiz_attempts
+              WHERE user_id = $1
+              ORDER BY attempted_at DESC
+              LIMIT 50`,
+            [userId]
+          );
+        } catch (e2) {
+          console.warn('[instructor stats] attempts fallback failed:', e2.message);
+        }
+      }
 
       // Subject mastery rollup
-      const mastery = await pool.query(
-        `SELECT subject,
-                COUNT(*)::int AS attempts,
-                AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
-                MAX(attempted_at) AS last_attempt_at
-           FROM quiz_attempts
-          WHERE user_id = $1
-          GROUP BY subject
-          ORDER BY subject`,
-        [userId]
-      );
+      let mastery = { rows: [] };
+      try {
+        mastery = await pool.query(
+          `SELECT subject,
+                  COUNT(*)::int AS attempts,
+                  AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
+                  MAX(attempted_at) AS last_attempt_at
+             FROM quiz_attempts
+            WHERE user_id = $1
+            GROUP BY subject
+            ORDER BY subject`,
+          [userId]
+        );
+      } catch (e) {
+        console.warn('[instructor stats] mastery skipped:', e.message);
+      }
 
       // Weak areas (per-item incorrect by domain/topic)
       let weakAreas = [];
@@ -27417,7 +27441,9 @@ app.get(
       });
     } catch (err) {
       console.error('[/api/instructor/students/:id/stats] failed:', err);
-      res.status(500).json({ error: 'Failed to load stats' });
+      res
+        .status(500)
+        .json({ error: 'Failed to load stats', detail: err?.message });
     }
   }
 );
