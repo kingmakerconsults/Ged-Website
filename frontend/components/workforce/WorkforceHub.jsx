@@ -212,7 +212,7 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
   }
 
   return (
-    <div className="workforce-hub space-y-5">
+    <div className="workforce-hub space-y-5 text-slate-900 dark:text-slate-100">
       <div
         className="rounded-2xl overflow-hidden shadow-xl"
         style={{
@@ -296,8 +296,8 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
 
       <div className="rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 p-4 text-xs text-slate-600 dark:text-slate-300">
         <strong>About these certificates:</strong> Modules are aligned to the{' '}
-        <em>Core Digital Skills</em> standards (17 modules, Foundation
-        badge) plus 5 modern modules unique to this program (Pro badge). Mastery
+        <em>Core Digital Skills</em> standards (17 modules, Foundation badge)
+        plus 5 modern modules unique to this program (Pro badge). Mastery
         requires 85% on the in-app assessment. Self-paced by default;
         instructors can flip Proctored mode on for supervised sessions.
       </div>

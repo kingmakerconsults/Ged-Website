@@ -28,10 +28,18 @@ export const CAREERS = [
     interest: 'Healthcare',
     education: 'CERT',
     medianWage: 38000,
-    description: 'Hands-on patient care in nursing homes, hospitals, and home settings.',
-    dayInLife: 'Help residents bathe, dress, eat, and move; record vital signs; assist nurses; document changes in patient condition.',
-    tasks: ['Take vitals', 'Help with bathing and feeding', 'Document care', 'Communicate concerns to nurses'],
-    pathway: '4–12 week CNA training program → state competency exam → certification.',
+    description:
+      'Hands-on patient care in nursing homes, hospitals, and home settings.',
+    dayInLife:
+      'Help residents bathe, dress, eat, and move; record vital signs; assist nurses; document changes in patient condition.',
+    tasks: [
+      'Take vitals',
+      'Help with bathing and feeding',
+      'Document care',
+      'Communicate concerns to nurses',
+    ],
+    pathway:
+      '4–12 week CNA training program → state competency exam → certification.',
     relatedModules: ['c5_telehealth', 'a4_using_email'],
   },
   {
@@ -40,11 +48,23 @@ export const CAREERS = [
     interest: 'Healthcare',
     education: 'CERT',
     medianWage: 42000,
-    description: 'Front- and back-office support in clinics: patient intake, basic clinical tasks, scheduling.',
-    dayInLife: 'Greet patients, take vitals, prep exam rooms, assist with basic procedures, schedule follow-ups, manage records.',
-    tasks: ['Patient intake', 'Take vitals', 'Schedule appointments', 'Update electronic health records'],
-    pathway: '9–12 month certificate program → optional CMA / RMA certification.',
-    relatedModules: ['c5_telehealth', 'a4_using_email', 'c2_information_literacy'],
+    description:
+      'Front- and back-office support in clinics: patient intake, basic clinical tasks, scheduling.',
+    dayInLife:
+      'Greet patients, take vitals, prep exam rooms, assist with basic procedures, schedule follow-ups, manage records.',
+    tasks: [
+      'Patient intake',
+      'Take vitals',
+      'Schedule appointments',
+      'Update electronic health records',
+    ],
+    pathway:
+      '9–12 month certificate program → optional CMA / RMA certification.',
+    relatedModules: [
+      'c5_telehealth',
+      'a4_using_email',
+      'c2_information_literacy',
+    ],
   },
   {
     id: 'phtech',
@@ -52,10 +72,18 @@ export const CAREERS = [
     interest: 'Healthcare',
     education: 'CERT',
     medianWage: 40000,
-    description: 'Assist pharmacists in retail or hospital pharmacies preparing and dispensing medications.',
-    dayInLife: 'Receive prescriptions, count and label medications, manage inventory, run insurance claims, answer customer questions.',
-    tasks: ['Prepare prescriptions', 'Run insurance', 'Manage inventory', 'Customer service'],
-    pathway: 'PTCB-accredited training (4–12 months) → PTCE certification exam.',
+    description:
+      'Assist pharmacists in retail or hospital pharmacies preparing and dispensing medications.',
+    dayInLife:
+      'Receive prescriptions, count and label medications, manage inventory, run insurance claims, answer customer questions.',
+    tasks: [
+      'Prepare prescriptions',
+      'Run insurance',
+      'Manage inventory',
+      'Customer service',
+    ],
+    pathway:
+      'PTCB-accredited training (4–12 months) → PTCE certification exam.',
     relatedModules: ['a4_using_email', 'c2_information_literacy'],
   },
   {
@@ -64,9 +92,16 @@ export const CAREERS = [
     interest: 'Healthcare',
     education: '2YR',
     medianWage: 54000,
-    description: 'Provide basic nursing care under RN or physician supervision.',
-    dayInLife: 'Administer medications, dress wounds, monitor patients, communicate with families, supervise CNAs.',
-    tasks: ['Give medications', 'Wound care', 'Monitor vitals', 'Patient education'],
+    description:
+      'Provide basic nursing care under RN or physician supervision.',
+    dayInLife:
+      'Administer medications, dress wounds, monitor patients, communicate with families, supervise CNAs.',
+    tasks: [
+      'Give medications',
+      'Wound care',
+      'Monitor vitals',
+      'Patient education',
+    ],
     pathway: '12–18 month LPN program → NCLEX-PN exam → state licensure.',
     relatedModules: ['c5_telehealth', 'c2_information_literacy'],
   },
@@ -78,11 +113,24 @@ export const CAREERS = [
     interest: 'Technology',
     education: 'CERT',
     medianWage: 50000,
-    description: 'First-line support for end users: troubleshoot hardware, software, and network issues.',
-    dayInLife: 'Field support tickets, walk users through fixes, reset passwords, image laptops, escalate to senior IT when needed.',
-    tasks: ['Answer support tickets', 'Reset passwords', 'Image computers', 'Document fixes'],
-    pathway: 'CompTIA A+ certification (3–6 month self-study) is the standard entry credential.',
-    relatedModules: ['a5_windows_10', 'a6_windows_11', 'a7_mac_os', 'c7_cybersecurity'],
+    description:
+      'First-line support for end users: troubleshoot hardware, software, and network issues.',
+    dayInLife:
+      'Field support tickets, walk users through fixes, reset passwords, image laptops, escalate to senior IT when needed.',
+    tasks: [
+      'Answer support tickets',
+      'Reset passwords',
+      'Image computers',
+      'Document fixes',
+    ],
+    pathway:
+      'CompTIA A+ certification (3–6 month self-study) is the standard entry credential.',
+    relatedModules: [
+      'a5_windows_10',
+      'a6_windows_11',
+      'a7_mac_os',
+      'c7_cybersecurity',
+    ],
   },
   {
     id: 'webdev',
@@ -91,10 +139,16 @@ export const CAREERS = [
     education: 'CERT',
     medianWage: 65000,
     description: 'Build and maintain websites and small web applications.',
-    dayInLife: 'Write HTML/CSS/JavaScript, fix bugs, update content, collaborate with designers, push code.',
+    dayInLife:
+      'Write HTML/CSS/JavaScript, fix bugs, update content, collaborate with designers, push code.',
     tasks: ['Write code', 'Fix bugs', 'Code reviews', 'Test in browsers'],
-    pathway: 'Bootcamp or self-taught portfolio (6–12 months) → entry-level role.',
-    relatedModules: ['b2_ms_excel', 'c2_information_literacy', 'd1_ai_literacy'],
+    pathway:
+      'Bootcamp or self-taught portfolio (6–12 months) → entry-level role.',
+    relatedModules: [
+      'b2_ms_excel',
+      'c2_information_literacy',
+      'd1_ai_literacy',
+    ],
   },
   {
     id: 'datentry',
@@ -103,9 +157,11 @@ export const CAREERS = [
     education: 'HS',
     medianWage: 38000,
     description: 'Enter, verify, and clean data in business systems.',
-    dayInLife: 'Type data into spreadsheets and CRMs, verify accuracy, generate reports, flag anomalies.',
+    dayInLife:
+      'Type data into spreadsheets and CRMs, verify accuracy, generate reports, flag anomalies.',
     tasks: ['Data entry', 'Run reports', 'Quality check', 'Email coordination'],
-    pathway: 'Strong typing speed + Excel + attention to detail. Optional Microsoft Office Specialist (MOS) cert.',
+    pathway:
+      'Strong typing speed + Excel + attention to detail. Optional Microsoft Office Specialist (MOS) cert.',
     relatedModules: ['b2_ms_excel', 'a4_using_email', 'b1_ms_word'],
   },
 
@@ -116,10 +172,18 @@ export const CAREERS = [
     interest: 'Trades',
     education: 'CERT',
     medianWage: 48000,
-    description: 'Install and maintain electrical systems in homes and businesses.',
-    dayInLife: 'Pull wire, install outlets and panels, read blueprints, troubleshoot circuits, work in teams.',
-    tasks: ['Install wiring', 'Read blueprints', 'Troubleshoot', 'Pass safety inspections'],
-    pathway: '4–5 year paid apprenticeship → journeyman license. Earn while you learn.',
+    description:
+      'Install and maintain electrical systems in homes and businesses.',
+    dayInLife:
+      'Pull wire, install outlets and panels, read blueprints, troubleshoot circuits, work in teams.',
+    tasks: [
+      'Install wiring',
+      'Read blueprints',
+      'Troubleshoot',
+      'Pass safety inspections',
+    ],
+    pathway:
+      '4–5 year paid apprenticeship → journeyman license. Earn while you learn.',
     relatedModules: ['a3_internet_basics', 'a2_basic_computer'],
   },
   {
@@ -129,8 +193,14 @@ export const CAREERS = [
     education: 'CERT',
     medianWage: 49000,
     description: 'Install and repair pipes, fixtures, and water systems.',
-    dayInLife: 'Diagnose leaks, install fixtures, clear drains, work in residential and commercial sites.',
-    tasks: ['Install plumbing', 'Diagnose leaks', 'Customer interaction', 'Order parts'],
+    dayInLife:
+      'Diagnose leaks, install fixtures, clear drains, work in residential and commercial sites.',
+    tasks: [
+      'Install plumbing',
+      'Diagnose leaks',
+      'Customer interaction',
+      'Order parts',
+    ],
     pathway: '4–5 year apprenticeship → journeyman → master plumber license.',
     relatedModules: ['a4_using_email'],
   },
@@ -140,9 +210,16 @@ export const CAREERS = [
     interest: 'Trades',
     education: 'CERT',
     medianWage: 52000,
-    description: 'Install, service, and repair heating, ventilation, and cooling systems.',
-    dayInLife: 'Drive to job sites, diagnose system issues, replace parts, install new units, document repairs.',
-    tasks: ['Diagnose systems', 'Install equipment', 'Customer service', 'Document jobs'],
+    description:
+      'Install, service, and repair heating, ventilation, and cooling systems.',
+    dayInLife:
+      'Drive to job sites, diagnose system issues, replace parts, install new units, document repairs.',
+    tasks: [
+      'Diagnose systems',
+      'Install equipment',
+      'Customer service',
+      'Document jobs',
+    ],
     pathway: '6–24 month HVAC program + EPA 608 certification.',
     relatedModules: ['c3_career_search_skills'],
   },
@@ -152,9 +229,16 @@ export const CAREERS = [
     interest: 'Trades',
     education: 'CERT',
     medianWage: 55000,
-    description: 'Long- or short-haul transport of goods using a commercial vehicle.',
-    dayInLife: 'Plan routes, perform pre-trip inspections, drive safely, log hours, deliver and document loads.',
-    tasks: ['Drive routes', 'Inspect vehicle', 'Log hours (ELD)', 'Communicate with dispatch'],
+    description:
+      'Long- or short-haul transport of goods using a commercial vehicle.',
+    dayInLife:
+      'Plan routes, perform pre-trip inspections, drive safely, log hours, deliver and document loads.',
+    tasks: [
+      'Drive routes',
+      'Inspect vehicle',
+      'Log hours (ELD)',
+      'Communicate with dispatch',
+    ],
     pathway: 'CDL school (3–8 weeks) → CDL Class A or B license.',
     relatedModules: ['a4_using_email', 'd2_smartphone_privacy'],
   },
@@ -164,8 +248,10 @@ export const CAREERS = [
     interest: 'Trades',
     education: 'CERT',
     medianWage: 48000,
-    description: 'Join metal parts using heat for construction, manufacturing, and repair.',
-    dayInLife: 'Read drawings, set up equipment, weld joints, inspect quality, follow safety protocols.',
+    description:
+      'Join metal parts using heat for construction, manufacturing, and repair.',
+    dayInLife:
+      'Read drawings, set up equipment, weld joints, inspect quality, follow safety protocols.',
     tasks: ['Read blueprints', 'Set up equipment', 'Weld', 'Quality inspect'],
     pathway: '6–12 month welding program → AWS certification.',
     relatedModules: ['a3_internet_basics'],
@@ -178,11 +264,23 @@ export const CAREERS = [
     interest: 'Business',
     education: 'HS',
     medianWage: 44000,
-    description: 'Support office operations: scheduling, communications, document management.',
-    dayInLife: 'Manage calendars, draft emails, prepare documents, greet visitors, coordinate meetings.',
-    tasks: ['Manage calendars', 'Draft documents', 'Coordinate meetings', 'Customer service'],
+    description:
+      'Support office operations: scheduling, communications, document management.',
+    dayInLife:
+      'Manage calendars, draft emails, prepare documents, greet visitors, coordinate meetings.',
+    tasks: [
+      'Manage calendars',
+      'Draft documents',
+      'Coordinate meetings',
+      'Customer service',
+    ],
     pathway: 'Strong Office skills + professionalism. MOS cert optional.',
-    relatedModules: ['b1_ms_word', 'b2_ms_excel', 'b3_ms_powerpoint', 'a4_using_email'],
+    relatedModules: [
+      'b1_ms_word',
+      'b2_ms_excel',
+      'b3_ms_powerpoint',
+      'a4_using_email',
+    ],
   },
   {
     id: 'bookkeeper',
@@ -191,8 +289,14 @@ export const CAREERS = [
     education: 'CERT',
     medianWage: 45000,
     description: 'Maintain financial records for small businesses.',
-    dayInLife: 'Record transactions, reconcile accounts, prepare invoices, run payroll, generate reports.',
-    tasks: ['Record transactions', 'Reconcile accounts', 'Invoicing', 'Payroll'],
+    dayInLife:
+      'Record transactions, reconcile accounts, prepare invoices, run payroll, generate reports.',
+    tasks: [
+      'Record transactions',
+      'Reconcile accounts',
+      'Invoicing',
+      'Payroll',
+    ],
     pathway: 'QuickBooks certification + 2-yr or short cert program.',
     relatedModules: ['b2_ms_excel', 'a4_using_email'],
   },
@@ -203,8 +307,14 @@ export const CAREERS = [
     education: 'HS',
     medianWage: 37000,
     description: 'Front-line customer service at a bank branch.',
-    dayInLife: 'Process deposits and withdrawals, balance cash drawer, identify cross-sell opportunities, handle fraud alerts.',
-    tasks: ['Process transactions', 'Balance drawer', 'Customer service', 'Fraud awareness'],
+    dayInLife:
+      'Process deposits and withdrawals, balance cash drawer, identify cross-sell opportunities, handle fraud alerts.',
+    tasks: [
+      'Process transactions',
+      'Balance drawer',
+      'Customer service',
+      'Fraud awareness',
+    ],
     pathway: 'High school diploma + on-the-job training.',
     relatedModules: ['a4_using_email', 'c7_cybersecurity'],
   },
@@ -215,8 +325,14 @@ export const CAREERS = [
     education: 'HS',
     medianWage: 39000,
     description: 'Phone, email, or chat support for company customers.',
-    dayInLife: 'Take incoming calls, troubleshoot issues, document interactions, escalate when needed.',
-    tasks: ['Handle support tickets', 'Document calls', 'Use CRM software', 'Solve problems'],
+    dayInLife:
+      'Take incoming calls, troubleshoot issues, document interactions, escalate when needed.',
+    tasks: [
+      'Handle support tickets',
+      'Document calls',
+      'Use CRM software',
+      'Solve problems',
+    ],
     pathway: 'Strong communication + computer fluency. Often remote-friendly.',
     relatedModules: ['a4_using_email', 'a2_basic_computer'],
   },
@@ -229,9 +345,16 @@ export const CAREERS = [
     education: 'HS',
     medianWage: 32000,
     description: 'Support classroom teachers in K–12 schools.',
-    dayInLife: 'Help students one-on-one, supervise activities, prep materials, support behavior management.',
-    tasks: ['One-on-one help', 'Prep materials', 'Supervision', 'Communicate with families'],
-    pathway: 'High school diploma; some districts require Para Pro assessment or 2-yr degree.',
+    dayInLife:
+      'Help students one-on-one, supervise activities, prep materials, support behavior management.',
+    tasks: [
+      'One-on-one help',
+      'Prep materials',
+      'Supervision',
+      'Communicate with families',
+    ],
+    pathway:
+      'High school diploma; some districts require Para Pro assessment or 2-yr degree.',
     relatedModules: ['b1_ms_word', 'a4_using_email'],
   },
   {
@@ -240,10 +363,18 @@ export const CAREERS = [
     interest: 'Education',
     education: 'HS',
     medianWage: 31000,
-    description: 'Care for and educate young children in daycare or preschool settings.',
-    dayInLife: 'Supervise children, lead play and learning activities, prepare snacks, communicate with parents.',
-    tasks: ['Supervise children', 'Lead activities', 'Snack prep', 'Family communication'],
-    pathway: 'Often a CDA (Child Development Associate) credential is preferred.',
+    description:
+      'Care for and educate young children in daycare or preschool settings.',
+    dayInLife:
+      'Supervise children, lead play and learning activities, prepare snacks, communicate with parents.',
+    tasks: [
+      'Supervise children',
+      'Lead activities',
+      'Snack prep',
+      'Family communication',
+    ],
+    pathway:
+      'Often a CDA (Child Development Associate) credential is preferred.',
     relatedModules: ['c1_social_media', 'a4_using_email'],
   },
 
@@ -254,10 +385,18 @@ export const CAREERS = [
     interest: 'Public Service',
     education: 'CERT',
     medianWage: 36000,
-    description: 'Protect property, people, and assets at residential or commercial sites.',
-    dayInLife: 'Patrol, monitor cameras, check IDs, write incident reports, respond to emergencies.',
-    tasks: ['Patrol', 'Monitor cameras', 'Write incident reports', 'Emergency response'],
-    pathway: 'State-issued guard license (varies); armed roles require additional training.',
+    description:
+      'Protect property, people, and assets at residential or commercial sites.',
+    dayInLife:
+      'Patrol, monitor cameras, check IDs, write incident reports, respond to emergencies.',
+    tasks: [
+      'Patrol',
+      'Monitor cameras',
+      'Write incident reports',
+      'Emergency response',
+    ],
+    pathway:
+      'State-issued guard license (varies); armed roles require additional training.',
     relatedModules: ['c7_cybersecurity', 'a4_using_email'],
   },
   {
@@ -267,8 +406,14 @@ export const CAREERS = [
     education: 'CERT',
     medianWage: 51000,
     description: 'Respond to fires, medical emergencies, and rescues.',
-    dayInLife: 'Train daily, maintain equipment, respond to calls, run public education.',
-    tasks: ['Emergency response', 'Equipment maintenance', 'Training', 'Community outreach'],
+    dayInLife:
+      'Train daily, maintain equipment, respond to calls, run public education.',
+    tasks: [
+      'Emergency response',
+      'Equipment maintenance',
+      'Training',
+      'Community outreach',
+    ],
     pathway: 'Fire academy + EMT certification typically required.',
     relatedModules: ['d5_civic_gov_services'],
   },
@@ -280,8 +425,10 @@ export const CAREERS = [
     interest: 'Hospitality',
     education: 'HS',
     medianWage: 33000,
-    description: 'Prepare food in restaurants, cafeterias, and institutional kitchens.',
-    dayInLife: 'Prep ingredients, cook to order, maintain station, follow food safety, work fast under pressure.',
+    description:
+      'Prepare food in restaurants, cafeterias, and institutional kitchens.',
+    dayInLife:
+      'Prep ingredients, cook to order, maintain station, follow food safety, work fast under pressure.',
     tasks: ['Food prep', 'Cook to order', 'Sanitation', 'Inventory'],
     pathway: 'On-the-job training + ServSafe food handler card.',
     relatedModules: [],
@@ -293,8 +440,14 @@ export const CAREERS = [
     education: 'HS',
     medianWage: 33000,
     description: 'First point of contact for hotel guests.',
-    dayInLife: 'Check guests in/out, handle reservations, answer questions, resolve complaints.',
-    tasks: ['Check-in/out', 'Reservations', 'Customer service', 'Cash handling'],
+    dayInLife:
+      'Check guests in/out, handle reservations, answer questions, resolve complaints.',
+    tasks: [
+      'Check-in/out',
+      'Reservations',
+      'Customer service',
+      'Cash handling',
+    ],
     pathway: 'High school diploma + customer service experience.',
     relatedModules: ['a4_using_email', 'c1_social_media'],
   },

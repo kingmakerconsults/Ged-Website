@@ -43,7 +43,7 @@ export default function WorkforceSectionFrame({
           </div>
         </header>
       </div>
-      <div className="section-body">{children}</div>
+      <div className="section-body text-slate-900 dark:text-slate-100">{children}</div>
     </div>
   );
 }

@@ -40,6 +40,9 @@ const ensureOnboardingColumns = require('./db/initOnboardingColumns');
 const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const ensureQuizAttemptItemsTable = require('./db/initQuizAttemptItems');
 const ensureEssayScoresTable = require('./db/initEssayScores');
+const ensureVocabularyAttemptsTable = require('./db/initVocabularyAttempts');
+const ensureQuizSurveysTable = require('./db/initQuizSurveys');
+const ensureQuestionReportsTable = require('./db/initQuestionReports');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
 const ensureActiveExamSessionsTable = require('./db/initActiveExamSessions');
 const ensureUserNameColumns = require('./db/initUserNameColumns');
@@ -5935,6 +5938,15 @@ ensureQuizAttemptItemsTable().catch((e) =>
 );
 ensureEssayScoresTable().catch((e) =>
   console.error('Essay score table init error:', e)
+);
+ensureVocabularyAttemptsTable().catch((e) =>
+  console.error('Vocabulary attempts table init error:', e)
+);
+ensureQuizSurveysTable().catch((e) =>
+  console.error('Quiz surveys table init error:', e)
+);
+ensureQuestionReportsTable().catch((e) =>
+  console.error('Question reports table init error:', e)
 );
 if (typeof ensureQuestionBankTable === 'function') {
   ensureQuestionBankTable().catch((e) => {
@@ -19999,12 +20011,10 @@ app.get('/api/me/recommendations', requireAuth, async (req, res) => {
 app.get('/api/sso/oidc/start', (req, res) => {
   if (!isFeatureEnabled('SSO_OIDC'))
     return res.status(404).json({ error: 'not_found' });
-  return res
-    .status(501)
-    .json({
-      error: 'sso_oidc_not_configured',
-      detail: 'OIDC client setup pending. Configure provider per organization.',
-    });
+  return res.status(501).json({
+    error: 'sso_oidc_not_configured',
+    detail: 'OIDC client setup pending. Configure provider per organization.',
+  });
 });
 
 app.get('/api/sso/oidc/callback', (req, res) => {
@@ -20028,12 +20038,10 @@ app.post('/api/sso/saml/acs', (req, res) => {
 app.post('/api/me/mfa/enroll', requireAuth, (req, res) => {
   if (!isFeatureEnabled('MFA'))
     return res.status(404).json({ error: 'not_found' });
-  return res
-    .status(501)
-    .json({
-      error: 'mfa_not_configured',
-      detail: 'MFA enrollment scaffolded but not wired.',
-    });
+  return res.status(501).json({
+    error: 'mfa_not_configured',
+    detail: 'MFA enrollment scaffolded but not wired.',
+  });
 });
 
 // --- Instructor: Students list ---
@@ -26101,6 +26109,608 @@ app.get(
     } catch (error) {
       console.error('[/api/student/recent-performance]', error);
       res.status(500).json({ error: 'Failed to fetch recent performance' });
+    }
+  }
+);
+
+// ========================================
+// VOCABULARY ATTEMPTS — proficiency tracking
+// ========================================
+
+// POST /api/vocabulary-attempts
+// Body: { subject, term, isCorrect, userAnswer? }
+//    OR { attempts: [{subject, term, isCorrect, userAnswer?}, ...] } for batch submit
+app.post(
+  '/api/vocabulary-attempts',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const body = req.body || {};
+      const incoming = Array.isArray(body.attempts) ? body.attempts : [body];
+
+      const rows = [];
+      for (const item of incoming) {
+        if (!item || typeof item !== 'object') continue;
+        const subject =
+          typeof item.subject === 'string' ? item.subject.trim() : '';
+        const term = typeof item.term === 'string' ? item.term.trim() : '';
+        if (!subject || !term) continue;
+        rows.push({
+          subject,
+          term,
+          isCorrect:
+            item.isCorrect === true ||
+            item.is_correct === true ||
+            item.correct === true,
+          userAnswer:
+            typeof item.userAnswer === 'string'
+              ? item.userAnswer.slice(0, 500)
+              : typeof item.user_answer === 'string'
+                ? item.user_answer.slice(0, 500)
+                : null,
+        });
+      }
+
+      if (rows.length === 0) {
+        return res.status(400).json({ error: 'subject and term are required' });
+      }
+
+      const values = [];
+      const params = [];
+      let p = 1;
+      for (const r of rows) {
+        values.push(`($${p++}, $${p++}, $${p++}, $${p++}, $${p++})`);
+        params.push(userId, r.subject, r.term, r.isCorrect, r.userAnswer);
+      }
+
+      await pool.query(
+        `INSERT INTO vocabulary_attempts (user_id, subject, term, is_correct, user_answer)
+         VALUES ${values.join(', ')}`,
+        params
+      );
+
+      res.json({ inserted: rows.length });
+    } catch (error) {
+      console.error('[/api/vocabulary-attempts] POST error:', error);
+      res.status(500).json({ error: 'Failed to record vocabulary attempt' });
+    }
+  }
+);
+
+// GET /api/vocabulary-attempts/summary
+// Returns per-subject totals + per-term accuracy + struggling terms.
+app.get(
+  '/api/vocabulary-attempts/summary',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const subjectAgg = await pool.query(
+        `SELECT subject,
+                COUNT(*)::int AS total,
+                SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int AS correct,
+                ROUND(AVG(CASE WHEN is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct,
+                COUNT(DISTINCT term)::int AS unique_terms
+           FROM vocabulary_attempts
+          WHERE user_id = $1
+          GROUP BY subject
+          ORDER BY subject`,
+        [userId]
+      );
+
+      const struggling = await pool.query(
+        `SELECT subject, term,
+                COUNT(*)::int AS attempts,
+                SUM(CASE WHEN is_correct THEN 1 ELSE 0 END)::int AS correct,
+                ROUND(AVG(CASE WHEN is_correct THEN 1.0 ELSE 0.0 END) * 100, 1) AS accuracy_pct,
+                MAX(attempted_at) AS last_attempt
+           FROM vocabulary_attempts
+          WHERE user_id = $1
+          GROUP BY subject, term
+         HAVING COUNT(*) >= 2
+            AND AVG(CASE WHEN is_correct THEN 1.0 ELSE 0.0 END) < 0.7
+          ORDER BY accuracy_pct ASC, attempts DESC
+          LIMIT 15`,
+        [userId]
+      );
+
+      const recent = await pool.query(
+        `SELECT subject, term, is_correct, attempted_at
+           FROM vocabulary_attempts
+          WHERE user_id = $1
+          ORDER BY attempted_at DESC
+          LIMIT 25`,
+        [userId]
+      );
+
+      res.json({
+        subjects: subjectAgg.rows,
+        strugglingTerms: struggling.rows,
+        recent: recent.rows,
+      });
+    } catch (error) {
+      console.error('[/api/vocabulary-attempts/summary] error:', error);
+      res.status(500).json({ error: 'Failed to fetch vocabulary summary' });
+    }
+  }
+);
+
+// ========================================
+// QUIZ SURVEYS — short post-quiz feedback
+// ========================================
+
+// POST /api/quiz-surveys
+// Body: { attemptId?, subject, difficultyRating, confidenceRating, paceRating, freeText, extras? }
+app.post('/api/quiz-surveys', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+    const {
+      attemptId,
+      subject,
+      difficultyRating,
+      confidenceRating,
+      paceRating,
+      freeText,
+      extras,
+    } = req.body || {};
+
+    const clampInt = (v) => {
+      const n = Number(v);
+      if (!Number.isFinite(n)) return null;
+      const r = Math.round(n);
+      if (r < 1 || r > 5) return null;
+      return r;
+    };
+
+    const ALLOWED_PACE = new Set(['too_slow', 'just_right', 'too_fast']);
+    const pace =
+      typeof paceRating === 'string' && ALLOWED_PACE.has(paceRating)
+        ? paceRating
+        : null;
+
+    const subj =
+      typeof subject === 'string' ? subject.trim().slice(0, 100) : null;
+    const text =
+      typeof freeText === 'string' ? freeText.trim().slice(0, 2000) : null;
+
+    let attemptIdNum = null;
+    if (attemptId != null) {
+      const n = Number(attemptId);
+      if (Number.isFinite(n) && n > 0) attemptIdNum = Math.round(n);
+    }
+
+    // If attemptId provided, verify it belongs to this user
+    if (attemptIdNum != null) {
+      const owns = await pool.query(
+        `SELECT 1 FROM quiz_attempts WHERE id = $1 AND user_id = $2 LIMIT 1`,
+        [attemptIdNum, userId]
+      );
+      if (owns.rowCount === 0) attemptIdNum = null;
+    }
+
+    const result = await pool.query(
+      `INSERT INTO quiz_surveys
+         (user_id, attempt_id, subject, difficulty_rating, confidence_rating,
+          pace_rating, free_text, extras)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+       RETURNING id, created_at`,
+      [
+        userId,
+        attemptIdNum,
+        subj,
+        clampInt(difficultyRating),
+        clampInt(confidenceRating),
+        pace,
+        text,
+        extras && typeof extras === 'object' ? JSON.stringify(extras) : null,
+      ]
+    );
+
+    res.json({ id: result.rows[0].id, created_at: result.rows[0].created_at });
+  } catch (error) {
+    console.error('[/api/quiz-surveys] POST error:', error);
+    res.status(500).json({ error: 'Failed to record survey' });
+  }
+});
+
+// GET /api/student/survey-summary
+// Returns averaged ratings + recent free-text snippets for the user.
+app.get(
+  '/api/student/survey-summary',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const overall = await pool.query(
+        `SELECT COUNT(*)::int AS total,
+                ROUND(AVG(difficulty_rating)::numeric, 2) AS avg_difficulty,
+                ROUND(AVG(confidence_rating)::numeric, 2) AS avg_confidence,
+                SUM(CASE WHEN pace_rating = 'too_slow'   THEN 1 ELSE 0 END)::int AS pace_too_slow,
+                SUM(CASE WHEN pace_rating = 'just_right' THEN 1 ELSE 0 END)::int AS pace_just_right,
+                SUM(CASE WHEN pace_rating = 'too_fast'   THEN 1 ELSE 0 END)::int AS pace_too_fast
+           FROM quiz_surveys
+          WHERE user_id = $1`,
+        [userId]
+      );
+
+      const bySubject = await pool.query(
+        `SELECT subject,
+                COUNT(*)::int AS total,
+                ROUND(AVG(difficulty_rating)::numeric, 2) AS avg_difficulty,
+                ROUND(AVG(confidence_rating)::numeric, 2) AS avg_confidence
+           FROM quiz_surveys
+          WHERE user_id = $1 AND subject IS NOT NULL
+          GROUP BY subject
+          ORDER BY subject`,
+        [userId]
+      );
+
+      const recent = await pool.query(
+        `SELECT id, attempt_id, subject, difficulty_rating, confidence_rating,
+                pace_rating, free_text, created_at
+           FROM quiz_surveys
+          WHERE user_id = $1
+          ORDER BY created_at DESC
+          LIMIT 10`,
+        [userId]
+      );
+
+      res.json({
+        overall: overall.rows[0] || null,
+        bySubject: bySubject.rows,
+        recent: recent.rows,
+      });
+    } catch (error) {
+      console.error('[/api/student/survey-summary] error:', error);
+      res.status(500).json({ error: 'Failed to fetch survey summary' });
+    }
+  }
+);
+
+// GET /api/student/essay-summary
+// Returns recent essay scores + trait averages from essay_scores.
+app.get(
+  '/api/student/essay-summary',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+      const summary = await pool.query(
+        `SELECT COUNT(*)::int AS total,
+                ROUND(AVG(total_score)::numeric, 2)   AS avg_total,
+                ROUND(AVG(trait1_score)::numeric, 2)  AS avg_trait1,
+                ROUND(AVG(trait2_score)::numeric, 2)  AS avg_trait2,
+                ROUND(AVG(trait3_score)::numeric, 2)  AS avg_trait3,
+                MAX(total_score)                      AS best_total,
+                MAX(created_at)                       AS last_submitted
+           FROM essay_scores
+          WHERE user_id = $1`,
+        [userId]
+      );
+
+      const recent = await pool.query(
+        `SELECT id, total_score, trait1_score, trait2_score, trait3_score,
+                word_count, prompt_id, created_at
+           FROM essay_scores
+          WHERE user_id = $1
+          ORDER BY created_at DESC
+          LIMIT 10`,
+        [userId]
+      );
+
+      res.json({
+        summary: summary.rows[0] || null,
+        recent: recent.rows,
+      });
+    } catch (error) {
+      console.error('[/api/student/essay-summary] error:', error);
+      res.status(500).json({ error: 'Failed to fetch essay summary' });
+    }
+  }
+);
+
+// ========================================
+// QUESTION REPORTS — flag problematic questions
+// ========================================
+
+const REPORT_REASONS = new Set([
+  'incorrect_answer',
+  'ambiguous',
+  'offensive',
+  'broken_image',
+  'typo',
+  'off_topic',
+  'duplicate',
+  'other',
+]);
+const REPORT_SOURCES = new Set([
+  'ai',
+  'premade',
+  'practice',
+  'pop_quiz',
+  'vocabulary',
+  'unknown',
+]);
+const REPORT_STATUSES = new Set(['open', 'triaged', 'resolved', 'dismissed']);
+
+function isAdminRole(role) {
+  const r = (role || '').toLowerCase();
+  return r === 'admin' || r === 'super_admin' || r === 'superadmin';
+}
+
+// POST /api/question-reports — open to any authenticated user
+app.post('/api/question-reports', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+    const {
+      questionId,
+      questionIndex,
+      attemptId,
+      quizCode,
+      quizTitle,
+      subject,
+      source,
+      reason,
+      details,
+      questionText,
+    } = req.body || {};
+
+    const cleanReason =
+      typeof reason === 'string' ? reason.trim().toLowerCase() : '';
+    if (!cleanReason || !REPORT_REASONS.has(cleanReason)) {
+      return res.status(400).json({
+        error: 'invalid_reason',
+        allowed: Array.from(REPORT_REASONS),
+      });
+    }
+
+    const cleanSource =
+      typeof source === 'string' &&
+      REPORT_SOURCES.has(source.trim().toLowerCase())
+        ? source.trim().toLowerCase()
+        : 'unknown';
+
+    const truncatedText =
+      typeof questionText === 'string' ? questionText.slice(0, 4000) : null;
+    const truncatedDetails =
+      typeof details === 'string' ? details.trim().slice(0, 2000) : null;
+
+    let attemptIdNum = null;
+    if (attemptId != null) {
+      const n = Number(attemptId);
+      if (Number.isFinite(n) && n > 0) attemptIdNum = Math.round(n);
+    }
+    if (attemptIdNum != null) {
+      const owns = await pool.query(
+        `SELECT 1 FROM quiz_attempts WHERE id = $1 AND user_id = $2 LIMIT 1`,
+        [attemptIdNum, userId]
+      );
+      if (owns.rowCount === 0) attemptIdNum = null;
+    }
+
+    let qIndex = null;
+    if (questionIndex != null) {
+      const n = Number(questionIndex);
+      if (Number.isFinite(n) && n >= 0) qIndex = Math.round(n);
+    }
+
+    const result = await pool.query(
+      `INSERT INTO question_reports
+           (user_id, attempt_id, question_id, question_index, quiz_code,
+            quiz_title, subject, source, reason, details, question_text)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+         RETURNING id, created_at, status`,
+      [
+        userId,
+        attemptIdNum,
+        typeof questionId === 'string' ? questionId.slice(0, 200) : null,
+        qIndex,
+        typeof quizCode === 'string' ? quizCode.slice(0, 200) : null,
+        typeof quizTitle === 'string' ? quizTitle.slice(0, 300) : null,
+        typeof subject === 'string' ? subject.slice(0, 100) : null,
+        cleanSource,
+        cleanReason,
+        truncatedDetails,
+        truncatedText,
+      ]
+    );
+
+    res.json({
+      id: result.rows[0].id,
+      status: result.rows[0].status,
+      created_at: result.rows[0].created_at,
+    });
+  } catch (error) {
+    console.error('[/api/question-reports] POST error:', error);
+    res.status(500).json({ error: 'Failed to record report' });
+  }
+});
+
+// GET /api/question-reports/mine — let users see what they've already reported
+app.get(
+  '/api/question-reports/mine',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const result = await pool.query(
+        `SELECT id, quiz_code, quiz_title, subject, reason, status,
+                created_at, resolution_note, resolved_at
+           FROM question_reports
+          WHERE user_id = $1
+          ORDER BY created_at DESC
+          LIMIT 50`,
+        [userId]
+      );
+      res.json({ reports: result.rows });
+    } catch (error) {
+      console.error('[/api/question-reports/mine] error:', error);
+      res.status(500).json({ error: 'Failed to fetch reports' });
+    }
+  }
+);
+
+// GET /api/admin/question-reports — admin triage list
+app.get(
+  '/api/admin/question-reports',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      if (!isAdminRole(req.user?.role)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      const status =
+        typeof req.query.status === 'string' &&
+        REPORT_STATUSES.has(req.query.status)
+          ? req.query.status
+          : null;
+      const subject =
+        typeof req.query.subject === 'string' ? req.query.subject.trim() : null;
+      const source =
+        typeof req.query.source === 'string' &&
+        REPORT_SOURCES.has(req.query.source)
+          ? req.query.source
+          : null;
+      const limit = Math.min(
+        Math.max(parseInt(req.query.limit, 10) || 50, 1),
+        200
+      );
+      const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+
+      const params = [];
+      const where = [];
+      if (status) {
+        params.push(status);
+        where.push(`r.status = $${params.length}`);
+      }
+      if (subject) {
+        params.push(subject);
+        where.push(`r.subject = $${params.length}`);
+      }
+      if (source) {
+        params.push(source);
+        where.push(`r.source = $${params.length}`);
+      }
+      const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
+
+      params.push(limit, offset);
+      const limitIdx = params.length - 1;
+      const offsetIdx = params.length;
+
+      const list = await pool.query(
+        `SELECT r.*, u.email AS reporter_email
+           FROM question_reports r
+           LEFT JOIN users u ON u.id = r.user_id
+           ${whereSql}
+          ORDER BY r.created_at DESC
+          LIMIT $${limitIdx} OFFSET $${offsetIdx}`,
+        params
+      );
+
+      const counts = await pool.query(
+        `SELECT status, COUNT(*)::int AS count
+           FROM question_reports
+          GROUP BY status`
+      );
+      const summary = {
+        open: 0,
+        triaged: 0,
+        resolved: 0,
+        dismissed: 0,
+        total: 0,
+      };
+      for (const row of counts.rows) {
+        if (summary.hasOwnProperty(row.status)) summary[row.status] = row.count;
+        summary.total += row.count;
+      }
+
+      res.json({ reports: list.rows, summary });
+    } catch (error) {
+      console.error('[/api/admin/question-reports] error:', error);
+      res.status(500).json({ error: 'Failed to fetch reports' });
+    }
+  }
+);
+
+// PATCH /api/admin/question-reports/:id — update status / resolution_note
+app.patch(
+  '/api/admin/question-reports/:id',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      if (!isAdminRole(req.user?.role)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+      const adminId = getNumericUserId(req.user?.userId || req.user?.sub);
+      const id = parseInt(req.params.id, 10);
+      if (!Number.isFinite(id) || id <= 0) {
+        return res.status(400).json({ error: 'invalid_id' });
+      }
+
+      const { status, resolutionNote } = req.body || {};
+      const cleanStatus =
+        typeof status === 'string' && REPORT_STATUSES.has(status)
+          ? status
+          : null;
+      const cleanNote =
+        typeof resolutionNote === 'string'
+          ? resolutionNote.trim().slice(0, 2000)
+          : null;
+
+      if (!cleanStatus && cleanNote == null) {
+        return res.status(400).json({ error: 'nothing_to_update' });
+      }
+
+      const sets = [];
+      const params = [];
+      if (cleanStatus) {
+        params.push(cleanStatus);
+        sets.push(`status = $${params.length}`);
+        if (cleanStatus === 'resolved' || cleanStatus === 'dismissed') {
+          params.push(adminId || null);
+          sets.push(`resolved_by = $${params.length}`);
+          sets.push(`resolved_at = NOW()`);
+        } else {
+          sets.push(`resolved_by = NULL`);
+          sets.push(`resolved_at = NULL`);
+        }
+      }
+      if (cleanNote != null) {
+        params.push(cleanNote);
+        sets.push(`resolution_note = $${params.length}`);
+      }
+
+      params.push(id);
+      const result = await pool.query(
+        `UPDATE question_reports
+            SET ${sets.join(', ')}
+          WHERE id = $${params.length}
+          RETURNING id, status, resolution_note, resolved_by, resolved_at`,
+        params
+      );
+
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'not_found' });
+      }
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error('[/api/admin/question-reports/:id] PATCH error:', error);
+      res.status(500).json({ error: 'Failed to update report' });
     }
   }
 );

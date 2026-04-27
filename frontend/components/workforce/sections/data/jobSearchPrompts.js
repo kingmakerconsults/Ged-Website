@@ -52,10 +52,20 @@ export const COMPANY_RESEARCH_CHECKLIST = [
 // used as conservative anchors; real numbers vary by metro and experience.
 // Cost-of-living note is generic guidance, not city-specific.
 export const SALARY_ROLES = [
-  { role: 'Customer Service Representative', p25: 33000, median: 39000, p75: 47000 },
+  {
+    role: 'Customer Service Representative',
+    p25: 33000,
+    median: 39000,
+    p75: 47000,
+  },
   { role: 'Administrative Assistant', p25: 36000, median: 44000, p75: 53000 },
   { role: 'Medical Assistant', p25: 35000, median: 42000, p75: 50000 },
-  { role: 'Certified Nursing Assistant (CNA)', p25: 32000, median: 38000, p75: 45000 },
+  {
+    role: 'Certified Nursing Assistant (CNA)',
+    p25: 32000,
+    median: 38000,
+    p75: 45000,
+  },
   { role: 'Home Health Aide', p25: 28000, median: 33000, p75: 40000 },
   { role: 'Pharmacy Technician', p25: 33000, median: 40000, p75: 49000 },
   { role: 'Dental Assistant', p25: 36000, median: 44000, p75: 53000 },

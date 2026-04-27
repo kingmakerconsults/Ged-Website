@@ -24433,6 +24433,9 @@ async function fetchJSON(url, options = {}) {
 // --- App Structure Components ---
 import SubjectCard from '../components/subject/SubjectCard.jsx';
 import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
+import StatsHub from '../components/stats/StatsHub.jsx';
+import PostQuizSurvey from '../components/stats/PostQuizSurvey.jsx';
+import ReportQuestionButton from '../components/stats/ReportQuestionButton.jsx';
 import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -25057,6 +25060,9 @@ function App({ externalTheme, onThemeChange }) {
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [showDiagnosticIntroModal, setShowDiagnosticIntroModal] =
     useState(false);
+  // Post-quiz survey + stats hub refresh
+  const [pendingSurvey, setPendingSurvey] = useState(null); // { attemptId, subject } | null
+  const [statsRefreshKey, setStatsRefreshKey] = useState(0);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
   const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
   const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
@@ -27810,27 +27816,66 @@ function App({ externalTheme, onThemeChange }) {
             `${subject.toLowerCase().replace(/\s/g, '_')}_${Date.now()}`;
           const popQuizTitle = quizObj.title || quizObj.topicTitle || subject;
           const popQuizType = subject === 'Pop Quiz' ? 'pop_quiz' : 'practice';
-          await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              subject: quizObj.subject || subject,
-              quizCode: popQuizCode,
-              quizTitle: popQuizTitle,
-              quizType: popQuizType,
-              score: results.score,
-              totalQuestions: results.totalQuestions,
-              scaledScore: results.scaledScore,
-              passed:
-                typeof results.scaledScore === 'number'
-                  ? results.scaledScore >= GED_PASSING_SCORE
-                  : undefined,
-              ...(responses.length ? { responses } : {}),
-            }),
-          });
+          let popAttemptId = null;
+          try {
+            const popRes = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                subject: quizObj.subject || subject,
+                quizCode: popQuizCode,
+                quizTitle: popQuizTitle,
+                quizType: popQuizType,
+                score: results.score,
+                totalQuestions: results.totalQuestions,
+                scaledScore: results.scaledScore,
+                passed:
+                  typeof results.scaledScore === 'number'
+                    ? results.scaledScore >= GED_PASSING_SCORE
+                    : undefined,
+                ...(responses.length ? { responses } : {}),
+              }),
+            });
+            if (popRes.ok) {
+              try {
+                const saved = await popRes.json();
+                if (saved && (saved.id || saved.attempt_id)) {
+                  popAttemptId = saved.id || saved.attempt_id;
+                }
+              } catch {
+                /* ignore non-JSON */
+              }
+            }
+          } catch (postErr) {
+            console.warn(
+              '[practice] /api/quiz-attempts POST failed:',
+              postErr?.message || postErr
+            );
+          }
+          // Trigger post-quiz survey unless dismissed for the session
+          try {
+            let dismissed = false;
+            try {
+              dismissed =
+                sessionStorage.getItem('postQuizSurveyDismissed') === '1';
+            } catch {
+              /* sessionStorage may be blocked */
+            }
+            if (!dismissed) {
+              setPendingSurvey({
+                attemptId: popAttemptId,
+                subject: quizObj.subject || subject || null,
+              });
+            }
+          } catch (surveyErr) {
+            console.warn(
+              '[practice] survey trigger failed:',
+              surveyErr?.message || surveyErr
+            );
+          }
         }
       } catch (e) {
         console.warn('[practice] failed to ingest/persist:', e?.message || e);
@@ -27904,14 +27949,104 @@ function App({ externalTheme, onThemeChange }) {
             ? { assigned_by: quizDetails.assigned_by || quizDetails.assignedBy }
             : {}),
         };
-        await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        });
+        // POST attempt and capture response so we can chain post-quiz hooks
+        let savedAttemptId = null;
+        try {
+          const attemptRes = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+          });
+          if (attemptRes.ok) {
+            try {
+              const saved = await attemptRes.json();
+              if (saved && (saved.id || saved.attempt_id)) {
+                savedAttemptId = saved.id || saved.attempt_id;
+              }
+            } catch {
+              /* response not JSON — proceed without attemptId */
+            }
+          }
+        } catch (postErr) {
+          console.warn(
+            '[quiz] /api/quiz-attempts POST failed:',
+            postErr?.message || postErr
+          );
+        }
+
+        // Vocabulary attempt logging — when this was a vocab quiz, batch
+        // each item to /api/vocabulary-attempts so per-term mastery rolls up.
+        try {
+          const isVocabQuiz =
+            resolvedQuizType === 'vocabulary' ||
+            (Array.isArray(responses) &&
+              responses.length > 0 &&
+              responses.every(
+                (r) =>
+                  typeof r?.question_id === 'string' &&
+                  r.question_id.startsWith('vocab_')
+              ));
+          if (isVocabQuiz && Array.isArray(responses) && responses.length > 0) {
+            const vocabAttempts = responses
+              .map((r) => {
+                const qid =
+                  typeof r?.question_id === 'string' ? r.question_id : '';
+                // backend builds ids like vocab_def_<term> and vocab_term_<term>
+                const m = qid.match(/^vocab_(?:def|term)_(.+)$/);
+                if (!m) return null;
+                const term = m[1].replace(/_/g, ' ').trim();
+                if (!term) return null;
+                return {
+                  subject: subject || 'Vocabulary',
+                  term,
+                  isCorrect: !!r.correct,
+                  userAnswer:
+                    r.user_answer != null ? String(r.user_answer) : null,
+                };
+              })
+              .filter(Boolean);
+            if (vocabAttempts.length > 0) {
+              await fetch(`${API_BASE_URL}/api/vocabulary-attempts`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ attempts: vocabAttempts }),
+              });
+            }
+          }
+        } catch (vocabErr) {
+          console.warn(
+            '[quiz] vocabulary-attempts POST failed:',
+            vocabErr?.message || vocabErr
+          );
+        }
+
+        // Trigger the post-quiz survey unless the user opted out for this session
+        try {
+          let dismissed = false;
+          try {
+            dismissed =
+              sessionStorage.getItem('postQuizSurveyDismissed') === '1';
+          } catch {
+            /* sessionStorage may be blocked */
+          }
+          if (!dismissed) {
+            setPendingSurvey({
+              attemptId: savedAttemptId,
+              subject: subject || quizDetails.subject || null,
+            });
+          }
+        } catch (surveyErr) {
+          console.warn(
+            '[quiz] survey trigger failed:',
+            surveyErr?.message || surveyErr
+          );
+        }
 
         // If this was a diagnostic test, refresh the profile immediately so updated challenges appear
         if (resolvedQuizType === 'diagnostic') {
@@ -28472,6 +28607,16 @@ function App({ externalTheme, onThemeChange }) {
               return null;
             }
           })()}
+        {pendingSurvey && (
+          <PostQuizSurvey
+            attemptId={pendingSurvey.attemptId}
+            subject={pendingSurvey.subject}
+            onClose={() => setPendingSurvey(null)}
+            onSubmitted={() => {
+              setStatsRefreshKey((k) => k + 1);
+            }}
+          />
+        )}
         {showPracticeModal && (
           <PracticeSessionModal
             defaultMode="balanced"
@@ -33651,8 +33796,12 @@ function StartScreen({
 
       // backend returns { subject, count, quiz: [...] }
       if (data && data.quiz) {
+        // Tag the quiz so the submit pipeline knows to log vocabulary attempts
+        const taggedQuiz = Array.isArray(data.quiz)
+          ? { questions: data.quiz, quizType: 'vocabulary', subject }
+          : { ...data.quiz, quizType: 'vocabulary', subject };
         // Use the standard quiz launcher
-        onSelectQuiz(data.quiz, subject);
+        onSelectQuiz(taggedQuiz, subject);
       } else {
         console.error('Invalid vocabulary quiz response:', data);
         alert('Failed to generate vocabulary quiz. Please try again.');
@@ -35843,6 +35992,7 @@ function StartScreen({
                 profilePassedMap={profilePassedMap}
                 recentSummary={recentDashboardSummary}
               />
+              <StatsHub refreshKey={statsRefreshKey} />
             </div>
           )}
           {/* Coach Smith This Week (4 subject cards) */}
@@ -37173,6 +37323,22 @@ function QuizInterface({
                     </span>
                     <Stem item={currentQ} subject={selectedSubject} />
                   </div>
+                  <div style={{ marginTop: 6, marginLeft: 28 }}>
+                    <ReportQuestionButton
+                      question={currentQ}
+                      quizCode={quizCode || quizConfig?.code || null}
+                      quizTitle={quizTitle || null}
+                      subject={subjectForRender}
+                      source={
+                        currentQ?.isAiGenerated || quizConfig?.isAi
+                          ? 'ai'
+                          : quizConfig?.isPremade
+                            ? 'premade'
+                            : 'practice'
+                      }
+                      questionIndex={currentIndex}
+                    />
+                  </div>
                 </div>
                 {(() => {
                   const rawImgSrc =
@@ -37500,6 +37666,22 @@ function QuizInterface({
                     {currentQ.questionNumber ?? currentIndex + 1}.
                   </span>
                   <Stem item={currentQ} subject={subject} />
+                </div>
+                <div style={{ marginTop: 6, marginLeft: 28 }}>
+                  <ReportQuestionButton
+                    question={currentQ}
+                    quizCode={quizCode || quizConfig?.code || null}
+                    quizTitle={quizTitle || null}
+                    subject={subjectForRender}
+                    source={
+                      currentQ?.isAiGenerated || quizConfig?.isAi
+                        ? 'ai'
+                        : quizConfig?.isPremade
+                          ? 'premade'
+                          : 'practice'
+                    }
+                    questionIndex={currentIndex}
+                  />
                 </div>
               </div>
               {(() => {
