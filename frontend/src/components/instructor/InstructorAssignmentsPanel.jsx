@@ -312,21 +312,38 @@ export function QuizCatalogPicker({ value, onChange, subjectKey }) {
 
 const SUBJECTS = ['', 'Math', 'Science', 'Social Studies', 'RLA'];
 
+const SUBJECT_LABEL_FROM_KEY = Object.entries(SUBJECT_KEY_FROM_LABEL).reduce(
+  (acc, [label, key]) => {
+    acc[key] = label;
+    return acc;
+  },
+  {}
+);
+
+const EMPTY_PICKER = {
+  subjectKey: '',
+  categoryName: '',
+  topicTitle: '',
+  quizId: '',
+};
+
+const EMPTY_FORM = {
+  title: '',
+  subject: '',
+  picker: { ...EMPTY_PICKER },
+  class_id: '',
+  due_at: '',
+  notes: '',
+  target_user_ids: [],
+};
+
 export default function InstructorAssignmentsPanel({ students = [] }) {
   const [classes, setClasses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
-  const [form, setForm] = useState({
-    title: '',
-    subject: '',
-    quiz_id: '',
-    class_id: '',
-    due_at: '',
-    notes: '',
-    target_user_ids: [],
-  });
+  const [form, setForm] = useState(() => ({ ...EMPTY_FORM }));
   const [showArchived, setShowArchived] = useState(false);
 
   const load = useCallback(async () => {
@@ -360,27 +377,23 @@ export default function InstructorAssignmentsPanel({ students = [] }) {
     setSubmitting(true);
     setSubmitError(null);
     try {
+      const subjectLabel =
+        form.subject ||
+        SUBJECT_LABEL_FROM_KEY[form.picker.subjectKey] ||
+        '';
       await apiFetch('/api/instructor/assignments', {
         method: 'POST',
         body: JSON.stringify({
           title: form.title.trim(),
-          subject: form.subject || null,
-          quiz_id: form.quiz_id || null,
+          subject: subjectLabel || null,
+          quiz_id: form.picker.quizId || null,
           class_id: form.class_id ? Number(form.class_id) : null,
           due_at: form.due_at || null,
           notes: form.notes || null,
           target_user_ids: form.target_user_ids,
         }),
       });
-      setForm({
-        title: '',
-        subject: '',
-        quiz_id: '',
-        class_id: '',
-        due_at: '',
-        notes: '',
-        target_user_ids: [],
-      });
+      setForm({ ...EMPTY_FORM });
       await load();
     } catch (err) {
       console.warn('[assignments] create failed', err);
@@ -462,9 +475,17 @@ export default function InstructorAssignmentsPanel({ students = [] }) {
             />
             <select
               value={form.subject}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, subject: e.target.value }))
-              }
+              onChange={(e) => {
+                const label = e.target.value;
+                setForm((f) => ({
+                  ...f,
+                  subject: label,
+                  picker: {
+                    ...EMPTY_PICKER,
+                    subjectKey: SUBJECT_KEY_FROM_LABEL[label] || '',
+                  },
+                }));
+              }}
               style={{
                 padding: '6px 10px',
                 border: '1px solid #cbd5e1',
@@ -481,7 +502,7 @@ export default function InstructorAssignmentsPanel({ students = [] }) {
             <input
               type="text"
               placeholder="Quiz ID (auto)"
-              value={form.quiz_id}
+              value={form.picker.quizId}
               readOnly
               style={{
                 padding: '6px 10px',
@@ -538,10 +559,24 @@ export default function InstructorAssignmentsPanel({ students = [] }) {
               Pick quiz from catalog
             </div>
             <QuizCatalogPicker
-              subjectKey={SUBJECT_KEY_FROM_LABEL[form.subject] || ''}
-              value={{ quizId: form.quiz_id }}
+              subjectKey={
+                SUBJECT_KEY_FROM_LABEL[form.subject] ||
+                form.picker.subjectKey ||
+                ''
+              }
+              value={form.picker}
               onChange={(next) =>
-                setForm((f) => ({ ...f, quiz_id: next?.quizId || '' }))
+                setForm((f) => {
+                  const picker = { ...f.picker, ...next };
+                  let subject = f.subject;
+                  if (
+                    next.subjectKey !== undefined &&
+                    SUBJECT_LABEL_FROM_KEY[next.subjectKey]
+                  ) {
+                    subject = SUBJECT_LABEL_FROM_KEY[next.subjectKey];
+                  }
+                  return { ...f, subject, picker };
+                })
               }
             />
           </div>

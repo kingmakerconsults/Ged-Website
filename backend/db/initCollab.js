@@ -106,6 +106,9 @@ async function ensureCollabTables() {
     );
     CREATE INDEX IF NOT EXISTS class_curriculum_items_class_idx
       ON class_curriculum_items(class_id, position);
+    -- Optional end-of-timeframe date (instructors plan a span, not a single day).
+    ALTER TABLE class_curriculum_items
+      ADD COLUMN IF NOT EXISTS planned_end_date DATE;
   `);
 
   await db.none(`

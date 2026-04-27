@@ -19744,7 +19744,7 @@ app.get(
         return res.status(404).json({ error: 'class_not_found' });
       const { rows } = await db.query(
         `SELECT id, position, subject, category_name, topic_id, quiz_id,
-                title, planned_date, manually_marked_covered, created_at
+                title, planned_date, planned_end_date, manually_marked_covered, created_at
            FROM class_curriculum_items
           WHERE class_id = $1
           ORDER BY position ASC, id ASC`,
@@ -19771,17 +19771,26 @@ app.post(
       const classId = parseInt(req.params.classId, 10);
       if (!(await _instructorOwnsClass(req, classId)))
         return res.status(404).json({ error: 'class_not_found' });
-      const { title, subject, quiz_id, category_name, topic_id, planned_date } =
-        req.body || {};
+      const {
+        title,
+        subject,
+        quiz_id,
+        category_name,
+        topic_id,
+        planned_date,
+        planned_end_date,
+      } = req.body || {};
       const cleanTitle = String(title || '')
         .trim()
         .slice(0, 255);
       if (!cleanTitle) return res.status(400).json({ error: 'title_required' });
-      let pd = null;
-      if (planned_date) {
-        const d = new Date(planned_date);
-        if (Number.isFinite(d.getTime())) pd = d;
-      }
+      const toDate = (raw) => {
+        if (!raw) return null;
+        const d = new Date(raw);
+        return Number.isFinite(d.getTime()) ? d : null;
+      };
+      const pd = toDate(planned_date);
+      const ped = toDate(planned_end_date);
       const posR = await db.query(
         `SELECT COALESCE(MAX(position), -1) + 1 AS next_pos
            FROM class_curriculum_items WHERE class_id=$1`,
@@ -19790,10 +19799,10 @@ app.post(
       const nextPos = posR.rows[0]?.next_pos ?? 0;
       const r = await db.query(
         `INSERT INTO class_curriculum_items
-           (class_id, position, subject, category_name, topic_id, quiz_id, title, planned_date)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+           (class_id, position, subject, category_name, topic_id, quiz_id, title, planned_date, planned_end_date)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
          RETURNING id, position, subject, category_name, topic_id, quiz_id,
-                   title, planned_date, manually_marked_covered, created_at`,
+                   title, planned_date, planned_end_date, manually_marked_covered, created_at`,
         [
           classId,
           nextPos,
@@ -19803,6 +19812,7 @@ app.post(
           quiz_id ? String(quiz_id).slice(0, 255) : null,
           cleanTitle,
           pd,
+          ped,
         ]
       );
       return res.status(201).json({ item: r.rows[0] });
@@ -19841,6 +19851,7 @@ app.patch(
         title,
         position,
         planned_date,
+        planned_end_date,
         manually_marked_covered,
         quiz_id,
         subject,
@@ -19866,6 +19877,17 @@ app.patch(
           }
         }
       }
+      if (planned_end_date !== undefined) {
+        if (planned_end_date === null) {
+          sets.push(`planned_end_date = NULL`);
+        } else {
+          const d = new Date(planned_end_date);
+          if (Number.isFinite(d.getTime())) {
+            params.push(d);
+            sets.push(`planned_end_date = $${params.length}`);
+          }
+        }
+      }
       if (typeof manually_marked_covered === 'boolean') {
         params.push(manually_marked_covered);
         sets.push(`manually_marked_covered = $${params.length}`);
@@ -19886,7 +19908,7 @@ app.patch(
         `UPDATE class_curriculum_items SET ${sets.join(', ')}
           WHERE id = $${params.length}
           RETURNING id, position, subject, category_name, topic_id, quiz_id,
-                    title, planned_date, manually_marked_covered`,
+                    title, planned_date, planned_end_date, manually_marked_covered`,
         params
       );
       return res.json({ item: r.rows[0] });

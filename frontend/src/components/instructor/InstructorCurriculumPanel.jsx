@@ -4,6 +4,29 @@ import {
   SUBJECT_KEY_FROM_LABEL,
 } from './InstructorAssignmentsPanel.jsx';
 
+const SUBJECT_LABEL_FROM_KEY = Object.entries(SUBJECT_KEY_FROM_LABEL).reduce(
+  (acc, [label, key]) => {
+    acc[key] = label;
+    return acc;
+  },
+  {}
+);
+
+const EMPTY_PICKER = {
+  subjectKey: '',
+  categoryName: '',
+  topicTitle: '',
+  quizId: '',
+};
+
+const EMPTY_DRAFT = {
+  title: '',
+  subject: '',
+  picker: { ...EMPTY_PICKER },
+  planned_start_date: '',
+  planned_end_date: '',
+};
+
 function getApiBase() {
   if (
     typeof window !== 'undefined' &&
@@ -95,23 +118,21 @@ export default function InstructorCurriculumPanel() {
   const [creatingClass, setCreatingClass] = useState(false);
   const [createClassError, setCreateClassError] = useState(null);
   const [addItemError, setAddItemError] = useState(null);
-  const [draftItem, setDraftItem] = useState({
-    title: '',
-    subject: '',
-    quiz_id: '',
-    planned_date: '',
-  });
+  const [draftItem, setDraftItem] = useState(() => ({ ...EMPTY_DRAFT }));
 
+  // Stable: never depends on classId so creating a class can't trigger a
+  // stale-closure refetch race.
   const loadClasses = useCallback(async () => {
     try {
       const data = await apiFetch('/api/instructor/classes');
       const list = Array.isArray(data?.classes) ? data.classes : [];
       setClasses(list);
-      if (!classId && list.length) setClassId(list[0].id);
+      return list;
     } catch (e) {
       console.warn('[curriculum] load classes failed', e);
+      return null;
     }
-  }, [classId]);
+  }, []);
 
   const loadItems = useCallback(async () => {
     if (!classId) {
@@ -136,6 +157,13 @@ export default function InstructorCurriculumPanel() {
     loadClasses();
   }, [loadClasses]);
 
+  // Auto-pick the first class only on initial load if nothing is selected.
+  useEffect(() => {
+    if (classId == null && classes.length > 0) {
+      setClassId(classes[0].id);
+    }
+  }, [classId, classes]);
+
   useEffect(() => {
     loadItems();
   }, [loadItems]);
@@ -152,8 +180,10 @@ export default function InstructorCurriculumPanel() {
         body: JSON.stringify({ name }),
       });
       setNewClassName('');
+      const newId = data?.class?.id ?? null;
+      // Refresh the list, then jump to the new class.
       await loadClasses();
-      if (data?.class?.id) setClassId(data.class.id);
+      if (newId) setClassId(newId);
     } catch (err) {
       console.warn('[curriculum] create class failed', err);
       setCreateClassError(err?.message || 'Failed to create class');
@@ -167,16 +197,24 @@ export default function InstructorCurriculumPanel() {
     if (!classId || !draftItem.title.trim()) return;
     setAddItemError(null);
     try {
+      const subjectLabel =
+        draftItem.subject ||
+        SUBJECT_LABEL_FROM_KEY[draftItem.picker.subjectKey] ||
+        '';
       await apiFetch(`/api/instructor/classes/${classId}/curriculum`, {
         method: 'POST',
         body: JSON.stringify({
           title: draftItem.title.trim(),
-          subject: draftItem.subject || null,
-          quiz_id: draftItem.quiz_id || null,
-          planned_date: draftItem.planned_date || null,
+          subject: subjectLabel || null,
+          quiz_id: draftItem.picker.quizId || null,
+          category_name: draftItem.picker.categoryName || null,
+          topic_id: draftItem.picker.topicTitle || null,
+          planned_date: draftItem.planned_start_date || null,
+          planned_end_date:
+            draftItem.planned_end_date || draftItem.planned_start_date || null,
         }),
       });
-      setDraftItem({ title: '', subject: '', quiz_id: '', planned_date: '' });
+      setDraftItem({ ...EMPTY_DRAFT });
       await loadItems();
     } catch (err) {
       console.warn('[curriculum] add item failed', err);
@@ -319,7 +357,7 @@ export default function InstructorCurriculumPanel() {
               onSubmit={addItem}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '2fr 1fr 1fr 1fr auto',
+                gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr auto',
                 gap: 6,
               }}
             >
@@ -340,9 +378,19 @@ export default function InstructorCurriculumPanel() {
               />
               <select
                 value={draftItem.subject}
-                onChange={(e) =>
-                  setDraftItem((d) => ({ ...d, subject: e.target.value }))
-                }
+                onChange={(e) => {
+                  const label = e.target.value;
+                  setDraftItem((d) => ({
+                    ...d,
+                    subject: label,
+                    // Reset picker when subject changes so old categoryName/quizId
+                    // don't leak across subjects.
+                    picker: {
+                      ...EMPTY_PICKER,
+                      subjectKey: SUBJECT_KEY_FROM_LABEL[label] || '',
+                    },
+                  }));
+                }}
                 style={{
                   padding: '6px 10px',
                   border: '1px solid #cbd5e1',
@@ -359,7 +407,7 @@ export default function InstructorCurriculumPanel() {
               <input
                 type="text"
                 placeholder="Quiz ID (auto)"
-                value={draftItem.quiz_id}
+                value={draftItem.picker.quizId}
                 readOnly
                 style={{
                   padding: '6px 10px',
@@ -372,9 +420,33 @@ export default function InstructorCurriculumPanel() {
               />
               <input
                 type="date"
-                value={draftItem.planned_date}
+                aria-label="Planned from"
+                title="From (start of timeframe)"
+                value={draftItem.planned_start_date}
                 onChange={(e) =>
-                  setDraftItem((d) => ({ ...d, planned_date: e.target.value }))
+                  setDraftItem((d) => ({
+                    ...d,
+                    planned_start_date: e.target.value,
+                  }))
+                }
+                style={{
+                  padding: '6px 10px',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: 6,
+                  fontSize: 13,
+                }}
+              />
+              <input
+                type="date"
+                aria-label="Planned to"
+                title="To (end of timeframe — leave blank for a single day)"
+                value={draftItem.planned_end_date}
+                min={draftItem.planned_start_date || undefined}
+                onChange={(e) =>
+                  setDraftItem((d) => ({
+                    ...d,
+                    planned_end_date: e.target.value,
+                  }))
                 }
                 style={{
                   padding: '6px 10px',
@@ -412,10 +484,26 @@ export default function InstructorCurriculumPanel() {
                 Pick quiz from catalog
               </div>
               <QuizCatalogPicker
-                subjectKey={SUBJECT_KEY_FROM_LABEL[draftItem.subject] || ''}
-                value={{ quizId: draftItem.quiz_id }}
+                subjectKey={
+                  SUBJECT_KEY_FROM_LABEL[draftItem.subject] ||
+                  draftItem.picker.subjectKey ||
+                  ''
+                }
+                value={draftItem.picker}
                 onChange={(next) =>
-                  setDraftItem((d) => ({ ...d, quiz_id: next?.quizId || '' }))
+                  setDraftItem((d) => {
+                    const picker = { ...d.picker, ...next };
+                    // If picker exposes subjectKey (when no subject is locked),
+                    // keep the form's subject label in sync.
+                    let subject = d.subject;
+                    if (
+                      next.subjectKey !== undefined &&
+                      SUBJECT_LABEL_FROM_KEY[next.subjectKey]
+                    ) {
+                      subject = SUBJECT_LABEL_FROM_KEY[next.subjectKey];
+                    }
+                    return { ...d, subject, picker };
+                  })
                 }
               />
               {addItemError && (
@@ -513,9 +601,19 @@ export default function InstructorCurriculumPanel() {
                 <div style={{ fontSize: 11, color: '#64748b' }}>
                   {item.subject || '—'}
                   {item.quiz_id ? ` · quiz ${item.quiz_id}` : ''}
-                  {item.planned_date
-                    ? ` · planned ${new Date(item.planned_date).toLocaleDateString()}`
-                    : ''}
+                  {(() => {
+                    const start = item.planned_date
+                      ? new Date(item.planned_date).toLocaleDateString()
+                      : null;
+                    const end = item.planned_end_date
+                      ? new Date(item.planned_end_date).toLocaleDateString()
+                      : null;
+                    if (start && end && start !== end) {
+                      return ` · ${start} – ${end}`;
+                    }
+                    if (start) return ` · planned ${start}`;
+                    return '';
+                  })()}
                 </div>
               </div>
               <button
