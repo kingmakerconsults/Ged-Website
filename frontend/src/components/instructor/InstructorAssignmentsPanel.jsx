@@ -378,9 +378,7 @@ export default function InstructorAssignmentsPanel({ students = [] }) {
     setSubmitError(null);
     try {
       const subjectLabel =
-        form.subject ||
-        SUBJECT_LABEL_FROM_KEY[form.picker.subjectKey] ||
-        '';
+        form.subject || SUBJECT_LABEL_FROM_KEY[form.picker.subjectKey] || '';
       await apiFetch('/api/instructor/assignments', {
         method: 'POST',
         body: JSON.stringify({

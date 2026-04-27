@@ -24441,6 +24441,7 @@ import InstructorStudentDetail from '../components/instructor/InstructorStudentD
 import InstructorReportsPanel from '../components/instructor/InstructorReportsPanel.jsx';
 import InstructorAssignmentsPanel from '../components/instructor/InstructorAssignmentsPanel.jsx';
 import InstructorCurriculumPanel from '../components/instructor/InstructorCurriculumPanel.jsx';
+import InstructorClassesPanel from '../components/instructor/InstructorClassesPanel.jsx';
 import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -30294,6 +30295,7 @@ function InstructorDashboard({ user, token, onLogout }) {
         >
           {[
             { id: 'students', label: 'Students' },
+            { id: 'classes', label: 'Classes' },
             { id: 'reports', label: 'Question Reports' },
             { id: 'assignments', label: 'Assignments' },
             { id: 'curriculum', label: 'Curriculum' },
@@ -30495,6 +30497,19 @@ function InstructorDashboard({ user, token, onLogout }) {
                   Question Reports from Students
                 </h2>
                 <InstructorReportsPanel />
+              </section>
+            )}
+
+            {activeTab === 'classes' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Classes
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  Create classes and manage which students are enrolled in
+                  each one.
+                </p>
+                <InstructorClassesPanel students={students} />
               </section>
             )}
 
@@ -31166,7 +31181,9 @@ function OrgAdminDashboard({ user, token, onLogout }) {
 
   useEffect(() => {
     if (
-      (activeTab === 'users' || activeTab === 'assignments') &&
+      (activeTab === 'users' ||
+        activeTab === 'assignments' ||
+        activeTab === 'classes') &&
       !usersLoadAttempted.current &&
       users.length === 0 &&
       !loadingUsers
@@ -31329,6 +31346,17 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                 }`}
               >
                 Activity
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('classes')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'classes'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Classes
               </button>
               <button
                 type="button"
@@ -31496,6 +31524,23 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             )}
 
             {/* Assignments Tab (org-wide view) */}
+            {activeTab === 'classes' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Organization Classes
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  Create classes and manage student enrollment across your
+                  organization.
+                </p>
+                <InstructorClassesPanel
+                  students={users.filter(
+                    (u) => String(u.role || '').toLowerCase() === 'student'
+                  )}
+                />
+              </section>
+            )}
+
             {activeTab === 'assignments' && (
               <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
                 <h2 className="text-xl font-semibold text-primary mb-4">

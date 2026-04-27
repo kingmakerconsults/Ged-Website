@@ -114,9 +114,6 @@ export default function InstructorCurriculumPanel() {
   const [classId, setClassId] = useState(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newClassName, setNewClassName] = useState('');
-  const [creatingClass, setCreatingClass] = useState(false);
-  const [createClassError, setCreateClassError] = useState(null);
   const [addItemError, setAddItemError] = useState(null);
   const [draftItem, setDraftItem] = useState(() => ({ ...EMPTY_DRAFT }));
 
@@ -167,30 +164,6 @@ export default function InstructorCurriculumPanel() {
   useEffect(() => {
     loadItems();
   }, [loadItems]);
-
-  const createClass = async (e) => {
-    e.preventDefault();
-    const name = newClassName.trim();
-    if (!name) return;
-    setCreatingClass(true);
-    setCreateClassError(null);
-    try {
-      const data = await apiFetch('/api/instructor/classes', {
-        method: 'POST',
-        body: JSON.stringify({ name }),
-      });
-      setNewClassName('');
-      const newId = data?.class?.id ?? null;
-      // Refresh the list, then jump to the new class.
-      await loadClasses();
-      if (newId) setClassId(newId);
-    } catch (err) {
-      console.warn('[curriculum] create class failed', err);
-      setCreateClassError(err?.message || 'Failed to create class');
-    } finally {
-      setCreatingClass(false);
-    }
-  };
 
   const addItem = async (e) => {
     e.preventDefault();
@@ -280,55 +253,11 @@ export default function InstructorCurriculumPanel() {
         }}
       >
         <ClassPicker classes={classes} value={classId} onChange={setClassId} />
-        <form
-          onSubmit={createClass}
-          style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}
-        >
-          <input
-            type="text"
-            value={newClassName}
-            onChange={(e) => setNewClassName(e.target.value)}
-            placeholder="New class name"
-            style={{
-              padding: '6px 10px',
-              border: '1px solid #cbd5e1',
-              borderRadius: 8,
-              fontSize: 13,
-            }}
-          />
-          <button
-            type="submit"
-            disabled={creatingClass || !newClassName.trim()}
-            style={{
-              padding: '6px 12px',
-              border: 'none',
-              borderRadius: 8,
-              background: '#0ea5e9',
-              color: '#ffffff',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontSize: 13,
-            }}
-          >
-            + Class
-          </button>
-          {createClassError && (
-            <div
-              style={{
-                width: '100%',
-                marginTop: 6,
-                padding: 6,
-                background: '#fef2f2',
-                color: '#b91c1c',
-                border: '1px solid #fecaca',
-                borderRadius: 6,
-                fontSize: 12,
-              }}
-            >
-              {createClassError}
-            </div>
-          )}
-        </form>
+        {classes.length === 0 && (
+          <div style={{ fontSize: 13, color: '#64748b' }}>
+            No classes yet. Create one in the <strong>Classes</strong> tab.
+          </div>
+        )}
       </div>
 
       {classId && (
