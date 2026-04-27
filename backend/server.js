@@ -7,8 +7,15 @@ const crypto = require('crypto');
 // Load local environment variables for development before any other imports that use them
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
+const helmet = require('helmet');
 const { Server: SocketIOServer } = require('socket.io');
 const cors = require('cors');
+const {
+  loginLimiter,
+  registerLimiter,
+  orgJoinLimiter,
+} = require('./middleware/rateLimits');
+const { isEnabled: isFeatureEnabled } = require('./src/featureFlags');
 const axios = require('axios');
 const db = require('./db');
 const { JSDOM } = require('jsdom');
@@ -5519,6 +5526,27 @@ async function buildCoachContext(userId) {
 }
 
 const app = express();
+
+// ----------------------------------------------------------------------------
+// Phase 1.2 — Helmet security headers (Do No Harm: contentSecurityPolicy is
+// disabled here because the legacy frontend currently relies on inline scripts
+// and a Tailwind CDN. Tightening CSP is a separate, isolated workstream so it
+// cannot break the running student UI in this rollout.)
+// ----------------------------------------------------------------------------
+if (isFeatureEnabled('HELMET')) {
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    })
+  );
+}
+
+// Trust the first proxy hop so express-rate-limit + req.ip see the real client
+// address behind Render / Netlify / etc.
+app.set('trust proxy', 1);
+
 // Flexible image resolver with Netlify fallback
 // Support both /images/ (canonical) and legacy /frontend/Images/ paths
 app.get(
@@ -7211,6 +7239,7 @@ app.put(
 // Student endpoint to join an organization with optional access code
 app.post(
   '/api/student/select-organization',
+  orgJoinLimiter,
   devAuth,
   ensureTestUserForNow,
   requireAuthInProd,
@@ -9707,7 +9736,7 @@ app.use(
   profileRouter
 );
 
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', registerLimiter, async (req, res) => {
   const { email, password } = req.body || {};
 
   if (typeof email !== 'string' || typeof password !== 'string') {
@@ -9840,7 +9869,7 @@ if (DEV_LOGIN_ENABLED) {
   console.log('✓ Dev login bypass enabled at POST /api/dev-login-as');
 }
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', loginLimiter, async (req, res) => {
   const { email, password } = req.body || {};
 
   if (typeof email !== 'string' || typeof password !== 'string') {
@@ -12785,9 +12814,24 @@ const generateImageQuestion = async (
     return null;
   }
 
-  // pick RANDOMLY from the top K so we don't always get the same 1–2 images
-  const TOP_K = Math.min(12, scored.length);
-  const pick = scored[Math.floor(Math.random() * TOP_K)].img;
+  // Weighted random across a wider candidate window so comprehensive exams
+  // draw from a vast array of images, not the same top 1–2.
+  const TOP_K = Math.min(24, scored.length);
+  const candidates = scored.slice(0, TOP_K);
+  // Soft weights: rank 1 → weight K, rank K → weight 1. Keeps high-scoring
+  // images preferred without monopolizing the selection.
+  const weights = candidates.map((_, i) => TOP_K - i);
+  const totalWeight = weights.reduce((s, w) => s + w, 0);
+  let r = Math.random() * totalWeight;
+  let pickIdx = 0;
+  for (let i = 0; i < weights.length; i++) {
+    r -= weights[i];
+    if (r <= 0) {
+      pickIdx = i;
+      break;
+    }
+  }
+  const pick = candidates[pickIdx].img;
 
   // remember it for this quiz
   if (pick.filePath) {
@@ -14814,7 +14858,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
           'Science',
           scienceImages.length ? scienceImages : curatedImages,
           slot.questionsNeeded,
-          opts
+          { ...opts, usedImages: usedScienceImagePaths }
         );
         if (imgQs && imgQs.length) {
           const uniqueImageQuestions = imgQs.filter((item) =>
@@ -16059,19 +16103,32 @@ function pickImageForSlot(images, category, usedPaths) {
   });
 
   if (available.length === 0) return null;
-  const authoredPool = available.filter(
-    hasHandAuthoredSocialStudiesImageQuestions
+  // Use the FULL available pool so comprehensive exams pull from a wide
+  // variety of images across runs. Hand-authored / preferred images get a
+  // light weighting bias but no longer collapse the pool.
+  const authoredSet = new Set(
+    available.filter(hasHandAuthoredSocialStudiesImageQuestions).map((img) => img.filePath)
   );
   const preferredPaths = SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS[category] || [];
-  const selectionPool = (authoredPool.length ? authoredPool : available).sort(
-    (left, right) => {
-      const leftPreferred = preferredPaths.includes(left.filePath) ? 0 : 1;
-      const rightPreferred = preferredPaths.includes(right.filePath) ? 0 : 1;
-      return leftPreferred - rightPreferred;
+  const preferredSet = new Set(preferredPaths);
+
+  // Weighted random pick: authored=3x, preferred=2x, others=1x.
+  const weights = available.map((img) => {
+    if (authoredSet.has(img.filePath)) return 3;
+    if (preferredSet.has(img.filePath)) return 2;
+    return 1;
+  });
+  const totalWeight = weights.reduce((s, w) => s + w, 0);
+  let r = Math.random() * totalWeight;
+  let pickedIdx = 0;
+  for (let i = 0; i < weights.length; i++) {
+    r -= weights[i];
+    if (r <= 0) {
+      pickedIdx = i;
+      break;
     }
-  );
-  const picked =
-    selectionPool[Math.floor(Math.random() * selectionPool.length)];
+  }
+  const picked = available[pickedIdx];
   if (picked.filePath) usedPaths.add(picked.filePath);
   return picked;
 }
@@ -25860,16 +25917,23 @@ app.get(
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
   (async () => {
-    // Security check: JWT_SECRET must be configured in production
+    // Security check: JWT_SECRET must be configured in production.
+    // Phase 1.3 — fail-fast instead of warning. Booting without a secret in
+    // production is a foot-gun: every issued token would be unverifiable and
+    // every authenticated route would 500. Better to refuse to start.
     if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
       console.error('');
       console.error('='.repeat(70));
       console.error('CRITICAL: JWT_SECRET is not configured in production!');
       console.error('Authentication will not work without this secret.');
       console.error('Please set JWT_SECRET in your environment variables.');
+      console.error('Refusing to start.');
       console.error('='.repeat(70));
       console.error('');
-      // Don't exit, but make it very visible
+      // Allow an explicit override for emergency debugging only.
+      if (process.env.ALLOW_MISSING_JWT_SECRET !== 'true') {
+        process.exit(1);
+      }
     }
 
     const desiredPort = port;
