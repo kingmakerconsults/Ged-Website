@@ -19600,7 +19600,9 @@ app.get(
       return res.json({ classes: rows });
     } catch (err) {
       console.error('[/api/instructor/classes GET] failed:', err);
-      return res.status(500).json({ error: 'Unable to list classes' });
+      return res
+        .status(500)
+        .json({ error: 'Unable to list classes', detail: err?.message });
     }
   }
 );
@@ -19639,7 +19641,9 @@ app.post(
       return res.status(201).json({ class: r.rows[0] });
     } catch (err) {
       console.error('[/api/instructor/classes POST] failed:', err);
-      return res.status(500).json({ error: 'Unable to create class' });
+      return res
+        .status(500)
+        .json({ error: 'Unable to create class', detail: err?.message });
     }
   }
 );

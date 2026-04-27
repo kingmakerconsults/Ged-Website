@@ -21,6 +21,19 @@ async function ensureCollabTables() {
     CREATE INDEX IF NOT EXISTS classes_teacher_idx ON classes(teacher_id);
   `);
 
+  // Backfill columns on older deployments where `classes` was created without
+  // them. ADD COLUMN IF NOT EXISTS is idempotent on Postgres 9.6+.
+  await db.none(`
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS organization_id INTEGER REFERENCES organizations(id) ON DELETE CASCADE;
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS teacher_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS color TEXT;
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS join_code VARCHAR(12);
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS open_date DATE;
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS close_date DATE;
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT TRUE;
+    ALTER TABLE classes ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+  `);
+
   await db.none(`
     CREATE TABLE IF NOT EXISTS class_enrollments (
       id SERIAL PRIMARY KEY,
