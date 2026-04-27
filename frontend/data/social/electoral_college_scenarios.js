@@ -272,4 +272,244 @@ export const ELECTORAL_COLLEGE_SCENARIOS = [
     explanation:
       'To flip a 271-267 result, you would need 5 electors to switch: the leader would drop 4 votes (271 - 4 = 267) and the challenger would gain 4 (267 + 4 = 271), but actually you need 5 to flip a 2-vote margin. In practice, faithless electors are extremely rare and have never decided an election.',
   },
+
+  // ── Table-style GED-style questions ──────────────────────────────────────
+  {
+    id: 'table_swing_states_1',
+    difficulty: 'medium',
+    tags: ['table', 'swing_states', 'math'],
+    title: 'Reading a Swing-State Table',
+    type: 'table',
+    tableData: {
+      caption: 'Pre-election projection — remaining undecided states',
+      headers: ['State', 'Electoral Votes', 'Leaning'],
+      rows: [
+        ['Pennsylvania', 19, 'Toss-up'],
+        ['Michigan', 15, 'Toss-up'],
+        ['Wisconsin', 10, 'Toss-up'],
+        ['Arizona', 11, 'Toss-up'],
+        ['Georgia', 16, 'Toss-up'],
+      ],
+    },
+    prompt:
+      'Candidate A already has 248 electoral votes from non-toss-up states. Based on the table, what is the FEWEST number of these toss-up states Candidate A must win to reach 270?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: '1 state', isCorrect: false },
+      { id: 'B', label: '2 states', isCorrect: true },
+      { id: 'C', label: '3 states', isCorrect: false },
+      { id: 'D', label: '4 states', isCorrect: false },
+    ],
+    explanation:
+      'Candidate A needs 270 − 248 = 22 more EVs. The two largest toss-up states are PA (19) + GA (16) = 35, well over 22. Even PA (19) + WI (10) = 29 covers it. So 2 states are enough, but 1 state alone (max 19) is not.',
+    mapAssignments: {
+      // demo: assign all toss-ups + a stylized base for A
+      PA: 'D', MI: 'D', WI: 'D', AZ: 'R', GA: 'R',
+      CA: 'D', NY: 'D', IL: 'D', MA: 'D', WA: 'D', OR: 'D', NJ: 'D', MD: 'D',
+      CT: 'D', RI: 'D', VT: 'D', DE: 'D', HI: 'D', NM: 'D', CO: 'D', MN: 'D',
+      NV: 'D', VA: 'D', NH: 'D', ME: 'D', DC: 'D',
+      TX: 'R', FL: 'R', OH: 'R', NC: 'R', TN: 'R', IN: 'R', KY: 'R', AL: 'R',
+      MS: 'R', LA: 'R', AR: 'R', MO: 'R', KS: 'R', OK: 'R', SC: 'R', WV: 'R',
+      IA: 'R', UT: 'R', ID: 'R', MT: 'R', WY: 'R', ND: 'R', SD: 'R', NE: 'R', AK: 'R',
+    },
+  },
+  {
+    id: 'table_state_ev_distribution',
+    difficulty: 'easy',
+    tags: ['table', 'representation'],
+    title: 'Comparing State Electoral Votes',
+    type: 'table',
+    tableData: {
+      caption: 'Selected state electoral vote totals',
+      headers: ['State', 'Population (millions)', 'Electoral Votes'],
+      rows: [
+        ['California', 39, 54],
+        ['Texas', 30, 40],
+        ['Florida', 22, 30],
+        ['Wyoming', 0.6, 3],
+        ['Vermont', 0.6, 3],
+      ],
+    },
+    prompt:
+      'Based on the table, which best explains why Wyoming and Vermont have 3 electoral votes despite their tiny populations?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: 'Each state gets at least 3 EVs (1 House + 2 Senators).', isCorrect: true },
+      { id: 'B', label: 'They are guaranteed 3 EVs by the 23rd Amendment.', isCorrect: false },
+      { id: 'C', label: 'EVs are based purely on land area.', isCorrect: false },
+      { id: 'D', label: 'Small states are always swing states.', isCorrect: false },
+    ],
+    explanation:
+      'Every state has at least 1 representative and 2 senators, so the EV minimum is 3. This gives small states proportionally more EV-per-person than large ones.',
+  },
+  {
+    id: 'table_running_totals',
+    difficulty: 'medium',
+    tags: ['table', 'math', 'running_total'],
+    title: 'Election Night Running Totals',
+    type: 'table',
+    tableData: {
+      caption: 'Election night results so far',
+      headers: ['Region called', 'Cand. A EVs', 'Cand. B EVs'],
+      rows: [
+        ['Northeast', 78, 14],
+        ['South', 36, 121],
+        ['Midwest', 49, 47],
+        ['West (so far)', 65, 36],
+      ],
+    },
+    prompt:
+      'Using the table, what is each candidate’s current EV total, and how many EVs are still uncalled (538 total)?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: 'A: 228, B: 218, uncalled: 92', isCorrect: true },
+      { id: 'B', label: 'A: 218, B: 228, uncalled: 92', isCorrect: false },
+      { id: 'C', label: 'A: 228, B: 218, uncalled: 102', isCorrect: false },
+      { id: 'D', label: 'A: 270, B: 268, uncalled: 0', isCorrect: false },
+    ],
+    explanation:
+      'A: 78+36+49+65 = 228. B: 14+121+47+36 = 218. Called total = 446, so uncalled = 538 − 446 = 92.',
+  },
+  {
+    id: 'table_margin_per_ev',
+    difficulty: 'hard',
+    tags: ['table', 'analysis'],
+    title: 'Wasted Votes & Margins',
+    type: 'table',
+    tableData: {
+      caption: 'Three-state outcome',
+      headers: ['State', 'EVs', 'Cand. A votes', 'Cand. B votes'],
+      rows: [
+        ['State X', 20, '2,500,000', '2,400,000'],
+        ['State Y', 10, '900,000', '1,100,000'],
+        ['State Z', 15, '700,000', '2,800,000'],
+      ],
+    },
+    prompt:
+      'Based on this table, who won the popular vote across these three states, and who won the electoral vote?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: 'Cand. A won popular and electoral.', isCorrect: false },
+      { id: 'B', label: 'Cand. B won popular and electoral.', isCorrect: true },
+      { id: 'C', label: 'Cand. A won popular; Cand. B won electoral.', isCorrect: false },
+      { id: 'D', label: 'They tied in both.', isCorrect: false },
+    ],
+    explanation:
+      'Popular: A = 4,100,000 vs B = 6,300,000 → B wins. Electoral: A wins State X (20 EVs); B wins Y (10) + Z (15) = 25 EVs → B wins. The takeaway: B’s huge margin in State Z piles up "wasted" votes — sometimes the popular and electoral results agree, sometimes they don’t.',
+  },
+  {
+    id: 'table_270_path',
+    difficulty: 'medium',
+    tags: ['table', 'strategy', 'math'],
+    title: 'Mapping a Path to 270',
+    type: 'table',
+    tableData: {
+      caption: 'Cand. A’s safe states',
+      headers: ['State group', 'Total EVs'],
+      rows: [
+        ['Northeast safe', 92],
+        ['West Coast safe', 74],
+        ['Other safe', 43],
+      ],
+    },
+    prompt:
+      'According to the table, Cand. A starts with 209 EVs from safe states. The toss-ups left are PA (19), MI (15), WI (10), GA (16), AZ (11), and NV (6). Which combination is the smallest set that reaches at least 270?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: 'PA + MI + WI + GA (60 EVs)', isCorrect: false },
+      { id: 'B', label: 'PA + MI + GA (50 EVs)', isCorrect: false },
+      { id: 'C', label: 'PA + MI + WI + AZ (55 EVs)', isCorrect: false },
+      { id: 'D', label: 'PA + MI + GA + WI (60 EVs)', isCorrect: false },
+      { id: 'E', label: 'PA + MI + GA + AZ (61 EVs)', isCorrect: true },
+    ],
+    explanation:
+      'Need 270 − 209 = 61. Adding the four largest toss-ups gets you exactly there: 19 + 15 + 16 + 11 = 61 EVs. The other 4-state combinations only reach 55 or 60, which falls short.',
+  },
+
+  // ── Chart-style (bar chart) questions ────────────────────────────────────
+  {
+    id: 'chart_top_ev_states',
+    difficulty: 'easy',
+    tags: ['chart', 'reading'],
+    title: 'Reading an EV Bar Chart',
+    type: 'chart',
+    chartData: {
+      caption: 'Top-5 states by electoral votes',
+      bars: [
+        { label: 'CA', value: 54 },
+        { label: 'TX', value: 40 },
+        { label: 'FL', value: 30 },
+        { label: 'NY', value: 28 },
+        { label: 'PA', value: 19 },
+      ],
+      yAxisLabel: 'Electoral Votes',
+      maxValue: 60,
+    },
+    prompt:
+      'According to the chart, how many MORE electoral votes does California have than Pennsylvania?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: '14', isCorrect: false },
+      { id: 'B', label: '25', isCorrect: false },
+      { id: 'C', label: '35', isCorrect: true },
+      { id: 'D', label: '54', isCorrect: false },
+    ],
+    explanation:
+      'CA has 54 and PA has 19. The difference is 54 − 19 = 35 electoral votes.',
+  },
+  {
+    id: 'chart_swing_state_ev',
+    difficulty: 'medium',
+    tags: ['chart', 'swing_states'],
+    title: 'Swing State EV Totals',
+    type: 'chart',
+    chartData: {
+      caption: 'Major swing states (2024 cycle)',
+      bars: [
+        { label: 'PA', value: 19 },
+        { label: 'GA', value: 16 },
+        { label: 'NC', value: 16 },
+        { label: 'MI', value: 15 },
+        { label: 'AZ', value: 11 },
+        { label: 'WI', value: 10 },
+        { label: 'NV', value: 6 },
+      ],
+      yAxisLabel: 'Electoral Votes',
+      maxValue: 25,
+    },
+    prompt:
+      'Based on the chart, what is the TOTAL number of electoral votes across all the swing states shown?',
+    questionType: 'numeric',
+    correctAnswer: 93,
+    explanation:
+      'Add the bars: 19 + 16 + 16 + 15 + 11 + 10 + 6 = 93 electoral votes.',
+  },
+  {
+    id: 'chart_path_after_swing',
+    difficulty: 'hard',
+    tags: ['chart', 'math', 'strategy'],
+    title: 'Adding Swing-State Bars to a Base',
+    type: 'chart',
+    chartData: {
+      caption: 'Swing states won by Cand. A',
+      bars: [
+        { label: 'PA', value: 19 },
+        { label: 'MI', value: 15 },
+        { label: 'GA', value: 16 },
+      ],
+      yAxisLabel: 'Electoral Votes',
+      maxValue: 25,
+    },
+    prompt:
+      'Cand. A starts with 226 safe EVs. According to the chart, which swing states does A win? After adding those, does Cand. A reach the 270 needed to win?',
+    questionType: 'multiple_choice',
+    choices: [
+      { id: 'A', label: 'A wins PA, MI, and GA → 276 EVs → wins.', isCorrect: true },
+      { id: 'B', label: 'A wins PA, MI, GA → 256 EVs → loses.', isCorrect: false },
+      { id: 'C', label: 'A only wins PA → 245 EVs → loses.', isCorrect: false },
+      { id: 'D', label: 'A wins all three but only reaches 270 exactly.', isCorrect: false },
+    ],
+    explanation:
+      '226 + 19 + 15 + 16 = 276 electoral votes — over the 270 threshold, so Cand. A wins.',
+  },
 ];

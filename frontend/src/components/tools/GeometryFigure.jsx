@@ -1,4 +1,7 @@
 import React, { useState, useMemo } from 'react';
+import AnglesPanel from './geometry/AnglesPanel';
+import GeometryPracticePanel from './geometry/GeometryPracticePanel';
+import KaTeXSpan from './geometry/KaTeXSpan';
 
 // ── Spec renderer (legacy, gated) ─────────────────────────────────────
 const GEOMETRY_FIGURES_ENABLED = (() => {
@@ -132,11 +135,122 @@ export function GeometryFigure({ spec, className }) {
 
 const SHAPES = [
   { id: 'rectangle', label: 'Rectangle', icon: '▭' },
-  { id: 'triangle', label: 'Right Triangle', icon: '◣' },
-  { id: 'circle', label: 'Circle', icon: '◯' },
+  { id: 'square', label: 'Square', icon: '◻' },
   { id: 'parallelogram', label: 'Parallelogram', icon: '▰' },
+  { id: 'triangle', label: 'Right Triangle', icon: '◣' },
+  { id: 'equilateral', label: 'Equilateral Triangle', icon: '△' },
   { id: 'trapezoid', label: 'Trapezoid', icon: '⬡' },
+  { id: 'circle', label: 'Circle', icon: '◯' },
+  { id: 'semicircle', label: 'Semicircle', icon: '◐' },
+  { id: 'hexagon', label: 'Reg. Hexagon', icon: '⬡' },
+  { id: 'rect-prism', label: 'Rect. Prism', icon: '▥' },
+  { id: 'cylinder', label: 'Cylinder', icon: '⌭' },
+  { id: 'sphere', label: 'Sphere', icon: '●' },
 ];
+
+// Per-shape formulas + variable legend (rendered in KaTeX in the FormulaCard)
+const SHAPE_FORMULAS = {
+  rectangle: {
+    title: 'Rectangle',
+    formulas: [
+      { label: 'Perimeter', tex: 'P = 2(w + h)' },
+      { label: 'Area', tex: 'A = w \\times h' },
+    ],
+    legend: 'w = width, h = height',
+  },
+  square: {
+    title: 'Square',
+    formulas: [
+      { label: 'Perimeter', tex: 'P = 4s' },
+      { label: 'Area', tex: 'A = s^2' },
+    ],
+    legend: 's = side length',
+  },
+  parallelogram: {
+    title: 'Parallelogram',
+    formulas: [
+      { label: 'Perimeter', tex: 'P = 2(b + s)' },
+      { label: 'Area', tex: 'A = b \\times h' },
+    ],
+    legend: 'b = base, h = height (perpendicular), s = slant side',
+  },
+  triangle: {
+    title: 'Right Triangle',
+    formulas: [
+      { label: 'Hypotenuse', tex: 'c = \\sqrt{a^2 + b^2}' },
+      { label: 'Area', tex: 'A = \\tfrac{1}{2} a b' },
+      { label: 'Perimeter', tex: 'P = a + b + c' },
+    ],
+    legend: 'a, b = legs (the two sides at the right angle), c = hypotenuse',
+  },
+  equilateral: {
+    title: 'Equilateral Triangle',
+    formulas: [
+      { label: 'Perimeter', tex: 'P = 3s' },
+      { label: 'Area', tex: 'A = \\dfrac{\\sqrt{3}}{4} s^2' },
+      { label: 'Each angle', tex: '60^\\circ' },
+    ],
+    legend: 's = side length (all three sides equal)',
+  },
+  trapezoid: {
+    title: 'Trapezoid',
+    formulas: [
+      { label: 'Area', tex: 'A = \\tfrac{1}{2}(b_1 + b_2) h' },
+    ],
+    legend: 'b₁, b₂ = the two parallel bases, h = height between them',
+  },
+  circle: {
+    title: 'Circle',
+    formulas: [
+      { label: 'Circumference', tex: 'C = 2\\pi r' },
+      { label: 'Area', tex: 'A = \\pi r^2' },
+      { label: 'Diameter', tex: 'd = 2r' },
+    ],
+    legend: 'r = radius, d = diameter',
+  },
+  semicircle: {
+    title: 'Semicircle (half-circle)',
+    formulas: [
+      { label: 'Curved length', tex: '\\pi r' },
+      { label: 'Perimeter', tex: 'P = \\pi r + 2r' },
+      { label: 'Area', tex: 'A = \\tfrac{1}{2}\\pi r^2' },
+    ],
+    legend: 'r = radius',
+  },
+  hexagon: {
+    title: 'Regular Hexagon',
+    formulas: [
+      { label: 'Perimeter', tex: 'P = 6s' },
+      { label: 'Area', tex: 'A = \\tfrac{3\\sqrt{3}}{2} s^2' },
+      { label: 'Each interior angle', tex: '120^\\circ' },
+    ],
+    legend: 's = side length',
+  },
+  'rect-prism': {
+    title: 'Rectangular Prism (box)',
+    formulas: [
+      { label: 'Volume', tex: 'V = l \\times w \\times h' },
+      { label: 'Surface area', tex: 'SA = 2(lw + lh + wh)' },
+    ],
+    legend: 'l = length, w = width, h = height',
+  },
+  cylinder: {
+    title: 'Cylinder',
+    formulas: [
+      { label: 'Volume', tex: 'V = \\pi r^2 h' },
+      { label: 'Surface area', tex: 'SA = 2\\pi r^2 + 2\\pi r h' },
+    ],
+    legend: 'r = radius of the circular base, h = height',
+  },
+  sphere: {
+    title: 'Sphere',
+    formulas: [
+      { label: 'Volume', tex: 'V = \\tfrac{4}{3} \\pi r^3' },
+      { label: 'Surface area', tex: 'SA = 4\\pi r^2' },
+    ],
+    legend: 'r = radius',
+  },
+};
 
 const round = (n, p = 2) => {
   if (!Number.isFinite(n)) return n;
@@ -181,10 +295,88 @@ function Stat({ label, value, accent = '#0f172a' }) {
 }
 
 /**
- * GeometryPlayground — interactive shape explorer.
- * Pick a shape, tweak parameters, and view computed perimeter / area.
+ * GeometryPlayground — interactive shape explorer with Sandbox / Angles /
+ * Practice tabs. Pick a shape, tweak parameters, and view computed
+ * perimeter / area / volume + the formula card.
  */
 export default function GeometryPlayground({ dark = false }) {
+  const [tab, setTab] = useState(() => {
+    if (typeof window === 'undefined') return 'sandbox';
+    return window.sessionStorage?.getItem('geometryTool:tab') || 'sandbox';
+  });
+  const setTabSafe = (t) => {
+    setTab(t);
+    if (typeof window !== 'undefined') window.sessionStorage?.setItem('geometryTool:tab', t);
+  };
+
+  const tabBtn = (id, label) => {
+    const active = tab === id;
+    return (
+      <button
+        key={id}
+        type="button"
+        role="tab"
+        aria-selected={active}
+        onClick={() => setTabSafe(id)}
+        className={`px-4 py-1.5 rounded-md text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+          active
+            ? 'bg-blue-600 text-white'
+            : dark
+              ? 'bg-slate-700 text-slate-200 hover:bg-slate-600'
+              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+        }`}
+      >
+        {label}
+      </button>
+    );
+  };
+
+  return (
+    <div className="geometry-playground space-y-4">
+      <div className="flex flex-wrap gap-2 mb-2" role="tablist">
+        {tabBtn('sandbox', '🛠 Shape Sandbox')}
+        {tabBtn('angles', '📐 Angles')}
+        {tabBtn('practice', '📝 Practice')}
+      </div>
+      {tab === 'sandbox' && <SandboxTab dark={dark} />}
+      {tab === 'angles' && <AnglesPanel dark={dark} />}
+      {tab === 'practice' && <GeometryPracticePanel dark={dark} />}
+    </div>
+  );
+}
+
+function FormulaCard({ shape, dark }) {
+  const data = SHAPE_FORMULAS[shape];
+  if (!data) return null;
+  return (
+    <div
+      className={`rounded-lg p-3 ${
+        dark ? 'bg-slate-800 border border-slate-700' : 'bg-blue-50 border border-blue-200'
+      }`}
+    >
+      <h5 className={`font-semibold mb-2 ${dark ? 'text-blue-200' : 'text-blue-900'}`}>
+        📘 {data.title} — formulas
+      </h5>
+      <div className="space-y-1.5">
+        {data.formulas.map((f) => (
+          <div key={f.label} className="flex items-baseline gap-2 text-sm">
+            <span className={`font-medium ${dark ? 'text-slate-300' : 'text-slate-700'}`}>
+              {f.label}:
+            </span>
+            <span className={dark ? 'text-slate-100' : 'text-slate-900'}>
+              <KaTeXSpan tex={f.tex} />
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className={`mt-2 text-xs ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+        {data.legend}
+      </p>
+    </div>
+  );
+}
+
+function SandboxTab({ dark }) {
   const [shape, setShape] = useState('rectangle');
   const [w, setW] = useState(80);
   const [h, setH] = useState(50);
@@ -193,6 +385,7 @@ export default function GeometryPlayground({ dark = false }) {
   const [legA, setLegA] = useState(60);
   const [legB, setLegB] = useState(80);
   const [r, setR] = useState(40);
+  const [s, setS] = useState(60); // generic side
   const [showLabels, setShowLabels] = useState(true);
 
   const stroke = dark ? '#e2e8f0' : '#1e293b';
@@ -202,45 +395,46 @@ export default function GeometryPlayground({ dark = false }) {
   const computed = useMemo(() => {
     switch (shape) {
       case 'rectangle':
-        return {
-          perimeter: 2 * (w + h),
-          area: w * h,
-          unit: '',
-        };
+        return { perimeter: 2 * (w + h), area: w * h };
+      case 'square':
+        return { perimeter: 4 * s, area: s * s };
       case 'parallelogram':
-        return {
-          perimeter: 2 * (base + h),
-          area: base * h,
-          unit: '',
-        };
+        return { perimeter: 2 * (base + h), area: base * h };
       case 'triangle': {
         const hyp = Math.sqrt(legA * legA + legB * legB);
-        return {
-          perimeter: legA + legB + hyp,
-          area: (legA * legB) / 2,
-          unit: '',
-          hypotenuse: hyp,
-        };
+        return { perimeter: legA + legB + hyp, area: (legA * legB) / 2, hypotenuse: hyp };
       }
+      case 'equilateral':
+        return { perimeter: 3 * s, area: (Math.sqrt(3) / 4) * s * s };
       case 'trapezoid': {
-        // assume isoceles for the slant
         const slant = Math.sqrt(((base - base2) / 2) ** 2 + h * h);
-        return {
-          perimeter: base + base2 + 2 * slant,
-          area: ((base + base2) / 2) * h,
-          unit: '',
-        };
+        return { perimeter: base + base2 + 2 * slant, area: ((base + base2) / 2) * h };
       }
       case 'circle':
+        return { perimeter: 2 * Math.PI * r, area: Math.PI * r * r };
+      case 'semicircle':
+        return { perimeter: Math.PI * r + 2 * r, area: 0.5 * Math.PI * r * r };
+      case 'hexagon':
+        return { perimeter: 6 * s, area: ((3 * Math.sqrt(3)) / 2) * s * s };
+      case 'rect-prism':
         return {
-          perimeter: 2 * Math.PI * r,
-          area: Math.PI * r * r,
-          unit: '',
+          volume: w * h * legA,
+          surfaceArea: 2 * (w * h + w * legA + h * legA),
+        };
+      case 'cylinder':
+        return {
+          volume: Math.PI * r * r * h,
+          surfaceArea: 2 * Math.PI * r * r + 2 * Math.PI * r * h,
+        };
+      case 'sphere':
+        return {
+          volume: (4 / 3) * Math.PI * r ** 3,
+          surfaceArea: 4 * Math.PI * r * r,
         };
       default:
-        return { perimeter: 0, area: 0, unit: '' };
+        return { perimeter: 0, area: 0 };
     }
-  }, [shape, w, h, base, base2, legA, legB, r]);
+  }, [shape, w, h, base, base2, legA, legB, r, s]);
 
   const renderShape = () => {
     const pad = 30;
@@ -405,6 +599,137 @@ export default function GeometryPlayground({ dark = false }) {
         </svg>
       );
     }
+    if (shape === 'square') {
+      const vb = `0 0 ${s + pad * 2} ${s + pad * 2}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[260px]">
+          <rect x={pad} y={pad} width={s} height={s} fill={fill} stroke={stroke} strokeWidth="2" />
+          {showLabels && (
+            <text x={pad + s / 2} y={pad + s + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              s = {s}
+            </text>
+          )}
+        </svg>
+      );
+    }
+    if (shape === 'equilateral') {
+      const tH = (Math.sqrt(3) / 2) * s;
+      const vb = `0 0 ${s + pad * 2} ${tH + pad * 2}`;
+      const pts = `${pad + s / 2},${pad} ${pad + s},${pad + tH} ${pad},${pad + tH}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[260px]">
+          <polygon points={pts} fill={fill} stroke={stroke} strokeWidth="2" />
+          {showLabels && (
+            <text x={pad + s / 2} y={pad + tH + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              s = {s}
+            </text>
+          )}
+        </svg>
+      );
+    }
+    if (shape === 'semicircle') {
+      const vb = `0 0 ${r * 2 + pad * 2} ${r + pad * 2}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[260px]">
+          <path
+            d={`M ${pad} ${pad + r} A ${r} ${r} 0 0 1 ${pad + r * 2} ${pad + r} Z`}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          {showLabels && (
+            <text x={pad + r} y={pad + r + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              r = {r}
+            </text>
+          )}
+        </svg>
+      );
+    }
+    if (shape === 'hexagon') {
+      const cx = pad + s;
+      const cy = pad + s;
+      const pts = Array.from({ length: 6 }, (_, i) => {
+        const a = (Math.PI / 3) * i + Math.PI / 6;
+        return `${cx + s * Math.cos(a)},${cy + s * Math.sin(a)}`;
+      }).join(' ');
+      const vb = `0 0 ${s * 2 + pad * 2} ${s * 2 + pad * 2}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[260px]">
+          <polygon points={pts} fill={fill} stroke={stroke} strokeWidth="2" />
+          {showLabels && (
+            <text x={cx} y={cy + s + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+              s = {s}
+            </text>
+          )}
+        </svg>
+      );
+    }
+    if (shape === 'rect-prism') {
+      const dx = h * 0.5;
+      const dy = -h * 0.35;
+      const vb = `0 0 ${w + dx + pad * 2} ${legA - dy + pad * 2}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[280px]">
+          <rect x={pad} y={pad - dy} width={w} height={legA} fill={fill} stroke={stroke} strokeWidth="2" />
+          <polygon
+            points={`${pad},${pad - dy} ${pad + dx},${pad} ${pad + dx + w},${pad} ${pad + w},${pad - dy}`}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <polygon
+            points={`${pad + w},${pad - dy} ${pad + dx + w},${pad} ${pad + dx + w},${pad + legA - dy} ${pad + w},${pad + legA}`}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          {showLabels && (
+            <>
+              <text x={pad + w / 2} y={pad + legA - dy + 18} textAnchor="middle" fontSize="13" fill={labelFill}>
+                l = {w}
+              </text>
+              <text x={pad + w + dx + 6} y={pad + legA / 2 - dy} fontSize="13" fill={labelFill}>
+                h = {legA}
+              </text>
+              <text x={pad + w + dx / 2 + 6} y={pad - dy - 4} fontSize="13" fill={labelFill}>
+                w = {h}
+              </text>
+            </>
+          )}
+        </svg>
+      );
+    }
+    if (shape === 'cylinder') {
+      const ery = r * 0.35;
+      const vb = `0 0 ${r * 2 + pad * 2} ${h + ery * 2 + pad * 2}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[280px]">
+          <ellipse cx={pad + r} cy={pad + ery} rx={r} ry={ery} fill={fill} stroke={stroke} strokeWidth="2" />
+          <line x1={pad} y1={pad + ery} x2={pad} y2={pad + h + ery} stroke={stroke} strokeWidth="2" />
+          <line x1={pad + r * 2} y1={pad + ery} x2={pad + r * 2} y2={pad + h + ery} stroke={stroke} strokeWidth="2" />
+          <ellipse cx={pad + r} cy={pad + h + ery} rx={r} ry={ery} fill={fill} stroke={stroke} strokeWidth="2" />
+          {showLabels && (
+            <>
+              <text x={pad + r} y={pad + ery + 4} textAnchor="middle" fontSize="12" fill={labelFill}>r = {r}</text>
+              <text x={pad + r * 2 + 6} y={pad + h / 2 + ery} fontSize="13" fill={labelFill}>h = {h}</text>
+            </>
+          )}
+        </svg>
+      );
+    }
+    if (shape === 'sphere') {
+      const vb = `0 0 ${r * 2 + pad * 2} ${r * 2 + pad * 2}`;
+      return (
+        <svg viewBox={vb} className="w-full max-h-[260px]">
+          <circle cx={pad + r} cy={pad + r} r={r} fill={fill} stroke={stroke} strokeWidth="2" />
+          <ellipse cx={pad + r} cy={pad + r} rx={r} ry={r * 0.3} fill="none" stroke={stroke} strokeWidth="1.2" strokeDasharray="3 3" />
+          <line x1={pad + r} y1={pad + r} x2={pad + r * 2} y2={pad + r} stroke={stroke} strokeWidth="1.5" strokeDasharray="4 3" />
+          {showLabels && (
+            <text x={pad + r + r / 2} y={pad + r - 6} textAnchor="middle" fontSize="13" fill={labelFill}>r = {r}</text>
+          )}
+        </svg>
+      );
+    }
     return null;
   };
 
@@ -456,6 +781,9 @@ export default function GeometryPlayground({ dark = false }) {
                 <NumberControl label="Height" value={h} onChange={setH} />
               </>
             )}
+            {shape === 'square' && (
+              <NumberControl label="Side s" value={s} onChange={setS} />
+            )}
             {shape === 'parallelogram' && (
               <>
                 <NumberControl label="Base" value={base} onChange={setBase} />
@@ -468,6 +796,9 @@ export default function GeometryPlayground({ dark = false }) {
                 <NumberControl label="Leg b" value={legB} onChange={setLegB} />
               </>
             )}
+            {shape === 'equilateral' && (
+              <NumberControl label="Side s" value={s} onChange={setS} />
+            )}
             {shape === 'trapezoid' && (
               <>
                 <NumberControl label="Base 1" value={base} onChange={setBase} />
@@ -477,6 +808,28 @@ export default function GeometryPlayground({ dark = false }) {
             )}
             {shape === 'circle' && (
               <NumberControl label="Radius" value={r} onChange={setR} />
+            )}
+            {shape === 'semicircle' && (
+              <NumberControl label="Radius" value={r} onChange={setR} />
+            )}
+            {shape === 'hexagon' && (
+              <NumberControl label="Side s" value={s} onChange={setS} />
+            )}
+            {shape === 'rect-prism' && (
+              <>
+                <NumberControl label="Length l" value={w} onChange={setW} />
+                <NumberControl label="Width w" value={h} onChange={setH} />
+                <NumberControl label="Height h" value={legA} onChange={setLegA} />
+              </>
+            )}
+            {shape === 'cylinder' && (
+              <>
+                <NumberControl label="Radius r" value={r} onChange={setR} />
+                <NumberControl label="Height h" value={h} onChange={setH} />
+              </>
+            )}
+            {shape === 'sphere' && (
+              <NumberControl label="Radius r" value={r} onChange={setR} />
             )}
           </div>
 
@@ -490,17 +843,35 @@ export default function GeometryPlayground({ dark = false }) {
           </label>
 
           <div className="grid grid-cols-2 gap-2">
-            <Stat
-              label={shape === 'circle' ? 'Circumference' : 'Perimeter'}
-              value={round(computed.perimeter)}
-              accent={dark ? '#60a5fa' : '#2563eb'}
-            />
-            <Stat
-              label="Area"
-              value={round(computed.area)}
-              accent={dark ? '#34d399' : '#059669'}
-            />
-            {shape === 'triangle' && (
+            {computed.perimeter !== undefined && (
+              <Stat
+                label={shape === 'circle' ? 'Circumference' : shape === 'semicircle' ? 'Perimeter' : 'Perimeter'}
+                value={round(computed.perimeter)}
+                accent={dark ? '#60a5fa' : '#2563eb'}
+              />
+            )}
+            {computed.area !== undefined && (
+              <Stat
+                label="Area"
+                value={round(computed.area)}
+                accent={dark ? '#34d399' : '#059669'}
+              />
+            )}
+            {computed.volume !== undefined && (
+              <Stat
+                label="Volume"
+                value={round(computed.volume)}
+                accent={dark ? '#a78bfa' : '#7c3aed'}
+              />
+            )}
+            {computed.surfaceArea !== undefined && (
+              <Stat
+                label="Surface Area"
+                value={round(computed.surfaceArea)}
+                accent={dark ? '#34d399' : '#059669'}
+              />
+            )}
+            {computed.hypotenuse !== undefined && (
               <Stat
                 label="Hypotenuse"
                 value={round(computed.hypotenuse)}
@@ -509,13 +880,16 @@ export default function GeometryPlayground({ dark = false }) {
             )}
           </div>
 
+          <FormulaCard shape={shape} dark={dark} />
+
           <p
             className={`text-xs leading-snug ${
               dark ? 'text-slate-400' : 'text-slate-500'
             }`}
           >
-            Tip: change the parameters to see how the perimeter and area
-            respond. For circles, area scales with the square of the radius.
+            Tip: change the parameters to see how perimeter, area, and volume
+            respond. For circles & spheres, area / volume scale with powers of
+            the radius.
           </p>
         </div>
       </div>

@@ -70,9 +70,20 @@ const COLORS = {
 /**
  * USElectoralMap — clickable tilegrid US map for electoral-college sandbox.
  * Click a state once → blue (D), again → red (R), again → unassigned.
+ *
+ * Props:
+ *   - dark              boolean
+ *   - initialAssignments { [stateId]: 'D' | 'R' }  preload an EV map
+ *   - resetKey          any   bumping this resets to initialAssignments
  */
-export default function USElectoralMap({ dark = false }) {
-  const [assignments, setAssignments] = useState({}); // { [stateId]: 'D' | 'R' }
+export default function USElectoralMap({ dark = false, initialAssignments = null, resetKey = 0 }) {
+  const [assignments, setAssignments] = useState(() => ({ ...(initialAssignments || {}) }));
+
+  // When resetKey or initialAssignments change, re-seed.
+  React.useEffect(() => {
+    setAssignments({ ...(initialAssignments || {}) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetKey]);
 
   const tally = useMemo(() => {
     let d = 0;

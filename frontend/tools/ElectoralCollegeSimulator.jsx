@@ -3,7 +3,7 @@ import { ELECTORAL_COLLEGE_SCENARIOS } from '../data/social/electoral_college_sc
 import USElectoralMap from './USElectoralMap.jsx';
 
 /**
- * ElectoralCollegeSimulator - Electoral Vote Math & Scenarios
+ * ElectoralCollegeSimulator — Electoral Vote Math & Scenarios
  * Students practice electoral math, winner-takes-all, and swing state scenarios
  */
 export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
@@ -14,9 +14,17 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
   const [feedback, setFeedback] = useState(null);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [mapAssignments, setMapAssignments] = useState(null);
+  const [mapResetKey, setMapResetKey] = useState(0);
 
   const currentScenario = ELECTORAL_COLLEGE_SCENARIOS[currentScenarioIndex];
-  const isNumeric = currentScenario.type === 'numeric';
+  // `type` may be 'numeric', 'multiple_choice', 'table', or 'chart'.
+  // Table/chart scenarios use a separate `questionType` for the answer format.
+  const answerKind =
+    currentScenario.type === 'table' || currentScenario.type === 'chart'
+      ? currentScenario.questionType
+      : currentScenario.type;
+  const isNumeric = answerKind === 'numeric';
 
   const handleCheckAnswer = () => {
     let isCorrect = false;
@@ -24,11 +32,8 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
     if (isNumeric) {
       isCorrect = parseInt(numericInput, 10) === currentScenario.correctAnswer;
     } else {
-      isCorrect =
-        selectedMultiChoice ===
-        ELECTORAL_COLLEGE_SCENARIOS[currentScenarioIndex].choices.find(
-          (c) => c.isCorrect
-        ).id;
+      const correctChoice = currentScenario.choices?.find((c) => c.isCorrect);
+      isCorrect = correctChoice && selectedMultiChoice === correctChoice.id;
     }
 
     setFeedback({ isCorrect });
@@ -36,6 +41,13 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
     if (isCorrect) {
       setCorrectCount(correctCount + 1);
     }
+  };
+
+  const handleLoadIntoMap = () => {
+    if (!currentScenario.mapAssignments) return;
+    setMapAssignments({ ...currentScenario.mapAssignments });
+    setMapResetKey((k) => k + 1);
+    setShowMap(true);
   };
 
   const handleNextScenario = () => {
@@ -117,10 +129,9 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
               {showMap && (
                 <div className="mt-3">
                   <USElectoralMap
-                    dark={
-                      typeof document !== 'undefined' &&
-                      document.documentElement.classList.contains('dark')
-                    }
+                    dark={typeof document !== 'undefined' && document.documentElement.classList.contains('dark')}
+                    initialAssignments={mapAssignments}
+                    resetKey={mapResetKey}
                   />
                 </div>
               )}
@@ -135,8 +146,8 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
                     currentScenario.difficulty === 'easy'
                       ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200'
                       : currentScenario.difficulty === 'medium'
-                        ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
-                        : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
+                      ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200'
+                      : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200'
                   }`}
                 >
                   {currentScenario.difficulty.charAt(0).toUpperCase() +
@@ -161,6 +172,26 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
                 {currentScenario.prompt}
               </p>
             </div>
+
+            {/* Optional table or chart visualization */}
+            {currentScenario.type === 'table' && currentScenario.tableData && (
+              <ScenarioTable data={currentScenario.tableData} dark={dark} />
+            )}
+            {currentScenario.type === 'chart' && currentScenario.chartData && (
+              <ScenarioBarChart data={currentScenario.chartData} dark={dark} />
+            )}
+
+            {/* Load into Map button (when scenario provides mapAssignments) */}
+            {currentScenario.mapAssignments && (
+              <div>
+                <button
+                  onClick={handleLoadIntoMap}
+                  className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold transition"
+                >
+                  🗺️ Load this scenario into the map
+                </button>
+              </div>
+            )}
 
             {/* Answer Input Area */}
             <div className="space-y-4">
@@ -191,8 +222,8 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
                             ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
                             : 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100'
                           : feedback && choice.isCorrect
-                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
+                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
+                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       <span className="font-bold text-lg mr-3">
@@ -281,3 +312,107 @@ export default function ElectoralCollegeSimulator({ onExit, dark = false }) {
     </div>
   );
 }
+
+// ── Table renderer for table-type scenarios ─────────────────────────────────
+function ScenarioTable({ data, dark }) {
+  return (
+    <div className={`rounded-lg overflow-hidden border ${dark ? 'border-slate-600 bg-slate-800' : 'border-slate-300 bg-white'}`}>
+      {data.caption && (
+        <div className={`px-4 py-2 text-sm font-semibold ${dark ? 'bg-slate-700 text-slate-100' : 'bg-slate-100 text-slate-800'}`}>
+          {data.caption}
+        </div>
+      )}
+      <table className="w-full text-sm">
+        <thead>
+          <tr className={dark ? 'bg-slate-700/60' : 'bg-slate-50'}>
+            {data.headers.map((h, i) => (
+              <th
+                key={i}
+                className={`text-left px-4 py-2 font-semibold ${dark ? 'text-slate-200' : 'text-slate-700'}`}
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.rows.map((row, ri) => (
+            <tr key={ri} className={ri % 2 ? (dark ? 'bg-slate-800' : 'bg-white') : (dark ? 'bg-slate-800/60' : 'bg-slate-50/40')}>
+              {row.map((cell, ci) => (
+                <td key={ci} className={`px-4 py-2 ${dark ? 'text-slate-100' : 'text-slate-800'}`}>
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ── Inline SVG bar chart for chart-type scenarios ──────────────────────────
+function ScenarioBarChart({ data, dark }) {
+  const W = 500;
+  const H = 240;
+  const PAD_L = 40;
+  const PAD_B = 36;
+  const PAD_T = 28;
+  const PAD_R = 12;
+  const innerW = W - PAD_L - PAD_R;
+  const innerH = H - PAD_T - PAD_B;
+  const max = data.maxValue || Math.max(...data.bars.map((b) => b.value));
+  const barW = innerW / data.bars.length;
+  const text = dark ? '#e2e8f0' : '#1e293b';
+  const axis = dark ? '#94a3b8' : '#475569';
+  const barFill = dark ? '#60a5fa' : '#2563eb';
+  // Round-up tick marks
+  const tickStep = max <= 10 ? 2 : max <= 30 ? 5 : max <= 60 ? 10 : 20;
+  const ticks = [];
+  for (let v = 0; v <= max; v += tickStep) ticks.push(v);
+
+  return (
+    <div className={`rounded-lg p-4 ${dark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-slate-200'}`}>
+      {data.caption && (
+        <p className={`text-sm font-semibold mb-2 ${dark ? 'text-slate-200' : 'text-slate-700'}`}>{data.caption}</p>
+      )}
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-xl">
+        {/* axes */}
+        <line x1={PAD_L} y1={PAD_T} x2={PAD_L} y2={H - PAD_B} stroke={axis} strokeWidth="1.5" />
+        <line x1={PAD_L} y1={H - PAD_B} x2={W - PAD_R} y2={H - PAD_B} stroke={axis} strokeWidth="1.5" />
+        {/* y ticks + gridlines */}
+        {ticks.map((t) => {
+          const y = PAD_T + innerH - (t / max) * innerH;
+          return (
+            <g key={t}>
+              <line x1={PAD_L} y1={y} x2={W - PAD_R} y2={y} stroke={axis} strokeWidth="0.5" strokeDasharray="2 3" opacity="0.5" />
+              <text x={PAD_L - 6} y={y + 3} fontSize="10" fill={text} textAnchor="end">{t}</text>
+            </g>
+          );
+        })}
+        {/* y label */}
+        {data.yAxisLabel && (
+          <text x={4} y={PAD_T + 8} fontSize="10" fill={text}>{data.yAxisLabel}</text>
+        )}
+        {/* bars */}
+        {data.bars.map((b, i) => {
+          const h = (b.value / max) * innerH;
+          const x = PAD_L + i * barW + barW * 0.15;
+          const y = H - PAD_B - h;
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={barW * 0.7} height={h} fill={barFill} rx="3" />
+              <text x={x + (barW * 0.7) / 2} y={y - 4} fontSize="11" fill={text} textAnchor="middle" fontWeight="bold">
+                {b.value}
+              </text>
+              <text x={x + (barW * 0.7) / 2} y={H - PAD_B + 14} fontSize="11" fill={text} textAnchor="middle">
+                {b.label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
