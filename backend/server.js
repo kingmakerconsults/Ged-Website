@@ -12818,7 +12818,18 @@ ${JSON.stringify(
   2
 )}
 Based ONLY on THIS image and staying within the subject "${subject}" and topic "${topic}", create ${numQuestions} multiple-choice questions.
-Each question must reference or rely on the image.
+
+QUALITY BAR — write SUBSTANTIVE, GED-level questions, not trivia identification:
+- Each question stem must be at least 2 sentences (or 1 long sentence + a clause). Set a brief context, then ask the analytical question.
+- At least one of the ${numQuestions} questions MUST go beyond simple identification — it should ask about cause, effect, significance, comparison, change over time, motivation, or what the image SUGGESTS or IMPLIES.
+- Avoid one-line "What is shown?" / "What does the map show?" / "What does the chart depict?" stems. Treat the image as evidence the student must reason from.
+- For maps: ask about historical/geographic significance, spatial relationships between labeled features, or what the highlighted region tells us about a broader event (e.g., territorial expansion, migration, conflict).
+- For political cartoons: ask about the cartoonist's argument, the symbolism of specific labeled elements, the historical event being satirized, or whose perspective is represented — not just "what is shown."
+- For data charts/graphs: ask about trends, comparisons between data points, what the data supports or refutes, or what additional information would be needed to draw a conclusion.
+- For diagrams: ask about the process represented, what would change if a labeled component were removed/altered, or how the parts work together.
+- Each distractor must be a plausible misreading of the image, not obviously absurd. Each rationale must explain WHY the option is right or wrong with reference to the image.
+- Reference or rely on the image in every question.
+
 If questionSeeds or usageDirectives are present, stay within those approved angles.
 Do not invent any label, value, region, date, scientific relationship, or symbolic meaning that is not explicitly supported by the image record.
 Return valid JSON only.
