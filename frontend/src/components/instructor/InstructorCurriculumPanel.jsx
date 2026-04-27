@@ -1,4 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import {
+  QuizCatalogPicker,
+  SUBJECT_KEY_FROM_LABEL,
+} from './InstructorAssignmentsPanel.jsx';
 
 function getApiBase() {
   if (
@@ -32,7 +36,26 @@ async function apiFetch(path, options = {}) {
       ...(options.headers || {}),
     },
   });
-  if (!res.ok) throw new Error(`${path} → ${res.status}`);
+  if (!res.ok) {
+    let detail = '';
+    try {
+      const text = await res.text();
+      try {
+        const j = JSON.parse(text);
+        detail = j?.error || j?.message || text;
+      } catch {
+        detail = text;
+      }
+    } catch {
+      /* ignore */
+    }
+    const err = new Error(
+      `${path} → ${res.status}${detail ? `: ${detail}` : ''}`
+    );
+    err.status = res.status;
+    err.detail = detail;
+    throw err;
+  }
   if (res.status === 204) return null;
   const text = await res.text();
   return text ? JSON.parse(text) : null;
@@ -70,6 +93,8 @@ export default function InstructorCurriculumPanel() {
   const [loading, setLoading] = useState(false);
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
+  const [createClassError, setCreateClassError] = useState(null);
+  const [addItemError, setAddItemError] = useState(null);
   const [draftItem, setDraftItem] = useState({
     title: '',
     subject: '',
@@ -120,6 +145,7 @@ export default function InstructorCurriculumPanel() {
     const name = newClassName.trim();
     if (!name) return;
     setCreatingClass(true);
+    setCreateClassError(null);
     try {
       const data = await apiFetch('/api/instructor/classes', {
         method: 'POST',
@@ -130,6 +156,7 @@ export default function InstructorCurriculumPanel() {
       if (data?.class?.id) setClassId(data.class.id);
     } catch (err) {
       console.warn('[curriculum] create class failed', err);
+      setCreateClassError(err?.message || 'Failed to create class');
     } finally {
       setCreatingClass(false);
     }
@@ -138,6 +165,7 @@ export default function InstructorCurriculumPanel() {
   const addItem = async (e) => {
     e.preventDefault();
     if (!classId || !draftItem.title.trim()) return;
+    setAddItemError(null);
     try {
       await apiFetch(`/api/instructor/classes/${classId}/curriculum`, {
         method: 'POST',
@@ -152,6 +180,7 @@ export default function InstructorCurriculumPanel() {
       await loadItems();
     } catch (err) {
       console.warn('[curriculum] add item failed', err);
+      setAddItemError(err?.message || 'Failed to add item');
     }
   };
 
@@ -213,7 +242,10 @@ export default function InstructorCurriculumPanel() {
         }}
       >
         <ClassPicker classes={classes} value={classId} onChange={setClassId} />
-        <form onSubmit={createClass} style={{ display: 'flex', gap: 4 }}>
+        <form
+          onSubmit={createClass}
+          style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}
+        >
           <input
             type="text"
             value={newClassName}
@@ -242,6 +274,22 @@ export default function InstructorCurriculumPanel() {
           >
             + Class
           </button>
+          {createClassError && (
+            <div
+              style={{
+                width: '100%',
+                marginTop: 6,
+                padding: 6,
+                background: '#fef2f2',
+                color: '#b91c1c',
+                border: '1px solid #fecaca',
+                borderRadius: 6,
+                fontSize: 12,
+              }}
+            >
+              {createClassError}
+            </div>
+          )}
         </form>
       </div>
 
@@ -310,16 +358,16 @@ export default function InstructorCurriculumPanel() {
               </select>
               <input
                 type="text"
-                placeholder="Quiz ID (optional)"
+                placeholder="Quiz ID (auto)"
                 value={draftItem.quiz_id}
-                onChange={(e) =>
-                  setDraftItem((d) => ({ ...d, quiz_id: e.target.value }))
-                }
+                readOnly
                 style={{
                   padding: '6px 10px',
                   border: '1px solid #cbd5e1',
                   borderRadius: 6,
                   fontSize: 13,
+                  background: '#f1f5f9',
+                  color: '#475569',
                 }}
               />
               <input
@@ -351,6 +399,41 @@ export default function InstructorCurriculumPanel() {
                 Add
               </button>
             </form>
+            <div style={{ marginTop: 8 }}>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: '#475569',
+                  fontWeight: 600,
+                  marginBottom: 4,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Pick quiz from catalog
+              </div>
+              <QuizCatalogPicker
+                subjectKey={SUBJECT_KEY_FROM_LABEL[draftItem.subject] || ''}
+                value={{ quizId: draftItem.quiz_id }}
+                onChange={(next) =>
+                  setDraftItem((d) => ({ ...d, quiz_id: next?.quizId || '' }))
+                }
+              />
+              {addItemError && (
+                <div
+                  style={{
+                    marginTop: 6,
+                    padding: 6,
+                    background: '#fef2f2',
+                    color: '#b91c1c',
+                    border: '1px solid #fecaca',
+                    borderRadius: 6,
+                    fontSize: 12,
+                  }}
+                >
+                  {addItemError}
+                </div>
+              )}
+            </div>
           </div>
 
           {loading && <div style={{ color: '#64748b' }}>Loading…</div>}
