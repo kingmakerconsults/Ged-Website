@@ -36042,14 +36042,18 @@ function StartScreen({
                 <div className="flex items-center gap-4">
                   <div
                     className="flex items-center justify-center w-14 h-14 rounded-lg"
-                    style={{ background: 'linear-gradient(135deg,#0ea5e9,#6366f1)' }}
+                    style={{
+                      background: 'linear-gradient(135deg,#0ea5e9,#6366f1)',
+                    }}
                     aria-hidden="true"
                   >
                     <img
                       src="/icons/briefcase-svgrepo-com.svg"
                       alt=""
                       className="w-8 h-8"
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
                     />
                   </div>
                   <div>

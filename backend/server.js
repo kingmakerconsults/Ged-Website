@@ -14,8 +14,15 @@ const {
   loginLimiter,
   registerLimiter,
   orgJoinLimiter,
+  passwordResetLimiter,
 } = require('./middleware/rateLimits');
 const { isEnabled: isFeatureEnabled } = require('./src/featureFlags');
+const {
+  issueAuthToken,
+  findValidToken,
+  markTokenUsed,
+  canOrgAcceptNewMember,
+} = require('./src/authTokens');
 const axios = require('axios');
 const db = require('./db');
 const { JSDOM } = require('jsdom');
@@ -7275,6 +7282,33 @@ app.post(
 
       const org = orgResult.rows[0];
 
+      // Phase 1.6 — seat enforcement (flag-gated, default OFF). Existing
+      // members of the org are NEVER blocked; this only refuses NEW joins
+      // beyond seat_limit. Orgs created before the migration default to
+      // plan_tier='legacy' with seat_limit=NULL (unlimited), so today's
+      // student joins are unaffected.
+      if (isFeatureEnabled('SEAT_LIMIT_ENFORCEMENT')) {
+        // Allow re-join / no-op if user is already in this org.
+        const currentRes = await db.query(
+          'SELECT organization_id FROM users WHERE id = $1',
+          [userId]
+        );
+        const currentOrg = currentRes.rows[0]?.organization_id;
+        if (currentOrg !== org.id) {
+          const seatCheck = await canOrgAcceptNewMember(db, org.id);
+          if (!seatCheck.ok) {
+            return res.status(409).json({
+              ok: false,
+              error: seatCheck.reason,
+              message:
+                seatCheck.reason === 'seat_limit_reached'
+                  ? `This organization is at its seat limit (${seatCheck.limit}). Please contact your administrator.`
+                  : 'This organization is not accepting new members right now. Please contact your administrator.',
+            });
+          }
+        }
+      }
+
       // Validate access code if organization requires one
       if (org.access_code) {
         if (!access_code) {
@@ -9777,6 +9811,145 @@ app.post('/api/register', registerLimiter, async (req, res) => {
     }
     console.error('Registration failed:', error);
     return res.status(500).json({ error: 'Registration failed' });
+  }
+});
+
+// ============================================================================
+// Phase 1.5 \u2014 Password reset + email verification (flag-gated OFF).
+//
+// DO-NO-HARM CONTRACT:
+//   * Endpoints return 404 when their flag is off, so no client behavior
+//     changes for existing students.
+//   * /api/password-reset/request always returns 200 regardless of whether the
+//     email exists \u2014 prevents email enumeration.
+//   * Email delivery is intentionally NOT included in this rollout. Tokens are
+//     written to the audit log so an operator can copy a reset link from the
+//     server logs during early bring-up. A real transactional email provider
+//     gets wired in Phase 2.
+// ============================================================================
+
+function _emailVerificationDisabled(_req, res) {
+  return res.status(404).json({ error: 'not_found' });
+}
+
+app.post('/api/password-reset/request', passwordResetLimiter, async (req, res) => {
+  if (!isFeatureEnabled('PASSWORD_RESET')) return _emailVerificationDisabled(req, res);
+  const { email } = req.body || {};
+  // Always return success \u2014 no enumeration leak.
+  if (typeof email !== 'string' || !email.trim()) {
+    return res.json({ ok: true });
+  }
+  const normalizedEmail = email.trim().toLowerCase();
+  try {
+    const userRes = await pool.query(
+      'SELECT id, email FROM users WHERE email = $1',
+      [normalizedEmail]
+    );
+    if (userRes.rowCount) {
+      const user = userRes.rows[0];
+      const { token, expiresAt } = await issueAuthToken(db, {
+        userId: user.id,
+        purpose: 'password_reset',
+        req,
+      });
+      // Operator-visible until email delivery exists.
+      console.log(
+        `[password-reset] issued token for user=${user.id} email=${user.email} expires=${expiresAt.toISOString()} token=${token}`
+      );
+    }
+  } catch (err) {
+    console.error('[password-reset/request] failed:', err);
+    // Still return 200 to avoid leaking existence.
+  }
+  return res.json({ ok: true });
+});
+
+app.post('/api/password-reset/confirm', passwordResetLimiter, async (req, res) => {
+  if (!isFeatureEnabled('PASSWORD_RESET')) return _emailVerificationDisabled(req, res);
+  const { token, password } = req.body || {};
+  if (typeof token !== 'string' || typeof password !== 'string') {
+    return res.status(400).json({ error: 'token_and_password_required' });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'password_too_short' });
+  }
+  try {
+    const row = await findValidToken(db, { token, purpose: 'password_reset' });
+    if (!row) {
+      return res.status(400).json({ error: 'invalid_or_expired_token' });
+    }
+    const newHash = await bcrypt.hash(password, SALT_ROUNDS);
+    await db.query('UPDATE users SET password_hash = $1 WHERE id = $2', [
+      newHash,
+      row.user_id,
+    ]);
+    await markTokenUsed(db, row.id);
+    // Invalidate any other live reset tokens for this user.
+    await db.query(
+      `UPDATE auth_tokens SET used_at = NOW()
+        WHERE user_id = $1 AND purpose = 'password_reset' AND used_at IS NULL`,
+      [row.user_id]
+    );
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[password-reset/confirm] failed:', err);
+    return res.status(500).json({ error: 'password_reset_failed' });
+  }
+});
+
+app.post('/api/email-verify/request', async (req, res) => {
+  if (!isFeatureEnabled('EMAIL_VERIFICATION_REQUIRED')) return _emailVerificationDisabled(req, res);
+  // Authenticated request \u2014 reuse the standard auth chain by checking req.user
+  // populated by upstream middleware mounted on /api/profile etc. Here we
+  // require an explicit email so unauthenticated re-issue is also possible
+  // (e.g. user lost the original link).
+  const { email } = req.body || {};
+  if (typeof email !== 'string' || !email.trim()) {
+    return res.json({ ok: true });
+  }
+  const normalizedEmail = email.trim().toLowerCase();
+  try {
+    const userRes = await pool.query(
+      'SELECT id, email, email_verified FROM users WHERE email = $1',
+      [normalizedEmail]
+    );
+    if (userRes.rowCount && !userRes.rows[0].email_verified) {
+      const user = userRes.rows[0];
+      const { token, expiresAt } = await issueAuthToken(db, {
+        userId: user.id,
+        purpose: 'email_verify',
+        req,
+      });
+      console.log(
+        `[email-verify] issued token for user=${user.id} email=${user.email} expires=${expiresAt.toISOString()} token=${token}`
+      );
+    }
+  } catch (err) {
+    console.error('[email-verify/request] failed:', err);
+  }
+  return res.json({ ok: true });
+});
+
+app.post('/api/email-verify/confirm', async (req, res) => {
+  if (!isFeatureEnabled('EMAIL_VERIFICATION_REQUIRED')) return _emailVerificationDisabled(req, res);
+  const { token } = req.body || {};
+  if (typeof token !== 'string') {
+    return res.status(400).json({ error: 'token_required' });
+  }
+  try {
+    const row = await findValidToken(db, { token, purpose: 'email_verify' });
+    if (!row) {
+      return res.status(400).json({ error: 'invalid_or_expired_token' });
+    }
+    await db.query(
+      'UPDATE users SET email_verified = TRUE, email_verified_at = NOW() WHERE id = $1',
+      [row.user_id]
+    );
+    await markTokenUsed(db, row.id);
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[email-verify/confirm] failed:', err);
+    return res.status(500).json({ error: 'email_verify_failed' });
   }
 });
 
@@ -16107,7 +16280,9 @@ function pickImageForSlot(images, category, usedPaths) {
   // variety of images across runs. Hand-authored / preferred images get a
   // light weighting bias but no longer collapse the pool.
   const authoredSet = new Set(
-    available.filter(hasHandAuthoredSocialStudiesImageQuestions).map((img) => img.filePath)
+    available
+      .filter(hasHandAuthoredSocialStudiesImageQuestions)
+      .map((img) => img.filePath)
   );
   const preferredPaths = SOCIAL_STUDIES_CATEGORY_IMAGE_PATHS[category] || [];
   const preferredSet = new Set(preferredPaths);
@@ -18702,6 +18877,986 @@ app.get(
     }
   }
 );
+
+// ============================================================================
+// Phase 2 \u2014 ORG ADMIN: invitations, branding, user management, CSV export.
+// All endpoints flag-gated. When the relevant flag is OFF, they return 404
+// so the existing OrgAdminDashboard UI continues to work unchanged.
+// ============================================================================
+
+const { recordAuditEvent: _audit } = require('./middleware/auditLog');
+const _authTokens = require('./src/authTokens');
+
+function _requireFlag(flag) {
+  return (req, res, next) => {
+    if (!isFeatureEnabled(flag)) return res.status(404).json({ error: 'not_found' });
+    next();
+  };
+}
+
+function _normEmail(e) {
+  return typeof e === 'string' ? e.trim().toLowerCase() : '';
+}
+
+function _csvEscape(v) {
+  if (v == null) return '';
+  const s = String(v);
+  if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+  return s;
+}
+
+// --- Org Admin: list invitations ---
+app.get(
+  '/api/org/invitations',
+  _requireFlag('ORG_INVITATIONS'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const { rows } = await db.query(
+        `SELECT id, email, role, expires_at, accepted_at, revoked_at, created_at
+           FROM org_invitations
+          WHERE organization_id = $1
+          ORDER BY created_at DESC
+          LIMIT 500`,
+        [orgId]
+      );
+      return res.json({ invitations: rows });
+    } catch (err) {
+      console.error('[/api/org/invitations] failed:', err);
+      return res.status(500).json({ error: 'Unable to list invitations' });
+    }
+  }
+);
+
+// --- Org Admin: create invitation ---
+app.post(
+  '/api/org/invitations',
+  _requireFlag('ORG_INVITATIONS'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const email = _normEmail(req.body?.email);
+      const roleRaw = String(req.body?.role || 'student').toLowerCase();
+      const allowedRoles = ['student', 'instructor', 'org_admin'];
+      const role = allowedRoles.includes(roleRaw) ? roleRaw : 'student';
+      if (!email || !email.includes('@')) {
+        return res.status(400).json({ error: 'invalid_email' });
+      }
+      // 14-day TTL.
+      const raw = _authTokens._newRawToken();
+      const tokenHash = _authTokens._hash(raw);
+      const expiresAt = new Date(Date.now() + 14 * 24 * 3600 * 1000);
+      const inserted = await db.query(
+        `INSERT INTO org_invitations
+           (organization_id, email, role, token_hash, expires_at, invited_by)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, email, role, expires_at, created_at`,
+        [orgId, email, role, tokenHash, expiresAt, req.user.id || req.user.userId || null]
+      );
+      const inv = inserted.rows[0];
+      await _audit({
+        db,
+        req,
+        action: 'org.invitation.create',
+        target: { type: 'invitation', id: inv.id },
+        payload: { email, role },
+      });
+      // Operator-visible until email delivery is wired.
+      console.log(
+        `[org-invite] org=${orgId} email=${email} role=${role} expires=${expiresAt.toISOString()} token=${raw}`
+      );
+      return res.status(201).json({ invitation: inv, token: raw });
+    } catch (err) {
+      console.error('[/api/org/invitations POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to create invitation' });
+    }
+  }
+);
+
+// --- Org Admin: revoke invitation ---
+app.delete(
+  '/api/org/invitations/:id',
+  _requireFlag('ORG_INVITATIONS'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const id = parseInt(req.params.id, 10);
+      if (!orgId || !Number.isFinite(id)) {
+        return res.status(400).json({ error: 'invalid_request' });
+      }
+      const { rowCount } = await db.query(
+        `UPDATE org_invitations
+            SET revoked_at = NOW()
+          WHERE id = $1 AND organization_id = $2 AND revoked_at IS NULL AND accepted_at IS NULL`,
+        [id, orgId]
+      );
+      await _audit({
+        db,
+        req,
+        action: 'org.invitation.revoke',
+        target: { type: 'invitation', id },
+        status: rowCount ? 'ok' : 'denied',
+      });
+      return res.json({ ok: rowCount > 0 });
+    } catch (err) {
+      console.error('[/api/org/invitations DELETE] failed:', err);
+      return res.status(500).json({ error: 'Unable to revoke invitation' });
+    }
+  }
+);
+
+// --- Public: look up an invitation by token (for accept page) ---
+app.get('/api/invitations/:token', _requireFlag('ORG_INVITATIONS'), async (req, res) => {
+  try {
+    const tokenHash = _authTokens._hash(String(req.params.token || ''));
+    const { rows } = await db.query(
+      `SELECT i.id, i.email, i.role, i.expires_at, i.accepted_at, i.revoked_at,
+              o.id AS organization_id, o.name AS organization_name, o.display_name
+         FROM org_invitations i
+         JOIN organizations o ON o.id = i.organization_id
+        WHERE i.token_hash = $1
+        LIMIT 1`,
+      [tokenHash]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'invalid_invitation' });
+    const inv = rows[0];
+    if (inv.revoked_at) return res.status(410).json({ error: 'invitation_revoked' });
+    if (inv.accepted_at) return res.status(410).json({ error: 'invitation_already_accepted' });
+    if (new Date(inv.expires_at).getTime() < Date.now()) {
+      return res.status(410).json({ error: 'invitation_expired' });
+    }
+    return res.json({
+      organization: {
+        id: inv.organization_id,
+        name: inv.organization_name,
+        display_name: inv.display_name,
+      },
+      email: inv.email,
+      role: inv.role,
+    });
+  } catch (err) {
+    console.error('[/api/invitations/:token GET] failed:', err);
+    return res.status(500).json({ error: 'Unable to load invitation' });
+  }
+});
+
+// --- Authenticated: accept invitation (binds current user to the org) ---
+app.post(
+  '/api/invitations/:token/accept',
+  _requireFlag('ORG_INVITATIONS'),
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'unauthorized' });
+      const tokenHash = _authTokens._hash(String(req.params.token || ''));
+      const { rows } = await db.query(
+        `SELECT id, organization_id, email, role, expires_at, accepted_at, revoked_at
+           FROM org_invitations WHERE token_hash = $1 LIMIT 1`,
+        [tokenHash]
+      );
+      if (!rows.length) return res.status(404).json({ error: 'invalid_invitation' });
+      const inv = rows[0];
+      if (inv.revoked_at || inv.accepted_at) {
+        return res.status(410).json({ error: 'invitation_unavailable' });
+      }
+      if (new Date(inv.expires_at).getTime() < Date.now()) {
+        return res.status(410).json({ error: 'invitation_expired' });
+      }
+      // Seat enforcement (also flag-gated; harmless if SEAT_LIMIT_ENFORCEMENT off).
+      if (isFeatureEnabled('SEAT_LIMIT_ENFORCEMENT')) {
+        const cur = await db.query('SELECT organization_id FROM users WHERE id=$1', [userId]);
+        if (cur.rows[0]?.organization_id !== inv.organization_id) {
+          const seat = await _authTokens.canOrgAcceptNewMember(db, inv.organization_id);
+          if (!seat.ok) {
+            return res.status(409).json({ error: seat.reason });
+          }
+        }
+      }
+      await db.query(
+        `UPDATE users SET organization_id = $1, role = COALESCE(NULLIF($2,''), role)
+          WHERE id = $3`,
+        [inv.organization_id, inv.role || '', userId]
+      );
+      await db.query(
+        `UPDATE org_invitations SET accepted_at = NOW(), accepted_by = $1 WHERE id = $2`,
+        [userId, inv.id]
+      );
+      await _audit({
+        db,
+        req,
+        action: 'org.invitation.accept',
+        target: { type: 'invitation', id: inv.id },
+        payload: { organization_id: inv.organization_id, role: inv.role },
+      });
+      return res.json({ ok: true, organization_id: inv.organization_id });
+    } catch (err) {
+      console.error('[/api/invitations/:token/accept] failed:', err);
+      return res.status(500).json({ error: 'Unable to accept invitation' });
+    }
+  }
+);
+
+// --- Org Admin: get / update organization settings (branding) ---
+app.get(
+  '/api/org/settings',
+  _requireFlag('ORG_BRANDING'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const { rows } = await db.query(
+        `SELECT id, name, display_name, logo_url, brand_color,
+                plan_tier, seat_limit, subscription_status, expires_at
+           FROM organizations WHERE id = $1`,
+        [orgId]
+      );
+      if (!rows.length) return res.status(404).json({ error: 'org_not_found' });
+      return res.json({ organization: rows[0] });
+    } catch (err) {
+      console.error('[/api/org/settings GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to load org settings' });
+    }
+  }
+);
+
+app.put(
+  '/api/org/settings',
+  _requireFlag('ORG_BRANDING'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const { display_name, logo_url, brand_color } = req.body || {};
+      // Sanity caps to avoid storing absurd payloads.
+      const clean = {
+        display_name: display_name == null ? null : String(display_name).slice(0, 255),
+        logo_url: logo_url == null ? null : String(logo_url).slice(0, 2048),
+        brand_color: brand_color == null ? null : String(brand_color).slice(0, 20),
+      };
+      // Only accept hex-ish brand colors to avoid CSS injection if the value
+      // ever lands in inline styles.
+      if (clean.brand_color && !/^#?[0-9a-fA-F]{3,8}$/.test(clean.brand_color)) {
+        return res.status(400).json({ error: 'invalid_brand_color' });
+      }
+      await db.query(
+        `UPDATE organizations
+            SET display_name = $1, logo_url = $2, brand_color = $3, updated_at = NOW()
+          WHERE id = $4`,
+        [clean.display_name, clean.logo_url, clean.brand_color, orgId]
+      );
+      await _audit({
+        db,
+        req,
+        action: 'org.settings.update',
+        target: { type: 'organization', id: orgId },
+        payload: clean,
+      });
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/org/settings PUT] failed:', err);
+      return res.status(500).json({ error: 'Unable to update org settings' });
+    }
+  }
+);
+
+// --- Org Admin: change a user's role (within own org only) ---
+app.put(
+  '/api/org/users/:userId/role',
+  _requireFlag('ORG_USER_MANAGEMENT'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const targetId = parseInt(req.params.userId, 10);
+      const newRole = String(req.body?.role || '').toLowerCase();
+      const allowed = ['student', 'instructor', 'org_admin'];
+      if (!orgId || !Number.isFinite(targetId) || !allowed.includes(newRole)) {
+        return res.status(400).json({ error: 'invalid_request' });
+      }
+      // Verify target belongs to this org.
+      const tgt = await db.query(
+        'SELECT id, role, organization_id FROM users WHERE id = $1',
+        [targetId]
+      );
+      if (!tgt.rowCount || tgt.rows[0].organization_id !== orgId) {
+        return res.status(404).json({ error: 'user_not_in_org' });
+      }
+      // Refuse to demote a super_admin.
+      if (String(tgt.rows[0].role).toLowerCase() === 'super_admin') {
+        return res.status(403).json({ error: 'cannot_modify_super_admin' });
+      }
+      const oldRole = tgt.rows[0].role;
+      await db.query('UPDATE users SET role = $1 WHERE id = $2', [newRole, targetId]);
+      await _audit({
+        db,
+        req,
+        action: 'org.user.role_change',
+        target: { type: 'user', id: targetId },
+        payload: { from: oldRole, to: newRole },
+      });
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/org/users/:id/role PUT] failed:', err);
+      return res.status(500).json({ error: 'Unable to update role' });
+    }
+  }
+);
+
+// --- Org Admin: deactivate / reactivate a user ---
+app.put(
+  '/api/org/users/:userId/active',
+  _requireFlag('ORG_USER_MANAGEMENT'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const targetId = parseInt(req.params.userId, 10);
+      const active = req.body?.active !== false; // default true
+      if (!orgId || !Number.isFinite(targetId)) {
+        return res.status(400).json({ error: 'invalid_request' });
+      }
+      const tgt = await db.query(
+        'SELECT id, role, organization_id, deactivated_at FROM users WHERE id = $1',
+        [targetId]
+      );
+      if (!tgt.rowCount || tgt.rows[0].organization_id !== orgId) {
+        return res.status(404).json({ error: 'user_not_in_org' });
+      }
+      if (String(tgt.rows[0].role).toLowerCase() === 'super_admin') {
+        return res.status(403).json({ error: 'cannot_modify_super_admin' });
+      }
+      await db.query(
+        `UPDATE users SET deactivated_at = ${active ? 'NULL' : 'NOW()'} WHERE id = $1`,
+        [targetId]
+      );
+      await _audit({
+        db,
+        req,
+        action: active ? 'org.user.reactivate' : 'org.user.deactivate',
+        target: { type: 'user', id: targetId },
+      });
+      return res.json({ ok: true, active });
+    } catch (err) {
+      console.error('[/api/org/users/:id/active PUT] failed:', err);
+      return res.status(500).json({ error: 'Unable to update user status' });
+    }
+  }
+);
+
+// --- Org Admin: CSV export of users ---
+app.get(
+  '/api/org/users.csv',
+  _requireFlag('ORG_CSV_EXPORT'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const { rows } = await db.query(
+        `SELECT u.id, u.email, COALESCE(u.name,'') AS name, u.role, u.created_at,
+                u.last_login, u.last_seen_at, u.deactivated_at,
+                COALESCE(qa.attempts,0) AS quiz_attempts
+           FROM users u
+           LEFT JOIN (
+             SELECT user_id, COUNT(*) AS attempts FROM quiz_attempts GROUP BY user_id
+           ) qa ON qa.user_id = u.id
+          WHERE u.organization_id = $1
+          ORDER BY u.created_at DESC`,
+        [orgId]
+      );
+      const headers = ['id','email','name','role','created_at','last_login','last_seen_at','deactivated_at','quiz_attempts'];
+      const lines = [headers.join(',')];
+      for (const r of rows) {
+        lines.push(headers.map((h) => _csvEscape(r[h])).join(','));
+      }
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="users.csv"');
+      await _audit({ db, req, action: 'org.users.export.csv', payload: { count: rows.length } });
+      return res.send(lines.join('\n'));
+    } catch (err) {
+      console.error('[/api/org/users.csv] failed:', err);
+      return res.status(500).json({ error: 'Unable to export users' });
+    }
+  }
+);
+
+// --- Org Admin: CSV export of recent activity ---
+app.get(
+  '/api/org/activity.csv',
+  _requireFlag('ORG_CSV_EXPORT'),
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const limit = Math.min(parseInt(req.query.limit, 10) || 1000, 5000);
+      const { rows } = await db.query(
+        `SELECT qa.id, qa.user_id, COALESCE(u.email,'') AS email, qa.subject,
+                COALESCE(qa.category,'') AS category, qa.score, qa.total_questions,
+                qa.attempted_at
+           FROM quiz_attempts qa
+           JOIN users u ON u.id = qa.user_id
+          WHERE u.organization_id = $1
+          ORDER BY qa.attempted_at DESC
+          LIMIT $2`,
+        [orgId, limit]
+      );
+      const headers = ['id','user_id','email','subject','category','score','total_questions','attempted_at'];
+      const lines = [headers.join(',')];
+      for (const r of rows) {
+        lines.push(headers.map((h) => _csvEscape(r[h])).join(','));
+      }
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="activity.csv"');
+      await _audit({ db, req, action: 'org.activity.export.csv', payload: { count: rows.length } });
+      return res.send(lines.join('\n'));
+    } catch (err) {
+      console.error('[/api/org/activity.csv] failed:', err);
+      return res.status(500).json({ error: 'Unable to export activity' });
+    }
+  }
+);
+
+// --- Org Admin: list audit log ---
+app.get(
+  '/api/org/audit-log',
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const limit = Math.min(parseInt(req.query.limit, 10) || 100, 500);
+      const { rows } = await db.query(
+        `SELECT id, actor_user_id, actor_email, actor_role,
+                action, target_type, target_id, status, created_at
+           FROM admin_audit_log
+          WHERE organization_id = $1
+          ORDER BY created_at DESC
+          LIMIT $2`,
+        [orgId, limit]
+      );
+      return res.json({ entries: rows });
+    } catch (err) {
+      console.error('[/api/org/audit-log] failed:', err);
+      // Most likely cause: migration not yet run. Return empty array so the UI
+      // still renders without breaking.
+      return res.json({ entries: [] });
+    }
+  }
+);
+
+// ============================================================================
+// Phase 3 \u2014 INSTRUCTOR: classes + assignments + per-student detail.
+// All endpoints flag-gated. UI in LegacyRootApp will only call them when
+// FEATURE_INSTRUCTOR_ASSIGNMENTS / FEATURE_INSTRUCTOR_ROSTER_UI are on.
+// ============================================================================
+
+async function _instructorOwnsStudent(req, studentId) {
+  const orgId = req.user?.organization_id;
+  if (!orgId || !Number.isFinite(studentId)) return false;
+  const r = await db.query(
+    'SELECT 1 FROM users WHERE id=$1 AND organization_id=$2',
+    [studentId, orgId]
+  );
+  return r.rowCount > 0;
+}
+
+app.get(
+  '/api/instructor/students/:userId',
+  _requireFlag('INSTRUCTOR_ROSTER_UI'),
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const studentId = parseInt(req.params.userId, 10);
+      if (!(await _instructorOwnsStudent(req, studentId))) {
+        return res.status(404).json({ error: 'student_not_found' });
+      }
+      const userR = await db.query(
+        `SELECT id, email, name, role, created_at, last_login, last_seen_at
+           FROM users WHERE id=$1`,
+        [studentId]
+      );
+      const attemptsR = await db.query(
+        `SELECT id, quiz_type, subject, category, quiz_id, score, total_questions, attempted_at
+           FROM quiz_attempts
+          WHERE user_id=$1
+          ORDER BY attempted_at DESC
+          LIMIT 200`,
+        [studentId]
+      );
+      const masteryR = await db.query(
+        `SELECT subject,
+                COUNT(*) AS attempts,
+                AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
+                MAX(attempted_at) AS last_attempt_at
+           FROM quiz_attempts WHERE user_id=$1
+          GROUP BY subject`,
+        [studentId]
+      );
+      return res.json({
+        user: userR.rows[0],
+        attempts: attemptsR.rows,
+        mastery: masteryR.rows,
+      });
+    } catch (err) {
+      console.error('[/api/instructor/students/:id] failed:', err);
+      return res.status(500).json({ error: 'Unable to load student detail' });
+    }
+  }
+);
+
+app.get(
+  '/api/instructor/classes',
+  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const instructorId = req.user.id || req.user.userId;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const { rows } = await db.query(
+        `SELECT c.id, c.name, c.description, c.created_at, c.archived_at,
+                (SELECT COUNT(*) FROM instructor_class_members m WHERE m.class_id = c.id) AS member_count
+           FROM instructor_classes c
+          WHERE c.organization_id = $1
+            AND (c.instructor_id = $2 OR LOWER($3) IN ('org_admin','super_admin'))
+          ORDER BY c.created_at DESC`,
+        [orgId, instructorId, String(req.user.role || '')]
+      );
+      return res.json({ classes: rows });
+    } catch (err) {
+      console.error('[/api/instructor/classes GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to list classes' });
+    }
+  }
+);
+
+app.post(
+  '/api/instructor/classes',
+  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const instructorId = req.user.id || req.user.userId;
+      const name = String(req.body?.name || '').trim().slice(0, 255);
+      const description = req.body?.description == null ? null : String(req.body.description).slice(0, 4000);
+      if (!orgId || !instructorId) return res.status(400).json({ error: 'invalid_request' });
+      if (!name) return res.status(400).json({ error: 'name_required' });
+      const r = await db.query(
+        `INSERT INTO instructor_classes (organization_id, instructor_id, name, description)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id, name, description, created_at`,
+        [orgId, instructorId, name, description]
+      );
+      await _audit({ db, req, action: 'instructor.class.create', target: { type: 'class', id: r.rows[0].id }, payload: { name } });
+      return res.status(201).json({ class: r.rows[0] });
+    } catch (err) {
+      console.error('[/api/instructor/classes POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to create class' });
+    }
+  }
+);
+
+app.get(
+  '/api/instructor/assignments',
+  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const instructorId = req.user.id || req.user.userId;
+      if (!orgId) return res.status(400).json({ error: 'No organization scope' });
+      const { rows } = await db.query(
+        `SELECT a.id, a.title, a.subject, a.quiz_id, a.due_at, a.created_at, a.archived_at,
+                a.class_id, c.name AS class_name
+           FROM assignments a
+           LEFT JOIN instructor_classes c ON c.id = a.class_id
+          WHERE a.organization_id = $1
+            AND (a.instructor_id = $2 OR LOWER($3) IN ('org_admin','super_admin'))
+          ORDER BY a.created_at DESC
+          LIMIT 200`,
+        [orgId, instructorId, String(req.user.role || '')]
+      );
+      return res.json({ assignments: rows });
+    } catch (err) {
+      console.error('[/api/instructor/assignments GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to list assignments' });
+    }
+  }
+);
+
+app.post(
+  '/api/instructor/assignments',
+  _requireFlag('INSTRUCTOR_ASSIGNMENTS'),
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      const instructorId = req.user.id || req.user.userId;
+      const { title, subject, quiz_id, class_id, due_at, notes } = req.body || {};
+      if (!orgId || !instructorId) return res.status(400).json({ error: 'invalid_request' });
+      const cleanTitle = String(title || '').trim().slice(0, 255);
+      if (!cleanTitle) return res.status(400).json({ error: 'title_required' });
+      let dueAt = null;
+      if (due_at) {
+        const d = new Date(due_at);
+        if (!Number.isFinite(d.getTime())) return res.status(400).json({ error: 'invalid_due_at' });
+        dueAt = d;
+      }
+      const r = await db.query(
+        `INSERT INTO assignments
+           (organization_id, instructor_id, class_id, title, subject, quiz_id, due_at, notes)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         RETURNING id, title, subject, quiz_id, class_id, due_at, created_at`,
+        [
+          orgId,
+          instructorId,
+          class_id ? parseInt(class_id, 10) : null,
+          cleanTitle,
+          subject ? String(subject).slice(0, 100) : null,
+          quiz_id ? String(quiz_id).slice(0, 255) : null,
+          dueAt,
+          notes ? String(notes).slice(0, 4000) : null,
+        ]
+      );
+      await _audit({ db, req, action: 'instructor.assignment.create', target: { type: 'assignment', id: r.rows[0].id }, payload: { title: cleanTitle, subject, quiz_id } });
+      return res.status(201).json({ assignment: r.rows[0] });
+    } catch (err) {
+      console.error('[/api/instructor/assignments POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to create assignment' });
+    }
+  }
+);
+
+// Student-facing: list assignments visible to me. Returns [] when flag is off
+// or the user has no org \u2014 never throws so the dashboard can call it freely.
+app.get(
+  '/api/me/assignments',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
+    if (!isFeatureEnabled('INSTRUCTOR_ASSIGNMENTS')) {
+      return res.json({ assignments: [] });
+    }
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      const orgId = req.user?.organization_id;
+      if (!userId || !orgId) return res.json({ assignments: [] });
+      const { rows } = await db.query(
+        `SELECT a.id, a.title, a.subject, a.quiz_id, a.due_at, a.created_at,
+                a.class_id, c.name AS class_name
+           FROM assignments a
+           LEFT JOIN instructor_classes c ON c.id = a.class_id
+          WHERE a.archived_at IS NULL
+            AND a.organization_id = $1
+            AND (
+              a.class_id IS NULL
+              OR EXISTS (
+                SELECT 1 FROM instructor_class_members m
+                 WHERE m.class_id = a.class_id AND m.user_id = $2
+              )
+            )
+          ORDER BY a.due_at NULLS LAST, a.created_at DESC
+          LIMIT 100`,
+        [orgId, userId]
+      );
+      return res.json({ assignments: rows });
+    } catch (err) {
+      console.error('[/api/me/assignments] failed:', err);
+      return res.json({ assignments: [] });
+    }
+  }
+);
+
+// ============================================================================
+// Phase 4 \u2014 STUDENT POLISH endpoints. All flag-gated; default OFF.
+// These coexist with the existing student experience and never replace it.
+//   * /api/me/password         (ACCOUNT_SETTINGS_EXTENDED) \u2014 change password
+//   * /api/me/email/request    (ACCOUNT_SETTINGS_EXTENDED) \u2014 request email change
+//   * /api/me/email/confirm    (ACCOUNT_SETTINGS_EXTENDED) \u2014 confirm email change
+//   * /api/me/streak           (STREAKS)                   \u2014 read-only streak stats
+//   * /api/me/recommendations  (RECOMMENDATIONS)           \u2014 next quiz suggestion
+// ============================================================================
+
+const _bcryptSafe = (() => {
+  try { return require('bcrypt'); }
+  catch { try { return require('bcryptjs'); } catch { return null; } }
+})();
+
+app.post(
+  '/api/me/password',
+  _requireFlag('ACCOUNT_SETTINGS_EXTENDED'),
+  requireAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.id;
+      if (!userId) return res.status(401).json({ error: 'unauthorized' });
+      if (!_bcryptSafe) return res.status(503).json({ error: 'password_change_unavailable' });
+      const { current_password, new_password } = req.body || {};
+      if (typeof new_password !== 'string' || new_password.length < 8) {
+        return res.status(400).json({ error: 'password_too_short' });
+      }
+      const cur = await db.query('SELECT id, password_hash FROM users WHERE id=$1', [userId]);
+      if (!cur.rowCount) return res.status(404).json({ error: 'user_not_found' });
+      const hash = cur.rows[0].password_hash;
+      if (hash) {
+        const ok = await _bcryptSafe.compare(String(current_password || ''), hash);
+        if (!ok) return res.status(403).json({ error: 'current_password_incorrect' });
+      }
+      const newHash = await _bcryptSafe.hash(String(new_password), 12);
+      await db.query('UPDATE users SET password_hash=$1 WHERE id=$2', [newHash, userId]);
+      await _audit({ db, req, action: 'me.password.change', target: { type: 'user', id: userId } });
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/me/password] failed:', err);
+      return res.status(500).json({ error: 'Unable to change password' });
+    }
+  }
+);
+
+app.post(
+  '/api/me/email/request',
+  _requireFlag('ACCOUNT_SETTINGS_EXTENDED'),
+  requireAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.id;
+      if (!userId) return res.status(401).json({ error: 'unauthorized' });
+      const newEmail = _normEmail(req.body?.new_email);
+      if (!newEmail || !newEmail.includes('@')) {
+        return res.status(400).json({ error: 'invalid_email' });
+      }
+      // Reject if email already in use.
+      const taken = await db.query('SELECT 1 FROM users WHERE LOWER(email)=$1 LIMIT 1', [newEmail]);
+      if (taken.rowCount) return res.status(409).json({ error: 'email_in_use' });
+      const { token, expiresAt } = await _authTokens.issueAuthToken(db, {
+        userId,
+        purpose: 'email_change',
+        req,
+      });
+      // Stash desired email in payload via auth_tokens.token_hash is not
+      // possible \u2014 store in user.feature_overrides under pending_email.
+      await db.query(
+        `UPDATE users
+            SET feature_overrides = COALESCE(feature_overrides,'{}'::jsonb)
+                                  || jsonb_build_object('pending_email', $1::text)
+          WHERE id = $2`,
+        [newEmail, userId]
+      );
+      console.log(`[email-change] user=${userId} new=${newEmail} expires=${expiresAt.toISOString()} token=${token}`);
+      await _audit({ db, req, action: 'me.email.change.request', target: { type: 'user', id: userId }, payload: { new_email: newEmail } });
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/me/email/request] failed:', err);
+      return res.status(500).json({ error: 'Unable to request email change' });
+    }
+  }
+);
+
+app.post(
+  '/api/me/email/confirm',
+  _requireFlag('ACCOUNT_SETTINGS_EXTENDED'),
+  requireAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.id;
+      if (!userId) return res.status(401).json({ error: 'unauthorized' });
+      const tok = String(req.body?.token || '');
+      const found = await _authTokens.findValidToken(db, { token: tok, purpose: 'email_change' });
+      if (!found || found.user_id !== userId) {
+        return res.status(400).json({ error: 'invalid_token' });
+      }
+      const u = await db.query('SELECT feature_overrides FROM users WHERE id=$1', [userId]);
+      const pending = u.rows[0]?.feature_overrides?.pending_email;
+      if (!pending) return res.status(400).json({ error: 'no_pending_email' });
+      const dup = await db.query('SELECT 1 FROM users WHERE LOWER(email)=$1 AND id<>$2 LIMIT 1', [pending, userId]);
+      if (dup.rowCount) return res.status(409).json({ error: 'email_in_use' });
+      await db.query(
+        `UPDATE users
+            SET email = $1,
+                feature_overrides = (feature_overrides - 'pending_email')
+          WHERE id = $2`,
+        [pending, userId]
+      );
+      await _authTokens.markTokenUsed(db, found.id);
+      await _audit({ db, req, action: 'me.email.change.confirm', target: { type: 'user', id: userId }, payload: { new_email: pending } });
+      return res.json({ ok: true, email: pending });
+    } catch (err) {
+      console.error('[/api/me/email/confirm] failed:', err);
+      return res.status(500).json({ error: 'Unable to confirm email change' });
+    }
+  }
+);
+
+// Streak: derive from distinct attempt days. Returns zeros gracefully.
+app.get(
+  '/api/me/streak',
+  requireAuth,
+  async (req, res) => {
+    if (!isFeatureEnabled('STREAKS')) {
+      return res.json({ current_streak: 0, longest_streak: 0, days: [] });
+    }
+    try {
+      const userId = req.user?.userId || req.user?.id;
+      if (!userId) return res.json({ current_streak: 0, longest_streak: 0, days: [] });
+      const { rows } = await db.query(
+        `SELECT DISTINCT DATE(attempted_at AT TIME ZONE 'UTC') AS day
+           FROM quiz_attempts
+          WHERE user_id = $1
+          ORDER BY day DESC
+          LIMIT 365`,
+        [userId]
+      );
+      const days = rows.map((r) => r.day);
+      const dayKey = (d) => new Date(d).toISOString().slice(0, 10);
+      const set = new Set(days.map(dayKey));
+      let current = 0;
+      const today = new Date();
+      const cursor = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+      // Allow today OR yesterday to start the streak.
+      if (!set.has(dayKey(cursor))) cursor.setUTCDate(cursor.getUTCDate() - 1);
+      while (set.has(dayKey(cursor))) {
+        current += 1;
+        cursor.setUTCDate(cursor.getUTCDate() - 1);
+      }
+      // Longest streak across collected days.
+      const sorted = [...set].sort();
+      let longest = 0, run = 0, prev = null;
+      for (const k of sorted) {
+        if (prev) {
+          const a = new Date(prev), b = new Date(k);
+          const diff = Math.round((b - a) / 86400000);
+          if (diff === 1) run += 1; else run = 1;
+        } else {
+          run = 1;
+        }
+        if (run > longest) longest = run;
+        prev = k;
+      }
+      return res.json({ current_streak: current, longest_streak: longest, days: [...set] });
+    } catch (err) {
+      console.error('[/api/me/streak] failed:', err);
+      return res.json({ current_streak: 0, longest_streak: 0, days: [] });
+    }
+  }
+);
+
+// Recommendations: surface the subject with the lowest avg ratio as the
+// "next focus area" suggestion. Falls back to {} when flag off or no data.
+app.get(
+  '/api/me/recommendations',
+  requireAuth,
+  async (req, res) => {
+    if (!isFeatureEnabled('RECOMMENDATIONS')) {
+      return res.json({ recommendation: null });
+    }
+    try {
+      const userId = req.user?.userId || req.user?.id;
+      if (!userId) return res.json({ recommendation: null });
+      const { rows } = await db.query(
+        `SELECT subject,
+                COUNT(*) AS attempts,
+                AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS ratio
+           FROM quiz_attempts
+          WHERE user_id = $1 AND total_questions > 0
+          GROUP BY subject
+         HAVING COUNT(*) >= 1
+          ORDER BY ratio ASC NULLS FIRST
+          LIMIT 1`,
+        [userId]
+      );
+      if (!rows.length) return res.json({ recommendation: null });
+      const r = rows[0];
+      return res.json({
+        recommendation: {
+          subject: r.subject,
+          attempts: Number(r.attempts) || 0,
+          accuracy: r.ratio != null ? Number(r.ratio) : null,
+          reason: 'lowest_accuracy',
+        },
+      });
+    } catch (err) {
+      console.error('[/api/me/recommendations] failed:', err);
+      return res.json({ recommendation: null });
+    }
+  }
+);
+
+// ============================================================================
+// Phase 5 \u2014 SSO scaffolding. Endpoints exist so org admins can see the
+// surface area, but they all return 501 unless the relevant flag is on AND
+// a per-org sso_config is configured. Real OIDC/SAML wiring is intentionally
+// deferred. NEVER throws \u2014 safe to ship to production OFF.
+// ============================================================================
+
+app.get('/api/sso/oidc/start', (req, res) => {
+  if (!isFeatureEnabled('SSO_OIDC')) return res.status(404).json({ error: 'not_found' });
+  return res.status(501).json({ error: 'sso_oidc_not_configured', detail: 'OIDC client setup pending. Configure provider per organization.' });
+});
+
+app.get('/api/sso/oidc/callback', (req, res) => {
+  if (!isFeatureEnabled('SSO_OIDC')) return res.status(404).json({ error: 'not_found' });
+  return res.status(501).json({ error: 'sso_oidc_not_configured' });
+});
+
+app.get('/api/sso/saml/metadata', (req, res) => {
+  if (!isFeatureEnabled('SSO_SAML')) return res.status(404).json({ error: 'not_found' });
+  return res.status(501).json({ error: 'sso_saml_not_configured' });
+});
+
+app.post('/api/sso/saml/acs', (req, res) => {
+  if (!isFeatureEnabled('SSO_SAML')) return res.status(404).json({ error: 'not_found' });
+  return res.status(501).json({ error: 'sso_saml_not_configured' });
+});
+
+app.post('/api/me/mfa/enroll', requireAuth, (req, res) => {
+  if (!isFeatureEnabled('MFA')) return res.status(404).json({ error: 'not_found' });
+  return res.status(501).json({ error: 'mfa_not_configured', detail: 'MFA enrollment scaffolded but not wired.' });
+});
 
 // --- Instructor: Students list ---
 app.get(

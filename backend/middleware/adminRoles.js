@@ -1,3 +1,37 @@
+// Phase 1.4 — automatic admin audit logging.
+// Loaded lazily so this module can still be required from contexts where the
+// audit log table / db handle aren't initialized yet (and so a circular import
+// can't happen).
+let _audit = null;
+function _getAudit() {
+  if (_audit) return _audit;
+  try {
+    _audit = require('./auditLog');
+  } catch (_) {
+    _audit = { recordAuditEvent: async () => false };
+  }
+  return _audit;
+}
+
+function _fireAudit(req, action, status) {
+  // Fire-and-forget. Never throws, never blocks the request.
+  setImmediate(() => {
+    try {
+      const db = req.db || req.app?.locals?.db || null;
+      _getAudit()
+        .recordAuditEvent({
+          db,
+          req,
+          action,
+          target: { type: 'route', id: req.originalUrl || req.url },
+          payload: { method: req.method },
+          status,
+        })
+        .catch(() => {});
+    } catch (_) {}
+  });
+}
+
 // Helper functions for role hierarchy
 function normalizeRoleValue(role) {
   return typeof role === 'string' ? role.toLowerCase() : 'student';
@@ -25,8 +59,10 @@ function isInstructorOrAbove(role) {
 // Middleware functions
 function requireSuperAdmin(req, res, next) {
   if (!req.user || !isSuperAdmin(req.user.role)) {
+    _fireAudit(req, 'admin.access.denied.super_admin', 'denied');
     return res.status(403).json({ error: 'Super admin only' });
   }
+  _fireAudit(req, 'admin.access.super_admin', 'ok');
   return next();
 }
 
@@ -35,8 +71,10 @@ function requireOrgAdmin(req, res, next) {
     !req.user ||
     !(isSuperAdmin(req.user.role) || isOrgAdmin(req.user.role))
   ) {
+    _fireAudit(req, 'admin.access.denied.org_admin', 'denied');
     return res.status(403).json({ error: 'Org admin only' });
   }
+  _fireAudit(req, 'admin.access.org_admin', 'ok');
   return next();
 }
 
@@ -46,16 +84,20 @@ function requireOrgAdminOrSuper(req, res, next) {
     !req.user ||
     !(isSuperAdmin(req.user.role) || isOrgAdmin(req.user.role))
   ) {
+    _fireAudit(req, 'admin.access.denied.org_admin_or_super', 'denied');
     return res.status(403).json({ error: 'Admins only' });
   }
+  _fireAudit(req, 'admin.access.org_admin_or_super', 'ok');
   return next();
 }
 
 // This allows instructors, org_admins, and super_admins
 function requireInstructorOrOrgAdminOrSuper(req, res, next) {
   if (!req.user || !isInstructorOrAbove(req.user.role)) {
+    _fireAudit(req, 'admin.access.denied.instructor_or_above', 'denied');
     return res.status(403).json({ error: 'Instructor/Admin only' });
   }
+  _fireAudit(req, 'admin.access.instructor_or_above', 'ok');
   return next();
 }
 
