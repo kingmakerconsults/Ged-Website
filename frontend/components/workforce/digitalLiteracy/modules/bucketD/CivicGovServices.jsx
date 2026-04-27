@@ -1,10 +1,10 @@
 /**
- * CivicGovServices — using gov sites safely (vote, taxes, ID, benefits).
+ * CivicGovServices â€” using gov sites safely (vote, taxes, ID, benefits).
  */
 import React, { useState } from 'react';
-import { BrowserFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
+import { BrowserFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
 
 function GovBrowser({ onComplete }) {
   const [url, setUrl] = useState('https://www.usa.gov');
@@ -38,8 +38,8 @@ function GovBrowser({ onComplete }) {
         className={`p-3 rounded text-xs ${safe ? 'bg-green-50 text-green-900 border border-green-300' : 'bg-red-50 text-red-900 border border-red-300'}`}
       >
         {safe
-          ? '✅ This domain ends in .gov — official US government site.'
-          : '⚠️ This is NOT a .gov domain. Likely a scam impersonating government services.'}
+          ? 'âœ… This domain ends in .gov â€” official US government site.'
+          : 'âš ï¸ This is NOT a .gov domain. Likely a scam impersonating government services.'}
       </div>
       <div className="flex gap-2">
         <button
@@ -148,10 +148,10 @@ export const MODULE = {
   id: 'd5_civic_gov_services',
   title: 'Civic & Gov Services Online',
   standardId: 'BEYOND-D5',
-  standardLabel: 'Beyond Northstar — Civic & Gov Services',
+  standardLabel: 'Beyond Northstar â€” Civic & Gov Services',
   bucket: 'D',
   intro:
-    'Use government services safely online: filing taxes, voting, claiming benefits — all without falling for scams.',
+    'Use government services safely online: filing taxes, voting, claiming benefits â€” all without falling for scams.',
   learningGoals: [
     'Recognize legitimate .gov domains',
     'Use Login.gov for federal services',

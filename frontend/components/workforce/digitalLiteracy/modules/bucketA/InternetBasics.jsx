@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { BrowserFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { BrowserFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 function UrlAnatomy({ onComplete }) {
   const URL = 'https://www.example.com/jobs/apply?role=cashier';
@@ -63,7 +63,7 @@ function UrlAnatomy({ onComplete }) {
               disabled={done[p.id]}
               className="px-2 py-1 text-xs rounded bg-teal-600 text-white disabled:opacity-50"
             >
-              {done[p.id] ? '✓' : 'I see it'}
+              {done[p.id] ? 'âœ“' : 'I see it'}
             </button>
           </li>
         ))}
@@ -136,7 +136,7 @@ export const MODULE = {
   id: 'a3_internet_basics',
   title: 'Internet Basics',
   standardId: 'NDL-A3',
-  standardLabel: 'Northstar — Internet Basics',
+  standardLabel: 'Northstar â€” Internet Basics',
   bucket: 'A',
   intro:
     'Use a web browser confidently: read a URL, navigate with tabs and bookmarks, and tell the address bar from the search bar.',
@@ -154,7 +154,7 @@ export const MODULE = {
       rationale: 'usa.gov is the domain (with the www subdomain).',
     },
     {
-      q: 'A page won’t load. What should you try first?',
+      q: 'A page wonâ€™t load. What should you try first?',
       choices: [
         'Restart the computer',
         'Click Refresh / Reload',
@@ -177,7 +177,7 @@ export const MODULE = {
       rationale: 'A new tab keeps the original page available.',
     },
     {
-      q: 'Bookmarks are…',
+      q: 'Bookmarks areâ€¦',
       choices: [
         'Files you download',
         'Saved shortcuts to web pages',

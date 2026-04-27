@@ -1,5 +1,5 @@
 /**
- * MsExcel.jsx — Northstar B2 flagship.
+ * MsExcel.jsx â€” Northstar B2 flagship.
  * Custom mini spreadsheet with REAL formula evaluation.
  *
  * Tasks:
@@ -9,7 +9,7 @@
  *   4. Optional: change a sort or apply a basic filter (scripted)
  */
 import React, { useMemo, useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
 import { evaluateAll, indexToCol } from './formulaEngine.js';
 
 const ROWS = 7;
@@ -113,7 +113,7 @@ function Sim({ onComplete }) {
 
   return (
     <div className="space-y-4">
-      <WindowFrame title="Sales.xlsx — Excel">
+      <WindowFrame title="Sales.xlsx â€” Excel">
         <div className="p-2 text-xs">
           <div className="flex items-center gap-2 mb-2">
             <span className="font-mono px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">
@@ -177,22 +177,22 @@ function Sim({ onComplete }) {
       <div className="text-xs space-y-1 p-2 rounded bg-slate-50 dark:bg-slate-800">
         <div className="font-semibold mb-1">Tasks</div>
         <div className={tasksDone.sum ? 'text-green-600' : ''}>
-          {tasksDone.sum ? '✓' : '○'} <strong>B7:</strong> Total weekly sales —
+          {tasksDone.sum ? 'âœ“' : 'â—‹'} <strong>B7:</strong> Total weekly sales â€”
           type
           <code className="bg-slate-200 dark:bg-slate-700 px-1 ml-1">
             =SUM(B2:B6)
           </code>
         </div>
         <div className={tasksDone.avg ? 'text-green-600' : ''}>
-          {tasksDone.avg ? '✓' : '○'} <strong>Any cell:</strong> Average daily
-          sales —
+          {tasksDone.avg ? 'âœ“' : 'â—‹'} <strong>Any cell:</strong> Average daily
+          sales â€”
           <code className="bg-slate-200 dark:bg-slate-700 px-1 ml-1">
             =AVERAGE(B2:B6)
           </code>
         </div>
         <div className={tasksDone.ifc ? 'text-green-600' : ''}>
-          {tasksDone.ifc ? '✓' : '○'} <strong>D2:D6:</strong> Show "Over" if
-          Sales ≥ Goal, else "Under" — using
+          {tasksDone.ifc ? 'âœ“' : 'â—‹'} <strong>D2:D6:</strong> Show "Over" if
+          Sales â‰¥ Goal, else "Under" â€” using
           <code className="bg-slate-200 dark:bg-slate-700 px-1 ml-1">
             =IF(B2&gt;=C2,"Over","Under")
           </code>{' '}
@@ -213,10 +213,10 @@ export const MODULE = {
   id: 'b2_ms_excel',
   title: 'Microsoft Excel',
   standardId: 'NDL-B2',
-  standardLabel: 'Northstar — Microsoft Excel',
+  standardLabel: 'Northstar â€” Microsoft Excel',
   bucket: 'B',
   intro:
-    'Excel is the world’s most-used spreadsheet. Practice navigating cells, writing real formulas (SUM, AVERAGE, IF), and using absolute and relative references — all live, in a working mini spreadsheet.',
+    'Excel is the worldâ€™s most-used spreadsheet. Practice navigating cells, writing real formulas (SUM, AVERAGE, IF), and using absolute and relative references â€” all live, in a working mini spreadsheet.',
   learningGoals: [
     'Enter values and basic formulas',
     'Use SUM, AVERAGE, and IF',
@@ -231,13 +231,13 @@ export const MODULE = {
       rationale: 'SUM with a range adds every value.',
     },
     {
-      q: 'You drag a formula =A1*2 down one row. It becomes…',
+      q: 'You drag a formula =A1*2 down one row. It becomesâ€¦',
       choices: ['=A1*2', '=A2*2', '=$A$1*2', '#ERROR'],
       correct: 1,
       rationale: 'Relative references shift by the same number of rows.',
     },
     {
-      q: 'To prevent A1 from changing when copied, use…',
+      q: 'To prevent A1 from changing when copied, useâ€¦',
       choices: ['A1', '$A1', 'A$1', '$A$1'],
       correct: 3,
       rationale: '$A$1 is fully absolute (column AND row locked).',

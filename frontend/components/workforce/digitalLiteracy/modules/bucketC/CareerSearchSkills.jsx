@@ -1,10 +1,10 @@
 /**
- * CareerSearchSkills — using job boards & resume-search basics.
+ * CareerSearchSkills â€” using job boards & resume-search basics.
  */
 import React, { useState } from 'react';
-import { BrowserFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
+import { BrowserFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
 
 function JobBoardSim({ onComplete }) {
   const [q, setQ] = useState('');
@@ -64,7 +64,7 @@ function JobBoardSim({ onComplete }) {
               <div>
                 <div className="font-semibold">{r.title}</div>
                 <div className="text-xs opacity-70">
-                  {r.co} {r.remote ? '· Remote' : '· On-site'}
+                  {r.co} {r.remote ? 'Â· Remote' : 'Â· On-site'}
                 </div>
               </div>
               <button
@@ -72,7 +72,7 @@ function JobBoardSim({ onComplete }) {
                 onClick={() => setSaved(true)}
                 className="text-xs px-2 py-1 rounded border border-slate-300"
               >
-                ★ Save
+                â˜… Save
               </button>
             </li>
           ))}
@@ -160,7 +160,7 @@ export const MODULE = {
   id: 'c3_career_search_skills',
   title: 'Career Search Skills',
   standardId: 'NDL-C3',
-  standardLabel: 'Northstar — Career Search Skills',
+  standardLabel: 'Northstar â€” Career Search Skills',
   bucket: 'C',
   intro:
     'Use job boards effectively: search smart, filter, save listings, and read postings carefully.',

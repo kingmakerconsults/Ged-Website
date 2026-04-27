@@ -1,9 +1,9 @@
 /**
- * MsPowerPoint — slide deck builder with theme + speaker notes.
+ * MsPowerPoint â€” slide deck builder with theme + speaker notes.
  */
 import React, { useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Sequencer from '../_engine/sims/Sequencer.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Sequencer from '../../_engine/sims/Sequencer.jsx';
 
 const STARTER = [
   { title: 'Title Slide', body: 'My Career Plan' },
@@ -59,7 +59,7 @@ function Builder({ onComplete }) {
             } ${theme === 'dark' ? 'bg-slate-800 text-white' : 'bg-white'}`}
           >
             <div className="font-semibold truncate">{s.title}</div>
-            <div className="opacity-60 truncate">{s.body || '—'}</div>
+            <div className="opacity-60 truncate">{s.body || 'â€”'}</div>
           </button>
         ))}
         <button
@@ -112,13 +112,13 @@ function Builder({ onComplete }) {
         </div>
         <div className="text-xs mt-2 space-y-1 p-2 rounded bg-slate-50 dark:bg-slate-800">
           <div className={done.added ? 'text-green-600' : ''}>
-            {done.added ? '✓' : '○'} Add at least one new slide
+            {done.added ? 'âœ“' : 'â—‹'} Add at least one new slide
           </div>
           <div className={done.themed ? 'text-green-600' : ''}>
-            {done.themed ? '✓' : '○'} Pick a non-default theme
+            {done.themed ? 'âœ“' : 'â—‹'} Pick a non-default theme
           </div>
           <div className={done.filled ? 'text-green-600' : ''}>
-            {done.filled ? '✓' : '○'} Give every slide a title AND body (&gt;5
+            {done.filled ? 'âœ“' : 'â—‹'} Give every slide a title AND body (&gt;5
             chars)
           </div>
         </div>
@@ -135,14 +135,14 @@ function Sim({ onComplete }) {
   }, [s1, s2, onComplete]);
   return (
     <div className="space-y-6">
-      <WindowFrame title="MyPlan.pptx — PowerPoint">
+      <WindowFrame title="MyPlan.pptx â€” PowerPoint">
         <Builder onComplete={setS1} />
       </WindowFrame>
       <Sequencer
         prompt="Order the steps to deliver a slide presentation."
         items={[
           { id: 'a', label: 'Open the file' },
-          { id: 'b', label: 'Click Slide Show → From Beginning' },
+          { id: 'b', label: 'Click Slide Show â†’ From Beginning' },
           { id: 'c', label: 'Use arrow keys to advance slides' },
           { id: 'd', label: 'Press Esc to end' },
         ]}
@@ -157,7 +157,7 @@ export const MODULE = {
   id: 'b3_ms_powerpoint',
   title: 'Microsoft PowerPoint',
   standardId: 'NDL-B3',
-  standardLabel: 'Northstar — Microsoft PowerPoint',
+  standardLabel: 'Northstar â€” Microsoft PowerPoint',
   bucket: 'B',
   intro:
     'PowerPoint helps you present ideas with slides. Build a short deck, change a theme, and learn how to give the show.',

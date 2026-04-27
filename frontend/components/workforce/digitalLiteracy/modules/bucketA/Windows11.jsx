@@ -1,10 +1,10 @@
 /**
- * Win11 — centered taskbar, Snap layouts, Widgets, Files via shortcut.
+ * Win11 â€” centered taskbar, Snap layouts, Widgets, Files via shortcut.
  */
 import React, { useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 function Sim({ onComplete }) {
   const [opened, setOpened] = useState(false);
@@ -27,23 +27,23 @@ function Sim({ onComplete }) {
             <div className="absolute top-4 left-4 bg-white text-slate-900 rounded p-3 text-xs shadow w-48">
               <div className="font-semibold mb-1">File Explorer</div>
               <ul className="text-[11px] space-y-0.5">
-                <li>📁 Documents</li>
-                <li>📁 Downloads</li>
-                <li>📁 Pictures</li>
+                <li>ðŸ“ Documents</li>
+                <li>ðŸ“ Downloads</li>
+                <li>ðŸ“ Pictures</li>
               </ul>
             </div>
           ) : null}
         </div>
         <div className="bg-slate-100 dark:bg-slate-800 border-t border-slate-300 dark:border-slate-700 flex items-center justify-center gap-3 py-1.5">
-          {['🔍', '⊞', '📁', '🌐', '🛍️', '💬'].map((ico, i) => (
+          {['ðŸ”', 'âŠž', 'ðŸ“', 'ðŸŒ', 'ðŸ›ï¸', 'ðŸ’¬'].map((ico, i) => (
             <button
               key={i}
               type="button"
               onClick={() => {
-                if (ico === '📁') setOpened(true);
+                if (ico === 'ðŸ“') setOpened(true);
               }}
               className={`w-8 h-8 rounded ${
-                ico === '📁' ? 'bg-blue-100 hover:bg-blue-200' : 'bg-white/40'
+                ico === 'ðŸ“' ? 'bg-blue-100 hover:bg-blue-200' : 'bg-white/40'
               }`}
               aria-label={ico}
             >
@@ -54,7 +54,7 @@ function Sim({ onComplete }) {
       </WindowFrame>
       <div className="text-xs">
         <strong>Task 1:</strong> Open File Explorer from the centered taskbar.
-        {opened ? <span className="text-green-600 ml-2">✓ done</span> : null}
+        {opened ? <span className="text-green-600 ml-2">âœ“ done</span> : null}
       </div>
 
       <Triage
@@ -117,7 +117,7 @@ export const MODULE = {
   id: 'a6_windows_11',
   title: 'Windows 11',
   standardId: 'NDL-A6',
-  standardLabel: 'Northstar — Windows 11',
+  standardLabel: 'Northstar â€” Windows 11',
   bucket: 'A',
   intro:
     'Windows 11 keeps the same File Explorer + Settings ideas as Win10 but moves the taskbar to the center and adds Snap layouts and Widgets.',
@@ -157,7 +157,7 @@ export const MODULE = {
       q: 'You want to install a new printer. Where should you go?',
       choices: [
         'Recycle Bin',
-        'Settings → Bluetooth & devices',
+        'Settings â†’ Bluetooth & devices',
         'Edge',
         'Notepad',
       ],

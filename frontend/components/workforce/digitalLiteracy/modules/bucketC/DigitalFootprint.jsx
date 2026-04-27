@@ -1,9 +1,9 @@
 /**
- * DigitalFootprint — what you leave behind.
+ * DigitalFootprint â€” what you leave behind.
  */
 import React, { useState } from 'react';
-import Triage from '../_engine/sims/Triage.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
 
 function FootprintMap({ onComplete }) {
   const [marked, setMarked] = useState({});
@@ -32,7 +32,7 @@ function FootprintMap({ onComplete }) {
             onClick={() => setMarked((m) => ({ ...m, [s.id]: true }))}
             className={`p-2 rounded border text-xs ${marked[s.id] ? 'bg-teal-100 border-teal-400 text-teal-900' : 'border-slate-300'}`}
           >
-            {marked[s.id] ? '✓ ' : ''}
+            {marked[s.id] ? 'âœ“ ' : ''}
             {s.label}
           </button>
         ))}
@@ -125,10 +125,10 @@ export const MODULE = {
   id: 'c6_digital_footprint',
   title: 'Your Digital Footprint',
   standardId: 'NDL-C6',
-  standardLabel: 'Northstar — Your Digital Footprint',
+  standardLabel: 'Northstar â€” Your Digital Footprint',
   bucket: 'C',
   intro:
-    'Everything you do online leaves traces — some you choose to leave, some are collected silently. Learn to see and shrink your footprint.',
+    'Everything you do online leaves traces â€” some you choose to leave, some are collected silently. Learn to see and shrink your footprint.',
   learningGoals: [
     'Distinguish active vs passive footprint',
     'Audit and tighten public profiles',

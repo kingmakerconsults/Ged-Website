@@ -1,10 +1,10 @@
 /**
- * GoogleDocs — collaboration features (sharing, comments, version history).
+ * GoogleDocs â€” collaboration features (sharing, comments, version history).
  */
 import React, { useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
 
 function ShareDialog({ onComplete }) {
   const [email, setEmail] = useState('');
@@ -49,7 +49,7 @@ function ShareDialog({ onComplete }) {
         </div>
         {shared ? (
           <div className="text-xs mt-2 text-green-600">
-            ✓ Shared with {email} as {perm}
+            âœ“ Shared with {email} as {perm}
           </div>
         ) : null}
       </div>
@@ -77,7 +77,7 @@ function ShareDialog({ onComplete }) {
         </div>
         {posted ? (
           <div className="text-xs mt-2 text-green-600">
-            ✓ Comment posted: "{comment}"
+            âœ“ Comment posted: "{comment}"
           </div>
         ) : null}
       </div>
@@ -156,7 +156,7 @@ export const MODULE = {
   id: 'b4_google_docs',
   title: 'Google Docs',
   standardId: 'NDL-B4',
-  standardLabel: 'Northstar — Google Docs',
+  standardLabel: 'Northstar â€” Google Docs',
   bucket: 'B',
   intro:
     'Google Docs is free, web-based, and built for collaboration. Practice sharing with the right permission and adding comments.',
@@ -200,15 +200,15 @@ export const MODULE = {
     {
       q: 'To export as a Word file you use:',
       choices: [
-        'Tools → Spelling',
-        'File → Download → .docx',
+        'Tools â†’ Spelling',
+        'File â†’ Download â†’ .docx',
         'Help',
         'Insert menu',
       ],
       correct: 1,
     },
     {
-      q: 'You can collaborate in real time because…',
+      q: 'You can collaborate in real time becauseâ€¦',
       choices: [
         'The doc is in the cloud',
         'It uses email',

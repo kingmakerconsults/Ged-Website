@@ -1,6 +1,6 @@
 import React from 'react';
-import Hotspot from '../_engine/sims/Hotspot.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
+import Hotspot from '../../_engine/sims/Hotspot.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
 
 function DesktopDiagram() {
   return (
@@ -42,7 +42,7 @@ function Sim({ onComplete }) {
   return (
     <div className="space-y-6">
       <div>
-        <h4 className="font-semibold mb-2">Part 1 — Identify the parts</h4>
+        <h4 className="font-semibold mb-2">Part 1 â€” Identify the parts</h4>
         <Hotspot
           prompt="Click the monitor, keyboard, and mouse."
           diagram={<DesktopDiagram />}
@@ -90,14 +90,14 @@ function Sim({ onComplete }) {
       </div>
       <div>
         <h4 className="font-semibold mb-2">
-          Part 2 — Match each action to the right input
+          Part 2 â€” Match each action to the right input
         </h4>
         <Sortable
           prompt="Drag each task to the input device that does it."
           buckets={[
-            { key: 'mouse', name: '🖱️ Mouse' },
-            { key: 'kb', name: '⌨️ Keyboard' },
-            { key: 'both', name: '🖱️⌨️ Either / both' },
+            { key: 'mouse', name: 'ðŸ–±ï¸ Mouse' },
+            { key: 'kb', name: 'âŒ¨ï¸ Keyboard' },
+            { key: 'both', name: 'ðŸ–±ï¸âŒ¨ï¸ Either / both' },
           ]}
           items={[
             { id: 'i1', label: 'Type your name', correctBucket: 'kb' },
@@ -121,7 +121,7 @@ export const MODULE = {
   id: 'a2_basic_computer',
   title: 'Basic Computer Skills',
   standardId: 'NDL-A2',
-  standardLabel: 'Northstar — Basic Computer Skills',
+  standardLabel: 'Northstar â€” Basic Computer Skills',
   bucket: 'A',
   intro:
     'Identify the main parts of a computer, use mouse and keyboard, and understand basic startup/shutdown.',
@@ -163,7 +163,7 @@ export const MODULE = {
     {
       q: 'What is the cursor?',
       choices: [
-        'The keyboard’s power switch',
+        'The keyboardâ€™s power switch',
         'The on-screen pointer you move with the mouse',
         'A folder for downloads',
         'The label on a button',
@@ -176,7 +176,7 @@ export const MODULE = {
       choices: [
         'Connect to Wi-Fi only',
         'Plug in devices like flash drives, keyboards, mice',
-        'Charge phones — and nothing else',
+        'Charge phones â€” and nothing else',
         'Display video output only',
       ],
       correct: 1,

@@ -1,32 +1,32 @@
 /**
- * UsingEmail.jsx — Northstar A4 flagship sim.
+ * UsingEmail.jsx â€” Northstar A4 flagship sim.
  * Simulated email client with Inbox, Compose, Reply, attachments, and
  * spam/legit triage.
  */
 import React, { useMemo, useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 const SEED_INBOX = [
   {
     id: 'm1',
     from: 'Maria Lopez <maria.lopez@statecollege.edu>',
     subject: 'Tutor session moved to Thursday',
-    preview: 'Hi! Just confirming our tutoring session is now Thursday at 4pm…',
-    body: 'Hi! Just confirming our tutoring session is now Thursday at 4pm in Room 204. Bring your math notebook. — Maria',
+    preview: 'Hi! Just confirming our tutoring session is now Thursday at 4pmâ€¦',
+    body: 'Hi! Just confirming our tutoring session is now Thursday at 4pm in Room 204. Bring your math notebook. â€” Maria',
   },
   {
     id: 'm2',
     from: 'Costco <noreply@costco.com>',
     subject: 'Your weekly coupons',
-    preview: 'New offers this week including pantry savings…',
-    body: 'Browse this week’s coupons at our official site.',
+    preview: 'New offers this week including pantry savingsâ€¦',
+    body: 'Browse this weekâ€™s coupons at our official site.',
   },
   {
     id: 'm3',
     from: 'PayPal Support <support@paypal-secure-help.tk>',
-    subject: 'URGENT: account locked — verify now',
-    preview: 'We have detected unusual activity. Click the link to restore…',
+    subject: 'URGENT: account locked â€” verify now',
+    preview: 'We have detected unusual activity. Click the link to restoreâ€¦',
     body: 'Your account is locked. Click http://paypal-secure-help.tk/verify within 24 hours or it will be deleted.',
   },
 ];
@@ -72,7 +72,7 @@ function ComposeForm({ onSent, prefill = {} }) {
               : 'border-slate-300 dark:border-slate-600'
           }`}
         >
-          📎 {attached ? 'resume.pdf attached' : 'Attach a file'}
+          ðŸ“Ž {attached ? 'resume.pdf attached' : 'Attach a file'}
         </button>
         <div className="flex-1" />
         <button
@@ -81,7 +81,7 @@ function ComposeForm({ onSent, prefill = {} }) {
           onClick={() => onSent({ to, subject, body, attached })}
           className="px-3 py-1.5 rounded bg-teal-600 text-white text-sm font-semibold disabled:opacity-50"
         >
-          Send →
+          Send â†’
         </button>
       </div>
       {!ok ? (
@@ -124,7 +124,7 @@ function MailClient({ onMilestone, milestones }) {
           }}
           className="w-full mb-2 px-2 py-1.5 rounded bg-teal-600 text-white text-sm font-semibold"
         >
-          ✏️ Compose
+          âœï¸ Compose
         </button>
         {['Inbox', 'Sent', 'Spam', 'Trash'].map((f) => (
           <button
@@ -170,14 +170,14 @@ function MailClient({ onMilestone, milestones }) {
                 onClick={() => setReplying(open)}
                 className="px-3 py-1 rounded bg-teal-600 text-white text-sm"
               >
-                ↩ Reply
+                â†© Reply
               </button>
               <button
                 type="button"
                 onClick={() => onMilestone('flaggedSpam')}
                 className="px-3 py-1 rounded border border-slate-300 dark:border-slate-600 text-sm"
               >
-                🚫 Flag as spam
+                ðŸš« Flag as spam
               </button>
             </div>
           </div>
@@ -204,14 +204,14 @@ function MailClient({ onMilestone, milestones }) {
             {[
               ['plainSend', 'Compose and send a normal email'],
               ['attachedSend', 'Send a message with an attachment'],
-              ['thanksReply', 'Reply to a message with a “thank you”'],
+              ['thanksReply', 'Reply to a message with a â€œthank youâ€'],
               ['flaggedSpam', 'Flag a suspicious message as spam'],
             ].map(([k, label]) => (
               <li
                 key={k}
                 className={milestones[k] ? 'text-green-600' : 'opacity-60'}
               >
-                {milestones[k] ? '✓' : '○'} {label}
+                {milestones[k] ? 'âœ“' : 'â—‹'} {label}
               </li>
             ))}
           </ul>
@@ -253,7 +253,7 @@ function Sim({ onComplete }) {
           Use the simulated email client below to complete all four milestones,
           then continue to the spam-triage drill.
         </p>
-        <WindowFrame title="Mail · Inbox">
+        <WindowFrame title="Mail Â· Inbox">
           <MailClient onMilestone={bump} milestones={milestones} />
         </WindowFrame>
         <button
@@ -262,7 +262,7 @@ function Sim({ onComplete }) {
           onClick={() => setPhase2(true)}
           className="px-4 py-2 rounded bg-teal-600 text-white font-semibold disabled:opacity-50"
         >
-          Continue to spam triage →
+          Continue to spam triage â†’
         </button>
       </div>
     );
@@ -301,7 +301,7 @@ function Sim({ onComplete }) {
                 From: PayPal Support &lt;support@paypal-secure-help.tk&gt;
               </div>
               <div className="font-semibold">
-                URGENT: account locked — verify now
+                URGENT: account locked â€” verify now
               </div>
             </div>
           ),
@@ -321,7 +321,7 @@ function Sim({ onComplete }) {
           ),
           correct: 'spam',
           rationale:
-            'Promotional bulk email. Not a scam, just unsolicited — flag as spam.',
+            'Promotional bulk email. Not a scam, just unsolicited â€” flag as spam.',
         },
         {
           id: 'sp4',
@@ -362,7 +362,7 @@ export const MODULE = {
   id: 'a4_using_email',
   title: 'Using Email',
   standardId: 'NDL-A4',
-  standardLabel: 'Northstar — Using Email',
+  standardLabel: 'Northstar â€” Using Email',
   bucket: 'A',
   intro:
     'Email is essential for school, work, and applying for jobs. Practice composing, replying, attaching files, and spotting spam vs phishing.',
@@ -374,11 +374,11 @@ export const MODULE = {
   simComponent: Sim,
   quiz: [
     {
-      q: 'Reply vs. Reply All — when should you Reply All?',
+      q: 'Reply vs. Reply All â€” when should you Reply All?',
       choices: [
-        'Always — to keep everyone informed',
+        'Always â€” to keep everyone informed',
         'Only when every other recipient genuinely needs to see your reply',
-        'Never — it is rude',
+        'Never â€” it is rude',
         'Only on internal company email',
       ],
       correct: 1,
@@ -386,7 +386,7 @@ export const MODULE = {
         'Reply All can spam dozens of people. Use it only when everyone needs the response.',
     },
     {
-      q: 'BCC is best used to…',
+      q: 'BCC is best used toâ€¦',
       choices: [
         'Hide your boss',
         'Send a copy to someone without revealing their address to the others',
@@ -397,7 +397,7 @@ export const MODULE = {
       rationale: 'BCC keeps recipients private from each other.',
     },
     {
-      q: 'A “phishing” email tries to:',
+      q: 'A â€œphishingâ€ email tries to:',
       choices: [
         'Sell you fishing gear',
         'Make you laugh',
@@ -425,7 +425,7 @@ export const MODULE = {
       choices: [
         'Hi',
         'job',
-        'Application — Cashier role (Job ID 4271) — Jane Doe',
+        'Application â€” Cashier role (Job ID 4271) â€” Jane Doe',
         '!!!URGENT!!!',
       ],
       correct: 2,

@@ -1,9 +1,9 @@
 /**
- * MsWord — formatting toolbar + scripted document checks.
+ * MsWord â€” formatting toolbar + scripted document checks.
  */
 import React, { useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 const SAMPLE = `Dear Hiring Manager,
 
@@ -71,21 +71,21 @@ function Editor({ onComplete }) {
           onClick={() => setAlign('left')}
           className={`px-2 py-1 rounded ${align === 'left' ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          ≡L
+          â‰¡L
         </button>
         <button
           type="button"
           onClick={bumpCenter}
           className={`px-2 py-1 rounded ${align === 'center' ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          ≡C
+          â‰¡C
         </button>
         <button
           type="button"
           onClick={() => setAlign('right')}
           className={`px-2 py-1 rounded ${align === 'right' ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          ≡R
+          â‰¡R
         </button>
         <span className="border-l border-slate-300 mx-1" />
         <button
@@ -93,7 +93,7 @@ function Editor({ onComplete }) {
           onClick={bumpBullets}
           className={`px-2 py-1 rounded ${bullets ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          • List
+          â€¢ List
         </button>
       </div>
       <div
@@ -116,13 +116,13 @@ function Editor({ onComplete }) {
       <div className="text-xs space-y-1 p-2 rounded bg-slate-50 dark:bg-slate-800">
         <div className="font-semibold mb-1">Tasks</div>
         <div className={tasks.bold ? 'text-green-600' : ''}>
-          {tasks.bold ? '✓' : '○'} Apply <strong>Bold</strong>.
+          {tasks.bold ? 'âœ“' : 'â—‹'} Apply <strong>Bold</strong>.
         </div>
         <div className={tasks.center ? 'text-green-600' : ''}>
-          {tasks.center ? '✓' : '○'} Center the document.
+          {tasks.center ? 'âœ“' : 'â—‹'} Center the document.
         </div>
         <div className={tasks.bullets ? 'text-green-600' : ''}>
-          {tasks.bullets ? '✓' : '○'} Convert text to a bulleted list.
+          {tasks.bullets ? 'âœ“' : 'â—‹'} Convert text to a bulleted list.
         </div>
       </div>
     </div>
@@ -137,7 +137,7 @@ function Sim({ onComplete }) {
   }, [s1, s2, onComplete]);
   return (
     <div className="space-y-6">
-      <WindowFrame title="Cover Letter.docx — Word">
+      <WindowFrame title="Cover Letter.docx â€” Word">
         <Editor onComplete={setS1} />
       </WindowFrame>
       <Triage
@@ -184,7 +184,7 @@ export const MODULE = {
   id: 'b1_ms_word',
   title: 'Microsoft Word',
   standardId: 'NDL-B1',
-  standardLabel: 'Northstar — Microsoft Word',
+  standardLabel: 'Northstar â€” Microsoft Word',
   bucket: 'B',
   intro:
     'Word is the standard tool for letters, resumes, and reports. Practice formatting (bold, alignment, lists) and document features (PDF export, spell-check, headers).',

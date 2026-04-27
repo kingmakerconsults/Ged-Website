@@ -1,9 +1,9 @@
 /**
- * Cybersecurity (FLAGSHIP) — phishing inbox + URL inspector + MFA.
+ * Cybersecurity (FLAGSHIP) â€” phishing inbox + URL inspector + MFA.
  */
 import React, { useState } from 'react';
-import { WindowFrame, BrowserFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { WindowFrame, BrowserFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 function PasswordChecker({ onPass }) {
   const [pw, setPw] = useState('');
@@ -41,7 +41,7 @@ function PasswordChecker({ onPass }) {
         />
       </div>
       <div className="text-xs">
-        {labels[score]} — Goal: 12+ chars, mixed case, number, and a symbol.
+        {labels[score]} â€” Goal: 12+ chars, mixed case, number, and a symbol.
       </div>
     </div>
   );
@@ -107,7 +107,7 @@ function MfaSim({ onPass }) {
         </div>
       ) : (
         <div className="text-green-600 text-xs">
-          ✓ Signed in with MFA. Even if someone steals your password, they still
+          âœ“ Signed in with MFA. Even if someone steals your password, they still
           need your phone.
         </div>
       )}
@@ -136,7 +136,7 @@ function Sim({ onComplete }) {
         <MfaSim onPass={() => setMfaOk(true)} />
       </WindowFrame>
       <Triage
-        prompt="Phishing inbox triage — for each email, decide whether the link is Safe to click, Suspicious, or Definitely a scam."
+        prompt="Phishing inbox triage â€” for each email, decide whether the link is Safe to click, Suspicious, or Definitely a scam."
         labels={[
           { key: 'safe', name: 'Safe' },
           { key: 'suss', name: 'Suspicious' },
@@ -159,7 +159,7 @@ function Sim({ onComplete }) {
             content: (
               <div>
                 <div className="text-xs opacity-60">
-                  From: amаzon-billing.com (Cyrillic а)
+                  From: amÐ°zon-billing.com (Cyrillic Ð°)
                 </div>
                 <div>Link: http://amazon-billing.tk/verify</div>
               </div>
@@ -204,7 +204,7 @@ function Sim({ onComplete }) {
               </div>
             ),
             correct: 'scam',
-            rationale: 'Fake banking domain — never log in from email links.',
+            rationale: 'Fake banking domain â€” never log in from email links.',
           },
         ]}
         onComplete={setPhishScore}
@@ -217,13 +217,13 @@ export const MODULE = {
   id: 'c7_cybersecurity',
   title: 'Cybersecurity Basics',
   standardId: 'NDL-C7',
-  standardLabel: 'Northstar — Cybersecurity Basics',
+  standardLabel: 'Northstar â€” Cybersecurity Basics',
   bucket: 'C',
   intro:
     'Build the habits that stop most attacks: strong unique passwords, multi-factor authentication, and a sharp eye for phishing.',
   learningGoals: [
     'Create strong passwords',
-    'Use MFA so a stolen password isn’t enough',
+    'Use MFA so a stolen password isnâ€™t enough',
     'Spot phishing in email and on the web',
   ],
   simComponent: Sim,

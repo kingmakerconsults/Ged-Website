@@ -1,10 +1,10 @@
 /**
- * Win10 — File Explorer, Start menu, Recycle Bin recovery, snipping.
+ * Win10 â€” File Explorer, Start menu, Recycle Bin recovery, snipping.
  */
 import React, { useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
-import Sequencer from '../_engine/sims/Sequencer.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
+import Sequencer from '../../_engine/sims/Sequencer.jsx';
 
 function StartMenu({ onSnip }) {
   const [open, setOpen] = useState(false);
@@ -16,7 +16,7 @@ function StartMenu({ onSnip }) {
         className="px-2 py-1 rounded bg-blue-700 text-white text-xs font-semibold"
         aria-expanded={open}
       >
-        ⊞ Start
+        âŠž Start
       </button>
       <div className="ml-2 text-xs opacity-70">Type here to search</div>
       {open ? (
@@ -29,21 +29,21 @@ function StartMenu({ onSnip }) {
             }}
             className="w-full text-left px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs"
           >
-            ✂ Snipping Tool
+            âœ‚ Snipping Tool
           </button>
           <button
             type="button"
             onClick={() => setOpen(false)}
             className="w-full text-left px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs"
           >
-            ⚙ Settings
+            âš™ Settings
           </button>
           <button
             type="button"
             onClick={() => setOpen(false)}
             className="w-full text-left px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs"
           >
-            ⏻ Power → Shut down
+            â» Power â†’ Shut down
           </button>
         </div>
       ) : null}
@@ -79,7 +79,7 @@ function Sim({ onComplete }) {
           </div>
           {snipped ? (
             <div className="absolute top-4 right-4 bg-white text-slate-900 rounded p-2 text-xs shadow">
-              ✂ Snip captured ✓
+              âœ‚ Snip captured âœ“
             </div>
           ) : null}
         </div>
@@ -87,11 +87,11 @@ function Sim({ onComplete }) {
       </WindowFrame>
       <div className="text-xs">
         <strong>Task 1:</strong> Open the Start menu and choose Snipping Tool.
-        {snipped ? <span className="text-green-600 ml-2">✓ done</span> : null}
+        {snipped ? <span className="text-green-600 ml-2">âœ“ done</span> : null}
       </div>
 
       <Sequencer
-        prompt="Task 2 — Order the steps to recover a deleted file in Windows."
+        prompt="Task 2 â€” Order the steps to recover a deleted file in Windows."
         items={[
           { id: 'a', label: 'Find the file in the list' },
           { id: 'b', label: 'Open the Recycle Bin from the desktop' },
@@ -102,9 +102,9 @@ function Sim({ onComplete }) {
         onComplete={setS2}
       />
       <Sortable
-        prompt="Task 3 — Match each task to the right Settings page."
+        prompt="Task 3 â€” Match each task to the right Settings page."
         buckets={[
-          { key: 'display', name: 'System → Display' },
+          { key: 'display', name: 'System â†’ Display' },
           { key: 'network', name: 'Network & Internet' },
           { key: 'accounts', name: 'Accounts' },
           { key: 'update', name: 'Update & Security' },
@@ -141,7 +141,7 @@ export const MODULE = {
   id: 'a5_windows_10',
   title: 'Windows 10',
   standardId: 'NDL-A5',
-  standardLabel: 'Northstar — Windows 10',
+  standardLabel: 'Northstar â€” Windows 10',
   bucket: 'A',
   intro:
     'Navigate Windows 10: Start menu, taskbar, File Explorer, Recycle Bin, and core Settings.',
@@ -187,7 +187,7 @@ export const MODULE = {
       choices: [
         'Pull the plug',
         'Hold the power button',
-        'Start → Power → Shut down',
+        'Start â†’ Power â†’ Shut down',
         'Close the lid only',
       ],
       correct: 2,

@@ -1,10 +1,10 @@
 /**
- * MacOS — Finder, Dock, Spotlight, screenshots, force-quit.
+ * MacOS â€” Finder, Dock, Spotlight, screenshots, force-quit.
  */
 import React, { useState } from 'react';
-import { WindowFrame } from '../_engine/Frame.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { WindowFrame } from '../../_engine/Frame.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 function Sim({ onComplete }) {
   const [spot, setSpot] = useState('');
@@ -37,7 +37,7 @@ function Sim({ onComplete }) {
               className="text-xs"
               aria-label="Spotlight"
             >
-              🔍
+              ðŸ”
             </button>
           </div>
           {spotOpened ? (
@@ -56,7 +56,7 @@ function Sim({ onComplete }) {
             </div>
           ) : null}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 bg-white/15 px-3 py-2 rounded-2xl">
-            {['🧭', '📧', '🗂️', '🎵', '⚙️'].map((i) => (
+            {['ðŸ§­', 'ðŸ“§', 'ðŸ—‚ï¸', 'ðŸŽµ', 'âš™ï¸'].map((i) => (
               <span
                 key={i}
                 className="w-9 h-9 bg-white/30 rounded-lg flex items-center justify-center"
@@ -70,7 +70,7 @@ function Sim({ onComplete }) {
       <div className="text-xs">
         <strong>Task 1:</strong> Open Spotlight (top-right magnifier).
         {spotOpened ? (
-          <span className="text-green-600 ml-2">✓ done</span>
+          <span className="text-green-600 ml-2">âœ“ done</span>
         ) : null}
       </div>
       <Triage
@@ -136,7 +136,7 @@ export const MODULE = {
   id: 'a7_mac_os',
   title: 'Mac OS',
   standardId: 'NDL-A7',
-  standardLabel: 'Northstar — Mac OS',
+  standardLabel: 'Northstar â€” Mac OS',
   bucket: 'A',
   intro:
     'Mac users have Finder (file browsing), the Dock (quick app launch), Spotlight (search), and System Settings.',
@@ -171,7 +171,7 @@ export const MODULE = {
       q: 'An app froze. Best step?',
       choices: [
         'Pull the plug',
-        'Cmd+Option+Esc → Force Quit',
+        'Cmd+Option+Esc â†’ Force Quit',
         'Reinstall macOS',
         'Wait days',
       ],

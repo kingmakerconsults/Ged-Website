@@ -1,9 +1,9 @@
 /**
- * WebAccessibility — using assistive features + producing accessible content.
+ * WebAccessibility â€” using assistive features + producing accessible content.
  */
 import React, { useState } from 'react';
-import Triage from '../_engine/sims/Triage.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
 
 function ContrastSim({ onComplete }) {
   const [fg, setFg] = useState('#888888');
@@ -29,7 +29,7 @@ function ContrastSim({ onComplete }) {
   return (
     <div className="p-3 space-y-2 text-sm">
       <div className="font-semibold">
-        Adjust colors until contrast ratio ≥ 4.5 (WCAG AA for body text)
+        Adjust colors until contrast ratio â‰¥ 4.5 (WCAG AA for body text)
       </div>
       <div className="flex flex-wrap items-center gap-3">
         <label className="text-xs">
@@ -60,7 +60,7 @@ function ContrastSim({ onComplete }) {
         className="p-3 rounded text-base"
         style={{ background: bg, color: fg }}
       >
-        Sample text — can you read me clearly?
+        Sample text â€” can you read me clearly?
       </div>
     </div>
   );
@@ -88,7 +88,7 @@ function Sim({ onComplete }) {
             id: '1',
             content: 'Image of a chart. alt=""',
             correct: 'bad',
-            rationale: 'Decorative? Maybe — but a chart needs a description.',
+            rationale: 'Decorative? Maybe â€” but a chart needs a description.',
           },
           {
             id: '2',
@@ -114,7 +114,7 @@ function Sim({ onComplete }) {
         onComplete={setB}
       />
       <Sortable
-        prompt="Match accessibility need → assistive feature."
+        prompt="Match accessibility need â†’ assistive feature."
         buckets={[
           { key: 'sr', name: 'Screen reader' },
           { key: 'capt', name: 'Captions / transcripts' },
@@ -145,7 +145,7 @@ export const MODULE = {
   id: 'd4_web_accessibility',
   title: 'Web Accessibility',
   standardId: 'BEYOND-D4',
-  standardLabel: 'Beyond Northstar — Web Accessibility',
+  standardLabel: 'Beyond Northstar â€” Web Accessibility',
   bucket: 'D',
   intro:
     'Make and use the web for everyone: contrast, alt text, keyboard navigation, captions.',

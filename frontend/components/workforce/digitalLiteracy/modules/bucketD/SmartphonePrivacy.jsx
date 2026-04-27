@@ -1,9 +1,9 @@
 /**
- * SmartphonePrivacy — app permissions, location services, ad ID.
+ * SmartphonePrivacy â€” app permissions, location services, ad ID.
  */
 import React, { useState } from 'react';
-import { PhoneFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
+import { PhoneFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
 
 function PermsSim({ onComplete }) {
   const [perms, setPerms] = useState({
@@ -49,11 +49,11 @@ function PermsSim({ onComplete }) {
         access.)
       </div>
       <ul className="divide-y divide-slate-200 dark:divide-slate-700">
-        {row('Flashlight app — Location', 'flashlight_loc')}
-        {row('Flashlight app — Contacts', 'flashlight_contacts')}
-        {row('Weather app — Location', 'weather_loc')}
-        {row('Bank app — Location (for fraud detection)', 'bank_loc')}
-        {row('Photo editor — Contacts', 'photoedit_contacts')}
+        {row('Flashlight app â€” Location', 'flashlight_loc')}
+        {row('Flashlight app â€” Contacts', 'flashlight_contacts')}
+        {row('Weather app â€” Location', 'weather_loc')}
+        {row('Bank app â€” Location (for fraud detection)', 'bank_loc')}
+        {row('Photo editor â€” Contacts', 'photoedit_contacts')}
       </ul>
     </div>
   );
@@ -118,7 +118,7 @@ export const MODULE = {
   id: 'd2_smartphone_privacy',
   title: 'Smartphone Privacy',
   standardId: 'BEYOND-D2',
-  standardLabel: 'Beyond Northstar — Smartphone Privacy',
+  standardLabel: 'Beyond Northstar â€” Smartphone Privacy',
   bucket: 'D',
   intro:
     'Phones leak data through over-eager apps. Audit permissions, location, and tracking IDs to take back control.',
@@ -163,7 +163,7 @@ export const MODULE = {
       q: 'Find My Phone is best:',
       choices: [
         'Always off',
-        'On — it helps recover a lost phone',
+        'On â€” it helps recover a lost phone',
         'Removed entirely',
         'Only on Wi-Fi',
       ],

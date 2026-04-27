@@ -1,10 +1,10 @@
 /**
- * K12DistanceLearning — LMS navigation, joining a video class, submitting work.
+ * K12DistanceLearning â€” LMS navigation, joining a video class, submitting work.
  */
 import React, { useState } from 'react';
-import { BrowserFrame } from '../_engine/Frame.jsx';
-import Sortable from '../_engine/sims/Sortable.jsx';
-import Sequencer from '../_engine/sims/Sequencer.jsx';
+import { BrowserFrame } from '../../_engine/Frame.jsx';
+import Sortable from '../../_engine/sims/Sortable.jsx';
+import Sequencer from '../../_engine/sims/Sequencer.jsx';
 
 function LmsSim({ onComplete }) {
   const [tab, setTab] = useState('Stream');
@@ -31,15 +31,15 @@ function LmsSim({ onComplete }) {
         {tab === 'Stream' ? (
           <ul className="space-y-2 text-xs">
             <li>
-              📢 <strong>Mr. Park</strong>: Class today at 10am (Meet link in
+              ðŸ“¢ <strong>Mr. Park</strong>: Class today at 10am (Meet link in
               Classwork).
             </li>
-            <li>📝 Reminder: Math worksheet due Friday.</li>
+            <li>ðŸ“ Reminder: Math worksheet due Friday.</li>
           </ul>
         ) : tab === 'Classwork' ? (
           <ul className="space-y-2">
             <li className="border border-slate-200 dark:border-slate-700 rounded p-2">
-              <div className="font-semibold">📝 Math worksheet</div>
+              <div className="font-semibold">ðŸ“ Math worksheet</div>
               <div className="text-xs opacity-70">Due Friday</div>
               <button
                 type="button"
@@ -66,20 +66,20 @@ function LmsSim({ onComplete }) {
                     onClick={() => setSubmitted(true)}
                     className="text-xs px-2 py-1 rounded bg-teal-600 text-white disabled:opacity-50"
                   >
-                    {submitted ? '✓ Submitted' : 'Submit'}
+                    {submitted ? 'âœ“ Submitted' : 'Submit'}
                   </button>
                 </div>
               ) : null}
             </li>
             <li className="border border-slate-200 dark:border-slate-700 rounded p-2">
-              <div className="font-semibold">🎥 Class Meet link</div>
+              <div className="font-semibold">ðŸŽ¥ Class Meet link</div>
               <div className="text-xs opacity-70">
                 Use this every Tue/Thu at 10am
               </div>
             </li>
           </ul>
         ) : (
-          <div className="text-xs">Teacher: Mr. Park · Classmates: 24</div>
+          <div className="text-xs">Teacher: Mr. Park Â· Classmates: 24</div>
         )}
       </div>
     </div>
@@ -141,7 +141,7 @@ export const MODULE = {
   id: 'c4_k12_distance',
   title: 'K-12 Distance Learning',
   standardId: 'NDL-C4',
-  standardLabel: 'Northstar — K-12 Distance Learning',
+  standardLabel: 'Northstar â€” K-12 Distance Learning',
   bucket: 'C',
   intro:
     'Distance learning needs a few core moves: navigate the LMS, join the video class on time, and submit work the right way.',

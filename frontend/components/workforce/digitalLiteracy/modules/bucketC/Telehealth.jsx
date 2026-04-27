@@ -1,10 +1,10 @@
 /**
- * Telehealth — patient portal + video visit + privacy basics.
+ * Telehealth â€” patient portal + video visit + privacy basics.
  */
 import React, { useState } from 'react';
-import { BrowserFrame } from '../_engine/Frame.jsx';
-import Triage from '../_engine/sims/Triage.jsx';
-import Sequencer from '../_engine/sims/Sequencer.jsx';
+import { BrowserFrame } from '../../_engine/Frame.jsx';
+import Triage from '../../_engine/sims/Triage.jsx';
+import Sequencer from '../../_engine/sims/Sequencer.jsx';
 
 function PortalSim({ onComplete }) {
   const [tab, setTab] = useState('home');
@@ -38,20 +38,20 @@ function PortalSim({ onComplete }) {
               onClick={() => setScheduled(true)}
               className="px-2 py-1 rounded bg-teal-600 text-white text-xs disabled:opacity-50"
             >
-              {scheduled ? '✓ Scheduled for Thursday 2pm' : 'Schedule'}
+              {scheduled ? 'âœ“ Scheduled for Thursday 2pm' : 'Schedule'}
             </button>
           </div>
         )}
         {tab === 'medications' && (
           <div>
-            <div className="mb-2">Lisinopril 10mg — refills remaining: 0</div>
+            <div className="mb-2">Lisinopril 10mg â€” refills remaining: 0</div>
             <button
               type="button"
               disabled={refilled}
               onClick={() => setRefilled(true)}
               className="px-2 py-1 rounded bg-teal-600 text-white text-xs disabled:opacity-50"
             >
-              {refilled ? '✓ Refill request sent' : 'Request refill'}
+              {refilled ? 'âœ“ Refill request sent' : 'Request refill'}
             </button>
           </div>
         )}
@@ -112,7 +112,7 @@ function Sim({ onComplete }) {
             id: 't2',
             content: 'A new chest pain that is severe and sudden',
             correct: '911',
-            rationale: 'Emergency — call 911.',
+            rationale: 'Emergency â€” call 911.',
           },
           {
             id: 't3',
@@ -137,7 +137,7 @@ export const MODULE = {
   id: 'c5_telehealth',
   title: 'Telehealth',
   standardId: 'NDL-C5',
-  standardLabel: 'Northstar — Telehealth',
+  standardLabel: 'Northstar â€” Telehealth',
   bucket: 'C',
   intro:
     'Telehealth lets you see a clinician by video. Learn to use a patient portal, prepare a video visit, and know when to call 911 instead.',
