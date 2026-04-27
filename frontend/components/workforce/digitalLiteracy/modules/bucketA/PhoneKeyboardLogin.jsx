@@ -26,7 +26,7 @@ function TypingDrill({ onPass }) {
         onClick={onPass}
         className="px-3 py-1.5 rounded bg-teal-600 text-white text-sm disabled:opacity-50"
       >
-        {matches ? 'Done â€” continue âœ“' : 'Match the target text exactly'}
+        {matches ? 'Done — continue âœ“' : 'Match the target text exactly'}
       </button>
     </div>
   );
@@ -57,7 +57,7 @@ function PinUnlock({ onPass }) {
         ))}
       </div>
       <div className="text-center text-2xl font-mono tracking-widest">
-        {pin.padEnd(4, 'â€¢')}
+        {pin.padEnd(4, '•')}
       </div>
     </div>
   );
@@ -156,10 +156,10 @@ export const MODULE = {
   id: 'a1_phone_login',
   title: 'Phone Keyboard & Logging In',
   standardId: 'NDL-A1',
-  standardLabel: 'Northstar â€” Phone Keyboard Basics & Logging In',
+  standardLabel: 'Core Digital Skills — Phone Keyboard Basics & Logging In',
   bucket: 'A',
   intro:
-    'Smartphones are most learnersâ€™ first computer. Practice tapping accurately, unlocking with a PIN, and recognizing which app to tap for each task.',
+    'Smartphones are most learners’ first computer. Practice tapping accurately, unlocking with a PIN, and recognizing which app to tap for each task.',
   learningGoals: [
     'Type a sentence accurately on a touchscreen keyboard',
     'Unlock a device with a PIN',
@@ -170,9 +170,9 @@ export const MODULE = {
     {
       q: 'Which is the safest way to set a phone PIN?',
       choices: [
-        '0000 â€” easy to remember',
+        '0000 — easy to remember',
         'Your birthday',
-        'A 4â€“6 digit number unrelated to public info',
+        'A 4–6 digit number unrelated to public info',
         'The same PIN as your bank card',
       ],
       correct: 2,
@@ -186,9 +186,9 @@ export const MODULE = {
       rationale: 'Email or a messaging app sends written messages.',
     },
     {
-      q: 'On a touchscreen keyboard, holding a key down usually showsâ€¦',
+      q: 'On a touchscreen keyboard, holding a key down usually shows…',
       choices: [
-        'Nothing â€” release to type',
+        'Nothing — release to type',
         'Accented characters or symbol options',
         'Emoji shortcuts only',
         'A reset button',
@@ -212,7 +212,7 @@ export const MODULE = {
       q: 'You forgot your password. The safest first step is to:',
       choices: [
         'Email another user to ask',
-        'Use the â€œForgot password?â€ link on the login page',
+        'Use the “Forgot password?” link on the login page',
         'Try common passwords',
         'Make a new account using the same email',
       ],

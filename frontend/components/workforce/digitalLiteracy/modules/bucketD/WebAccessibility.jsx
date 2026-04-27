@@ -1,5 +1,5 @@
 /**
- * WebAccessibility â€” using assistive features + producing accessible content.
+ * WebAccessibility — using assistive features + producing accessible content.
  */
 import React, { useState } from 'react';
 import Triage from '../../_engine/sims/Triage.jsx';
@@ -60,7 +60,7 @@ function ContrastSim({ onComplete }) {
         className="p-3 rounded text-base"
         style={{ background: bg, color: fg }}
       >
-        Sample text â€” can you read me clearly?
+        Sample text — can you read me clearly?
       </div>
     </div>
   );
@@ -88,7 +88,7 @@ function Sim({ onComplete }) {
             id: '1',
             content: 'Image of a chart. alt=""',
             correct: 'bad',
-            rationale: 'Decorative? Maybe â€” but a chart needs a description.',
+            rationale: 'Decorative? Maybe — but a chart needs a description.',
           },
           {
             id: '2',
@@ -145,7 +145,7 @@ export const MODULE = {
   id: 'd4_web_accessibility',
   title: 'Web Accessibility',
   standardId: 'BEYOND-D4',
-  standardLabel: 'Beyond Northstar â€” Web Accessibility',
+  standardLabel: 'Pro Track — Web Accessibility',
   bucket: 'D',
   intro:
     'Make and use the web for everyone: contrast, alt text, keyboard navigation, captions.',

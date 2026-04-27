@@ -1,5 +1,5 @@
 /**
- * AiLiteracy (FLAGSHIP) â€” hallucination, privacy, citation, bias.
+ * AiLiteracy (FLAGSHIP) — hallucination, privacy, citation, bias.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -41,7 +41,7 @@ function ChatSim({ onComplete }) {
     ) {
       aiMsg = {
         role: 'ai',
-        text: 'Here is a possible answer based on training data. Note: I can be wrong â€” please verify against a primary source before acting.',
+        text: 'Here is a possible answer based on training data. Note: I can be wrong — please verify against a primary source before acting.',
       };
       ms.specific = true;
       ms.verify = true;
@@ -53,7 +53,7 @@ function ChatSim({ onComplete }) {
     } else {
       aiMsg = {
         role: 'ai',
-        text: '(Response.) Always check facts independently â€” I sometimes hallucinate.',
+        text: '(Response.) Always check facts independently — I sometimes hallucinate.',
       };
       ms.specific = true;
     }
@@ -136,7 +136,7 @@ function Sim({ onComplete }) {
         labels={[
           { key: 'use', name: 'Use as-is' },
           { key: 'check', name: 'Double-check then use' },
-          { key: 'reject', name: 'Reject â€” wrong domain for AI' },
+          { key: 'reject', name: 'Reject — wrong domain for AI' },
         ]}
         items={[
           {
@@ -148,7 +148,7 @@ function Sim({ onComplete }) {
           {
             id: '2',
             content:
-              'AI quotes a 2024 court case â€” you need to cite it in a paper.',
+              'AI quotes a 2024 court case — you need to cite it in a paper.',
             correct: 'check',
             rationale: 'Models hallucinate cases; verify in a real database.',
           },
@@ -209,7 +209,7 @@ export const MODULE = {
   id: 'd1_ai_literacy',
   title: 'AI Literacy',
   standardId: 'BEYOND-D1',
-  standardLabel: 'Beyond Northstar â€” AI Literacy',
+  standardLabel: 'Pro Track — AI Literacy',
   bucket: 'D',
   intro:
     'Generative AI is powerful but unreliable. Learn to prompt clearly, recognize hallucination, protect your privacy, and cite responsibly.',
@@ -264,7 +264,7 @@ export const MODULE = {
     {
       q: 'Best practice when AI cites a source:',
       choices: [
-        'Trust it â€” it cited!',
+        'Trust it — it cited!',
         'Verify the source actually exists and says what AI claims',
         'Delete it',
         'Memorize it',

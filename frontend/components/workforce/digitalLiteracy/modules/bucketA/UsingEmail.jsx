@@ -1,5 +1,5 @@
 /**
- * UsingEmail.jsx â€” Northstar A4 flagship sim.
+ * UsingEmail.jsx — Core Digital Skills A4 flagship sim.
  * Simulated email client with Inbox, Compose, Reply, attachments, and
  * spam/legit triage.
  */
@@ -12,21 +12,21 @@ const SEED_INBOX = [
     id: 'm1',
     from: 'Maria Lopez <maria.lopez@statecollege.edu>',
     subject: 'Tutor session moved to Thursday',
-    preview: 'Hi! Just confirming our tutoring session is now Thursday at 4pmâ€¦',
-    body: 'Hi! Just confirming our tutoring session is now Thursday at 4pm in Room 204. Bring your math notebook. â€” Maria',
+    preview: 'Hi! Just confirming our tutoring session is now Thursday at 4pm…',
+    body: 'Hi! Just confirming our tutoring session is now Thursday at 4pm in Room 204. Bring your math notebook. — Maria',
   },
   {
     id: 'm2',
     from: 'Costco <noreply@costco.com>',
     subject: 'Your weekly coupons',
-    preview: 'New offers this week including pantry savingsâ€¦',
-    body: 'Browse this weekâ€™s coupons at our official site.',
+    preview: 'New offers this week including pantry savings…',
+    body: 'Browse this week’s coupons at our official site.',
   },
   {
     id: 'm3',
     from: 'PayPal Support <support@paypal-secure-help.tk>',
-    subject: 'URGENT: account locked â€” verify now',
-    preview: 'We have detected unusual activity. Click the link to restoreâ€¦',
+    subject: 'URGENT: account locked — verify now',
+    preview: 'We have detected unusual activity. Click the link to restore…',
     body: 'Your account is locked. Click http://paypal-secure-help.tk/verify within 24 hours or it will be deleted.',
   },
 ];
@@ -204,7 +204,7 @@ function MailClient({ onMilestone, milestones }) {
             {[
               ['plainSend', 'Compose and send a normal email'],
               ['attachedSend', 'Send a message with an attachment'],
-              ['thanksReply', 'Reply to a message with a â€œthank youâ€'],
+              ['thanksReply', 'Reply to a message with a “thank you”'],
               ['flaggedSpam', 'Flag a suspicious message as spam'],
             ].map(([k, label]) => (
               <li
@@ -301,7 +301,7 @@ function Sim({ onComplete }) {
                 From: PayPal Support &lt;support@paypal-secure-help.tk&gt;
               </div>
               <div className="font-semibold">
-                URGENT: account locked â€” verify now
+                URGENT: account locked — verify now
               </div>
             </div>
           ),
@@ -321,7 +321,7 @@ function Sim({ onComplete }) {
           ),
           correct: 'spam',
           rationale:
-            'Promotional bulk email. Not a scam, just unsolicited â€” flag as spam.',
+            'Promotional bulk email. Not a scam, just unsolicited — flag as spam.',
         },
         {
           id: 'sp4',
@@ -362,7 +362,7 @@ export const MODULE = {
   id: 'a4_using_email',
   title: 'Using Email',
   standardId: 'NDL-A4',
-  standardLabel: 'Northstar â€” Using Email',
+  standardLabel: 'Core Digital Skills — Using Email',
   bucket: 'A',
   intro:
     'Email is essential for school, work, and applying for jobs. Practice composing, replying, attaching files, and spotting spam vs phishing.',
@@ -374,11 +374,11 @@ export const MODULE = {
   simComponent: Sim,
   quiz: [
     {
-      q: 'Reply vs. Reply All â€” when should you Reply All?',
+      q: 'Reply vs. Reply All — when should you Reply All?',
       choices: [
-        'Always â€” to keep everyone informed',
+        'Always — to keep everyone informed',
         'Only when every other recipient genuinely needs to see your reply',
-        'Never â€” it is rude',
+        'Never — it is rude',
         'Only on internal company email',
       ],
       correct: 1,
@@ -386,7 +386,7 @@ export const MODULE = {
         'Reply All can spam dozens of people. Use it only when everyone needs the response.',
     },
     {
-      q: 'BCC is best used toâ€¦',
+      q: 'BCC is best used to…',
       choices: [
         'Hide your boss',
         'Send a copy to someone without revealing their address to the others',
@@ -397,7 +397,7 @@ export const MODULE = {
       rationale: 'BCC keeps recipients private from each other.',
     },
     {
-      q: 'A â€œphishingâ€ email tries to:',
+      q: 'A “phishing” email tries to:',
       choices: [
         'Sell you fishing gear',
         'Make you laugh',
@@ -425,7 +425,7 @@ export const MODULE = {
       choices: [
         'Hi',
         'job',
-        'Application â€” Cashier role (Job ID 4271) â€” Jane Doe',
+        'Application — Cashier role (Job ID 4271) — Jane Doe',
         '!!!URGENT!!!',
       ],
       correct: 2,

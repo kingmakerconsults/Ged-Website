@@ -92,8 +92,8 @@ export function TierCertificate({
         </h1>
         <div className="text-sm mt-1">
           {isPro
-            ? 'Beyond Northstar — full digital + modern workforce mastery'
-            : 'Northstar Digital Literacy parity — all 17 standards mastered'}
+            ? 'Pro Track — full digital + modern workforce mastery'
+            : 'Core Digital Skills standards — all 17 standards mastered'}
         </div>
         <hr className="my-5 border-teal-800" />
         <div className="text-sm">Awarded to</div>

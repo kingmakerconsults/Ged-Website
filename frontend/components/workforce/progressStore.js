@@ -25,7 +25,7 @@ const EVENT = 'workforce:progress';
 
 export const MASTERY_THRESHOLD = 85;
 
-// 17 Northstar-aligned ids + 5 beyond-Northstar ids.
+// 17 Core Digital Skills–aligned ids + 5 Pro Track ids.
 export const FOUNDATION_MODULES = [
   'a1_phone_login',
   'a2_basic_computer',
@@ -44,7 +44,7 @@ export const FOUNDATION_MODULES = [
   'c4_k12_distance',
   'c5_telehealth',
   'c6_digital_footprint',
-  'c7_cybersecurity', // counted toward Northstar parity (Cybersecurity Basics)
+  'c7_cybersecurity', // counted toward Core Digital Skills standards (Cybersecurity Basics)
 ];
 
 export const PRO_MODULES = [

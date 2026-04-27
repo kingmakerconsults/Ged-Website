@@ -1,5 +1,5 @@
 /**
- * MsWord â€” formatting toolbar + scripted document checks.
+ * MsWord — formatting toolbar + scripted document checks.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -93,7 +93,7 @@ function Editor({ onComplete }) {
           onClick={bumpBullets}
           className={`px-2 py-1 rounded ${bullets ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          â€¢ List
+          • List
         </button>
       </div>
       <div
@@ -137,7 +137,7 @@ function Sim({ onComplete }) {
   }, [s1, s2, onComplete]);
   return (
     <div className="space-y-6">
-      <WindowFrame title="Cover Letter.docx â€” Word">
+      <WindowFrame title="Cover Letter.docx — Word">
         <Editor onComplete={setS1} />
       </WindowFrame>
       <Triage
@@ -184,7 +184,7 @@ export const MODULE = {
   id: 'b1_ms_word',
   title: 'Microsoft Word',
   standardId: 'NDL-B1',
-  standardLabel: 'Northstar â€” Microsoft Word',
+  standardLabel: 'Core Digital Skills — Microsoft Word',
   bucket: 'B',
   intro:
     'Word is the standard tool for letters, resumes, and reports. Practice formatting (bold, alignment, lists) and document features (PDF export, spell-check, headers).',

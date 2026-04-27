@@ -1,5 +1,5 @@
 /**
- * DigitalFootprint â€” what you leave behind.
+ * DigitalFootprint — what you leave behind.
  */
 import React, { useState } from 'react';
 import Triage from '../../_engine/sims/Triage.jsx';
@@ -125,10 +125,10 @@ export const MODULE = {
   id: 'c6_digital_footprint',
   title: 'Your Digital Footprint',
   standardId: 'NDL-C6',
-  standardLabel: 'Northstar â€” Your Digital Footprint',
+  standardLabel: 'Core Digital Skills — Your Digital Footprint',
   bucket: 'C',
   intro:
-    'Everything you do online leaves traces â€” some you choose to leave, some are collected silently. Learn to see and shrink your footprint.',
+    'Everything you do online leaves traces — some you choose to leave, some are collected silently. Learn to see and shrink your footprint.',
   learningGoals: [
     'Distinguish active vs passive footprint',
     'Audit and tighten public profiles',

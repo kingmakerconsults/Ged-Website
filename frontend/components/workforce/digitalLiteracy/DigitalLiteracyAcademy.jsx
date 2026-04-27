@@ -132,7 +132,7 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
   return (
     <WorkforceSectionFrame
       title="Digital Literacy Academy"
-      subtitle="22 task-based modules · Northstar parity + beyond"
+      subtitle="22 task-based modules · Core Digital Skills standards + beyond"
       onBack={onBack}
       badge={`${proCount}/${PRO_MODULES.length} mastered`}
     >
@@ -153,7 +153,7 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
             />
           </div>
           <div className="text-xs mt-1 opacity-80">
-            Northstar parity (Buckets A–C, 17 modules)
+            Core Digital Skills standards (Buckets A–C, 17 modules)
           </div>
         </div>
         <div className="rounded-xl p-4 bg-gradient-to-r from-cyan-700 to-emerald-700 text-white">
@@ -224,7 +224,7 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
         <strong>About mastery:</strong> Each module combines a hands-on sim (60%
         of the score) with a knowledge check (40%). Reach 85% combined to master
         a module and earn its certificate. Modules can be retaken any time. The
-        Foundation badge unlocks at all 17 Northstar-aligned standards mastered;
+        Foundation badge unlocks at all 17 Core Digital Skills–aligned standards mastered;
         the Pro badge unlocks at all 22 modules.
       </div>
     </WorkforceSectionFrame>

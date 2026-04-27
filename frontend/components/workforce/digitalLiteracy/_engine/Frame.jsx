@@ -3,7 +3,7 @@
  * used by Digital Literacy modules.
  *
  * These are *visual* mocks only — they do not load real URLs or real apps.
- * They give learners a Northstar-style environment to perform tasks in.
+ * They give learners a task-based environment to perform tasks in.
  */
 import React from 'react';
 

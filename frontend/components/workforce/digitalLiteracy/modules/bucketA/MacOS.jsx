@@ -1,5 +1,5 @@
 /**
- * MacOS â€” Finder, Dock, Spotlight, screenshots, force-quit.
+ * MacOS — Finder, Dock, Spotlight, screenshots, force-quit.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -136,7 +136,7 @@ export const MODULE = {
   id: 'a7_mac_os',
   title: 'Mac OS',
   standardId: 'NDL-A7',
-  standardLabel: 'Northstar â€” Mac OS',
+  standardLabel: 'Core Digital Skills — Mac OS',
   bucket: 'A',
   intro:
     'Mac users have Finder (file browsing), the Dock (quick app launch), Spotlight (search), and System Settings.',

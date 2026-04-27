@@ -1,5 +1,5 @@
 /**
- * Telehealth â€” patient portal + video visit + privacy basics.
+ * Telehealth — patient portal + video visit + privacy basics.
  */
 import React, { useState } from 'react';
 import { BrowserFrame } from '../../_engine/Frame.jsx';
@@ -44,7 +44,7 @@ function PortalSim({ onComplete }) {
         )}
         {tab === 'medications' && (
           <div>
-            <div className="mb-2">Lisinopril 10mg â€” refills remaining: 0</div>
+            <div className="mb-2">Lisinopril 10mg — refills remaining: 0</div>
             <button
               type="button"
               disabled={refilled}
@@ -112,7 +112,7 @@ function Sim({ onComplete }) {
             id: 't2',
             content: 'A new chest pain that is severe and sudden',
             correct: '911',
-            rationale: 'Emergency â€” call 911.',
+            rationale: 'Emergency — call 911.',
           },
           {
             id: 't3',
@@ -137,7 +137,7 @@ export const MODULE = {
   id: 'c5_telehealth',
   title: 'Telehealth',
   standardId: 'NDL-C5',
-  standardLabel: 'Northstar â€” Telehealth',
+  standardLabel: 'Core Digital Skills — Telehealth',
   bucket: 'C',
   intro:
     'Telehealth lets you see a clinician by video. Learn to use a patient portal, prepare a video visit, and know when to call 911 instead.',

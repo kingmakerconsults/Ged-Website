@@ -1,5 +1,5 @@
 /**
- * VideoConferencing â€” Zoom/Meet/Teams etiquette and controls.
+ * VideoConferencing — Zoom/Meet/Teams etiquette and controls.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -114,7 +114,7 @@ function Sim({ onComplete }) {
   }, [a, b, c, onComplete]);
   return (
     <div className="space-y-6">
-      <WindowFrame title="Team standup â€” Meet">
+      <WindowFrame title="Team standup — Meet">
         <VideoChrome onComplete={setA} />
       </WindowFrame>
       <Sequencer
@@ -170,7 +170,7 @@ export const MODULE = {
   id: 'd3_video_conferencing',
   title: 'Video Conferencing',
   standardId: 'BEYOND-D3',
-  standardLabel: 'Beyond Northstar â€” Video Conferencing',
+  standardLabel: 'Pro Track — Video Conferencing',
   bucket: 'D',
   intro:
     'Run your meetings well: control mic/cam, share screen, use chat and reactions, and follow simple etiquette.',
@@ -197,7 +197,7 @@ export const MODULE = {
       correct: 0,
     },
     {
-      q: 'Sharing your screen â€” choose:',
+      q: 'Sharing your screen — choose:',
       choices: [
         'Whole screen always',
         'A specific window/tab when possible',

@@ -1,5 +1,5 @@
 /**
- * MsPowerPoint â€” slide deck builder with theme + speaker notes.
+ * MsPowerPoint — slide deck builder with theme + speaker notes.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -59,7 +59,7 @@ function Builder({ onComplete }) {
             } ${theme === 'dark' ? 'bg-slate-800 text-white' : 'bg-white'}`}
           >
             <div className="font-semibold truncate">{s.title}</div>
-            <div className="opacity-60 truncate">{s.body || 'â€”'}</div>
+            <div className="opacity-60 truncate">{s.body || '—'}</div>
           </button>
         ))}
         <button
@@ -135,7 +135,7 @@ function Sim({ onComplete }) {
   }, [s1, s2, onComplete]);
   return (
     <div className="space-y-6">
-      <WindowFrame title="MyPlan.pptx â€” PowerPoint">
+      <WindowFrame title="MyPlan.pptx — PowerPoint">
         <Builder onComplete={setS1} />
       </WindowFrame>
       <Sequencer
@@ -157,7 +157,7 @@ export const MODULE = {
   id: 'b3_ms_powerpoint',
   title: 'Microsoft PowerPoint',
   standardId: 'NDL-B3',
-  standardLabel: 'Northstar â€” Microsoft PowerPoint',
+  standardLabel: 'Core Digital Skills — Microsoft PowerPoint',
   bucket: 'B',
   intro:
     'PowerPoint helps you present ideas with slides. Build a short deck, change a theme, and learn how to give the show.',

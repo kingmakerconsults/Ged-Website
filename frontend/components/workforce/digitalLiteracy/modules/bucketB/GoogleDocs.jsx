@@ -1,5 +1,5 @@
 /**
- * GoogleDocs â€” collaboration features (sharing, comments, version history).
+ * GoogleDocs — collaboration features (sharing, comments, version history).
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -156,7 +156,7 @@ export const MODULE = {
   id: 'b4_google_docs',
   title: 'Google Docs',
   standardId: 'NDL-B4',
-  standardLabel: 'Northstar â€” Google Docs',
+  standardLabel: 'Core Digital Skills — Google Docs',
   bucket: 'B',
   intro:
     'Google Docs is free, web-based, and built for collaboration. Practice sharing with the right permission and adding comments.',
@@ -208,7 +208,7 @@ export const MODULE = {
       correct: 1,
     },
     {
-      q: 'You can collaborate in real time becauseâ€¦',
+      q: 'You can collaborate in real time because…',
       choices: [
         'The doc is in the cloud',
         'It uses email',

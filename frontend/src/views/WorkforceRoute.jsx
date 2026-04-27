@@ -34,7 +34,9 @@ class WorkforceErrorBoundary extends React.Component {
     if (this.state.error) {
       return (
         <div className="p-8 max-w-2xl mx-auto text-primary">
-          <h1 className="text-2xl font-bold mb-3">Workforce Hub failed to load</h1>
+          <h1 className="text-2xl font-bold mb-3">
+            Workforce Hub failed to load
+          </h1>
           <pre className="whitespace-pre-wrap text-sm bg-surface p-3 rounded border border-subtle">
             {String(this.state.error?.stack || this.state.error)}
           </pre>

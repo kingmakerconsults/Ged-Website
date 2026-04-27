@@ -1,5 +1,5 @@
 /**
- * Win11 â€” centered taskbar, Snap layouts, Widgets, Files via shortcut.
+ * Win11 — centered taskbar, Snap layouts, Widgets, Files via shortcut.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -117,7 +117,7 @@ export const MODULE = {
   id: 'a6_windows_11',
   title: 'Windows 11',
   standardId: 'NDL-A6',
-  standardLabel: 'Northstar â€” Windows 11',
+  standardLabel: 'Core Digital Skills — Windows 11',
   bucket: 'A',
   intro:
     'Windows 11 keeps the same File Explorer + Settings ideas as Win10 but moves the taskbar to the center and adds Snap layouts and Widgets.',

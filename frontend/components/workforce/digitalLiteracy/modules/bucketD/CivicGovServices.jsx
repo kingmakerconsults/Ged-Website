@@ -1,5 +1,5 @@
 /**
- * CivicGovServices â€” using gov sites safely (vote, taxes, ID, benefits).
+ * CivicGovServices — using gov sites safely (vote, taxes, ID, benefits).
  */
 import React, { useState } from 'react';
 import { BrowserFrame } from '../../_engine/Frame.jsx';
@@ -38,7 +38,7 @@ function GovBrowser({ onComplete }) {
         className={`p-3 rounded text-xs ${safe ? 'bg-green-50 text-green-900 border border-green-300' : 'bg-red-50 text-red-900 border border-red-300'}`}
       >
         {safe
-          ? 'âœ… This domain ends in .gov â€” official US government site.'
+          ? 'âœ… This domain ends in .gov — official US government site.'
           : 'âš ï¸ This is NOT a .gov domain. Likely a scam impersonating government services.'}
       </div>
       <div className="flex gap-2">
@@ -148,10 +148,10 @@ export const MODULE = {
   id: 'd5_civic_gov_services',
   title: 'Civic & Gov Services Online',
   standardId: 'BEYOND-D5',
-  standardLabel: 'Beyond Northstar â€” Civic & Gov Services',
+  standardLabel: 'Pro Track — Civic & Gov Services',
   bucket: 'D',
   intro:
-    'Use government services safely online: filing taxes, voting, claiming benefits â€” all without falling for scams.',
+    'Use government services safely online: filing taxes, voting, claiming benefits — all without falling for scams.',
   learningGoals: [
     'Recognize legitimate .gov domains',
     'Use Login.gov for federal services',

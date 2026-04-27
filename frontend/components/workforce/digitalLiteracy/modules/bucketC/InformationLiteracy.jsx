@@ -1,5 +1,5 @@
 /**
- * InformationLiteracy (FLAGSHIP) â€” source evaluation: SIFT-style
+ * InformationLiteracy (FLAGSHIP) — source evaluation: SIFT-style
  *   Stop, Investigate, Find better, Trace claims.
  */
 import React, { useState } from 'react';
@@ -19,7 +19,7 @@ const SOURCES = [
   {
     id: 'src2',
     url: 'https://truthnewsdaily.click/secret-cure-doctors-hate',
-    headline: 'Secret home remedy doctors hate â€” cures everything',
+    headline: 'Secret home remedy doctors hate — cures everything',
     snippet: 'No author. Sells a $99 supplement at the bottom.',
     verdict: 'unreliable',
     why: 'Sensational headline, no author, sales motive.',
@@ -63,7 +63,7 @@ function Sim({ onComplete }) {
     <div className="space-y-6">
       <p className="text-sm">
         Browse each source by clicking the URLs in the address bar. Notice the
-        domain, the author, and any sales pitch â€” then sort each one in the
+        domain, the author, and any sales pitch — then sort each one in the
         triage below.
       </p>
       <BrowserFrame url={cur.url}>
@@ -114,10 +114,10 @@ export const MODULE = {
   id: 'c2_information_literacy',
   title: 'Information Literacy',
   standardId: 'NDL-C2',
-  standardLabel: 'Northstar â€” Information Literacy',
+  standardLabel: 'Core Digital Skills — Information Literacy',
   bucket: 'C',
   intro:
-    'Not everything online is true. Use SIFT â€” Stop, Investigate, Find better coverage, Trace claims to the source â€” to evaluate every link.',
+    'Not everything online is true. Use SIFT — Stop, Investigate, Find better coverage, Trace claims to the source — to evaluate every link.',
   learningGoals: [
     'Notice domain, author, and motive',
     'Distinguish credible / starting-point / unreliable sources',
@@ -144,7 +144,7 @@ export const MODULE = {
       q: 'Wikipedia is best used as:',
       choices: [
         'A primary source',
-        'A starting point â€” then read its citations',
+        'A starting point — then read its citations',
         'Avoided entirely',
         'A peer-reviewed journal',
       ],

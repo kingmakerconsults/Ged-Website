@@ -30,7 +30,7 @@ export default function ModuleShell({
 
   function finishQuiz(score) {
     setQuizScore(score);
-    // Combined score: 60% sim, 40% quiz (sim is the Northstar-style
+    // Combined score: 60% sim, 40% quiz (sim is the task-based
     // task-based portion and the more demanding measure).
     const combined = Math.round((simScore || 0) * 0.6 + score * 0.4);
     setModuleResult(userId, module.id, combined);

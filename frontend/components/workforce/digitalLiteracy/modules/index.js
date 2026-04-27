@@ -34,24 +34,24 @@ export const BUCKETS = [
   {
     key: 'A',
     title: 'Essential Computer Skills',
-    desc: 'Northstar Bucket A — devices, OS, browsing, email.',
+    desc: 'Core Digital Skills Bucket A — devices, OS, browsing, email.',
     modules: [A1, A2, A3, A4, A5, A6, A7],
   },
   {
     key: 'B',
     title: 'Essential Software Skills',
-    desc: 'Northstar Bucket B — Word, Excel, PowerPoint, Google Docs.',
+    desc: 'Core Digital Skills Bucket B — Word, Excel, PowerPoint, Google Docs.',
     modules: [B1, B2, B3, B4],
   },
   {
     key: 'C',
     title: 'Using Technology in Daily Life',
-    desc: 'Northstar Bucket C — social, info literacy, career, K-12, telehealth, footprint, cybersecurity.',
+    desc: 'Core Digital Skills Bucket C — social, info literacy, career, K-12, telehealth, footprint, cybersecurity.',
     modules: [C1, C2, C3, C4, C5, C6, C7],
   },
   {
     key: 'D',
-    title: 'Modern & Workforce (Beyond Northstar)',
+    title: 'Modern & Workforce (Pro Track)',
     desc: 'AI literacy, smartphone privacy, video conferencing, accessibility, civic services.',
     modules: [D1, D2, D3, D4, D5],
   },

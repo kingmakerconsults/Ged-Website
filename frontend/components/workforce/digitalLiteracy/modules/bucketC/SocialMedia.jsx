@@ -1,5 +1,5 @@
 /**
- * SocialMedia â€” privacy settings + scam-DM triage.
+ * SocialMedia — privacy settings + scam-DM triage.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -88,7 +88,7 @@ function Sim({ onComplete }) {
   }, [a, b, c, onComplete]);
   return (
     <div className="space-y-6">
-      <WindowFrame title="Settings â€” your social account">
+      <WindowFrame title="Settings — your social account">
         <PrivacyPanel onComplete={setA} />
       </WindowFrame>
       <Triage
@@ -123,7 +123,7 @@ function Sim({ onComplete }) {
           {
             id: 's4',
             content:
-              '"This is Alex from your soccer team â€” coach changed practice to 6pm."',
+              '"This is Alex from your soccer team — coach changed practice to 6pm."',
             correct: 'reply',
             rationale: 'Known person, school context, ok to confirm.',
           },
@@ -174,7 +174,7 @@ export const MODULE = {
   id: 'c1_social_media',
   title: 'Social Media',
   standardId: 'NDL-C1',
-  standardLabel: 'Northstar â€” Social Media',
+  standardLabel: 'Core Digital Skills — Social Media',
   bucket: 'C',
   intro:
     'Use social media safely: tighten privacy settings, recognize scams in DMs, and think before you post.',

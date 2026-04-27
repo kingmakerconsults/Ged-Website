@@ -1,5 +1,5 @@
 /**
- * K12DistanceLearning â€” LMS navigation, joining a video class, submitting work.
+ * K12DistanceLearning — LMS navigation, joining a video class, submitting work.
  */
 import React, { useState } from 'react';
 import { BrowserFrame } from '../../_engine/Frame.jsx';
@@ -141,7 +141,7 @@ export const MODULE = {
   id: 'c4_k12_distance',
   title: 'K-12 Distance Learning',
   standardId: 'NDL-C4',
-  standardLabel: 'Northstar â€” K-12 Distance Learning',
+  standardLabel: 'Core Digital Skills — K-12 Distance Learning',
   bucket: 'C',
   intro:
     'Distance learning needs a few core moves: navigate the LMS, join the video class on time, and submit work the right way.',

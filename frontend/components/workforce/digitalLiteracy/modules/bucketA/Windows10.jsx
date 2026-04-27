@@ -1,5 +1,5 @@
 /**
- * Win10 â€” File Explorer, Start menu, Recycle Bin recovery, snipping.
+ * Win10 — File Explorer, Start menu, Recycle Bin recovery, snipping.
  */
 import React, { useState } from 'react';
 import { WindowFrame } from '../../_engine/Frame.jsx';
@@ -91,7 +91,7 @@ function Sim({ onComplete }) {
       </div>
 
       <Sequencer
-        prompt="Task 2 â€” Order the steps to recover a deleted file in Windows."
+        prompt="Task 2 — Order the steps to recover a deleted file in Windows."
         items={[
           { id: 'a', label: 'Find the file in the list' },
           { id: 'b', label: 'Open the Recycle Bin from the desktop' },
@@ -102,7 +102,7 @@ function Sim({ onComplete }) {
         onComplete={setS2}
       />
       <Sortable
-        prompt="Task 3 â€” Match each task to the right Settings page."
+        prompt="Task 3 — Match each task to the right Settings page."
         buckets={[
           { key: 'display', name: 'System â†’ Display' },
           { key: 'network', name: 'Network & Internet' },
@@ -141,7 +141,7 @@ export const MODULE = {
   id: 'a5_windows_10',
   title: 'Windows 10',
   standardId: 'NDL-A5',
-  standardLabel: 'Northstar â€” Windows 10',
+  standardLabel: 'Core Digital Skills — Windows 10',
   bucket: 'A',
   intro:
     'Navigate Windows 10: Start menu, taskbar, File Explorer, Recycle Bin, and core Settings.',

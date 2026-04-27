@@ -136,7 +136,7 @@ export const MODULE = {
   id: 'a3_internet_basics',
   title: 'Internet Basics',
   standardId: 'NDL-A3',
-  standardLabel: 'Northstar â€” Internet Basics',
+  standardLabel: 'Core Digital Skills — Internet Basics',
   bucket: 'A',
   intro:
     'Use a web browser confidently: read a URL, navigate with tabs and bookmarks, and tell the address bar from the search bar.',
@@ -154,7 +154,7 @@ export const MODULE = {
       rationale: 'usa.gov is the domain (with the www subdomain).',
     },
     {
-      q: 'A page wonâ€™t load. What should you try first?',
+      q: 'A page won’t load. What should you try first?',
       choices: [
         'Restart the computer',
         'Click Refresh / Reload',
@@ -177,7 +177,7 @@ export const MODULE = {
       rationale: 'A new tab keeps the original page available.',
     },
     {
-      q: 'Bookmarks areâ€¦',
+      q: 'Bookmarks are…',
       choices: [
         'Files you download',
         'Saved shortcuts to web pages',

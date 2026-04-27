@@ -1,5 +1,5 @@
 /**
- * CareerSearchSkills â€” using job boards & resume-search basics.
+ * CareerSearchSkills — using job boards & resume-search basics.
  */
 import React, { useState } from 'react';
 import { BrowserFrame } from '../../_engine/Frame.jsx';
@@ -160,7 +160,7 @@ export const MODULE = {
   id: 'c3_career_search_skills',
   title: 'Career Search Skills',
   standardId: 'NDL-C3',
-  standardLabel: 'Northstar â€” Career Search Skills',
+  standardLabel: 'Core Digital Skills — Career Search Skills',
   bucket: 'C',
   intro:
     'Use job boards effectively: search smart, filter, save listings, and read postings carefully.',

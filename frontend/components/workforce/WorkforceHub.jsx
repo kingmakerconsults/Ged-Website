@@ -4,7 +4,7 @@
  *
  * Sections (lazy-loaded):
  *   - Career Document Studio (existing)
- *   - Digital Literacy Academy (new — Northstar parity + beyond)
+ *   - Digital Literacy Academy (new — Core Digital Skills standards + beyond)
  *   - Job Search Toolkit
  *   - Interview Studio
  *   - Career Pathways Explorer
@@ -50,7 +50,7 @@ const SECTIONS = [
     icon: '💻',
     title: 'Digital Literacy Academy',
     subtitle:
-      'Northstar-aligned task-based mastery: 22 modules, two badges, printable certificates.',
+      'Core Digital Skills–aligned task-based mastery: 22 modules, two badges, printable certificates.',
     feature: true,
   },
   {
@@ -161,7 +161,9 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
       case 'digital-literacy':
         return <DigitalLiteracyAcademy userId={userId} onBack={close} />;
       case 'job-search':
-        return <JobSearchToolkit userId={userId} onBack={close} />;
+        return (
+          <JobSearchToolkit userId={userId} apiBase={apiBase} onBack={close} />
+        );
       case 'interview':
         return (
           <InterviewStudio userId={userId} apiBase={apiBase} onBack={close} />
@@ -175,11 +177,25 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
           />
         );
       case 'financial':
-        return <FinancialBenefitsLiteracy userId={userId} onBack={close} />;
+        return (
+          <FinancialBenefitsLiteracy
+            userId={userId}
+            apiBase={apiBase}
+            onBack={close}
+          />
+        );
       case 'workplace':
-        return <WorkplaceSkillsSims userId={userId} onBack={close} />;
+        return (
+          <WorkplaceSkillsSims
+            userId={userId}
+            apiBase={apiBase}
+            onBack={close}
+          />
+        );
       case 'softskills':
-        return <SoftSkillsCoach userId={userId} onBack={close} />;
+        return (
+          <SoftSkillsCoach userId={userId} apiBase={apiBase} onBack={close} />
+        );
       default:
         return null;
     }
@@ -280,7 +296,7 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
 
       <div className="rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 p-4 text-xs text-slate-600 dark:text-slate-300">
         <strong>About these certificates:</strong> Modules are aligned to the{' '}
-        <em>Northstar Digital Literacy</em> standards (17 modules, Foundation
+        <em>Core Digital Skills</em> standards (17 modules, Foundation
         badge) plus 5 modern modules unique to this program (Pro badge). Mastery
         requires 85% on the in-app assessment. Self-paced by default;
         instructors can flip Proctored mode on for supervised sessions.
