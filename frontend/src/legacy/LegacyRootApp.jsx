@@ -24436,11 +24436,6 @@ import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
 import StatsHub from '../components/stats/StatsHub.jsx';
 import PostQuizSurvey from '../components/stats/PostQuizSurvey.jsx';
 import ReportQuestionButton from '../components/stats/ReportQuestionButton.jsx';
-import NotificationBell from '../components/notifications/NotificationBell.jsx';
-import InstructorStudentDetail from '../components/instructor/InstructorStudentDetail.jsx';
-import InstructorReportsPanel from '../components/instructor/InstructorReportsPanel.jsx';
-import InstructorAssignmentsPanel from '../components/instructor/InstructorAssignmentsPanel.jsx';
-import InstructorCurriculumPanel from '../components/instructor/InstructorCurriculumPanel.jsx';
 import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -30217,8 +30212,7 @@ function InstructorDashboard({ user, token, onLogout }) {
   const [activity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [detailStudent, setDetailStudent] = useState(null);
-  const [activeTab, setActiveTab] = useState('students');
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -30256,6 +30250,74 @@ function InstructorDashboard({ user, token, onLogout }) {
 
   const organizationName = user?.organization_name || 'Your organization';
 
+  if (selectedStudent) {
+    const student = students.find((s) => s.id === selectedStudent);
+    if (!student) {
+      setSelectedStudent(null);
+      return null;
+    }
+
+    return (
+      <div className="min-h-screen bg-page py-10 text-primary">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
+          <header className="flex items-center gap-4 rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setSelectedStudent(null)}
+              className="flex items-center gap-2 text-sm font-semibold btn-ghost px-3 py-1.5 rounded-md"
+            >
+              <ArrowLeftIcon />
+              <span>Back to Roster</span>
+            </button>
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold text-primary">
+                {student.name || student.email}
+              </h1>
+              <p className="text-sm text-secondary mt-1">{student.email}</p>
+            </div>
+          </header>
+
+          <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-primary mb-4">
+              Subject Performance
+            </h2>
+            {student.subjects && student.subjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {student.subjects.map((subj, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-lg border-subtle bg-surface-soft p-4"
+                  >
+                    <h3 className="font-semibold text-primary mb-2">
+                      {subj.subject}
+                    </h3>
+                    <div className="space-y-1 text-sm">
+                      <p className="text-secondary">
+                        <span className="text-muted">Attempts:</span>{' '}
+                        {subj.attempt_count || 0}
+                      </p>
+                      <p className="text-secondary">
+                        <span className="text-muted">Avg Score:</span>{' '}
+                        {subj.avg_scaled_score != null
+                          ? Math.round(subj.avg_scaled_score)
+                          : 'N/A'}
+                      </p>
+                      <p className="text-xs text-muted">
+                        Last: {formatDateTime(subj.last_attempt_at)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted">No quiz attempts yet.</p>
+            )}
+          </section>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-page py-10 text-primary">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
@@ -30270,7 +30332,6 @@ function InstructorDashboard({ user, token, onLogout }) {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <NotificationBell />
             <button
               type="button"
               onClick={loadData}
@@ -30287,34 +30348,6 @@ function InstructorDashboard({ user, token, onLogout }) {
             </button>
           </div>
         </header>
-
-        <nav
-          className="flex flex-wrap gap-2 rounded-3xl border-subtle panel-surface p-3 shadow-sm"
-          aria-label="Instructor sections"
-        >
-          {[
-            { id: 'students', label: 'Students' },
-            { id: 'reports', label: 'Question Reports' },
-            { id: 'assignments', label: 'Assignments' },
-            { id: 'curriculum', label: 'Curriculum' },
-          ].map((tab) => {
-            const active = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={
-                  active
-                    ? 'btn-primary px-4 py-1.5 text-sm font-semibold rounded-full shadow-sm'
-                    : 'btn-ghost px-4 py-1.5 text-sm font-semibold rounded-full'
-                }
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </nav>
 
         {loading ? (
           <div className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
@@ -30339,191 +30372,148 @@ function InstructorDashboard({ user, token, onLogout }) {
           </div>
         ) : (
           <>
-            {activeTab === 'students' && (
-              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-6 text-white shadow-lg">
-                    <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
-                    <div className="relative">
-                      <div className="text-sm font-medium opacity-90 mb-2">
-                        Total Students
-                      </div>
-                      <div className="text-4xl font-bold">
-                        {students.length}
-                      </div>
+            <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-6 text-white shadow-lg">
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                  <div className="relative">
+                    <div className="text-sm font-medium opacity-90 mb-2">
+                      Total Students
                     </div>
+                    <div className="text-4xl font-bold">{students.length}</div>
                   </div>
-                  <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-lg">
-                    <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
-                    <div className="relative">
-                      <div className="text-sm font-medium opacity-90 mb-2">
-                        Active Students
-                      </div>
-                      <div className="text-4xl font-bold">
-                        {
-                          students.filter(
-                            (s) => s.subjects && s.subjects.length > 0
-                          ).length
-                        }
-                      </div>
+                </div>
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-lg">
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                  <div className="relative">
+                    <div className="text-sm font-medium opacity-90 mb-2">
+                      Active Students
                     </div>
-                  </div>
-                  <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
-                    <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
-                    <div className="relative">
-                      <div className="text-sm font-medium opacity-90 mb-2">
-                        Recent Activity
-                      </div>
-                      <div className="text-4xl font-bold">
-                        {activity.length}
-                      </div>
+                    <div className="text-4xl font-bold">
+                      {
+                        students.filter(
+                          (s) => s.subjects && s.subjects.length > 0
+                        ).length
+                      }
                     </div>
                   </div>
                 </div>
-
-                <h2 className="text-xl font-semibold text-primary mb-4">
-                  Student Roster
-                </h2>
-                {students.length === 0 ? (
-                  <p className="text-sm text-muted">
-                    No students assigned yet.
-                  </p>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-subtle text-sm">
-                      <thead className="bg-surface-soft">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Student
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Email
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Subjects Attempted
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Last Activity
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-subtle panel-surface">
-                        {students.map((student) => (
-                          <tr
-                            key={student.id}
-                            className="hover:bg-surface-soft transition"
-                          >
-                            <td className="px-4 py-3 font-medium text-primary">
-                              {student.name || 'Student'}
-                            </td>
-                            <td className="px-4 py-3 text-secondary">
-                              {student.email}
-                            </td>
-                            <td className="px-4 py-3 text-secondary">
-                              {student.subjects ? student.subjects.length : 0}{' '}
-                              subjects
-                            </td>
-                            <td className="px-4 py-3 text-muted text-xs">
-                              {formatDateTime(student.last_attempt_at)}
-                            </td>
-                            <td className="px-4 py-3">
-                              <button
-                                type="button"
-                                onClick={() => setDetailStudent(student)}
-                                className="btn-primary px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
-                              >
-                                View Details
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                  <div className="relative">
+                    <div className="text-sm font-medium opacity-90 mb-2">
+                      Recent Activity
+                    </div>
+                    <div className="text-4xl font-bold">{activity.length}</div>
                   </div>
-                )}
-              </section>
-            )}
+                </div>
+              </div>
 
-            {activeTab === 'students' && (
-              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-primary mb-4">
-                  Recent Student Activity
-                </h2>
-                {activity.length === 0 ? (
-                  <p className="text-sm text-muted">No recent activity.</p>
-                ) : (
-                  <div className="space-y-3">
-                    {activity.map((act) => (
-                      <div
-                        key={act.id}
-                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-surface-soft"
-                      >
-                        <div className="flex-1">
-                          <div className="font-medium text-primary">
-                            {act.user_name || act.user_email}
-                          </div>
-                          <div className="text-sm text-secondary">
-                            {act.subject} - {act.quiz_title || act.quiz_type}
-                          </div>
+              <h2 className="text-xl font-semibold text-primary mb-4">
+                Student Roster
+              </h2>
+              {students.length === 0 ? (
+                <p className="text-sm text-muted">No students assigned yet.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-subtle text-sm">
+                    <thead className="bg-surface-soft">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Student
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Email
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Subjects Attempted
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Last Activity
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-subtle panel-surface">
+                      {students.map((student) => (
+                        <tr
+                          key={student.id}
+                          className="hover:bg-surface-soft transition"
+                        >
+                          <td className="px-4 py-3 font-medium text-primary">
+                            {student.name || 'Student'}
+                          </td>
+                          <td className="px-4 py-3 text-secondary">
+                            {student.email}
+                          </td>
+                          <td className="px-4 py-3 text-secondary">
+                            {student.subjects ? student.subjects.length : 0}{' '}
+                            subjects
+                          </td>
+                          <td className="px-4 py-3 text-muted text-xs">
+                            {formatDateTime(student.last_attempt_at)}
+                          </td>
+                          <td className="px-4 py-3">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedStudent(student.id)}
+                              className="btn-primary px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
+                            >
+                              View Details
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+
+            <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-primary mb-4">
+                Recent Student Activity
+              </h2>
+              {activity.length === 0 ? (
+                <p className="text-sm text-muted">No recent activity.</p>
+              ) : (
+                <div className="space-y-3">
+                  {activity.map((act) => (
+                    <div
+                      key={act.id}
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-surface-soft"
+                    >
+                      <div className="flex-1">
+                        <div className="font-medium text-primary">
+                          {act.user_name || act.user_email}
                         </div>
-                        <div className="flex items-center gap-4 text-sm">
-                          <span className="text-secondary">
-                            Score:{' '}
-                            <span className="font-semibold">
-                              {act.scaled_score != null
-                                ? Math.round(act.scaled_score)
-                                : 'N/A'}
-                            </span>
-                          </span>
-                          <span className="text-muted text-xs">
-                            {formatDateTime(act.attempted_at)}
-                          </span>
+                        <div className="text-sm text-secondary">
+                          {act.subject} - {act.quiz_title || act.quiz_type}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-            )}
-
-            {activeTab === 'reports' && (
-              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-primary mb-4">
-                  Question Reports from Students
-                </h2>
-                <InstructorReportsPanel />
-              </section>
-            )}
-
-            {activeTab === 'assignments' && (
-              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-primary mb-4">
-                  Assignments
-                </h2>
-                <InstructorAssignmentsPanel students={students} />
-              </section>
-            )}
-
-            {activeTab === 'curriculum' && (
-              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-primary mb-4">
-                  Class Curriculum
-                </h2>
-                <InstructorCurriculumPanel />
-              </section>
-            )}
+                      <div className="flex items-center gap-4 text-sm">
+                        <span className="text-secondary">
+                          Score:{' '}
+                          <span className="font-semibold">
+                            {act.scaled_score != null
+                              ? Math.round(act.scaled_score)
+                              : 'N/A'}
+                          </span>
+                        </span>
+                        <span className="text-muted text-xs">
+                          {formatDateTime(act.attempted_at)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
           </>
         )}
       </div>
-      {detailStudent && (
-        <InstructorStudentDetail
-          student={detailStudent}
-          onClose={() => setDetailStudent(null)}
-        />
-      )}
     </div>
   );
 }
@@ -31166,7 +31156,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
 
   useEffect(() => {
     if (
-      activeTab === 'users' &&
+      (activeTab === 'users' || activeTab === 'assignments') &&
       !usersLoadAttempted.current &&
       users.length === 0 &&
       !loadingUsers
@@ -31330,6 +31320,28 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               >
                 Activity
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('assignments')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'assignments'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Assignments
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('curriculum')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'curriculum'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Curriculum
+              </button>
             </div>
 
             {/* Overview Tab */}
@@ -31470,6 +31482,36 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             {activeTab === 'question-audit' && (
               <section className="rounded-3xl border-subtle panel-surface shadow-sm">
                 <SuperAdminAllQuestions />
+              </section>
+            )}
+
+            {/* Assignments Tab (org-wide view) */}
+            {activeTab === 'assignments' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Organization Assignments
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  All assignments created by instructors in your organization.
+                </p>
+                <InstructorAssignmentsPanel
+                  students={users.filter(
+                    (u) => String(u.role || '').toLowerCase() === 'student'
+                  )}
+                />
+              </section>
+            )}
+
+            {/* Curriculum Tab (org-wide view) */}
+            {activeTab === 'curriculum' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Organization Curriculum
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  Class curricula across all instructors in your organization.
+                </p>
+                <InstructorCurriculumPanel />
               </section>
             )}
           </>
