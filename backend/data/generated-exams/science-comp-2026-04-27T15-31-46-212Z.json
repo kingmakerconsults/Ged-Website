@@ -1,0 +1,1642 @@
+{
+  "id": "ai_comp_science_1777303905025",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Biological Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Plant Stem</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">11.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Animal Liver</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">14.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bacterial Colony</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">7.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Fungal Mycelium</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">9.8</td></tr></tbody></table>Based on the data provided, which biological sample has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Plant Stem",
+          "isCorrect": false,
+          "rationale": "The density of the Plant Stem is approximately 12.0 g / 11.5 cm³ = 1.043 g/cm³. This is not the highest density among the samples."
+        },
+        {
+          "text": "Animal Liver",
+          "isCorrect": true,
+          "rationale": "The density of the Animal Liver is approximately 15.0 g / 14.0 cm³ = 1.071 g/cm³. This is the highest density among the given samples."
+        },
+        {
+          "text": "Bacterial Colony",
+          "isCorrect": false,
+          "rationale": "The density of the Bacterial Colony is approximately 8.0 g / 7.5 cm³ = 1.067 g/cm³. This is not the highest density among the samples."
+        },
+        {
+          "text": "Fungal Mycelium",
+          "isCorrect": false,
+          "rationale": "The density of the Fungal Mycelium is approximately 10.0 g / 9.8 cm³ = 1.020 g/cm³. This is not the highest density among the samples."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 1,
+      "bankFingerprint": "a67894d3d76c2d72c5d107641469ab002f0cfae0"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Animal</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Distance Traveled (m)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time Taken (s)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Cheetah</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">3.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Human Runner</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Garden Snail</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.05</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Giant Tortoise</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.1</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.0</td></tr></tbody></table>Based on the data provided, what is the average speed of the Giant Tortoise?",
+      "answerOptions": [
+        {
+          "text": "0.005 \\(\\frac{m}{s}\\)",
+          "isCorrect": false,
+          "rationale": "Speed is calculated as distance divided by time (v = \\(\\frac{d}{t}\\)). For the Giant Tortoise, v = 0.1 m / 5.0 s = 0.02 \\(\\frac{m}{s}\\)."
+        },
+        {
+          "text": "0.02 \\(\\frac{m}{s}\\)",
+          "isCorrect": true,
+          "rationale": "Speed is calculated as distance divided by time (v = \\(\\frac{d}{t}\\)). For the Giant Tortoise, v = 0.1 m / 5.0 s = 0.02 \\(\\frac{m}{s}\\)."
+        },
+        {
+          "text": "2.0 \\(\\frac{m}{s}\\)",
+          "isCorrect": false,
+          "rationale": "Speed is calculated as distance divided by time (v = \\(\\frac{d}{t}\\)). For the Giant Tortoise, v = 0.1 m / 5.0 s = 0.02 \\(\\frac{m}{s}\\). This option incorrectly multiplies distance and time."
+        },
+        {
+          "text": "50.0 \\(\\frac{m}{s}\\)",
+          "isCorrect": false,
+          "rationale": "Speed is calculated as distance divided by time (v = \\(\\frac{d}{t}\\)). For the Giant Tortoise, v = 0.1 m / 5.0 s = 0.02 \\(\\frac{m}{s}\\). This option incorrectly divides time by distance."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 2,
+      "bankFingerprint": "5755b580442805fb12df2edd4a9af9d667f95e62"
+    },
+    {
+      "questionText": "According to the passage, which of the following describes methods by which electricity can be created?",
+      "answerOptions": [
+        {
+          "text": "Through chemical reactions and atomic decay.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention chemical reactions or atomic decay as methods for evolving electricity."
+        },
+        {
+          "text": "By means of ordinary mechanical processes and magnetic influence.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence.'"
+        },
+        {
+          "text": "Exclusively through natural lightning strikes.",
+          "isCorrect": false,
+          "rationale": "The passage mentions mechanical means and magnetic influence, not lightning strikes, and does not suggest exclusivity."
+        },
+        {
+          "text": "Only when subjected to extreme temperatures.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention temperature as a factor in evolving electricity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experimental Researches in Electricity (Excerpt)</strong></p><p><em>Michael Faraday, 1831</em></p><p>Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence. The relation between magnetism and electricity is of the deepest importance in physical science.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_electricity",
+      "passageTitle": "Experimental Researches in Electricity (Excerpt)",
+      "topicTags": [
+        "Electricity"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 3,
+      "bankFingerprint": "f276d4195a9fd67a1d09171b2f21e878db5af547"
+    },
+    {
+      "questionText": "The author claims that 'The relation between magnetism and electricity is of the deepest importance in physical science.' What can be inferred about this claim from the passage?",
+      "answerOptions": [
+        {
+          "text": "The connection between magnetism and electricity is a peripheral topic with limited scientific interest.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'deepest importance,' which contradicts the idea of it being a peripheral topic."
+        },
+        {
+          "text": "Further research into this relationship is not expected to yield significant scientific breakthroughs.",
+          "isCorrect": false,
+          "rationale": "A statement of 'deepest importance' suggests ongoing or significant scientific relevance and potential for breakthroughs, not a lack thereof."
+        },
+        {
+          "text": "Understanding how magnetism and electricity interact is fundamental to comprehending broader scientific principles.",
+          "isCorrect": true,
+          "rationale": "The phrase 'deepest importance in physical science' implies that this relationship is a foundational element for understanding the natural world, supporting that it is fundamental to broader scientific principles."
+        },
+        {
+          "text": "The primary importance of this relationship lies solely in its historical discovery.",
+          "isCorrect": false,
+          "rationale": "While discovery is part of its history, 'deepest importance in physical science' points to its ongoing significance and role in current understanding, not just its historical context."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experimental Researches in Electricity (Excerpt)</strong></p><p><em>Michael Faraday, 1831</em></p><p>Electricity is capable of being evolved by ordinary mechanical means, and by magnetic influence. The relation between magnetism and electricity is of the deepest importance in physical science.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_electricity",
+      "passageTitle": "Experimental Researches in Electricity (Excerpt)",
+      "topicTags": [
+        "Electricity"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 4,
+      "bankFingerprint": "7a6728cb416abc758b19f6b4b3ee06a717b0b102"
+    },
+    {
+      "questionText": "A person eats a large meal. Their blood sugar level rises. In response, the pancreas releases insulin, which causes cells to take up glucose from the blood, lowering blood sugar levels. This is an example of:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The digestive system working alone.",
+          "isCorrect": false,
+          "rationale": "This process involves both the digestive and endocrine systems."
+        },
+        {
+          "text": "A failure of homeostasis.",
+          "isCorrect": false,
+          "rationale": "This is a successful example of homeostasis, maintaining stable blood sugar."
+        },
+        {
+          "text": "The nervous system regulating blood sugar.",
+          "isCorrect": false,
+          "rationale": "While the nervous system can influence it, the primary regulator in this example is the endocrine system (pancreas releasing insulin)."
+        },
+        {
+          "text": "The endocrine system regulating blood sugar through a negative feedback loop.",
+          "isCorrect": true,
+          "rationale": "Correct. The pancreas (endocrine system) releases insulin to counteract the rise in blood sugar, returning it to normal."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "7a58ce409d49863a568eab95b95a281d758006ee",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-24T15:04:22.068Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "type": "standalone",
+      "questionNumber": 5,
+      "bankFingerprint": "7a58ce409d49863a568eab95b95a281d758006ee"
+    },
+    {
+      "questionText": "Granite, an igneous rock with large crystals, is most likely formed from:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Magma that cooled slowly beneath the Earth's surface.",
+          "isCorrect": true,
+          "rationale": "Correct. Slow cooling allows time for large crystals to form. This is intrusive igneous rock."
+        },
+        {
+          "text": "Lava that cooled quickly on the Earth's surface.",
+          "isCorrect": false,
+          "rationale": "Quick cooling results in small crystals. This is extrusive igneous rock, like basalt."
+        },
+        {
+          "text": "Layers of sand compacted together.",
+          "isCorrect": false,
+          "rationale": "This would form sandstone, a sedimentary rock."
+        },
+        {
+          "text": "Limestone that has been subjected to heat and pressure.",
+          "isCorrect": false,
+          "rationale": "This would form marble, a metamorphic rock."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "c5cdc0fa69dddf02ba896be62d06f10f19f9a3a2",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-25T17:44:41.233Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 6,
+      "bankFingerprint": "c5cdc0fa69dddf02ba896be62d06f10f19f9a3a2"
+    },
+    {
+      "questionText": "Based on Pasteur's experiment, what was the primary purpose of the 'curved necks' on some of the flasks?",
+      "answerOptions": [
+        {
+          "text": "To prevent air from entering the flask, thus simulating an anaerobic environment.",
+          "isCorrect": false,
+          "rationale": "The curved necks allowed air to reach the broth, a key part of disproving spontaneous generation which often posited air as necessary for life's origin. The purpose was not to create an anaerobic environment."
+        },
+        {
+          "text": "To allow air to interact with the broth while preventing airborne microbes and dust from reaching the liquid.",
+          "isCorrect": true,
+          "rationale": "The curved necks were designed to allow air (which proponents of spontaneous generation believed was necessary for life to arise) to enter, but trapped dust particles and microorganisms in the curves, thereby demonstrating that life did not spontaneously generate even in the presence of air."
+        },
+        {
+          "text": "To serve as a control, proving that boiling alone was sufficient to sterilize the broth permanently.",
+          "isCorrect": false,
+          "rationale": "While boiling sterilized the broth, the curved neck flasks served to show that without external contamination, the broth remained clear despite being exposed to air, challenging the idea that life arose spontaneously. The open flasks served as a comparison where life did appear."
+        },
+        {
+          "text": "To create a visible distinction between the experimental and control groups for easy identification.",
+          "isCorrect": false,
+          "rationale": "The curved necks had a functional purpose related to controlling microbial access, not merely for visual identification. The distinction in microbial growth was the key observation."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germs",
+      "passageTitle": "Pasteur’s Experiments on Germs",
+      "topicTags": [
+        "Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 7,
+      "bankFingerprint": "82188f7eb5ddfb2ff33615d54135254e2683b55b"
+    },
+    {
+      "questionText": "How do the experimental results of the 'sealed with curved necks' flasks contradict the idea of spontaneous generation?",
+      "answerOptions": [
+        {
+          "text": "They showed that boiling kills all microbes, preventing any form of life from reappearing.",
+          "isCorrect": false,
+          "rationale": "While boiling killed existing microbes, the open flasks, also boiled, still teemed with life, indicating boiling alone wasn't the sole factor in preventing life's reappearance if external microbes were present."
+        },
+        {
+          "text": "They proved that microbes could not survive in a sealed environment without access to fresh air.",
+          "isCorrect": false,
+          "rationale": "The curved necks allowed air to enter, so it wasn't a completely sealed environment preventing air access. The point was to show that without *microbes* from the air, life did not appear."
+        },
+        {
+          "text": "They demonstrated that microscopic life only appeared when broth was directly exposed to airborne microbes, not spontaneously from the broth itself.",
+          "isCorrect": true,
+          "rationale": "The flasks with curved necks allowed air in but trapped airborne microbes, and yet the broth remained clear. This provided strong evidence that new life did not spontaneously generate from the broth and air, but rather came from pre-existing microbes in the air, thus contradicting spontaneous generation."
+        },
+        {
+          "text": "They indicated that microbes require a specific type of nutrient found only in the open air to grow.",
+          "isCorrect": false,
+          "rationale": "The experiment did not focus on specific nutrients from the air, but on the *origin* of microbes. The presence of life in open flasks and absence in curved-neck flasks (both with air exposure) pointed to airborne microbes as the source."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germs",
+      "passageTitle": "Pasteur’s Experiments on Germs",
+      "topicTags": [
+        "Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 8,
+      "bankFingerprint": "87a2cc0a02103312312aa32b59743250d1bfda02"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 9,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 10,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 11,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 12,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "According to the passage, the discovery that the \"same principle that guides the fall of an apple governs the motion of the Moon\" primarily implies what about the universe?",
+      "answerOptions": [
+        {
+          "text": "Celestial bodies like the Moon are subject to completely different physical laws than objects on Earth.",
+          "isCorrect": false,
+          "rationale": "The passage states this discovery united the terrestrial and celestial, directly contradicting the idea of separate laws."
+        },
+        {
+          "text": "The universe operates under a consistent, unified set of physical laws applying to both Earth and space.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly mentions 'uniting the terrestrial and celestial into one grand design of order and simplicity,' indicating a universal applicability of these laws."
+        },
+        {
+          "text": "Apples are responsible for the gravitational pull experienced by the Moon.",
+          "isCorrect": false,
+          "rationale": "The apple is used as an example of terrestrial motion to illustrate the principle, not as the source of celestial gravity."
+        },
+        {
+          "text": "Only objects that fall are subject to gravitational forces.",
+          "isCorrect": false,
+          "rationale": "The statement about the Moon's motion, which does not 'fall' in the same sense as an apple, demonstrates that the principles apply beyond just falling objects."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_principia",
+      "passageTitle": "Principia Mathematica (Excerpt)",
+      "topicTags": [
+        "Physics / Motion"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 13,
+      "bankFingerprint": "3e0764514185498fe46e1754c99cbc0a6698dee1"
+    },
+    {
+      "questionText": "Based on the first statement in the passage, what is required for a body to change its existing state of motion or rest?",
+      "answerOptions": [
+        {
+          "text": "It must spontaneously decide to alter its path or speed.",
+          "isCorrect": false,
+          "rationale": "The passage attributes changes in motion to external forces, not internal or spontaneous decisions by the body."
+        },
+        {
+          "text": "An external, impressed force must act upon it.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it,' indicating an impressed force is necessary for change."
+        },
+        {
+          "text": "Its internal composition must undergo a significant transformation.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on external forces affecting a body's motion, not changes to its internal composition."
+        },
+        {
+          "text": "It must collide with another body of equal mass.",
+          "isCorrect": false,
+          "rationale": "While a collision is one way a force can be impressed, the passage refers to 'forces impressed upon it' generally, not exclusively collisions or specific mass interactions."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_principia",
+      "passageTitle": "Principia Mathematica (Excerpt)",
+      "topicTags": [
+        "Physics / Motion"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 14,
+      "bankFingerprint": "f3f4cfa4de3d45b93d54f674bc30dbc51dc82864"
+    },
+    {
+      "questionText": "According to the author, what is the primary factor that distinguishes humans from \"lower animals\"?",
+      "passage": "<div class=\"passage-text\"><p><strong>The Descent of Man (Excerpt)</strong></p><p><em>Charles Darwin, 1871</em></p><p>Man still bears in his bodily frame the indelible stamp of his lowly origin. His body is plainly related to that of the lower animals, but his moral sense and social instincts are what distinguish him most. These instincts lead him to sympathize with others, to aid the weak, and to repress his own selfish impulses. As man advances in civilization, and small tribes unite into larger communities, the simplest reason would tell each individual that he ought to extend his social instincts and sympathies to all members of the same nation, even to all nations and races. Thus the social instincts, the prime principle of man’s moral constitution, would gradually extend and be strengthened, till they became the ruling power.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Their physical similarities and shared bodily frame.",
+          "isCorrect": false,
+          "rationale": "The passage states that man's body is 'plainly related to that of the lower animals,' indicating a biological connection, but explicitly identifies 'his moral sense and social instincts' as what distinguishes him most."
+        },
+        {
+          "text": "Their ability to form complex civilizations and use reason.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions advancement in 'civilization' and 'simplest reason,' it directly states that 'his moral sense and social instincts are what distinguish him most,' not civilization or reason itself as the primary distinguishing factor."
+        },
+        {
+          "text": "Their developed moral sense and social instincts.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'but his moral sense and social instincts are what distinguish him most,' making this the primary factor."
+        },
+        {
+          "text": "Their capacity to repress selfish impulses and aid the weak.",
+          "isCorrect": false,
+          "rationale": "These actions are described as *expressions* or *outcomes* of the moral sense and social instincts ('These instincts lead him to sympathize with others...'), not the primary distinguishing factor itself."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "25170979cf89f497878faa5d315dda1358e033b0",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T15:55:03.683Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 15,
+      "bankFingerprint": "25170979cf89f497878faa5d315dda1358e033b0"
+    },
+    {
+      "questionText": "An organism that produces its own food is called a(n):",
+      "passage": "Science textbook excerpt: Producers, like plants, create their own food, usually through photosynthesis.",
+      "answerOptions": [
+        {
+          "text": "Consumer",
+          "isCorrect": false,
+          "rationale": "A consumer gets energy by eating other organisms."
+        },
+        {
+          "text": "Decomposer",
+          "isCorrect": false,
+          "rationale": "A decomposer breaks down dead organic matter."
+        },
+        {
+          "text": "Producer (or Autotroph)",
+          "isCorrect": true,
+          "rationale": "Correct. Producers, like plants, create their own food, usually through photosynthesis."
+        },
+        {
+          "text": "Herbivore",
+          "isCorrect": false,
+          "rationale": "A herbivore is a type of consumer that eats plants."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "passage",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "3d68d52ce6bc801b74b969e80c759b188f9a7e8b",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T14:47:20.456Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "easy",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 16,
+      "bankFingerprint": "3d68d52ce6bc801b74b969e80c759b188f9a7e8b"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 17,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 18,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionText": "Newton's First Law of Motion, the law of inertia, states that an object at rest will stay at rest unless:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "It is moved by a person.",
+          "isCorrect": false,
+          "rationale": "This is too specific; any unbalanced force will do."
+        },
+        {
+          "text": "Its mass changes.",
+          "isCorrect": false,
+          "rationale": "A change in mass does not necessarily cause a change in motion."
+        },
+        {
+          "text": "Acted upon by an unbalanced force.",
+          "isCorrect": true,
+          "rationale": "Correct. Similarly, an object in motion will stay in motion with the same speed and in the same direction unless acted upon by an unbalanced force."
+        },
+        {
+          "text": "Gravity stops acting on it.",
+          "isCorrect": false,
+          "rationale": "Gravity is itself a force that can change an object's state of rest."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "b4c48d8207b3f0fb0f00e2599d08d6bf341600bf",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-19T14:58:36.321Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 19,
+      "bankFingerprint": "b4c48d8207b3f0fb0f00e2599d08d6bf341600bf"
+    },
+    {
+      "questionText": "The passage describes the atom as a 'miniature solar system.' What does this analogy primarily suggest about the organization of an atom?",
+      "passage": "<div class=\"passage-text\"><p><strong>Structure of the Atom (Excerpt)</strong></p><p><em>Ernest Rutherford, 1911</em></p><p>When we fired alpha particles at thin gold foil, we expected them to pass straight through, but some were deflected backward. It was as if a cannonball had struck a piece of tissue paper and rebounded. This unexpected result led us to the conclusion that most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed. Thus the atom is not a solid sphere but a miniature solar system. The discovery changed our conception of matter and laid the foundation for the structure of the modern atom. It showed that the physical world is both more fragile and more wondrous than we had imagined.</p></div>",
+      "answerOptions": [
+        {
+          "text": "It has a central, massive component with smaller entities moving rapidly around it.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'most of the atom is empty space, with a tiny dense nucleus at its center. Around this nucleus, electrons move at great speed,' which directly aligns with the 'miniature solar system' analogy where planets orbit a central sun."
+        },
+        {
+          "text": "The forces holding atoms together are similar to gravitational forces in space.",
+          "isCorrect": false,
+          "rationale": "The analogy specifically describes the structural arrangement (nucleus at center, electrons moving around), not the nature of the forces involved. The passage does not discuss the types of forces."
+        },
+        {
+          "text": "Atoms are incredibly vast and contain many unexplored regions.",
+          "isCorrect": false,
+          "rationale": "While the atom is mostly 'empty space,' the analogy emphasizes the *arrangement* of its components rather than its vastness or unexplored regions."
+        },
+        {
+          "text": "Atoms are composed of various elements found throughout the universe.",
+          "isCorrect": false,
+          "rationale": "The analogy focuses on the internal structure of a single atom, not its composition in terms of elements or its relation to universal composition."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "72974be62887eff486f68bbc40a01b9fbe17d625",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T04:46:07.133Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "responseType": "mc",
+      "type": "standalone",
+      "questionNumber": 20,
+      "bankFingerprint": "72974be62887eff486f68bbc40a01b9fbe17d625"
+    },
+    {
+      "questionText": "When the passage refers to the sea's 'mysterious past,' what can be inferred about our understanding of its history?",
+      "passage": "The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.",
+      "answerOptions": [
+        {
+          "text": "All events in the sea's past are fully documented and understood by scientists.",
+          "isCorrect": false,
+          "rationale": "The term 'mysterious' directly contradicts the idea of a full understanding, implying unknowns or complexities."
+        },
+        {
+          "text": "There are aspects of the sea's historical impact on Earth that are not yet completely known or explained.",
+          "isCorrect": true,
+          "rationale": "The word 'mysterious' suggests that some parts of the sea's history and its ancient role in shaping Earth are still not fully comprehended."
+        },
+        {
+          "text": "The sea's past is irrelevant to its current role in influencing climate and sustaining life.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly links the past ('has shaped the Earth') with the present ('continues to influence'), indicating relevance."
+        },
+        {
+          "text": "The term 'mysterious' implies that the sea's past effects are entirely speculative and lack scientific basis.",
+          "isCorrect": false,
+          "rationale": "While 'mysterious' indicates unknowns, it doesn't suggest a lack of scientific basis; rather, it suggests ongoing discovery and complexity."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "4f2eb34d22f896f602aa250731128bfdabc577d7",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-11-19T18:05:49.474Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 21,
+      "bankFingerprint": "4f2eb34d22f896f602aa250731128bfdabc577d7"
+    },
+    {
+      "questionText": "The satellite image shows a powerful hurricane with a clearly defined eye and extensive cloud formations. Considering this visual evidence in conjunction with the \"Average Temperature of Various Large Bodies of Water\" table, what can be concluded about the ocean conditions that contribute to the development and intensity of such a storm?",
+      "answerOptions": [
+        {
+          "text": "Hurricanes thrive in cold waters, as indicated by the Arctic Ocean's 36 degrees Fahrenheit, which helps stabilize their structure.",
+          "isCorrect": false,
+          "rationale": "This is incorrect. The table shows the Arctic Ocean has the lowest average temperature, and hurricanes require warm water, not cold, to form and strengthen, drawing energy from it."
+        },
+        {
+          "text": "The warmest body of water in the table, the Gulf of Mexico at 60 degrees Fahrenheit, suggests that higher ocean temperatures provide the critical energy source for powerful hurricanes.",
+          "isCorrect": true,
+          "rationale": "This is the correct answer. The hurricane's power implies it draws energy from warm water. The table highlights the Gulf of Mexico as the warmest, providing numerical evidence that warmer waters, like 60 degrees Fahrenheit, are associated with hurricane-favorable conditions, acting as an energy source."
+        },
+        {
+          "text": "The average temperatures of the bodies of water, ranging from 36 to 60 degrees Fahrenheit, show no significant correlation with hurricane formation.",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Scientific understanding, reinforced by the context of the hurricane image, indicates a strong correlation between warm ocean temperatures and hurricane formation and intensity, making temperatures like 60 degrees Fahrenheit highly significant."
+        },
+        {
+          "text": "Hurricanes require a specific temperature that is not represented in the provided table, making the data irrelevant to understanding their intensity.",
+          "isCorrect": false,
+          "rationale": "This is incorrect. While the exact minimum temperature for hurricane formation isn't given, the range of temperatures and the significantly warmer Gulf of Mexico temperature in the table provide relevant context for understanding the energy source for such storms. The data is relevant for drawing conclusions."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 22,
+      "bankFingerprint": "dc36fffb745cd9fc32a52ecacdba11797cb6a378"
+    },
+    {
+      "questionText": "A person is standing on a scale in an elevator. The scale reads 150 lbs when the elevator is stationary. When the elevator begins to accelerate upwards, what will the scale read?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Less than 150 lbs",
+          "isCorrect": false,
+          "rationale": "The scale would read less if the elevator were accelerating downwards."
+        },
+        {
+          "text": "Exactly 150 lbs",
+          "isCorrect": false,
+          "rationale": "The reading will change because of the additional upward force causing acceleration."
+        },
+        {
+          "text": "More than 150 lbs",
+          "isCorrect": true,
+          "rationale": "Correct. The scale measures the normal force. To accelerate you upward, the floor must push on you with a force greater than your weight. By Newton's Third Law, you push on the scale with an equal force, so the reading increases."
+        },
+        {
+          "text": "Zero",
+          "isCorrect": false,
+          "rationale": "The scale would only read zero if the elevator were in freefall."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "1b17c5cfb3614b090f6498cb5beadc603c1704c3",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T14:48:26.505Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 23,
+      "bankFingerprint": "1b17c5cfb3614b090f6498cb5beadc603c1704c3"
+    },
+    {
+      "questionNumber": 24,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionText": "A city is located on the leeward side of a mountain range (the side sheltered from the wind). The prevailing winds in the region carry moist air from the ocean towards the mountains. What kind of climate would this city most likely have?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Wet and rainy",
+          "isCorrect": false,
+          "rationale": "The windward side of the mountain receives most of the rain."
+        },
+        {
+          "text": "Dry and arid",
+          "isCorrect": true,
+          "rationale": "Correct. This phenomenon is called a rain shadow. The moist air is forced to rise over the mountains, where it cools and releases its moisture as precipitation on the windward side. The air that descends on the leeward side is dry."
+        },
+        {
+          "text": "Cold and snowy",
+          "isCorrect": false,
+          "rationale": "While it could be cold, the defining characteristic would be its dryness."
+        },
+        {
+          "text": "The same as the coastal region",
+          "isCorrect": false,
+          "rationale": "The mountains create a significant climatic difference between the windward and leeward sides."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "0e340ada5a440bc9a3e394f69ead2f7a4be7a6cf",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:30:31.664Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 25,
+      "bankFingerprint": "0e340ada5a440bc9a3e394f69ead2f7a4be7a6cf"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1777303886928",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 26,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1777303886928",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 27,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the carbon cycle, depicting the flow of carbon among the atmosphere, land, and ocean."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 28,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionText": "The author concludes by describing electricity managed through alternating current as a 'universal servant.' What does this phrase, in context, imply about the author's vision for AC power?",
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "answerOptions": [
+        {
+          "text": "It suggests that electricity will become a luxury item, serving only the wealthy and powerful.",
+          "isCorrect": false,
+          "rationale": "The phrase 'universal servant' combined with 'lighting homes, driving machinery, and improving daily life' suggests broad accessibility and utility, not exclusivity or luxury."
+        },
+        {
+          "text": "It means that AC systems will require constant human oversight and maintenance to function.",
+          "isCorrect": false,
+          "rationale": "While maintenance is a factor for any system, the passage emphasizes efficiency, reliability, and widespread benefits, focusing on electricity serving humanity rather than humanity constantly serving the system."
+        },
+        {
+          "text": "It indicates that AC will transform electricity from a novelty into an essential, practical utility available for everyone's daily needs.",
+          "isCorrect": true,
+          "rationale": "The passage states electricity will become 'not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life,' clearly indicating its transformation into a widely available and practical utility for all."
+        },
+        {
+          "text": "It highlights that AC power will only be used for industrial applications, serving factories and businesses primarily.",
+          "isCorrect": false,
+          "rationale": "While it mentions 'driving machinery,' it also includes 'lighting homes' and 'improving daily life,' indicating a broader application beyond just industry."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "0b05c4a1904e0441d8e3cea9ebe261e57bd1fe9c",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T17:35:39.118Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "questionNumber": 29,
+      "bankFingerprint": "0b05c4a1904e0441d8e3cea9ebe261e57bd1fe9c"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Seed Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Oak Acorn</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">6.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sunflower Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.12</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.15</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Pumpkin Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.35</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Kidney Bean</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0.50</td></tr></tbody></table>A botanist is studying the physical properties of various seeds. The table above shows the mass and volume of four different seed types. Using the formula D = \\(\\frac{m}{V}\\), which seed type has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Oak Acorn",
+          "isCorrect": true,
+          "rationale": "To determine density, divide mass by volume (D = \\(\\frac{m}{V}\\)). For the Oak Acorn, Density = 6.5 g / 5.0 cm³ = 1.3 g/cm³. This is the highest density among the given seeds."
+        },
+        {
+          "text": "Sunflower Seed",
+          "isCorrect": false,
+          "rationale": "The density of the Sunflower Seed is 0.12 g / 0.15 cm³ = 0.8 g/cm³, which is not the highest."
+        },
+        {
+          "text": "Pumpkin Seed",
+          "isCorrect": false,
+          "rationale": "The density of the Pumpkin Seed is 0.35 g / 0.40 cm³ = 0.875 g/cm³, which is not the highest."
+        },
+        {
+          "text": "Kidney Bean",
+          "isCorrect": false,
+          "rationale": "The density of the Kidney Bean is 0.60 g / 0.50 cm³ = 1.2 g/cm³, which is not the highest."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 30,
+      "bankFingerprint": "15c2adfbd49b8a1f01bc42dff774a9bec4fb81b5"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Biological Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Human Blood Plasma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Human Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">32.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Human Adipose Tissue (Fat)</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">27.9</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Human Bone</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.6</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td></tr></tbody></table>Based on the data in the table, which human biological sample has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Human Blood Plasma",
+          "isCorrect": false,
+          "rationale": "Density = Mass / Volume. For Human Blood Plasma, Density = 25.5 g / 25.0 cm³ = 1.02 g/cm³."
+        },
+        {
+          "text": "Human Muscle Tissue",
+          "isCorrect": false,
+          "rationale": "Density = Mass / Volume. For Human Muscle Tissue, Density = 32.0 g / 30.0 cm³ = 1.07 g/cm³ (approximately)."
+        },
+        {
+          "text": "Human Adipose Tissue (Fat)",
+          "isCorrect": false,
+          "rationale": "Density = Mass / Volume. For Human Adipose Tissue (Fat), Density = 27.9 g / 30.0 cm³ = 0.93 g/cm³."
+        },
+        {
+          "text": "Human Bone",
+          "isCorrect": true,
+          "rationale": "Density = Mass / Volume. For Human Bone, Density = 30.6 g / 20.0 cm³ = 1.53 g/cm³. This is the highest density among the given samples."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 31,
+      "bankFingerprint": "d3500b028e2ba84b5c05ea374702db431af12016"
+    },
+    {
+      "questionText": "A scientist measures a rock with a mass of 150 grams and a volume of 50 cubic centimeters. What is the density of the rock?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "0.33 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the result of volume divided by mass \\(\\frac{50}{150}\\), which is incorrect. Density is mass divided by volume."
+        },
+        {
+          "text": "3 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density is calculated by dividing mass by volume (150 g / 50 cm³ = 3 g/cm³)."
+        },
+        {
+          "text": "100 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the result of subtracting the volume from the mass (150 - 50), which is not the formula for density."
+        },
+        {
+          "text": "7500 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the result of multiplying mass by volume (150 * 50), which is incorrect. Density is mass divided by volume."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "multiple-choice",
+      "topic": "Scientific Numeracy",
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "880f356706c5826c12d0d1c28c2a8f607536de43",
+        "sourceModel": "gemini",
+        "createdAt": "2026-03-18T14:24:05.824Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_promoted_review"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "concept-application",
+      "questionNumber": 32,
+      "bankFingerprint": "8750b7cb79eccd649916cebde607c04b8a3b8a0b"
+    },
+    {
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "stimulusType": "diagram",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "A cross-section diagram illustrating the orographic effect on weather and climate, showing mountains near an ocean."
+      },
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "easy",
+      "source": "trustedLocalImage",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 33,
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "questionText": "A person is holding a metal rod in a campfire. After a few moments, the end of the rod they are holding becomes hot. In a separate situation, the person warms their hands by holding them near, but not touching, the fire. How is heat transferred to the person's hand through the metal rod?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Through radiation",
+          "isCorrect": false,
+          "rationale": "Radiation does not require a medium."
+        },
+        {
+          "text": "Through convection",
+          "isCorrect": false,
+          "rationale": "Convection involves the movement of fluids, not a solid rod."
+        },
+        {
+          "text": "Through conduction",
+          "isCorrect": true,
+          "rationale": "Correct. Conduction is the transfer of heat through a substance by direct contact of particles."
+        },
+        {
+          "text": "Through insulation",
+          "isCorrect": false,
+          "rationale": "Insulation would prevent heat transfer."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "f16ff1e016edb27780f7d944a21faf32f0276779",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-26T17:05:06.435Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 34,
+      "bankFingerprint": "f16ff1e016edb27780f7d944a21faf32f0276779"
+    },
+    {
+      "questionText": "Which two body systems work together to deliver oxygen to cells and remove carbon dioxide?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Digestive and Nervous",
+          "isCorrect": false,
+          "rationale": "These systems have different primary functions."
+        },
+        {
+          "text": "Skeletal and Muscular",
+          "isCorrect": false,
+          "rationale": "These systems work together for movement and support."
+        },
+        {
+          "text": "Respiratory and Circulatory",
+          "isCorrect": true,
+          "rationale": "Correct. The respiratory system takes in oxygen, and the circulatory system (blood) transports it to the cells and carries away waste CO2."
+        },
+        {
+          "text": "Endocrine and Urinary",
+          "isCorrect": false,
+          "rationale": "The endocrine system produces hormones, and the urinary system removes waste."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "54dfa185dc5fc0a4bb9f9576f2d33d36de277e21",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T05:20:36.877Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 35,
+      "bankFingerprint": "54dfa185dc5fc0a4bb9f9576f2d33d36de277e21"
+    },
+    {
+      "questionText": "The author's statement, 'Its remarkable activity suggests it may reveal new laws of matter,' implies which of the following about the discovery of radium?",
+      "answerOptions": [
+        {
+          "text": "The properties of radium are easily explained by existing scientific principles.",
+          "isCorrect": false,
+          "rationale": "The phrase 'new laws of matter' indicates that radium's activity is not fully explained by existing science, suggesting it might challenge or expand current understanding."
+        },
+        {
+          "text": "Radium's discovery is expected to have a limited impact on scientific understanding.",
+          "isCorrect": false,
+          "rationale": "The terms 'remarkable activity' and 'new laws of matter' imply a significant, not limited, impact on scientific understanding."
+        },
+        {
+          "text": "Radium's behavior could lead to a re-evaluation or expansion of fundamental scientific theories.",
+          "isCorrect": true,
+          "rationale": "The suggestion that radium 'may reveal new laws of matter' directly implies that its properties might not fit into current scientific frameworks, leading to new or revised theories."
+        },
+        {
+          "text": "The primary focus of future research will be to find practical applications for radium.",
+          "isCorrect": false,
+          "rationale": "While practical applications might arise, the statement focuses on revealing 'new laws of matter,' indicating a fundamental scientific inquiry rather than immediate application."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Research on Radioactive Substances (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>The new substance emits rays which are capable of discharging electrified bodies and of penetrating various substances. I propose to call this new element 'radium.' Its remarkable activity suggests it may reveal new laws of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_curie_radioactivity",
+      "passageTitle": "Research on Radioactive Substances (Excerpt)",
+      "topicTags": [
+        "Chemistry / Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 36,
+      "bankFingerprint": "8a567d163c90ebacf88875b3bbe5f250e2a8a3f7"
+    },
+    {
+      "questionText": "A scientist wants to investigate the claim that the rays from radium are 'capable of penetrating various substances.' Which of the following experimental procedures would be most appropriate for testing this property?",
+      "answerOptions": [
+        {
+          "text": "Exposing an electrified body to the rays and observing if it loses its charge.",
+          "isCorrect": false,
+          "rationale": "This procedure would test the ability of the rays to discharge electrified bodies, not their ability to penetrate substances."
+        },
+        {
+          "text": "Measuring the decrease in ray intensity after passing the rays through different materials.",
+          "isCorrect": true,
+          "rationale": "To test the penetrating ability of the rays, a scientist would need to observe how effectively they pass through or are absorbed by different materials, which can be quantified by measuring intensity changes."
+        },
+        {
+          "text": "Determining the exact chemical composition of the new element 'radium'.",
+          "isCorrect": false,
+          "rationale": "While understanding composition is important, it does not directly test the penetrating capability of the rays emitted by radium."
+        },
+        {
+          "text": "Observing the spontaneous emission of light from the radium sample in a darkened environment.",
+          "isCorrect": false,
+          "rationale": "Observing light emission would confirm radioactivity but would not provide information about the rays' ability to penetrate other substances."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Research on Radioactive Substances (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>The new substance emits rays which are capable of discharging electrified bodies and of penetrating various substances. I propose to call this new element 'radium.' Its remarkable activity suggests it may reveal new laws of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_curie_radioactivity",
+      "passageTitle": "Research on Radioactive Substances (Excerpt)",
+      "topicTags": [
+        "Chemistry / Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 37,
+      "bankFingerprint": "09a1f74fd32a30e53c3b90eba808ee1ed98f141d"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "A line graph showing relative humidity percentage over eight days in May, accompanied by an explanatory paragraph."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 38,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 4, expected ~9",
+    "Difficulty \"medium\": 25, expected ~19"
+  ]
+}

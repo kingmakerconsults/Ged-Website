@@ -1,0 +1,1640 @@
+{
+  "id": "ai_comp_science_1777304003149",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "The author uses the examples of a falling apple and the Moon's motion primarily to illustrate which of the following?",
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "answerOptions": [
+        {
+          "text": "The distinct differences between earthly and celestial mechanics.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the discovery 'uniting the terrestrial and celestial,' contradicting the idea of distinct differences."
+        },
+        {
+          "text": "The unpredictability of natural phenomena.",
+          "isCorrect": false,
+          "rationale": "The passage notes that these laws secure 'the predictability of the universe,' not unpredictability."
+        },
+        {
+          "text": "The universal applicability of the laws of motion.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The same principle that guides the fall of an apple governs the motion of the Moon,' directly indicating a universal application of these principles to both terrestrial and celestial bodies."
+        },
+        {
+          "text": "The complex nature of gravitational forces.",
+          "isCorrect": false,
+          "rationale": "While gravity is implied, the primary point of these specific examples is to show the *sameness* of the principles, not necessarily the complexity of the forces themselves, especially in the context of 'order and simplicity'."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "0375ecf101e68e252dbf7b9a43b4a38a5239e598",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T04:38:31.118Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 1,
+      "bankFingerprint": "0375ecf101e68e252dbf7b9a43b4a38a5239e598"
+    },
+    {
+      "questionText": "What is the main idea conveyed in the passage about the sea?",
+      "passage": "The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.",
+      "answerOptions": [
+        {
+          "text": "The sea is primarily responsible for the erosion of continents.",
+          "isCorrect": false,
+          "rationale": "While erosion is mentioned as a process, it is only one aspect of the sea's broader influence, not the main idea."
+        },
+        {
+          "text": "The sea has had a significant and ongoing impact on shaping Earth's landforms, climate, and supporting life.",
+          "isCorrect": true,
+          "rationale": "This option accurately summarizes the passage's points about the sea's past role in shaping Earth, its present influence on climate, and its role in sustaining life."
+        },
+        {
+          "text": "The mysterious past of the sea makes it difficult to understand its current functions.",
+          "isCorrect": false,
+          "rationale": "The passage states the sea's past is 'mysterious' but implies its current functions are known ('continues to influence climate and sustain life'), not difficult to understand."
+        },
+        {
+          "text": "Humanity's understanding of the sea's influence is largely incomplete.",
+          "isCorrect": false,
+          "rationale": "The passage asserts known facts about the sea's influence, suggesting some understanding rather than a widespread lack of it."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "2f3eb37603c746522535f2c260ea69a3d7c07994",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-11-19T18:05:49.472Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 2,
+      "bankFingerprint": "2f3eb37603c746522535f2c260ea69a3d7c07994"
+    },
+    {
+      "questionText": "Work is done on an object when:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The object is held stationary.",
+          "isCorrect": false,
+          "rationale": "If the object does not move, no work is done, regardless of the force applied."
+        },
+        {
+          "text": "A force is applied to the object, and the object moves in the direction of the force.",
+          "isCorrect": true,
+          "rationale": "Correct. Work, in physics, is defined as force multiplied by the distance moved in the direction of the force."
+        },
+        {
+          "text": "The object moves at a constant velocity without any force acting on it.",
+          "isCorrect": false,
+          "rationale": "If there is no force, no work is done."
+        },
+        {
+          "text": "The object has a large amount of potential energy.",
+          "isCorrect": false,
+          "rationale": "Having potential energy does not mean that work is currently being done on the object."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "187907a958213695e085394a0b4fa8445ead42fb",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:26:32.679Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 3,
+      "bankFingerprint": "187907a958213695e085394a0b4fa8445ead42fb"
+    },
+    {
+      "questionText": "Based on the observations described in the passage ('If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter'), what is the primary purpose of changing the air supply around the candle?",
+      "answerOptions": [
+        {
+          "text": "To measure the exact temperature at which wax melts into a vapor.",
+          "isCorrect": false,
+          "rationale": "The experiment described focuses on the flame's behavior in response to oxygen, not the specific melting temperature of wax."
+        },
+        {
+          "text": "To identify the specific chemical components within the wax that cause combustion.",
+          "isCorrect": false,
+          "rationale": "The experiment manipulates the external environment (air/oxygen), not the internal composition of the wax itself."
+        },
+        {
+          "text": "To investigate the role of oxygen in sustaining and affecting the intensity of the flame.",
+          "isCorrect": true,
+          "rationale": "By removing air (and thus oxygen) or supplying pure oxygen, the experiment directly demonstrates how oxygen impacts whether the flame burns and how brightly it burns."
+        },
+        {
+          "text": "To prove that carbonic acid is always produced during any type of burning process.",
+          "isCorrect": false,
+          "rationale": "While carbonic acid is a product of combustion mentioned in the passage, the described manipulation of air supply is not primarily designed to prove its universal production."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_chemical_history_candle",
+      "passageTitle": "The Chemical History of a Candle (Excerpt)",
+      "topicTags": [
+        "Chemistry / Energy"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 4,
+      "bankFingerprint": "f5e440ba728ab12a312d3fa705ddec1e65aacb3e"
+    },
+    {
+      "questionText": "Which statement best reflects the author's overall conclusion about studying a candle, according to the passage?",
+      "answerOptions": [
+        {
+          "text": "Candles are unique because they are the only objects that produce both light and heat through combustion.",
+          "isCorrect": false,
+          "rationale": "The passage describes the candle's properties but does not claim it is unique in producing light and heat, nor that it's the only object to do so."
+        },
+        {
+          "text": "A simple candle can demonstrate fundamental scientific principles that govern various aspects of the universe.",
+          "isCorrect": true,
+          "rationale": "The author explicitly states, 'There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle,' and concludes that from a 'simple object' like a candle, one can learn 'the nature of combustion, the properties of gases, and the conservation of matter.'"
+        },
+        {
+          "text": "The primary scientific value of studying a candle lies solely in its ability to produce water and carbonic acid.",
+          "isCorrect": false,
+          "rationale": "While water and carbonic acid are products mentioned, the author emphasizes broader lessons learned, such as the nature of combustion, properties of gases, and conservation of matter, which go beyond just the products."
+        },
+        {
+          "text": "Scientific experiments involving candles are often too complex for most people to accurately understand without advanced training.",
+          "isCorrect": false,
+          "rationale": "The passage presents the candle as a 'simple object' from which 'we may learn,' implying that its study is accessible for understanding scientific principles, rather than overly complex."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_faraday_chemical_history_candle",
+      "passageTitle": "The Chemical History of a Candle (Excerpt)",
+      "topicTags": [
+        "Chemistry / Energy"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 5,
+      "bankFingerprint": "b6f94c5fbb9c345c84d96d3b56960ab9e660ada1"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 6,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 7,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 8,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 9,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1777303977942",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 10,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1777303977942",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 11,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "The provided graph displays the rate at which a person consumes oxygen while jogging at a steady pace. Based on the data, what can be inferred about the stability of the body's oxygen demand after the initial adjustment period during this exercise?",
+      "answerOptions": [
+        {
+          "text": "The oxygen demand continues to increase steadily throughout the entire jogging duration.",
+          "isCorrect": false,
+          "rationale": "The graph shows that the oxygen consumption rate levels off after approximately 6-7 minutes, indicated by the horizontal 'Steady-state rate' line, rather than continuing to increase steadily."
+        },
+        {
+          "text": "The oxygen demand rapidly decreases once the steady-state rate is achieved, indicating fatigue.",
+          "isCorrect": false,
+          "rationale": "After reaching the steady-state rate, the line on the graph remains relatively flat and does not show a rapid decrease, indicating sustained oxygen consumption."
+        },
+        {
+          "text": "The oxygen demand stabilizes at a higher constant rate after an initial increase, reflecting a steady-state condition.",
+          "isCorrect": true,
+          "rationale": "The graph clearly shows an initial increase from 'At rest' to a 'Steady-state rate' of about 1.8 liters per minute, which is then maintained consistently for the remainder of the measured period, demonstrating stabilization."
+        },
+        {
+          "text": "The oxygen demand fluctuates erratically, suggesting inconsistent effort during the jogging period.",
+          "isCorrect": false,
+          "rationale": "The line representing oxygen consumption on the graph is smooth and consistently increases to a plateau, indicating a stable and non-erratic pattern of oxygen demand."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0011.png",
+        "alt": "A line graph illustrates oxygen consumption rate in liters per minute over jogging time in minutes at a slow-jog pace."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 12,
+      "bankFingerprint": "1a8425e2999df4c0b0bac2ca910ee3603cd0d907"
+    },
+    {
+      "questionNumber": 13,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "stimulusType": "diagram",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "A cross-section diagram illustrating the orographic effect on weather and climate, showing mountains near an ocean."
+      },
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "easy",
+      "source": "trustedLocalImage",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 14,
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "questionText": "The author introduces the doctrine \"The present is the key to the past.\" Which statement best summarizes how this doctrine influences the author's view on the causes of Earth's geological features?",
+      "answerOptions": [
+        {
+          "text": "It suggests that current rapid and destructive events are the primary sculptors of Earth's surface over short periods.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly rejects the idea of \"sudden, violent catastrophes\" and emphasizes \"slow, observable processes.\""
+        },
+        {
+          "text": "It implies that by observing ongoing processes like erosion and volcanic activity, we can understand the long-term, continuous actions that shaped Earth.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"We can study nature as it is today and infer the history of our planet,\" directly linking present observations to past geological forces and continuous action."
+        },
+        {
+          "text": "It argues that the Earth's features are primarily the result of unique, ancient forces that no longer operate.",
+          "isCorrect": false,
+          "rationale": "The doctrine states the exact opposite, that the forces now operating are \"the very same forces that have acted for countless ages.\""
+        },
+        {
+          "text": "It proposes that Earth's past geological events are entirely unpredictable and unrelated to current observations.",
+          "isCorrect": false,
+          "rationale": "The doctrine provides a \"firm foundation\" for understanding Earth's history by studying the present, suggesting predictability and a relationship."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_charles_lyell_principles_geology",
+      "passageTitle": "Principles of Geology (Excerpt)",
+      "topicTags": [
+        "Earth Science / Geology"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 15,
+      "bankFingerprint": "262101b09c4e46e67c873d9ea7aa5645520516c4"
+    },
+    {
+      "questionText": "The author's argument for a very old Earth is primarily supported by which of the following lines of reasoning?",
+      "answerOptions": [
+        {
+          "text": "The discovery of ancient fossils that predate human civilization.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention fossils or human civilization as evidence for Earth's age."
+        },
+        {
+          "text": "The observable fact that geological processes such as erosion and deposition happen at an extremely slow pace, requiring vast amounts of time to produce significant changes.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"Slow, observable processes, given sufficient time, can raise continents and hollow seas,\" and then concludes that \"the Earth is far older than many have supposed\" due to this \"long, continuous action.\""
+        },
+        {
+          "text": "Evidence suggesting that the Earth was once covered by a global ocean, which has since receded.",
+          "isCorrect": false,
+          "rationale": "The passage discusses oceans depositing sediments but does not claim that a global ocean receding is the primary evidence for Earth's age."
+        },
+        {
+          "text": "The recognition that sudden, violent catastrophes would have erased all traces of earlier geological formations.",
+          "isCorrect": false,
+          "rationale": "The author argues *against* sudden catastrophes and instead posits that slow processes are responsible, leading to the conclusion of an older Earth. This option misrepresents the author's primary reasoning for an old Earth."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_charles_lyell_principles_geology",
+      "passageTitle": "Principles of Geology (Excerpt)",
+      "topicTags": [
+        "Earth Science / Geology"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 16,
+      "bankFingerprint": "1cd3555fc23d070ddc4c1b321c4c361d3f0f1a09"
+    },
+    {
+      "questionText": "Based on the passage, what fundamental understanding about the atom was challenged by the discovery of corpuscles?",
+      "answerOptions": [
+        {
+          "text": "The atom's ability to conduct electricity.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions electricity is carried by corpuscles, the primary challenge to the atom's understanding was its indivisibility, not just its conductivity."
+        },
+        {
+          "text": "The atom's supposed indivisibility.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"This discovery shows that the atom is not indivisible, as once supposed, but contains constituent parts.\""
+        },
+        {
+          "text": "The atom's interaction with magnetic fields.",
+          "isCorrect": false,
+          "rationale": "The interaction with magnetic fields was an observation used to study the rays, not the fundamental understanding about the atom that was challenged."
+        },
+        {
+          "text": "The atom's uniform density.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the atom's density or challenge any assumptions about it."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Cathode Rays and the Corpuscle (Excerpt)</strong></p><p><em>J. J. Thomson, 1897</em></p><p>In studying the discharge of electricity through gases at low pressure, I observed that the rays coming from the cathode could be deflected by electric and magnetic fields. From these deflections I calculated the ratio of their mass to their charge and found it to be far smaller than that of the lightest atom known. The only reasonable inference was that these rays consist of particles, which I have called corpuscles, much smaller than atoms, and common to all kinds of matter. This discovery shows that the atom is not indivisible, as once supposed, but contains constituent parts. Electricity itself appears to be carried by these corpuscles. We are thus admitted, as it were, into the inner structure of matter, and we see that the differences between substances may be due to the arrangement of particles which are themselves identical.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_jj_thomson_corpuscles_of_electricity",
+      "passageTitle": "Cathode Rays and the Corpuscle (Excerpt)",
+      "topicTags": [
+        "Physics / Atomic Theory"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 17,
+      "bankFingerprint": "674e66a84a830b59ff56fc74139c28975e8d9c1d"
+    },
+    {
+      "questionText": "The passage states that corpuscles are \"common to all kinds of matter\" and that \"differences between substances may be due to the arrangement of particles which are themselves identical.\" What can be inferred about corpuscles from these statements?",
+      "answerOptions": [
+        {
+          "text": "They are a unique type of energy found only in certain elements.",
+          "isCorrect": false,
+          "rationale": "The passage describes them as particles (\"corpuscles\") and states they are \"common to all kinds of matter,\" not unique to certain elements or an energy type."
+        },
+        {
+          "text": "They are the fundamental, identical components that form all diverse substances.",
+          "isCorrect": true,
+          "rationale": "The passage directly supports this by stating corpuscles are \"common to all kinds of matter\" and that \"differences between substances may be due to the arrangement of particles which are themselves identical,\" implying they are fundamental building blocks."
+        },
+        {
+          "text": "Their mass-to-charge ratio varies significantly depending on the type of matter they constitute.",
+          "isCorrect": false,
+          "rationale": "The passage describes their mass-to-charge ratio as a singular finding and implies the particles themselves are identical across matter, not that their ratio varies."
+        },
+        {
+          "text": "They are responsible for the chemical reactivity of different gases at low pressure.",
+          "isCorrect": false,
+          "rationale": "While the discovery was made studying electricity through gases, the passage does not infer that corpuscles are responsible for chemical reactivity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Cathode Rays and the Corpuscle (Excerpt)</strong></p><p><em>J. J. Thomson, 1897</em></p><p>In studying the discharge of electricity through gases at low pressure, I observed that the rays coming from the cathode could be deflected by electric and magnetic fields. From these deflections I calculated the ratio of their mass to their charge and found it to be far smaller than that of the lightest atom known. The only reasonable inference was that these rays consist of particles, which I have called corpuscles, much smaller than atoms, and common to all kinds of matter. This discovery shows that the atom is not indivisible, as once supposed, but contains constituent parts. Electricity itself appears to be carried by these corpuscles. We are thus admitted, as it were, into the inner structure of matter, and we see that the differences between substances may be due to the arrangement of particles which are themselves identical.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_jj_thomson_corpuscles_of_electricity",
+      "passageTitle": "Cathode Rays and the Corpuscle (Excerpt)",
+      "topicTags": [
+        "Physics / Atomic Theory"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 18,
+      "bankFingerprint": "4f64d0696438a65a7040b4c8248c278b4e9b58fb"
+    },
+    {
+      "questionText": "The author states, 'If we can prevent germs from entering wounds, we can prevent disease.' This statement primarily serves to:",
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Challenge the idea that life arises spontaneously from non-living matter.",
+          "isCorrect": false,
+          "rationale": "While the passage refutes spontaneous generation earlier, this specific statement focuses on the practical application of that understanding, not its refutation."
+        },
+        {
+          "text": "Provide a practical application of the germ theory for public health.",
+          "isCorrect": true,
+          "rationale": "This statement directly links the understanding of germs (germ theory) to a concrete action (preventing germs in wounds) that has a beneficial outcome (preventing disease), which is a public health application."
+        },
+        {
+          "text": "Introduce a new theory about the composition of air.",
+          "isCorrect": false,
+          "rationale": "The statement does not discuss the composition of air, but rather what the air carries (germs) and their effect."
+        },
+        {
+          "text": "Emphasize the importance of scientific experimentation in laboratories.",
+          "isCorrect": false,
+          "rationale": "The statement presents a conclusion or recommendation based on scientific fact, rather than emphasizing the method of scientific experimentation itself."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "c9d4f07f092ca5c072c1c801aa6385ef8558add7",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:34:54.606Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "questionNumber": 19,
+      "bankFingerprint": "c9d4f07f092ca5c072c1c801aa6385ef8558add7"
+    },
+    {
+      "questionText": "A block of wood has a mass of 450 grams and dimensions of 5 cm × 10 cm × 6 cm. If the block is placed in water (density = 1.0 g/cm³), will it float or sink?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "It will sink because its density is 1.5 g/cm³.",
+          "isCorrect": true,
+          "rationale": "First, calculate the volume of the block: 5 cm × 10 cm × 6 cm = 300 cm³. Then calculate its density: Density = Mass / Volume = 450 g / 300 cm³ = 1.5 g/cm³. Since 1.5 g/cm³ is greater than the density of water (1.0 g/cm³), the block will sink."
+        },
+        {
+          "text": "It will float because its density is 0.67 g/cm³.",
+          "isCorrect": false,
+          "rationale": "The volume is 5x10x6 = 300 cm³. Density is 450g / 300cm³ = 1.5 g/cm³."
+        },
+        {
+          "text": "It will sink because its density is 300 g/cm³.",
+          "isCorrect": false,
+          "rationale": "The volume is 300 cm³, not the density. The density is 450g / 300cm³ = 1.5 g/cm³."
+        },
+        {
+          "text": "It will float because its density is 450 g/cm³.",
+          "isCorrect": false,
+          "rationale": "450 g is the mass, not the density. The density is 450g / 300cm³ = 1.5 g/cm³."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "Scientific Numeracy",
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "19988b8186a9ba3be7aab58a49d6c2e2dc575538",
+        "sourceModel": "gemini",
+        "createdAt": "2026-03-17T13:58:07.999Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 20,
+      "bankFingerprint": "19988b8186a9ba3be7aab58a49d6c2e2dc575538"
+    },
+    {
+      "questionText": "The passage describes conservation as \"use without abuse—development joined to foresight\" and contrasts it with resources being \"wasted for the profit of a few.\" Based on this distinction, which statement accurately reflects the author's evaluation of these two approaches?",
+      "answerOptions": [
+        {
+          "text": "The author advocates for a balanced, long-term approach to resource use, viewing short-term exploitation for private profit as harmful to the public.",
+          "isCorrect": true,
+          "rationale": "The passage defines conservation as 'greatest good to the greatest number for the longest time' and calls waste for private profit a 'public crime,' clearly advocating for the long-term, public-benefiting approach over short-term private gain."
+        },
+        {
+          "text": "The author suggests that both conservation and the profit motive are equally valid strategies for resource management.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that 'waste is not only a private fault; it is a public crime,' indicating a clear disapproval of resource exploitation for mere profit, rather than seeing it as equally valid."
+        },
+        {
+          "text": "The author argues that resources should be locked up and untouched, which is contradictory to \"use without abuse.\"",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Conservation does not mean locking everything up,' directly contradicting the idea that resources should be untouched."
+        },
+        {
+          "text": "The author believes that immediate economic benefits should always take precedence over long-term environmental concerns.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes 'the longest time' and 'our children and our children’s children,' showing a clear preference for long-term benefits and foresight over immediate economic gain."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_gifford_pinchot_conservation",
+      "passageTitle": "The Fight for Conservation (Excerpt)",
+      "topicTags": [
+        "Conservation / Public Lands"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 21,
+      "bankFingerprint": "b1e772b5b4fb84cf584b5d5622a62468af56e016"
+    },
+    {
+      "questionText": "The passage states, \"If they are cut recklessly, the soil washes away and whole valleys are ruined.\" Which of the following statements is best supported by this claim?",
+      "answerOptions": [
+        {
+          "text": "Protecting forest ecosystems is crucial for preventing widespread environmental damage and maintaining soil stability.",
+          "isCorrect": true,
+          "rationale": "The claim directly links reckless cutting to soil erosion and ruined valleys, implying that careful management (protection) of forests is necessary to avoid these negative outcomes and maintain environmental stability."
+        },
+        {
+          "text": "The primary role of forests is to provide lumber for economic development, regardless of environmental impact.",
+          "isCorrect": false,
+          "rationale": "While forests 'furnish lumber,' the passage highlights the severe negative consequences of 'reckless' cutting, suggesting that economic development through lumber should not override environmental impact."
+        },
+        {
+          "text": "Floods are a natural phenomenon that cannot be influenced by human activity or forest management.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'Forests prevent floods,' directly implying that human activity (like reckless cutting) and forest management *can* influence flood occurrence."
+        },
+        {
+          "text": "The long-term health of valleys is solely dependent on mineral extraction and has no relation to forest cover.",
+          "isCorrect": false,
+          "rationale": "The passage discusses forests' role in regulating streams and preventing soil erosion, which directly impacts valley health, and does not limit valley health to mineral extraction."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_gifford_pinchot_conservation",
+      "passageTitle": "The Fight for Conservation (Excerpt)",
+      "topicTags": [
+        "Conservation / Public Lands"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 22,
+      "bankFingerprint": "e486f554ccee2cad18a66dabdc79f4278cd5f073"
+    },
+    {
+      "questionText": "\"When we try to pick out anything by itself, we find it hitched to everything else in the universe.\" This statement best supports which conclusion about ecological systems in the Sierra Nevada?",
+      "passage": "<div class=\"passage-text\"><p><strong>The Mountains of California (Excerpt)</strong></p><p><em>John Muir, 1894</em></p><p>When we try to pick out anything by itself, we find it hitched to everything else in the universe. Nowhere is this more visible than in the Sierra Nevada, where glacier-meadows, forests, and streams are bound together in one harmonious whole. The pines draw their life from the soil made by ancient ice; the waterfalls feed the ferns and lilies; the animals in their turn scatter seeds and keep the balance. To destroy the forests is to dry the fountains that feed the valleys. Nature’s beauty is not mere decoration, but a sign of health. I would have people go to the mountains not only for recreation but for instruction, to learn that man is only one of the Creator’s creatures and must live in sympathy with all the rest.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Each element of the Sierra Nevada ecosystem exists independently of the others.",
+          "isCorrect": false,
+          "rationale": "This contradicts the author's central assertion that everything is 'hitched to everything else' and 'bound together in one harmonious whole'."
+        },
+        {
+          "text": "The health of one component in the Sierra Nevada is directly dependent on the health of other components.",
+          "isCorrect": true,
+          "rationale": "The passage emphasizes interconnectedness, stating that 'pines draw their life from the soil,' 'waterfalls feed the ferns,' and 'animals...keep the balance,' showing mutual dependence."
+        },
+        {
+          "text": "The Sierra Nevada is unique in its ecological interconnectedness compared to other ecosystems.",
+          "isCorrect": false,
+          "rationale": "While the passage highlights the Sierra Nevada, it presents the interconnectedness as a general principle ('everything else in the universe') rather than implying it's unique to this specific location."
+        },
+        {
+          "text": "Human activity is the sole factor determining the balance within the Sierra Nevada ecosystem.",
+          "isCorrect": false,
+          "rationale": "The passage describes natural interdependencies (ice-soil-pines, waterfalls-plants, animals-seeds) that existed long before significant human impact, and while humans are discussed, they are not presented as the sole determinant of balance."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "63c23ee839e30e5b65a8c86c3b18d64f092b3661",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:47:09.416Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 23,
+      "bankFingerprint": "63c23ee839e30e5b65a8c86c3b18d64f092b3661"
+    },
+    {
+      "questionText": "Which conclusion is best supported by the Punnett square shown in the passage?",
+      "passage": "<p>A biology class studies flower color using a Punnett square. One parent flower has red petals and the other has white petals. The square shows that each offspring receives one R allele and one r allele, so all four boxes in the first generation are labeled Rr. In this cross, the heterozygous genotype produces pink flowers because neither allele is completely dominant.</p>",
+      "answerOptions": [
+        {
+          "text": "All first-generation offspring will be pink because each has the genotype Rr.",
+          "isCorrect": true,
+          "rationale": "Correct. The passage states that every box in the Punnett square is Rr and that Rr produces pink flowers."
+        },
+        {
+          "text": "Half of the offspring will be red and half will be white.",
+          "isCorrect": false,
+          "rationale": "That would require two different genotype outcomes, but all four boxes are Rr."
+        },
+        {
+          "text": "All first-generation offspring will be red because red is always dominant.",
+          "isCorrect": false,
+          "rationale": "The passage describes incomplete dominance, not complete dominance."
+        },
+        {
+          "text": "The cross cannot be predicted because only one parent genotype is known.",
+          "isCorrect": false,
+          "rationale": "The passage gives the allele each parent contributes and the full Punnett result."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "94cc78f81ed925ddf17f6159656b6107ebcf3095",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T05:20:37.221Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 24,
+      "bankFingerprint": "94cc78f81ed925ddf17f6159656b6107ebcf3095"
+    },
+    {
+      "questionText": "A permanent alteration in the nucleotide sequence of DNA is called a(n):",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Transcription",
+          "isCorrect": false,
+          "rationale": "Transcription is the process of copying a segment of DNA into RNA."
+        },
+        {
+          "text": "Translation",
+          "isCorrect": false,
+          "rationale": "Translation is the process where ribosomes synthesize proteins."
+        },
+        {
+          "text": "Mutation",
+          "isCorrect": true,
+          "rationale": "Correct. Mutations can be caused by errors in DNA replication or by environmental factors and can be beneficial, neutral, or harmful."
+        },
+        {
+          "text": "Adaptation",
+          "isCorrect": false,
+          "rationale": "An adaptation is a trait that helps an organism survive, which can arise from a mutation."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "0ba257d10f54a94c065821d7a6494d3701c3d6a3",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T04:32:41.256Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 25,
+      "bankFingerprint": "0ba257d10f54a94c065821d7a6494d3701c3d6a3"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the carbon cycle, depicting the flow of carbon among the atmosphere, land, and ocean."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 26,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 27,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 28,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionText": "The force that opposes motion between two surfaces that are in contact is called:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Gravity",
+          "isCorrect": false,
+          "rationale": "Gravity is the force of attraction between masses."
+        },
+        {
+          "text": "Friction",
+          "isCorrect": true,
+          "rationale": "Correct. Friction acts in the direction opposite to motion or attempted motion."
+        },
+        {
+          "text": "Inertia",
+          "isCorrect": false,
+          "rationale": "Inertia is a property of matter, not a force."
+        },
+        {
+          "text": "Momentum",
+          "isCorrect": false,
+          "rationale": "Momentum is a measure of mass in motion (mass times velocity)."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "a4045ff3d63d4d35a852b6e806afad7e30aec5a3",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-26T17:07:11.180Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "concept-application",
+      "questionNumber": 29,
+      "bankFingerprint": "a4045ff3d63d4d35a852b6e806afad7e30aec5a3"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "A line graph showing relative humidity percentage over eight days in May, accompanied by an explanatory paragraph."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 30,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionText": "A sudden shaking of the ground caused by the movement of tectonic plates is called:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "A volcano",
+          "isCorrect": false,
+          "rationale": "A volcano is an opening in the Earth's crust from which lava, ash, and gases erupt."
+        },
+        {
+          "text": "A hurricane",
+          "isCorrect": false,
+          "rationale": "A hurricane is a large rotating storm with high-speed winds that forms over warm waters."
+        },
+        {
+          "text": "An earthquake",
+          "isCorrect": true,
+          "rationale": "Correct. Earthquakes are caused by the release of energy from the Earth's crust."
+        },
+        {
+          "text": "A tsunami",
+          "isCorrect": false,
+          "rationale": "A tsunami is a large ocean wave, often caused by an underwater earthquake."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "cd14d9511d8960a773c89d5935c4bf1e3814223b",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-18T08:04:26.165Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 31,
+      "bankFingerprint": "cd14d9511d8960a773c89d5935c4bf1e3814223b"
+    },
+    {
+      "questionText": "A student conducted an experiment to determine the density of different plant tissues. The mass and volume of three tissue samples were measured and recorded in the table below. <table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Apple Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">16.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Potato Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">18.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Carrot Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">17.0</td></tr></tbody></table>Based on this data, which plant tissue sample has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Apple Tissue",
+          "isCorrect": false,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For apple tissue, the density is 15.0 g / 16.5 cm³ ≈ 0.91 g/cm³."
+        },
+        {
+          "text": "Potato Tissue",
+          "isCorrect": true,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For potato tissue, the density is 18.0 g / 15.0 cm³ = 1.20 g/cm³. This is the greatest density among the three samples."
+        },
+        {
+          "text": "Carrot Tissue",
+          "isCorrect": false,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For carrot tissue, the density is 20.0 g / 17.0 cm³ ≈ 1.18 g/cm³."
+        },
+        {
+          "text": "All samples have approximately the same density.",
+          "isCorrect": false,
+          "rationale": "The calculated densities are 0.91 g/cm³ for apple tissue, 1.20 g/cm³ for potato tissue, and 1.18 g/cm³ for carrot tissue. These values are not approximately the same."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 32,
+      "bankFingerprint": "73a8e8f3f38ee341d0d297325ec88e7f1abf0edb"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Cell Culture</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Cell Culture X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Cell Culture Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Cell Culture Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">13.2</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">11.0</td></tr></tbody></table><p>Based on the data in the table, which cell culture has the highest density?</p>",
+      "answerOptions": [
+        {
+          "text": "Cell Culture X",
+          "isCorrect": false,
+          "rationale": "To find the density, use the formula d = \\(\\frac{m}{V}\\). For Cell Culture X, density = 10.5 g / 10.0 mL = 1.05 g/mL."
+        },
+        {
+          "text": "Cell Culture Y",
+          "isCorrect": false,
+          "rationale": "To find the density, use the formula d = \\(\\frac{m}{V}\\). For Cell Culture Y, density = 12.0 g / 15.0 mL = 0.80 g/mL."
+        },
+        {
+          "text": "Cell Culture Z",
+          "isCorrect": true,
+          "rationale": "To find the density, use the formula d = \\(\\frac{m}{V}\\). For Cell Culture Z, density = 13.2 g / 11.0 mL = 1.20 g/mL. Comparing the densities: Cell Culture X (1.05 g/mL), Cell Culture Y (0.80 g/mL), Cell Culture Z (1.20 g/mL). Cell Culture Z has the highest density."
+        },
+        {
+          "text": "All cell cultures have the same density.",
+          "isCorrect": false,
+          "rationale": "Calculations show that the densities are different: Cell Culture X = 1.05 g/mL, Cell Culture Y = 0.80 g/mL, Cell Culture Z = 1.20 g/mL."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 33,
+      "bankFingerprint": "7b094e33c3e97032e2128aa69d285a91af409ae1"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">105.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">95.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Marrow</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Compact Bone</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">185.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100.0</td></tr></tbody></table>Based on the table, which tissue type has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle Tissue",
+          "isCorrect": false,
+          "rationale": "Muscle tissue has a density of 105.0 g / 100.0 cm³ = 1.05 g/cm³."
+        },
+        {
+          "text": "Adipose Tissue",
+          "isCorrect": false,
+          "rationale": "Adipose tissue has a density of 95.0 g / 100.0 cm³ = 0.95 g/cm³."
+        },
+        {
+          "text": "Bone Marrow",
+          "isCorrect": false,
+          "rationale": "Bone marrow has a density of 90.0 g / 100.0 cm³ = 0.90 g/cm³."
+        },
+        {
+          "text": "Compact Bone",
+          "isCorrect": true,
+          "rationale": "Using the formula Density = Mass / Volume, Compact Bone has a density of 185.0 g / 100.0 cm³ = 1.85 g/cm³, which is the highest among the listed tissues."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 34,
+      "bankFingerprint": "d5ceaa0841b3a0be3ff84eca918cf6369ff732d6"
+    },
+    {
+      "questionText": "A scientist is studying the densities of various biological samples. The mass and volume measurements for four different samples are provided in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Red Blood Cells</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.2</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">4.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">White Blood Cells</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">3.6</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">3.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Plasma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8.8</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.0</td></tr></tbody></table>Based on the data and the formula d = \\(\\frac{m}{V}\\), which sample type has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Red Blood Cells",
+          "isCorrect": false,
+          "rationale": "The density of Red Blood Cells is 5.2 g / 4.0 cm³ = 1.3 g/cm³."
+        },
+        {
+          "text": "White Blood Cells",
+          "isCorrect": false,
+          "rationale": "The density of White Blood Cells is 3.6 g / 3.0 cm³ = 1.2 g/cm³."
+        },
+        {
+          "text": "Plasma",
+          "isCorrect": false,
+          "rationale": "The density of Plasma is 8.8 g / 8.0 cm³ = 1.1 g/cm³."
+        },
+        {
+          "text": "Bone Tissue",
+          "isCorrect": true,
+          "rationale": "The density of Bone Tissue is 10.5 g / 5.0 cm³ = 2.1 g/cm³. This is the highest density among the given samples."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 35,
+      "bankFingerprint": "17dbba1fdfd23a1f7a7f1dbba62f4ab7cdcb6c86"
+    },
+    {
+      "questionText": "A snail travels a distance of 180 centimeters (cm) in 30 minutes. What is the snail's average speed in meters per hour \\(\\frac{m}{h}\\)? (1 meter = 100 centimeters, 1 hour = 60 minutes)",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "0.06 \\(\\frac{m}{h}\\)",
+          "isCorrect": false,
+          "rationale": "This is 180 cm / 30 min = 6 cm/min, then \\(\\frac{6}{100}\\) = 0.06 m/min, not per hour."
+        },
+        {
+          "text": "3.6 \\(\\frac{m}{h}\\)",
+          "isCorrect": true,
+          "rationale": "First, convert distance: 180 cm = 1.8 m. Next, convert time: 30 minutes = 0.5 hours. Then, speed = distance / time = 1.8 m / 0.5 h = 3.6 \\(\\frac{m}{h}\\)."
+        },
+        {
+          "text": "108 \\(\\frac{m}{h}\\)",
+          "isCorrect": false,
+          "rationale": "This calculation multiplied 1.8m by 60, but incorrectly used 30 minutes as 1 hour."
+        },
+        {
+          "text": "60 \\(\\frac{m}{h}\\)",
+          "isCorrect": false,
+          "rationale": "This calculation incorrectly converted 180 cm to 180 m, then divided by 3 hours."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "Scientific Numeracy",
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "eba4f52b7415cc4c52f4280daab5d19c2b6289dd",
+        "sourceModel": "gemini",
+        "createdAt": "2026-03-18T15:06:26.011Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 36,
+      "bankFingerprint": "a8d276947ea5ee342ecafcc2144b21c0facac735"
+    },
+    {
+      "questionText": "The phenomenon where certain materials emit electrons when light shines on them is called the:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Photoelectric effect",
+          "isCorrect": true,
+          "rationale": "Correct. The explanation of this effect by Einstein was a key step in the development of quantum mechanics."
+        },
+        {
+          "text": "Greenhouse effect",
+          "isCorrect": false,
+          "rationale": "The greenhouse effect is the trapping of heat in the atmosphere."
+        },
+        {
+          "text": "Doppler effect",
+          "isCorrect": false,
+          "rationale": "The Doppler effect is the change in frequency of a wave in relation to an observer who is moving relative to the wave source."
+        },
+        {
+          "text": "Placebo effect",
+          "isCorrect": false,
+          "rationale": "The placebo effect is a psychological phenomenon in medicine."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "4d35f28ea0feb6905769a2ae5849f18e680579b4",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.884Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 37,
+      "bankFingerprint": "4d35f28ea0feb6905769a2ae5849f18e680579b4"
+    },
+    {
+      "questionText": "A truck uses 25 liters of fuel to travel 200 km. If fuel costs &#36;1.50 per liter, how much would it cost to travel 500 km?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;93.75",
+          "isCorrect": true,
+          "rationale": "First, find the fuel efficiency: 25 L / 200 km = 0.125 L/km. Then, calculate fuel needed for 500 km: 0.125 L/km * 500 km = 62.5 L. Finally, calculate the cost: 62.5 L * &#36;1.50/L = &#36;93.75."
+        },
+        {
+          "text": "&#36;187.50",
+          "isCorrect": false,
+          "rationale": "This answer might result from an error in calculating the fuel required or the cost per liter."
+        },
+        {
+          "text": "&#36;375.00",
+          "isCorrect": false,
+          "rationale": "This calculation might incorrectly apply the initial fuel consumption to the total distance or miscalculate the cost per liter."
+        },
+        {
+          "text": "&#36;62.50",
+          "isCorrect": false,
+          "rationale": "This is the amount of fuel needed (62.5 L), not the total cost."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multiple-choice",
+      "topic": "Scientific Numeracy",
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "1efceee687adc042f7437c5df3b82137076e11f4",
+        "sourceModel": "gemini",
+        "createdAt": "2026-03-18T14:24:05.830Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 38,
+      "bankFingerprint": "f954b12270a9833ac0e42d5891fed4a9447e703a"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 3, expected ~9",
+    "Difficulty \"medium\": 27, expected ~19"
+  ]
+}

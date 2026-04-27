@@ -12,12 +12,15 @@
 
 const crypto = require('crypto');
 
-const TOKEN_BYTES = 32;        // 256-bit raw token => 64-char hex
-const VERIFY_TTL_HOURS = 72;   // verify links live 3 days
-const RESET_TTL_HOURS = 1;     // reset links live 1 hour (industry norm)
+const TOKEN_BYTES = 32; // 256-bit raw token => 64-char hex
+const VERIFY_TTL_HOURS = 72; // verify links live 3 days
+const RESET_TTL_HOURS = 1; // reset links live 1 hour (industry norm)
 
 function _hash(token) {
-  return crypto.createHash('sha256').update(String(token), 'utf8').digest('hex');
+  return crypto
+    .createHash('sha256')
+    .update(String(token), 'utf8')
+    .digest('hex');
 }
 
 function _newRawToken() {
@@ -37,8 +40,10 @@ function _newRawToken() {
  * @returns {Promise<{ token: string, expiresAt: Date }>}
  */
 async function issueAuthToken(db, { userId, purpose, req }) {
-  if (!userId || !purpose) throw new Error('issueAuthToken: userId and purpose required');
-  const ttlHours = purpose === 'password_reset' ? RESET_TTL_HOURS : VERIFY_TTL_HOURS;
+  if (!userId || !purpose)
+    throw new Error('issueAuthToken: userId and purpose required');
+  const ttlHours =
+    purpose === 'password_reset' ? RESET_TTL_HOURS : VERIFY_TTL_HOURS;
   const expiresAt = new Date(Date.now() + ttlHours * 3600 * 1000);
   const raw = _newRawToken();
   const hash = _hash(raw);
@@ -91,7 +96,9 @@ async function findValidToken(db, { token, purpose }) {
 }
 
 async function markTokenUsed(db, tokenId) {
-  await db.query(`UPDATE auth_tokens SET used_at = NOW() WHERE id = $1`, [tokenId]);
+  await db.query(`UPDATE auth_tokens SET used_at = NOW() WHERE id = $1`, [
+    tokenId,
+  ]);
 }
 
 /**
@@ -134,7 +141,12 @@ async function canOrgAcceptNewMember(db, organizationId) {
   );
   const used = countRes.rows[0]?.used || 0;
   if (used >= org.seat_limit) {
-    return { ok: false, reason: 'seat_limit_reached', used, limit: org.seat_limit };
+    return {
+      ok: false,
+      reason: 'seat_limit_reached',
+      used,
+      limit: org.seat_limit,
+    };
   }
   return { ok: true, used, limit: org.seat_limit };
 }

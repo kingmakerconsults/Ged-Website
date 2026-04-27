@@ -1,0 +1,1639 @@
+{
+  "id": "ai_comp_science_1777302967401",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "The author claims that \"To destroy the forests is to dry the fountains that feed the valleys.\" Which statement from the passage provides the foundational reasoning for this claim?",
+      "answerOptions": [
+        {
+          "text": "When we try to pick out anything by itself, we find it hitched to everything else in the universe.",
+          "isCorrect": true,
+          "rationale": "This statement is the core principle of interconnectedness the author introduces, serving as the fundamental justification for the specific claim about forests and valleys."
+        },
+        {
+          "text": "The pines draw their life from the soil made by ancient ice.",
+          "isCorrect": false,
+          "rationale": "While an example of interconnectedness, this statement describes one specific link, not the overarching principle that supports the general claim about forests and valleys."
+        },
+        {
+          "text": "Nature’s beauty is not mere decoration, but a sign of health.",
+          "isCorrect": false,
+          "rationale": "This statement expresses the author's philosophical view on nature's beauty, rather than providing scientific reasoning for the ecological claim about water flow."
+        },
+        {
+          "text": "Man is only one of the Creator’s creatures and must live in sympathy with all the rest.",
+          "isCorrect": false,
+          "rationale": "This statement is the author's moral conclusion about humanity's role, not the ecological reasoning behind the claim about forests and valleys."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Mountains of California (Excerpt)</strong></p><p><em>John Muir, 1894</em></p><p>When we try to pick out anything by itself, we find it hitched to everything else in the universe. Nowhere is this more visible than in the Sierra Nevada, where glacier-meadows, forests, and streams are bound together in one harmonious whole. The pines draw their life from the soil made by ancient ice; the waterfalls feed the ferns and lilies; the animals in their turn scatter seeds and keep the balance. To destroy the forests is to dry the fountains that feed the valleys. Nature’s beauty is not mere decoration, but a sign of health. I would have people go to the mountains not only for recreation but for instruction, to learn that man is only one of the Creator’s creatures and must live in sympathy with all the rest.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_muir_mountains_of_california",
+      "passageTitle": "The Mountains of California (Excerpt)",
+      "topicTags": [
+        "Ecology / Conservation"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 1,
+      "bankFingerprint": "2eff9ccf7dc938bfa28f906ffbe3da6ddbf52c15"
+    },
+    {
+      "questionText": "Based on the author's overall message, what is the most likely implication of humans failing to \"live in sympathy with all the rest\" of nature?",
+      "answerOptions": [
+        {
+          "text": "The natural \"harmonious whole\" described in the Sierra Nevada would be disrupted, leading to negative consequences for ecosystems.",
+          "isCorrect": true,
+          "rationale": "The passage emphasizes that everything is \"hitched to everything else\" and that \"destroy the forests is to dry the fountains that feed the valleys,\" indicating that a lack of sympathy and respect for nature's interconnectedness would lead to ecological imbalance and harm."
+        },
+        {
+          "text": "Humans would no longer be able to enjoy the recreational aspects of mountains.",
+          "isCorrect": false,
+          "rationale": "While a possible side effect, the passage emphasizes instruction and the ecological consequences of human actions, not primarily the loss of recreation."
+        },
+        {
+          "text": "Animals would be unable to scatter seeds and maintain the balance of nature.",
+          "isCorrect": false,
+          "rationale": "This is a specific example of natural balance mentioned in the passage, but it's a consequence of ecosystem disruption, not the most comprehensive implication of humans failing to live in sympathy with *all* of nature."
+        },
+        {
+          "text": "The beauty of nature would become merely decorative, losing its deeper meaning.",
+          "isCorrect": false,
+          "rationale": "The author states that nature's beauty is a sign of health. If health is lost due to human actions, its significance as a 'sign of health' might diminish, but this is a philosophical implication rather than the primary ecological consequence of failing to live in sympathy."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Mountains of California (Excerpt)</strong></p><p><em>John Muir, 1894</em></p><p>When we try to pick out anything by itself, we find it hitched to everything else in the universe. Nowhere is this more visible than in the Sierra Nevada, where glacier-meadows, forests, and streams are bound together in one harmonious whole. The pines draw their life from the soil made by ancient ice; the waterfalls feed the ferns and lilies; the animals in their turn scatter seeds and keep the balance. To destroy the forests is to dry the fountains that feed the valleys. Nature’s beauty is not mere decoration, but a sign of health. I would have people go to the mountains not only for recreation but for instruction, to learn that man is only one of the Creator’s creatures and must live in sympathy with all the rest.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_muir_mountains_of_california",
+      "passageTitle": "The Mountains of California (Excerpt)",
+      "topicTags": [
+        "Ecology / Conservation"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 2,
+      "bankFingerprint": "523b0f4657ef9d5916b03d14046cf26409ecd39a"
+    },
+    {
+      "questionText": "Which of these is the best description of the 'Greenhouse Effect'?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "A process that cools the Earth by reflecting sunlight.",
+          "isCorrect": false,
+          "rationale": "This is related to albedo, not the greenhouse effect."
+        },
+        {
+          "text": "The trapping of heat by certain gases in the atmosphere, which keeps the planet warm.",
+          "isCorrect": true,
+          "rationale": "Correct. It's a natural and necessary process for life, but has been enhanced by human activity."
+        },
+        {
+          "text": "The depletion of the ozone layer by industrial chemicals.",
+          "isCorrect": false,
+          "rationale": "Ozone depletion is a separate environmental issue, though related to atmospheric chemistry."
+        },
+        {
+          "text": "The seasonal change in the color of plants.",
+          "isCorrect": false,
+          "rationale": "This is a biological process."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "e1dad207782d13bd81850a5f1a88341974f79d01",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.875Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "concept-application",
+      "questionNumber": 3,
+      "bankFingerprint": "e1dad207782d13bd81850a5f1a88341974f79d01"
+    },
+    {
+      "questionText": "A laboratory technician measures the mass and volume of three different animal tissue samples. The results are shown in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">53.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">45.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td></tr></tbody></table>Based on the data, which tissue sample has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle Tissue",
+          "isCorrect": false,
+          "rationale": "To find the density (d), use the formula d = \\(\\frac{m}{V}\\). For Muscle Tissue: d = 53.0 g / 50.0 cm³ = 1.06 g/cm³."
+        },
+        {
+          "text": "Adipose Tissue",
+          "isCorrect": true,
+          "rationale": "To find the density (d), use the formula d = \\(\\frac{m}{V}\\). For Adipose Tissue: d = 45.0 g / 50.0 cm³ = 0.90 g/cm³. Comparing the densities (Muscle: 1.06 g/cm³, Adipose: 0.90 g/cm³, Bone: 1.80 g/cm³), Adipose Tissue has the lowest density."
+        },
+        {
+          "text": "Bone Tissue",
+          "isCorrect": false,
+          "rationale": "To find the density (d), use the formula d = \\(\\frac{m}{V}\\). For Bone Tissue: d = 90.0 g / 50.0 cm³ = 1.80 g/cm³. This is the highest density among the samples."
+        },
+        {
+          "text": "All tissues have the same density",
+          "isCorrect": false,
+          "rationale": "Although all samples have the same volume, their masses differ significantly, which means their densities will also differ. Density is calculated as mass divided by volume (d = \\(\\frac{m}{V}\\))."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 4,
+      "bankFingerprint": "2c741ff56bd0447d2816046ba4861430fdc90984"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">13.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample C</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Sample D</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">16.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.0</td></tr></tbody></table>Based on the data in the table, which tissue sample has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Sample A",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Sample A, d = 12.0 g / 10.0 cm³ = 1.20 g/cm³. This is not the lowest density among the samples."
+        },
+        {
+          "text": "Sample B",
+          "isCorrect": true,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Sample B, d = 13.5 g / 12.0 cm³ = 1.125 g/cm³. Calculating the densities for all samples: Sample A = 1.20 g/cm³, Sample B = 1.125 g/cm³, Sample C = 1.25 g/cm³, and Sample D = 1.33 g/cm³. Comparing these values, 1.125 g/cm³ is the lowest density."
+        },
+        {
+          "text": "Sample C",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Sample C, d = 10.0 g / 8.0 cm³ = 1.25 g/cm³. This is not the lowest density among the samples."
+        },
+        {
+          "text": "Sample D",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Sample D, d = 16.0 g / 12.0 cm³ = 1.33 g/cm³. This is not the lowest density; in fact, it is the highest density among the samples."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 5,
+      "bankFingerprint": "a25d2636573982c43d0db3e122132e4ba515bd4e"
+    },
+    {
+      "questionText": "In which organelle does aerobic cellular respiration primarily take place?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Chloroplast",
+          "isCorrect": false,
+          "rationale": "Photosynthesis occurs in the chloroplast."
+        },
+        {
+          "text": "Mitochondrion",
+          "isCorrect": true,
+          "rationale": "Correct. Mitochondria are often called the 'powerhouses' of the cell because this is where ATP is generated."
+        },
+        {
+          "text": "Ribosome",
+          "isCorrect": false,
+          "rationale": "Ribosomes are responsible for protein synthesis."
+        },
+        {
+          "text": "Vacuole",
+          "isCorrect": false,
+          "rationale": "Vacuoles are primarily for storage."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "4fca0437627a61f8468fbb4a395a69cdec719bb7",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T04:37:45.371Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 6,
+      "bankFingerprint": "4fca0437627a61f8468fbb4a395a69cdec719bb7"
+    },
+    {
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "stimulusType": "diagram",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "A cross-section diagram illustrating the orographic effect on weather and climate, showing mountains near an ocean."
+      },
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "easy",
+      "source": "trustedLocalImage",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 7,
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "questionNumber": 8,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 9,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 10,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "What is the primary purpose of the binomial system as described by the author?",
+      "passage": "<div class=\"passage-text\"><p><strong>Systema Naturae (Excerpt)</strong></p><p><em>Carl Linnaeus, 1735</em></p><p>The diversity of living things is vast, yet it is not confused. Nature is orderly. To make sense of this order, I have proposed that every plant and animal be given two names: a generic name and a specific name. By this binomial system, all naturalists in every land may speak the same language. Creatures that resemble each other in structure and reproduction are placed in the same genus; related genera are grouped into higher ranks. The purpose is not merely to label, but to reveal the plan of the Creator as shown in the forms of life. By careful observation of parts—the petals of flowers, the teeth of animals, the number of limbs—we can place each organism in a natural system. Thus classification becomes the key to understanding the richness of the natural world.</p></div>",
+      "answerOptions": [
+        {
+          "text": "To establish a universal naming convention for all living things.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"By this binomial system, all naturalists in every land may speak the same language,\" indicating a universal naming convention is the primary purpose."
+        },
+        {
+          "text": "To simplify the process of discovering new plant and animal species.",
+          "isCorrect": false,
+          "rationale": "While classification might aid discovery, the passage emphasizes its role in creating a common language and revealing order, not specifically simplifying discovery."
+        },
+        {
+          "text": "To precisely determine the exact age of different species on Earth.",
+          "isCorrect": false,
+          "rationale": "The passage discusses classification based on structure and reproduction to understand natural order, not to date species."
+        },
+        {
+          "text": "To prevent any future changes to the names of plants and animals.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention the permanence of names, only the establishment of a common system for current use."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "f721648e36289c96de600db23e15c52173a680c9",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:18:13.270Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "responseType": "mc",
+      "type": "standalone",
+      "questionNumber": 11,
+      "bankFingerprint": "f721648e36289c96de600db23e15c52173a680c9"
+    },
+    {
+      "questionText": "The image displays a powerful hurricane, characterized by its distinct eye and swirling cloud bands. Considering the 'Average Temperature of Various Large Bodies of Water' table, what is the most significant role that ocean temperature plays in the formation and intensity of such a storm?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean waters, like the Gulf of Mexico's average of 60 degrees Fahrenheit, provide the heat energy and moisture necessary to fuel hurricanes.",
+          "isCorrect": true,
+          "rationale": "Hurricanes draw their energy from warm ocean waters. The heat causes water to evaporate, leading to condensation and the release of latent heat, which powers the storm. The Gulf of Mexico, with an average of 60 degrees Fahrenheit, represents the warmest water body listed, providing ideal conditions."
+        },
+        {
+          "text": "Colder water temperatures, such as the Arctic Ocean's 36 degrees Fahrenheit, increase the atmospheric pressure above the ocean, which strengthens hurricane winds.",
+          "isCorrect": false,
+          "rationale": "Colder water temperatures actually inhibit hurricane formation and strength because they reduce evaporation and the transfer of heat energy to the atmosphere. Higher atmospheric pressure would also work against the low-pressure system characteristic of a hurricane."
+        },
+        {
+          "text": "The varying temperatures across different bodies of water, such as the 46 degrees Fahrenheit of the Atlantic Ocean, cause the Coriolis effect that initiates hurricane rotation.",
+          "isCorrect": false,
+          "rationale": "The Coriolis effect, which contributes to hurricane rotation, is caused by the Earth's rotation, not directly by varying water temperatures. While temperature influences where hurricanes form, it does not cause the Coriolis effect itself."
+        },
+        {
+          "text": "Water temperature primarily determines the depth of the ocean, which is the main factor influencing the destructive power of a hurricane.",
+          "isCorrect": false,
+          "rationale": "Ocean depth is not primarily determined by water temperature, and while ocean depth can affect surge, it is not the main factor influencing the destructive power or intensity of a hurricane. Warm water for energy is far more critical for the storm itself."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 12,
+      "bankFingerprint": "b902917f4024e406ad42296eb87bc43a39b93bb1"
+    },
+    {
+      "questionText": "What is the author's primary purpose in writing this short passage about the sea?",
+      "passage": "The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.",
+      "answerOptions": [
+        {
+          "text": "To persuade readers to support marine conservation efforts.",
+          "isCorrect": false,
+          "rationale": "While the passage highlights the sea's importance, it does not contain persuasive language or calls to action for conservation."
+        },
+        {
+          "text": "To provide a detailed scientific explanation of ocean currents.",
+          "isCorrect": false,
+          "rationale": "The passage is general and poetic, not a detailed scientific explanation of any specific oceanographic process."
+        },
+        {
+          "text": "To emphasize the profound and multifaceted importance of the sea to Earth's past and present.",
+          "isCorrect": true,
+          "rationale": "The passage highlights the sea's ubiquitous presence, its role in shaping Earth historically, and its current influence on climate and life, underscoring its overall significance."
+        },
+        {
+          "text": "To compare the geological processes of land formation and degradation.",
+          "isCorrect": false,
+          "rationale": "The passage primarily focuses on the sea's influence and the degradation of continents, not a balanced comparison of formation and degradation."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "8f6ce8bc3057e5161c5246690f42cdef0c72b918",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-11-19T18:05:49.477Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 13,
+      "bankFingerprint": "8f6ce8bc3057e5161c5246690f42cdef0c72b918"
+    },
+    {
+      "questionText": "What is the main conclusion the author draws about the nature of variation and heredity in living things?",
+      "passage": "<div class=\"passage-text\"><p><strong>Experiments on Plant Hybridization (Excerpt)</strong></p><p><em>Gregor Mendel, 1866</em></p><p>In cultivating varieties of the garden pea, I observed that certain traits appeared in regular numerical proportions. When I crossed a plant with round seeds and one with wrinkled seeds, the first generation showed only round seeds. But when these offspring were allowed to self-fertilize, the next generation produced round and wrinkled seeds in the ratio of about three to one. Similar results were obtained for flower color, pod color, and plant height. From these experiments I concluded that traits are determined by discrete factors, which are passed from parents to offspring. These factors do not blend but remain distinct, and some are dominant over others. Thus heredity follows laws that can be stated mathematically, and variation in living things is not chaotic but ordered.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Variation in traits is random and cannot be predicted.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that variation \"is not chaotic but ordered,\" contradicting this option."
+        },
+        {
+          "text": "Hereditary factors blend together, creating new, intermediate traits.",
+          "isCorrect": false,
+          "rationale": "The author specifically notes that factors \"do not blend but remain distinct.\""
+        },
+        {
+          "text": "Traits are determined by environmental factors rather than internal mechanisms.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on \"discrete factors\" passed from parents to offspring, not environmental determination."
+        },
+        {
+          "text": "The inheritance of traits follows predictable, mathematical laws, leading to ordered variation.",
+          "isCorrect": true,
+          "rationale": "The author concludes that \"heredity follows laws that can be stated mathematically, and variation in living things is not chaotic but ordered.\" This summarizes the main findings."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "d1b2e4b01fdc9b59a388419a47b9409e4842be84",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-19T15:03:22.684Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 14,
+      "bankFingerprint": "d1b2e4b01fdc9b59a388419a47b9409e4842be84"
+    },
+    {
+      "questionText": "The passage states that the discovery of these laws has \"opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.\" What is the most significant inference that can be drawn from this statement?",
+      "answerOptions": [
+        {
+          "text": "The laws of motion apply only to objects found on Earth, not in space.",
+          "isCorrect": false,
+          "rationale": "This contradicts the passage's explicit mention of 'uniting the terrestrial and celestial' and the example of the Moon's motion, indicating universal applicability."
+        },
+        {
+          "text": "Before these discoveries, the motions of objects on Earth and in the heavens were understood as fundamentally different.",
+          "isCorrect": true,
+          "rationale": "The phrase 'uniting the terrestrial and celestial' implies that previously, these realms were considered separate or governed by different principles, and the new discovery brought them under a single framework."
+        },
+        {
+          "text": "The primary focus of these laws is to explain complex celestial phenomena rather than everyday observations.",
+          "isCorrect": false,
+          "rationale": "The passage mentions both the 'fall of an apple' and the 'motion of the Moon,' indicating the laws apply to both simple terrestrial and complex celestial events."
+        },
+        {
+          "text": "A 'mechanical understanding' suggests that future scientific inquiry would abandon observation in favor of abstract mathematical models.",
+          "isCorrect": false,
+          "rationale": "A 'mechanical understanding' refers to explaining phenomena through forces and motion, which complements, rather than abandons, observation and experiment."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_principia",
+      "passageTitle": "Principia Mathematica (Excerpt)",
+      "topicTags": [
+        "Physics / Motion"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 15,
+      "bankFingerprint": "b5f5120f448e0db45f35b5a99531c3705100536d"
+    },
+    {
+      "questionText": "A student wants to design an experiment to demonstrate the principle that \"Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it.\" Which experimental design consideration would be most critical for validly testing this aspect of the law?",
+      "answerOptions": [
+        {
+          "text": "Measuring the precise duration a force is applied to an object to calculate its final velocity.",
+          "isCorrect": false,
+          "rationale": "While important for understanding the effect of forces, this focuses on how motion changes due to force, not the 'continuation of state' in the *absence* of forces, which is central to the first part of the principle."
+        },
+        {
+          "text": "Ensuring the experimental setup minimizes or accounts for all external forces, such as friction or air resistance, acting on the body.",
+          "isCorrect": true,
+          "rationale": "To demonstrate that a body continues in its state 'unless compelled to change by forces,' it is crucial to create a scenario where impressed forces are minimized or absent, allowing the inherent tendency (inertia) to be observed without interference. This identifies a key controlled variable."
+        },
+        {
+          "text": "Using objects of varying masses to observe how different masses respond to the same applied force.",
+          "isCorrect": false,
+          "rationale": "This would primarily investigate the relationship between force, mass, and change in motion, which relates more to the second law, not the concept of a body maintaining its state without external influence."
+        },
+        {
+          "text": "Recording the exact angle at which a force is applied relative to the object's initial direction of motion.",
+          "isCorrect": false,
+          "rationale": "This helps determine the direction of the change in motion, but it doesn't address the fundamental condition of observing an object *without* impressed forces or how it continues its state in the absence of such forces."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_principia",
+      "passageTitle": "Principia Mathematica (Excerpt)",
+      "topicTags": [
+        "Physics / Motion"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 16,
+      "bankFingerprint": "ae8eadd60ee6fc23fb88f31729226cb4e758ae62"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 17,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 18,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "A line graph showing relative humidity percentage over eight days in May, accompanied by an explanatory paragraph."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 19,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionText": "The Second Law of Thermodynamics states that the entropy (disorder) of an isolated system always:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Decreases",
+          "isCorrect": false,
+          "rationale": "The law states that entropy tends to increase."
+        },
+        {
+          "text": "Increases or stays the same",
+          "isCorrect": true,
+          "rationale": "Correct. This law explains why heat flows from hot to cold objects and why some processes are irreversible."
+        },
+        {
+          "text": "Remains constant",
+          "isCorrect": false,
+          "rationale": "Entropy can increase."
+        },
+        {
+          "text": "Cycles between high and low",
+          "isCorrect": false,
+          "rationale": "There is no cyclical pattern described by the law."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "d3b46a9774635484d00fcbf5872e1bef0178f542",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:16:47.460Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 20,
+      "bankFingerprint": "d3b46a9774635484d00fcbf5872e1bef0178f542"
+    },
+    {
+      "questionText": "A population of deer lives in a forest ecosystem. Due to a series of unusually mild winters and an abundance of food, the deer population grows rapidly. As the deer population increases, they consume a large amount of the available vegetation, including young saplings. Which of the following is a likely long-term consequence of the rapid growth in the deer population?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The population will continue to grow indefinitely.",
+          "isCorrect": false,
+          "rationale": "No population can grow indefinitely due to limiting factors."
+        },
+        {
+          "text": "The amount of vegetation in the forest will increase.",
+          "isCorrect": false,
+          "rationale": "A larger deer population will lead to a decrease in vegetation."
+        },
+        {
+          "text": "The deer population may eventually decrease due to a shortage of food.",
+          "isCorrect": true,
+          "rationale": "Correct. The overconsumption of resources will lead to a decline in the food supply, which will then limit the deer population. This is an example of a limiting factor."
+        },
+        {
+          "text": "The predators of the deer, such as wolves, will disappear from the forest.",
+          "isCorrect": false,
+          "rationale": "An increase in the deer population would likely lead to an increase in the predator population, not a decrease."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "cd449ca8136fb62b0b4ec642a011faa0e9fd8f37",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-04-13T14:50:29.562Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 21,
+      "bankFingerprint": "cd449ca8136fb62b0b4ec642a011faa0e9fd8f37"
+    },
+    {
+      "questionText": "What is the main argument presented by the author in the passage?",
+      "answerOptions": [
+        {
+          "text": "Different scientific disciplines are deeply interconnected and reveal universal principles.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'The various branches of science, though often studied apart, are in truth closely interwoven' and that 'laws discovered in one field frequently illuminate another,' leading to a 'unity of design and operation.'"
+        },
+        {
+          "text": "Scientific progress is best achieved by focusing on the distinct challenges within specialized fields.",
+          "isCorrect": false,
+          "rationale": "This contradicts the author's central theme that sciences are 'closely interwoven' and benefit from comparison across fields, not isolation."
+        },
+        {
+          "text": "Astronomy serves as the foundational science from which all other scientific laws are derived.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions 'Astronomy depends on mathematics,' it does not state that astronomy is the sole foundation for all other sciences; it uses it as an example of interdependency."
+        },
+        {
+          "text": "The primary objective of scientific inquiry is to uncover exceptions to established general principles.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes perceiving 'a unity of design and operation' and that various phenomena 'all obey general principles,' rather than focusing on exceptions."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_mary_somerville_physical_sciences",
+      "passageTitle": "On the Connexion of the Physical Sciences (Excerpt)",
+      "topicTags": [
+        "Scientific Synthesis"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 22,
+      "bankFingerprint": "7240991e4fc66d083d62d34118812f73f85e87cc"
+    },
+    {
+      "questionText": "Based on the author's statements, what is the implied benefit of understanding the 'unity of design and operation' in nature?",
+      "answerOptions": [
+        {
+          "text": "It simplifies complex scientific problems by reducing them to their core components.",
+          "isCorrect": false,
+          "rationale": "The passage does not suggest simplification but rather a broader, more integrated understanding. The benefit described is 'enlarges the mind' and 'encourages further inquiry,' not simplification."
+        },
+        {
+          "text": "It encourages scientists to specialize in a single field to achieve mastery.",
+          "isCorrect": false,
+          "rationale": "This contradicts the passage's emphasis on comparing branches of science and seeing their interconnectedness, which would suggest a broader rather than narrower focus."
+        },
+        {
+          "text": "It broadens intellectual perspective and stimulates additional scientific exploration.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that such a view 'not only enlarges the mind but encourages further inquiry,' supporting the idea of broadened perspective and stimulated exploration."
+        },
+        {
+          "text": "It confirms that all natural phenomena can ultimately be explained by mathematical equations alone.",
+          "isCorrect": false,
+          "rationale": "While 'Astronomy depends on mathematics' is mentioned, the passage does not claim that all phenomena are explained by mathematics alone, nor is it the implied benefit of understanding unity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_mary_somerville_physical_sciences",
+      "passageTitle": "On the Connexion of the Physical Sciences (Excerpt)",
+      "topicTags": [
+        "Scientific Synthesis"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 23,
+      "bankFingerprint": "b6c5fab0f5f6a702d270ce60826d85c23a41b83d"
+    },
+    {
+      "questionText": "What is the primary purpose of cellular respiration?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "To create food from sunlight.",
+          "isCorrect": false,
+          "rationale": "This is the purpose of photosynthesis."
+        },
+        {
+          "text": "To release energy (ATP) from glucose for the cell to use.",
+          "isCorrect": true,
+          "rationale": "Correct. It is the process by which organisms break down food to power their life functions."
+        },
+        {
+          "text": "To produce carbon dioxide for plants.",
+          "isCorrect": false,
+          "rationale": "Carbon dioxide is a byproduct of respiration, but its production is not the primary goal."
+        },
+        {
+          "text": "To get rid of excess oxygen.",
+          "isCorrect": false,
+          "rationale": "Oxygen is a necessary reactant for aerobic respiration."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "6677f3e80b8d554ab49661f7bfa28abd3607fcb7",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:18:24.345Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 24,
+      "bankFingerprint": "6677f3e80b8d554ab49661f7bfa28abd3607fcb7"
+    },
+    {
+      "questionText": "How did Galileo's observations specifically support the 'Copernican idea that the planets circle the Sun'?",
+      "passage": "<div class=\"passage-text\"><p><strong>Galileo Observes Jupiter's Moons</strong></p><p><em>Galileo Galilei, 1610</em></p><p>In January of 1610, I discovered four stars wandering around Jupiter, invisible before my observations. They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea that the planets circle the Sun.</p></div>",
+      "answerOptions": [
+        {
+          "text": "By demonstrating that not everything in the heavens revolved around the Earth, making an Earth-centered model less plausible.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea,' directly linking the two concepts by challenging the geocentric model."
+        },
+        {
+          "text": "By proving that Jupiter itself orbited the Sun, much like Earth.",
+          "isCorrect": false,
+          "rationale": "The passage describes Galileo observing bodies orbiting Jupiter, not Jupiter's orbit around the Sun. The support for the Copernican idea was indirect, by undermining the geocentric model."
+        },
+        {
+          "text": "By establishing that the Earth was stationary, thereby strengthening the Sun's central position.",
+          "isCorrect": false,
+          "rationale": "The passage does not state that Earth was stationary; rather, the Copernican idea implies Earth also orbits the Sun. Galileo's observations supported a non-Earth-centered view, which aligns with a Sun-centered model where Earth moves."
+        },
+        {
+          "text": "By indicating that all planets, including Earth, had multiple moons.",
+          "isCorrect": false,
+          "rationale": "The passage only describes Galileo's discovery of moons around Jupiter. It does not generalize this to all planets or link it directly to the Copernican idea in that manner."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "cec86e59275854bcfd18a6135c4673b9a687b629",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T17:38:50.167Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 25,
+      "bankFingerprint": "cec86e59275854bcfd18a6135c4673b9a687b629"
+    },
+    {
+      "questionText": "The passage states that the discovery of these laws 'has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.' What is the most significant implication of this statement?",
+      "passage": "<div class=\"passage-text\"><p><strong>Principia Mathematica (Excerpt)</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every body continues in its state of rest, or of uniform motion in a straight line, unless compelled to change that state by forces impressed upon it. The change of motion is proportional to the motive force impressed and is made in the direction of the straight line in which the force is impressed. To every action there is always opposed an equal reaction. In the philosophy of nature, it is by these laws that the harmony of motion and the predictability of the universe are secured. The same principle that guides the fall of an apple governs the motion of the Moon. This discovery has opened the door to a mechanical understanding of the heavens, uniting the terrestrial and celestial into one grand design of order and simplicity.</p></div>",
+      "answerOptions": [
+        {
+          "text": "It suggests that forces on Earth are fundamentally different from forces in space.",
+          "isCorrect": false,
+          "rationale": "The phrase 'uniting the terrestrial and celestial' implies commonality, not difference, in the fundamental principles governing motion."
+        },
+        {
+          "text": "It indicates that the same fundamental principles govern phenomena both on Earth and in the cosmos.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'the same principle that guides the fall of an apple governs the motion of the Moon,' and that the laws unite 'terrestrial and celestial into one grand design,' meaning the same rules apply everywhere."
+        },
+        {
+          "text": "It implies that celestial bodies move randomly, making their paths unpredictable.",
+          "isCorrect": false,
+          "rationale": "The passage refers to the 'predictability of the universe' and 'order and simplicity,' which contradicts the idea of random, unpredictable motion."
+        },
+        {
+          "text": "It highlights that only very large forces, like those in the heavens, are significant in shaping motion.",
+          "isCorrect": false,
+          "rationale": "The example of an apple falling (a relatively small force) being governed by the same principle as the Moon's motion contradicts the idea that only large forces are significant."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "f6d052df3d6c682eb502366a757ceba3198731bc",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T05:29:30.342Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 26,
+      "bankFingerprint": "f6d052df3d6c682eb502366a757ceba3198731bc"
+    },
+    {
+      "questionText": "A student investigates the rate of a reaction between a solid metal and an acid. To do this, they place a 5-gram strip of metal into a beaker containing 100 mL of acid and measure the amount of hydrogen gas produced over time. The student wants to see how surface area affects the reaction rate. To test the effect of surface area, which of the following changes should the student make in their next experiment?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Use a more concentrated acid.",
+          "isCorrect": false,
+          "rationale": "This would change the concentration, not the surface area."
+        },
+        {
+          "text": "Heat the beaker during the reaction.",
+          "isCorrect": false,
+          "rationale": "This would change the temperature, not the surface area."
+        },
+        {
+          "text": "Use 5 grams of the same metal, but cut into small pieces.",
+          "isCorrect": true,
+          "rationale": "Correct. Cutting the metal into pieces increases its surface area, which will allow the acid to react with it more quickly."
+        },
+        {
+          "text": "Use a different type of metal.",
+          "isCorrect": false,
+          "rationale": "This would change the type of reactant, not the surface area."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "15b6e44829425138bb897509302c9f8bf849d086",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T04:37:45.333Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 27,
+      "bankFingerprint": "15b6e44829425138bb897509302c9f8bf849d086"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">23.8</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">22.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">14.3</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Water</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td></tr></tbody></table>Based on the data provided, which biological sample has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Muscle Tissue is calculated as d = \\(\\frac{m}{V}\\) = 25.0 g / 23.8 cm³ \n\t≈ 1.05 g/cm³."
+        },
+        {
+          "text": "Adipose Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Adipose Tissue is calculated as d = \\(\\frac{m}{V}\\) = 20.0 g / 22.0 cm³ \n\t≈ 0.91 g/cm³."
+        },
+        {
+          "text": "Bone Tissue",
+          "isCorrect": true,
+          "rationale": "The density of Bone Tissue is calculated as d = \\(\\frac{m}{V}\\) = 30.0 g / 14.3 cm³ \n\t≈ 2.10 g/cm³. This is the highest density among the samples."
+        },
+        {
+          "text": "Water",
+          "isCorrect": false,
+          "rationale": "The density of Water is calculated as d = \\(\\frac{m}{V}\\) = 10.0 g / 10.0 cm³ = 1.00 g/cm³."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 28,
+      "bankFingerprint": "0e9c117365aebbba1782030555e1480ff7810cb0"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Brain Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">105</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Marrow</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">98</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">108</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr></tbody></table>Which tissue type in the table has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Brain Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Brain Tissue is calculated as d = \\(\\frac{m}{V}\\) = 105 g / 100 cm³ = 1.05 g/cm³."
+        },
+        {
+          "text": "Adipose Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Adipose Tissue is calculated as d = \\(\\frac{m}{V}\\) = 90 g / 100 cm³ = 0.90 g/cm³."
+        },
+        {
+          "text": "Bone Marrow",
+          "isCorrect": false,
+          "rationale": "The density of Bone Marrow is calculated as d = \\(\\frac{m}{V}\\) = 98 g / 100 cm³ = 0.98 g/cm³."
+        },
+        {
+          "text": "Muscle Tissue",
+          "isCorrect": true,
+          "rationale": "To find the density (d) of each tissue, use the formula d = \\(\\frac{m}{V}\\). Muscle Tissue: d = 108 g / 100 cm³ = 1.08 g/cm³. This is the highest density among the options provided."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 29,
+      "bankFingerprint": "9aea547d2fe1672cf77352776df40059376c1dd2"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 30,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 31,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1777302941434",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 32,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1777302941434",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 33,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the carbon cycle, depicting the flow of carbon among the atmosphere, land, and ocean."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 34,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionText": "Which instrument is used to measure atmospheric pressure?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Thermometer",
+          "isCorrect": false,
+          "rationale": "A thermometer measures temperature."
+        },
+        {
+          "text": "Anemometer",
+          "isCorrect": false,
+          "rationale": "An anemometer measures wind speed."
+        },
+        {
+          "text": "Hygrometer",
+          "isCorrect": false,
+          "rationale": "A hygrometer measures humidity."
+        },
+        {
+          "text": "Barometer",
+          "isCorrect": true,
+          "rationale": "Correct. A barometer measures air pressure, and changes can indicate an approaching weather front."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "a66516ffc4bb0f81deed82e3fdafa3a5e7ab52fb",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T04:37:45.342Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 35,
+      "bankFingerprint": "a66516ffc4bb0f81deed82e3fdafa3a5e7ab52fb"
+    },
+    {
+      "questionText": "The author suggests that human social instincts \"would gradually extend and be strengthened\" as civilization advances. What is the primary factor the author identifies as driving this extension of social instincts?",
+      "answerOptions": [
+        {
+          "text": "The natural biological evolution of human empathy as populations grow.",
+          "isCorrect": false,
+          "rationale": "The passage attributes the extension to 'simplest reason' rather than inherent biological evolution as the primary driver in this context."
+        },
+        {
+          "text": "The increase in population density forcing individuals to interact more frequently.",
+          "isCorrect": false,
+          "rationale": "While interaction may occur, the passage specifically highlights 'simplest reason' as the mechanism for extending sympathies, not merely increased interaction."
+        },
+        {
+          "text": "The simple recognition by individuals that social instincts should apply to all members of larger communities.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'the simplest reason would tell each individual that he ought to extend his social instincts and sympathies to all members of the same nation, even to all nations and races,' directly supporting this answer."
+        },
+        {
+          "text": "The complete elimination of selfish impulses as societies become more advanced.",
+          "isCorrect": false,
+          "rationale": "The passage mentions 'repress his own selfish impulses,' not their complete elimination, and focuses on 'reason' as the driver for extending instincts."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Descent of Man (Excerpt)</strong></p><p><em>Charles Darwin, 1871</em></p><p>Man still bears in his bodily frame the indelible stamp of his lowly origin. His body is plainly related to that of the lower animals, but his moral sense and social instincts are what distinguish him most. These instincts lead him to sympathize with others, to aid the weak, and to repress his own selfish impulses. As man advances in civilization, and small tribes unite into larger communities, the simplest reason would tell each individual that he ought to extend his social instincts and sympathies to all members of the same nation, even to all nations and races. Thus the social instincts, the prime principle of man’s moral constitution, would gradually extend and be strengthened, till they became the ruling power.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_darwin_descent_of_man",
+      "passageTitle": "The Descent of Man (Excerpt)",
+      "topicTags": [
+        "Evolution / Anthropology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 36,
+      "bankFingerprint": "48c7591747e970c429992c8a38157bba25ab8a72"
+    },
+    {
+      "questionText": "The author claims both that \"Man still bears in his bodily frame the indelible stamp of his lowly origin\" and that \"his moral sense and social instincts are what distinguish him most.\" How do these two claims work together to define human distinctiveness according to the author?",
+      "answerOptions": [
+        {
+          "text": "They suggest that human distinctiveness is solely a result of their physical separation from other animals.",
+          "isCorrect": false,
+          "rationale": "The first claim directly contradicts the idea of solely physical separation by stating humans bear a stamp of 'lowly origin' and are 'plainly related' to lower animals."
+        },
+        {
+          "text": "They indicate that while humans share physical traits with other animals, their unique moral and social attributes are their defining characteristic.",
+          "isCorrect": true,
+          "rationale": "This option synthesizes both claims: acknowledging the physical connection to 'lower animals' while emphasizing that 'moral sense and social instincts' are the primary distinguishing factors for man."
+        },
+        {
+          "text": "They propose that humans only develop moral sense and social instincts once they evolve beyond their animal origins.",
+          "isCorrect": false,
+          "rationale": "The passage does not imply that moral sense and social instincts only appear after fully separating from 'animal origins'; rather, it frames them as distinguishing features despite those origins."
+        },
+        {
+          "text": "They argue that humans are unique because lower animals completely lack any form of social instincts.",
+          "isCorrect": false,
+          "rationale": "The passage states that man's moral sense and social instincts 'distinguish him most' but does not claim that lower animals lack *any* social instincts at all."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Descent of Man (Excerpt)</strong></p><p><em>Charles Darwin, 1871</em></p><p>Man still bears in his bodily frame the indelible stamp of his lowly origin. His body is plainly related to that of the lower animals, but his moral sense and social instincts are what distinguish him most. These instincts lead him to sympathize with others, to aid the weak, and to repress his own selfish impulses. As man advances in civilization, and small tribes unite into larger communities, the simplest reason would tell each individual that he ought to extend his social instincts and sympathies to all members of the same nation, even to all nations and races. Thus the social instincts, the prime principle of man’s moral constitution, would gradually extend and be strengthened, till they became the ruling power.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_darwin_descent_of_man",
+      "passageTitle": "The Descent of Man (Excerpt)",
+      "topicTags": [
+        "Evolution / Anthropology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 37,
+      "bankFingerprint": "497687426f2429e095396d31148c63feb02ceeec"
+    },
+    {
+      "questionText": "What coefficient is needed for Fe in: Fe + 2HCl → FeCl₂ + H₂?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": true,
+          "rationale": "To balance the equation Fe + 2HCl → FeCl₂ + H₂, the coefficient for Fe must be 1 on both sides. There is 1 Fe on the right (in FeCl₂), so there must be 1 Fe on the left."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "If the coefficient for Fe was 2, the equation would have 2 Fe on the left but only 1 Fe on the right."
+        },
+        {
+          "text": "0",
+          "isCorrect": false,
+          "rationale": "A coefficient of 0 would mean no Fe is present, which is incorrect as Fe is a reactant."
+        },
+        {
+          "text": "No coefficient is needed",
+          "isCorrect": false,
+          "rationale": "While a '1' is often omitted, it is still the coefficient that balances the atoms."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "0ce175d2eeeb132a6fe591006b723040e5cbf3cb",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T18:27:12.236Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 38,
+      "bankFingerprint": "0ce175d2eeeb132a6fe591006b723040e5cbf3cb"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 1, expected ~9",
+    "Difficulty \"medium\": 31, expected ~19",
+    "Difficulty \"hard\": 6, expected ~10"
+  ]
+}

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LegacyRootApp from './legacy/LegacyRootApp.jsx';
 import CollabView from './views/CollabView.jsx';
 import CollabSessionView from './views/CollabSessionView.jsx';
+import WorkforceRoute from './views/WorkforceRoute.jsx';
 import '../style.css';
 
 async function bootstrap() {
@@ -19,6 +20,7 @@ async function bootstrap() {
         <Routes>
           <Route path="/collab" element={<CollabView />} />
           <Route path="/collab/:roomCode" element={<CollabSessionView />} />
+          <Route path="/workforce" element={<WorkforceRoute />} />
           <Route path="*" element={<LegacyRootApp />} />
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,1169 @@
+{
+  "id": "ai_comp_social_studies_1777303611878",
+  "title": "Comprehensive Social Studies Exam",
+  "subject": "Social Studies",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "Why is the title Hands Off important to the cartoon's message?",
+      "answerOptions": [
+        {
+          "text": "It makes the U.S. warning to Europe direct and unmistakable",
+          "isCorrect": true,
+          "rationale": "Correct. The title turns the entire scene into a blunt warning."
+        },
+        {
+          "text": "It shows Roosevelt refusing involvement in the Caribbean",
+          "isCorrect": false,
+          "rationale": "The scene shows active involvement and threat of force."
+        },
+        {
+          "text": "It suggests Santo Domingo is threatening the United States",
+          "isCorrect": false,
+          "rationale": "The warning is directed at Europe, not at Santo Domingo."
+        },
+        {
+          "text": "It means the Monroe Doctrine had ended by 1904",
+          "isCorrect": false,
+          "rationale": "The cartoon presents it as very much alive."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/monroe_doctrine_0002.jpg",
+        "alt": "A 1904 political cartoon shows President Theodore Roosevelt using the Monroe Doctrine to deter European powers from the Dominican Republic."
+      },
+      "groupId": "ss-img-monroe_doctrine_0002.jpg",
+      "difficulty": "medium",
+      "questionNumber": 1,
+      "bankFingerprint": "b3b18b0114da5a8ac223c8143ef72f82933498c3"
+    },
+    {
+      "questionText": "The total value of all final goods and services produced within a country's borders in a specific time period is known as:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The national debt",
+          "isCorrect": false,
+          "rationale": "The national debt is the total amount of money the government owes."
+        },
+        {
+          "text": "The inflation rate",
+          "isCorrect": false,
+          "rationale": "Inflation is the rate at which the general level of prices is rising."
+        },
+        {
+          "text": "Gross Domestic Product (GDP)",
+          "isCorrect": true,
+          "rationale": "Correct. GDP is the primary measure of a country's economic output and health."
+        },
+        {
+          "text": "The unemployment rate",
+          "isCorrect": false,
+          "rationale": "The unemployment rate measures the percentage of the labor force that is jobless."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "dace9396827c6ca922005502aaeb6601b8c7555c",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:23:46.095Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Geography & the World",
+      "source": "curatedAiBank",
+      "questionNumber": 2,
+      "bankFingerprint": "dace9396827c6ca922005502aaeb6601b8c7555c"
+    },
+    {
+      "questionText": "The statement 'America does not presume to know what is best for everyone' serves primarily as:",
+      "passage": "No system of government can or should be imposed by one nation by any other. America does not presume to know what is best for everyone, just as we would not presume to pick the outcome of a peaceful election.",
+      "answerOptions": [
+        {
+          "text": "A claim that America possesses superior global insight.",
+          "isCorrect": false,
+          "rationale": "The phrase 'does not presume to know' explicitly refutes the idea of possessing superior insight; it implies humility and respect for diverse perspectives."
+        },
+        {
+          "text": "Evidence to support the author's argument against international intervention.",
+          "isCorrect": true,
+          "rationale": "This statement provides a rationale and supporting detail for the overarching claim that 'No system of government can or should be imposed by one nation by any other,' emphasizing a non-interventionist viewpoint."
+        },
+        {
+          "text": "A biased opinion reflecting America's isolationist policies.",
+          "isCorrect": false,
+          "rationale": "While it reflects a specific foreign policy stance, the passage does not provide enough context to definitively label it as an 'isolationist policy' or to assess its bias in a negative light without further information."
+        },
+        {
+          "text": "An example of a historical fact about America's past foreign relations.",
+          "isCorrect": false,
+          "rationale": "The passage is a statement of policy or principle, not a recitation of a specific historical fact or event from America's past foreign relations."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "4995977f132367bd915fbe118740a2297a973dc4",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-04-13T14:03:25.395Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 3,
+      "bankFingerprint": "4995977f132367bd915fbe118740a2297a973dc4"
+    },
+    {
+      "questionText": "The author claims that 'the only thing we have to fear is fear itself.' What evidence from the passage supports this claim in an economic context?",
+      "passage": "So, first of all, let me assert my firm belief that the only thing we have to fear is fear itself—nameless, unreasoning, unjustified terror which paralyzes needed efforts to convert retreat into advance.",
+      "answerOptions": [
+        {
+          "text": "Fear is described as 'nameless, unreasoning, unjustified terror.'",
+          "isCorrect": false,
+          "rationale": "This phrase describes the *nature* of the fear, but it doesn't explain *why* it is the *only* thing to fear in an economic sense. It's a description, not the evidence for its singular importance."
+        },
+        {
+          "text": "Fear 'paralyzes needed efforts to convert retreat into advance.'",
+          "isCorrect": true,
+          "rationale": "This statement provides the direct consequence of fear, explaining how it actively impedes progress, especially economic progress (converting 'retreat into advance'). This consequence is the evidence for why fear is such a significant problem."
+        },
+        {
+          "text": "The passage is an excerpt from a 'First Inaugural Address.'",
+          "isCorrect": false,
+          "rationale": "This information is about the source of the passage, not internal evidence from the text that supports the claim about fear itself."
+        },
+        {
+          "text": "The category of the passage is listed as 'Economics.'",
+          "isCorrect": false,
+          "rationale": "The category is external information provided about the passage, not a piece of evidence from within the excerpt that supports the author's specific claim."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "9eab741102a3adc2d143622d122ed3fcbf877944",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T18:04:38.342Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 4,
+      "bankFingerprint": "9eab741102a3adc2d143622d122ed3fcbf877944"
+    },
+    {
+      "questionText": "The President of the United States is the head of which branch of government?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Legislative",
+          "isCorrect": false,
+          "rationale": "The legislative branch is Congress."
+        },
+        {
+          "text": "Executive",
+          "isCorrect": true,
+          "rationale": "Correct. The President is the head of the executive branch and is responsible for implementing and enforcing laws."
+        },
+        {
+          "text": "Judicial",
+          "isCorrect": false,
+          "rationale": "The judicial branch is headed by the Chief Justice of the Supreme Court."
+        },
+        {
+          "text": "Federal",
+          "isCorrect": false,
+          "rationale": "'Federal' describes the level of government, not a specific branch."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "3d4a2bd39c849ca0c6e2855214a36f54fe1b4f44",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:08:49.028Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 5,
+      "bankFingerprint": "3d4a2bd39c849ca0c6e2855214a36f54fe1b4f44"
+    },
+    {
+      "questionText": "What is the speaker's primary concern regarding the role of government as expressed in the passage?",
+      "answerOptions": [
+        {
+          "text": "That government is failing to provide enough solutions to national problems.",
+          "isCorrect": false,
+          "rationale": "The speaker states, \"government is not the solution to our problem; government is the problem,\" indicating that the issue is not a lack of solutions, but government's nature as a problem itself."
+        },
+        {
+          "text": "That government has become too expansive and has exceeded its proper authority.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"It is time to check and reverse the growth of government which shows signs of having grown beyond the consent of the governed,\" clearly identifying overgrowth and exceeding consent as the primary concern."
+        },
+        {
+          "text": "That citizens are not giving enough consent for government actions during a crisis.",
+          "isCorrect": false,
+          "rationale": "The speaker implies the opposite, stating government has \"grown beyond the consent of the governed,\" suggesting government has exceeded consent, not that consent is lacking for necessary actions."
+        },
+        {
+          "text": "That there is no crisis for government to address, making its actions unnecessary.",
+          "isCorrect": false,
+          "rationale": "The passage opens with \"In this present crisis,\" confirming that a crisis exists, but the speaker attributes the problem to government itself, not a lack of crisis."
+        }
+      ],
+      "passage": "In this present crisis, government is not the solution to our problem; government is the problem. It is time to check and reverse the growth of government which shows signs of having grown beyond the consent of the governed.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_reagan_first_inaugural_1981",
+      "groupId": "ss-pass-ss_reagan_first_inaugural_1981",
+      "difficulty": "hard",
+      "questionNumber": 6,
+      "bankFingerprint": "63cfee8ac35dec0350033bbcfa830e12afdb6d9e"
+    },
+    {
+      "questionText": "Which statement best describes the speaker's central claim about the relationship between government and societal problems?",
+      "answerOptions": [
+        {
+          "text": "Government should expand its services to effectively solve complex societal problems.",
+          "isCorrect": false,
+          "rationale": "The speaker argues the opposite, stating \"government is not the solution to our problem; government is the problem\" and advocates to \"reverse the growth of government.\""
+        },
+        {
+          "text": "The growth of government itself is a fundamental cause of, rather than a solution to, societal problems.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"government is not the solution to our problem; government is the problem\" and links this problem directly to the \"growth of government.\""
+        },
+        {
+          "text": "Society's problems can only be solved through direct, unchecked governmental intervention.",
+          "isCorrect": false,
+          "rationale": "The speaker rejects this idea, asserting that \"government is not the solution to our problem; government is the problem\" and implies intervention needs to be checked."
+        },
+        {
+          "text": "Government's current size is appropriate for managing the present crisis and fulfilling its duties.",
+          "isCorrect": false,
+          "rationale": "The speaker explicitly calls to \"check and reverse the growth of government,\" indicating a belief that its current size is problematic and inappropriate."
+        }
+      ],
+      "passage": "In this present crisis, government is not the solution to our problem; government is the problem. It is time to check and reverse the growth of government which shows signs of having grown beyond the consent of the governed.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_reagan_first_inaugural_1981",
+      "groupId": "ss-pass-ss_reagan_first_inaugural_1981",
+      "difficulty": "hard",
+      "questionNumber": 7,
+      "bankFingerprint": "b47dcf3d7bcaa591ecdaf83f546f835a20622bc9"
+    },
+    {
+      "questionText": "What is the primary message the speaker conveys by comparing \"civis Romanus sum\" with \"Ich bin ein Berliner\"?",
+      "answerOptions": [
+        {
+          "text": "The Roman Empire's power was similar to modern-day Berlin's influence.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the power or influence of the Roman Empire or Berlin, but rather the evolving nature of a \"proudest boast.\""
+        },
+        {
+          "text": "The source of a proud identity has shifted from ancient citizenship to modern affiliation with freedom.",
+          "isCorrect": true,
+          "rationale": "The speaker contrasts \"Two thousand years ago\" the proudest boast (Roman citizenship) with \"Today, in the world of freedom\" the proudest boast (being a Berliner), illustrating an evolution of what inspires great pride and linking the modern identity to freedom."
+        },
+        {
+          "text": "All modern expressions of pride originate from ancient Roman traditions.",
+          "isCorrect": false,
+          "rationale": "The passage makes a comparison between two distinct periods, indicating a shift rather than suggesting a direct origin or continuation of all modern pride from ancient Roman traditions."
+        },
+        {
+          "text": "People in the past were generally prouder of their identity than people are today.",
+          "isCorrect": false,
+          "rationale": "The passage uses \"proudest boast\" for both eras, indicating a high level of pride in both contexts, not a comparison of the degree of pride between past and present."
+        }
+      ],
+      "passage": "Two thousand years ago the proudest boast was civis Romanus sum. Today, in the world of freedom, the proudest boast is Ich bin ein Berliner.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_jfk_berlin_1963",
+      "groupId": "ss-pass-ss_jfk_berlin_1963",
+      "difficulty": "hard",
+      "questionNumber": 8,
+      "bankFingerprint": "d0fc73f35b971286e9301ba5420262df4e5f84c5"
+    },
+    {
+      "questionText": "According to the passage, what specific context is associated with the contemporary proudest boast, \"Ich bin ein Berliner\"?",
+      "answerOptions": [
+        {
+          "text": "It is a boast made exclusively by Roman citizens.",
+          "isCorrect": false,
+          "rationale": "The passage clearly differentiates \"civis Romanus sum\" as from \"Two thousand years ago\" and \"Ich bin ein Berliner\" as \"Today,\" meaning they are not associated with the same historical group."
+        },
+        {
+          "text": "It signifies a proud identity within a society characterized by liberty.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"Today, in the world of freedom, the proudest boast is Ich bin ein Berliner,\" directly associating the modern boast with the context of \"freedom.\""
+        },
+        {
+          "text": "It represents a direct continuation of ancient Roman traditions.",
+          "isCorrect": false,
+          "rationale": "The passage sets up a contrast between \"Two thousand years ago\" and \"Today,\" indicating an evolution or shift rather than a direct continuation of ancient traditions."
+        },
+        {
+          "text": "The boast is a literal translation from an ancient Roman saying.",
+          "isCorrect": false,
+          "rationale": "The passage presents two distinct phrases from different historical periods and does not imply one is a translation of the other."
+        }
+      ],
+      "passage": "Two thousand years ago the proudest boast was civis Romanus sum. Today, in the world of freedom, the proudest boast is Ich bin ein Berliner.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_jfk_berlin_1963",
+      "groupId": "ss-pass-ss_jfk_berlin_1963",
+      "difficulty": "hard",
+      "questionNumber": 9,
+      "bankFingerprint": "1dca8b62dbce1f4bdb55e617966bb18503b733cb"
+    },
+    {
+      "questionText": "What is the author's overall perspective regarding 'this declaration'?",
+      "answerOptions": [
+        {
+          "text": "Skeptical about its long-term impact on global human rights.",
+          "isCorrect": false,
+          "rationale": "The passage uses hopeful and forward-looking language like 'may well become' and 'great evolutionary process,' indicating a positive, not skeptical, perspective."
+        },
+        {
+          "text": "Hopeful about its potential to establish universal human rights worldwide.",
+          "isCorrect": true,
+          "rationale": "The phrases 'may well become the international Magna Carta of all men everywhere' and 'a first step in a great evolutionary process' clearly express a hopeful and optimistic view of the declaration's future impact and significance."
+        },
+        {
+          "text": "Neutral and objective in its assessment of the declaration's scope.",
+          "isCorrect": false,
+          "rationale": "The language used, such as 'international Magna Carta' and 'great evolutionary process,' is evaluative and positive, not neutral or objective."
+        },
+        {
+          "text": "Concerned that it is only a preliminary stage in a longer process.",
+          "isCorrect": false,
+          "rationale": "While it states 'It is a first step,' this is presented positively as part of a 'great evolutionary process,' not as a cause for concern."
+        }
+      ],
+      "passage": "This declaration may well become the international Magna Carta of all men everywhere. It is a first step in a great evolutionary process.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_eleanor_roosevelt_un_rights_1948",
+      "groupId": "ss-pass-ss_eleanor_roosevelt_un_rights_1948",
+      "difficulty": "medium",
+      "questionNumber": 10,
+      "bankFingerprint": "6e820882ca925b5bf34b01c725ce82e079881772"
+    },
+    {
+      "questionText": "What does the passage suggest is the primary significance of 'this declaration'?",
+      "answerOptions": [
+        {
+          "text": "It has already achieved global recognition as the ultimate human rights document.",
+          "isCorrect": false,
+          "rationale": "The passage states it 'may well become' and is 'a first step,' indicating future potential rather than current, ultimate achievement."
+        },
+        {
+          "text": "It is considered a foundational document that will inspire future human rights efforts worldwide.",
+          "isCorrect": true,
+          "rationale": "The comparison to an 'international Magna Carta of all men everywhere' and the description as 'a first step in a great evolutionary process' emphasize its foundational role and future influence on global human rights."
+        },
+        {
+          "text": "It outlines specific legal protections provided by the original Magna Carta.",
+          "isCorrect": false,
+          "rationale": "The passage uses Magna Carta as a reference for significance, but does not state that the declaration outlines its specific protections. The declaration is presented as a separate entity with its own significance."
+        },
+        {
+          "text": "It serves as a historical record of past human rights violations and their resolution.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the declaration's future potential ('may well become,' 'first step') rather than serving as a historical record of past violations."
+        }
+      ],
+      "passage": "This declaration may well become the international Magna Carta of all men everywhere. It is a first step in a great evolutionary process.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_eleanor_roosevelt_un_rights_1948",
+      "groupId": "ss-pass-ss_eleanor_roosevelt_un_rights_1948",
+      "difficulty": "medium",
+      "questionNumber": 11,
+      "bankFingerprint": "5d2057c6c2ad1a9d748f9de3bbc7bf77a1c2a197"
+    },
+    {
+      "questionText": "According to the 'Difference in migration rate' bar chart shown in the graph, what trend is evident for 'Young Adults (18-34)' when comparing the recession (2007-2009) and post-recession (2010-2012) periods?",
+      "answerOptions": [
+        {
+          "text": "The migration rate for young adults decreased in the post-recession period.",
+          "isCorrect": false,
+          "rationale": "This is incorrect because the bar chart shows a positive difference for young adults, indicating an increase, not a decrease."
+        },
+        {
+          "text": "The migration rate for young adults remained unchanged between the two periods.",
+          "isCorrect": false,
+          "rationale": "This is incorrect; the bars clearly show a positive difference, meaning the rates were not unchanged."
+        },
+        {
+          "text": "The migration rate for young adults was higher in the post-recession period than during the recession.",
+          "isCorrect": true,
+          "rationale": "This is correct. The positive bars in the 'Difference in migration rate' chart for 'Young Adults (18-34)' indicate that their migration rate was greater in the 2010-2012 period compared to 2007-2009."
+        },
+        {
+          "text": "The migration rate for young adults was lower in the post-recession period than during the recession.",
+          "isCorrect": false,
+          "rationale": "This is incorrect. A lower rate in the post-recession period would be represented by negative bars, but the bars for young adults are positive."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0120.png",
+        "alt": "A line graph titled 'Young Adults on the Move?' shows mover rates by age during recession and postrecession periods."
+      },
+      "groupId": "ss-img-unclassified_0120.png",
+      "difficulty": "hard",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 12,
+      "bankFingerprint": "fa16244adf190105c637393a060f9fd60b06284c"
+    },
+    {
+      "questionText": "According to the passage, which two nations were directly involved in the event described on December 7, 1941?",
+      "answerOptions": [
+        {
+          "text": "The United States of America and Great Britain",
+          "isCorrect": false,
+          "rationale": "The passage does not mention Great Britain as being directly involved in the attack described."
+        },
+        {
+          "text": "The United States of America and the Empire of Japan",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'the United States of America was suddenly and deliberately attacked by naval and air forces of the Empire of Japan.'"
+        },
+        {
+          "text": "The United States of America and Germany",
+          "isCorrect": false,
+          "rationale": "The passage does not mention Germany as being directly involved in the attack described."
+        },
+        {
+          "text": "The Empire of Japan and China",
+          "isCorrect": false,
+          "rationale": "While the Empire of Japan is mentioned as the attacker, the passage states the attack was on the United States of America, not China."
+        }
+      ],
+      "passage": "Yesterday, December 7, 1941—a date which will live in infamy—the United States of America was suddenly and deliberately attacked by naval and air forces of the Empire of Japan.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_fdr_day_of_infamy_1941",
+      "groupId": "ss-pass-ss_fdr_day_of_infamy_1941",
+      "difficulty": "medium",
+      "questionNumber": 13,
+      "bankFingerprint": "7b55cd7e8980f3c957dbf16ed4c7f5bc0c8a3176"
+    },
+    {
+      "questionText": "The phrase 'a date which will live in infamy' primarily reveals what about the author's perspective on the event?",
+      "answerOptions": [
+        {
+          "text": "A neutral reporting of a significant historical occurrence.",
+          "isCorrect": false,
+          "rationale": "The term 'infamy' carries a strong negative connotation, indicating a judgment rather than neutral reporting."
+        },
+        {
+          "text": "An objective analysis of the military strategies employed.",
+          "isCorrect": false,
+          "rationale": "The phrase 'a date which will live in infamy' focuses on the moral impact and historical disgrace, not an objective analysis of military strategy."
+        },
+        {
+          "text": "A strong moral condemnation of the attacker's actions.",
+          "isCorrect": true,
+          "rationale": "The word 'infamy' signifies extreme disgrace or dishonor. By using this term, the author expresses severe disapproval and condemnation of the attack by the Empire of Japan."
+        },
+        {
+          "text": "A prediction of future diplomatic negotiations.",
+          "isCorrect": false,
+          "rationale": "The phrase indicates a strong judgment of past actions and their lasting negative memory, not a prediction of future diplomatic events."
+        }
+      ],
+      "passage": "Yesterday, December 7, 1941—a date which will live in infamy—the United States of America was suddenly and deliberately attacked by naval and air forces of the Empire of Japan.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_fdr_day_of_infamy_1941",
+      "groupId": "ss-pass-ss_fdr_day_of_infamy_1941",
+      "difficulty": "medium",
+      "questionNumber": 14,
+      "bankFingerprint": "1839b01f5f8f0dc9ae2bfc8c184c9a157e68f31c"
+    },
+    {
+      "questionText": "According to the graph, approximately how much did paid civilian employment in the U.S. Government increase between 1931 and 1951?",
+      "answerOptions": [
+        {
+          "text": "500,000 employees",
+          "isCorrect": false,
+          "rationale": "In 1931, employment was approximately 580,000. In 1951, it was around 2,450,000. The increase is much larger than 500,000."
+        },
+        {
+          "text": "1,000,000 employees",
+          "isCorrect": false,
+          "rationale": "In 1931, employment was approximately 580,000. In 1951, it was around 2,450,000. The increase is greater than 1,000,000."
+        },
+        {
+          "text": "1,870,000 employees",
+          "isCorrect": true,
+          "rationale": "The graph shows approximately 580,000 civilian employees in 1931 and about 2,450,000 in 1951. Subtracting the 1931 number from the 1951 number (2,450,000 - 580,000) gives an approximate increase of 1,870,000 employees."
+        },
+        {
+          "text": "2,450,000 employees",
+          "isCorrect": false,
+          "rationale": "2,450,000 employees is the approximate total employment in 1951, not the increase from 1931 to 1951."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0019.png",
+        "alt": "A line graph titled 'Paid Civilian Employment, U.S. Government, 1821-1961' displays employment trends over time."
+      },
+      "groupId": "ss-img-unclassified_0019.png",
+      "difficulty": "hard",
+      "questionNumber": 15,
+      "bankFingerprint": "c385d92333f2787662b5e1eb108c3c5d69d63a80"
+    },
+    {
+      "questionText": "The landmark case of Gideon v. Wainwright (1963) affirmed the right of the accused to what?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The right to a trial by jury.",
+          "isCorrect": false,
+          "rationale": "This right is in the 6th Amendment but was not the subject of this case."
+        },
+        {
+          "text": "The right to legal counsel (a lawyer), even if they cannot afford one.",
+          "isCorrect": true,
+          "rationale": "Correct. The Court ruled that the 6th Amendment's guarantee of counsel is a fundamental right essential to a fair trial and must be provided to indigent defendants in felony cases."
+        },
+        {
+          "text": "The right to remain silent.",
+          "isCorrect": false,
+          "rationale": "This was central to the Miranda v. Arizona case."
+        },
+        {
+          "text": "Protection from unreasonable searches.",
+          "isCorrect": false,
+          "rationale": "This is the focus of the 4th Amendment."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "068ea1567356504c7ec56f8e73363e067ef1e88e",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T14:03:44.036Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "U.S. History",
+      "source": "curatedAiBank",
+      "questionNumber": 16,
+      "bankFingerprint": "068ea1567356504c7ec56f8e73363e067ef1e88e"
+    },
+    {
+      "questionText": "What is the author's primary concern expressed in this excerpt?",
+      "answerOptions": [
+        {
+          "text": "The natural existence of social distinctions in society.",
+          "isCorrect": false,
+          "rationale": "The author acknowledges distinctions will exist but does not express regret about their mere existence. The regret is specifically about the 'rich and powerful' bending government acts."
+        },
+        {
+          "text": "The influence of wealthy individuals on government decisions for their own benefit.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'It is to be regretted that the rich and powerful too often bend the acts of government to their selfish purposes,' directly identifying this as the author's primary concern."
+        },
+        {
+          "text": "The regret that all governments allow distinctions in society.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Distinctions in society will always exist under every just government,' suggesting the author accepts, rather than regrets, their existence."
+        },
+        {
+          "text": "The need for a government that eliminates all social distinctions.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'Distinctions in society will always exist under every just government,' indicating that eliminating all distinctions is not the author's view or proposed solution."
+        }
+      ],
+      "passage": "It is to be regretted that the rich and powerful too often bend the acts of government to their selfish purposes. Distinctions in society will always exist under every just government.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_jackson_bank_veto_1832",
+      "groupId": "ss-pass-ss_jackson_bank_veto_1832",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 17,
+      "bankFingerprint": "c4aa8b3e058c5b27a81f560855111dfc2184665d"
+    },
+    {
+      "questionText": "Based on the passage, what can be inferred about the author's viewpoint regarding the role of the rich and powerful in government?",
+      "answerOptions": [
+        {
+          "text": "The author believes the rich and powerful are essential for a just government.",
+          "isCorrect": false,
+          "rationale": "The passage expresses regret that the rich and powerful 'bend the acts of government to their selfish purposes,' which contradicts the idea that they are essential for justice."
+        },
+        {
+          "text": "The author suggests that the actions of the wealthy often serve their self-interest rather than the common good.",
+          "isCorrect": true,
+          "rationale": "The phrase 'bend the acts of government to their selfish purposes' directly supports the inference that the author views the wealthy as acting in self-interest, not for the common good."
+        },
+        {
+          "text": "The author supports the idea that social distinctions are unnatural and should be abolished.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Distinctions in society will always exist under every just government,' which implies social distinctions are natural and enduring, not something to be abolished."
+        },
+        {
+          "text": "The author is neutral regarding the influence of the rich and powerful on government.",
+          "isCorrect": false,
+          "rationale": "The opening phrase 'It is to be regretted that...' clearly indicates a negative and non-neutral stance regarding the influence of the rich and powerful."
+        }
+      ],
+      "passage": "It is to be regretted that the rich and powerful too often bend the acts of government to their selfish purposes. Distinctions in society will always exist under every just government.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_jackson_bank_veto_1832",
+      "groupId": "ss-pass-ss_jackson_bank_veto_1832",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 18,
+      "bankFingerprint": "c4eff1bd26c1825af3e2a7320439f74588b21911"
+    },
+    {
+      "questionText": "A newly independent nation in Southeast Asia, rich in rare-earth minerals, sought to develop its economy. Its government, eager to attract foreign investment, offered tax incentives and streamlined regulations, which led to rapid industrial growth and a significant increase in exports. The nation's strategy of attracting foreign investment and increasing exports to achieve economic growth primarily reflects which economic principle or strategy?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Protectionism",
+          "isCorrect": false,
+          "rationale": "Protectionism involves restricting imports to protect domestic industries, which is contrary to attracting foreign investment and boosting exports."
+        },
+        {
+          "text": "Autarky",
+          "isCorrect": false,
+          "rationale": "Autarky refers to economic self-sufficiency, avoiding international trade and investment, which directly contradicts the nation's actions."
+        },
+        {
+          "text": "Export-oriented industrialization",
+          "isCorrect": true,
+          "rationale": "Export-oriented industrialization is a strategy that focuses on industrial production for export, often by attracting foreign investment and leveraging comparative advantages, precisely matching the nation's actions to achieve economic growth."
+        },
+        {
+          "text": "Import substitution industrialization",
+          "isCorrect": false,
+          "rationale": "Import substitution industrialization aims to replace foreign imports with domestic production, often through tariffs and subsidies, which differs from actively attracting foreign investment for export."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "a2f5d49d091551f7afb11267d51926959480fbe1",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:48:02.740Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "hard",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 19,
+      "bankFingerprint": "a2f5d49d091551f7afb11267d51926959480fbe1"
+    },
+    {
+      "questionText": "What is the first step for a bill to become a law in the U.S. Congress?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "It is voted on by the full House or Senate.",
+          "isCorrect": false,
+          "rationale": "A vote by the full chamber happens later in the process."
+        },
+        {
+          "text": "It is sent to the President for approval.",
+          "isCorrect": false,
+          "rationale": "This is one of the final steps."
+        },
+        {
+          "text": "It must be introduced by a member of Congress.",
+          "isCorrect": true,
+          "rationale": "Correct. A bill can only be formally introduced by a Senator or a Representative."
+        },
+        {
+          "text": "It is reviewed by the Supreme Court.",
+          "isCorrect": false,
+          "rationale": "The Supreme Court may review a law after it is passed, not before."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "765ea3e6c3ae666e2008514191ca2e012594b261",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T01:17:51.195Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 20,
+      "bankFingerprint": "765ea3e6c3ae666e2008514191ca2e012594b261"
+    },
+    {
+      "questionText": "Which statement from the passage serves as evidence for the speaker's claim that power is being redirected?",
+      "passage": "Today we are not merely transferring power from one administration to another, or from one party to another, but we are transferring power from Washington, D.C., and giving it back to you, the people.",
+      "answerOptions": [
+        {
+          "text": "\"Today we are not merely transferring power from one administration to another\"",
+          "isCorrect": false,
+          "rationale": "This phrase describes what the transfer is not, rather than providing evidence for where the power is being redirected."
+        },
+        {
+          "text": "\"or from one party to another\"",
+          "isCorrect": false,
+          "rationale": "Similar to the previous option, this phrase describes what the transfer is not, rather than the direction of the power transfer."
+        },
+        {
+          "text": "\"we are transferring power from Washington, D.C., and giving it back to you, the people.\"",
+          "isCorrect": true,
+          "rationale": "The speaker's central claim about redirecting power is explicitly stated as \"transferring power from Washington, D.C., and giving it back to you, the people,\" which directly identifies the source and recipient of the power transfer."
+        },
+        {
+          "text": "\"Inaugural Address (2017 Excerpt)\"",
+          "isCorrect": false,
+          "rationale": "\"Inaugural Address (2017 Excerpt)\" is the title of the passage, not a statement from the speaker that supports a claim within the text itself."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "21017aa18ef58cd2ee4ea688469ebfc69d319ffb",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:40:12.329Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 21,
+      "bankFingerprint": "21017aa18ef58cd2ee4ea688469ebfc69d319ffb"
+    },
+    {
+      "questionText": "What is the primary purpose of the Niagara Movement in issuing this Declaration of Principles?",
+      "passage": "We believe that this country is ours, not by gracious favor, but by sheer hard-earned right. We claim for ourselves every single right that belongs to a freeborn American—political, civil, and social—and until we get these rights we will never cease to protest. We want full manhood suffrage, and we want it now. We want the abolition of all caste distinctions based simply on race and color. We want the right to labor and the right to learn. We protest against common school systems separate and unequal; against the curtailment of our civil rights by intimidation and violence. We especially complain against the denial of justice in the courts and the frequent lynching of our brothers. America must be American for all her citizens.",
+      "answerOptions": [
+        {
+          "text": "To negotiate a compromise with government officials regarding civil rights.",
+          "isCorrect": false,
+          "rationale": "The tone of the declaration is one of firm demands and protest ('we will never cease to protest'), rather than seeking negotiation or compromise."
+        },
+        {
+          "text": "To educate the public about the historical contributions of African Americans.",
+          "isCorrect": false,
+          "rationale": "While important, the passage focuses on current injustices and future demands for rights, not on historical contributions."
+        },
+        {
+          "text": "To formally state their demands for equal rights and protest existing injustices.",
+          "isCorrect": true,
+          "rationale": "The document clearly outlines what the movement 'claim[s],' 'want[s],' and 'protest[s],' serving as a direct statement of their principles, demands, and grievances against inequality and injustice."
+        },
+        {
+          "text": "To encourage African Americans to emigrate to other countries.",
+          "isCorrect": false,
+          "rationale": "The declaration asserts 'this country is ours' and that 'America must be American for all her citizens,' emphasizing their right to live and be equal within the United States."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "79e079dad96eccc7579be261ba4fed666855d611",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-12-10T18:58:07.395Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 22,
+      "bankFingerprint": "79e079dad96eccc7579be261ba4fed666855d611"
+    },
+    {
+      "questionText": "The table below outlines the structure and powers of the three branches of the U.S. government.<table><thead><tr><th>Branch of Government</th><th>Consists Of</th><th>Powers</th></tr></thead><tbody><tr><td>Executive branch</td><td>President, Vice President, Cabinet</td><td>enforcing laws</td></tr><tr><td>Judicial branch</td><td>Supreme Court, typically 9 justices, Federal courts</td><td>evaluate laws according to the Constitution</td></tr><tr><td>Legislative branch (Congress)</td><td>House of Representatives with 435 members, Senate with 100 senators</td><td>propose bills that could become law</td></tr></tbody></table>How does the composition of the House of Representatives compare to the Senate, according to the table?",
+      "answerOptions": [
+        {
+          "text": "The House of Representatives has 100 members, while the Senate has 435.",
+          "isCorrect": false,
+          "rationale": "Incorrect. The table states that the House of Representatives has 435 members, and the Senate has 100 senators."
+        },
+        {
+          "text": "The House of Representatives has 435 members, while the Senate has 100 senators.",
+          "isCorrect": true,
+          "rationale": "Correct. The table explicitly states that the House of Representatives consists of 435 members and the Senate consists of 100 senators."
+        },
+        {
+          "text": "Both the House of Representatives and the Senate have 100 members each.",
+          "isCorrect": false,
+          "rationale": "Incorrect. The table specifies that the House of Representatives has 435 members, and the Senate has 100 senators."
+        },
+        {
+          "text": "Both the House of Representatives and the Senate have 435 members each.",
+          "isCorrect": false,
+          "rationale": "Incorrect. The table shows the House of Representatives having 435 members and the Senate having 100 senators."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0074.png",
+        "alt": "A table detailing the three branches of the US government, their composition, and their powers."
+      },
+      "groupId": "ss-img-unclassified_0074.png",
+      "difficulty": "hard",
+      "questionNumber": 23,
+      "bankFingerprint": "c763c6f3d26c7130fb668c9a2c1b9ef2d9b52402"
+    },
+    {
+      "questionText": "Nation X, strategically located with abundant untapped mineral wealth, recently enacted laws significantly increasing government control over its natural resource extraction industries. This move, intended to boost national revenue and local employment, has instead led to a noticeable withdrawal of foreign companies and a decline in new international trade agreements, as global partners express concerns about predictability and returns on investment. The international community's reaction to Nation X's increased government control over its resources primarily illustrates the importance of which economic concept?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Supply and Demand",
+          "isCorrect": false,
+          "rationale": "While changes in resource availability might eventually affect supply, the immediate and direct impact highlighted by the withdrawal of companies and concerns about investment is not primarily about current supply and demand dynamics."
+        },
+        {
+          "text": "Investor Confidence",
+          "isCorrect": true,
+          "rationale": "The withdrawal of foreign companies and concerns from global partners about predictability and returns directly reflect a loss of investor confidence in Nation X's economic environment due to increased government intervention."
+        },
+        {
+          "text": "Trade Tariffs",
+          "isCorrect": false,
+          "rationale": "Trade tariffs are taxes on imported or exported goods, which are not explicitly mentioned or directly demonstrated as the primary cause of the international community's reaction in this scenario."
+        },
+        {
+          "text": "Labor Specialization",
+          "isCorrect": false,
+          "rationale": "Labor specialization refers to individuals or countries focusing on specific tasks to increase efficiency. This concept is not directly illustrated by the international response to Nation X's resource policies."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "3bb74493ced02e2938d445bb99e728e4d1648aa2",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:14:15.628Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "hard",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 24,
+      "bankFingerprint": "3bb74493ced02e2938d445bb99e728e4d1648aa2"
+    },
+    {
+      "questionText": "A small town is considering a proposal to significantly expand its public library, which would require an increase in local property taxes. To gather public input, the town council scheduled several open forums and announced a special election for residents to vote on the measure. Based on this scenario, what civic responsibility is most emphasized for the town's residents?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Serving on a jury when summoned.",
+          "isCorrect": false,
+          "rationale": "While a civic duty, jury service is not directly related to the local library expansion proposal or the actions described in the scenario."
+        },
+        {
+          "text": "Staying informed and voting on local issues.",
+          "isCorrect": true,
+          "rationale": "The scenario explicitly mentions open forums for input and a special election for residents to vote, directly highlighting the responsibility to stay informed and participate in local governance."
+        },
+        {
+          "text": "Understanding the nation's foreign policy.",
+          "isCorrect": false,
+          "rationale": "Foreign policy is a national issue and bears no relevance to a local town's decision on a library expansion or property taxes."
+        },
+        {
+          "text": "Paying federal income taxes annually.",
+          "isCorrect": false,
+          "rationale": "Paying taxes is a civic duty, and property taxes are mentioned. However, the scenario emphasizes the *process* of public input and voting, making active participation the most emphasized responsibility."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "Interpreting Charts, Graphs, & Political Cartoons",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "165df1e1f507162c094fc8668073c4c1013fd059",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2025-11-19T16:31:04.609Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 25,
+      "bankFingerprint": "165df1e1f507162c094fc8668073c4c1013fd059"
+    },
+    {
+      "questionText": "What is the main idea conveyed by the excerpt \"The Four Freedoms\"?",
+      "answerOptions": [
+        {
+          "text": "The primary goal of achieving economic stability for all nations.",
+          "isCorrect": false,
+          "rationale": "While \"freedom from want\" addresses economic understandings, it is only one of the four freedoms mentioned and not the overarching main idea of the passage."
+        },
+        {
+          "text": "A vision for a secure world built upon fundamental human liberties.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms,\" which encapsulates the main idea of a vision for global security through these liberties."
+        },
+        {
+          "text": "The importance of promoting freedom of speech and worship globally.",
+          "isCorrect": false,
+          "rationale": "Freedom of speech and worship are two of the four freedoms, but the main idea encompasses all four and their collective purpose for a secure world."
+        },
+        {
+          "text": "The immediate need for international agreements to prevent future conflicts.",
+          "isCorrect": false,
+          "rationale": "The passage speaks of \"future days\" and \"essential human freedoms\" as a foundation, rather than focusing on immediate conflict prevention through agreements."
+        }
+      ],
+      "passage": "In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms. The first is freedom of speech and expression—everywhere in the world. The second is freedom of every person to worship God in his own way—everywhere in the world. The third is freedom from want, which means economic understandings which will secure to every nation a healthy peacetime life for its inhabitants. The fourth is freedom from fear...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_fdr_four_freedoms",
+      "groupId": "ss-pass-ss_fdr_four_freedoms",
+      "difficulty": "medium",
+      "questionNumber": 26,
+      "bankFingerprint": "26bc98299ac7d4a21539a8304d8ca55cbe4a938d"
+    },
+    {
+      "questionText": "Which of the following statements represents a central claim made in \"The Four Freedoms\" excerpt?",
+      "answerOptions": [
+        {
+          "text": "Freedom of speech is considered the most crucial of all human rights.",
+          "isCorrect": false,
+          "rationale": "The passage lists freedom of speech first but does not explicitly state it is the most crucial, merely one of the four essential freedoms."
+        },
+        {
+          "text": "Economic understandings are the sole means to ensure a healthy peacetime life for inhabitants.",
+          "isCorrect": false,
+          "rationale": "The passage states \"freedom from want...means economic understandings which will secure...a healthy peacetime life,\" but this is a detail within one freedom, not the central claim of the entire excerpt."
+        },
+        {
+          "text": "A secure future world will be established on the basis of four fundamental human liberties.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms,\" which directly presents this as the author's central claim for a secure future."
+        },
+        {
+          "text": "Resolving global fears primarily requires military intervention.",
+          "isCorrect": false,
+          "rationale": "The passage mentions \"freedom from fear\" as an essential freedom but does not suggest military intervention as the primary means to resolve global fears."
+        }
+      ],
+      "passage": "In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms. The first is freedom of speech and expression—everywhere in the world. The second is freedom of every person to worship God in his own way—everywhere in the world. The third is freedom from want, which means economic understandings which will secure to every nation a healthy peacetime life for its inhabitants. The fourth is freedom from fear...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_fdr_four_freedoms",
+      "groupId": "ss-pass-ss_fdr_four_freedoms",
+      "difficulty": "medium",
+      "questionNumber": 27,
+      "bankFingerprint": "8179a4a919156ece8e04a6b00722396727ca3612"
+    },
+    {
+      "questionText": "What event on October 29, 1929, known as 'Black Tuesday,' is considered the primary trigger of the Great Depression?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The start of World War II",
+          "isCorrect": false,
+          "rationale": "World War II began in 1939."
+        },
+        {
+          "text": "The election of Franklin D. Roosevelt",
+          "isCorrect": false,
+          "rationale": "Roosevelt was elected in 1932, after the Depression had already begun."
+        },
+        {
+          "text": "The Stock Market Crash",
+          "isCorrect": true,
+          "rationale": "Correct. The massive stock market crash in October 1929 wiped out billions of dollars in investments and shattered public confidence in the economy, triggering the Great Depression."
+        },
+        {
+          "text": "The passage of the Social Security Act",
+          "isCorrect": false,
+          "rationale": "The Social Security Act was part of the New Deal, a response to the Depression."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "2b684803b65e75d8ec32d9c7286935b283937016",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T03:48:25.052Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Economics",
+      "source": "curatedAiBank",
+      "questionNumber": 28,
+      "bankFingerprint": "2b684803b65e75d8ec32d9c7286935b283937016"
+    },
+    {
+      "questionText": "Between 1928 and 1932, what was the overall trend for the annual high Dow-Jones Industrial Averages shown in the graph?",
+      "answerOptions": [
+        {
+          "text": "The prices steadily increased each year.",
+          "isCorrect": false,
+          "rationale": "The graph shows that annual high prices reached their peak around 1929 and then declined sharply, contradicting a steady increase."
+        },
+        {
+          "text": "The prices remained relatively stable throughout the period.",
+          "isCorrect": false,
+          "rationale": "The graph clearly indicates significant fluctuations, with a sharp increase followed by a drastic drop in annual high prices, not stability."
+        },
+        {
+          "text": "The prices increased until 1929 and then sharply declined.",
+          "isCorrect": true,
+          "rationale": "The annual high line shows an increase from 1928 to a peak near $350 in 1929, followed by a steep drop to approximately $80 by 1932."
+        },
+        {
+          "text": "The prices sharply declined and then recovered significantly by 1932.",
+          "isCorrect": false,
+          "rationale": "While prices sharply declined after 1929, the graph shows they continued to drop through 1932, with no significant recovery within that period."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0035.png",
+        "alt": "A line graph titled 'Stock Prices, 1920-1932' showing annual high and low Dow-Jones Industrial Averages."
+      },
+      "groupId": "ss-img-unclassified_0035.png",
+      "difficulty": "medium",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 29,
+      "bankFingerprint": "046fd1359f05eaacdf9014ccec98f9e1f16c99e8"
+    },
+    {
+      "questionText": "According to the excerpt from the Neutrality Proclamation, what conduct is required of the United States towards the belligerent powers?",
+      "answerOptions": [
+        {
+          "text": "To declare war on any power that threatens U.S. interests.",
+          "isCorrect": false,
+          "rationale": "The passage states that the United States should 'adopt and pursue a conduct friendly and impartial,' not declare war."
+        },
+        {
+          "text": "To form alliances with powers currently at war with each other.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes 'impartial' conduct, which contradicts forming alliances with warring parties."
+        },
+        {
+          "text": "To maintain a friendly and impartial stance.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'the duty and interest of the United States require that they should with sincerity and good faith adopt and pursue a conduct friendly and impartial toward the belligerent powers.'"
+        },
+        {
+          "text": "To provide military aid to all nations in conflict.",
+          "isCorrect": false,
+          "rationale": "The passage calls for 'impartial' conduct, which means not favoring any side with military aid or intervention."
+        }
+      ],
+      "passage": "It appears that a state of war exists between certain powers with whom the United States are in amity; and the duty and interest of the United States require that they should with sincerity and good faith adopt and pursue a conduct friendly and impartial toward the belligerent powers.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_washington_neutrality_1793",
+      "groupId": "ss-pass-ss_washington_neutrality_1793",
+      "difficulty": "hard",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 30,
+      "bankFingerprint": "a940c02994a1109fd467c3c3fcc8a041a5483c29"
+    }
+  ],
+  "validationWarnings": [
+    "Difficulty \"easy\": 2, expected ~7",
+    "Difficulty \"medium\": 18, expected ~15"
+  ]
+}

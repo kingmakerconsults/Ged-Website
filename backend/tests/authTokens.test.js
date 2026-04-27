@@ -37,7 +37,19 @@ describe('canOrgAcceptNewMember', () => {
   test('returns ok when seat_limit is NULL (unlimited)', async () => {
     const db = mockDb(async (sql) => {
       if (/FROM organizations/i.test(sql)) {
-        return { rowCount: 1, rows: [{ id: 1, name: 'x', plan_tier: 'legacy', seat_limit: null, subscription_status: 'active', expires_at: null }] };
+        return {
+          rowCount: 1,
+          rows: [
+            {
+              id: 1,
+              name: 'x',
+              plan_tier: 'legacy',
+              seat_limit: null,
+              subscription_status: 'active',
+              expires_at: null,
+            },
+          ],
+        };
       }
       return { rowCount: 0, rows: [{ count: 0 }] };
     });
@@ -46,7 +58,17 @@ describe('canOrgAcceptNewMember', () => {
   });
 
   test('blocks when subscription canceled', async () => {
-    const db = mockDb(async () => ({ rowCount: 1, rows: [{ id: 1, plan_tier: 'pro', seat_limit: 10, subscription_status: 'canceled' }] }));
+    const db = mockDb(async () => ({
+      rowCount: 1,
+      rows: [
+        {
+          id: 1,
+          plan_tier: 'pro',
+          seat_limit: 10,
+          subscription_status: 'canceled',
+        },
+      ],
+    }));
     const r = await canOrgAcceptNewMember(db, 1);
     assert.strictEqual(r.ok, false);
     assert.strictEqual(r.reason, 'subscription_canceled');

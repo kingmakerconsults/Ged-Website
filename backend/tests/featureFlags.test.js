@@ -12,7 +12,10 @@ describe('featureFlags', () => {
     const list = listFlags();
     assert.ok(Array.isArray(list));
     for (const name of Object.keys(FLAGS)) {
-      assert.ok(list.find((f) => f.name === name), `missing flag ${name}`);
+      assert.ok(
+        list.find((f) => f.name === name),
+        `missing flag ${name}`
+      );
     }
   });
 

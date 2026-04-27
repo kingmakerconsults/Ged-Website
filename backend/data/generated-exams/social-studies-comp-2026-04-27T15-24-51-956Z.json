@@ -1,0 +1,1169 @@
+{
+  "id": "ai_comp_social_studies_1777303489448",
+  "title": "Comprehensive Social Studies Exam",
+  "subject": "Social Studies",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "Based on the excerpt, what is the author's primary message regarding the struggle against \"bigotry and injustice\"?",
+      "answerOptions": [
+        {
+          "text": "The responsibility to overcome bigotry and injustice belongs mainly to one specific group.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, \"it is not just Negroes, but really it is all of us,\" contradicting the idea of responsibility belonging mainly to one group."
+        },
+        {
+          "text": "Addressing bigotry and injustice is a collective duty that requires the participation of all.",
+          "isCorrect": true,
+          "rationale": "The phrases \"Their cause must be our cause too\" and \"it is all of us, who must overcome\" directly support the idea of a collective responsibility requiring everyone's participation."
+        },
+        {
+          "text": "The resolution to the legacy of injustice will only come through passive observation.",
+          "isCorrect": false,
+          "rationale": "The words \"must overcome\" and \"shall overcome\" imply active engagement and effort, not passive observation."
+        },
+        {
+          "text": "The author believes this issue is too complex for a unified effort to succeed.",
+          "isCorrect": false,
+          "rationale": "The statement \"we shall overcome\" conveys optimism and a belief in eventual success through unified effort, not complexity hindering success."
+        }
+      ],
+      "passage": "Their cause must be our cause too. Because it is not just Negroes, but really it is all of us, who must overcome the crippling legacy of bigotry and injustice. And we shall overcome.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_lbj_voting_rights_1965",
+      "groupId": "ss-pass-ss_lbj_voting_rights_1965",
+      "difficulty": "medium",
+      "questionNumber": 1,
+      "bankFingerprint": "4655524c2767c1f047975d1a10f8fc1fb22fb528"
+    },
+    {
+      "questionText": "The phrase \"And we shall overcome\" primarily reveals the author's point of view as one of:",
+      "answerOptions": [
+        {
+          "text": "Uncertainty about the future success in overcoming challenges.",
+          "isCorrect": false,
+          "rationale": "The phrase \"we shall overcome\" is a declaration of certainty and determination, not uncertainty."
+        },
+        {
+          "text": "Resignation to the ongoing presence of bigotry and injustice.",
+          "isCorrect": false,
+          "rationale": "The phrase \"we shall overcome\" expresses a belief in triumph, directly opposing resignation to the problem's persistence."
+        },
+        {
+          "text": "Firm conviction that the legacy of bigotry and injustice will be conquered.",
+          "isCorrect": true,
+          "rationale": "The phrase \"we shall overcome\" is a powerful statement of future success, embodying a strong conviction that the specified challenges will be conquered."
+        },
+        {
+          "text": "A desire to simply acknowledge the problem without proposing a solution.",
+          "isCorrect": false,
+          "rationale": "The phrase is an active declaration of overcoming the problem, which is more than mere acknowledgment; it implies a resolution."
+        }
+      ],
+      "passage": "Their cause must be our cause too. Because it is not just Negroes, but really it is all of us, who must overcome the crippling legacy of bigotry and injustice. And we shall overcome.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_lbj_voting_rights_1965",
+      "groupId": "ss-pass-ss_lbj_voting_rights_1965",
+      "difficulty": "medium",
+      "questionNumber": 2,
+      "bankFingerprint": "6aa6f8ea6a991287cdd9dc6c5bf36bd61f0ea6d1"
+    },
+    {
+      "questionText": "The 'dot-com bubble' of the late 1990s was related to:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "a boom in the housing market.",
+          "isCorrect": false,
+          "rationale": "The housing market bubble occurred in the mid-2000s."
+        },
+        {
+          "text": "a rapid increase in the value of agricultural land.",
+          "isCorrect": false,
+          "rationale": "The bubble was related to technology and internet companies."
+        },
+        {
+          "text": "speculative investment in internet-based companies.",
+          "isCorrect": true,
+          "rationale": "Correct. The period saw a massive surge in investment and speculation in new internet-related companies, many of which were not profitable, leading to a market 'bubble' that eventually burst."
+        },
+        {
+          "text": "a sudden shortage of computer hardware.",
+          "isCorrect": false,
+          "rationale": "The bubble was about the valuation of companies, not a shortage of hardware."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "0788893eb57b15c5719bdc6d596b696d235b91d0",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-25T15:30:56.945Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 3,
+      "bankFingerprint": "0788893eb57b15c5719bdc6d596b696d235b91d0"
+    },
+    {
+      "questionText": "What is the main purpose of the excerpt from 'The Rights of the Colonists'?",
+      "answerOptions": [
+        {
+          "text": "To argue that colonists should remain loyal to their current government.",
+          "isCorrect": false,
+          "rationale": "The passage states that people have an 'unquestionable right... to alter or abolish' government when it becomes destructive, which contradicts the idea of unquestioning loyalty."
+        },
+        {
+          "text": "To define the fundamental rights of individuals and justify their ability to resist oppressive rule.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly lists natural rights (life, liberty, property) and asserts the right of people to leave society or alter/abolish government in cases of 'intolerable oppression' or when government becomes 'destructive' of the people's happiness."
+        },
+        {
+          "text": "To detail the specific economic grievances of the American colonists.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on natural rights and governmental principles, not specific economic grievances."
+        },
+        {
+          "text": "To explain the process for establishing a new colonial government.",
+          "isCorrect": false,
+          "rationale": "While it mentions the right to 'institute new government,' the passage does not describe the specific process for doing so."
+        }
+      ],
+      "passage": "Among the natural rights of the colonists are these: First, a right to life; secondly, to liberty; thirdly, to property; together with the right to support and defend them in the best manner they can. These are evident branches of, rather than deductions from, the duty of self-preservation, commonly called the first law of nature. All men have a right to remain in a state of nature as long as they please; and in case of intolerable oppression, civil or religious, to leave the society they belong to, and enter into another. The right to freedom being the gift of God Almighty, it is not in the power of any man or body of men to honestly give away or take away this right. Government was designed for the happiness of the people, and whenever it becomes destructive of that end, it is the unquestionable right of the people to alter or abolish it and to institute new government.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_samuel_adams_rights_of_colonists",
+      "groupId": "ss-pass-ss_samuel_adams_rights_of_colonists",
+      "difficulty": "hard",
+      "questionNumber": 4,
+      "bankFingerprint": "dd12f882fd68d3b0d87a05f39db4419904e4e3f2"
+    },
+    {
+      "questionText": "Which of the following statements represents a central claim made in the passage regarding the nature of government and individual rights?",
+      "answerOptions": [
+        {
+          "text": "The government has the right to take away freedom if it ensures order and stability.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'The right to freedom being the gift of God Almighty, it is not in the power of any man or body of men to honestly give away or take away this right,' directly contradicting this option."
+        },
+        {
+          "text": "Individuals must always remain within the society they were born into, regardless of the conditions.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'All men have a right to remain in a state of nature as long as they please; and in case of intolerable oppression... to leave the society they belong to,' which contradicts this option."
+        },
+        {
+          "text": "The primary role of government is to protect the natural rights of its citizens, and people have the right to change it if it fails to do so.",
+          "isCorrect": true,
+          "rationale": "The passage asserts that 'Government was designed for the happiness of the people' and that people have an 'unquestionable right... to alter or abolish it' if it becomes destructive, linking this to the natural rights of life, liberty, and property."
+        },
+        {
+          "text": "The right to property is granted by the government and can be revoked at its discretion.",
+          "isCorrect": false,
+          "rationale": "Property is listed as a 'natural right' alongside life and liberty, implying it is an inherent right, not one granted or revocable by government."
+        }
+      ],
+      "passage": "Among the natural rights of the colonists are these: First, a right to life; secondly, to liberty; thirdly, to property; together with the right to support and defend them in the best manner they can. These are evident branches of, rather than deductions from, the duty of self-preservation, commonly called the first law of nature. All men have a right to remain in a state of nature as long as they please; and in case of intolerable oppression, civil or religious, to leave the society they belong to, and enter into another. The right to freedom being the gift of God Almighty, it is not in the power of any man or body of men to honestly give away or take away this right. Government was designed for the happiness of the people, and whenever it becomes destructive of that end, it is the unquestionable right of the people to alter or abolish it and to institute new government.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_samuel_adams_rights_of_colonists",
+      "groupId": "ss-pass-ss_samuel_adams_rights_of_colonists",
+      "difficulty": "hard",
+      "questionNumber": 5,
+      "bankFingerprint": "4f576257d3453b307296a6c3723b8dc2561e5b01"
+    },
+    {
+      "questionText": "A historian notes that in the 1920s, sales of automobiles, radios, and household appliances soared. At the same time, she notes that consumer debt levels also rose significantly for the first time in American history. What conclusion can be drawn from the historian's observations?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Americans in the 1920s were saving more money than ever before.",
+          "isCorrect": false,
+          "rationale": "The rise in consumer debt suggests the opposite."
+        },
+        {
+          "text": "The economic boom of the 1920s was financed in part by an increase in consumer credit and borrowing.",
+          "isCorrect": true,
+          "rationale": "Correct. The parallel rise in sales of new goods and consumer debt suggests that people were borrowing money to buy these items."
+        },
+        {
+          "text": "The Great Depression was caused by a lack of consumer goods.",
+          "isCorrect": false,
+          "rationale": "The passage indicates there was a boom in consumer goods before the Depression."
+        },
+        {
+          "text": "Americans had little interest in new technology during the 1920s.",
+          "isCorrect": false,
+          "rationale": "The soaring sales of cars, radios, and appliances show a great deal of interest."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "e81073fcbbbf11231281878353bd159698de74d2",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:42:32.729Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "U.S. History",
+      "source": "curatedAiBank",
+      "questionNumber": 6,
+      "bankFingerprint": "e81073fcbbbf11231281878353bd159698de74d2"
+    },
+    {
+      "questionText": "What is the main message conveyed by Thomas Nast's political cartoon \"A Group of Vultures Waiting for the Storm to 'Blow Over.'—'Let Us Prey.'\" from 1871?",
+      "answerOptions": [
+        {
+          "text": "The cartoon critiques corrupt political figures, like Boss Tweed, who are waiting for public outrage to subside so they can resume their exploitative activities against the populace and democratic values.",
+          "isCorrect": true,
+          "rationale": "The caption 'A Group of Vultures Waiting for the Storm to 'Blow Over.'—'Let Us Prey.'' combined with the depiction of Boss Tweed as a vulture-like figure overlooking a pile of bones labeled 'TAX PAYER,' 'LIBERTY,' and 'JUSTICE' clearly symbolizes corrupt politicians exploiting the public and biding their time until public anger (the storm) passes."
+        },
+        {
+          "text": "The cartoon warns against the destructive power of natural disasters, such as violent storms, on urban centers like New York City.",
+          "isCorrect": false,
+          "rationale": "The storm in the background is symbolic of public outrage or political turmoil, not a literal natural disaster. The context of the cartoon is political corruption, not environmental threats."
+        },
+        {
+          "text": "The cartoon highlights the critical role of 'THE PRESS' in stirring up public unrest and challenging established political authority.",
+          "isCorrect": false,
+          "rationale": "While 'THE PRESS' is labeled on a barrel clutched by one of the vultures, the cartoon's primary message is about the vultures' predatory nature and their contempt for public and civic values. The press is depicted as something the corrupt figures are dealing with, not as the main agitator or the focus of the overall message."
+        },
+        {
+          "text": "The cartoon celebrates the enduring strength and resilience of 'RENT PAYERS' and 'TAX PAYERS' in overcoming political corruption.",
+          "isCorrect": false,
+          "rationale": "The labels 'RENT PAYER' and 'TAX PAYER' are found among the pile of bones and skulls, indicating that these groups are victims of the corruption, not that they are resiliently overcoming it."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/gilded_age_0001.jpg",
+        "alt": "A black and white political cartoon from Harper's Weekly depicts three vulture-like men perched on a cliff during a storm."
+      },
+      "groupId": "ss-img-gilded_age_0001.jpg",
+      "difficulty": "hard",
+      "questionNumber": 7,
+      "bankFingerprint": "f1e3077b572635190b3f19956a8030f7ca8e4b18"
+    },
+    {
+      "questionText": "What is the primary argument the speaker makes regarding the future of the United States?",
+      "passage": "A house divided against itself cannot stand. I believe this government cannot endure permanently half slave and half free. I do not expect the Union to be dissolved—I do not expect the house to fall—but I do expect it will cease to be divided. It will become all one thing or all the other. Either the opponents of slavery will arrest the further spread of it, and place it where the public mind shall rest in the belief that it is in course of ultimate extinction; or its advocates will push it forward, till it shall become alike lawful in all the States, old as well as new, North as well as South. This is the real issue that now overshadows all others. It is not merely a political difference but a moral one, for it concerns the rights of men and the meaning of liberty in a republic.",
+      "answerOptions": [
+        {
+          "text": "The Union is destined to be dissolved due to irreconcilable differences.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, \"I do not expect the Union to be dissolved.\""
+        },
+        {
+          "text": "The issue of slavery is primarily a political disagreement that will eventually be settled through compromise.",
+          "isCorrect": false,
+          "rationale": "The speaker asserts that \"It is not merely a political difference but a moral one,\" indicating a deeper conflict than simple political disagreement."
+        },
+        {
+          "text": "The nation cannot continue in its current state of being partly slave and partly free and will ultimately become entirely one or the other.",
+          "isCorrect": true,
+          "rationale": "The speaker declares, \"I believe this government cannot endure permanently half slave and half free\" and \"It will become all one thing or all the other.\""
+        },
+        {
+          "text": "The opponents of slavery will inevitably succeed in placing it on the path to ultimate extinction across all states.",
+          "isCorrect": false,
+          "rationale": "The passage presents this as one possible future outcome (\"Either the opponents...will arrest...\"), not as the primary argument about the certainty of the division's resolution."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "7d17407e13aac44ab2f95a415780bc72e812b398",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:19:19.737Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 8,
+      "bankFingerprint": "7d17407e13aac44ab2f95a415780bc72e812b398"
+    },
+    {
+      "questionText": "What is the central message the speaker aims to convey in this excerpt?",
+      "passage": "Their cause must be our cause too. Because it is not just Negroes, but really it is all of us, who must overcome the crippling legacy of bigotry and injustice. And we shall overcome.",
+      "answerOptions": [
+        {
+          "text": "The struggle against bigotry and injustice is a collective effort for all citizens.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Their cause must be our cause too. Because it is not just Negroes, but really it is all of us, who must overcome the crippling legacy of bigotry and injustice.' This directly supports the idea of a shared, collective effort."
+        },
+        {
+          "text": "Only the Negro community is directly impacted by bigotry and injustice.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'it is not just Negroes, but really it is all of us,' contradicting this option."
+        },
+        {
+          "text": "Bigotry and injustice are insurmountable obstacles that cannot be overcome.",
+          "isCorrect": false,
+          "rationale": "The passage concludes with a hopeful and determined statement, 'And we shall overcome,' directly refuting this claim."
+        },
+        {
+          "text": "The primary responsibility for overcoming injustice lies solely with the government.",
+          "isCorrect": false,
+          "rationale": "While the message is to Congress, the passage emphasizes 'all of us' in overcoming the legacy, suggesting a broader societal responsibility rather than just governmental action."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "76c5bfa63272625b799bd379418d84f5f0b24ae6",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-04-06T17:24:59.082Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 9,
+      "bankFingerprint": "76c5bfa63272625b799bd379418d84f5f0b24ae6"
+    },
+    {
+      "questionText": "Based on the excerpt, what is the main purpose of this address?",
+      "passage": "Starting today, we must pick ourselves up, dust ourselves off, and begin again the work of remaking America. What is required of us now is a new era of responsibility, a recognition, on the part of every American, that we have duties to ourselves, our nation, and the world.",
+      "answerOptions": [
+        {
+          "text": "To criticize previous administrations for their failures.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on future action and responsibility, not past criticism."
+        },
+        {
+          "text": "To encourage all Americans to take on duties for national rebuilding.",
+          "isCorrect": true,
+          "rationale": "The passage calls for 'remaking America' and a 'new era of responsibility' with 'duties to ourselves, our nation, and the world,' directly supporting this purpose."
+        },
+        {
+          "text": "To announce new government programs to help the economy.",
+          "isCorrect": false,
+          "rationale": "The passage mentions 'remaking America' and 'responsibility' but does not specify government programs or economic help."
+        },
+        {
+          "text": "To inform the public about the challenges facing other nations.",
+          "isCorrect": false,
+          "rationale": "While 'duties to...the world' is mentioned, the primary focus is on 'remaking America' and duties related to the nation."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "d8b867f9c57401e47496e60b8366c214c7833649",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T15:56:23.897Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 10,
+      "bankFingerprint": "d8b867f9c57401e47496e60b8366c214c7833649"
+    },
+    {
+      "questionText": "What is the overarching message of this excerpt from the Second Inaugural Address?",
+      "passage": "With malice toward none; with charity for all; with firmness in the right, as God gives us to see the right, let us strive on to finish the work we are in; to bind up the nation's wounds; to care for him who shall have borne the battle, and for his widow, and his orphan—to do all which may achieve and cherish a just and lasting peace among ourselves, and with all nations.",
+      "answerOptions": [
+        {
+          "text": "To encourage retribution against those who opposed the nation.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, \"With malice toward none; with charity for all,\" which contradicts the idea of retribution."
+        },
+        {
+          "text": "To emphasize the importance of achieving a just and lasting peace through national healing and reconciliation.",
+          "isCorrect": true,
+          "rationale": "The core themes of the address are expressed in phrases like \"bind up the nation's wounds,\" \"malice toward none; with charity for all,\" and \"achieve and cherish a just and lasting peace.\""
+        },
+        {
+          "text": "To outline specific strategies for economic recovery after a period of conflict.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on social and emotional healing and peace, not economic strategies."
+        },
+        {
+          "text": "To advocate for strict military control over all aspects of national life.",
+          "isCorrect": false,
+          "rationale": "The passage speaks of care and peace, not military control or power."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "a057302af7955234bfd6b0d09864c0ffab0702dd",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-18T17:34:27.654Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 11,
+      "bankFingerprint": "a057302af7955234bfd6b0d09864c0ffab0702dd"
+    },
+    {
+      "questionText": "What is the author's primary purpose in writing this report?",
+      "answerOptions": [
+        {
+          "text": "To emphasize that agriculture is the most important economic activity for a nation's wealth.",
+          "isCorrect": false,
+          "rationale": "While the passage acknowledges agriculture as primary, its main purpose is to advocate for manufacturing, not solely agriculture, as crucial for national prosperity."
+        },
+        {
+          "text": "To warn against any government intervention in the national economy.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that 'it is the proper task of government to remove obstacles, to foster inventions, to encourage skill, and in some cases to protect young industries.'"
+        },
+        {
+          "text": "To argue for the strategic importance of developing domestic manufacturing alongside agriculture for national well-being.",
+          "isCorrect": true,
+          "rationale": "The passage's central argument is that encouraging manufactures ensures national wealth, independence, and security, and benefits agriculture as well."
+        },
+        {
+          "text": "To suggest that nations should only export agricultural goods and import manufactured goods.",
+          "isCorrect": false,
+          "rationale": "The passage argues against relying on foreign markets and promotes domestic manufacturing to avoid such dependence."
+        }
+      ],
+      "passage": "The wealth, independence, and security of a nation are materially connected with the prosperity of manufactures. Agriculture may indeed be the most necessary and primary of pursuits, but to rely on it alone is to leave the nation exposed to the fluctuations of foreign markets and the caprice of other powers. A broad and well-planned encouragement of manufactures will draw into useful employment those classes of people who are not profitably engaged, will create a home market for the produce of our farmers, and will diversify the industry of the United States. It is not true that agriculture and manufactures are rivals; they are, rather, mutual aids. Where there is a thriving manufacturing class, farmers find steady purchasers; where there is only agriculture, periods of glut and want of demand must occur. Therefore, it is the proper task of government to remove obstacles, to foster inventions, to encourage skill, and in some cases to protect young industries until they are able to stand by their own strength.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_hamilton_report_on_manufactures",
+      "groupId": "ss-pass-ss_hamilton_report_on_manufactures",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 12,
+      "bankFingerprint": "dbe24e36c54b7e2825b48e34e6389488b802d286"
+    },
+    {
+      "questionText": "According to the passage, how do manufactures provide a direct benefit to farmers?",
+      "answerOptions": [
+        {
+          "text": "They protect the nation from the caprice of other powers.",
+          "isCorrect": false,
+          "rationale": "This is a general benefit of manufacturing for national security and independence, not a direct benefit specifically to farmers."
+        },
+        {
+          "text": "They create a steady demand and market for agricultural produce.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Where there is a thriving manufacturing class, farmers find steady purchasers' and that manufactures 'will create a home market for the produce of our farmers.'"
+        },
+        {
+          "text": "They encourage the government to foster inventions and skill.",
+          "isCorrect": false,
+          "rationale": "This describes a role of government regarding manufacturing, not a direct benefit from manufacturing to farmers."
+        },
+        {
+          "text": "They allow the nation to rely solely on agriculture.",
+          "isCorrect": false,
+          "rationale": "The passage argues against relying solely on agriculture, stating it exposes the nation to foreign market fluctuations."
+        }
+      ],
+      "passage": "The wealth, independence, and security of a nation are materially connected with the prosperity of manufactures. Agriculture may indeed be the most necessary and primary of pursuits, but to rely on it alone is to leave the nation exposed to the fluctuations of foreign markets and the caprice of other powers. A broad and well-planned encouragement of manufactures will draw into useful employment those classes of people who are not profitably engaged, will create a home market for the produce of our farmers, and will diversify the industry of the United States. It is not true that agriculture and manufactures are rivals; they are, rather, mutual aids. Where there is a thriving manufacturing class, farmers find steady purchasers; where there is only agriculture, periods of glut and want of demand must occur. Therefore, it is the proper task of government to remove obstacles, to foster inventions, to encourage skill, and in some cases to protect young industries until they are able to stand by their own strength.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_hamilton_report_on_manufactures",
+      "groupId": "ss-pass-ss_hamilton_report_on_manufactures",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 13,
+      "bankFingerprint": "02f68348ecc0c894d7ec36d2431681b382e6ebdc"
+    },
+    {
+      "questionText": "According to the map's legend, which country joined the Warsaw Pact in 1956?",
+      "answerOptions": [
+        {
+          "text": "Soviet Union",
+          "isCorrect": false,
+          "rationale": "The Soviet Union was a founding member of the Warsaw Pact in 1955, not an entry in 1956."
+        },
+        {
+          "text": "Poland",
+          "isCorrect": false,
+          "rationale": "Poland was a founding member of the Warsaw Pact in 1955, not an entry in 1956."
+        },
+        {
+          "text": "East Germany",
+          "isCorrect": true,
+          "rationale": "The map's legend explicitly states 'Entry: East Germany 1956' under the 'Founding members of the Warsaw Pact 1955' section, indicating it joined in 1956."
+        },
+        {
+          "text": "Hungary",
+          "isCorrect": false,
+          "rationale": "Hungary was a founding member of the Warsaw Pact in 1955, not an entry in 1956."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/cold_war_0001.png",
+        "alt": "A political map of Europe illustrating Cold War military alliances, showing NATO and Warsaw Pact affiliations for various countries."
+      },
+      "groupId": "ss-img-cold_war_0001.png",
+      "difficulty": "medium",
+      "questionNumber": 14,
+      "bankFingerprint": "3862de033dbf0cae5818dc2b7810c283430ba748"
+    },
+    {
+      "questionText": "What is the highest court in the United States?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The District Court",
+          "isCorrect": false,
+          "rationale": "District courts are the trial courts of the federal system, but not the highest."
+        },
+        {
+          "text": "The Court of Appeals",
+          "isCorrect": false,
+          "rationale": "Courts of Appeals hear appeals from the district courts, but are not the highest."
+        },
+        {
+          "text": "The Supreme Court",
+          "isCorrect": true,
+          "rationale": "Correct. The Supreme Court is the final arbiter of the law and the highest court in the federal system."
+        },
+        {
+          "text": "The State Supreme Court",
+          "isCorrect": false,
+          "rationale": "A state supreme court is the highest court in a state, but the U.S. Supreme Court is the highest in the nation."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "e718b3638b5c80b473424146015845f7bf0c0145",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T17:38:06.988Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 15,
+      "bankFingerprint": "e718b3638b5c80b473424146015845f7bf0c0145"
+    },
+    {
+      "questionText": "What is the primary purpose of the speaker in this excerpt of the Gettysburg Address?",
+      "answerOptions": [
+        {
+          "text": "To call for an immediate end to the Civil War.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Now we are engaged in a great civil war,' indicating the war is ongoing and the speaker's purpose is not to end it immediately but to commemorate those who died in it."
+        },
+        {
+          "text": "To dedicate a portion of a battlefield and reaffirm the founding principles of the nation.",
+          "isCorrect": true,
+          "rationale": "The speaker explicitly states, 'We have come to dedicate a portion of that field' and connects this act to the nation's founding 'conceived in Liberty, and dedicated to the proposition that all men are created equal,' which is being tested by the Civil War."
+        },
+        {
+          "text": "To outline the specific military strategies for winning the war.",
+          "isCorrect": false,
+          "rationale": "The excerpt focuses on remembrance and national principles, not military tactics."
+        },
+        {
+          "text": "To criticize the leadership of the Union army.",
+          "isCorrect": false,
+          "rationale": "There is no criticism of leadership or military strategy in this portion of the address; the tone is one of solemn dedication and reaffirmation."
+        }
+      ],
+      "passage": "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battlefield of that war. We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_lincoln_gettysburg",
+      "groupId": "ss-pass-ss_lincoln_gettysburg",
+      "difficulty": "medium",
+      "questionNumber": 16,
+      "bankFingerprint": "1badcd70fac5278d26a916686d52064b8e6d851e"
+    },
+    {
+      "questionText": "The phrase 'Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal' primarily serves to establish which of the following?",
+      "answerOptions": [
+        {
+          "text": "The immediate causes of the Civil War.",
+          "isCorrect": false,
+          "rationale": "This phrase refers to the nation's founding, long before the Civil War began, and therefore does not establish its immediate causes."
+        },
+        {
+          "text": "The current state of the nation's economy.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss economic conditions; it focuses on the nation's origins and current struggle."
+        },
+        {
+          "text": "The historical foundation and core principles upon which the nation was built.",
+          "isCorrect": true,
+          "rationale": "The phrase directly describes the creation of the nation and its fundamental ideals of liberty and equality, setting the historical context for its current struggle."
+        },
+        {
+          "text": "The exact date of the battle being commemorated.",
+          "isCorrect": false,
+          "rationale": "While 'Four score and seven years ago' refers to a past event, it describes the nation's founding, not the specific date of the current battle."
+        }
+      ],
+      "passage": "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battlefield of that war. We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_lincoln_gettysburg",
+      "groupId": "ss-pass-ss_lincoln_gettysburg",
+      "difficulty": "medium",
+      "questionNumber": 17,
+      "bankFingerprint": "6f98239f3fa69634f81ebea0333f1d56db565bef"
+    },
+    {
+      "questionText": "A small town is debating a new law that would require every adult resident to spend five hours a month helping with local projects, such as park clean-up or supporting the local library. Some residents argue this is an unfair burden on their personal time, while others believe it is a necessary duty to improve the community. This scenario highlights a discussion about which fundamental aspect of citizenship?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The right to free speech and protest government actions.",
+          "isCorrect": false,
+          "rationale": "While residents might use free speech to debate, the core issue isn't the right to speak, but the obligation itself."
+        },
+        {
+          "text": "The balance between individual liberties and civic responsibilities.",
+          "isCorrect": true,
+          "rationale": "The debate directly contrasts the individual's freedom from forced labor (a liberty) with the idea of a citizen's duty to contribute to the community's well-being (a civic responsibility)."
+        },
+        {
+          "text": "The process of electing local government officials to make decisions.",
+          "isCorrect": false,
+          "rationale": "The scenario describes a debate over a proposed law, not the method by which officials are chosen."
+        },
+        {
+          "text": "The economic impact of public services on local taxpayers.",
+          "isCorrect": false,
+          "rationale": "Although public services have economic impacts, the primary conflict described is about mandatory participation and personal freedom versus community duty, not financial cost."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "The Bill of Rights",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "2613fdbfeadc8dfdcd3618cb5a9f783b5d0dceeb",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2026-02-18T15:39:06.691Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Economics",
+      "source": "curatedAiBank",
+      "questionNumber": 18,
+      "bankFingerprint": "2613fdbfeadc8dfdcd3618cb5a9f783b5d0dceeb"
+    },
+    {
+      "questionText": "Which branch of the U.S. government is responsible for making laws?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The Executive Branch",
+          "isCorrect": false,
+          "rationale": "The Executive Branch, led by the President, is responsible for enforcing laws."
+        },
+        {
+          "text": "The Judicial Branch",
+          "isCorrect": false,
+          "rationale": "The Judicial Branch, led by the Supreme Court, is responsible for interpreting laws."
+        },
+        {
+          "text": "The Legislative Branch",
+          "isCorrect": true,
+          "rationale": "Correct. The Legislative Branch, also known as Congress, is responsible for writing and passing laws."
+        },
+        {
+          "text": "The Bureaucratic Branch",
+          "isCorrect": false,
+          "rationale": "This is not one of the three constitutional branches of government."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "1f470d2e4cacac964569956ed2ca203751ecea31",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T18:11:26.706Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 19,
+      "bankFingerprint": "1f470d2e4cacac964569956ed2ca203751ecea31"
+    },
+    {
+      "questionText": "The map displays four major cattle drive trails, all originating from a single primary state. From an economic perspective, this state served as the central point for the supply of cattle for these major drives. Based on the map, which state is it?",
+      "answerOptions": [
+        {
+          "text": "Kansas",
+          "isCorrect": false,
+          "rationale": "Kansas contains destination towns, but the cattle drives did not originate there."
+        },
+        {
+          "text": "Missouri",
+          "isCorrect": false,
+          "rationale": "Missouri contains destination towns, but the cattle drives did not originate there."
+        },
+        {
+          "text": "Texas",
+          "isCorrect": true,
+          "rationale": "The map clearly shows all four major cattle trails (Goodnight-Loving, Western, Chisholm, and Shawnee) beginning within the borders of Texas, indicating it was the primary source, or supply origin, for the cattle."
+        },
+        {
+          "text": "Wyoming",
+          "isCorrect": false,
+          "rationale": "Wyoming is a destination state for one of the trails, but it is not the origin point for the cattle drives."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0033.png",
+        "alt": "A map showing four major cattle drive trails, including the Chisholm and Western Trails, across the American West."
+      },
+      "groupId": "ss-img-unclassified_0033.png",
+      "difficulty": "hard",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 20,
+      "bankFingerprint": "8759624397ce6144211dd356a7d472c118303f11"
+    },
+    {
+      "questionText": "What is the author's primary purpose in this excerpt?",
+      "answerOptions": [
+        {
+          "text": "To define lynching objectively.",
+          "isCorrect": false,
+          "rationale": "While the passage defines lynching, its primary purpose extends beyond objective definition to strong condemnation."
+        },
+        {
+          "text": "To report on historical events related to lynching.",
+          "isCorrect": false,
+          "rationale": "The passage makes a powerful statement about lynching but does not report specific historical events."
+        },
+        {
+          "text": "To condemn lynching as an uncivilized national crime.",
+          "isCorrect": true,
+          "rationale": "The author uses strong language, calling lynching a 'national crime' and stating that 'No nation can call itself civilized that allows such deeds to go unpunished,' clearly expressing a condemnatory viewpoint and purpose."
+        },
+        {
+          "text": "To analyze the causes of mob violence.",
+          "isCorrect": false,
+          "rationale": "The passage describes lynching as 'killing... by mobs' but does not delve into an analysis of the causes of mob violence."
+        }
+      ],
+      "passage": "Our country’s national crime is lynching. It represents the cool, deliberate killing of human beings by mobs, often with the consent of the community. No nation can call itself civilized that allows such deeds to go unpunished.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_ida_b_wells_lynching",
+      "groupId": "ss-pass-ss_ida_b_wells_lynching",
+      "difficulty": "hard",
+      "questionNumber": 21,
+      "bankFingerprint": "b4bb3daf9bfa73c7a57a493389db5b66b9d31b6d"
+    },
+    {
+      "questionText": "Which statement from the passage serves as evidence to support the author's claim that lynching is a 'national crime' and prevents a nation from being 'civilized'?",
+      "answerOptions": [
+        {
+          "text": "Our country's national crime is lynching.",
+          "isCorrect": false,
+          "rationale": "This statement is the author's main claim or assertion, not the evidence that supports it."
+        },
+        {
+          "text": "It represents the cool, deliberate killing of human beings by mobs, often with the consent of the community.",
+          "isCorrect": true,
+          "rationale": "This statement describes the nature of lynching, detailing it as a 'cool, deliberate killing' by 'mobs' with 'community consent,' providing the descriptive details that serve as evidence for why it is considered a severe national crime."
+        },
+        {
+          "text": "No nation can call itself civilized that allows such deeds to go unpunished.",
+          "isCorrect": false,
+          "rationale": "This statement is a further claim about the consequences of allowing lynching, rather than the evidence describing the act of lynching itself."
+        },
+        {
+          "text": "The passage does not provide evidence to support this claim.",
+          "isCorrect": false,
+          "rationale": "The passage does provide descriptive details that function as evidence for the author's claim."
+        }
+      ],
+      "passage": "Our country’s national crime is lynching. It represents the cool, deliberate killing of human beings by mobs, often with the consent of the community. No nation can call itself civilized that allows such deeds to go unpunished.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_ida_b_wells_lynching",
+      "groupId": "ss-pass-ss_ida_b_wells_lynching",
+      "difficulty": "hard",
+      "questionNumber": 22,
+      "bankFingerprint": "5ffad056163bbb352a7b1a089698bcadc9e2a1a6"
+    },
+    {
+      "questionText": "What civic principle is conveyed by President Roosevelt's action and the caption 'DRAWING THE LINE IN MISSISSIPPI' in the cartoon?",
+      "answerOptions": [
+        {
+          "text": "The President's role in establishing ethical boundaries.",
+          "isCorrect": true,
+          "rationale": "The caption 'Drawing the Line in Mississippi,' coupled with Roosevelt's gesture to stop the hunter from harming the bear cub, symbolizes a stand on ethical conduct and moral leadership, which is a key civic principle for a president."
+        },
+        {
+          "text": "The importance of enforcing state geographical borders.",
+          "isCorrect": false,
+          "rationale": "While Mississippi is a geographical location, the phrase 'drawing the line' in this context is symbolic of an ethical decision, not a literal enforcement of state lines."
+        },
+        {
+          "text": "The President's power to regulate hunting laws.",
+          "isCorrect": false,
+          "rationale": "The cartoon depicts an act of personal ethical conviction, not a legislative action or the formal regulation of hunting laws by the President."
+        },
+        {
+          "text": "The necessity of compromise in political disputes.",
+          "isCorrect": false,
+          "rationale": "Roosevelt's action is a firm refusal to participate in an unethical act, which is a clear stand rather than a compromise in a political dispute."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/clifford_k_berryman_0005.png",
+        "alt": "A black and white political cartoon from 1902 depicts President Theodore Roosevelt stopping a hunter from harming a small bear cub, with text 'Drawing the Line"
+      },
+      "groupId": "ss-img-clifford_k_berryman_0005.png",
+      "difficulty": "hard",
+      "questionNumber": 23,
+      "bankFingerprint": "197035e1cd1563891df8e8a5b5d9974009b46d19"
+    },
+    {
+      "questionText": "During the Civil Rights Movement, activists organized boycotts, sit-ins, and marches to protest racial segregation and discrimination. These nonviolent actions often faced harsh opposition from authorities and some segments of society, yet they continued to draw national attention to the injustices. What was a primary effect of these nonviolent protest methods during the Civil Rights Movement?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "They caused an immediate and complete end to all forms of discrimination nationwide.",
+          "isCorrect": false,
+          "rationale": "While the movement sought to end discrimination, this was a gradual process, and discrimination did not end immediately or completely with these methods."
+        },
+        {
+          "text": "They led to a decrease in public support for the movement due to the disruptions they caused.",
+          "isCorrect": false,
+          "rationale": "Despite some opposition, these actions ultimately galvanized public opinion and increased support for the movement's goals by exposing injustices."
+        },
+        {
+          "text": "They pressured federal lawmakers to enact significant legislation addressing civil rights and voting rights.",
+          "isCorrect": true,
+          "rationale": "The nonviolent protests were instrumental in building public and political pressure that led to the passage of landmark legislation like the Civil Rights Act of 1964 and the Voting Rights Act of 1965."
+        },
+        {
+          "text": "They resulted in the movement shifting its focus primarily to economic equality rather than legal rights.",
+          "isCorrect": false,
+          "rationale": "While economic equality was an important aspect, the primary and immediate effect of these specific methods was to challenge legal segregation and discrimination, leading to significant legal reforms."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "0d2b41585adcf93e7e40bbf2ca820aeca93e7267",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-02-19T19:28:44.052Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Geography & the World",
+      "source": "curatedAiBank",
+      "questionNumber": 24,
+      "bankFingerprint": "0d2b41585adcf93e7e40bbf2ca820aeca93e7267"
+    },
+    {
+      "questionText": "How do the text and imagery work together in this poster?",
+      "answerOptions": [
+        {
+          "text": "The battle scene visually dramatizes the bravery named in the slogan.",
+          "isCorrect": true,
+          "rationale": "Correct. The poster pairs the word courage with soldiers under fire so the message feels urgent and heroic."
+        },
+        {
+          "text": "The text contradicts the image by discouraging military service.",
+          "isCorrect": false,
+          "rationale": "The text and image reinforce the same patriotic message."
+        },
+        {
+          "text": "The imagery is neutral and avoids emotion.",
+          "isCorrect": false,
+          "rationale": "Explosions, smoke, and active combat are highly emotional choices."
+        },
+        {
+          "text": "The text is unrelated to the soldiers shown.",
+          "isCorrect": false,
+          "rationale": "The text directly labels and celebrates the infantry depicted."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/history_of_propaganda_0002.png",
+        "alt": "A World War II era propaganda poster depicting three US infantry soldiers firing a machine gun during combat."
+      },
+      "groupId": "ss-img-history_of_propaganda_0002.png",
+      "difficulty": "medium",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 25,
+      "bankFingerprint": "e492ef9cfd605bece23a3bf510dab87c9a882ace"
+    },
+    {
+      "questionText": "What is the author's main argument regarding the conditions under which a government loses its claim to obedience?",
+      "answerOptions": [
+        {
+          "text": "A government loses its claim to obedience when it fails to further any enterprise or progress.",
+          "isCorrect": false,
+          "rationale": "The passage states that government never of itself furthers enterprise, but sometimes hinders it, but this is not given as the condition for losing its claim to obedience."
+        },
+        {
+          "text": "A government loses its claim to obedience when it requires a person to be an agent of injustice or imprisons people unjustly.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'The authority of government, even when well intentioned, becomes unjust when it requires a man to be the agent of injustice to another. When the State imprisons a man for refusing to support slavery or an unjust war, it is the State that has lost its claim to obedience.'"
+        },
+        {
+          "text": "A government loses its claim to obedience if it does not govern enough, failing to assert its authority.",
+          "isCorrect": false,
+          "rationale": "The author heartily accepts the motto 'That government is best which governs least,' indicating a preference for minimal governance, not an issue with it."
+        },
+        {
+          "text": "A government loses its claim to obedience when the will of the people is not expressed through regular elections.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions government is an expression of the will of the people, it does not specify elections as the condition for losing obedience; rather, it focuses on unjust actions."
+        }
+      ],
+      "passage": "I heartily accept the motto, \"That government is best which governs least\"; and I should like to see it acted up to more rapidly and systematically. Yet government itself, never of itself, furthers any enterprise, but sometimes hinders it. The authority of government, even when well intentioned, becomes unjust when it requires a man to be the agent of injustice to another. When the State imprisons a man for refusing to support slavery or an unjust war, it is the State that has lost its claim to obedience. Under a government which imprisons any unjustly, the true place for a just man is also a prison. I do not ask for no government, but for a better government. And when people are prepared for it, that will be the kind of government they will have, for government is only the expression of the will of the people.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_thoreau_civil_disobedience",
+      "groupId": "ss-pass-ss_thoreau_civil_disobedience",
+      "difficulty": "hard",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 26,
+      "bankFingerprint": "6caf0b6e83eb47ae2efd779b5ffa459c4ea6bb96"
+    },
+    {
+      "questionText": "What is the role of a 'whip' in Congress?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "To preside over the debates in the House or Senate.",
+          "isCorrect": false,
+          "rationale": "This is the role of the Speaker of the House or the President of the Senate."
+        },
+        {
+          "text": "To serve as the official spokesperson for their party.",
+          "isCorrect": false,
+          "rationale": "This is the role of the majority or minority leader."
+        },
+        {
+          "text": "To ensure party discipline in voting and count votes for their party.",
+          "isCorrect": true,
+          "rationale": "Correct. The whip is a key leadership position responsible for 'whipping up' support for their party's position on legislation."
+        },
+        {
+          "text": "To chair the most powerful committees.",
+          "isCorrect": false,
+          "rationale": "Committee chairs are typically chosen based on seniority and party loyalty, not the whip position."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "fb22b2114933f146484702579ba625b26b402434",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:31:18.805Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 27,
+      "bankFingerprint": "fb22b2114933f146484702579ba625b26b402434"
+    },
+    {
+      "questionText": "Why was adding a Bill of Rights critical to ratification?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "It protected individual liberties and eased Anti-Federalist concerns.",
+          "isCorrect": true,
+          "rationale": "Core reason for adoption."
+        },
+        {
+          "text": "It created a powerful king-like executive.",
+          "isCorrect": false,
+          "rationale": "Opposite of intent."
+        },
+        {
+          "text": "It eliminated state governments.",
+          "isCorrect": false,
+          "rationale": "Federal balance preserved states."
+        },
+        {
+          "text": "It abolished all taxes.",
+          "isCorrect": false,
+          "rationale": "No such provision."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "text",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "9823dfc026d965359741ee549676b0dc4abbd956",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T18:11:26.724Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 28,
+      "bankFingerprint": "9823dfc026d965359741ee549676b0dc4abbd956"
+    },
+    {
+      "questionText": "What is the primary purpose of the author's message?",
+      "answerOptions": [
+        {
+          "text": "To persuade readers that national improvements are necessary for connecting states and regions.",
+          "isCorrect": true,
+          "rationale": "The passage states that 'strengthening of the ties... requires wise national improvements that connect the regions,' indicating an argument for the necessity of these improvements."
+        },
+        {
+          "text": "To describe the current status of existing commerce and communication routes across the continent.",
+          "isCorrect": false,
+          "rationale": "The passage advocates for improvements rather than describing existing conditions."
+        },
+        {
+          "text": "To criticize the lack of unity and cooperation among the different states of the continent.",
+          "isCorrect": false,
+          "rationale": "While it implies a need for strengthening ties, the primary purpose is to advocate for solutions (improvements), not to criticize the current state."
+        },
+        {
+          "text": "To provide a historical overview of how various regions of the continent became interconnected.",
+          "isCorrect": false,
+          "rationale": "The passage does not offer a historical overview; it focuses on future needs and present requirements."
+        }
+      ],
+      "passage": "The strengthening of the ties that bind together the States requires wise national improvements that connect the regions of this continent in commerce and communication.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_lincoln_transcontinental_1862",
+      "groupId": "ss-pass-ss_lincoln_transcontinental_1862",
+      "difficulty": "medium",
+      "questionNumber": 29,
+      "bankFingerprint": "f7c84ffdc84ca332df298fbaec5a0bdbf653617f"
+    },
+    {
+      "questionText": "According to the passage, for what specific geographical reason are 'wise national improvements' required?",
+      "answerOptions": [
+        {
+          "text": "To increase the military defense capabilities of individual states.",
+          "isCorrect": false,
+          "rationale": "The passage mentions 'commerce and communication' as the benefits, not military defense."
+        },
+        {
+          "text": "To establish stronger ties that bind together the States by connecting regions in commerce and communication.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states 'The strengthening of the ties that bind together the States requires wise national improvements that connect the regions of this continent in commerce and communication.'"
+        },
+        {
+          "text": "To reduce the economic dependence of the continent's regions on international trade.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on 'internal connections' and 'commerce and communication' within the continent, not on international trade dependence."
+        },
+        {
+          "text": "To allow for the exploration and mapping of uncharted territories within the continent.",
+          "isCorrect": false,
+          "rationale": "The passage is about connecting established regions for commerce and communication, not exploring uncharted territories."
+        }
+      ],
+      "passage": "The strengthening of the ties that bind together the States requires wise national improvements that connect the regions of this continent in commerce and communication.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_lincoln_transcontinental_1862",
+      "groupId": "ss-pass-ss_lincoln_transcontinental_1862",
+      "difficulty": "medium",
+      "questionNumber": 30,
+      "bankFingerprint": "892c98234449c36a2c75f7687a65f4d19a417819"
+    }
+  ],
+  "validationWarnings": [
+    "Difficulty \"easy\": 1, expected ~7",
+    "Difficulty \"medium\": 19, expected ~15"
+  ]
+}

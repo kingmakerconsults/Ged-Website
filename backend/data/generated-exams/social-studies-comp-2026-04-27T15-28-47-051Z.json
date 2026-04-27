@@ -1,0 +1,1169 @@
+{
+  "id": "ai_comp_social_studies_1777303725941",
+  "title": "Comprehensive Social Studies Exam",
+  "subject": "Social Studies",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "Based on the formal signing ceremony depicted in the image, what does this scene suggest about the role of the federal government during President Roosevelt's administration?",
+      "answerOptions": [
+        {
+          "text": "The federal government was actively expanding its involvement in public policy and daily life.",
+          "isCorrect": true,
+          "rationale": "The formal presidential signing of a document, especially during the New Deal era, symbolizes the federal government's active role in creating and implementing new legislation to address societal and economic challenges, thereby expanding its influence."
+        },
+        {
+          "text": "The federal government was primarily focused on decentralizing power to state and local authorities.",
+          "isCorrect": false,
+          "rationale": "The New Deal era, characterized by significant federal programs and legislation, involved a centralization and expansion of federal power, not a primary focus on decentralization."
+        },
+        {
+          "text": "Presidential actions were largely symbolic, with legislative power resting almost entirely with Congress.",
+          "isCorrect": false,
+          "rationale": "A presidential signing ceremony is a crucial step in the legislative process, demonstrating the executive branch's power and approval, making the action far from merely symbolic."
+        },
+        {
+          "text": "The government aimed to reduce its overall size and scope to limit intervention in the economy.",
+          "isCorrect": false,
+          "rationale": "President Roosevelt's New Deal policies, during which this photo was likely taken, were specifically designed to increase government intervention in the economy and society to combat the Great Depression."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
+        "alt": "A black and white photo shows President Franklin D. Roosevelt seated, signing a document, surrounded by seven other people."
+      },
+      "groupId": "ss-img-political_ideologies_in_the_united_states_0002.jpg",
+      "difficulty": "hard",
+      "questionNumber": 1,
+      "bankFingerprint": "570445345b3dc4cc9887fe710ec90f6071740138"
+    },
+    {
+      "questionText": "What is the central message the author conveys regarding progress and freedom?",
+      "passage": "If there is no struggle there is no progress. Those who profess to favor freedom and yet deprecate agitation are men who want crops without plowing up the ground.",
+      "answerOptions": [
+        {
+          "text": "True freedom can only be achieved by avoiding conflict.",
+          "isCorrect": false,
+          "rationale": "The passage argues the opposite, stating 'If there is no struggle there is no progress' and criticizing those who 'deprecate agitation'."
+        },
+        {
+          "text": "Desiring progress is sufficient for its attainment, without active effort.",
+          "isCorrect": false,
+          "rationale": "The author explicitly condemns this view, comparing it to 'wanting crops without plowing up the ground'."
+        },
+        {
+          "text": "Active effort and agitation are essential preconditions for achieving progress and freedom.",
+          "isCorrect": true,
+          "rationale": "The core argument of the passage is 'If there is no struggle there is no progress' and that those who oppose 'agitation' while favoring 'freedom' are inconsistent."
+        },
+        {
+          "text": "Agricultural metaphors are useful for understanding political theory.",
+          "isCorrect": false,
+          "rationale": "While an agricultural metaphor is used, the main message is about struggle and progress, not the utility of metaphors themselves."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "5673ed9262da8b15e19e078839d9ffbabcc3b62c",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T18:00:38.722Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "easy",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 2,
+      "bankFingerprint": "5673ed9262da8b15e19e078839d9ffbabcc3b62c"
+    },
+    {
+      "questionText": "The author states that 'Injustice anywhere is a threat to justice everywhere.' Which phrase from the passage provides the strongest reasoning or evidence to support this claim?",
+      "passage": "Injustice anywhere is a threat to justice everywhere. We are caught in an inescapable network of mutuality, tied in a single garment of destiny.",
+      "answerOptions": [
+        {
+          "text": "'Injustice anywhere'",
+          "isCorrect": false,
+          "rationale": "This phrase identifies a condition, but it does not explain the underlying reason or evidence for why it poses a universal threat."
+        },
+        {
+          "text": "'a threat to justice everywhere'",
+          "isCorrect": false,
+          "rationale": "This phrase restates part of the claim itself, rather than offering supporting reasoning or evidence for it."
+        },
+        {
+          "text": "'We are caught in an inescapable network of mutuality'",
+          "isCorrect": true,
+          "rationale": "This phrase provides the fundamental reason or evidence for the claim, explaining that humanity's interconnectedness means that an injustice in one place inevitably affects all."
+        },
+        {
+          "text": "'tied in a single garment'",
+          "isCorrect": false,
+          "rationale": "While this phrase contributes to the idea of interconnectedness, 'inescapable network of mutuality' more broadly and directly explains the reasoning behind the universal threat of injustice, serving as stronger evidence for the author's claim."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "4d85bc68e4152d57a9a44a295f3797dc3595f14d",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-19T14:39:03.314Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 3,
+      "bankFingerprint": "4d85bc68e4152d57a9a44a295f3797dc3595f14d"
+    },
+    {
+      "questionText": "By stating 'all men and women are created equal,' what point of view are the authors expressing?",
+      "passage": "We hold these truths to be self-evident: that all men and women are created equal; that they are endowed by their Creator with certain inalienable rights; that among these are life, liberty, and the pursuit of happiness; that to secure these rights governments are instituted, deriving their just powers from the consent of the governed.",
+      "answerOptions": [
+        {
+          "text": "They believed that governments should have the authority to decide who is considered equal.",
+          "isCorrect": false,
+          "rationale": "The passage asserts equality as 'self-evident,' implying it's not subject to governmental decision."
+        },
+        {
+          "text": "They were primarily focused on advocating for the rights of men.",
+          "isCorrect": false,
+          "rationale": "The explicit inclusion of 'and women' indicates a focus beyond just men."
+        },
+        {
+          "text": "They were questioning the very existence of inalienable rights.",
+          "isCorrect": false,
+          "rationale": "The phrase 'We hold these truths to be self-evident' affirms belief in inalienable rights, not questions them."
+        },
+        {
+          "text": "They believed that both genders are entitled to the same fundamental rights and dignities.",
+          "isCorrect": true,
+          "rationale": "The statement 'all men and women are created equal' directly implies that equality in creation extends to equal entitlement to fundamental rights."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "2427e81ad6431270fc001c5dc3c9db8f9fa50c5a",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-12-10T18:58:07.392Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 4,
+      "bankFingerprint": "2427e81ad6431270fc001c5dc3c9db8f9fa50c5a"
+    },
+    {
+      "questionText": "What is the central economic argument presented in the excerpt?",
+      "passage": "In this present crisis, government is not the solution to our problem; government is the problem. It is time to check and reverse the growth of government which shows signs of having grown beyond the consent of the governed.",
+      "answerOptions": [
+        {
+          "text": "Government intervention is the primary solution to economic crises.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'government is not the solution to our problem; government is the problem,' which contradicts this option."
+        },
+        {
+          "text": "The unchecked growth of government is a fundamental cause of economic problems.",
+          "isCorrect": true,
+          "rationale": "The passage argues, 'government is the problem' and calls to 'check and reverse the growth of government,' indicating that its growth is seen as detrimental to the economic situation."
+        },
+        {
+          "text": "Economic difficulties arise mainly from a lack of public consent for government actions.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions 'beyond the consent of the governed,' it frames government growth as 'the problem' in a 'crisis,' implying an economic problem, and not just an issue of consent."
+        },
+        {
+          "text": "Private sector failures are the root cause of the current economic crisis.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention the private sector; it solely blames government for the 'crisis.'"
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "91606334e10b2ce26724c8196a5a8e2b42a88195",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:42:32.730Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 5,
+      "bankFingerprint": "91606334e10b2ce26724c8196a5a8e2b42a88195"
+    },
+    {
+      "questionText": "Based on the provided organizational chart of the Federal Reserve System, which statement accurately compares the number of Member Banks to Nonmember Banks?",
+      "answerOptions": [
+        {
+          "text": "There are approximately 2,400 Member Banks, which is significantly fewer than the approximately 13,700 Nonmember Banks.",
+          "isCorrect": true,
+          "rationale": "The chart explicitly states there are about 2,400 Member Banks and approximately 13,700 Nonmember Banks, indicating a much larger number of Nonmember Banks."
+        },
+        {
+          "text": "The number of Member Banks is slightly higher than Nonmember Banks, with about 13,700 Member Banks.",
+          "isCorrect": false,
+          "rationale": "The chart shows there are about 2,400 Member Banks and 13,700 Nonmember Banks, meaning Nonmember Banks are far more numerous."
+        },
+        {
+          "text": "Both Member Banks and Nonmember Banks each number around 2,400, making them nearly equal.",
+          "isCorrect": false,
+          "rationale": "This is incorrect. While Member Banks are about 2,400, Nonmember Banks are approximately 13,700, a much larger figure."
+        },
+        {
+          "text": "Nonmember Banks are fewer in number than Member Banks, with only 2,400 Nonmember Banks compared to 13,700 Member Banks.",
+          "isCorrect": false,
+          "rationale": "This statement reverses the correct figures and comparison. Nonmember Banks are approximately 13,700, and Member Banks are about 2,400."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0042.png",
+        "alt": "An organizational chart displays the hierarchical structure of the Federal Reserve System and its various components."
+      },
+      "groupId": "ss-img-unclassified_0042.png",
+      "difficulty": "hard",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 6,
+      "bankFingerprint": "1f02a7efac8dc4609d558462ca5e4ffb51b2d2e8"
+    },
+    {
+      "questionText": "Based on its common symbolism, what does the skull and crossbones on the figure's hat in the political cartoon most likely suggest about the character it represents?",
+      "answerOptions": [
+        {
+          "text": "A commitment to exploring new territories and discovery.",
+          "isCorrect": false,
+          "rationale": "The skull and crossbones does not symbolize exploration or discovery; rather, it implies danger or illicit activities."
+        },
+        {
+          "text": "An affiliation with a royal navy or government-sanctioned fleet.",
+          "isCorrect": false,
+          "rationale": "The skull and crossbones is traditionally associated with pirates and lawless activities, not official naval forces."
+        },
+        {
+          "text": "A warning of danger, threat, or illicit and harmful intentions.",
+          "isCorrect": true,
+          "rationale": "The skull and crossbones is a universally recognized symbol of piracy, danger, death, and illicit behavior, suggesting a threatening or harmful nature for the figure."
+        },
+        {
+          "text": "An interest in charting and mapping ocean routes for trade.",
+          "isCorrect": false,
+          "rationale": "The symbol is unrelated to cartography or trade route development; it signifies peril and lawlessness."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/cartoon_0003.png",
+        "alt": "A black and white political cartoon shows a grotesque pirate-like figure seated on a treasure chest, holding a chart."
+      },
+      "groupId": "ss-img-cartoon_0003.png",
+      "difficulty": "hard",
+      "questionNumber": 7,
+      "bankFingerprint": "23ebbe00f36cf217a4263a5a0ec4d5ec7bfc87e5"
+    },
+    {
+      "questionText": "If the President vetoes a bill, Congress can override the veto. What is required for a successful override?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "A simple majority vote in both the House and the Senate.",
+          "isCorrect": false,
+          "rationale": "A simple majority is not enough to override a veto."
+        },
+        {
+          "text": "A two-thirds majority vote in both the House and the Senate.",
+          "isCorrect": true,
+          "rationale": "Correct. This is a high threshold that makes veto overrides difficult, representing a powerful check by the President."
+        },
+        {
+          "text": "A unanimous vote in both the House and the Senate.",
+          "isCorrect": false,
+          "rationale": "Unanimous consent is not required."
+        },
+        {
+          "text": "The approval of the Supreme Court.",
+          "isCorrect": false,
+          "rationale": "The Supreme Court is not involved in the veto override process."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "7d35c1ccb5ceb19abdbf7f5732bb33d6f9b33afd",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T16:03:44.837Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 8,
+      "bankFingerprint": "7d35c1ccb5ceb19abdbf7f5732bb33d6f9b33afd"
+    },
+    {
+      "questionText": "The small island nation of Coralia depends primarily on its pristine coral reefs for both its robust fishing industry and thriving tourism sector. However, a recent series of powerful hurricanes severely damaged these vital reefs and much of Coralia's coastal infrastructure. Based on this scenario, what is the most likely immediate economic consequence for Coralia?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Coralia will experience a significant increase in its export of manufactured goods.",
+          "isCorrect": false,
+          "rationale": "The scenario indicates Coralia's economy relies on fishing and tourism, not manufacturing. Hurricane damage would also hinder any potential export expansion."
+        },
+        {
+          "text": "The nation's gross domestic product (GDP) will likely decrease due to reduced economic activity.",
+          "isCorrect": true,
+          "rationale": "Damage to the primary industries (fishing and tourism) that contribute significantly to Coralia's economy would directly lead to a reduction in its overall economic output, or GDP."
+        },
+        {
+          "text": "Coralia will develop new agricultural industries on its limited arable land to offset losses.",
+          "isCorrect": false,
+          "rationale": "While a long-term strategy might involve diversification, the scenario mentions limited arable land, making it unlikely to be an immediate or significant offset, and hurricanes could have damaged existing agriculture."
+        },
+        {
+          "text": "The demand for imported luxury goods will sharply rise as residents seek comfort.",
+          "isCorrect": false,
+          "rationale": "With primary industries damaged and economic activity reduced, residents would likely have less disposable income, leading to a decrease, not an increase, in demand for luxury goods."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "6975fc2d4211fd68f6c13d920c47f4c54c64ae0c",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-02-23T14:46:35.208Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 9,
+      "bankFingerprint": "6975fc2d4211fd68f6c13d920c47f4c54c64ae0c"
+    },
+    {
+      "questionText": "Based on the excerpt, what is the author's primary message about America's foreign policy?",
+      "answerOptions": [
+        {
+          "text": "America should actively seek out conflicts to resolve global injustices.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'America does not go abroad in search of monsters to destroy,' which contradicts the idea of actively seeking conflicts."
+        },
+        {
+          "text": "America prioritizes its own security above the freedom of other nations.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes America as 'the well-wisher to the freedom and independence of all,' suggesting a broader concern beyond just its own security."
+        },
+        {
+          "text": "America aims to promote freedom and independence globally without military aggression.",
+          "isCorrect": true,
+          "rationale": "The passage combines 'does not go abroad in search of monsters to destroy' with being a 'well-wisher to the freedom and independence of all,' indicating a non-aggressive, supportive stance for global liberty."
+        },
+        {
+          "text": "America believes that all nations should adopt its system of government.",
+          "isCorrect": false,
+          "rationale": "While promoting 'freedom and independence,' the passage does not specify or imply that America mandates other nations adopt its particular system."
+        }
+      ],
+      "passage": "America does not go abroad in search of monsters to destroy. She is the well-wisher to the freedom and independence of all.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_john_quincy_adams_monroe_doctrine_1821",
+      "groupId": "ss-pass-ss_john_quincy_adams_monroe_doctrine_1821",
+      "difficulty": "medium",
+      "questionNumber": 10,
+      "bankFingerprint": "601b46cf74cef3e395ca19e770dbc60b12af401d"
+    },
+    {
+      "questionText": "The statement, 'America is the well-wisher to the freedom and independence of all,' primarily serves as what type of communication?",
+      "answerOptions": [
+        {
+          "text": "An objective historical fact about America's past military interventions.",
+          "isCorrect": false,
+          "rationale": "The passage provides no historical facts or specific events to objectively verify this claim, nor does it refer to past military interventions."
+        },
+        {
+          "text": "A piece of verifiable evidence demonstrating America's aggressive foreign policy.",
+          "isCorrect": false,
+          "rationale": "The statement expresses a benevolent intent and contradicts an aggressive foreign policy, and no evidence is provided in this excerpt to verify it."
+        },
+        {
+          "text": "A declaration of America's benevolent intentions and stated character in international relations.",
+          "isCorrect": true,
+          "rationale": "This statement is a direct assertion of America's desired role and positive intentions on the global stage, presenting its point of view as a supporter of freedom."
+        },
+        {
+          "text": "A detailed analysis of global political structures and their impact on American foreign policy.",
+          "isCorrect": false,
+          "rationale": "The statement is a general declaration of intent, not a detailed analysis of global political structures."
+        }
+      ],
+      "passage": "America does not go abroad in search of monsters to destroy. She is the well-wisher to the freedom and independence of all.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_john_quincy_adams_monroe_doctrine_1821",
+      "groupId": "ss-pass-ss_john_quincy_adams_monroe_doctrine_1821",
+      "difficulty": "medium",
+      "questionNumber": 11,
+      "bankFingerprint": "73a145aa4267bf7cab46ad66628a2f16a2ab7670"
+    },
+    {
+      "questionText": "Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling. Who is most likely to be hurt by unexpected inflation?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "People who have borrowed money at a fixed interest rate.",
+          "isCorrect": false,
+          "rationale": "These people benefit, as they repay their loans with money that is worth less than when they borrowed it."
+        },
+        {
+          "text": "People on a fixed income, such as retirees.",
+          "isCorrect": true,
+          "rationale": "Correct. If prices are rising but your income is not, your purchasing power (the amount of goods you can buy) decreases significantly."
+        },
+        {
+          "text": "The government, which has a large national debt.",
+          "isCorrect": false,
+          "rationale": "Like other borrowers, the government benefits from repaying its debt with less valuable money."
+        },
+        {
+          "text": "People who own assets that increase in value with inflation, like real estate.",
+          "isCorrect": false,
+          "rationale": "These people are often protected from or may even benefit from inflation."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "01382c3b06af10fb8ee9c49b75f41f1d28e9b21d",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T18:11:26.736Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 12,
+      "bankFingerprint": "01382c3b06af10fb8ee9c49b75f41f1d28e9b21d"
+    },
+    {
+      "questionText": "Based on the graph, what was the highest unemployment rate recorded, and in which year did it occur?",
+      "answerOptions": [
+        {
+          "text": "Approximately 4.3% in January 2001",
+          "isCorrect": false,
+          "rationale": "This rate was the starting point of the graph in January 2001, not the highest recorded rate."
+        },
+        {
+          "text": "Approximately 4.8% in January 2007",
+          "isCorrect": false,
+          "rationale": "This rate was the lowest point recorded on the graph, occurring around January 2007."
+        },
+        {
+          "text": "Approximately 9.9% in January 2010",
+          "isCorrect": true,
+          "rationale": "The graph clearly shows the unemployment rate peaking at approximately 9.9% in January 2010."
+        },
+        {
+          "text": "Approximately 7.5% in January 2013",
+          "isCorrect": false,
+          "rationale": "This rate represents the unemployment level in January 2013, which was after the peak and not the highest."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0045.png",
+        "alt": "A line graph titled 'Unemployment Rate, 2001-2013' displays the percentage of the labor force unemployed in the U.S. over time."
+      },
+      "groupId": "ss-img-unclassified_0045.png",
+      "difficulty": "medium",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 13,
+      "bankFingerprint": "c252c4a5442d3080c0da03a2e20bc8cd5ca06216"
+    },
+    {
+      "questionText": "According to the \"Labor Convention Address\" excerpt, what is the core objective of the labor movement's mission?",
+      "answerOptions": [
+        {
+          "text": "To promote national economic growth by increasing industrial output.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on distributing wealth and improving worker conditions, not on increasing overall national output or industrial production."
+        },
+        {
+          "text": "To ensure that workers receive equitable compensation, reasonable hours, and respectful working conditions.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states the mission is \"to secure for the workers... a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity,\" which directly matches this option."
+        },
+        {
+          "text": "To organize protests and strikes to demand immediate changes in government policy.",
+          "isCorrect": false,
+          "rationale": "The passage describes the \"mission\" of labor, outlining its goals, but does not mention specific tactics like protests, strikes, or government policy changes."
+        },
+        {
+          "text": "To educate the public about the importance of labor unions in modern society.",
+          "isCorrect": false,
+          "rationale": "While this might be an activity of labor, the passage focuses on the *mission's objectives* for workers, not public education about unions."
+        }
+      ],
+      "passage": "The mission of labor is to secure for the workers of this nation a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_gompers_labor_1886",
+      "groupId": "ss-pass-ss_gompers_labor_1886",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 14,
+      "bankFingerprint": "6aaba5773d43329fb3822415a3f1e093b689a46b"
+    },
+    {
+      "questionText": "Based on the language used in the passage, which statement best describes the point of view of the \"Labor Convention Address\"?",
+      "answerOptions": [
+        {
+          "text": "It presents a neutral perspective on the relationship between labor and wealth creation.",
+          "isCorrect": false,
+          "rationale": "The language \"mission,\" \"secure,\" \"fair share,\" \"human dignity\" indicates a clear advocacy for workers, not neutrality."
+        },
+        {
+          "text": "It advocates for the interests of employers and business owners.",
+          "isCorrect": false,
+          "rationale": "The passage clearly states the mission is \"to secure for the workers,\" focusing on their benefits, which is opposite to advocating for employers."
+        },
+        {
+          "text": "It expresses a perspective strongly advocating for the rights and improved conditions of the working class.",
+          "isCorrect": true,
+          "rationale": "The passage's entire focus is on \"the workers of this nation,\" aiming to secure \"a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity,\" which is a clear advocacy for the working class."
+        },
+        {
+          "text": "It analyzes historical economic trends without taking a specific stance.",
+          "isCorrect": false,
+          "rationale": "The passage states a \"mission\" and specific goals, which is a clear stance and not a historical analysis."
+        }
+      ],
+      "passage": "The mission of labor is to secure for the workers of this nation a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_gompers_labor_1886",
+      "groupId": "ss-pass-ss_gompers_labor_1886",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 15,
+      "bankFingerprint": "81d9862e6a4a0fe1e270c907fba42154a3efa701"
+    },
+    {
+      "questionText": "What is the main idea presented in this excerpt?",
+      "answerOptions": [
+        {
+          "text": "The importance of international economic agreements to prevent global conflicts.",
+          "isCorrect": false,
+          "rationale": "While 'freedom from want' involves 'economic understandings,' this is only one of the four freedoms, not the main idea of the entire excerpt, which covers a broader vision."
+        },
+        {
+          "text": "A vision for a future world based on four fundamental human freedoms.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'we look forward to a world founded upon four essential human freedoms,' and then proceeds to list and describe each one, making this the central theme."
+        },
+        {
+          "text": "The necessity of global freedom of speech and worship as primary human rights.",
+          "isCorrect": false,
+          "rationale": "Freedom of speech and worship are indeed mentioned as two of the four freedoms, but they represent only part of the complete vision, so this option does not capture the full main idea."
+        },
+        {
+          "text": "The challenges nations face in achieving a healthy peacetime life for their citizens.",
+          "isCorrect": false,
+          "rationale": "The passage implies a desire for a 'healthy peacetime life' through 'freedom from want' and 'freedom from fear,' but it focuses on the *freedoms* as the foundation for such a life, rather than the challenges themselves being the main idea."
+        }
+      ],
+      "passage": "In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms. The first is freedom of speech and expression—everywhere in the world. The second is freedom of every person to worship God in his own way—everywhere in the world. The third is freedom from want, which means economic understandings which will secure to every nation a healthy peacetime life for its inhabitants. The fourth is freedom from fear...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_fdr_four_freedoms",
+      "groupId": "ss-pass-ss_fdr_four_freedoms",
+      "difficulty": "medium",
+      "questionNumber": 16,
+      "bankFingerprint": "63cb5b8108c8fe5e34888c438b8317db52dbed7c"
+    },
+    {
+      "questionText": "What is the author's primary purpose in describing the four essential human freedoms?",
+      "answerOptions": [
+        {
+          "text": "To criticize current global limitations on individual liberties and governmental actions.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on what the future 'will be' based on these freedoms, rather than explicitly criticizing existing limitations. It presents a forward-looking vision."
+        },
+        {
+          "text": "To provide a detailed blueprint for international economic policy and trade agreements.",
+          "isCorrect": false,
+          "rationale": "While 'freedom from want' relates to economic understandings, this is only one aspect, and the author's purpose extends beyond just economic policy to encompass all four freedoms for a secure world."
+        },
+        {
+          "text": "To articulate a vision for a secure and ideal future world founded on universal principles.",
+          "isCorrect": true,
+          "rationale": "The passage begins with 'we look forward to a world founded upon four essential human freedoms,' clearly indicating an aspirational purpose to present a vision for a better and more secure future for humanity."
+        },
+        {
+          "text": "To define specific religious and free speech rights that all nations must immediately adopt.",
+          "isCorrect": false,
+          "rationale": "Freedom of speech and worship are mentioned, but they are only two of the four freedoms, and the overall purpose is broader than just defining these specific rights; it's about the foundation of an entire world."
+        }
+      ],
+      "passage": "In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms. The first is freedom of speech and expression—everywhere in the world. The second is freedom of every person to worship God in his own way—everywhere in the world. The third is freedom from want, which means economic understandings which will secure to every nation a healthy peacetime life for its inhabitants. The fourth is freedom from fear...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_fdr_four_freedoms",
+      "groupId": "ss-pass-ss_fdr_four_freedoms",
+      "difficulty": "medium",
+      "questionNumber": 17,
+      "bankFingerprint": "55217a51b5ae726bf02559bdc68f345ae26117f1"
+    },
+    {
+      "questionText": "Why is it important for citizens to stay informed about political issues?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "To be able to run for office themselves.",
+          "isCorrect": false,
+          "rationale": "While being informed is important for running for office, this is not the primary reason for all citizens."
+        },
+        {
+          "text": "To make knowledgeable choices when voting.",
+          "isCorrect": true,
+          "rationale": "Correct. An informed electorate is essential for a functioning democracy."
+        },
+        {
+          "text": "To avoid paying federal income taxes.",
+          "isCorrect": false,
+          "rationale": "Being informed does not exempt anyone from taxes."
+        },
+        {
+          "text": "To receive special government benefits.",
+          "isCorrect": false,
+          "rationale": "There are no special benefits for being informed."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "d4ca9b0e640bf93d66e8083b3eb31ab8424266fc",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T18:11:26.695Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Economics",
+      "source": "curatedAiBank",
+      "questionNumber": 18,
+      "bankFingerprint": "d4ca9b0e640bf93d66e8083b3eb31ab8424266fc"
+    },
+    {
+      "questionText": "According to the author of this letter, what was his primary goal in \"this struggle\"?",
+      "answerOptions": [
+        {
+          "text": "To destroy slavery.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the paramount object 'is not either to save or to destroy slavery.'"
+        },
+        {
+          "text": "To preserve slavery.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the paramount object 'is not either to save or to destroy slavery.'"
+        },
+        {
+          "text": "To save the Union.",
+          "isCorrect": true,
+          "rationale": "The author states, 'My paramount object in this struggle is to save the Union.'"
+        },
+        {
+          "text": "To avoid a struggle over slavery.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the author's object 'in this struggle,' implying a struggle is already taking place, rather than a goal to avoid it."
+        }
+      ],
+      "passage": "My paramount object in this struggle is to save the Union, and is not either to save or to destroy slavery.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_lincoln_greeley_1862",
+      "groupId": "ss-pass-ss_lincoln_greeley_1862",
+      "difficulty": "hard",
+      "questionNumber": 19,
+      "bankFingerprint": "a5123b15987375dc1b299290c912228783d54001"
+    },
+    {
+      "questionText": "Which statement accurately represents the author's claim regarding slavery in the struggle?",
+      "answerOptions": [
+        {
+          "text": "The author believed that the main purpose of the struggle was to abolish slavery.",
+          "isCorrect": false,
+          "rationale": "The author explicitly states that his paramount object 'is not either to save or to destroy slavery,' meaning abolition was not his primary goal."
+        },
+        {
+          "text": "The author considered slavery to be irrelevant to the struggle.",
+          "isCorrect": false,
+          "rationale": "While slavery was not the 'paramount object,' the statement 'is not either to save or to destroy slavery' acknowledges its presence as an issue, just not the main one for the author."
+        },
+        {
+          "text": "The author's focus was neither on saving nor destroying slavery as his main objective.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'My paramount object in this struggle... is not either to save or to destroy slavery,' indicating it was not his main focus."
+        },
+        {
+          "text": "The author's main goal was to ensure slavery continued as it was.",
+          "isCorrect": false,
+          "rationale": "The author explicitly states that his paramount object 'is not either to save or to destroy slavery,' meaning preserving it was not his primary goal."
+        }
+      ],
+      "passage": "My paramount object in this struggle is to save the Union, and is not either to save or to destroy slavery.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_lincoln_greeley_1862",
+      "groupId": "ss-pass-ss_lincoln_greeley_1862",
+      "difficulty": "hard",
+      "questionNumber": 20,
+      "bankFingerprint": "665e5e157ac5fce69886bb52992de896c62af9e5"
+    },
+    {
+      "questionText": "The 15th Amendment to the U.S. Constitution, ratified in 1870, declared that the right to vote could not be denied \"on account of race, color, or previous condition of servitude.\" Despite this amendment, various state and local tactics, such as poll taxes and literacy tests, were used for decades to prevent African Americans from exercising their right to vote, especially in the South. What was the primary effect of these state-level strategies following the 15th Amendment's ratification?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "It led to widespread federal intervention and immediate enforcement of the amendment across all states.",
+          "isCorrect": false,
+          "rationale": "Federal intervention to fully enforce the 15th Amendment was slow and met with significant resistance, not immediate or widespread."
+        },
+        {
+          "text": "It significantly delayed the full realization of voting rights for African Americans for nearly a century.",
+          "isCorrect": true,
+          "rationale": "These tactics effectively nullified the 15th Amendment's intent for many African Americans, postponing the full exercise of their voting rights until the Civil Rights Movement and the Voting Rights Act of 1965."
+        },
+        {
+          "text": "It prompted a mass migration of African Americans to states where voting rights were fully protected shortly after 1870.",
+          "isCorrect": false,
+          "rationale": "While the Great Migration did occur, it was driven by a complex set of economic and social factors over a longer period, and voting rights were not fully protected everywhere for African Americans at that time."
+        },
+        {
+          "text": "It resulted in the swift passage of additional constitutional amendments guaranteeing universal suffrage for all citizens.",
+          "isCorrect": false,
+          "rationale": "No additional amendments related to universal suffrage were swiftly passed after the 15th Amendment to counteract these specific state tactics; it took legislative action much later."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "U.S. History",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "0689902367f714b6c1052dd466012e2527416b32",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2026-04-13T15:24:52.188Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "U.S. History",
+      "source": "curatedAiBank",
+      "questionNumber": 21,
+      "bankFingerprint": "0689902367f714b6c1052dd466012e2527416b32"
+    },
+    {
+      "questionText": "What is the primary message the speaker conveys regarding the Democratic Party's direction?",
+      "answerOptions": [
+        {
+          "text": "The party should uphold states' rights as its foundational principle.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states the party should 'get out of the shadow of states' rights,' indicating a desire to move away from, not uphold, this principle."
+        },
+        {
+          "text": "The Democratic Party needs to transition its focus from states' rights to human rights.",
+          "isCorrect": true,
+          "rationale": "The speaker calls for the party to 'get out of the shadow of states' rights and walk forthrightly into the bright sunshine of human rights,' clearly advocating for this shift in focus."
+        },
+        {
+          "text": "The speech is primarily about the historical evolution of civil rights within the Democratic Party.",
+          "isCorrect": false,
+          "rationale": "The excerpt is a direct call to action for a future change in direction, not a historical overview of past events."
+        },
+        {
+          "text": "The speaker believes that states' rights and human rights are mutually exclusive and cannot coexist.",
+          "isCorrect": false,
+          "rationale": "While contrasting them, the passage emphasizes a shift in priority rather than declaring them inherently exclusive; the focus is on which should be prioritized."
+        }
+      ],
+      "passage": "The time has arrived in America for the Democratic Party to get out of the shadow of states' rights and walk forthrightly into the bright sunshine of human rights.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_hubert_humphrey_civil_rights_1948",
+      "groupId": "ss-pass-ss_hubert_humphrey_civil_rights_1948",
+      "difficulty": "medium",
+      "questionNumber": 22,
+      "bankFingerprint": "d2dba3be51b39a2fda11f4802d5483000c6bfc57"
+    },
+    {
+      "questionText": "How does the speaker's language characterize 'states' rights' within the context of the speech?",
+      "answerOptions": [
+        {
+          "text": "As a 'bright sunshine' concept that the party should embrace.",
+          "isCorrect": false,
+          "rationale": "The speaker describes 'human rights' as 'bright sunshine,' not 'states' rights,' which is depicted negatively."
+        },
+        {
+          "text": "As an outdated and undesirable aspect to be moved beyond, represented by a 'shadow'.",
+          "isCorrect": true,
+          "rationale": "The phrase 'get out of the shadow of states' rights' clearly characterizes 'states' rights' as something negative, dark, and to be left behind."
+        },
+        {
+          "text": "As a new and forthright approach for the Democratic Party.",
+          "isCorrect": false,
+          "rationale": "The speaker refers to 'human rights' as the 'forthrightly' embraced concept, not 'states' rights'."
+        },
+        {
+          "text": "As a necessary protection for the Democratic Party's current standing.",
+          "isCorrect": false,
+          "rationale": "The passage does not suggest 'states' rights' are a protection, but rather something the party should 'get out of'."
+        }
+      ],
+      "passage": "The time has arrived in America for the Democratic Party to get out of the shadow of states' rights and walk forthrightly into the bright sunshine of human rights.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_hubert_humphrey_civil_rights_1948",
+      "groupId": "ss-pass-ss_hubert_humphrey_civil_rights_1948",
+      "difficulty": "medium",
+      "questionNumber": 23,
+      "bankFingerprint": "7e9d9e6ae03b6073a04ae8d0db99efce86b251b1"
+    },
+    {
+      "questionText": "The case of Miranda v. Arizona (1966) led to the establishment of the 'Miranda rights.' What is the purpose of these rights?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "To inform people of their right to vote.",
+          "isCorrect": false,
+          "rationale": "Miranda rights are for criminal suspects, not voters."
+        },
+        {
+          "text": "To inform criminal suspects of their constitutional rights before they are questioned by the police.",
+          "isCorrect": true,
+          "rationale": "Correct. This includes the right to remain silent and the right to an attorney."
+        },
+        {
+          "text": "To guarantee freedom of the press.",
+          "isCorrect": false,
+          "rationale": "This is a First Amendment right."
+        },
+        {
+          "text": "To protect citizens from illegal searches.",
+          "isCorrect": false,
+          "rationale": "This is a Fourth Amendment right."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "8888b7366598245dc1d79ed3d5f46969c9acbafd",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:37:36.573Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 24,
+      "bankFingerprint": "8888b7366598245dc1d79ed3d5f46969c9acbafd"
+    },
+    {
+      "questionText": "What is the primary message the speaker conveys about his current stance on the Constitution?",
+      "answerOptions": [
+        {
+          "text": "He firmly believes the Constitution is flawed and unchangeable.",
+          "isCorrect": false,
+          "rationale": "The speaker states he does not entirely approve but is not sure he will never approve, indicating openness to change, not firm finality."
+        },
+        {
+          "text": "He fully endorses the Constitution as it is written.",
+          "isCorrect": false,
+          "rationale": "The speaker explicitly states, 'I do not entirely approve of this Constitution at present,' contradicting full endorsement."
+        },
+        {
+          "text": "He has reservations about the Constitution but is willing to reconsider his opinion with further information.",
+          "isCorrect": true,
+          "rationale": "The speaker confesses present disapproval ('do not entirely approve') but also expresses openness to changing his mind ('not sure I shall never approve it') based on 'better information or fuller consideration.'"
+        },
+        {
+          "text": "His long life experience makes his disapproval of the Constitution unassailable.",
+          "isCorrect": false,
+          "rationale": "The speaker uses his long life experience to explain why he is open to changing his mind, not to assert his current disapproval as absolute."
+        }
+      ],
+      "passage": "I confess that I do not entirely approve of this Constitution at present; but, Sir, I am not sure I shall never approve it. For having lived long, I have experienced many instances of being obliged, by better information or fuller consideration, to change opinions even on important subjects, which I once thought right, but found to be otherwise...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_franklin_constitution",
+      "groupId": "ss-pass-ss_franklin_constitution",
+      "difficulty": "hard",
+      "questionNumber": 25,
+      "bankFingerprint": "b320ac1e72ce8a67a24e210b609659badb4844c7"
+    },
+    {
+      "questionText": "Which statement best identifies the speaker's main claim and the evidence he uses to support it?",
+      "answerOptions": [
+        {
+          "text": "Claim: The Constitution is perfect. Evidence: He has lived long.",
+          "isCorrect": false,
+          "rationale": "The speaker states he does not entirely approve of the Constitution, so this claim is incorrect."
+        },
+        {
+          "text": "Claim: His current disapproval of the Constitution is final. Evidence: He has strong opinions on important subjects.",
+          "isCorrect": false,
+          "rationale": "The speaker explicitly states he is 'not sure I shall never approve it,' indicating his disapproval is not final, and his past experiences actually show he changes opinions."
+        },
+        {
+          "text": "Claim: He is open to changing his mind about the Constitution. Evidence: He has changed his opinions on important subjects in the past due to new information or consideration.",
+          "isCorrect": true,
+          "rationale": "The speaker claims he is 'not sure I shall never approve it' (open to change) and supports this by saying 'I have experienced many instances of being obliged, by better information or fuller consideration, to change opinions even on important subjects.'"
+        },
+        {
+          "text": "Claim: The Constitutional Convention should be dissolved. Evidence: He does not entirely approve of the Constitution.",
+          "isCorrect": false,
+          "rationale": "The speaker never suggests dissolving the Constitutional Convention, only expresses his personal view on the Constitution itself."
+        }
+      ],
+      "passage": "I confess that I do not entirely approve of this Constitution at present; but, Sir, I am not sure I shall never approve it. For having lived long, I have experienced many instances of being obliged, by better information or fuller consideration, to change opinions even on important subjects, which I once thought right, but found to be otherwise...",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_franklin_constitution",
+      "groupId": "ss-pass-ss_franklin_constitution",
+      "difficulty": "hard",
+      "questionNumber": 26,
+      "bankFingerprint": "7af19fa623f39d875092b6e051a0a32aa09b57d0"
+    },
+    {
+      "questionText": "Based on the passage, what is the author's point of view regarding the relationship between struggle and progress in achieving freedom?",
+      "answerOptions": [
+        {
+          "text": "Progress and freedom can only be attained through active struggle and agitation.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'If there is no struggle there is no progress,' and compares those who favor freedom but oppose agitation to those who 'want crops without plowing up the ground,' implying that active effort is essential."
+        },
+        {
+          "text": "Freedom is an inevitable outcome that does not require any form of struggle.",
+          "isCorrect": false,
+          "rationale": "This contradicts the core message of the passage, which emphasizes the necessity of struggle for progress and freedom."
+        },
+        {
+          "text": "Passive acceptance is the most effective way to secure freedom and avoid conflict.",
+          "isCorrect": false,
+          "rationale": "The author criticizes those who 'deprecate agitation,' suggesting that passive acceptance is ineffective and undesirable for achieving freedom."
+        },
+        {
+          "text": "The desire for freedom should not involve any form of disruption or unrest.",
+          "isCorrect": false,
+          "rationale": "The passage argues against this view by stating that those who 'deprecate agitation' (disruption/unrest) while professing to favor freedom are misguided, comparing them to someone wanting crops without effort."
+        }
+      ],
+      "passage": "If there is no struggle there is no progress. Those who profess to favor freedom and yet deprecate agitation are men who want crops without plowing up the ground.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_frederick_douglass_west_india_1857",
+      "groupId": "ss-pass-ss_frederick_douglass_west_india_1857",
+      "difficulty": "hard",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 27,
+      "bankFingerprint": "2257703b63e57fd2658b6ba1a9c7a90e478b5a29"
+    },
+    {
+      "questionText": "After a new city ordinance was passed, a group of residents felt it unfairly restricted their ability to use public parks. They organized a peaceful protest, collected signatures for a petition, and spoke at a city council meeting, all aimed at urging the council to reconsider the ordinance. Which fundamental civic responsibility and right are these residents primarily exercising?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The responsibility to obey all laws and the right to privacy.",
+          "isCorrect": false,
+          "rationale": "While obeying laws is a responsibility, the residents are actively challenging a law, and the right to privacy is not the primary right demonstrated in these actions."
+        },
+        {
+          "text": "The responsibility to pay taxes and the right to vote in national elections.",
+          "isCorrect": false,
+          "rationale": "Paying taxes is a civic responsibility, and voting is a right, but these specific actions (protesting, petitioning, speaking at meetings) do not directly relate to these two concepts."
+        },
+        {
+          "text": "The responsibility to participate in the community and the right to freedom of speech and assembly.",
+          "isCorrect": true,
+          "rationale": "Organizing protests, collecting petitions, and speaking at public meetings are direct examples of civic participation and fall under the protected rights of freedom of speech and assembly."
+        },
+        {
+          "text": "The responsibility to serve on a jury and the right to a speedy trial.",
+          "isCorrect": false,
+          "rationale": "Serving on a jury and the right to a speedy trial are important civic duties and rights, but they are not demonstrated by the actions of protesting, petitioning, or speaking at a city council meeting."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "The Bill of Rights",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "39c8f1afa098003a084d02cb061f167835e80263",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2026-02-18T15:41:36.608Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Geography & the World",
+      "source": "curatedAiBank",
+      "questionNumber": 28,
+      "bankFingerprint": "39c8f1afa098003a084d02cb061f167835e80263"
+    },
+    {
+      "questionText": "A small island nation, heavily reliant on its pristine beaches for tourism and its surrounding waters for fishing, faces a dual challenge. A recent rise in global sea levels has reduced its viable coastline, while increased international demand for its unique fish species has led to unsustainable fishing practices by both local and foreign vessels. Which economic principle is most directly impacting the island nation's current situation?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The principle of supply and demand, as reduced coastline affects tourist supply and overfishing affects fish supply.",
+          "isCorrect": true,
+          "rationale": "This option accurately identifies that the reduced coastline directly impacts the supply of land for tourism, and overfishing directly impacts the supply of fish. With demand potentially remaining high or even increasing (for fish), this clearly illustrates the principle of supply and demand where a diminishing supply in key sectors directly affects the island's economy."
+        },
+        {
+          "text": "The concept of absolute advantage, as the island no longer has a unique advantage in either tourism or fishing.",
+          "isCorrect": false,
+          "rationale": "Absolute advantage focuses on producing more of a good or service using the same amount of resources. While the island's unique offerings are threatened, the primary economic principle at play here is about the overall availability (supply) of those resources, not necessarily just their comparative efficiency in production."
+        },
+        {
+          "text": "The law of diminishing returns, as continued investment in tourism and fishing yields fewer benefits.",
+          "isCorrect": false,
+          "rationale": "Diminishing returns describes a point where adding more input yields less output. The scenario describes a reduction in the fundamental resources (land, fish stock) themselves, impacting the overall supply, rather than just the efficiency of adding more effort to a fixed or already shrinking resource."
+        },
+        {
+          "text": "The effect of comparative advantage, as the island could shift to producing goods where it has a lower opportunity cost.",
+          "isCorrect": false,
+          "rationale": "Comparative advantage relates to specializing in production based on lower opportunity cost. While the island might need to adapt, this principle does not directly explain the cause of its current economic challenges related to shrinking resources and overexploitation."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "ed6b05d422401659954f23abd0ea531ac2750a4f",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T03:45:51.267Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 29,
+      "bankFingerprint": "ed6b05d422401659954f23abd0ea531ac2750a4f"
+    },
+    {
+      "questionText": "The caption 'Of Course He Wants to Vote the Democratic Ticket.' in the political cartoon is ironic because it",
+      "answerOptions": [
+        {
+          "text": "correctly reflects the genuine preferences of all voters during the Reconstruction era.",
+          "isCorrect": false,
+          "rationale": "The cartoon depicts severe intimidation, making it clear the Black voter's 'preference' is not genuine but forced, contradicting the idea of free choice."
+        },
+        {
+          "text": "highlights the peaceful and fair nature of elections in the post-Civil War South.",
+          "isCorrect": false,
+          "rationale": "The image explicitly shows armed intimidation at a polling place, which is the opposite of peaceful and fair."
+        },
+        {
+          "text": "understates the violent coercion used to force the Black man to vote against his will.",
+          "isCorrect": true,
+          "rationale": "The irony lies in the caption implying a free 'want' or desire, while the image visually depicts extreme voter intimidation and violence, revealing that the vote is compelled rather than chosen. The caption thus ironically downplays the severe lack of free choice."
+        },
+        {
+          "text": "accurately represents the widespread support for the Democratic Party among African Americans at the time.",
+          "isCorrect": false,
+          "rationale": "The cartoon does not suggest widespread support, but rather that a specific individual is being threatened to vote for a particular party, implying lack of choice rather than genuine endorsement."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/unclassified_0080.png",
+        "alt": "An 1876 Harper's Weekly political cartoon depicts two armed white men intimidating a Black voter at a ballot box."
+      },
+      "groupId": "ss-img-unclassified_0080.png",
+      "difficulty": "medium",
+      "questionNumber": 30,
+      "bankFingerprint": "e4a48afa1925dc5e392f4091dec3b5471e292c6b"
+    }
+  ],
+  "validationWarnings": [
+    "Difficulty \"easy\": 1, expected ~7",
+    "Difficulty \"medium\": 20, expected ~15"
+  ]
+}

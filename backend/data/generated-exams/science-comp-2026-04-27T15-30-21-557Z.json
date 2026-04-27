@@ -1,0 +1,1639 @@
+{
+  "id": "ai_comp_science_1777303820300",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "The force of gravity between two objects depends on two factors:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Their masses and the distance between them.",
+          "isCorrect": true,
+          "rationale": "Correct. Newton's law of universal gravitation states that the force is proportional to the product of their masses and inversely proportional to the square of the distance between them."
+        },
+        {
+          "text": "Their speed and their temperature.",
+          "isCorrect": false,
+          "rationale": "These factors do not directly determine the force of gravity."
+        },
+        {
+          "text": "Their chemical composition and their electrical charge.",
+          "isCorrect": false,
+          "rationale": "These factors are not part of the law of gravitation."
+        },
+        {
+          "text": "Their volume and their shape.",
+          "isCorrect": false,
+          "rationale": "While related to mass and distance, it is mass itself, not volume or shape, that is the key factor."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "77603e7b893eccde40952b46f4f12dc1be3033b4",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-26T17:11:22.287Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "concept-application",
+      "questionNumber": 1,
+      "bankFingerprint": "77603e7b893eccde40952b46f4f12dc1be3033b4"
+    },
+    {
+      "questionText": "Based on the passage, what is the primary reason the author's observations challenge the former belief that all heavenly bodies revolve around the Earth?",
+      "answerOptions": [
+        {
+          "text": "The telescope revealed that Earth itself revolves around Jupiter.",
+          "isCorrect": false,
+          "rationale": "The passage states that four planets revolve about Jupiter, not that Earth revolves around Jupiter."
+        },
+        {
+          "text": "The discovery of four planets orbiting Jupiter showed that some bodies orbit something other than Earth.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed,\" because the observed planets revolve around Jupiter, not Earth."
+        },
+        {
+          "text": "The fact that the planets were invisible without a telescope meant they couldn't possibly orbit Earth.",
+          "isCorrect": false,
+          "rationale": "The invisibility of the planets highlights the importance of the telescope, but it is the fact that they orbit Jupiter that disproves the geocentric model, not their prior invisibility."
+        },
+        {
+          "text": "The author's observation was the first time anyone had ever looked at the sky through a telescope.",
+          "isCorrect": false,
+          "rationale": "While the telescope was crucial, the reason the belief was challenged was the nature of the observation (planets orbiting Jupiter), not merely the act of looking through the telescope."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_galileo_star_message",
+      "passageTitle": "The Starry Messenger (Excerpt)",
+      "topicTags": [
+        "Astronomy"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 2,
+      "bankFingerprint": "550d0332c23cd4bcddef59169c7c027d8be550f6"
+    },
+    {
+      "questionText": "Which statement best describes the author's purpose in presenting these observations?",
+      "answerOptions": [
+        {
+          "text": "To encourage more people to build and use their own telescopes.",
+          "isCorrect": false,
+          "rationale": "While a possible side effect, the passage focuses on the discovery and its implication, not primarily promoting telescope use."
+        },
+        {
+          "text": "To demonstrate that scientific understanding can change when new evidence is introduced.",
+          "isCorrect": true,
+          "rationale": "The passage directly shows new observations (\"Through my telescope I have observed...\") leading to a new conclusion that overturns a \"formerly believed\" idea, which is a core aspect of scientific progress."
+        },
+        {
+          "text": "To highlight the physical characteristics of the four planets orbiting Jupiter.",
+          "isCorrect": false,
+          "rationale": "The passage is focused on the implication of the observation for the geocentric model, not a detailed description of the planets themselves beyond their orbit."
+        },
+        {
+          "text": "To argue that all previous astronomical theories were incorrect and unreliable.",
+          "isCorrect": false,
+          "rationale": "The author targets a specific belief (\"not all heavenly bodies revolve around the Earth, as was formerly believed\"), not making a sweeping claim about the unreliability of all prior theories."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_galileo_star_message",
+      "passageTitle": "The Starry Messenger (Excerpt)",
+      "topicTags": [
+        "Astronomy"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 3,
+      "bankFingerprint": "c0938b97059303b9d84e7f2fa13c6a2523436d23"
+    },
+    {
+      "questionText": "The large-scale clearing of trees from forests is known as:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Reforestation",
+          "isCorrect": false,
+          "rationale": "Reforestation is the process of replanting trees."
+        },
+        {
+          "text": "Urbanization",
+          "isCorrect": false,
+          "rationale": "Urbanization is the process of making an area more urban (city-like)."
+        },
+        {
+          "text": "Deforestation",
+          "isCorrect": true,
+          "rationale": "Correct. This is a major environmental issue that contributes to climate change and loss of biodiversity."
+        },
+        {
+          "text": "Erosion",
+          "isCorrect": false,
+          "rationale": "Erosion is the wearing away of land by wind or water."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "ece00e36f0c25761819d972aad2d4f838d448f5f",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.889Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 4,
+      "bankFingerprint": "ece00e36f0c25761819d972aad2d4f838d448f5f"
+    },
+    {
+      "questionText": "Fossils are most commonly found in which type of rock?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Igneous rock",
+          "isCorrect": false,
+          "rationale": "The high temperatures of magma and lava that form igneous rock would destroy any organic remains."
+        },
+        {
+          "text": "Metamorphic rock",
+          "isCorrect": false,
+          "rationale": "The intense heat and pressure that form metamorphic rock would typically destroy fossils."
+        },
+        {
+          "text": "Sedimentary rock",
+          "isCorrect": true,
+          "rationale": "Correct. The process of sediment accumulation and compaction allows for the preservation of organic remains."
+        },
+        {
+          "text": "All types of rock equally.",
+          "isCorrect": false,
+          "rationale": "Fossils are overwhelmingly found in sedimentary rock."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "0f77beab21d428d651f6a1b0be3528a5e597d515",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:28:55.934Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 5,
+      "bankFingerprint": "0f77beab21d428d651f6a1b0be3528a5e597d515"
+    },
+    {
+      "questionText": "The statement, 'the differences between substances may be due to the arrangement of particles which are themselves identical,' suggests what about the fundamental nature of different materials?",
+      "passage": "In studying the discharge of electricity through gases at low pressure, I observed that the rays coming from the cathode could be deflected by electric and magnetic fields. From these deflections I calculated the ratio of their mass to their charge and found it to be far smaller than that of the lightest atom known. The only reasonable inference was that these rays consist of particles, which I have called corpuscles, much smaller than atoms, and common to all kinds of matter. This discovery shows that the atom is not indivisible, as once supposed, but contains constituent parts. Electricity itself appears to be carried by these corpuscles. We are thus admitted, as it were, into the inner structure of matter, and we see that the differences between substances may be due to the arrangement of particles which are themselves identical.",
+      "answerOptions": [
+        {
+          "text": "Each unique substance is composed of a unique type of fundamental particle.",
+          "isCorrect": false,
+          "rationale": "This contradicts the statement that the 'particles which are themselves identical' are arranged differently to form substances."
+        },
+        {
+          "text": "All substances are built from the same kind of basic constituent components.",
+          "isCorrect": true,
+          "rationale": "If the particles are 'themselves identical' and their arrangement explains 'differences between substances,' it implies a common fundamental building block for all matter."
+        },
+        {
+          "text": "The identity of a substance is determined solely by its mass-to-charge ratio.",
+          "isCorrect": false,
+          "rationale": "The passage discusses the mass-to-charge ratio for corpuscles, but not for identifying substances themselves, and it emphasizes arrangement."
+        },
+        {
+          "text": "Differences between substances are entirely random and unpredictable.",
+          "isCorrect": false,
+          "rationale": "The statement offers a specific, non-random explanation for differences: the arrangement of identical particles."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "b169678f53a865a783f8d40e74e2a63320286be5",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-11-19T17:58:06.032Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 6,
+      "bankFingerprint": "b169678f53a865a783f8d40e74e2a63320286be5"
+    },
+    {
+      "questionText": "Based on the provided data, what is the relationship between temperature and the solubility of potassium nitrate in water?",
+      "passage": "Effect of Temperature on Solubility of Potassium Nitrate<table><thead><tr><th>Temperature (°C)</th><th>Solubility (g KNO3/100g H2O)</th></tr></thead><tbody><tr><td>0</td><td>13.3</td></tr><tr><td>20</td><td>31.6</td></tr><tr><td>40</td><td>63.9</td></tr><tr><td>60</td><td>110.0</td></tr><tr><td>80</td><td>169.0</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "As temperature decreases, solubility increases.",
+          "isCorrect": false,
+          "rationale": "The table clearly shows that as temperature increases from 0°C to 80°C, the solubility of potassium nitrate consistently increases from 13.3 g to 169.0 g. Therefore, the inverse is not true."
+        },
+        {
+          "text": "Solubility remains constant regardless of temperature changes.",
+          "isCorrect": false,
+          "rationale": "The solubility values in the table change significantly at different temperatures, indicating that solubility is not constant."
+        },
+        {
+          "text": "As temperature increases, solubility increases.",
+          "isCorrect": true,
+          "rationale": "The data in the table shows a clear trend: as the temperature rises from 0°C to 80°C, the amount of potassium nitrate that can dissolve in 100g of water (solubility) steadily increases from 13.3g to 169.0g."
+        },
+        {
+          "text": "Solubility first decreases then increases with rising temperature.",
+          "isCorrect": false,
+          "rationale": "The solubility values show a continuous increase as temperature rises; there is no initial decrease indicated by the data."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "93c330623181bd7fdcfd27c063fa279b36a8a0d1",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-12-22T13:34:09.842Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 7,
+      "bankFingerprint": "93c330623181bd7fdcfd27c063fa279b36a8a0d1"
+    },
+    {
+      "questionText": "Based on Pasteur's experiments, what evidence led him to conclude that microbes do not arise from spontaneous generation?",
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "answerOptions": [
+        {
+          "text": "The broth in flasks left open to the air quickly developed microscopic life.",
+          "isCorrect": false,
+          "rationale": "While this observation occurred, it showed microbes were present in open conditions, but it wasn't the evidence that *disproved* spontaneous generation. The lack of life in the sealed flasks was key."
+        },
+        {
+          "text": "Boiling the liquid in the flasks eliminated all existing microscopic life.",
+          "isCorrect": false,
+          "rationale": "Boiling was a preparatory step to ensure the liquid was initially sterile, but it wasn't the direct evidence for the conclusion about spontaneous generation. That came from the subsequent observations."
+        },
+        {
+          "text": "The broth in sealed flasks with curved necks remained free of microscopic life.",
+          "isCorrect": true,
+          "rationale": "The passage states that the 'sealed ones stayed clear,' indicating that even with air access (via the curved neck, which trapped airborne particles), no new life appeared, directly countering the idea of spontaneous generation."
+        },
+        {
+          "text": "All flasks, regardless of sealing, eventually teemed with microscopic life.",
+          "isCorrect": false,
+          "rationale": "This statement contradicts the passage, which clearly states that 'the sealed ones stayed clear' while only 'those open to the air soon teemed with microscopic life.'"
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "9ac377cd6a93740e24c6fce287de83a466e50168",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T18:20:25.463Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 8,
+      "bankFingerprint": "9ac377cd6a93740e24c6fce287de83a466e50168"
+    },
+    {
+      "questionText": "What is the primary scientific claim supported by the author's observations?",
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Telescopes can reveal objects previously invisible to the naked eye.",
+          "isCorrect": false,
+          "rationale": "While the passage states the planets were 'invisible without the aid of a glass,' this is a description of the tool's capability, not the primary scientific claim or the major implication the author draws."
+        },
+        {
+          "text": "The Earth is not the sole center of all celestial orbits.",
+          "isCorrect": true,
+          "rationale": "The author explicitly states, 'These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed,' directly supporting this claim."
+        },
+        {
+          "text": "Jupiter has its own system of orbiting celestial bodies.",
+          "isCorrect": false,
+          "rationale": "The observation that 'four planets revolving about Jupiter' is factual, but the author uses this specific observation to make a broader scientific point about the Earth's place in the universe, rather than just reporting on Jupiter."
+        },
+        {
+          "text": "Ancient beliefs about the cosmos were entirely incorrect.",
+          "isCorrect": false,
+          "rationale": "The author challenges a specific belief ('not all heavenly bodies revolve around the Earth'), but the passage does not suggest that *all* ancient beliefs were incorrect, only this particular aspect."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "29e31c1ac48cd93938b6e53731d13f0447d24b5a",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-26T17:05:06.483Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 9,
+      "bankFingerprint": "29e31c1ac48cd93938b6e53731d13f0447d24b5a"
+    },
+    {
+      "questionText": "Which statement best summarizes the author's primary assertion about the nature of color?",
+      "answerOptions": [
+        {
+          "text": "Colors are inherent properties that distinguish different types of light rays.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'The rays of light are not colored' and 'the light itself remains uncolored,' contradicting this option."
+        },
+        {
+          "text": "Color is a subjective perception that arises from the interaction between light rays and an observer.",
+          "isCorrect": true,
+          "rationale": "The passage states 'Colors are the sensations of the observer' and that light rays 'excite different colors,' directly supporting color as a subjective perception rather than an intrinsic property of light."
+        },
+        {
+          "text": "Refraction and reflection are physical processes that create colors within previously uncolored light.",
+          "isCorrect": false,
+          "rationale": "The passage clarifies that light 'may be separated into rays that excite different colors, but the light itself remains uncolored,' indicating that color is not created in the light itself but rather a sensation excited in the observer."
+        },
+        {
+          "text": "All light rays are fundamentally the same and do not separate into components that can excite different color sensations.",
+          "isCorrect": false,
+          "rationale": "The passage states that light 'may be separated into rays that excite different colors,' contradicting the idea that all light rays are the same and cannot be separated."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Opticks (Excerpt)</strong></p><p><em>Isaac Newton, 1704</em></p><p>The rays of light are not colored. Colors are the sensations of the observer. When light is refracted or reflected, it may be separated into rays that excite different colors, but the light itself remains uncolored.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_opticks",
+      "passageTitle": "Opticks (Excerpt)",
+      "topicTags": [
+        "Physics / Light"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 10,
+      "bankFingerprint": "294594ff0b272b48c865b16ad74663de4b46ae73"
+    },
+    {
+      "questionText": "A scientist wants to investigate the passage's claim that 'the light itself remains uncolored' even when 'separated into rays that excite different colors.' Which experimental procedure would provide the most direct evidence for this specific aspect of the claim?",
+      "answerOptions": [
+        {
+          "text": "Directing a beam of white light through a prism and observing the spectrum produced on a screen.",
+          "isCorrect": false,
+          "rationale": "This experiment demonstrates that white light can be separated into different components that excite color sensations, but it does not directly address whether the separated rays themselves possess color or remain uncolored."
+        },
+        {
+          "text": "Isolating a single 'colored' ray (e.g., red light) from a spectrum produced by a prism and then passing that isolated ray through a second prism to see if it further separates.",
+          "isCorrect": true,
+          "rationale": "If the isolated ray does not further separate, it supports the idea that this specific type of light ray is fundamental and not a mixture of other 'colors.' This implies its 'color' is how it interacts with an observer's eye, rather than an intrinsic property that can be broken down, thus supporting the claim that the light itself is uncolored."
+        },
+        {
+          "text": "Measuring the intensity of different 'colored' rays at various distances from a prism to see if their perceived brightness changes.",
+          "isCorrect": false,
+          "rationale": "This experiment investigates light intensity and its perception, which is not directly related to the claim that the light itself remains uncolored or that colors are sensations."
+        },
+        {
+          "text": "Using different types of filters to block certain 'colored' rays from a white light source before it enters a prism.",
+          "isCorrect": false,
+          "rationale": "This experiment demonstrates how filters absorb certain wavelengths but does not directly test the claim about the intrinsic nature of the separated light rays regarding color or the subjective nature of color perception."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Opticks (Excerpt)</strong></p><p><em>Isaac Newton, 1704</em></p><p>The rays of light are not colored. Colors are the sensations of the observer. When light is refracted or reflected, it may be separated into rays that excite different colors, but the light itself remains uncolored.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_opticks",
+      "passageTitle": "Opticks (Excerpt)",
+      "topicTags": [
+        "Physics / Light"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 11,
+      "bankFingerprint": "aab116a48b9d7aa6b492d4627d6157b3a2047947"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 12,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 13,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionText": "In a series circuit, what happens if one light bulb burns out?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "All the other light bulbs stay on.",
+          "isCorrect": false,
+          "rationale": "This is true for a parallel circuit."
+        },
+        {
+          "text": "All the other light bulbs go out.",
+          "isCorrect": true,
+          "rationale": "Correct. In a series circuit, there is only one path for the current. If the path is broken at any point, the entire circuit is opened and the current stops flowing."
+        },
+        {
+          "text": "The other light bulbs get brighter.",
+          "isCorrect": false,
+          "rationale": "The flow of current is stopped completely."
+        },
+        {
+          "text": "The voltage of the battery increases.",
+          "isCorrect": false,
+          "rationale": "The battery's voltage is not affected by the bulb burning out."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "a15221f3eaa2a735320e6d2f349f1d37e88d5541",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-23T17:39:52.322Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 14,
+      "bankFingerprint": "a15221f3eaa2a735320e6d2f349f1d37e88d5541"
+    },
+    {
+      "questionText": "Students in a biology class measured the mass and volume of three different fruit types to understand their physical properties. The results are shown in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Fruit Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Apple</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">150</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Orange</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">200</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">180</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Grape</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">4</td></tr></tbody></table>Based on the provided data, which fruit has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Apple",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For the apple: d = 150 g / 160 cm³ = 0.9375 g/cm³."
+        },
+        {
+          "text": "Orange",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For the orange: d = 200 g / 180 cm³ ≈ 1.11 g/cm³."
+        },
+        {
+          "text": "Grape",
+          "isCorrect": true,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For the grape: d = 5 g / 4 cm³ = 1.25 g/cm³. Comparing the densities (Apple: 0.9375 g/cm³, Orange: 1.11 g/cm³, Grape: 1.25 g/cm³), the grape has the highest density."
+        },
+        {
+          "text": "All fruits have approximately the same density.",
+          "isCorrect": false,
+          "rationale": "The calculated densities for each fruit are: Apple ≈ 0.94 g/cm³, Orange ≈ 1.11 g/cm³, and Grape = 1.25 g/cm³. These values are not approximately the same."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 15,
+      "bankFingerprint": "c76ebb6432dd6d88fa2a38fe9f919c7bd36d079f"
+    },
+    {
+      "questionText": "The table below shows the mass and volume of four different human tissue samples.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">105</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">185</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Fat</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Blood Plasma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">103</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td></tr></tbody></table>Based on the formula d = \\(\\frac{m}{V}\\), which tissue sample has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle",
+          "isCorrect": false,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Muscle, density = 105 g / 100 cm³ = 1.05 g/cm³."
+        },
+        {
+          "text": "Bone",
+          "isCorrect": false,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Bone, density = 185 g / 100 cm³ = 1.85 g/cm³."
+        },
+        {
+          "text": "Fat",
+          "isCorrect": true,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Fat, density = 90 g / 100 cm³ = 0.90 g/cm³. This is the lowest density among the options provided."
+        },
+        {
+          "text": "Blood Plasma",
+          "isCorrect": false,
+          "rationale": "To find the density, divide mass by volume (d = \\(\\frac{m}{V}\\)). For Blood Plasma, density = 103 g / 100 cm³ = 1.03 g/cm³."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 16,
+      "bankFingerprint": "6a283ce2bf50c9ae785c30d79098ff463a43b5cc"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 18,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 19,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Biological Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.5</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">9.8</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Adipose Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8.2</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">9.1</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">7.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Blood Plasma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.3</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.0</td></tr></tbody></table>Which biological sample has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle Tissue",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Muscle Tissue: 10.5 g / 9.8 cm³ \t≈ 1.07 g/cm³."
+        },
+        {
+          "text": "Adipose Tissue",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Adipose Tissue: 8.2 g / 9.1 cm³ \t≈ 0.90 g/cm³."
+        },
+        {
+          "text": "Bone Tissue",
+          "isCorrect": true,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Bone Tissue: 15.0 g / 7.5 cm³ = 2.00 g/cm³. This is the highest density among the samples. Muscle Tissue \t≈ 1.07 g/cm³, Adipose Tissue \t≈ 0.90 g/cm³, Blood Plasma \t≈ 1.06 g/cm³."
+        },
+        {
+          "text": "Blood Plasma",
+          "isCorrect": false,
+          "rationale": "To find the density (d), divide the mass (m) by the volume (V) using the formula d = \\(\\frac{m}{V}\\). For Blood Plasma: 5.3 g / 5.0 cm³ = 1.06 g/cm³."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 20,
+      "bankFingerprint": "431d06c2085d1b120d444063f793b5ea02556073"
+    },
+    {
+      "questionText": "A scientist measured the mass and volume of several animal tissue samples. The data is shown in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Muscle</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">100</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">95</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Fat</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">75</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">80</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Bone</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">120</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Blood Plasma</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">48</td></tr></tbody></table>Based on the data, which tissue type has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Muscle",
+          "isCorrect": false,
+          "rationale": "The density of Muscle is approximately 1.05 g/cm³ (100 g / 95 cm³), which is not the lowest among the options."
+        },
+        {
+          "text": "Fat",
+          "isCorrect": true,
+          "rationale": "Density (d) is calculated using the formula d = \\(\\frac{m}{V}\\). For Fat, d = 75 g / 80 cm³ = 0.9375 g/cm³. This is lower than Muscle (100 g / 95 cm³ ≈ 1.05 g/cm³), Bone (120 g / 60 cm³ = 2.00 g/cm³), and Blood Plasma (50 g / 48 cm³ ≈ 1.04 g/cm³)."
+        },
+        {
+          "text": "Bone",
+          "isCorrect": false,
+          "rationale": "The density of Bone is 2.00 g/cm³ (120 g / 60 cm³), which is the highest density listed."
+        },
+        {
+          "text": "Blood Plasma",
+          "isCorrect": false,
+          "rationale": "The density of Blood Plasma is approximately 1.04 g/cm³ (50 g / 48 cm³), which is not the lowest among the options."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 21,
+      "bankFingerprint": "d714fef5fe6998bcc8e47a65516506763e5709cf"
+    },
+    {
+      "questionText": "What is the primary message the author conveys about the impact of microscopes on scientific understanding?",
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "answerOptions": [
+        {
+          "text": "Microscopes mainly prove that many natural objects are inherently dangerous or flawed.",
+          "isCorrect": false,
+          "rationale": "The passage describes observations like a 'ragged and uneven' razor edge, but does not suggest these details indicate danger or fundamental flaws, rather a complexity unseen by the naked eye."
+        },
+        {
+          "text": "Microscopes are limited in their utility, primarily useful for examining tiny organisms.",
+          "isCorrect": false,
+          "rationale": "While insects and cells are mentioned, the passage also refers to cork and razor edges, indicating a broader utility beyond just tiny organisms and highlighting a 'new visible world' in general."
+        },
+        {
+          "text": "Microscopes extend human perception, revealing previously unseen complexities and inspiring further scientific inquiry.",
+          "isCorrect": true,
+          "rationale": "The passage states microscopes reveal a 'new visible world,' show 'elaborately jointed machines,' and 'teach us humility' and 'curiosity,' implying an expansion of understanding and a motivation for continued exploration."
+        },
+        {
+          "text": "Microscopes confirm that all objects, when viewed closely, are composed of uniform, simple structures.",
+          "isCorrect": false,
+          "rationale": "The passage describes varied and often 'ragged' or 'elaborate' structures, which contradicts the idea of uniform or simple compositions."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "5811f8f1f15ec91a849c3b2ae0b96679c76ddfef",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-26T17:16:21.858Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "questionNumber": 22,
+      "bankFingerprint": "5811f8f1f15ec91a849c3b2ae0b96679c76ddfef"
+    },
+    {
+      "questionText": "Chemical reactions involve changes in energy, often in the form of heat exchange with their surroundings. According to the provided table, how does the relationship between the energy content of reactants and products differentiate endothermic reactions from exothermic reactions?",
+      "answerOptions": [
+        {
+          "text": "In endothermic reactions, reactants have less energy than products, whereas in exothermic reactions, products have more energy than reactants.",
+          "isCorrect": true,
+          "rationale": "The table explicitly states that for an 'Endothermic Reaction,' 'reactants have less energy content than products.' Conversely, for an 'Exothermic Reaction,' it states 'products have more energy than reactants.' This option accurately reflects these comparisons from the table."
+        },
+        {
+          "text": "Both endothermic and exothermic reactions result in products with less energy than reactants, but only endothermic reactions absorb heat.",
+          "isCorrect": false,
+          "rationale": "This option is incorrect. The table indicates that in exothermic reactions, products have more energy than reactants, contradicting the claim that both result in products with less energy. It also misrepresents the energy content for endothermic reactions."
+        },
+        {
+          "text": "In endothermic reactions, reactants have more energy than products, and in exothermic reactions, products have less energy than reactants.",
+          "isCorrect": false,
+          "rationale": "This option reverses the energy relationships described in the table. The table states that endothermic reactants have less energy than products, and exothermic products have more energy than reactants."
+        },
+        {
+          "text": "The energy content of reactants and products is only relevant to the amount of heat produced, not whether heat is absorbed or released.",
+          "isCorrect": false,
+          "rationale": "This option misinterprets the information in the table. The table clearly links energy content differences to the type of reaction (endothermic/exothermic), which in turn defines whether heat is absorbed or produced. The table directly contrasts these energy content relationships for each reaction type."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0043.png",
+        "alt": "A two-column table defines and compares endothermic and exothermic reactions, including examples."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 23,
+      "bankFingerprint": "c8b45a80e041ac1cf895d2a38bb95333816c29fe"
+    },
+    {
+      "questionText": "For natural selection to occur, what must be present within a population?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "No competition",
+          "isCorrect": false,
+          "rationale": "Competition for limited resources is a driving force of natural selection."
+        },
+        {
+          "text": "A stable, unchanging environment",
+          "isCorrect": false,
+          "rationale": "Environmental changes often drive selection for new adaptations."
+        },
+        {
+          "text": "Variation in heritable traits",
+          "isCorrect": true,
+          "rationale": "Correct. If all individuals are identical, there is no basis for selection to favor one over another."
+        },
+        {
+          "text": "A very small population size",
+          "isCorrect": false,
+          "rationale": "Natural selection can occur in populations of any size, though its effects can be more pronounced in large populations."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "a53f0107783c80c05eba51cae0d18a4600ef7d9c",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-19T14:58:36.326Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_promoted_review"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 24,
+      "bankFingerprint": "a53f0107783c80c05eba51cae0d18a4600ef7d9c"
+    },
+    {
+      "questionText": "A student walks 2.5 kilometers to school in 30 minutes. What is their average speed in kilometers per hour?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "5 km/hour",
+          "isCorrect": true,
+          "rationale": "To convert 30 minutes to hours, divide by 60: 30 min / 60 min/hour = 0.5 hours. Average speed = Distance / Time = 2.5 km / 0.5 hours = 5 km/hour."
+        },
+        {
+          "text": "0.083 km/hour",
+          "isCorrect": false,
+          "rationale": "This incorrectly divides 2.5 by 30."
+        },
+        {
+          "text": "75 km/hour",
+          "isCorrect": false,
+          "rationale": "This calculation multiplies distance by minutes, which is incorrect."
+        },
+        {
+          "text": "2.5 km/hour",
+          "isCorrect": false,
+          "rationale": "This assumes the time is 1 hour, not 30 minutes."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multiple-choice",
+      "topic": "Scientific Numeracy",
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "8e1c5f38b68e76830cdabd205e1c91ae1076d36f",
+        "sourceModel": "gemini",
+        "createdAt": "2026-03-18T13:53:47.053Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 25,
+      "bankFingerprint": "3fc3c52fb62092eebb041615abdb1d221988a125"
+    },
+    {
+      "questionText": "The passage states, \"Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.\" Which statement best reflects the author's argument regarding how resources should be managed?",
+      "answerOptions": [
+        {
+          "text": "Resources should be completely protected from human activity to ensure their long-term preservation.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that conservation does not mean 'locking everything up,' indicating that some level of human interaction and use is intended."
+        },
+        {
+          "text": "Human needs must always take precedence, allowing for extensive use of natural resources without significant restrictions.",
+          "isCorrect": false,
+          "rationale": "The phrase 'use without abuse' and 'development joined to foresight' contradicts the idea of unrestricted, extensive use that prioritizes immediate human needs above all else."
+        },
+        {
+          "text": "Resources should be utilized in a way that provides benefits in the present while also ensuring their availability for future generations.",
+          "isCorrect": true,
+          "rationale": "This option aligns directly with 'use without abuse—development joined to foresight' and the overall definition of 'greatest good to the greatest number for the longest time,' balancing present use with future availability."
+        },
+        {
+          "text": "Private entities are solely responsible for managing natural resources for their own profit and economic growth.",
+          "isCorrect": false,
+          "rationale": "The passage states that resources are 'not to be wasted for the profit of a few' and that the government acts 'as trustee for the people,' refuting the idea of sole private responsibility for profit."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_gifford_pinchot_conservation",
+      "passageTitle": "The Fight for Conservation (Excerpt)",
+      "topicTags": [
+        "Conservation / Public Lands"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 26,
+      "bankFingerprint": "8705169c67e326be2d47e9cc38e762cfd4e66d08"
+    },
+    {
+      "questionText": "The author asserts that \"Waste is not only a private fault; it is a public crime.\" Which of the following statements provides the strongest evidence from the passage to support this claim?",
+      "answerOptions": [
+        {
+          "text": "Forests, rivers, and minerals are often exploited for the profit of a few individuals.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions not wasting resources for the profit of a few, this option describes the problem of private fault, not the evidence that makes it a 'public crime' impacting the broader community."
+        },
+        {
+          "text": "If forests are cut recklessly, the soil washes away and whole valleys are ruined.",
+          "isCorrect": true,
+          "rationale": "This statement provides concrete evidence of how reckless waste (cutting forests) leads to widespread, public harm ('soil washes away and whole valleys are ruined'), extending beyond individual fault to a 'public crime.'"
+        },
+        {
+          "text": "The government, as trustee for the people, must see that these resources are used wisely.",
+          "isCorrect": false,
+          "rationale": "This describes the government's role in addressing waste, not the evidence that waste itself constitutes a public crime. It's a proposed solution rather than a consequence."
+        },
+        {
+          "text": "Conservation aims for the greatest good to the greatest number for the longest time.",
+          "isCorrect": false,
+          "rationale": "This is a definition or goal of conservation, not specific evidence that illustrates how waste leads to widespread harm, thus making it a 'public crime.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_gifford_pinchot_conservation",
+      "passageTitle": "The Fight for Conservation (Excerpt)",
+      "topicTags": [
+        "Conservation / Public Lands"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 27,
+      "bankFingerprint": "de5df84f889f4085dd64091ebe6a464c1d911993"
+    },
+    {
+      "questionText": "Homologous structures, such as the forelimb of a human, the wing of a bat, and the flipper of a whale, are considered evidence for evolution because they:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Perform the exact same function in each organism.",
+          "isCorrect": false,
+          "rationale": "They perform different functions (grasping, flying, swimming)."
+        },
+        {
+          "text": "Suggest a common ancestry among these organisms.",
+          "isCorrect": true,
+          "rationale": "Correct. The underlying similarity in the bone structure, despite different functions, indicates that these organisms evolved from a common ancestor."
+        },
+        {
+          "text": "Are the result of random chance.",
+          "isCorrect": false,
+          "rationale": "The similarity in structure is too great to be the result of random chance."
+        },
+        {
+          "text": "Show that these organisms live in the same environment.",
+          "isCorrect": false,
+          "rationale": "They live in very different environments (land, air, water)."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "00849fddd05f6036c622be395b3cdaf924ac594a",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.911Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 28,
+      "bankFingerprint": "00849fddd05f6036c622be395b3cdaf924ac594a"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1777303802045",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 29,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1777303802045",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 30,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "According to the passage, what is a key consequence of time and space not being absolute?",
+      "answerOptions": [
+        {
+          "text": "The fundamental laws governing physical phenomena remain consistent for all observers.",
+          "isCorrect": false,
+          "rationale": "While the passage states laws of physics are the same, this is presented as a separate principle, not a direct consequence of time and space *not being absolute*. The relativity of time and space is a consequence of or alongside this principle."
+        },
+        {
+          "text": "Measurements of time and spatial dimensions can differ for observers moving at different constant velocities.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'Time and space are not absolute, but depend on the motion of the observer,' which directly implies that their measurements can vary based on an observer's motion."
+        },
+        {
+          "text": "The understanding of the universe has remained largely unchanged despite new theories.",
+          "isCorrect": false,
+          "rationale": "The passage states this 'leads to consequences that change our understanding of the universe,' directly contradicting this option."
+        },
+        {
+          "text": "The concept of uniform motion does not apply to observations of celestial bodies.",
+          "isCorrect": false,
+          "rationale": "The passage discusses 'uniform motion' in general terms and does not limit or exclude its application to any specific types of observations."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Relativity: The Special and General Theory (Excerpt)</strong></p><p><em>Albert Einstein, 1916</em></p><p>The laws of physics are the same for all observers in uniform motion. Time and space are not absolute, but depend on the motion of the observer. This simple idea leads to consequences that change our understanding of the universe.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_einstein_relativity",
+      "passageTitle": "Relativity: The Special and General Theory (Excerpt)",
+      "topicTags": [
+        "Physics / Relativity"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 31,
+      "bankFingerprint": "39f6f314e2e0947bed89592ad1aae789840aea2d"
+    },
+    {
+      "questionText": "Based on the passage, what can be inferred about the nature of the laws of physics?",
+      "answerOptions": [
+        {
+          "text": "They are subject to change based on the specific conditions of an experiment.",
+          "isCorrect": false,
+          "rationale": "The passage states 'The laws of physics are the same for all observers in uniform motion,' indicating consistency, not variability based on specific conditions."
+        },
+        {
+          "text": "They are universally applicable, provided the observer maintains a constant velocity and direction.",
+          "isCorrect": true,
+          "rationale": "The first sentence, 'The laws of physics are the same for all observers in uniform motion,' directly supports this inference, as 'uniform motion' implies a constant velocity and direction, making the laws universally applicable under that condition."
+        },
+        {
+          "text": "Their validity is limited to observations made from a stationary frame of reference.",
+          "isCorrect": false,
+          "rationale": "The phrase 'for all observers in uniform motion' explicitly includes moving observers, not just stationary ones, making this statement incorrect."
+        },
+        {
+          "text": "They become increasingly complex as the speed of the observer approaches the speed of light.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that the *understanding* of the universe changes due to these ideas, not that the laws themselves become more complex at higher speeds. The laws remain the same, but their observed effects (like time and space) change."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Relativity: The Special and General Theory (Excerpt)</strong></p><p><em>Albert Einstein, 1916</em></p><p>The laws of physics are the same for all observers in uniform motion. Time and space are not absolute, but depend on the motion of the observer. This simple idea leads to consequences that change our understanding of the universe.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_einstein_relativity",
+      "passageTitle": "Relativity: The Special and General Theory (Excerpt)",
+      "topicTags": [
+        "Physics / Relativity"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 32,
+      "bankFingerprint": "8bd127a3d29308419ec96c780f776f4f48169d41"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 33,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 34,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "A line graph showing relative humidity percentage over eight days in May, accompanied by an explanatory paragraph."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 35,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the carbon cycle, depicting the flow of carbon among the atmosphere, land, and ocean."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 36,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "stimulusType": "diagram",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "A cross-section diagram illustrating the orographic effect on weather and climate, showing mountains near an ocean."
+      },
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "easy",
+      "source": "trustedLocalImage",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 37,
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "questionText": "The law of conservation of mass states that in a chemical reaction, mass is:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Lost",
+          "isCorrect": false,
+          "rationale": "Mass is not lost, but atoms are rearranged."
+        },
+        {
+          "text": "Gained",
+          "isCorrect": false,
+          "rationale": "Mass is not gained; all atoms are accounted for."
+        },
+        {
+          "text": "Neither lost nor gained",
+          "isCorrect": true,
+          "rationale": "Correct. The total mass of the reactants must equal the total mass of the products."
+        },
+        {
+          "text": "Sometimes lost, sometimes gained",
+          "isCorrect": false,
+          "rationale": "The law is constant for all chemical reactions."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "3e0afaa518f2dfc9eb8bc87d1f993c92928274fe",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-12T04:37:45.339Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 38,
+      "bankFingerprint": "3e0afaa518f2dfc9eb8bc87d1f993c92928274fe"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 1, expected ~9",
+    "Difficulty \"medium\": 30, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}

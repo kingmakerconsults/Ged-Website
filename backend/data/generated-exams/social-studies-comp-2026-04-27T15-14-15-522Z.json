@@ -1,0 +1,1169 @@
+{
+  "id": "ai_comp_social_studies_1777302853753",
+  "title": "Comprehensive Social Studies Exam",
+  "subject": "Social Studies",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "Which statement best reflects a key characteristic of the \"New South\" as described in the passage?",
+      "passage": "We have let economy take root in our soil and peace brood over our homes. The Old South rested everything on slavery and agriculture, unconscious that these could neither give nor maintain healthy growth. The New South presents a perfect democracy; a social system compact and closely knitted, less splendid on the surface, but stronger at the core. The New South is building cotton mills beside the fields where the cotton grows; it is diversifying crops, educating its children, and inviting capital, not by servility, but by showing that it can stand on its own. We are not surrendering the memories of the past, but we are determined to make the future more glorious than the past by industry, education, and reconciliation.",
+      "answerOptions": [
+        {
+          "text": "It emphasized economic diversification, education, and reconciliation.",
+          "isCorrect": true,
+          "rationale": "The passage states the New South is \"building cotton mills,\" \"diversifying crops,\" \"educating its children,\" and striving for \"reconciliation.\""
+        },
+        {
+          "text": "It solely relied on agriculture and a social system based on slavery.",
+          "isCorrect": false,
+          "rationale": "This description aligns with the \"Old South\" as depicted in the passage, not the \"New South\" which is diversifying and presenting a \"perfect democracy.\""
+        },
+        {
+          "text": "It sought capital through servility to northern investors.",
+          "isCorrect": false,
+          "rationale": "The passage states the New South is \"inviting capital, not by servility, but by showing that it can stand on its own.\""
+        },
+        {
+          "text": "It aimed to surrender all memories of the past for a new identity.",
+          "isCorrect": false,
+          "rationale": "The passage states, \"We are not surrendering the memories of the past,\" indicating a retention of history while building a new future."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "3b61e2cdec0b7c840fae849d2ca3e043d9fb1e67",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-04-07T03:33:55.324Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "hard",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 1,
+      "bankFingerprint": "3b61e2cdec0b7c840fae849d2ca3e043d9fb1e67"
+    },
+    {
+      "questionText": "The author's use of the phrase \"a date which will live in infamy\" primarily serves to convey which purpose?",
+      "passage": "Yesterday, December 7, 1941—a date which will live in infamy—the United States of America was suddenly and deliberately attacked by naval and air forces of the Empire of Japan.",
+      "answerOptions": [
+        {
+          "text": "To suggest that the attack was a minor oversight by Japan.",
+          "isCorrect": false,
+          "rationale": "The term \"infamy\" implies extreme dishonor and a serious, memorable negative event, not a minor oversight."
+        },
+        {
+          "text": "To express a desire for immediate peace negotiations with Japan.",
+          "isCorrect": false,
+          "rationale": "The word \"infamy\" conveys strong condemnation and historical significance, not a desire for negotiation."
+        },
+        {
+          "text": "To highlight the severe historical condemnation and treacherous nature of the attack.",
+          "isCorrect": true,
+          "rationale": "\"Infamy\" means the state of being well-known for some bad quality or deed, indicating the author's strong condemnation and emphasis on the attack's grave historical significance and perfidious character."
+        },
+        {
+          "text": "To provide a detailed military analysis of the Japanese naval and air forces.",
+          "isCorrect": false,
+          "rationale": "The phrase focuses on the legacy and moral judgment of the date, not military specifics."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "578bf3cef5d5a15b730eaa21be6ffdde58539bc1",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-18T17:37:16.892Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 2,
+      "bankFingerprint": "578bf3cef5d5a15b730eaa21be6ffdde58539bc1"
+    },
+    {
+      "questionText": "Based on the excerpt from the First Inaugural Address, what is the primary purpose of the speaker's message?",
+      "answerOptions": [
+        {
+          "text": "To detail the specific economic problems facing the nation.",
+          "isCorrect": false,
+          "rationale": "The passage implies a need for recovery with 'pick ourselves up' but does not detail specific economic problems."
+        },
+        {
+          "text": "To call for Americans to embrace a new era of responsibility and collectively rebuild the country.",
+          "isCorrect": true,
+          "rationale": "The speaker explicitly states, 'we must pick ourselves up, dust ourselves off, and begin again the work of remaking America' and calls for 'a new era of responsibility' with duties to the nation and the world."
+        },
+        {
+          "text": "To criticize past governmental policies that led to current challenges.",
+          "isCorrect": false,
+          "rationale": "The excerpt focuses on future action and responsibility, not on critiquing past policies."
+        },
+        {
+          "text": "To announce new international alliances and diplomatic strategies.",
+          "isCorrect": false,
+          "rationale": "The passage mentions duties to 'the world' but does not announce specific international alliances or strategies."
+        }
+      ],
+      "passage": "Starting today, we must pick ourselves up, dust ourselves off, and begin again the work of remaking America. What is required of us now is a new era of responsibility, a recognition, on the part of every American, that we have duties to ourselves, our nation, and the world.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_obama_inaugural_2009",
+      "groupId": "ss-pass-ss_obama_inaugural_2009",
+      "difficulty": "hard",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 3,
+      "bankFingerprint": "db3761b47d2a9828b273d15334924e83b1c60484"
+    },
+    {
+      "questionText": "After a recent town meeting, residents debated a new proposal requiring mandatory participation in local clean-up initiatives. While proponents cited the collective benefit to the community, many individuals expressed concern that such a mandate could infringe upon their personal freedoms. This debate primarily illustrates the tension between which two foundational civic concepts?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Economic prosperity and environmental protection.",
+          "isCorrect": false,
+          "rationale": "While environmental protection might be a goal of clean-up initiatives, the core debate presented is not about economic prosperity but rather individual obligations versus freedoms."
+        },
+        {
+          "text": "Government transparency and public safety.",
+          "isCorrect": false,
+          "rationale": "The scenario does not discuss issues of government transparency or public safety. The conflict is about individual liberty versus community obligation."
+        },
+        {
+          "text": "Individual rights and civic responsibilities.",
+          "isCorrect": true,
+          "rationale": "The scenario directly pits 'personal freedoms' (individual rights) against 'mandatory participation' for 'collective benefit' (civic responsibilities)."
+        },
+        {
+          "text": "Judicial review and legislative power.",
+          "isCorrect": false,
+          "rationale": "The debate is among residents about a proposal, not a conflict between the judicial and legislative branches of government."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "The Bill of Rights",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "bb069fa5d566f8ed227467d68d630b8c1bc8afc6",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2026-02-18T15:41:36.614Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 4,
+      "bankFingerprint": "bb069fa5d566f8ed227467d68d630b8c1bc8afc6"
+    },
+    {
+      "questionText": "What does the No Trespass sign contribute to the meaning of the cartoon?",
+      "answerOptions": [
+        {
+          "text": "It turns U.S. policy into a direct warning against European intervention",
+          "isCorrect": true,
+          "rationale": "Correct. The sign makes the Monroe Doctrine visible as an explicit barrier."
+        },
+        {
+          "text": "It suggests free trade between Europe and Latin America",
+          "isCorrect": false,
+          "rationale": "A no-trespass sign signals restriction, not openness."
+        },
+        {
+          "text": "It shows that Latin American countries were part of Europe",
+          "isCorrect": false,
+          "rationale": "The sign distinguishes the regions rather than merging them."
+        },
+        {
+          "text": "It proves Uncle Sam was withdrawing from foreign policy",
+          "isCorrect": false,
+          "rationale": "The cartoon shows active involvement, not withdrawal."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/monroe_doctrine_0001.png",
+        "alt": "A 1901 political cartoon depicts Uncle Sam holding a rifle, standing guard before a \"No Trespass\" sign, facing European powers across a body of water."
+      },
+      "groupId": "ss-img-monroe_doctrine_0001.png",
+      "difficulty": "hard",
+      "questionNumber": 5,
+      "bankFingerprint": "bac6691aa136061b4abb7577ed13fb6ec4edfbae"
+    },
+    {
+      "questionText": "In this cartoon, the octopus is mainly a symbol for what?",
+      "answerOptions": [
+        {
+          "text": "The sprawling power of the Standard Oil monopoly",
+          "isCorrect": true,
+          "rationale": "Correct. The octopus represents Standard Oil reaching into many parts of the economy and government."
+        },
+        {
+          "text": "The environmental benefits of oil drilling",
+          "isCorrect": false,
+          "rationale": "The image is critical of corporate power, not a celebration of oil extraction."
+        },
+        {
+          "text": "A military alliance protecting U.S. industry",
+          "isCorrect": false,
+          "rationale": "The cartoon is about monopoly power, not defense alliances."
+        },
+        {
+          "text": "A natural disaster affecting coastal cities",
+          "isCorrect": false,
+          "rationale": "The octopus is symbolic, not a literal disaster scene."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/robber_baron_industrialist_0001.jpg",
+        "alt": "A political cartoon depicts a giant octopus with a Standard Oil barrel for a head, its tentacles grabbing government buildings and industries."
+      },
+      "groupId": "ss-img-robber_baron_industrialist_0001.jpg",
+      "difficulty": "hard",
+      "questionNumber": 6,
+      "bankFingerprint": "8c2526c6a44438cf18be5662ce69ec028b533151"
+    },
+    {
+      "questionText": "What is the primary message of this excerpt from the \"Atoms for Peace Address\"?",
+      "passage": "The United States knows that if the fearful trend of atomic military build-up can be reversed, this greatest of destructive forces can be developed into a great boon for the benefit of all mankind.",
+      "answerOptions": [
+        {
+          "text": "The increasing military use of atomic power is an irreversible and beneficial global trend.",
+          "isCorrect": false,
+          "rationale": "The passage states the \"fearful trend of atomic military build-up can be reversed,\" contradicting irreversibility and beneficence."
+        },
+        {
+          "text": "The United States believes atomic power is inherently destructive and should be completely abolished.",
+          "isCorrect": false,
+          "rationale": "The passage acknowledges destructive forces but also states it \"can be developed into a great boon for the benefit of all mankind,\" suggesting potential for good rather than complete abolition."
+        },
+        {
+          "text": "Atomic power's military application is concerning, but its potential for global benefit can be realized if the military build-up is reversed.",
+          "isCorrect": true,
+          "rationale": "The passage directly states that if the \"fearful trend of atomic military build-up can be reversed, this greatest of destructive forces can be developed into a great boon for the benefit of all mankind,\" encapsulating both the concern and the potential."
+        },
+        {
+          "text": "Global superpowers should continue to build up atomic military arsenals to ensure peace.",
+          "isCorrect": false,
+          "rationale": "The passage refers to \"atomic military build-up\" as a \"fearful trend\" that needs to be \"reversed,\" indicating opposition to continued build-up."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "9981ba358ac89fcd532a4cbfca18012c790a9226",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:36:34.484Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 7,
+      "bankFingerprint": "9981ba358ac89fcd532a4cbfca18012c790a9226"
+    },
+    {
+      "questionText": "What is the author's primary argument concerning freedom and progress?",
+      "passage": "If there is no struggle there is no progress. Those who profess to favor freedom and yet deprecate agitation are men who want crops without plowing up the ground.",
+      "answerOptions": [
+        {
+          "text": "Freedom and progress are achieved without effort or struggle.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, If there is no struggle there is no progress, contradicting this option."
+        },
+        {
+          "text": "Those who desire freedom must be willing to engage in struggle and agitation.",
+          "isCorrect": true,
+          "rationale": "The author claims there is no progress without struggle and criticizes those who favor freedom but deprecate agitation, indicating that struggle is necessary."
+        },
+        {
+          "text": "Agitation is always counterproductive and should be avoided in the pursuit of freedom.",
+          "isCorrect": false,
+          "rationale": "The author uses the analogy of plowing ground to support agitation, indicating it is necessary, not counterproductive."
+        },
+        {
+          "text": "Plowing ground is a metaphor for peaceful negotiation rather than active struggle.",
+          "isCorrect": false,
+          "rationale": "The passage refers to 'struggle' and 'agitation' as necessary, which suggests more than just peaceful negotiation in the context of achieving freedom."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "471b0c0d19957c6ca3b52a6fba5e5f4163f1ea7f",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:33:11.249Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 8,
+      "bankFingerprint": "471b0c0d19957c6ca3b52a6fba5e5f4163f1ea7f"
+    },
+    {
+      "questionText": "What historical idea is most closely represented by Roosevelt standing guard over Santo Domingo?",
+      "answerOptions": [
+        {
+          "text": "The Roosevelt Corollary's claim that the U.S. could intervene to prevent European action in Latin America",
+          "isCorrect": true,
+          "rationale": "Correct. The image goes beyond warning Europe and shows the U.S. taking an active policing role."
+        },
+        {
+          "text": "The policy of isolation from world affairs",
+          "isCorrect": false,
+          "rationale": "The cartoon shows interventionist policy, not isolation."
+        },
+        {
+          "text": "The end of American influence in the Caribbean",
+          "isCorrect": false,
+          "rationale": "The cartoon suggests growing influence, not retreat."
+        },
+        {
+          "text": "A promise that Latin American nations would rule European colonies",
+          "isCorrect": false,
+          "rationale": "That is not what the image represents."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/monroe_doctrine_0002.jpg",
+        "alt": "A 1904 political cartoon shows President Theodore Roosevelt using the Monroe Doctrine to deter European powers from the Dominican Republic."
+      },
+      "groupId": "ss-img-monroe_doctrine_0002.jpg",
+      "difficulty": "medium",
+      "questionNumber": 9,
+      "bankFingerprint": "2bdbeec484ca15e31c91b75ba2e75afdb7b56b49"
+    },
+    {
+      "questionText": "In a pure market economy (capitalism), who makes the decisions about what to produce, how to produce it, and for whom to produce?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The government",
+          "isCorrect": false,
+          "rationale": "This is characteristic of a command economy."
+        },
+        {
+          "text": "Private individuals and firms",
+          "isCorrect": true,
+          "rationale": "Correct. In a market system, these decisions are driven by the interactions of supply and demand between private producers and consumers."
+        },
+        {
+          "text": "A council of economic experts",
+          "isCorrect": false,
+          "rationale": "This would be a form of central planning, not a market economy."
+        },
+        {
+          "text": "Foreign investors",
+          "isCorrect": false,
+          "rationale": "While foreign investment can be important, it does not drive the fundamental economic decisions in a market system."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "3290e129e473e7165780b286e2eb33c504860926",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T17:40:42.726Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Economics",
+      "source": "curatedAiBank",
+      "questionNumber": 10,
+      "bankFingerprint": "3290e129e473e7165780b286e2eb33c504860926"
+    },
+    {
+      "questionText": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people. U.S. Constitution, Tenth Amendment. This text, the Tenth Amendment, is the basis for which principle of U.S. government?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Checks and balances",
+          "isCorrect": false,
+          "rationale": "Checks and balances refer to the powers each branch has to limit the others."
+        },
+        {
+          "text": "Judicial review",
+          "isCorrect": false,
+          "rationale": "Judicial review is the power of the courts to rule on the constitutionality of laws."
+        },
+        {
+          "text": "Federalism",
+          "isCorrect": true,
+          "rationale": "Correct. The Tenth Amendment defines the principle of federalism by stating that powers not given to the federal government are reserved for the states."
+        },
+        {
+          "text": "Separation of powers",
+          "isCorrect": false,
+          "rationale": "Separation of powers refers to the division of the government into three branches."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "6f6b727719575c604954edb622c1e3b00253532a",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T03:38:40.368Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "U.S. History",
+      "source": "curatedAiBank",
+      "questionNumber": 11,
+      "bankFingerprint": "6f6b727719575c604954edb622c1e3b00253532a"
+    },
+    {
+      "questionText": "What is the speaker's primary argument in this passage?",
+      "answerOptions": [
+        {
+          "text": "That continued hope for a peaceful resolution is a dangerous illusion.",
+          "isCorrect": true,
+          "rationale": "The speaker explicitly states, 'it is natural to man to indulge in the illusions of hope,' and concludes that 'There is no longer any room for hope,' indicating that relying on hope is misguided."
+        },
+        {
+          "text": "That petitions and supplications are effective methods for achieving liberty.",
+          "isCorrect": false,
+          "rationale": "The passage states the opposite: 'our petitions have been slighted, our remonstrances have produced additional violence and insult,' demonstrating their ineffectiveness."
+        },
+        {
+          "text": "That the war has already begun and therefore the colonists should surrender.",
+          "isCorrect": false,
+          "rationale": "While the speaker declares 'The war is actually begun!', the concluding statement 'give me liberty or give me death!' contradicts any notion of surrender."
+        },
+        {
+          "text": "That men are naturally inclined to readily accept and face painful truths.",
+          "isCorrect": false,
+          "rationale": "The speaker actually states, 'We are apt to shut our eyes against a painful truth,' suggesting a natural tendency to avoid, rather than face, difficult realities."
+        }
+      ],
+      "passage": "Mr. President, it is natural to man to indulge in the illusions of hope. We are apt to shut our eyes against a painful truth and listen to the song of that siren till she transforms us into beasts. Is this the part of wise men, engaged in a great and arduous struggle for liberty? Are we disposed to be numbered among those who, having eyes, see not, and having ears, hear not the things which so nearly concern their temporal salvation? For my part, whatever anguish of spirit it may cost, I am willing to know the whole truth; to know the worst, and to provide for it. We have petitioned, we have remonstrated, we have supplicated; our petitions have been slighted, our remonstrances have produced additional violence and insult. There is no longer any room for hope. The war is actually begun! Our brethren are already in the field! The next gale that sweeps from the north will bring to our ears the clash of resounding arms! I know not what course others may take; but as for me, give me liberty or give me death!",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_patrick_henry_liberty_or_death",
+      "groupId": "ss-pass-ss_patrick_henry_liberty_or_death",
+      "difficulty": "medium",
+      "questionNumber": 12,
+      "bankFingerprint": "e73aa460f7a95372a4d7e9e982a4f6b4f8d91cb4"
+    },
+    {
+      "questionText": "Which statement from the passage serves as evidence that peaceful efforts to resolve conflicts have failed?",
+      "answerOptions": [
+        {
+          "text": "'Mr. President, it is natural to man to indulge in the illusions of hope.'",
+          "isCorrect": false,
+          "rationale": "This statement describes a general human tendency regarding hope, not specific evidence of the failure of peaceful efforts."
+        },
+        {
+          "text": "'The next gale that sweeps from the north will bring to our ears the clash of resounding arms!'",
+          "isCorrect": false,
+          "rationale": "This is a prediction of future conflict, not evidence describing the failure of past peaceful actions."
+        },
+        {
+          "text": "'Our petitions have been slighted, our remonstrances have produced additional violence and insult.'",
+          "isCorrect": true,
+          "rationale": "This sentence directly provides evidence by detailing how past peaceful actions (petitions, remonstrances) were disregarded and met with negative responses, proving their failure."
+        },
+        {
+          "text": "'I know not what course others may take; but as for me, give me liberty or give me death!'",
+          "isCorrect": false,
+          "rationale": "This is the speaker's personal declaration and call to action, not evidence demonstrating the failure of previous diplomatic attempts."
+        }
+      ],
+      "passage": "Mr. President, it is natural to man to indulge in the illusions of hope. We are apt to shut our eyes against a painful truth and listen to the song of that siren till she transforms us into beasts. Is this the part of wise men, engaged in a great and arduous struggle for liberty? Are we disposed to be numbered among those who, having eyes, see not, and having ears, hear not the things which so nearly concern their temporal salvation? For my part, whatever anguish of spirit it may cost, I am willing to know the whole truth; to know the worst, and to provide for it. We have petitioned, we have remonstrated, we have supplicated; our petitions have been slighted, our remonstrances have produced additional violence and insult. There is no longer any room for hope. The war is actually begun! Our brethren are already in the field! The next gale that sweeps from the north will bring to our ears the clash of resounding arms! I know not what course others may take; but as for me, give me liberty or give me death!",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_patrick_henry_liberty_or_death",
+      "groupId": "ss-pass-ss_patrick_henry_liberty_or_death",
+      "difficulty": "medium",
+      "questionNumber": 13,
+      "bankFingerprint": "deebd6805899fcd3d209b2e08158048594590f9c"
+    },
+    {
+      "questionText": "What is the main idea the speaker is conveying about the transfer of power?",
+      "answerOptions": [
+        {
+          "text": "The power is simply shifting from one political party to another.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'not merely...from one party to another,' indicating this is not the main idea."
+        },
+        {
+          "text": "The administration is undergoing a routine change without significant implications.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes 'not merely transferring power from one administration to another,' suggesting it is more than a routine change."
+        },
+        {
+          "text": "Authority is being returned from the central government to the citizens.",
+          "isCorrect": true,
+          "rationale": "The speaker states they are 'transferring power from Washington, D.C., and giving it back to you, the people,' which is the central idea."
+        },
+        {
+          "text": "Washington, D.C., will no longer possess any power whatsoever.",
+          "isCorrect": false,
+          "rationale": "The passage indicates a transfer of power 'from' Washington, D.C. 'back to the people,' not a complete dissolution of power in the capital."
+        }
+      ],
+      "passage": "Today we are not merely transferring power from one administration to another, or from one party to another, but we are transferring power from Washington, D.C., and giving it back to you, the people.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_trump_inaugural_2017",
+      "groupId": "ss-pass-ss_trump_inaugural_2017",
+      "difficulty": "hard",
+      "questionNumber": 14,
+      "bankFingerprint": "04103af79c557915b26215c458880cc2b651c29d"
+    },
+    {
+      "questionText": "Which statement best describes the speaker's claim regarding the nature of the power transfer?",
+      "answerOptions": [
+        {
+          "text": "The transfer of power is primarily a symbolic gesture without real change.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes a substantive transfer 'back to the people,' implying real change, not just a symbolic gesture."
+        },
+        {
+          "text": "The main objective of the power transfer is to empower individual citizens.",
+          "isCorrect": true,
+          "rationale": "The speaker explicitly states the power is being given 'back to you, the people,' highlighting citizen empowerment as the primary objective."
+        },
+        {
+          "text": "Power is being consolidated further within the federal government in Washington, D.C.",
+          "isCorrect": false,
+          "rationale": "The passage states power is being transferred 'from Washington, D.C.,' not consolidated within it."
+        },
+        {
+          "text": "The shift in power is intended to exclusively benefit the outgoing political party.",
+          "isCorrect": false,
+          "rationale": "The passage states 'not merely...from one party to another' and focuses on 'the people,' not a specific party."
+        }
+      ],
+      "passage": "Today we are not merely transferring power from one administration to another, or from one party to another, but we are transferring power from Washington, D.C., and giving it back to you, the people.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_trump_inaugural_2017",
+      "groupId": "ss-pass-ss_trump_inaugural_2017",
+      "difficulty": "hard",
+      "questionNumber": 15,
+      "bankFingerprint": "bbf99bf8e3ce1d84a0659c08ae308b8dc3cc28dd"
+    },
+    {
+      "questionText": "What is the central argument presented in the \"Atoms for Peace Address\" excerpt regarding global atomic development?",
+      "answerOptions": [
+        {
+          "text": "The United States possesses the most destructive atomic weapons.",
+          "isCorrect": false,
+          "rationale": "The passage discusses the *potential* of atomic forces and their *development*, not specifically the current possession by the United States as the main point."
+        },
+        {
+          "text": "Reversing the military use of atomic power is essential to harness its benefits for humanity worldwide.",
+          "isCorrect": true,
+          "rationale": "The passage states that 'if the fearful trend of atomic military build-up can be reversed, this greatest of destructive forces can be developed into a great boon for the benefit of all mankind,' directly supporting this option."
+        },
+        {
+          "text": "Atomic energy, by its nature, is primarily a destructive force for all nations.",
+          "isCorrect": false,
+          "rationale": "While acknowledging its destructive potential, the passage explicitly states it 'can be developed into a great boon,' suggesting it's not solely destructive."
+        },
+        {
+          "text": "The fearful trend of atomic build-up cannot be reversed.",
+          "isCorrect": false,
+          "rationale": "The passage presents the reversal as a possibility, using the conditional phrase 'if the fearful trend...can be reversed'."
+        }
+      ],
+      "passage": "The United States knows that if the fearful trend of atomic military build-up can be reversed, this greatest of destructive forces can be developed into a great boon for the benefit of all mankind.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_eisenhower_atoms_for_peace_1953",
+      "groupId": "ss-pass-ss_eisenhower_atoms_for_peace_1953",
+      "difficulty": "medium",
+      "questionNumber": 16,
+      "bankFingerprint": "4d1f4b8908482f674f4b2472039c31e568de7f26"
+    },
+    {
+      "questionText": "From the perspective conveyed in the excerpt, what is the United States' point of view on the long-term potential of atomic energy?",
+      "answerOptions": [
+        {
+          "text": "It is an unavoidable global threat that will lead to certain destruction.",
+          "isCorrect": false,
+          "rationale": "The passage acknowledges a 'fearful trend' but offers a hopeful alternative: that the destructive forces can be developed for 'great boon'."
+        },
+        {
+          "text": "It is a resource to be monopolized by powerful nations for their defense.",
+          "isCorrect": false,
+          "rationale": "The passage refers to using atomic forces for 'the benefit of all mankind,' which contradicts the idea of monopolization for national defense only."
+        },
+        {
+          "text": "It can become a beneficial force for all humanity, provided its military expansion is halted.",
+          "isCorrect": true,
+          "rationale": "The passage clearly states that 'if the fearful trend of atomic military build-up can be reversed, this greatest of destructive forces can be developed into a great boon for the benefit of all mankind,' aligning with this perspective."
+        },
+        {
+          "text": "It is primarily a tool for geopolitical leverage and military dominance.",
+          "isCorrect": false,
+          "rationale": "While acknowledging the 'atomic military build-up,' the passage's main point is the desire to reverse this trend and use atomic power for 'great boon' for humanity, not for leverage or dominance."
+        }
+      ],
+      "passage": "The United States knows that if the fearful trend of atomic military build-up can be reversed, this greatest of destructive forces can be developed into a great boon for the benefit of all mankind.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Geography & the World",
+      "stimulusId": "ss_eisenhower_atoms_for_peace_1953",
+      "groupId": "ss-pass-ss_eisenhower_atoms_for_peace_1953",
+      "difficulty": "medium",
+      "questionNumber": 17,
+      "bankFingerprint": "c13e5ea91d2d752a64d2472284154a558ea830c3"
+    },
+    {
+      "questionText": "What is the primary goal articulated in this excerpt from the 'Fourteen Points' regarding the aftermath of war?",
+      "answerOptions": [
+        {
+          "text": "To expand the territorial holdings and influence of the United States.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'What we demand in this war is nothing peculiar to ourselves,' indicating a broader, less self-serving goal than territorial expansion."
+        },
+        {
+          "text": "To ensure a peaceful and stable global environment where nations can thrive independently.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly demands that 'the world be made fit and safe to live in' and 'safe for every peace-loving nation which, like our own, wishes to live its own life,' emphasizing global peace and national independence."
+        },
+        {
+          "text": "To encourage nations to build up their military forces for collective defense.",
+          "isCorrect": false,
+          "rationale": "The passage advocates for 'the reduction of armaments' as a foundation of a just peace, not an increase in military forces."
+        },
+        {
+          "text": "To establish a global economic system based on protectionist tariffs.",
+          "isCorrect": false,
+          "rationale": "The passage lists 'the removal of economic barriers' as a foundation for a just peace, which contradicts protectionist tariffs."
+        }
+      ],
+      "passage": "What we demand in this war is nothing peculiar to ourselves. It is that the world be made fit and safe to live in; and particularly that it be made safe for every peace-loving nation which, like our own, wishes to live its own life. Open covenants of peace, freedom of navigation, the removal of economic barriers, and the reduction of armaments—these are the foundations of a just peace. Peoples must be allowed to determine their own political future. An association of nations must be formed under specific covenants for the purpose of affording mutual guarantees of political independence and territorial integrity to great and small states alike. Only on such a basis can the sacrifices of war be justified.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_wilson_fourteen_points",
+      "groupId": "ss-pass-ss_wilson_fourteen_points",
+      "difficulty": "hard",
+      "questionNumber": 18,
+      "bankFingerprint": "2cd36f8acf3e2eef0936f73b48e73ff224b9ab97"
+    },
+    {
+      "questionText": "Which of the following is presented as a fundamental component for achieving a 'just peace' according to the passage?",
+      "answerOptions": [
+        {
+          "text": "The establishment of protective tariffs to shield domestic industries.",
+          "isCorrect": false,
+          "rationale": "The passage calls for 'the removal of economic barriers,' which is contrary to establishing protective tariffs."
+        },
+        {
+          "text": "The formation of exclusive military alliances among powerful nations.",
+          "isCorrect": false,
+          "rationale": "The passage advocates for 'Open covenants of peace' and an 'association of nations' for mutual guarantees, which opposes exclusive, secret alliances."
+        },
+        {
+          "text": "The reduction of armaments and freedom of navigation on the seas.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly lists 'freedom of navigation,' 'the removal of economic barriers,' and 'the reduction of armaments' as 'the foundations of a just peace,' directly supporting this option."
+        },
+        {
+          "text": "The right of stronger nations to annex territories of weaker states.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes 'mutual guarantees of political independence and territorial integrity to great and small states alike,' directly opposing annexation by stronger nations."
+        }
+      ],
+      "passage": "What we demand in this war is nothing peculiar to ourselves. It is that the world be made fit and safe to live in; and particularly that it be made safe for every peace-loving nation which, like our own, wishes to live its own life. Open covenants of peace, freedom of navigation, the removal of economic barriers, and the reduction of armaments—these are the foundations of a just peace. Peoples must be allowed to determine their own political future. An association of nations must be formed under specific covenants for the purpose of affording mutual guarantees of political independence and territorial integrity to great and small states alike. Only on such a basis can the sacrifices of war be justified.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusId": "ss_wilson_fourteen_points",
+      "groupId": "ss-pass-ss_wilson_fourteen_points",
+      "difficulty": "hard",
+      "questionNumber": 19,
+      "bankFingerprint": "8b7194e850d8acaccb1fde99176052cd1798a7a7"
+    },
+    {
+      "questionText": "What can a student most directly infer from the map's two-color scheme?",
+      "answerOptions": [
+        {
+          "text": "Europe was divided into rival political blocs rather than operating as one unified political region",
+          "isCorrect": true,
+          "rationale": "Correct. The contrasting colors emphasize the separation between opposing alliances and systems."
+        },
+        {
+          "text": "Every country on the map had the same type of government",
+          "isCorrect": false,
+          "rationale": "The map emphasizes differences, not sameness."
+        },
+        {
+          "text": "All neutral countries belonged to the Soviet bloc",
+          "isCorrect": false,
+          "rationale": "Neutral and Western countries are separated from the Soviet-aligned bloc."
+        },
+        {
+          "text": "The Iron Curtain was a natural mountain barrier",
+          "isCorrect": false,
+          "rationale": "The map presents it as a political line, not a natural landform."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "U.S. History",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/licensed_image_0004.jpg",
+        "alt": "A map of Europe illustrates the Cold War division, showing Western European nations in blue and Eastern European nations in orange, separated by the Iron Curtai"
+      },
+      "groupId": "ss-img-licensed_image_0004.jpg",
+      "difficulty": "medium",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 20,
+      "bankFingerprint": "dfdc095f239d005793669ff3a1f9badf44524faa"
+    },
+    {
+      "questionText": "According to the excerpt from the Labor Convention Address, what is the primary mission of labor?",
+      "answerOptions": [
+        {
+          "text": "To increase the nation's overall wealth through greater industrial production.",
+          "isCorrect": false,
+          "rationale": "While workers contribute to wealth, the passage emphasizes securing a 'fair share' and better conditions, not solely increasing overall wealth."
+        },
+        {
+          "text": "To ensure workers receive a fair portion of the wealth they create, along with improved wages, working hours, and dignified conditions.",
+          "isCorrect": true,
+          "rationale": "This option accurately summarizes the stated mission: 'secure for the workers of this nation a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity.'"
+        },
+        {
+          "text": "To advocate for policies that lead to longer workweeks and reduced employee benefits to boost economic competitiveness.",
+          "isCorrect": false,
+          "rationale": "This contradicts the passage's mention of 'shorter hours' and generally improved conditions."
+        },
+        {
+          "text": "To manage the national economy and ensure stable employment for all citizens.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the specific demands of labor regarding their share of wealth and conditions, not broader economic management or universal employment stability."
+        }
+      ],
+      "passage": "The mission of labor is to secure for the workers of this nation a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_gompers_labor_1886",
+      "groupId": "ss-pass-ss_gompers_labor_1886",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 21,
+      "bankFingerprint": "e8b1c35d7b96060decb64beac6e6eace1df95ce3"
+    },
+    {
+      "questionText": "Given that this passage is an excerpt from a 'Labor Convention Address,' which point of view does it primarily represent regarding economic issues?",
+      "answerOptions": [
+        {
+          "text": "The perspective of business owners focused on maximizing profits and minimizing operational costs.",
+          "isCorrect": false,
+          "rationale": "A Labor Convention Address would typically represent the interests of workers, which may conflict with the primary goals of business owners."
+        },
+        {
+          "text": "The perspective of government agencies aiming to regulate the economy for overall market stability.",
+          "isCorrect": false,
+          "rationale": "While government agencies address market stability, a Labor Convention Address specifically champions the rights and economic benefits of workers, not necessarily a neutral regulatory stance."
+        },
+        {
+          "text": "The perspective of workers advocating for better economic conditions, fair compensation, and improved quality of life.",
+          "isCorrect": true,
+          "rationale": "As a 'Labor Convention Address,' the passage's core message is dedicated to advancing the economic interests and dignity of workers, reflecting their point of view."
+        },
+        {
+          "text": "The perspective of consumers seeking lower prices for goods and services through increased market competition.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the 'mission of labor' concerning wages, hours, and conditions, not primarily on consumer prices or market competition for goods."
+        }
+      ],
+      "passage": "The mission of labor is to secure for the workers of this nation a fair share of the wealth they create, better wages, shorter hours, and conditions consistent with human dignity.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusId": "ss_gompers_labor_1886",
+      "groupId": "ss-pass-ss_gompers_labor_1886",
+      "difficulty": "medium",
+      "skillIntent": "dual-source-comparison",
+      "questionNumber": 22,
+      "bankFingerprint": "4407c4001b02fd15a0077a83f552fe7189a4214d"
+    },
+    {
+      "questionText": "What was a core weakness of the Articles of Confederation corrected by the Constitution?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Lack of power to tax",
+          "isCorrect": true,
+          "rationale": "Constitution granted Congress taxing authority."
+        },
+        {
+          "text": "Overly powerful executive branch",
+          "isCorrect": false,
+          "rationale": "Articles had no separate executive."
+        },
+        {
+          "text": "Excessive national judiciary",
+          "isCorrect": false,
+          "rationale": "Articles had no national courts."
+        },
+        {
+          "text": "Guaranteed equal rights for all citizens",
+          "isCorrect": false,
+          "rationale": "Rights framework incomplete until later documents."
+        }
+      ],
+      "difficulty": "easy",
+      "itemType": "standalone",
+      "questionType": "text",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "6e721384c5599d6987320b002613b069d7e11007",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T16:03:44.849Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "easy",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 23,
+      "bankFingerprint": "6e721384c5599d6987320b002613b069d7e11007"
+    },
+    {
+      "questionText": "A small town faced a decision about whether to allocate funds for a new community center. Many residents attended town hall meetings, expressed their views to the city council, and organized a petition to encourage voter turnout for the upcoming referendum on the proposal. What core principle of civic engagement is best illustrated by the actions of these residents?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The right to bear arms, ensuring public safety.",
+          "isCorrect": false,
+          "rationale": "This option refers to a different constitutional right and is not directly related to the scenario of community funding debates and citizen participation."
+        },
+        {
+          "text": "The responsibility to stay informed about national economic trends.",
+          "isCorrect": false,
+          "rationale": "While staying informed is a civic duty, the scenario specifically highlights active participation in local political processes, not national economic analysis."
+        },
+        {
+          "text": "The principle of popular sovereignty, where the people hold ultimate power and express it through participation.",
+          "isCorrect": true,
+          "rationale": "Popular sovereignty means the authority of a state and its government are created and sustained by the consent of its people, who are the source of all political power. The residents' actions of attending meetings, expressing views, and organizing voter turnout directly demonstrate this principle."
+        },
+        {
+          "text": "The government's duty to provide all services without citizen input.",
+          "isCorrect": false,
+          "rationale": "This option contradicts the very concept of civic engagement and democratic governance, where citizen input is crucial for government decisions."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "Structure of the U.S. Government",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "9980dba7a6146fef1448e5bdd7cbe8adae0d3f90",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2025-12-11T18:55:32.508Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Geography & the World",
+      "source": "curatedAiBank",
+      "questionNumber": 24,
+      "bankFingerprint": "9980dba7a6146fef1448e5bdd7cbe8adae0d3f90"
+    },
+    {
+      "questionText": "What is the central message the author conveys regarding the relationship between struggle and progress?",
+      "answerOptions": [
+        {
+          "text": "Avoiding conflict ensures a smoother path to societal improvement.",
+          "isCorrect": false,
+          "rationale": "The passage states, 'If there is no struggle there is no progress,' indicating that conflict or effort is necessary, not to be avoided."
+        },
+        {
+          "text": "True freedom is gained through passive resistance and patience.",
+          "isCorrect": false,
+          "rationale": "The author deprecates those who 'deprecate agitation,' implying that passive resistance is insufficient and active effort is required."
+        },
+        {
+          "text": "Significant advancements and liberation necessitate active effort and confrontation.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'If there is no struggle there is no progress,' and uses the analogy of plowing for crops to emphasize that favoring freedom without agitation is like wanting crops without effort, directly supporting the idea that active effort and agitation are necessary for progress and freedom."
+        },
+        {
+          "text": "Those who advocate for agitation often overlook the basic needs of the populace.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the basic needs of the populace, but rather criticizes those who oppose agitation while desiring freedom."
+        }
+      ],
+      "passage": "If there is no struggle there is no progress. Those who profess to favor freedom and yet deprecate agitation are men who want crops without plowing up the ground.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_frederick_douglass_west_india_1857",
+      "groupId": "ss-pass-ss_frederick_douglass_west_india_1857",
+      "difficulty": "medium",
+      "questionNumber": 25,
+      "bankFingerprint": "1026633f8373496aa2a470671e0691015b2c9718"
+    },
+    {
+      "questionText": "How does the author use the analogy of 'wanting crops without plowing up the ground' to strengthen their argument?",
+      "answerOptions": [
+        {
+          "text": "To provide historical evidence of agricultural practices during periods of emancipation.",
+          "isCorrect": false,
+          "rationale": "The statement is an analogy, a comparison to illustrate a point, not historical evidence of actual agricultural practices."
+        },
+        {
+          "text": "To illustrate that favoring freedom while opposing agitation is illogical and unproductive.",
+          "isCorrect": true,
+          "rationale": "The analogy serves to directly compare the illogical desire for agricultural yield without effort to the equally illogical desire for freedom without agitation or struggle, reinforcing the author's main claim."
+        },
+        {
+          "text": "To highlight the economic benefits of sustained agricultural labor for a free society.",
+          "isCorrect": false,
+          "rationale": "While related to crops, the analogy's primary purpose is not to discuss economic benefits but to make a point about the necessity of effort for progress in a civic context."
+        },
+        {
+          "text": "To suggest that all forms of struggle are inherently destructive, like violent plowing.",
+          "isCorrect": false,
+          "rationale": "The author uses 'agitation' and 'struggle' in a positive light, implying they are necessary for progress, not that they are inherently destructive."
+        }
+      ],
+      "passage": "If there is no struggle there is no progress. Those who profess to favor freedom and yet deprecate agitation are men who want crops without plowing up the ground.",
+      "type": "passage",
+      "subject": "Social Studies",
+      "category": "Civics & Government",
+      "stimulusId": "ss_frederick_douglass_west_india_1857",
+      "groupId": "ss-pass-ss_frederick_douglass_west_india_1857",
+      "difficulty": "medium",
+      "questionNumber": 26,
+      "bankFingerprint": "c7195d0c00845f5e72e4f07bca4ef2717df2d845"
+    },
+    {
+      "questionText": "The first ten amendments to the U.S. Constitution are known as the Bill of Rights. What is their primary purpose?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "To outline the structure of the federal government.",
+          "isCorrect": false,
+          "rationale": "The structure of the government is outlined in the Articles of the Constitution, not the Bill of Rights."
+        },
+        {
+          "text": "To grant specific powers to the federal government.",
+          "isCorrect": false,
+          "rationale": "The Bill of Rights is primarily about limiting the power of the federal government, not granting it."
+        },
+        {
+          "text": "To protect the fundamental rights and liberties of individual citizens.",
+          "isCorrect": true,
+          "rationale": "Correct. The Bill of Rights was added to ensure that the new, powerful federal government could not infringe upon the basic rights of the people."
+        },
+        {
+          "text": "To establish the process for electing the President.",
+          "isCorrect": false,
+          "rationale": "The presidential election process is outlined in Article II and later amendments like the 12th."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "knowledge",
+      "topic": null,
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "31cf101c4aa90c8e14ccdf0acf5b58b61782bc1a",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T03:31:16.591Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 27,
+      "bankFingerprint": "31cf101c4aa90c8e14ccdf0acf5b58b61782bc1a"
+    },
+    {
+      "questionText": "Sarah was excited to turn 18 and register to vote in the upcoming presidential election. She believed that participating in elections was a fundamental way to ensure her voice was heard and that government officials represented the will of the people. By registering to vote, Sarah is primarily fulfilling which civic responsibility?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Defending the nation.",
+          "isCorrect": false,
+          "rationale": "Defending the nation is a civic responsibility, but it is typically associated with military service or supporting national security, not directly with registering to vote."
+        },
+        {
+          "text": "Obeying laws.",
+          "isCorrect": false,
+          "rationale": "Obeying laws is a fundamental civic responsibility, but registering to vote is a distinct action from merely following existing laws."
+        },
+        {
+          "text": "Participating in government.",
+          "isCorrect": true,
+          "rationale": "Registering to vote is a direct and fundamental way for citizens to participate in the democratic process and influence their government."
+        },
+        {
+          "text": "Serving on a jury.",
+          "isCorrect": false,
+          "rationale": "Serving on a jury is an important civic responsibility, but it is separate from the act of registering and voting in elections."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "Civics & Government",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "a9ec706695831ca710360f3bdb8b3917818c2976",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2026-04-13T15:27:51.599Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 28,
+      "bankFingerprint": "a9ec706695831ca710360f3bdb8b3917818c2976"
+    },
+    {
+      "questionText": "The nation of Veridia, situated at a vital global trade crossroads, possesses vast reserves of a highly sought-after mineral. Historically, the demand for this mineral has fueled Veridia's economy and shaped its foreign policy, leading to both periods of prosperity and international disputes over control. Now, global advancements in synthetic materials are beginning to reduce the worldwide reliance on Veridia's natural resource, creating new economic challenges for the government and its citizens. Based on the scenario, Veridia's current economic challenge is primarily an example of which economic principle?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The law of supply and demand impacting a nation's export value.",
+          "isCorrect": true,
+          "rationale": "The scenario describes a decrease in global reliance (demand) for Veridia's mineral due to advancements in synthetic materials, directly illustrating how changes in supply and demand affect the value of a nation's exports and its overall economy."
+        },
+        {
+          "text": "The principle of absolute advantage in international trade.",
+          "isCorrect": false,
+          "rationale": "Absolute advantage refers to a country's ability to produce a good more efficiently than another country, which is not the primary focus of Veridia's current challenge, which is related to changing global demand."
+        },
+        {
+          "text": "The effects of governmental subsidies on local industries.",
+          "isCorrect": false,
+          "rationale": "The scenario does not discuss governmental subsidies; it focuses on external market forces impacting demand for Veridia's natural resource."
+        },
+        {
+          "text": "The influence of national debt on global markets.",
+          "isCorrect": false,
+          "rationale": "While national debt can influence markets, the scenario explicitly points to changing global demand for a resource as the cause of Veridia's economic challenge, not its national debt."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "standalone",
+      "topic": "Modern World Issues",
+      "subject": "Social Studies",
+      "bankMeta": {
+        "fingerprint": "3f0e782ab0a85ceecb20f19410da095eaafb396b",
+        "sourceModel": "gemini-enhanced-ss",
+        "createdAt": "2026-04-09T14:46:57.008Z",
+        "originalSubject": "Social Studies",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Civics & Government",
+      "source": "curatedAiBank",
+      "questionNumber": 29,
+      "bankFingerprint": "3f0e782ab0a85ceecb20f19410da095eaafb396b"
+    },
+    {
+      "questionText": "If the market price were set above the intersection point on the graph, what would the graph most likely show?",
+      "answerOptions": [
+        {
+          "text": "A surplus, because quantity supplied would exceed quantity demanded",
+          "isCorrect": true,
+          "rationale": "Correct. Above equilibrium, producers supply more than consumers want to buy."
+        },
+        {
+          "text": "A shortage, because quantity demanded would exceed quantity supplied",
+          "isCorrect": false,
+          "rationale": "That is what happens below equilibrium, not above it."
+        },
+        {
+          "text": "No change, because supply and demand would still be equal",
+          "isCorrect": false,
+          "rationale": "Prices above equilibrium move the market away from equality."
+        },
+        {
+          "text": "The graph would stop showing supply and demand",
+          "isCorrect": false,
+          "rationale": "The graph still shows both curves at prices above equilibrium."
+        }
+      ],
+      "itemType": "image",
+      "subject": "Social Studies",
+      "category": "Economics",
+      "stimulusImage": {
+        "src": "/images/Social%20Studies/ged_grsph_2_0001.png",
+        "alt": "A black and white line graph titled 'Breakfast Sandwich Market' illustrates supply and demand curves."
+      },
+      "groupId": "ss-img-ged_grsph_2_0001.png",
+      "difficulty": "hard",
+      "skillIntent": "data-interpretation",
+      "questionNumber": 30,
+      "bankFingerprint": "88a3967c5fb6c12c9b454f9c9fcb731d5fb31aeb"
+    }
+  ],
+  "validationWarnings": [
+    "Difficulty \"easy\": 2, expected ~7",
+    "Difficulty \"medium\": 19, expected ~15"
+  ]
+}

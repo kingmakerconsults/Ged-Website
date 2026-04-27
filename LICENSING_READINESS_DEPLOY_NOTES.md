@@ -7,6 +7,7 @@
 ## What changed
 
 ### New backend files
+
 - `backend/src/featureFlags.js` — flag registry with env override
 - `backend/middleware/rateLimits.js` — login/register/join/reset/api limiters
 - `backend/middleware/auditLog.js` — `recordAuditEvent` + admin role auto-audit
@@ -20,6 +21,7 @@
 - `backend/tests/authTokens.test.js`
 
 ### Modified files
+
 - `backend/server.js` — helmet, rate limiters on auth+join, JWT_SECRET fail-fast,
   4 new auth routes (password reset / email verify), seat enforcement on join,
   Phase 2 org-admin endpoints (invitations, branding, user mgmt, CSV, audit log),
@@ -32,6 +34,7 @@
   for future flag-gated UI work.
 
 ### Deleted (dead frontend scaffolding, verified zero imports)
+
 - `frontend/src/App.jsx` and 15 unused `frontend/src/views/*.jsx` files.
 
 ## Required deploy steps (in order)
@@ -40,8 +43,8 @@
    unless `ALLOW_MISSING_JWT_SECRET=true`.
 2. **Run the new migrations** in order:
    - `2026-04-27-admin-audit-log.sql`
-   - `2026-04-27-email-verify-and-reset.sql`  (backfills existing users to verified)
-   - `2026-04-27-license-seats-branding.sql`  (orgs grandfathered to plan_tier='legacy', seat_limit=NULL)
+   - `2026-04-27-email-verify-and-reset.sql` (backfills existing users to verified)
+   - `2026-04-27-license-seats-branding.sql` (orgs grandfathered to plan_tier='legacy', seat_limit=NULL)
    - `2026-04-27-org-invitations.sql`
    - `2026-04-27-instructor-assignments.sql`
 3. **Deploy.** Defaults are safe: rate limiting / helmet / audit log are ON;
@@ -50,6 +53,7 @@
 ## Kill switches
 
 If anything misbehaves, set the env var on the host and restart:
+
 - `FEATURE_RATE_LIMITING=false`
 - `FEATURE_HELMET=false`
 - `FEATURE_AUDIT_LOG=false`
@@ -57,6 +61,7 @@ If anything misbehaves, set the env var on the host and restart:
 ## Enabling new functionality (per-org rollout when ready)
 
 All default OFF. Flip via env vars on the backend host:
+
 - `FEATURE_EMAIL_VERIFICATION_REQUIRED` — gate new signups on email verify
 - `FEATURE_PASSWORD_RESET` — enable password reset endpoints
 - `FEATURE_SEAT_LIMIT_ENFORCEMENT` — enforce per-org seat caps on join

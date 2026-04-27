@@ -1,0 +1,1647 @@
+{
+  "id": "ai_comp_science_1777304133658",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "questions": [
+    {
+      "questionText": "Based on Pasteur's experimental observations, what is the most reasonable inference about the origin of the microscopic life found in the open flasks?",
+      "answerOptions": [
+        {
+          "text": "The act of boiling the broth somehow created the new microscopic life.",
+          "isCorrect": false,
+          "rationale": "Pasteur boiled all flasks to sterilize them initially, so boiling itself did not create life in the open flasks."
+        },
+        {
+          "text": "Microbes from the surrounding air entered the open flasks, leading to the growth of microscopic life.",
+          "isCorrect": true,
+          "rationale": "The contrast between the clear sealed flasks and the teeming open flasks suggests that something from the external air, absent in the sealed flasks, was responsible for the life."
+        },
+        {
+          "text": "The broth in the open flasks spontaneously generated life because it was exposed to oxygen.",
+          "isCorrect": false,
+          "rationale": "The experiment specifically aimed to disprove spontaneous generation. While oxygen was present, the key factor was exposure to airborne microbes, not just oxygen for spontaneous generation."
+        },
+        {
+          "text": "Microscopic life was always present in the broth and only became visible in the open flasks.",
+          "isCorrect": false,
+          "rationale": "Pasteur boiled the broth, which would kill existing microbes, and the sealed flasks remained clear, contradicting the idea that life was always present and merely became visible."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germs",
+      "passageTitle": "Pasteur’s Experiments on Germs",
+      "topicTags": [
+        "Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 1,
+      "bankFingerprint": "687a920119c9caf30ab0bb0fdae49915e573b824"
+    },
+    {
+      "questionText": "Pasteur concluded that 'microbes come only from other microbes, not by spontaneous generation.' Which aspect of his experiment provides the most direct evidence against spontaneous generation?",
+      "answerOptions": [
+        {
+          "text": "The initial boiling of the broth in all flasks.",
+          "isCorrect": false,
+          "rationale": "While initial boiling ensured sterility, it alone does not directly refute spontaneous generation; it merely prepared the experiment. The comparison between conditions is the direct evidence."
+        },
+        {
+          "text": "The observation that open flasks developed microscopic life while sealed flasks remained clear.",
+          "isCorrect": true,
+          "rationale": "This direct comparison shows that life only appeared when broth was exposed to external sources (airborne microbes), not spontaneously from the broth itself, thus refuting spontaneous generation."
+        },
+        {
+          "text": "The fact that the broth itself was the same in all flasks.",
+          "isCorrect": false,
+          "rationale": "The consistent broth acted as a control, ensuring that any differences observed were due to the experimental conditions, not variations in the starting material."
+        },
+        {
+          "text": "The presence of air in the open flasks.",
+          "isCorrect": false,
+          "rationale": "While air was present in the open flasks, the crucial evidence against spontaneous generation comes from the *absence* of life in the *sealed* flasks, indicating that air alone wasn't sufficient for life to arise spontaneously."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_pasteur_germs",
+      "passageTitle": "Pasteur’s Experiments on Germs",
+      "topicTags": [
+        "Biology"
+      ],
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 2,
+      "bankFingerprint": "9fbed79957675dae83c6658eb8c86ff329415c9a"
+    },
+    {
+      "questionText": "The table below shows the mass and volume for different plant tissues. <table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Plant Tissue</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Apple Flesh</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">32.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Oak Wood</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Pine Cone</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\"><td>Avocado Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">50.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40.0</td></tr></tbody></table>Which plant tissue has the greatest density?",
+      "answerOptions": [
+        {
+          "text": "Apple Flesh",
+          "isCorrect": false,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Apple Flesh: d = 30.0 g / 32.0 cm³ = 0.9375 g/cm³. This is not the greatest density among the options."
+        },
+        {
+          "text": "Oak Wood",
+          "isCorrect": false,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Oak Wood: d = 25.0 g / 30.0 cm³ = 0.8333 g/cm³. This is not the greatest density among the options."
+        },
+        {
+          "text": "Pine Cone",
+          "isCorrect": false,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Pine Cone: d = 15.0 g / 20.0 cm³ = 0.75 g/cm³. This is not the greatest density among the options."
+        },
+        {
+          "text": "Avocado Seed",
+          "isCorrect": true,
+          "rationale": "To determine density, use the formula d = \\(\\frac{m}{V}\\). For Avocado Seed: d = 50.0 g / 40.0 cm³ = 1.25 g/cm³. Comparing all calculated densities (Apple Flesh: 0.9375 g/cm³, Oak Wood: 0.8333 g/cm³, Pine Cone: 0.75 g/cm³, Avocado Seed: 1.25 g/cm³), the Avocado Seed has the greatest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 3,
+      "bankFingerprint": "0d5fb7e612782e89232db3c66a528169dcf12ce8"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Plant Tissue Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Root Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Stem Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">30.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Leaf Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">4.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Flower Tissue</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">10.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td></tr></tbody></table>Based on the data provided, which plant tissue type has the lowest density?",
+      "answerOptions": [
+        {
+          "text": "Root Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Root Tissue is calculated as mass/volume = 15.0 g / 12.0 cm³ = 1.25 g/cm³."
+        },
+        {
+          "text": "Stem Tissue",
+          "isCorrect": true,
+          "rationale": "The density of Stem Tissue is calculated as mass/volume = 15.0 g / 30.0 cm³ = 0.50 g/cm³. This is the lowest density among the given options."
+        },
+        {
+          "text": "Leaf Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Leaf Tissue is calculated as mass/volume = 5.0 g / 4.0 cm³ = 1.25 g/cm³."
+        },
+        {
+          "text": "Flower Tissue",
+          "isCorrect": false,
+          "rationale": "The density of Flower Tissue is calculated as mass/volume = 10.0 g / 15.0 cm³ = 0.67 g/cm³ (approximately)."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 4,
+      "bankFingerprint": "aea5e46969f5476c46c5297501a2ddfe37c666f9"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_0_1777304109622",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "rationale": "The streamlined sphere experiences minimal air resistance.",
+          "isCorrect": true
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions.",
+          "isCorrect": false
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall.",
+          "isCorrect": false
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "rationale": "Gravity is effectively constant over the small height.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 5,
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "qaProfileKey": "reasoning",
+      "type": "passage",
+      "itemType": "passage",
+      "source": "scienceTemplate:scenario",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "clusterLabel": "Motion Sensor Trials",
+      "difficulty": "medium",
+      "topicTags": [],
+      "questionType": "multiple_choice_single",
+      "templateSourceId": "scenario_free_fall_lab",
+      "id": "science_scenario_scenario_free_fall_lab_1_1777304109622",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "rationale": "Data show consistent readings, so this is unlikely.",
+          "isCorrect": false
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight.",
+          "isCorrect": true
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "rationale": "Mass stays constant; drag is the changing factor.",
+          "isCorrect": false
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "rationale": "Gravity is independent of speed at these scales.",
+          "isCorrect": false
+        }
+      ],
+      "category": "Physical Science",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "responseType": "mc",
+      "questionNumber": 6,
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 7,
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "A table lists five chemical elements—Lithium, Sodium, Calcium, Magnesium, and Aluminum—along with their atomic properties."
+      },
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "hard",
+      "numeracy": true,
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 8,
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionText": "Based on the passage, which of the following is a described property of the new element 'radium'?",
+      "answerOptions": [
+        {
+          "text": "It becomes highly electrified when exposed to other substances.",
+          "isCorrect": false,
+          "rationale": "The passage states that radium's rays are 'capable of discharging electrified bodies,' not that radium itself becomes easily electrified."
+        },
+        {
+          "text": "It can be seen easily due to its bright luminescence.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention luminescence or brightness. It describes the emission of rays and their effects."
+        },
+        {
+          "text": "Its emitted rays are able to pass through different materials.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that the rays emitted by radium are 'capable...of penetrating various substances.'"
+        },
+        {
+          "text": "It reacts rapidly with most common elements.",
+          "isCorrect": false,
+          "rationale": "The passage describes the physical effects of its emitted rays (discharging electrified bodies, penetrating substances), not its chemical reactivity with other elements."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Research on Radioactive Substances (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>The new substance emits rays which are capable of discharging electrified bodies and of penetrating various substances. I propose to call this new element 'radium.' Its remarkable activity suggests it may reveal new laws of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_curie_radioactivity",
+      "passageTitle": "Research on Radioactive Substances (Excerpt)",
+      "topicTags": [
+        "Chemistry / Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 9,
+      "bankFingerprint": "5fde2cae756aa3eee89a199d7dd3e96ddd99af0a"
+    },
+    {
+      "questionText": "The researcher suggests that radium's 'remarkable activity may reveal new laws of matter.' What characteristic of radium, as described in the passage, most supports this claim?",
+      "answerOptions": [
+        {
+          "text": "Its proposed name, 'radium,' signifying its radiant nature.",
+          "isCorrect": false,
+          "rationale": "While the name is related, the 'remarkable activity' refers to its observed physical effects, not just its designation."
+        },
+        {
+          "text": "Its ability to discharge electrified bodies and penetrate substances.",
+          "isCorrect": true,
+          "rationale": "The passage details that the substance 'emits rays which are capable of discharging electrified bodies and of penetrating various substances.' These unusual and powerful effects are what constitute its 'remarkable activity' and suggest it could challenge existing understanding of matter."
+        },
+        {
+          "text": "Its status as a 'new element' that was previously unknown.",
+          "isCorrect": false,
+          "rationale": "Its novelty is a fact, but the *activity* itself, not just its discovery, is what suggests new laws of matter. Many new elements are discovered without implying a revolution in physics."
+        },
+        {
+          "text": "Its potential for future technological applications.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss technological applications. The focus is on its inherent properties and what they might reveal about fundamental laws."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Research on Radioactive Substances (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>The new substance emits rays which are capable of discharging electrified bodies and of penetrating various substances. I propose to call this new element 'radium.' Its remarkable activity suggests it may reveal new laws of matter.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_curie_radioactivity",
+      "passageTitle": "Research on Radioactive Substances (Excerpt)",
+      "topicTags": [
+        "Chemistry / Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "passage-comprehension",
+      "questionType": "multiple_choice_single",
+      "responseType": "mc",
+      "questionNumber": 10,
+      "bankFingerprint": "dee4178746f18b9d0b897e85381350dd3e8e8c3a"
+    },
+    {
+      "questionText": "Moist air moves inland from the ocean in the direction of the prevailing winds. Based on the diagram, which labeled location would most likely receive the least precipitation?",
+      "answerOptions": [
+        {
+          "text": "Point A",
+          "isCorrect": false,
+          "rationale": "Point A is beside the ocean on the windward side, where moist air first arrives."
+        },
+        {
+          "text": "Point B",
+          "isCorrect": false,
+          "rationale": "Point B is on the rising side of the mountain, where cooling air is more likely to condense."
+        },
+        {
+          "text": "Point C",
+          "isCorrect": false,
+          "rationale": "Point C is near the mountain crest, not in the driest rain-shadow location."
+        },
+        {
+          "text": "Point E",
+          "isCorrect": true,
+          "rationale": "Correct. Point E is on the leeward side, where descending air is warmer and drier."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
+      "stimulusType": "diagram",
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "A cross-section diagram illustrating the orographic effect on weather and climate, showing mountains near an ocean."
+      },
+      "groupId": "sci-img-ged_scince_fig_13_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "easy",
+      "source": "trustedLocalImage",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 11,
+      "bankFingerprint": "794d574167e7f7e452e1e65c1e3fae9d89005fe1"
+    },
+    {
+      "questionText": "If equal volumes of olive oil and glycerin were poured into a container, which liquid would most likely form the bottom layer?",
+      "passage": "<b>Density of Various Liquids at Room Temperature</b><table><thead><tr><th>Liquid</th><th>Mass (g)</th><th>Volume (mL)</th><th>Density (g/mL)</th></tr></thead><tbody><tr><td>Water</td><td>100</td><td>100</td><td>1.00</td></tr><tr><td>Olive Oil</td><td>92</td><td>100</td><td>0.92</td></tr><tr><td>Glycerin</td><td>126</td><td>100</td><td>1.26</td></tr><tr><td>Ethanol</td><td>79</td><td>100</td><td>0.79</td></tr></tbody></table>",
+      "answerOptions": [
+        {
+          "text": "Olive Oil",
+          "isCorrect": false,
+          "rationale": "Olive oil has a density of 0.92 g/mL, which is less than glycerin's density of 1.26 g/mL. The less dense liquid would float on top."
+        },
+        {
+          "text": "Glycerin",
+          "isCorrect": true,
+          "rationale": "Glycerin has a density of 1.26 g/mL, while olive oil has a density of 0.92 g/mL. The liquid with the higher density (glycerin) would sink to the bottom layer."
+        },
+        {
+          "text": "They would mix evenly",
+          "isCorrect": false,
+          "rationale": "Liquids with different densities and that are immiscible (do not dissolve well into each other) will separate into layers, with the denser liquid at the bottom."
+        },
+        {
+          "text": "It cannot be determined from the table",
+          "isCorrect": false,
+          "rationale": "The table provides the density for both olive oil and glycerin, which is sufficient information to determine which would form the bottom layer."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "674eeec45ceaae6f2a7a9e197f2b0c8868dad58f",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-11-19T18:20:53.084Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 12,
+      "bankFingerprint": "674eeec45ceaae6f2a7a9e197f2b0c8868dad58f"
+    },
+    {
+      "questionText": "The author states, 'Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.' What is the main point the author is trying to convey about conservation with this statement?",
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Conservation is primarily about restricting access to resources for private use.",
+          "isCorrect": false,
+          "rationale": "The phrase 'does not mean locking everything up' directly counters the idea of primary restriction."
+        },
+        {
+          "text": "Resources should be used freely and extensively to maximize immediate economic development.",
+          "isCorrect": false,
+          "rationale": "The phrase 'use without abuse' and 'joined to foresight' contradicts the idea of unrestricted immediate use, emphasizing responsible and future-oriented development."
+        },
+        {
+          "text": "Effective conservation involves responsible utilization and planning for future needs, not total preservation.",
+          "isCorrect": true,
+          "rationale": "'Use without abuse' implies responsible utilization, and 'development joined to foresight' emphasizes planning for the future, contrasting with 'locking everything up' or total preservation."
+        },
+        {
+          "text": "The government's role in conservation is to secure all resources for itself.",
+          "isCorrect": false,
+          "rationale": "The passage describes the government as a 'trustee for the people,' not as an entity securing resources for its own exclusive benefit."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "f0a741ff7b4d679aa2357324ce3cca11177b52f3",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T17:37:21.432Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 13,
+      "bankFingerprint": "f0a741ff7b4d679aa2357324ce3cca11177b52f3"
+    },
+    {
+      "questionText": "A cold front often brings what kind of weather?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Light, steady rain for several days.",
+          "isCorrect": false,
+          "rationale": "This is more characteristic of a warm front."
+        },
+        {
+          "text": "Clear skies and calm conditions.",
+          "isCorrect": false,
+          "rationale": "This is often the weather that follows a cold front, but not what the front itself brings."
+        },
+        {
+          "text": "Thunderstorms, heavy rain, and a drop in temperature.",
+          "isCorrect": true,
+          "rationale": "Correct. Cold, dense air forces warm, moist air to rise rapidly, creating intense weather conditions."
+        },
+        {
+          "text": "Fog and drizzle.",
+          "isCorrect": false,
+          "rationale": "This can occur with various conditions but is not the hallmark of a cold front."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "b04e6a6b4f9f7a05a2b77d4fa3272953a0be5287",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.891Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "questionNumber": 14,
+      "bankFingerprint": "b04e6a6b4f9f7a05a2b77d4fa3272953a0be5287"
+    },
+    {
+      "questionText": "In the field of aerodynamics, the relationship between lift and airspeed is crucial for aircraft design and operation. Based on the provided 'Lift vs Airspeed' graph, what is the approximate increase in lift when an aircraft's airspeed increases from 200 units to 300 units?",
+      "answerOptions": [
+        {
+          "text": "5,000 units",
+          "isCorrect": false,
+          "rationale": "This value is too low. According to the graph, the lift at 200 units airspeed is approximately 15,000 units, and at 300 units airspeed it is approximately 30,000 units. The difference is much larger than 5,000 units."
+        },
+        {
+          "text": "10,000 units",
+          "isCorrect": false,
+          "rationale": "This value would result from an incorrect reading of the graph, for example, if lift at 200 units was estimated as 20,000 units, while at 300 units it was 30,000 units. However, lift at 200 units is closer to 15,000 units."
+        },
+        {
+          "text": "15,000 units",
+          "isCorrect": true,
+          "rationale": "By examining the graph, at an airspeed of 200 units, the lift is approximately 15,000 units. When the airspeed increases to 300 units, the lift rises to approximately 30,000 units. The increase in lift is therefore 30,000 - 15,000 = 15,000 units."
+        },
+        {
+          "text": "30,000 units",
+          "isCorrect": false,
+          "rationale": "This value represents the approximate lift at an airspeed of 300 units, not the *increase* in lift from 200 units to 300 units. The question asks for the increase, which is the difference between the two lift values."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0058.png",
+        "alt": "A black and white line graph titled 'Lift vs Airspeed' shows a curved line representing the relationship between lift and airspeed."
+      },
+      "itemType": "image",
+      "category": "Physical Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 15,
+      "bankFingerprint": "ad7d7a0213e37e0dbaacacd826189166ef8ed178"
+    },
+    {
+      "questionText": "A biologist measured the mass and volume of different parts of a plant to understand their physical properties. The data is presented in the table below.<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Plant Part</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Root</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">15.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">12.5</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Stem</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">22.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">25.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Leaf</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">8.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">7.0</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Seed</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">5.0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">4.0</td></tr></tbody></table>Based on the provided data and the formula for density (d = \\(\\frac{m}{V}\\)), which plant part has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Root",
+          "isCorrect": false,
+          "rationale": "The density of the root is calculated as 15.0 g / 12.5 cm³ = 1.20 g/cm³. This is not the highest density among the options."
+        },
+        {
+          "text": "Stem",
+          "isCorrect": false,
+          "rationale": "The density of the stem is calculated as 22.0 g / 25.0 cm³ = 0.88 g/cm³. This is the lowest density among the options."
+        },
+        {
+          "text": "Leaf",
+          "isCorrect": false,
+          "rationale": "The density of the leaf is calculated as 8.0 g / 7.0 cm³ ≈ 1.14 g/cm³. This is not the highest density among the options."
+        },
+        {
+          "text": "Seed",
+          "isCorrect": true,
+          "rationale": "The density of the seed is calculated as 5.0 g / 4.0 cm³ = 1.25 g/cm³. Comparing all calculated densities (Root: 1.20 g/cm³, Stem: 0.88 g/cm³, Leaf: 1.14 g/cm³, Seed: 1.25 g/cm³), the seed has the highest density."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 16,
+      "bankFingerprint": "27a56a5dbf615af4c7b29923c6d524dec0db9df8"
+    },
+    {
+      "questionText": "<table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Fruit Type</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Apple</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">150</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">180</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Orange</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">200</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Watermelon</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">560</td></tr></tbody></table>Based on the data in the table, which fruit has the highest density?",
+      "answerOptions": [
+        {
+          "text": "Apple",
+          "isCorrect": false,
+          "rationale": "The density of the Apple is calculated as Mass/Volume = 150 g / 180 cm³ = 0.83 g/cm³, which is lower than the other fruits."
+        },
+        {
+          "text": "Orange",
+          "isCorrect": true,
+          "rationale": "The density of the Orange is calculated as Mass/Volume = 200 g / 210 cm³ = 0.95 g/cm³. This is the highest density among the fruits listed."
+        },
+        {
+          "text": "Watermelon",
+          "isCorrect": false,
+          "rationale": "The density of the Watermelon is calculated as Mass/Volume = 500 g / 560 cm³ = 0.89 g/cm³, which is lower than the Orange's density."
+        },
+        {
+          "text": "They all have the same density.",
+          "isCorrect": false,
+          "rationale": "Calculating the density for each fruit (Mass/Volume) shows that their densities are different: Apple (0.83 g/cm³), Orange (0.95 g/cm³), and Watermelon (0.89 g/cm³)."
+        }
+      ],
+      "source": "numeracy",
+      "category": "Life Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 17,
+      "bankFingerprint": "da00892f1ebdc45fef3c5ac19560c45d9a1c69da"
+    },
+    {
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 18,
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Physical Science",
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "A 2012 pie chart displays U.S. energy consumption by source, with an exploded bar chart detailing renewable energy."
+      },
+      "groupId": "sci-img-unclassified_0027.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 19,
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Life Science",
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "stimulusType": "image",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the carbon cycle, depicting the flow of carbon among the atmosphere, land, and ocean."
+      },
+      "groupId": "sci-img-unclassified_0033.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "skillIntent": "graph-interpretation",
+      "questionNumber": 20,
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionText": "The phrase 'The continents themselves dissolve and pass to the sea, in grain after grain of eroded land' primarily suggests which of the following about the Earth's processes?",
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>The sea lies all about us. The continents themselves dissolve and pass to the sea, in grain after grain of eroded land. In its mysterious past, the sea has shaped the Earth; today it continues to influence climate and sustain life.</p></div>",
+      "answerOptions": [
+        {
+          "text": "The sea is actively creating new continental crust at a fast rate.",
+          "isCorrect": false,
+          "rationale": "The passage indicates land dissolving into the sea, which is the opposite of the sea creating new continental crust."
+        },
+        {
+          "text": "The process of erosion is a slow and continuous force reshaping the planet.",
+          "isCorrect": true,
+          "rationale": "The phrase 'grain after grain' implies a gradual, ongoing process rather than a sudden or intermittent event, highlighting the slow and continuous nature of erosion."
+        },
+        {
+          "text": "Continents are stable and unchanging features of the Earth's surface.",
+          "isCorrect": false,
+          "rationale": "The statement contradicts the idea that continents 'dissolve and pass to the sea,' indicating they are not stable and unchanging."
+        },
+        {
+          "text": "The sea's primary role is to prevent land erosion.",
+          "isCorrect": false,
+          "rationale": "The passage describes land dissolving *into* the sea, indicating the sea is part of the erosional cycle and receives eroded material, rather than preventing erosion."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "eafe5bcead8e22595641b552365fb7de7f1031c9",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T17:33:51.082Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 21,
+      "bankFingerprint": "eafe5bcead8e22595641b552365fb7de7f1031c9"
+    },
+    {
+      "questionText": "The passage states, 'The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth.' What does this statement primarily suggest about natural processes?",
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Natural systems are characterized by continuous alteration within a stable framework.",
+          "isCorrect": true,
+          "rationale": "The phrase connects the 'endless rising and falling' (change) of tides with 'balance,' implying that Earth's processes involve constant movement and transformation while maintaining an overall equilibrium."
+        },
+        {
+          "text": "Earth's processes are entirely unpredictable and constantly in flux, without any underlying order.",
+          "isCorrect": false,
+          "rationale": "The 'rhythm of tides' suggests a predictable pattern, and the inclusion of 'balance' contradicts the idea of entirely unpredictable and disordered flux."
+        },
+        {
+          "text": "The most important aspect of Earth is its ability to remain unchanged over long periods despite minor fluctuations.",
+          "isCorrect": false,
+          "rationale": "The statement explicitly highlights 'change' as an 'essence,' directly contradicting the idea that remaining unchanged is the most important aspect."
+        },
+        {
+          "text": "Tides are the only natural phenomenon that successfully demonstrates both change and stability.",
+          "isCorrect": false,
+          "rationale": "The tides are used as an example to illustrate a broader principle, 'the essence of the Earth,' not to suggest they are the sole demonstration of this principle."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "passage",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "de9d9e47bf06855e8719567858b3ecbab22f809b",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T13:33:58.404Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "passage-comprehension",
+      "questionNumber": 22,
+      "bankFingerprint": "de9d9e47bf06855e8719567858b3ecbab22f809b"
+    },
+    {
+      "questionText": "Based on the passage's concluding statement, what is the author's primary assertion about the significance of studying astronomy?",
+      "answerOptions": [
+        {
+          "text": "It demonstrates the universe's ultimate randomness, which challenges human understanding.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes 'precise laws' and the ability to 'predict eclipses', contradicting the idea of randomness."
+        },
+        {
+          "text": "It reveals the immense scale of creation and underscores the remarkable capacity of human intellect to comprehend complex systems.",
+          "isCorrect": true,
+          "rationale": "The passage concludes, 'Astronomy teaches us at once the vastness of creation and the power of human reason, which... can comprehend in part the architecture of the universe.'"
+        },
+        {
+          "text": "It proves that human reason is inherently limited and incapable of understanding more than a tiny fraction of the cosmos.",
+          "isCorrect": false,
+          "rationale": "While it mentions comprehending 'in part', the emphasis is on the 'power of human reason' to comprehend at all, even from a 'small planet', suggesting capability rather than inherent limitation."
+        },
+        {
+          "text": "It establishes humanity's central role and importance within the vastness of the universe.",
+          "isCorrect": false,
+          "rationale": "The passage highlights the 'power of human reason' but does not assert humanity's central role or importance, focusing instead on comprehension of the universe itself."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Outlines of Astronomy (Excerpt)</strong></p><p><em>John F. W. Herschel, 1849</em></p><p>When we lift our eyes to the heavens, we see not a mere scattering of lights but a system of bodies moving under precise laws. The planets describe ellipses about the sun; the satellites attend upon their primaries; comets sweep in from outer darkness and return at long intervals. By measuring angles and applying mathematics, we can predict eclipses, the return of comets, and the positions of the stars. Yet beyond the stars we see clouds of light, nebulae, which the telescope resolves in some cases into clusters of suns. Space thus appears to be peopled to an extent beyond the reach of imagination. The same law of gravitation binds all together. Astronomy teaches us at once the vastness of creation and the power of human reason, which, though dwelling on a small planet, can comprehend in part the architecture of the universe.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_herschel_outlines_of_astronomy",
+      "passageTitle": "Outlines of Astronomy (Excerpt)",
+      "topicTags": [
+        "Astronomy"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 23,
+      "bankFingerprint": "136330ec41f2fde005cd56a23e3153ad295b5105"
+    },
+    {
+      "questionText": "The passage asserts that celestial bodies move 'under precise laws' and that 'The same law of gravitation binds all together.' Which observation from the passage provides the strongest evidence to support these claims?",
+      "answerOptions": [
+        {
+          "text": "The existence of nebulae that can be resolved into clusters of suns.",
+          "isCorrect": false,
+          "rationale": "This observation speaks to the vastness and composition of space, but it does not directly demonstrate precise laws of motion or the unifying force of gravitation."
+        },
+        {
+          "text": "The fact that planets describe ellipses about the sun and satellites attend upon their primaries.",
+          "isCorrect": false,
+          "rationale": "While these are examples of orderly motion consistent with precise laws, the passage provides even stronger evidence through the *ability to predict* these movements, which confirms the understanding and application of such laws."
+        },
+        {
+          "text": "The capacity to predict eclipses, the return of comets, and the positions of stars using mathematics.",
+          "isCorrect": true,
+          "rationale": "The ability to predict these complex celestial events with accuracy, as stated in the passage, provides strong evidence for the existence of 'precise laws' and a unifying force like 'gravitation' that can be understood and applied through mathematics."
+        },
+        {
+          "text": "The notion that space is 'peopled to an extent beyond the reach of imagination.'",
+          "isCorrect": false,
+          "rationale": "This statement emphasizes the immense scale of the universe but does not offer evidence regarding the precise laws governing the motion of celestial bodies or the presence of a universal binding law."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Outlines of Astronomy (Excerpt)</strong></p><p><em>John F. W. Herschel, 1849</em></p><p>When we lift our eyes to the heavens, we see not a mere scattering of lights but a system of bodies moving under precise laws. The planets describe ellipses about the sun; the satellites attend upon their primaries; comets sweep in from outer darkness and return at long intervals. By measuring angles and applying mathematics, we can predict eclipses, the return of comets, and the positions of the stars. Yet beyond the stars we see clouds of light, nebulae, which the telescope resolves in some cases into clusters of suns. Space thus appears to be peopled to an extent beyond the reach of imagination. The same law of gravitation binds all together. Astronomy teaches us at once the vastness of creation and the power of human reason, which, though dwelling on a small planet, can comprehend in part the architecture of the universe.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_herschel_outlines_of_astronomy",
+      "passageTitle": "Outlines of Astronomy (Excerpt)",
+      "topicTags": [
+        "Astronomy"
+      ],
+      "category": "Earth & Space Science",
+      "difficulty": "medium",
+      "subject": "Science",
+      "skillIntent": "evidence-tradeoff",
+      "questionNumber": 24,
+      "bankFingerprint": "2ebf60153e795661c57298bf4e5f18a4dd085639"
+    },
+    {
+      "questionText": "A student builds a simple circuit consisting of a 6-volt battery, a switch, and a light bulb. When the switch is closed, the light bulb turns on. The student uses an ammeter to measure the current flowing through the circuit and finds it to be 2 amperes (A). If the student replaces the 6-volt battery with a 12-volt battery, what would be the expected current, assuming the resistance of the bulb stays the same?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "2 A",
+          "isCorrect": false,
+          "rationale": "According to Ohm's Law, if the voltage increases and resistance stays the same, the current must also increase."
+        },
+        {
+          "text": "1 A",
+          "isCorrect": false,
+          "rationale": "This would happen if the voltage were halved, not doubled."
+        },
+        {
+          "text": "4 A",
+          "isCorrect": true,
+          "rationale": "Correct. Since the voltage is doubled, the current will also double. Current = Voltage / Resistance = 12 V / 3 Ω = 4 A."
+        },
+        {
+          "text": "6 A",
+          "isCorrect": false,
+          "rationale": "This does not correctly follow the relationship in Ohm's Law."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "ebcd5cf64791e011552ca00ba23364f50da8e657",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-19T15:03:22.688Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 25,
+      "bankFingerprint": "ebcd5cf64791e011552ca00ba23364f50da8e657"
+    },
+    {
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 26,
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionText": "Why is the temperature table useful alongside the satellite view of the storm?",
+      "answerOptions": [
+        {
+          "text": "It gives numerical evidence that can be used to explain the storm conditions shown in the image.",
+          "isCorrect": true,
+          "rationale": "Correct. The table adds measured data that helps explain what is seen in the satellite image."
+        },
+        {
+          "text": "It identifies the names of every city in the storm path.",
+          "isCorrect": false,
+          "rationale": "A temperature table provides environmental measurements, not city labels."
+        },
+        {
+          "text": "It proves the storm has already ended.",
+          "isCorrect": false,
+          "rationale": "Temperature data can support analysis of storm conditions, but it does not by itself prove the storm has ended."
+        },
+        {
+          "text": "It replaces the need to interpret the satellite image at all.",
+          "isCorrect": false,
+          "rationale": "The two sources are strongest when interpreted together rather than used as substitutes for each other."
+        }
+      ],
+      "type": "standalone",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "A grayscale satellite image shows a large hurricane next to a table of average temperatures for various bodies of water."
+      },
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 27,
+      "bankFingerprint": "ef263d21074a6926a0dc1b39c4708555d625e904"
+    },
+    {
+      "questionNumber": 28,
+      "type": "multipleChoice",
+      "itemType": "inline_dropdown",
+      "difficulty": "medium",
+      "passage": "Newton's third law states that for every action, there is an equal and opposite reaction. When a rocket launches, hot gases are expelled downward from the engine at high speed.",
+      "passageWithPlaceholders": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "placeholderNumber": 1,
+      "answerOptions": [
+        {
+          "text": "downward",
+          "isCorrect": true,
+          "rationale": "The rocket engine expels gas downward, which is the action force."
+        },
+        {
+          "text": "upward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled downward out of the engine nozzle, not upward."
+        },
+        {
+          "text": "sideways",
+          "isCorrect": false,
+          "rationale": "In a normal launch, gases are directed downward, not sideways."
+        },
+        {
+          "text": "inward",
+          "isCorrect": false,
+          "rationale": "The gas is expelled outward from the engine, not compressed inward."
+        }
+      ],
+      "challenge_tags": [
+        "science-1"
+      ],
+      "skillIntent": "dropdown-cloze",
+      "category": "Physical Science",
+      "questionText": "When a rocket launches, the engine pushes gas [[1]] and the gas pushes the rocket [[2]].",
+      "subject": "Science",
+      "source": "premade",
+      "responseType": "inline_dropdown",
+      "numeracy": true,
+      "bankFingerprint": "8b99606a981b851f3f793793ab09dd6ccff8d1ec"
+    },
+    {
+      "questionText": "What coefficient is needed for O₂ to balance this equation: CH₄ + __O₂ → CO₂ + 2H₂O?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 1, there are 2 oxygen atoms on the left, but 4 on the right (2 from CO₂ and 2 from 2H₂O)."
+        },
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "With a coefficient of 2 for O₂, there are 4 oxygen atoms on the left (2*2=4). On the right, there are 2 oxygen atoms from CO₂ and 2 oxygen atoms from 2H₂O, totaling 4 oxygen atoms. Carbon and hydrogen are also balanced (1 carbon, 4 hydrogen on each side)."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 3, there are 6 oxygen atoms on the left, which is too many for the right side (4 oxygen atoms)."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 4, there are 8 oxygen atoms on the left, which is too many for the right side (4 oxygen atoms)."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "809452c47293a2f78cfcdb8eaa04dd871883943f",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2025-11-19T18:20:53.125Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": null,
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 29,
+      "bankFingerprint": "809452c47293a2f78cfcdb8eaa04dd871883943f"
+    },
+    {
+      "questionText": "A chemical bond formed by the sharing of electrons between atoms is called a(n):",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Ionic bond",
+          "isCorrect": false,
+          "rationale": "An ionic bond is formed by the transfer of electrons."
+        },
+        {
+          "text": "Covalent bond",
+          "isCorrect": true,
+          "rationale": "Correct. This is the type of bond that forms molecules like water (H₂O)."
+        },
+        {
+          "text": "Hydrogen bond",
+          "isCorrect": false,
+          "rationale": "A hydrogen bond is a weaker attraction between molecules."
+        },
+        {
+          "text": "Metallic bond",
+          "isCorrect": false,
+          "rationale": "A metallic bond is found in metals, where electrons are shared in a 'sea'."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "8a73870842a2b4565dbbc7971ecc00b2b76d1166",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.878Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "formula-application",
+      "questionNumber": 30,
+      "bankFingerprint": "8a73870842a2b4565dbbc7971ecc00b2b76d1166"
+    },
+    {
+      "questionText": "An organism that must consume other organisms for energy is called a(n):",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Producer",
+          "isCorrect": false,
+          "rationale": "A producer (like a plant) makes its own food."
+        },
+        {
+          "text": "Autotroph",
+          "isCorrect": false,
+          "rationale": "An autotroph is another name for a producer."
+        },
+        {
+          "text": "Consumer (or Heterotroph)",
+          "isCorrect": true,
+          "rationale": "Correct. Consumers obtain energy by feeding on other organisms."
+        },
+        {
+          "text": "Decomposer",
+          "isCorrect": false,
+          "rationale": "A decomposer breaks down dead organic matter."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "acee194ec0a57a50c4b3bc33bd55faf5b9c0bff6",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-17T04:35:01.918Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "skillIntent": "concept-application",
+      "questionNumber": 31,
+      "bankFingerprint": "acee194ec0a57a50c4b3bc33bd55faf5b9c0bff6"
+    },
+    {
+      "questionText": "What causes wind?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "The rotation of the Earth on its axis.",
+          "isCorrect": false,
+          "rationale": "The Earth's rotation (the Coriolis effect) influences the direction of wind, but it does not create the wind itself."
+        },
+        {
+          "text": "Differences in air pressure, caused by the uneven heating of the Earth.",
+          "isCorrect": true,
+          "rationale": "Correct. Air moves from areas of high pressure to areas of low pressure, creating wind."
+        },
+        {
+          "text": "The gravitational pull of the Moon.",
+          "isCorrect": false,
+          "rationale": "This primarily affects tides."
+        },
+        {
+          "text": "The movement of ocean currents.",
+          "isCorrect": false,
+          "rationale": "Winds drive surface ocean currents, not the other way around."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multipleChoice",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "49554b3f1327c58e41354eaa1358acd108d294bb",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-24T13:32:58.009Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "medium",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Physical Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "questionNumber": 32,
+      "bankFingerprint": "49554b3f1327c58e41354eaa1358acd108d294bb"
+    },
+    {
+      "questionText": "What variable is plotted on the y-axis of the relative humidity graph?",
+      "answerOptions": [
+        {
+          "text": "Humidity as a percentage",
+          "isCorrect": true,
+          "rationale": "Correct. The vertical axis is labeled with humidity percentages."
+        },
+        {
+          "text": "Air temperature in degrees Celsius",
+          "isCorrect": false,
+          "rationale": "The graph is specifically labeled as relative humidity, not temperature."
+        },
+        {
+          "text": "Wind speed in kilometers per hour",
+          "isCorrect": false,
+          "rationale": "Wind speed is not the variable shown on the y-axis."
+        },
+        {
+          "text": "Rainfall in centimeters",
+          "isCorrect": false,
+          "rationale": "The graph does not plot precipitation totals."
+        }
+      ],
+      "type": "image",
+      "itemType": "image",
+      "responseType": "mc",
+      "questionType": "multiple_choice_single",
+      "subject": "Science",
+      "category": "Earth & Space Science",
+      "imageUrl": "/images/Science/unclassified_0007.png",
+      "stimulusType": "chart",
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0007.png",
+        "alt": "A line graph showing relative humidity percentage over eight days in May, accompanied by an explanatory paragraph."
+      },
+      "groupId": "sci-img-unclassified_0007.png",
+      "toolsAllowed": null,
+      "difficulty": "medium",
+      "numeracy": true,
+      "skillIntent": "data-table-calculation",
+      "questionNumber": 33,
+      "bankFingerprint": "6e29d3552040bc05dcb00bdadc6dd13066ed3b54"
+    },
+    {
+      "questionText": "The author describes electricity as \"not created by our machines, but collected and transferred.\" What does this statement imply about electricity?",
+      "passage": "<div class=\"passage-text\"><p><strong>Experiments and Observations on Electricity (Excerpt)</strong></p><p><em>Benjamin Franklin, 1751</em></p><p>It appears from many experiments that lightning is an electrical fire. When a pointed rod is elevated toward a thundercloud, sparks may be drawn from it; and if the rod be conducted to the earth, the lightning will often follow it rather than strike a building. Thus we may protect houses, ships, and magazines of powder by affixing to them metal rods which rise above the highest point and pass into the moist earth below. Electricity is not created by our machines, but collected and transferred. It may be positive or negative, and bodies become charged when these quantities are uneven. By understanding this fluid, we may turn a fearful natural phenomenon into a thing partially under human control.</p></div>",
+      "answerOptions": [
+        {
+          "text": "Electricity is a substance that can be manufactured by advanced technology.",
+          "isCorrect": false,
+          "rationale": "The passage directly contradicts this by stating electricity is \"not created by our machines.\""
+        },
+        {
+          "text": "Electricity is a naturally occurring phenomenon that humans can harness and control.",
+          "isCorrect": true,
+          "rationale": "The phrase \"not created by our machines, but collected and transferred\" along with \"By understanding this fluid, we may turn a fearful natural phenomenon into a thing partially under human control\" strongly implies that electricity exists naturally and can be managed by humans."
+        },
+        {
+          "text": "Electricity exists only when an imbalance between positive and negative charges is present.",
+          "isCorrect": false,
+          "rationale": "The passage states that bodies become charged when quantities are uneven, but it doesn't imply electricity only exists under such conditions."
+        },
+        {
+          "text": "Electrical machines are limited to transferring negative charges exclusively.",
+          "isCorrect": false,
+          "rationale": "The passage states electricity \"may be positive or negative,\" indicating it's not limited to just negative charges."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "passage",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "e505fdb0ab2c9556adbf82739fd9e899ff7dc58f",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T17:36:07.428Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "passage",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Life Science",
+      "source": "curatedAiBank",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "skillIntent": "inheritance-probability",
+      "responseType": "mc",
+      "type": "standalone",
+      "questionNumber": 34,
+      "bankFingerprint": "e505fdb0ab2c9556adbf82739fd9e899ff7dc58f"
+    },
+    {
+      "questionText": "Why does a white t-shirt feel cooler than a black t-shirt on a sunny day?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "White absorbs more wavelengths of light than black.",
+          "isCorrect": false,
+          "rationale": "Black absorbs more wavelengths of light."
+        },
+        {
+          "text": "White reflects more wavelengths of light than black.",
+          "isCorrect": true,
+          "rationale": "Correct. Black objects absorb most of the light that hits them, converting it into heat. White objects reflect most of the light, absorbing less energy and staying cooler."
+        },
+        {
+          "text": "Black is a better insulator than white.",
+          "isCorrect": false,
+          "rationale": "The color's properties of absorption and reflection are more significant for temperature than its insulating properties in this context."
+        },
+        {
+          "text": "White allows more air to pass through the fabric.",
+          "isCorrect": false,
+          "rationale": "This is not a general property of the color white."
+        }
+      ],
+      "difficulty": "hard",
+      "itemType": "standalone",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "de6ce1f80394e06302aaa99e9cb3b2d19594f9a4",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-19T15:59:35.986Z",
+        "originalSubject": "Science",
+        "originalDifficulty": "hard",
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "concept-application",
+      "responseType": "mc",
+      "type": "standalone",
+      "questionNumber": 35,
+      "bankFingerprint": "de6ce1f80394e06302aaa99e9cb3b2d19594f9a4"
+    },
+    {
+      "questionText": "A scientist aims to experimentally test the claim that the gravitational force between two objects varies inversely with the square of the distance between their centers. Which experimental design choice would be most important to isolate this specific relationship?",
+      "answerOptions": [
+        {
+          "text": "Varying the product of the objects' masses while keeping the distance constant.",
+          "isCorrect": false,
+          "rationale": "This setup would be appropriate for investigating the relationship between mass and gravitational force, not the relationship with distance. To isolate the effect of distance, mass must be controlled."
+        },
+        {
+          "text": "Ensuring the masses of the two interacting objects remain constant throughout the experiment.",
+          "isCorrect": true,
+          "rationale": "To accurately observe how force changes specifically with distance, all other potential variables that affect the force, such as the masses of the objects, must be kept constant (controlled)."
+        },
+        {
+          "text": "Conducting the experiment in a vacuum to eliminate air resistance.",
+          "isCorrect": false,
+          "rationale": "While eliminating air resistance might be important in some physics experiments, the passage describes a fundamental force that acts universally and does not specify an environment where other forces are a factor in its magnitude. The core variable to control for distance is mass."
+        },
+        {
+          "text": "Using objects large enough to be easily seen and manipulated by hand.",
+          "isCorrect": false,
+          "rationale": "The visibility or ease of handling of the objects does not directly relate to isolating the relationship between gravitational force and distance. The 'invisible to our senses' refers to the force itself, not the objects."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_gravity",
+      "passageTitle": "Newton on Universal Gravitation",
+      "topicTags": [
+        "Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 36,
+      "bankFingerprint": "c91aa84e9acca3aa7ae36738b0ca4c044c6e41a8"
+    },
+    {
+      "questionText": "The passage states that the law of universal gravitation is 'invisible to our senses.' Based on this statement, what can be inferred about how humans understand or perceive this fundamental force?",
+      "answerOptions": [
+        {
+          "text": "Gravitational attraction is too weak to have any noticeable effect on everyday objects.",
+          "isCorrect": false,
+          "rationale": "While often subtle, gravity has noticeable effects even on everyday objects (e.g., objects falling, weight). The statement 'invisible to our senses' implies a lack of direct sensory perception, not necessarily a lack of effect."
+        },
+        {
+          "text": "Its presence and effects are primarily understood through indirect observation and mathematical description, rather than direct sensory experience.",
+          "isCorrect": true,
+          "rationale": "The statement implies that humans cannot directly see, touch, or hear gravity itself. Instead, its 'invisible' nature means its influence is observed through the motion of objects (like planets) and precisely described mathematically, as stated by the law."
+        },
+        {
+          "text": "This law only applies to celestial bodies, which are beyond the range of human sensory perception.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'Every particle of matter in the universe attracts every other particle,' indicating it applies universally, not just to celestial bodies. The 'invisible' refers to the force, not the objects it acts upon."
+        },
+        {
+          "text": "Scientists lack the technological instruments necessary to detect or measure gravitational phenomena directly.",
+          "isCorrect": false,
+          "rationale": "The existence of this 'simple law' and its application to planetary motion implies that scientists *can* and *do* measure and detect its effects, albeit indirectly or through sophisticated instruments, which contradicts the idea of lacking technology for detection."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Newton on Universal Gravitation</strong></p><p><em>Isaac Newton, 1687</em></p><p>Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth.</p></div>",
+      "type": "passage",
+      "itemType": "passage",
+      "qaProfileKey": "literacy",
+      "source": "sciencePassageBank:literacy",
+      "passageBankId": "science_newton_gravity",
+      "passageTitle": "Newton on Universal Gravitation",
+      "topicTags": [
+        "Physics"
+      ],
+      "category": "Physical Science",
+      "difficulty": "hard",
+      "subject": "Science",
+      "skillIntent": "experimental-design",
+      "questionNumber": 37,
+      "bankFingerprint": "04713541f84cc9f5f182725d0e5785044957d74d"
+    },
+    {
+      "questionText": "The shape of the DNA molecule is most accurately described as a:",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "Single strand",
+          "isCorrect": false,
+          "rationale": "RNA is typically single-stranded."
+        },
+        {
+          "text": "Double helix",
+          "isCorrect": true,
+          "rationale": "Correct. This refers to the twisted-ladder structure of two complementary strands."
+        },
+        {
+          "text": "Branched chain",
+          "isCorrect": false,
+          "rationale": "DNA has a linear, unbranched structure."
+        },
+        {
+          "text": "Globular sphere",
+          "isCorrect": false,
+          "rationale": "Proteins often fold into globular shapes, but DNA does not."
+        }
+      ],
+      "difficulty": "medium",
+      "itemType": "standalone",
+      "questionType": "multiple_choice_single",
+      "topic": null,
+      "subject": "Science",
+      "bankMeta": {
+        "fingerprint": "f65a21912a8a4fbd1926e5e8551ec444ccfe3e8c",
+        "sourceModel": "aiGenerated",
+        "createdAt": "2026-03-16T03:06:50.885Z",
+        "originalSubject": "Science",
+        "originalDifficulty": null,
+        "originalItemType": "standalone",
+        "vettedSource": "question_bank_vetting_accepted"
+      },
+      "category": "Earth & Space Science",
+      "source": "curatedAiBank",
+      "numeracy": true,
+      "skillIntent": "experimental-design",
+      "responseType": "mc",
+      "type": "standalone",
+      "questionNumber": 38,
+      "bankFingerprint": "f65a21912a8a4fbd1926e5e8551ec444ccfe3e8c"
+    }
+  ],
+  "config": {
+    "formulaSheet": true
+  },
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "Difficulty \"easy\": 1, expected ~9",
+    "Difficulty \"medium\": 30, expected ~19",
+    "Difficulty \"hard\": 7, expected ~10"
+  ]
+}
