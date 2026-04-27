@@ -28438,6 +28438,7 @@ function App({ externalTheme, onThemeChange }) {
             onSelectSubject={selectSubject}
             onSelectCategory={selectCategory}
             onBack={goBack}
+            statsRefreshKey={statsRefreshKey}
             onSelectGenerator={async (
               subject,
               topic,
@@ -32603,6 +32604,7 @@ function StartScreen({
   onSelectSubject,
   onSelectCategory,
   onBack,
+  statsRefreshKey,
 }) {
   const [aiQuizTopic, setAiQuizTopic] = useState('');
   // Image-based questions are only available for Science / Social Studies.
