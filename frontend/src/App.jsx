@@ -15,6 +15,7 @@ import { useThemeController } from '../hooks/useThemeController.js';
 import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
 import SocialStudiesView from './views/SocialStudiesView.jsx';
+import WorkforceView from './views/WorkforceView.jsx';
 import SuperAdminAllQuestions from './views/SuperAdminAllQuestions.jsx';
 import AdminStudentsView from './views/AdminStudentsView.jsx';
 import AdminStudentDetailView from './views/AdminStudentDetailView.jsx';
@@ -195,6 +196,9 @@ export default function App() {
           <Link to="/social-studies" className="text-blue-600 underline">
             Social Studies
           </Link>
+          <Link to="/workforce" className="text-blue-600 underline">
+            Workforce
+          </Link>
           <Link
             to="/collab"
             className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline"
@@ -271,6 +275,14 @@ export default function App() {
               element={
                 <OnboardingGate>
                   <SocialStudiesView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/workforce"
+              element={
+                <OnboardingGate>
+                  <WorkforceView />
                 </OnboardingGate>
               }
             />
