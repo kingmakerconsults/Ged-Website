@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../db');
 
 /**
  * Best-effort notification dispatcher. Inserts one row per recipient.

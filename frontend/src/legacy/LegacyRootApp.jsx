@@ -31166,7 +31166,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
 
   useEffect(() => {
     if (
-      activeTab === 'users' &&
+      (activeTab === 'users' || activeTab === 'assignments') &&
       !usersLoadAttempted.current &&
       users.length === 0 &&
       !loadingUsers
@@ -31330,6 +31330,28 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               >
                 Activity
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('assignments')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'assignments'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Assignments
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('curriculum')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'curriculum'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Curriculum
+              </button>
             </div>
 
             {/* Overview Tab */}
@@ -31470,6 +31492,36 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             {activeTab === 'question-audit' && (
               <section className="rounded-3xl border-subtle panel-surface shadow-sm">
                 <SuperAdminAllQuestions />
+              </section>
+            )}
+
+            {/* Assignments Tab (org-wide view) */}
+            {activeTab === 'assignments' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Organization Assignments
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  All assignments created by instructors in your organization.
+                </p>
+                <InstructorAssignmentsPanel
+                  students={users.filter(
+                    (u) => String(u.role || '').toLowerCase() === 'student'
+                  )}
+                />
+              </section>
+            )}
+
+            {/* Curriculum Tab (org-wide view) */}
+            {activeTab === 'curriculum' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Organization Curriculum
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  Class curricula across all instructors in your organization.
+                </p>
+                <InstructorCurriculumPanel />
               </section>
             )}
           </>
