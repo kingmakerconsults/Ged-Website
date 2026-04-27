@@ -45,7 +45,7 @@ export default function ModuleShell({
         <button
           type="button"
           onClick={onBack}
-          className="text-sm font-semibold px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600"
+          className="text-sm font-semibold px-3 py-1.5 rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
         >
           ← Back to Academy
         </button>
@@ -60,12 +60,12 @@ export default function ModuleShell({
       </div>
 
       {phase === 'intro' && (
-        <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 space-y-3">
-          <p className="text-slate-700 dark:text-slate-200">{module.intro}</p>
+        <div className="rounded-xl bg-white border border-slate-200 p-5 space-y-3 text-slate-900 shadow-sm">
+          <p className="text-slate-700">{module.intro}</p>
           {module.learningGoals?.length ? (
             <>
-              <h3 className="font-semibold mt-2">You will be able to:</h3>
-              <ul className="list-disc ml-6 text-sm space-y-1 text-slate-700 dark:text-slate-200">
+              <h3 className="font-semibold mt-2 text-slate-900">You will be able to:</h3>
+              <ul className="list-disc ml-6 text-sm space-y-1 text-slate-700">
                 {module.learningGoals.map((g, i) => (
                   <li key={i}>{g}</li>
                 ))}
@@ -83,7 +83,7 @@ export default function ModuleShell({
             <button
               type="button"
               onClick={() => setPhase('quiz')}
-              className="px-4 py-2 rounded-md border border-slate-300 dark:border-slate-600"
+              className="px-4 py-2 rounded-md border border-slate-300 text-slate-700 bg-white hover:bg-slate-50"
             >
               Skip to knowledge check
             </button>
@@ -92,13 +92,13 @@ export default function ModuleShell({
       )}
 
       {phase === 'sim' && SimComponent && (
-        <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5">
+        <div className="rounded-xl bg-white border border-slate-200 p-5 text-slate-900 shadow-sm">
           <SimComponent onComplete={finishSim} />
         </div>
       )}
 
       {phase === 'quiz' && (
-        <div className="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5">
+        <div className="rounded-xl bg-white border border-slate-200 p-5 text-slate-900 shadow-sm">
           <Quiz questions={module.quiz} onComplete={finishQuiz} />
         </div>
       )}
@@ -115,8 +115,8 @@ export default function ModuleShell({
                 <div
                   className={`rounded-xl p-5 border ${
                     mastered
-                      ? 'bg-green-50 dark:bg-green-900/30 border-green-300'
-                      : 'bg-amber-50 dark:bg-amber-900/30 border-amber-300'
+                      ? 'bg-green-50 border-green-300 text-slate-900'
+                      : 'bg-amber-50 border-amber-300 text-slate-900'
                   }`}
                 >
                   <h3 className="text-xl font-bold">
@@ -142,7 +142,7 @@ export default function ModuleShell({
                         setSimScore(null);
                         setQuizScore(null);
                       }}
-                      className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600"
+                      className="px-3 py-1.5 rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
                     >
                       Retake
                     </button>
