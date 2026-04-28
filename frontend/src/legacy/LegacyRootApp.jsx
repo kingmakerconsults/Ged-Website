@@ -29229,12 +29229,24 @@ function ProfileView({
   }, [challengeOptions]);
 
   const selectedCount = selectedIds.length;
-  const highlightName = !onboardingComplete && !profile.name;
   const hasAnyTestProgress = normalizedTestPlan.some(
     (entry) => entry.passed || entry.notScheduled || entry.testDate
   );
-  const highlightTest = !onboardingComplete && !hasAnyTestProgress;
-  const highlightChallenges = !onboardingComplete && selectedCount === 0;
+  // Data-driven nudges: only highlight an onboarding item that the user
+  // genuinely hasn't completed yet. We intentionally drop the
+  // `!onboardingComplete` gate so that after a student finishes (or skips)
+  // the first-login flow, they still get reminded about specific items they
+  // never filled in — instead of being re-prompted with the entire onboarding.
+  const highlightName = !profile.name;
+  const highlightTest = !hasAnyTestProgress;
+  const highlightChallenges = selectedCount === 0;
+  const profileMissingItems = [];
+  if (highlightName) profileMissingItems.push('Choose a display name');
+  if (highlightTest)
+    profileMissingItems.push('Set your test dates (or mark "I passed")');
+  if (highlightChallenges)
+    profileMissingItems.push('Pick the areas you struggle with');
+  const showProfileOnboardingBanner = profileMissingItems.length > 0;
 
   const handleChallengeToggle = (id) => {
     setSelectedIds((prev) => {
@@ -29574,7 +29586,7 @@ function ProfileView({
               </div>
             )}
 
-            {!onboardingComplete && (
+            {showProfileOnboardingBanner && (
               <div
                 className="onboarding-banner text-slate-900"
                 style={{
@@ -29585,12 +29597,15 @@ function ProfileView({
                   color: '#0f172a',
                 }}
               >
-                <strong>Welcome!</strong> Before we start, fill this out so we
-                can build you a plan:
+                <strong>
+                  {onboardingComplete
+                    ? 'A few items still need your attention:'
+                    : 'Welcome! Before we start, fill this out so we can build you a plan:'}
+                </strong>
                 <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
-                  <li>Pick the areas you struggle with</li>
-                  <li>Set your test date (or mark "I passed")</li>
-                  <li>Choose a display name</li>
+                  {profileMissingItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ol>
                 <div className="mt-3 flex flex-col sm:flex-row gap-2">
                   <button
@@ -30445,6 +30460,79 @@ function formatDateTime(value) {
   } catch (error) {
     return '';
   }
+}
+
+// ---------------------------------------------------------------------------
+// Test-date helpers (org admin / instructor roster). Students set these in
+// onboarding and can edit them later from their profile. The shape on the
+// server is users.test_dates JSONB, e.g.:
+//   { rla: '2026-05-14', math: 'passed', science: 'scheduled', social_studies: '' }
+// ---------------------------------------------------------------------------
+const STUDENT_TEST_SUBJECT_LABELS = {
+  rla: 'RLA',
+  math: 'Math',
+  science: 'Science',
+  social_studies: 'Social Studies',
+};
+
+function _formatTestDateShort(iso) {
+  try {
+    const d = new Date(`${iso}T00:00:00`);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  } catch (_) {
+    return iso;
+  }
+}
+
+// Returns the soonest upcoming dated entry (today or later) as a short label
+// like "Math · May 14, 2026". Falls back to '—' when nothing is scheduled.
+function describeNextStudentTestDate(testDates) {
+  if (!testDates || typeof testDates !== 'object') return '—';
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const dated = [];
+  Object.entries(testDates).forEach(([subj, raw]) => {
+    if (typeof raw !== 'string') return;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return;
+    const d = new Date(`${raw}T00:00:00`);
+    if (Number.isNaN(d.getTime())) return;
+    if (d.getTime() < today.getTime()) return;
+    dated.push({ subj, raw, d });
+  });
+  if (!dated.length) return '—';
+  dated.sort((a, b) => a.d.getTime() - b.d.getTime());
+  const next = dated[0];
+  const label = STUDENT_TEST_SUBJECT_LABELS[next.subj] || next.subj;
+  return `${label} · ${_formatTestDateShort(next.raw)}`;
+}
+
+// Returns a multi-line tooltip listing every subject's status so org admins /
+// instructors can see the full picture on hover.
+function describeAllStudentTestDates(testDates) {
+  if (!testDates || typeof testDates !== 'object') {
+    return 'No test dates set';
+  }
+  const subjects = Object.keys(STUDENT_TEST_SUBJECT_LABELS);
+  // include any extra subjects the student set, just in case
+  Object.keys(testDates).forEach((k) => {
+    if (!subjects.includes(k)) subjects.push(k);
+  });
+  const lines = subjects.map((subj) => {
+    const label = STUDENT_TEST_SUBJECT_LABELS[subj] || subj;
+    const raw = testDates[subj];
+    if (raw === 'passed') return `${label}: already passed`;
+    if (raw === 'scheduled') return `${label}: scheduled (no date yet)`;
+    if (typeof raw === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+      return `${label}: ${_formatTestDateShort(raw)}`;
+    }
+    return `${label}: not scheduled`;
+  });
+  return lines.join('\n');
 }
 
 function OrganizationSummaryView({ summary }) {
@@ -31788,6 +31876,12 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                           <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                             Avg Score
                           </th>
+                          <th
+                            className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted"
+                            title="Next upcoming GED test date the student set in their profile"
+                          >
+                            Next Test
+                          </th>
                           <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                             Last Login
                           </th>
@@ -31815,6 +31909,12 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                               {u.average_scaled_score != null
                                 ? Math.round(u.average_scaled_score)
                                 : '�'}
+                            </td>
+                            <td
+                              className="px-4 py-3 text-xs text-secondary"
+                              title={describeAllStudentTestDates(u.test_dates)}
+                            >
+                              {describeNextStudentTestDate(u.test_dates)}
                             </td>
                             <td className="px-4 py-3 text-muted text-xs">
                               {formatDateTime(u.last_login_at)}
@@ -34032,6 +34132,19 @@ function StartScreen({
   const userInitial = userDisplayName
     ? userDisplayName.trim().charAt(0).toUpperCase()
     : 'U';
+  // Data-driven onboarding nudges (dashboard scope). After the OnboardingTour
+  // is dismissed once, the legacy `onboardingComplete` flag flips to true,
+  // but we still want to remind the student about specific items they
+  // skipped — without re-prompting the whole flow. So this list is built
+  // purely from what's actually missing in their data.
+  const dashboardOnboardingMissing = [];
+  if (!profile?.name) dashboardOnboardingMissing.push('Add your name');
+  if (!hasSavedTest)
+    dashboardOnboardingMissing.push('Set your GED test dates');
+  if (selectedChallenges.length === 0)
+    dashboardOnboardingMissing.push('Pick a few challenge areas');
+  const showDashboardOnboardingBanner =
+    dashboardOnboardingMissing.length > 0 && !onboardingBannerHidden;
   const hasVocabulary = Object.values(vocabularyData).some(
     (words) => Array.isArray(words) && words.length > 0
   );
@@ -36151,16 +36264,19 @@ function StartScreen({
             </>
           )}
         </header>
-        {!onboardingComplete && !onboardingBannerHidden && (
+        {showDashboardOnboardingBanner && (
           <div className="mb-6 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950 p-4 text-amber-900 dark:text-amber-100 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="space-y-1">
               <p className="font-semibold">
-                Finish setting up your learning plan
+                {onboardingComplete
+                  ? 'A few setup items still need your attention'
+                  : 'Finish setting up your learning plan'}
               </p>
-              <p className="text-sm opacity-90">
-                Add your name, pick a few challenge areas, and set test dates to
-                personalize your dashboard.
-              </p>
+              <ul className="text-sm opacity-90 list-disc pl-5 space-y-0.5">
+                {dashboardOnboardingMissing.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
             <div className="flex gap-2 shrink-0">
               <button
@@ -36168,7 +36284,7 @@ function StartScreen({
                 onClick={goToProfile}
                 className="inline-flex items-center justify-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
               >
-                Continue Onboarding
+                {onboardingComplete ? 'Open profile' : 'Continue Onboarding'}
               </button>
               <button
                 type="button"
@@ -36440,7 +36556,7 @@ function StartScreen({
                     Tell us what topics to focus on to unlock a tailored plan.
                   </p>
                 )}
-                {!onboardingComplete && (
+                {selectedChallenges.length === 0 && (
                   <p className="text-xs text-rose-500">
                     Finish selecting challenges to complete onboarding.
                   </p>
