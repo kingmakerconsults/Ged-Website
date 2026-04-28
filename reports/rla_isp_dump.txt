@@ -1,0 +1,109 @@
+### intermittency
+Q: In paragraphs 2 and 3, the word 'intermittency' is used to describe a key challenge for solar and wind power. This term most nearly means:
+  [X] The high cost of installation.
+     => "The high cost of installation." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] The state of being inconsistent or not continuous.
+     => The state of being inconsistent or not continuous.
+  [X] The potential harm to local wildlife.
+     => This option does not accurately reflect the passage or question context.
+  [X] The requirement for large areas of land.
+     => "The requirement for large areas of land." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### primary environmental motivation
+Q: According to the passage, what is the primary environmental motivation for transitioning to renewable energy?
+  [X] To reduce the visual impact of power plants on landscapes.
+     => While this might seem plausible, it is not supported by the information given.
+  [C] To mitigate climate change caused by greenhouse gas emissions from fossil fuels.
+     => To mitigate climate change caused by greenhouse gas emissions from fossil fuels.
+  [X] To prevent the disruption of fish migration caused by large dams.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] To decrease reliance on foreign energy sources.
+     => This option does not accurately reflect the passage or question context.
+
+### difference between hydropower
+Q: The passage suggests that a key difference between hydropower/geothermal energy and solar/wind energy is:
+  [X] their cost-effectiveness.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] their geographical limitations.
+     => "their geographical limitations." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] their level of reliability and consistency.
+     => their level of reliability and consistency.
+  [X] their impact on avian wildlife.
+     => "their impact on avian wildlife." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### smart grids
+Q: According to paragraph 5, what is the primary purpose of developing smart grids?
+  [X] To lower the cost of electricity for consumers by reducing waste.
+     => "To lower the cost of electricity for consumers by reducing waste." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [X] To generate more power from existing solar and wind farms.
+     => While this might seem plausible, it is not supported by the information given.
+  [C] To better manage electricity distribution from varied and decentralized sources.
+     => To better manage electricity distribution from varied and decentralized sources.
+  [X] To provide tax incentives for homeowners to install their own solar panels.
+     => "To provide tax incentives for homeowners to install their own solar panels." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### structure the main body
+Q: How does the author structure the main body of the text (paragraphs 2-4)?
+  [X] By chronologically detailing the invention of each renewable technology.
+     => This option does not accurately reflect the passage or question context.
+  [X] By comparing and contrasting the economic cost of each energy source.
+     => "By comparing and contrasting the economic cost of each energy source." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] By dedicating separate paragraphs to different types of renewable energy, outlining their pros and cons.
+     => By dedicating separate paragraphs to different types of renewable energy, outlining their pros and cons.
+  [X] By presenting a problem and then immediately offering a single, definitive solution.
+     => "By presenting a problem and then immediately offering a single, definitive so…" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### accelerate the transition
+Q: Based on the passage, a government wishing to accelerate the transition to renewable energy would most likely:
+  [X] Increase subsidies for fossil fuel companies.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] Ban the construction of new dams for hydropower.
+     => "Ban the construction of new dams for hydropower." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] Invest in battery technology and offer tax incentives for solar installations.
+     => Invest in battery technology and offer tax incentives for solar installations.
+  [X] Focus exclusively on geothermal energy regardless of geographic location.
+     => "Focus exclusively on geothermal energy regardless of geographic location." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### photovoltaic cells
+Q: The text identifies photovoltaic cells as a technology used in:
+  [X] Wind power generation.
+     => This option does not accurately reflect the passage or question context.
+  [X] Geothermal energy extraction.
+     => This answer is incorrect. Consider the key details in the question.
+  [X] Hydropower dams.
+     => This is not the correct answer based on the information provided.
+  [C] Solar power generation.
+     => Solar power generation.
+
+### economic aspect
+Q: What can be inferred about the economic aspect of the energy transition?
+  [X] The transition is primarily an economic burden with no financial benefits.
+     => This answer is incorrect. Consider the key details in the question.
+  [C] It involves significant technological and economic evolution.
+     => It involves significant technological and economic evolution.
+  [X] All renewable technologies are still significantly more expensive than coal or natural gas.
+     => This is not the correct answer based on the information provided.
+  [X] The only economic driver for renewables is government mandates.
+     => While this might seem plausible, it is not supported by the information given.
+
+### large hydropower dams
+Q: The author presents the environmental impact of large hydropower dams as:
+  [X] a negligible issue that has been resolved by modern technology.
+     => While this might seem plausible, it is not supported by the information given.
+  [C] a significant limitation that can alter ecosystems and displace people.
+     => a significant limitation that can alter ecosystems and displace people.
+  [X] a positive effect that creates new habitats for aquatic life.
+     => This is not the correct answer based on the information provided.
+  [X] an unproven theory without sufficient evidence.
+     => This option does not accurately reflect the passage or question context.
+
+### overall tone
+Q: The overall tone of the passage can best be described as:
+  [X] Pessimistic and critical.
+     => "Pessimistic and critical." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [X] Overly simplistic and biased.
+     => This answer is incorrect. Consider the key details in the question.
+  [C] Informative and cautiously optimistic.
+     => Informative and cautiously optimistic.
+  [X] Sarcastic and dismissive.
+     => "Sarcastic and dismissive." is not supported by the passage or data; the correct option is the one whose claim is directly supported.

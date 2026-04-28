@@ -1,0 +1,91 @@
+﻿TOP DUPLICATE RATIONALE TEMPLATES:
+
+[5x] Social Studies/ss_civics_federalism_6 #12
+  This is an enumerated power of the federal government.
+
+[2x] Math/math_data_08 #3
+  This is one of the numbers.
+
+[1x] Science/sci_life_science_2 #9
+  This order is incorrect.
+
+[1x] Science/sci_physical_science_1 #4
+  This is a physical change (phase change).
+
+[1x] Science/sci_physical_science_1 #12
+  This is an example of Newton's First Law (inertia).
+
+[1x] Science/sci_physical_science_4 #4
+  HΓééO is a product, not a reactant.
+
+[1x] Science/sci_physical_science_matter_energy_2 #3
+  This violates the law.
+
+[1x] Science/sci_physical_science_newtons_laws_10 #3
+  F stands for force, m for mass.
+
+[1x] Science/sci_earth_space_5 #5
+  This is a transitional season.
+
+[1x] Science/sci_earth_space_science_geological_time_7 #2
+  This is the opposite of the principle.
+
+[1x] Science/sci_earth_space #11
+  This is a short-term condition (weather).
+
+[1x] Math/math_graphs_01 #6
+  This line has the correct slope, but does not pass through (2,5).
+
+[1x] Math/math_graphs_06 #11
+  The coefficient of \(x^{2} is positive.\)
+
+[1x] Math/math_graphs_11 #5
+  This is a diagonal line.
+
+[1x] Math/math_graphs_11 #6
+  This is one of the x-intercepts.
+
+[1x] Math/math_graphs_12 #5
+  This is an x-intercept.
+
+[1x] Math/math_alg_expressions #4
+  Using the distributive property, \(3 \times x + 3 \times 5 = 3x + 15\).
+
+[1x] Math/math_alg_equations_inequalities #7
+  These are not consecutive.
+
+[1x] Math/math_alg_equations_inequalities #8
+  Incorrectly rearranged the formula.
+
+[1x] Math/math_alg_equations_inequalities #13
+  This does not satisfy the second equation.
+
+[1x] Math/math_data_06 #10
+  This would also be in the middle, but the question implies a unique answer.
+
+[1x] Math/math_data_08 #10
+  This would give an average of 78.75
+
+[1x] Math/math_number_sense_05 #10
+  The exponent should be 6.
+
+[1x] Math/math_number_sense_06 #11
+  This is equivalent to \(\frac{3}{4}\).
+
+[1x] Math/math_ratios_03 #11
+  This is &#36;0.50 per apple.
+
+[1x] Math/math_quant_numbers #6
+  Multiple of 3 only.
+
+[1x] Social Studies/ss_civics_bill_of_rights_15 #6
+  This is a Sixth Amendment right.
+
+[1x] Social Studies/ss_civics_citizen_rights_7 #12
+  This is a legal requirement.
+
+[1x] Social Studies/ss_civics_federalism_6 #3
+  This is a power reserved to the states.
+
+[1x] Social Studies/ss_civics_federalism_6 #4
+  This is a federal power.

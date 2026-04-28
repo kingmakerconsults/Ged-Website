@@ -1,0 +1,117 @@
+### sci_ged_ready_life_passages Q2
+Q: Based on the passage, which statement best explains why most food chains depend on plants?
+PASSAGE: This passage continues the discussion of cells by describing how cells obtain energy.
+
+Cells need a constant supply of energy to grow, repair themselves, and carry out their functions. In animal cells, this energy comes from <strong>cellular respiration</strong>, a process in which glucose (a sugar) and oxygen are broken down inside the mitochondria to produce carbon dioxide, water, and ATP, the c
+  [X] Plants are the only organisms that can carry out cellular respiration.
+     => The passage explicitly states animal cells also carry out cellular respiration, so this is incorrect.
+  [C] Plants capture energy from sunlight and store it in chemical form, making it available to organisms that cannot photosynthesize.
+     => Correct. The passage states plants use photosynthesis to combine CO₂ and water into glucose and oxygen, capturing the sun's energy in chemical form, and that this is why they form the base of most food chains.
+  [X] Animals can manufacture their own glucose using sunlight.
+     => The passage credits photosynthesis only to plants and other photosynthetic organisms, not animals.
+  [X] Mitochondria are found only in plant cells.
+     => The passage states both plant and animal cells contain mitochondria.
+
+### sci_physical_science_newtons_laws_10 Q10
+Q: What is the difference between mass and weight?
+  [X] They are the same thing.
+     => They are related but distinct concepts.
+  [C] Mass is the amount of matter in an object, while weight is the force of gravity on that object.
+     => Correct. Your mass is the same on Earth and the Moon, but your weight is different.
+  [X] Mass is a force, and weight is a measure of inertia.
+     => This is incorrect. Weight is a force, and mass is a measure of inertia.
+  [X] Mass depends on gravity, while weight does not.
+     => This is the opposite of the correct relationship.
+
+### math_alg_expressions Q3
+Q: What is the result of \((2x + 3) + (x - 1)\)?
+  [C] \(3x + 2\)
+     => Combine like terms: \((2x + x) + (3 - 1) = 3x + 2\).
+  [X] \(2x + 2\)
+     => Forgot to add the \(x\) terms correctly.
+  [X] \(3x + 4\)
+     => Incorrectly added 3 and 1.
+  [X] \(2x^2 - 2\)
+     => This is incorrect; this is addition, not multiplication.
+
+### rla_info_structure_purpose Q1
+Q: Which of the following statements best expresses the main idea of the passage?
+PASSAGE: For over a century, human civilization has been powered predominantly by fossil fuels—coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underwa
+  [X] Hydropower is the most reliable and established form of renewable energy available today.
+     => "Hydropower is the most reliable and established form of renewable energy avai…" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] The global shift to renewable energy is a multifaceted response to the environmental impact of fossil fuels, driven by technology and policy.
+     => The global shift to renewable energy is a multifaceted response to the environmental impact of fossil fuels, driven by technology and policy.
+  [X] The primary challenge of renewable energy is overcoming the high cost of solar panels and wind turbines.
+     => "The primary challenge of renewable energy is overcoming the high cost of sola…" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [X] Fossil fuels, despite their environmental drawbacks, remain the only viable option for large-scale energy production.
+     => This option does not accurately reflect the passage or question context.
+
+### rla_info_graphics Q4
+Q: Which sector is the largest consumer of electricity according to the data?
+PASSAGE: <div class="passage-text"><b>Electricity Consumption by Sector</b><br><table class="w-full text-left mt-2 bg-white"><thead><tr><th class="p-2 border-b">Sector</th><th class="p-2 border-b">Percentage</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Industrial</td><td class="p-2">40%</td></tr><tr class="border-b"><td class="p-2">Residential</td><td class="p-2">35%</td></tr><tr class="bor
+  [X] Residential
+     => This is not the correct answer based on the information provided.
+  [X] Commercial
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] Transportation
+     => This answer is incorrect. Consider the key details in the question.
+  [C] Industrial
+     => Industrial
+
+### rla_info_graphics Q6
+Q: Based on the table, why would growth in transportation electricity use be significant?
+PASSAGE: <div class="passage-text">Refer to the "Electricity Consumption by Sector" table.<br><br><table class="w-full text-left mt-2 bg-white"><thead><tr><th class="p-2 border-b">Sector</th><th class="p-2 border-b">Percentage</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Industrial</td><td class="p-2">40%</td></tr><tr class="border-b"><td class="p-2">Residential</td><td class="p-2">35%</td>
+  [X] Because transportation already uses the most electricity.
+     => This option does not accurately reflect the passage or question context.
+  [C] Because transportation currently represents a very small fraction of electricity use, so any growth will be a large relative change.
+     => Because transportation currently represents a very small fraction of electricity use, so any growth will be a large relative change.
+  [X] Because the industrial sector's electricity use is declining rapidly.
+     => This answer is incorrect. Consider the key details in the question.
+  [X] Because transportation is the only sector where electricity use is measured.
+     => This is not the correct answer based on the information provided.
+
+### rla_info_graphics Q7
+Q: Which subject has the highest average test score?
+PASSAGE: <div class="passage-text"><b>Average Test Scores by Subject</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Subject</th><th class="p-2 border-b">Score</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Math</td><td class="p-2">82</td></tr><tr class="border-b"><td class="p-2">Reading</td><td class="p-2">88</td></tr><tr class="border-b"><td class="p-2">Scien
+  [X] Math
+     => "Math" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] Reading
+     => Reading
+  [X] Science
+     => This option does not accurately reflect the passage or question context.
+  [X] Social Studies
+     => "Social Studies" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### rla_info_graphics Q10
+Q: What is the overall trend shown in the data?
+PASSAGE: <div class="passage-text"><b>Projected Population Growth of City X</b><br><table class="w-full text-left mt-2 bg-white"><thead><tr><th class="p-2 border-b">Year</th><th class="p-2 border-b">Population</th></tr></thead><tbody><tr class="border-b"><td class="p-2">2020</td><td class="p-2">100,000</td></tr><tr class="border-b"><td class="p-2">2025</td><td class="p-2">110,000</td></tr><tr class="border
+  [X] The population is projected to decrease over time.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] The population is projected to grow at a steady, constant rate.
+     => While this might seem plausible, it is not supported by the information given.
+  [C] The population is projected to grow at an accelerating rate.
+     => The population is projected to grow at an accelerating rate.
+  [X] The population is projected to remain stable after 2030.
+     => This is not the correct answer based on the information provided.
+
+### rla_info_graphics Q14
+Q: A bar chart is most effective for:
+  [X] Showing a trend over a continuous period of time.
+     => "Showing a trend over a continuous period of time." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] Comparing distinct categories or groups.
+     => Comparing distinct categories or groups.
+  [X] Showing the parts of a whole or percentages.
+     => "Showing the parts of a whole or percentages." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [X] Displaying the exact location of geographical features.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+
+### rla_info_graphics Q15
+Q: A pie chart is most effective for:
+  [X] Showing a trend over a continuous period of time.
+     => This answer is incorrect. Consider the key details in the question.
+  [X] Comparing distinct categories or groups.
+     => "Comparing distinct categories or groups." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] Showing the parts of a whole or percentages.
+     => Showing the parts of a whole or percentages.
+  [X] Displaying the exact location of geographical features.
+     => "Displaying the exact location of geographical features." is not supported by the passage or data; the correct option is the one whose claim is directly supported.

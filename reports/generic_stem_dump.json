@@ -1,0 +1,1274 @@
+[
+  {
+    "s": "Science",
+    "t": "sci_life_science_basics",
+    "n": 1,
+    "question": ""
+  },
+  {
+    "s": "Science",
+    "t": "sci_ecosystems_environment",
+    "n": 6,
+    "question": ""
+  },
+  {
+    "s": "Science",
+    "t": "sci_ecosystems_environment",
+    "n": 10,
+    "question": ""
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_1",
+    "n": 1,
+    "question": "Which of the following is the basic unit of life?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_1",
+    "n": 7,
+    "question": "Which of the following describes the concept of natural selection?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_2",
+    "n": 4,
+    "question": "Which of the following is an example of an abiotic (non-living) factor in an ecosystem?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_2",
+    "n": 9,
+    "question": "Which of the following shows the correct order of organization in an ecosystem, from simplest to most complex?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_3",
+    "n": 7,
+    "question": "Which of the following is the primary function of the large intestine?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_5",
+    "n": 3,
+    "question": "Which of the following is an inherited trait?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_5",
+    "n": 9,
+    "question": "Which of the following is a key difference between plant and animal cells?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_6",
+    "n": 3,
+    "question": "Which of the following is an example of a human activity that can have a negative impact on the environment?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_cells_organelles_1",
+    "n": 3,
+    "question": "Which of the following is a key difference between plant and animal cells?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_ecosystems_5",
+    "n": 2,
+    "question": "Which of the following is an example of a biotic factor in an ecosystem?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_ecosystems_5",
+    "n": 11,
+    "question": "Which of the following shows a correct food chain?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_photosynthesis_respiration_12",
+    "n": 2,
+    "question": "Which of the following are the reactants (inputs) for photosynthesis?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_photosynthesis_respiration_12",
+    "n": 7,
+    "question": "Which of the following organisms perform cellular respiration?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_life_science_human_body_systems_16",
+    "n": 5,
+    "question": "Based on the passage, which action is a homeostatic response to the body becoming too cold?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_ged_ready_life_passages",
+    "n": 2,
+    "question": "Based on the passage, which statement best explains why most food chains depend on plants?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_ged_ready_life_passages",
+    "n": 8,
+    "question": "Which of the following is the best example of an <strong>adaptation</strong> that improves an organism's chances of survival in its environment?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_chem_fundamentals",
+    "n": 9,
+    "question": ""
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_1",
+    "n": 1,
+    "question": "Which of the following is a measure of an object's inertia?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_1",
+    "n": 4,
+    "question": "Which of the following is the best example of a chemical change?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_2",
+    "n": 1,
+    "question": "Which of the following is a unit of energy?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_3",
+    "n": 1,
+    "question": "Which of the following particles has a negative electrical charge?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_5",
+    "n": 8,
+    "question": "Which of the following is an example of an object with potential energy?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_6",
+    "n": 9,
+    "question": "Which of the following is an example of nuclear fusion?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_matter_energy_2",
+    "n": 1,
+    "question": "Which of the following is a physical change?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_matter_energy_2",
+    "n": 12,
+    "question": "Which of the following describes the process of sublimation?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_energy_transformations_14",
+    "n": 5,
+    "question": "Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_chemical_reactions_17",
+    "n": 1,
+    "question": "Which of the following is a sign that a chemical reaction has occurred?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physical_science_chemical_reactions_17",
+    "n": 9,
+    "question": "Which of the following would likely increase the rate of a chemical reaction between a solid and a liquid?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physics_motion",
+    "n": 10,
+    "question": "Which of the following is the best example of a conductor of electricity?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_physics_motion",
+    "n": 15,
+    "question": "Which of the following is a unit of force?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_1",
+    "n": 3,
+    "question": "Which of the following is considered a renewable resource?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_1",
+    "n": 9,
+    "question": "Which of the following astronomical bodies is a star?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_3",
+    "n": 2,
+    "question": "Which of the following is a primary cause of air pollution?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_3",
+    "n": 13,
+    "question": "Which of the following describes a positive feedback loop in the context of climate change?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_4",
+    "n": 6,
+    "question": "Which of the following events occurred most recently?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_science_rock_cycle_3",
+    "n": 5,
+    "question": "According to the passage, how can an igneous rock become a sedimentary rock?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_science_rock_cycle_3",
+    "n": 12,
+    "question": "Which of the following describes the texture of an igneous rock that cooled very rapidly on the surface?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_science_weather_climate_11",
+    "n": 11,
+    "question": "Which of the following is a form of precipitation?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_science_weather_climate_15",
+    "n": 3,
+    "question": "Which of the following is a greenhouse gas that traps heat in the Earth's atmosphere?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_science_weather_climate_15",
+    "n": 6,
+    "question": "According to the passage, why does precipitation fall on the windward side of the mountains?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space_science_ecosystems_19",
+    "n": 11,
+    "question": "Which of the following is a major reservoir for carbon in the carbon cycle?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space",
+    "n": 3,
+    "question": "According to the passage, how is igneous rock formed?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space",
+    "n": 6,
+    "question": "Which of the following is the best example of chemical weathering?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_earth_space",
+    "n": 11,
+    "question": "Which of the following is a description of climate, not weather?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_ged_ready_earth_passages",
+    "n": 1,
+    "question": "Based on the passage, why do hurricanes typically weaken quickly after they move over land?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_ged_ready_earth_passages",
+    "n": 8,
+    "question": "Which of the following best explains why Earth experiences seasons?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_scientific_practices_data_interpretation_18",
+    "n": 3,
+    "question": "Based on the data, what is a reasonable conclusion?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_compound_stimulus_1",
+    "n": 3,
+    "question": "Based on the data table and information about the greenhouse effect, which conclusion is best supported?"
+  },
+  {
+    "s": "Science",
+    "t": "sci_ged_ready_multi_select",
+    "n": 2,
+    "question": "Which of the following pieces of evidence support this claim? Select <strong>all</strong> that apply."
+  },
+  {
+    "s": "Science",
+    "t": "diag_science_composite_v1",
+    "n": 1,
+    "question": "Which of the following is the basic unit of life?"
+  },
+  {
+    "s": "Science",
+    "t": "diag_science_composite_v1",
+    "n": 4,
+    "question": "Which of the following is a measure of an object's inertia?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_03",
+    "n": 5,
+    "question": "Which of the following ordered pairs is a solution to the equation \\(y = 3x - 2\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_03",
+    "n": 12,
+    "question": "Which of the following inequalities corresponds to the statement 'x is at least 12'?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_05",
+    "n": 7,
+    "question": "Which of the following is the solution set of \\(2|x - 1| = 8\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_07",
+    "n": 5,
+    "question": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_08",
+    "n": 5,
+    "question": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_09",
+    "n": 7,
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_10",
+    "n": 7,
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_11",
+    "n": 7,
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+  },
+  {
+    "s": "Math",
+    "t": "math_algebra_12",
+    "n": 7,
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_01",
+    "n": 5,
+    "question": "Which of the following points lies on the line \\(y = -2x + 6\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_02",
+    "n": 11,
+    "question": "Which of the following describes the graph of \\(y = x^2 - 1\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_03",
+    "n": 5,
+    "question": "Which of the following functions is a quadratic function?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_04",
+    "n": 5,
+    "question": "Which of the following points is on the line \\(y = 4x - 5\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_05",
+    "n": 6,
+    "question": "Which of the following lines is perpendicular to the line 3x + y = 5?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_05",
+    "n": 11,
+    "question": "Which of the following represents the graph of an exponential function?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_07",
+    "n": 5,
+    "question": "Which of the following lines is parallel to the line \\(y = 4x - 1\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_07",
+    "n": 11,
+    "question": "Which of the following functions has a y-intercept of -2?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_08",
+    "n": 5,
+    "question": "Which of the following lines is parallel to the line \\(y = 4x - 1\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_08",
+    "n": 11,
+    "question": "Which of the following functions has a y-intercept of -2?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_09",
+    "n": 11,
+    "question": "Which of the following lines is perpendicular to the y-axis?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_10",
+    "n": 11,
+    "question": "Which of the following lines is perpendicular to the y-axis?"
+  },
+  {
+    "s": "Math",
+    "t": "math_graphs_11",
+    "n": 8,
+    "question": "Which of the following points is a solution to the system of inequalities: \\(y > x and x > 2\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_alg_expressions",
+    "n": 4,
+    "question": "Which of the following is equivalent to \\(3(x + 5)\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_alg_equations_inequalities",
+    "n": 4,
+    "question": "Which of the following is a solution to the equation \\(x^2 - 5x + 6 = 0\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_alg_graphing_functions",
+    "n": 1,
+    "question": "Which of the following equations is written in slope-intercept form (\\(y = mx + b\\))?"
+  },
+  {
+    "s": "Math",
+    "t": "math_alg_graphing_functions",
+    "n": 8,
+    "question": "Which of the following lines is parallel to the line \\(y = 4x - 1\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_data_01",
+    "n": 10,
+    "question": "Which of the following is NOT a measure of central tendency?"
+  },
+  {
+    "s": "Math",
+    "t": "math_data_05",
+    "n": 10,
+    "question": "Which of the following describes the 'range' of a dataset?"
+  },
+  {
+    "s": "Math",
+    "t": "math_data_06",
+    "n": 12,
+    "question": "Which of the following is a true statement?"
+  },
+  {
+    "s": "Math",
+    "t": "math_geometry_11",
+    "n": 5,
+    "question": "Which of the following is NOT a type of angle?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_01",
+    "n": 2,
+    "question": "Which of the following is equivalent to \\(3 \\frac{1}{4}\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_01",
+    "n": 9,
+    "question": "Which of the following numbers is an integer?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_03",
+    "n": 5,
+    "question": "Which of the following is equivalent to 0.65?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_05",
+    "n": 5,
+    "question": "Which of the following is the correct order from smallest to largest?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_07",
+    "n": 1,
+    "question": "Which of the following is equal to \\(5^3\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_08",
+    "n": 1,
+    "question": "Which of the following is equal to \\(5^3\\)?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_10",
+    "n": 5,
+    "question": "Which of the following is a prime number?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_11",
+    "n": 8,
+    "question": "Which of the following numbers is the largest?"
+  },
+  {
+    "s": "Math",
+    "t": "math_number_sense_12",
+    "n": 5,
+    "question": "Which of the following numbers is the smallest?"
+  },
+  {
+    "s": "Math",
+    "t": "math_ratios_01",
+    "n": 10,
+    "question": "Which of the following ratios is equivalent to 4:7?"
+  },
+  {
+    "s": "Math",
+    "t": "math_ratios_02",
+    "n": 10,
+    "question": "Which of the following ratios is equivalent to 4:7?"
+  },
+  {
+    "s": "Math",
+    "t": "math_ratios_03",
+    "n": 11,
+    "question": "Which of the following deals is the best value?"
+  },
+  {
+    "s": "Math",
+    "t": "math_quant_basics",
+    "n": 11,
+    "question": "Which of the following numbers is the largest: 0.6, 0.65, 0.065, 0.605?"
+  },
+  {
+    "s": "Math",
+    "t": "diag_math_composite_v1",
+    "n": 2,
+    "question": "Which of the following is equivalent to \\(3 \\frac{1}{4}\\)?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civil_war_3",
+    "n": 1,
+    "question": "Which of the following was a primary cause of the American Civil War?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_colonial_era_1",
+    "n": 2,
+    "question": "Which of the following was a major reason for the founding of the colony of Georgia?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_colonial_era_1",
+    "n": 11,
+    "question": "Which of the following best describes the economic theory of mercantilism, which guided British colonial policy?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_foundations_quiz1",
+    "n": 1,
+    "question": "Based on the passage, which statement best describes a weakness of the Articles of Confederation?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_foundations_quiz1",
+    "n": 6,
+    "question": "According to the passage, which is an example of a concurrent power?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_foundations_quiz1",
+    "n": 11,
+    "question": "Which of the following best explains why the framers of the Constitution created an amendment process?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_revolution_quiz1",
+    "n": 10,
+    "question": "Based on the passage, what can be inferred about colonial opinion regarding independence?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_revolution_quiz2",
+    "n": 10,
+    "question": "Which of the following individuals served as a foreign volunteer who helped train the Continental Army during the winter at Valley Forge?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation",
+    "n": 2,
+    "question": "What important precedent was established by the Supreme Court case Marbury v. Madison (1803)?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation",
+    "n": 5,
+    "question": "What was a major provision of the Northwest Ordinance of 1787?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation",
+    "n": 5,
+    "question": "What was a major provision of the Northwest Ordinance of 1787?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_westward_expansion_quiz1",
+    "n": 4,
+    "question": "According to the passage, what was the most common danger faced by Oregon Trail migrants?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_westward_expansion_quiz1",
+    "n": 10,
+    "question": "Which of the following best describes the significance of the Louisiana Purchase in 1803?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation_quiz1",
+    "n": 5,
+    "question": "Which of the following is an example of the system of checks and balances?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation_quiz1",
+    "n": 7,
+    "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continent significantly faster and cheaper?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation_quiz2",
+    "n": 5,
+    "question": "Which of the following was NOT a primary goal of the Lewis and Clark expedition?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation_quiz2",
+    "n": 7,
+    "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continent significantly faster and cheaper?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_new_nation_quiz3",
+    "n": 7,
+    "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continent significantly faster and cheaper?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_divided_nation",
+    "n": 4,
+    "question": "Which of the following events was the immediate cause of the secession of the first seven Southern states in 1860-1861?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_divided_nation",
+    "n": 7,
+    "question": "Which of the following was a primary goal of the Reconstruction era?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_industrial_america",
+    "n": 1,
+    "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_industrial_america_quiz1",
+    "n": 1,
+    "question": "According to the passage, how did the Bessemer process contribute to industrialization?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_industrial_america_quiz2",
+    "n": 6,
+    "question": "According to the passage, how did the Bessemer process contribute to industrialization?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_industrial_america_quiz3",
+    "n": 6,
+    "question": "According to the passage, how did the Bessemer process contribute to industrialization?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_global_conflicts",
+    "n": 10,
+    "question": "Which of the following best exemplifies the motivation of 'Gold' during the Age of Exploration?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_global_conflicts_quiz1",
+    "n": 10,
+    "question": "Which of the following best exemplifies the motivation of 'Gold' during the Age of Exploration?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_global_conflicts_quiz2",
+    "n": 10,
+    "question": "Which of the following best exemplifies the motivation of 'Gold' during the Age of Exploration?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_global_conflicts_quiz3",
+    "n": 10,
+    "question": "Which of the following best exemplifies the motivation of 'Gold' during the Age of Exploration?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_contemporary_america",
+    "n": 2,
+    "question": "A major piece of legislation passed during the Obama administration was the Affordable Care Act (ACA). Its primary goal was to:"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_contemporary_america_quiz1",
+    "n": 2,
+    "question": "Which of the following is a major impact of globalization, accelerated by new technologies?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_contemporary_america_quiz2",
+    "n": 7,
+    "question": "Which of the following is a major impact of globalization, accelerated by new technologies?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_us_hist_contemporary_america_quiz3",
+    "n": 7,
+    "question": "Which of the following is a major impact of globalization, accelerated by new technologies?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_history_passages_2",
+    "n": 1,
+    "question": "Based on the passage, why did the Emancipation Proclamation NOT immediately end slavery in the United States?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_history_passages_2",
+    "n": 5,
+    "question": "Based on the passage, which generalization about the U.S. home front during World War II is best supported?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_bill_of_rights_15",
+    "n": 2,
+    "question": "Which of the following actions would be protected by the First Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_bill_of_rights_15",
+    "n": 7,
+    "question": "Which of the following rights is guaranteed by the Sixth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_citizen_rights_7",
+    "n": 1,
+    "question": "Which of the following is considered both a right and a responsibility of a U.S. citizen?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_citizen_rights_7",
+    "n": 3,
+    "question": "Which of the following is a legal responsibility of every U.S. citizen?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_citizen_rights_7",
+    "n": 6,
+    "question": "According to the passage, which of the following is a way for citizens to participate in their government beyond voting?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_citizen_rights_7",
+    "n": 11,
+    "question": "Which of the following best describes the principle of 'equal protection under the law,' as guaranteed by the Fourteenth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_elections_17",
+    "n": 7,
+    "question": "Which of the following is a common argument in favor of the Electoral College system?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_6",
+    "n": 3,
+    "question": "Which of the following is an example of a power that is delegated specifically to the federal government?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_6",
+    "n": 4,
+    "question": "Which of the following responsibilities is handled at the state level of government?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_6",
+    "n": 7,
+    "question": "Which of the following is the best example of a concurrent power?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_6",
+    "n": 12,
+    "question": "Which of the following is the best example of a 'reserved power' of the states?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_gov_structure_16",
+    "n": 11,
+    "question": "Which of the following is an exclusive power of the Senate?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_reading_sources_9",
+    "n": 5,
+    "question": "Based on the data in the table, during which period did unemployment see the sharpest increase?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_separation_of_powers_5",
+    "n": 12,
+    "question": "Which of the following is a power reserved for the legislative branch?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution",
+    "n": 1,
+    "question": "How many amendments are in the Bill of Rights?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution",
+    "n": 5,
+    "question": "Which amendment in the Bill of Rights protects citizens from being forced to quarter soldiers in their homes during peacetime without their consent?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution_quiz1",
+    "n": 6,
+    "question": "Based on the passage, which of the following scenarios would most likely be a violation of the Fourth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution_quiz1",
+    "n": 10,
+    "question": "Which of the following is the best example of a power 'reserved to the States' under the Tenth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution_quiz2",
+    "n": 1,
+    "question": "Based on the passage, which of the following scenarios would most likely be a violation of the Fourth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution_quiz2",
+    "n": 5,
+    "question": "Which of the following is the best example of a power 'reserved to the States' under the Tenth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_constitution_quiz3",
+    "n": 11,
+    "question": "Based on the passage, which of the following scenarios would most likely be a violation of the Fourth Amendment?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_legislative",
+    "n": 2,
+    "question": "A filibuster is a tactic used in the Senate to delay or block a vote on a bill. How can a filibuster be ended?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_legislative_quiz1",
+    "n": 7,
+    "question": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_legislative_quiz2",
+    "n": 2,
+    "question": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_legislative_quiz3",
+    "n": 12,
+    "question": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive",
+    "n": 1,
+    "question": "The power of the President to grant a pardon for a federal crime is an example of what type of power?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive",
+    "n": 5,
+    "question": "According to the chart, which president issued more than twice as many executive orders as Woodrow Wilson?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive_quiz1",
+    "n": 1,
+    "question": "Which of the following is a constitutional requirement to become President of the United States?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive_quiz1",
+    "n": 10,
+    "question": "Based on the passage, the Secretary of State is a member of the Cabinet who advises the President on what matters?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive_quiz2",
+    "n": 5,
+    "question": "Based on the passage, the Secretary of State is a member of the Cabinet who advises the President on what matters?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive_quiz2",
+    "n": 6,
+    "question": "Which of the following is a constitutional requirement to become President of the United States?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_executive_quiz3",
+    "n": 6,
+    "question": "Which of the following is a constitutional requirement to become President of the United States?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections",
+    "n": 1,
+    "question": "A politician who advocates for less government regulation of business and lower taxes would most likely be described as being on which side of the political spectrum?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections",
+    "n": 3,
+    "question": "What is the primary goal of gerrymandering?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections",
+    "n": 4,
+    "question": "Which of the following is a right of U.S. citizens but NOT a responsibility?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections",
+    "n": 4,
+    "question": "Which of the following is a right of U.S. citizens but NOT a responsibility?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz1",
+    "n": 1,
+    "question": "Which of the following is the best definition of federalism?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz1",
+    "n": 3,
+    "question": "Which of the following is the best example of a reserved power held by state governments?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz1",
+    "n": 9,
+    "question": "According to the passage, why is it difficult for third parties to succeed in the U.S. political system?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz2",
+    "n": 4,
+    "question": "According to the passage, why is it difficult for third parties to succeed in the U.S. political system?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz2",
+    "n": 6,
+    "question": "Which of the following is the best definition of federalism?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz2",
+    "n": 8,
+    "question": "Which of the following is the best example of a reserved power held by state governments?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz3",
+    "n": 4,
+    "question": "Which of the following is a right of U.S. citizens but NOT a responsibility?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz3",
+    "n": 6,
+    "question": "Which of the following is the best definition of federalism?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_civics_federalism_elections_quiz3",
+    "n": 8,
+    "question": "Which of the following is the best example of a reserved power held by state governments?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_multi_select_2",
+    "n": 1,
+    "question": "Which of the following are powers of the legislative branch (Congress)? Select <strong>all</strong> that apply."
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_multi_select_2",
+    "n": 2,
+    "question": "Which of the following are powers reserved to the states (rather than delegated exclusively to the federal government)? Select <strong>all</strong> that apply."
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_multi_select_2",
+    "n": 3,
+    "question": "Based on the passage, which expansions of the right to vote are guaranteed by these three amendments together? Select <strong>all</strong> that apply."
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_multi_select_2",
+    "n": 4,
+    "question": "Based on the passage, which of the following were used as barriers to African American voting in the South after 1870? Select <strong>all</strong> that apply."
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_economics_geography_8",
+    "n": 2,
+    "question": "According to the passage, what is the main effect of inflation on consumers?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_economics_geography_8",
+    "n": 6,
+    "question": "According to the passage, what is the relationship between a budget deficit and the national debt?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_economics_geography_8",
+    "n": 8,
+    "question": "Based on the data provided, which statement is correct?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_economics_geography_8",
+    "n": 10,
+    "question": "Which of the following transactions would be included in the calculation of the U.S. GDP?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_econ_foundations",
+    "n": 9,
+    "question": "Which of the following would likely cause the demand curve for coffee to shift to the right (an increase in demand)?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_econ_foundations",
+    "n": 10,
+    "question": "Which of the following would likely cause the supply curve for cars to shift to the left (a decrease in supply)?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_econ_us_economy",
+    "n": 3,
+    "question": "Which of the following is the best example of a public good that the government provides in the U.S. economy?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_econ_us_economy",
+    "n": 6,
+    "question": "Which of the following is an example of expansionary fiscal policy?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_econ_us_economy",
+    "n": 8,
+    "question": "According to the passage, why would the Federal Reserve raise interest rates?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_econ_us_economy",
+    "n": 14,
+    "question": "According to the passage, what is a potential negative consequence of globalization?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_economics",
+    "n": 1,
+    "question": "Based on the passage, what would most likely happen to the price of coffee beans if a major coffee-growing region experienced a long drought, assuming demand stays constant?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_economics",
+    "n": 2,
+    "question": "Based on the passage, which scenario would most likely cause the demand for hybrid cars to shift to the right (increase) at every price?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_economics",
+    "n": 8,
+    "question": "Which of the following best describes a likely <strong>economic trade-off</strong> created by this policy?"
+  },
+  {
+    "s": "Social Studies",
+    "t": "ss_ged_ready_data_scenarios",
+    "n": 6,
+    "question": "Based on the data in the table, which conclusion is best supported?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_01",
+    "n": 1,
+    "question": "Which of the following sentences is grammatically correct?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_01",
+    "n": 4,
+    "question": "Which of the following sentences is structured most clearly?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_01",
+    "n": 8,
+    "question": "Which of the following represents the clearest and most concise way to phrase the sentence?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_02",
+    "n": 1,
+    "question": "Which of the following sentences is a run-on sentence?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_02",
+    "n": 6,
+    "question": "Which of the following sentences contains a misplaced modifier?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_03",
+    "n": 10,
+    "question": "Which of the following has a punctuation error?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_06",
+    "n": 1,
+    "question": "Which of the following is a comma splice that needs correction?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_09",
+    "n": 1,
+    "question": "Which of the following is an adverb clause?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_10",
+    "n": 2,
+    "question": "Which of the following sentences contains a noun clause?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_grammar_10",
+    "n": 8,
+    "question": "Which of the following correctly identifies ALL the subordinate clauses in the passage?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_main_idea_01",
+    "n": 8,
+    "question": "Which of the following best states the main idea of the passage?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_main_idea_02",
+    "n": 5,
+    "question": "Which of the following best states the main idea of the passage?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_info_structure_purpose",
+    "n": 1,
+    "question": "The overall tone of the passage can best be described as:"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_info_structure_purpose",
+    "n": 1,
+    "question": "The overall tone of the passage can best be described as:"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_info_structure_purpose",
+    "n": 1,
+    "question": "The overall tone of the passage can best be described as:"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_info_graphics",
+    "n": 6,
+    "question": "Based on the table, why would growth in transportation electricity use be significant?"
+  },
+  {
+    "s": "Reasoning Through Language Arts (RLA)",
+    "t": "rla_lit_theme_figurative_language",
+    "n": 1,
+    "question": "Which of the following best describes the theme of this passage?"
+  }
+]

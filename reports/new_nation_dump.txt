@@ -1,0 +1,87 @@
+### Battle of the Little Bighorn
+Q: The Battle of the Little Bighorn in 1876, often referred to as 'Custer's Last Stand,' was a significant event in the Great Sioux War. What was the outcome of this battle?
+  [X] A decisive victory for the U.S. Army, leading to the immediate surrender of the Sioux.
+     => This is not the correct answer based on the information provided.
+  [C] A major victory for the Lakota, Cheyenne, and Arapaho tribes against the U.S. Army.
+     => A major victory for the Lakota, Cheyenne, and Arapaho tribes against the U.S. Army.
+  [X] A peace treaty that granted the Sioux permanent control of the Black Hills.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] A stalemate that resulted in a temporary truce.
+     => This option does not accurately reflect the passage or question context.
+
+### destruction of the bison
+Q: What was the primary consequence of the destruction of the bison herds for the Plains Indians?
+  [X] It had little impact, as they primarily relied on farming.
+     => While this might seem plausible, it is not supported by the information given.
+  [X] It forced them to migrate to Canada.
+     => This is not the correct answer based on the information provided.
+  [C] It destroyed their traditional way of life and forced them onto reservations.
+     => It destroyed their traditional way of life and forced them onto reservations.
+  [X] It led to a shift from hunting to fishing.
+     => This option does not accurately reflect the passage or question context.
+
+### popular sovereignty
+Q: The concept of 'popular sovereignty' was a controversial idea during the westward expansion. What did it propose?
+  [X] That the President should have the power to decide the status of slavery in new territories.
+     => This option does not accurately reflect the passage or question context.
+  [C] That the settlers in a new territory should vote to decide whether to allow slavery.
+     => That the settlers in a new territory should vote to decide whether to allow slavery.
+  [X] That Congress should ban slavery in all new territories.
+     => This is not the correct answer based on the information provided.
+  [X] That Native American tribes should have the final say on the status of slavery.
+     => This answer is incorrect. Consider the key details in the question.
+
+### perfected in the 1870s
+Q: Which invention, perfected in the 1870s, played a crucial role in ending the era of the open range and the long cattle drives by allowing ranchers to fence off their lands?
+  [X] The steel plow
+     => This answer is incorrect. Consider the key details in the question.
+  [X] The windmill
+     => "The windmill" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] Barbed wire
+     => Barbed wire
+  [X] The railroad
+     => "The railroad" is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### Dawes Act
+Q: What was the primary goal of the Dawes Act of 1887?
+  [X] To strengthen tribal governments and preserve Native American culture.
+     => "To strengthen tribal governments and preserve Native American culture." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [C] To encourage Native Americans to assimilate by turning them into individual farmers.
+     => To encourage Native Americans to assimilate by turning them into individual farmers.
+  [X] To create new, larger reservations for Native American tribes.
+     => This option does not accurately reflect the passage or question context.
+  [X] To grant immediate U.S. citizenship to all Native Americans.
+     => "To grant immediate U.S. citizenship to all Native Americans." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### Wounded Knee Massacre
+Q: The Wounded Knee Massacre in 1890 is considered the final major conflict of the American Indian Wars. What happened at Wounded Knee?
+  [X] A successful peace treaty was signed between the U.S. government and the Lakota.
+     => "A successful peace treaty was signed between the U.S. government and the Lakota." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+  [X] A battle in which Native American warriors defeated a U.S. Army regiment.
+     => While this might seem plausible, it is not supported by the information given.
+  [C] The U.S. Army killed approximately 300 Lakota men, women, and children.
+     => The U.S. Army killed approximately 300 Lakota men, women, and children.
+  [X] A Ghost Dance ceremony that led to a spiritual revival.
+     => "A Ghost Dance ceremony that led to a spiritual revival." is not supported by the passage or data; the correct option is the one whose claim is directly supported.
+
+### Frontier Thesis
+Q: According to Frederick Jackson Turner's 'Frontier Thesis,' what role did the frontier play in American history?
+  [X] It was a source of conflict that weakened the nation.
+     => While this might seem plausible, it is not supported by the information given.
+  [C] It was a defining force that shaped American character and institutions.
+     => It was a defining force that shaped American character and institutions.
+  [X] It was a barrier to economic growth and progress.
+     => This answer is incorrect. Consider the key details in the question.
+  [X] It had little to no impact on American culture.
+     => This option does not accurately reflect the passage or question context.
+
+### Gadsden Purchase
+Q: The Gadsden Purchase in 1854 was a land deal between the United States and Mexico. What was the primary purpose of this purchase?
+  [C] To acquire land for a southern transcontinental railroad route.
+     => To acquire land for a southern transcontinental railroad route.
+  [X] To gain access to new gold mines.
+     => While this might seem plausible, it is not supported by the information given.
+  [X] To create a buffer zone between the two countries.
+     => This answer is incorrect. Review the passage carefully to find the correct information.
+  [X] To settle a border dispute over the state of Texas.
+     => This is not the correct answer based on the information provided.
