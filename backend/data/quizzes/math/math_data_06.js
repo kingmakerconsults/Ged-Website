@@ -212,9 +212,9 @@ module.exports = [
     difficulty: 'medium',
     question:
       'A fair die is rolled. What is the probability of rolling a number less than 3?',
-    correctAnswer: '\\(\\(\frac{1}{3}\\)',
+    correctAnswer: '\\(\\frac{1}{3}\\)',
     rationale:
-      'The numbers less than 3 are 1 and 2. There are 2 favorable outcomes out of 6 possible outcomes. The probability is \\(\\(\frac{2}{6}\\), which simplifies to \\(\\(\frac{1}{3}\\).',
+      'The numbers less than 3 are 1 and 2. There are 2 favorable outcomes out of 6 possible outcomes. The probability is \\(\\frac{2}{6}\\), which simplifies to \\(\\frac{1}{3}\\).',
     challenge_tags: ['math-6'],
   },
   {
@@ -235,13 +235,13 @@ module.exports = [
         text: '16',
         isCorrect: false,
         rationale:
-          'This would also be in the middle, but the question implies a unique answer.',
+          'Although inserting 16 would also place a value between 12 and 18, the median of the resulting set would be 16, not the required 15.',
       },
       {
         text: '14',
         isCorrect: false,
         rationale:
-          'This would also be in the middle, but the question implies a unique answer.',
+          'Inserting 14 also lies between 12 and 18, but the median of the resulting ordered set would then be 14, not the required 15.',
       },
       {
         text: 'Cannot be determined',
@@ -262,30 +262,30 @@ module.exports = [
       'Two dice are rolled. What is the probability that the sum of the numbers is 7?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{1}{36}\\)',
+        text: '\\(\\frac{1}{36}\\)',
         isCorrect: false,
         rationale:
           'This is the probability of rolling a specific combination, like (1,6).',
       },
       {
-        text: '\\(\\(\frac{1}{12}\\)',
+        text: '\\(\\frac{1}{12}\\)',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{3}{36}\\).',
+        rationale: 'This is \\(\\frac{3}{36}\\).',
       },
       {
-        text: '\\(\\(\frac{1}{6}\\)',
+        text: '\\(\\frac{1}{6}\\)',
         isCorrect: true,
         rationale:
-          'There are 6 ways to get a sum of 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). There are 36 total outcomes. P(sum=7) = \\(\\(\frac{6}{36}\\) = \\(\\(\frac{1}{6}\\).',
+          'There are 6 ways to get a sum of 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). There are 36 total outcomes. P(sum=7) = \\(\\frac{6}{36}\\) = \\(\\frac{1}{6}\\).',
       },
       {
-        text: '\\(\\(\frac{7}{36}\\)',
+        text: '\\(\\frac{7}{36}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'There are 36 possible outcomes when rolling two dice. The combinations that sum to 7 are (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). There are 6 favorable outcomes. The probability is \\(\\(\frac{6}{36}\\), which simplifies to \\(\\(\frac{1}{6}\\).',
+      'There are 36 possible outcomes when rolling two dice. The combinations that sum to 7 are (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). There are 6 favorable outcomes. The probability is \\(\\frac{6}{36}\\), which simplifies to \\(\\frac{1}{6}\\).',
     challenge_tags: ['math-6'],
   },
   {

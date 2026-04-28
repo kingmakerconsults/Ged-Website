@@ -55,7 +55,7 @@ module.exports = [
       {
         "text": "36",
         "isCorrect": false,
-        "rationale": "Incorrect multiplication or missing \\(\\frac{1}{2}\\) factor.\\)"
+        "rationale": "Incorrect multiplication or missing \\(\\frac{1}{2}\\) factor."
       }
     ],
     "challenge_tags": [
@@ -205,12 +205,12 @@ module.exports = [
       {
         "text": "18",
         "isCorrect": false,
-        "rationale": "18 would be $2a^{2} for a=3, not 6a^{2}\\)."
+        "rationale": "18 would be \\(2a^{2} for a=3, not 6a^{2}\\)."
       },
       {
         "text": "36",
         "isCorrect": false,
-        "rationale": "36 is $4a^{2} for a=3; a cube has 6 faces.\\)"
+        "rationale": "36 is \\(4a^{2} for a=3; a cube has 6 faces.\\)"
       }
     ],
     "challenge_tags": [

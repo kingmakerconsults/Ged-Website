@@ -111,7 +111,7 @@ module.exports = [
   },
   {
     questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
-    passage: "A psychology experiment offered participants $5 to write an essay arguing a position they disagreed with. A second group was offered $1 for the same task. Surprisingly, the $1 group later reported greater agreement with the position they had argued than the $5 group. Researchers explained that the $5 group had sufficient external justification for writing the essay, while the $1 group did not.",
+    passage: "A psychology experiment offered participants \\(5 to write an essay arguing a position they disagreed with. A second group was offered \\)1 for the same task. Surprisingly, the $1 group later reported greater agreement with the position they had argued than the $5 group. Researchers explained that the $5 group had sufficient external justification for writing the essay, while the $1 group did not.",
     question: "What does the researchers' explanation imply about how people resolve the discomfort of arguing a position they reject?",
     answerOptions: [
       { text: "Participants in the lower-paid group changed their beliefs because they felt guilty about accepting money for writing something dishonest.", isCorrect: false, rationale: "The researchers attribute the shift to cognitive dissonance resolution, not guilt  the two are distinct psychological mechanisms." },

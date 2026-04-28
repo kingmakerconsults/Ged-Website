@@ -30,7 +30,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio of trucks to cars is 8 to 12. To simplify, find the greatest common divisor, which is 4. Divide both parts of the ratio by 4: \\(\\(\frac{8}{4}\\) = 2 and \\(\\(\frac{12}{4}\\) = 3. The simplified ratio is 2:3.',
+      'The ratio of trucks to cars is 8 to 12. To simplify, find the greatest common divisor, which is 4. Divide both parts of the ratio by 4: \\(\\frac{8}{4}\\) = 2 and \\(\\frac{12}{4}\\) = 3. The simplified ratio is 2:3.',
     challenge_tags: ['math-1'],
   },
   {
@@ -43,7 +43,7 @@ module.exports = [
       "A product's price increased by 8%. If the original price was $75, what is the new price?",
     correctAnswer: '81',
     rationale:
-      'The price increase is 8% of $75, which is 0.08 * 75 = $6. The new price is the original price plus the increase: $75 + $6 = $81.',
+      'The price increase is 8% of \\(75, which is 0.08 * 75 = \\)6. The new price is the original price plus the increase: \\(75 + \\)6 = $81.',
     challenge_tags: ['math-1'],
   },
   {
@@ -89,7 +89,7 @@ module.exports = [
       'A recipe requires a 3:2 ratio of flour to sugar. If you use 6 cups of sugar, how much flour do you need?',
     correctAnswer: '9 cups',
     rationale:
-      'The amount of sugar is 3 times the ratio amount (\\(\\(\frac{6}{2}\\)=3). So you need 3 times the flour (3*3=9).',
+      'The amount of sugar is 3 times the ratio amount (\\(\\frac{6}{2}\\)=3). So you need 3 times the flour (3*3=9).',
     challenge_tags: ['math-1'],
   },
   {
@@ -109,7 +109,7 @@ module.exports = [
         text: '\\(50.00\\)',
         isCorrect: true,
         rationale:
-          'Let P be the original price. P * 1.05 = $52.50. P = $52.50 / 1.05 = 50.',
+          'Let P be the original price. P * 1.05 = $52.50. P = $52.\\(\\frac{50}{1}\\).05 = 50.',
       },
       {
         text: '\\(51.98\\)',
@@ -239,7 +239,7 @@ module.exports = [
       {
         text: '75%',
         isCorrect: true,
-        rationale: '(45 / 60) * 100 = 0.75 * 100 = 75%.',
+        rationale: '(\\(\\frac{45}{60}\\)) * 100 = 0.75 * 100 = 75%.',
       },
       {
         text: '25%',
@@ -248,7 +248,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the percentage, divide the number of people who prefer coffee by the total number surveyed, and multiply by 100: (45 / 60) * 100 = 0.75 * 100 = 75%.',
+      'To find the percentage, divide the number of people who prefer coffee by the total number surveyed, and multiply by 100: (\\(\\frac{45}{60}\\)) * 100 = 0.75 * 100 = 75%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -262,18 +262,18 @@ module.exports = [
       {
         text: '40',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "40" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '48',
         isCorrect: true,
         rationale:
-          'The ratio is 5:8. The smaller part (5) is 30, so the multiplier is \\(\\(\frac{30}{5}\\)=6. The larger number is 8*6=48.',
+          'The ratio is 5:8. The smaller part (5) is 30, so the multiplier is \\(\\frac{30}{5}\\)=6. The larger number is 8*6=48.',
       },
       {
         text: '64',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "64" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '30',
@@ -282,7 +282,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \\(\\(\frac{5}{8}\\) = \\(\frac{30}{x}\\)\\(. Cross-multiply:  5x = 240\\(. Divide by 5:  x = 48.\\)\\)',
+      'Set up a proportion: \\(\\frac{5}{8}\\) = \\(\\frac{30}{x}\\). Cross-multiply:  5x = 240\\(. Divide by 5:  x = 48.\\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -296,12 +296,12 @@ module.exports = [
       {
         text: '2 miles',
         isCorrect: false,
-        rationale: 'This is \\)\\(\\(\frac{30}{15}\\).',
+        rationale: 'This is \\(\\frac{30}{15}\\).',
       },
       {
         text: '300 miles',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "300 miles" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '450 miles',
@@ -311,7 +311,7 @@ module.exports = [
       {
         text: '500 miles',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "500 miles" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:

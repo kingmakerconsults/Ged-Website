@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the slope: m = (2 - 8) / (4 - 2) = -6 / 2 = -3. Then, use the slope-intercept form y = mx + b with one of the points, for example (2, 8): 8 = -3(2) + b. 8 = -6 + b. So, b = 14.',
+      'First, find the slope: m = (2 - 8) / (4 - 2) = -\\(\\frac{6}{2}\\) = -3. Then, use the slope-intercept form y = mx + b with one of the points, for example (2, 8): 8 = -3(2) + b. 8 = -6 + b. So, b = 14.',
     challenge_tags: ['math-4'],
   },
   {
@@ -257,27 +257,29 @@ module.exports = [
         text: '\\(y = x^2 - 3\\)',
         isCorrect: false,
         rationale:
-          'The coefficient of \\(x^{2} is positive, so it opens upward.\\)',
+          'The coefficient of \\(x^{2}\\) here is +1 (positive), so the parabola opens upward, not downward.',
       },
       {
         text: '\\(y = -x^2 + 4\\)',
         isCorrect: true,
         rationale:
-          'A negative coefficient for the \\(x^{2} term means the parabola opens downward.\\)',
+          'A negative coefficient for the \\(x^{2}\\) term (here \\(-1\\)) means the parabola opens downward.',
       },
       {
         text: '\\(y = (x-2)^2\\)',
         isCorrect: false,
-        rationale: 'The coefficient of \\(x^{2} is positive.\\)',
+        rationale:
+          'After expanding, \\((x-2)^2 = x^2 - 4x + 4\\); the coefficient of \\(x^{2}\\) is +1, so this parabola opens upward.',
       },
       {
         text: '\\(y = 2x^2\\)',
         isCorrect: false,
-        rationale: 'The coefficient of \\(x^{2} is positive.\\)',
+        rationale:
+          'The coefficient of \\(x^{2}\\) is +2 (positive), so this parabola opens upward and is narrower than \\(y = x^2\\).',
       },
     ],
     rationale:
-      'The direction of a parabola is determined by the sign of the coefficient of the \\(x^{2} term. A negative coefficient means the parabola opens downward.\\)',
+      'The direction of a parabola is determined by the sign of the coefficient of the \\(x^{2}\\) term. A negative coefficient means the parabola opens downward.',
     challenge_tags: ['math-4'],
   },
   {
@@ -285,8 +287,9 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question:
-      'The table shows a linear relationship between x and y. What is the slope? (x=2, y=5), (x=4, y=9)',
+    passage:
+      'The table shows a linear relationship between x and y.\n\n| x | y |\n| --- | --- |\n| 2 | 5 |\n| 4 | 9 |\n| 6 | 13 |\n| 8 | 17 |',
+    question: 'What is the slope of the line that passes through these points?',
     answerOptions: [
       {
         text: '1',
@@ -296,7 +299,7 @@ module.exports = [
       {
         text: '2',
         isCorrect: true,
-        rationale: 'Slope = (9-5)/(4-2) = \\(\\(\frac{4}{2}\\) = 2.',
+        rationale: 'Slope = (9-5)/(4-2) = \\(\\frac{4}{2}\\) = 2.',
       },
       {
         text: '4',
@@ -310,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The slope is the change in y divided by the change in x. Using the two points: \\(m = \\(\frac{9 - 5}{4 - 2}\\) = \\(\frac{4}{2}\\) = 2.',
+      'The slope is the change in y divided by the change in x. Using the two points: m = \\(\\frac{9 - 5}{4 - 2}\\) = \\(\\frac{4}{2}\\) = 2.',
     challenge_tags: ['math-4'],
   },
 ];

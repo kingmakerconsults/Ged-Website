@@ -113,7 +113,7 @@ module.exports = [
       },
       {
         "text": "Natural selection",
-        "rationale": "Correct. This is the main mechanism of evolution.",
+        rationale: "Correct because natural selection is the process by which individuals with traits better suited to their environment are more likely to survive and reproduce, which drives evolutionary change in a population.",
         "isCorrect": true
       },
       {
@@ -387,7 +387,7 @@ module.exports = [
       },
       {
         "text": "A group of organisms that can successfully interbreed and produce fertile offspring.",
-        "rationale": "Correct. This is the biological species concept.",
+        rationale: "Correct because the biological species concept defines a species as a group of organisms that can interbreed and produce fertile offspring, which is the standard definition used in modern biology.",
         "isCorrect": true
       },
       {

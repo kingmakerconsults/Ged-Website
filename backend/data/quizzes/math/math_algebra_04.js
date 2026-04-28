@@ -36,7 +36,7 @@ module.exports = [
     answerOptions: [
       { text: '-4', isCorrect: true, rationale: 'Subtract 8: 3m = -12. Divide by 3: m = -4.' },
       { text: '4', isCorrect: false, rationale: 'Sign error — the result is negative.' },
-      { text: '-\\frac{4}{3}', isCorrect: false, rationale: 'This divides before subtracting 8.' },
+      { text: '-\\(\\frac{4}{3}\\)', isCorrect: false, rationale: 'This divides before subtracting 8.' },
       { text: '12', isCorrect: false, rationale: 'This adds 8 instead of subtracting.' },
     ],
     rationale: 'Subtract 8 from both sides: 3m = -12. Divide by 3: m = -4.',
@@ -49,12 +49,12 @@ module.exports = [
     difficulty: 'medium',
     question: 'What is the slope of the line passing through \\((2, 1)\\) and \\((6, 9)\\)?',
     answerOptions: [
-      { text: '2', isCorrect: true, rationale: 'Slope = (9 - 1) / (6 - 2) = 8 / 4 = 2.' },
+      { text: '2', isCorrect: true, rationale: 'Slope = (9 - 1) / (6 - 2) = \\(\\frac{8}{4}\\) = 2.' },
       { text: '4', isCorrect: false, rationale: 'This is the rise (change in y) without dividing by the run.' },
-      { text: '\\frac{1}{2}', isCorrect: false, rationale: 'This inverts the rise-over-run formula.' },
+      { text: '\\(\\frac{1}{2}\\)', isCorrect: false, rationale: 'This inverts the rise-over-run formula.' },
       { text: '8', isCorrect: false, rationale: 'This is the difference in y-values only.' },
     ],
-    rationale: 'Slope = (y₂ - y₁) / (x₂ - x₁) = (9 - 1) / (6 - 2) = 8 / 4 = 2.',
+    rationale: 'Slope = (y₂ - y₁) / (x₂ - x₁) = (9 - 1) / (6 - 2) = \\(\\frac{8}{4}\\) = 2.',
     challenge_tags: ['math-3'],
   },
   {
@@ -90,12 +90,12 @@ module.exports = [
     difficulty: 'medium',
     question: 'A store sells notebooks for \\$3 each and pens for \\$1.50 each. Marcus buys 4 notebooks and some pens spending \\$18 total. How many pens did he buy?',
     answerOptions: [
-      { text: '4', isCorrect: true, rationale: 'Notebooks cost 4 × \$3 = \$12. Remaining: \$18 - \$12 = \$6. Pens: \$6 / \$1.50 = 4.' },
+      { text: '4', isCorrect: true, rationale: 'Notebooks cost 4 × \\(3 = \\)12. Remaining: \\(18 - \\)12 = $6. Pens: \\(6 / \\)1.50 = 4.' },
       { text: '6', isCorrect: false, rationale: 'This ignores the notebook cost.' },
       { text: '2', isCorrect: false, rationale: 'This uses an incorrect remaining amount.' },
       { text: '8', isCorrect: false, rationale: 'This divides the total by the pen price without accounting for notebooks.' },
     ],
-    rationale: '4 × 3 = 12. Remaining = 18 - 12 = 6. Pens = 6 / 1.50 = 4.',
+    rationale: '4 × 3 = 12. Remaining = 18 - 12 = 6. Pens = \\(\\frac{6}{1}\\).50 = 4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -106,7 +106,7 @@ module.exports = [
     question: 'If \\(f(x) = 4x - 3\\), what value of \\(x\\) makes \\(f(x) = 13\\)?',
     answerOptions: [
       { text: '4', isCorrect: true, rationale: '4(4) - 3 = 16 - 3 = 13. ✓' },
-      { text: '\\frac{10}{4}', isCorrect: false, rationale: 'This adds 3 first and then divides incorrectly.' },
+      { text: '\\(\\frac{10}{4}\\)', isCorrect: false, rationale: 'This adds 3 first and then divides incorrectly.' },
       { text: '3', isCorrect: false, rationale: '4(3) - 3 = 9 ≠ 13.' },
       { text: '5', isCorrect: false, rationale: '4(5) - 3 = 17 ≠ 13.' },
     ],

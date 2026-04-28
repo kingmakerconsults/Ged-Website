@@ -9,11 +9,11 @@ module.exports = [
     question: 'A recipe for 6 servings uses 2.5 cups of flour. Terrence needs to make 15 servings. How many cups of flour does he need?',
     answerOptions: [
       { text: '5.5', isCorrect: false, rationale: 'This adds 3 instead of scaling proportionally.' },
-      { text: '6.25', isCorrect: true, rationale: '15/6 × 2.5 = 2.5 × 2.5 = 6.25 cups.' },
+      { text: '6.25', isCorrect: true, rationale: '\\(\\frac{15}{6}\\) × 2.5 = 2.5 × 2.5 = 6.25 cups.' },
       { text: '7.5', isCorrect: false, rationale: 'This multiplies by 3 rather than 2.5.' },
       { text: '5', isCorrect: false, rationale: 'This divides by 2.5 instead of multiplying.' },
     ],
-    rationale: 'Scale factor = 15/6 = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.',
+    rationale: 'Scale factor = \\(\\frac{15}{6}\\) = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.',
     challenge_tags: ['math-3'],
   },
   {
@@ -24,7 +24,7 @@ module.exports = [
     difficulty: 'medium',
     question: 'If \\(y = kx\\) and \\(y = 45\\) when \\(x = 9\\), find \\(y\\) when \\(x = 15\\).',
     correctAnswer: '75',
-    rationale: 'k = 45/9 = 5. When x = 15: y = 5 × 15 = 75.',
+    rationale: 'k = \\(\\frac{45}{9}\\) = 5. When x = 15: y = 5 × 15 = 75.',
     challenge_tags: ['math-3'],
   },
   {

@@ -100,12 +100,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -176,17 +176,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -214,12 +214,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -290,17 +290,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -328,12 +328,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -404,17 +404,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -865,12 +865,12 @@ module.exports = [
       },
       {
         "text": "1980 to 1990",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"1980 to 1990\".",
         "isCorrect": false
       },
       {
         "text": "2010 to 2020",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"2010 to 2020\".",
         "isCorrect": false
       }
     ],
@@ -974,7 +974,7 @@ module.exports = [
       },
       {
         "text": "State gaining 6 seats in the House",
-        "rationale": "Incorrect. That category is not listed.",
+        "rationale": "Incorrect. \"State gaining 6 seats in the House\" is not one of the categories listed in the source.",
         "isCorrect": false
       },
       {
@@ -984,7 +984,7 @@ module.exports = [
       },
       {
         "text": "State gaining 5 seats in the House",
-        "rationale": "Incorrect. That category is not listed.",
+        "rationale": "Incorrect. \"State gaining 5 seats in the House\" is not one of the categories listed in the source.",
         "isCorrect": false
       }
     ],
@@ -1017,12 +1017,12 @@ module.exports = [
       },
       {
         "text": "1980 to 1990",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"1980 to 1990\".",
         "isCorrect": false
       },
       {
         "text": "2010 to 2020",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"2010 to 2020\".",
         "isCorrect": false
       }
     ],
@@ -1320,8 +1320,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1492",
+        "rationale": "Incorrect. 1492 is the year Columbus first reached the Americas, not a date marked on this map.",
         "isCorrect": false
       },
       {
@@ -1349,7 +1349,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -1359,12 +1359,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -1387,17 +1387,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -1434,8 +1434,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1776",
+        "rationale": "Incorrect. 1776 is the year of the Declaration of Independence, more than a decade after the territorial changes shown here.",
         "isCorrect": false
       },
       {
@@ -1463,7 +1463,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -1473,12 +1473,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -1501,17 +1501,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {

@@ -100,12 +100,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {

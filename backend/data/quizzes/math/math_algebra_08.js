@@ -55,7 +55,7 @@ module.exports = [
       {
         "text": "\\(y = \\frac{3}{2}x + 8\\)",
         "isCorrect": true,
-        "rationale": "5 = (3/2)(-2) + b → 5 = -3 + b → b = 8."
+        "rationale": "5 = (\\(\\frac{3}{2}\\))(-2) + b → 5 = -3 + b → b = 8."
       },
       {
         "text": "\\(y = \\frac{3}{2}x + 5\\)",
@@ -73,7 +73,7 @@ module.exports = [
         "rationale": "This uses the reciprocal of the slope."
       }
     ],
-    "rationale": "Use y = mx + b. Plug in the point: 5 = (3/2)(−2) + b → b = 8. Equation: y = (3/2)x + 8.",
+    "rationale": "Use y = mx + b. Plug in the point: 5 = (\\(\\frac{3}{2}\\))(−2) + b → b = 8. Equation: y = (\\(\\frac{3}{2}\\))x + 8.",
     "challenge_tags": [
       "math-3"
     ]
@@ -88,7 +88,7 @@ module.exports = [
       {
         "text": "4",
         "isCorrect": true,
-        "rationale": "Regular: 40 × 15 = 600. OT needed: 750 - 600 = 150. OT rate = 22.50. OT hours = 150/22.50 = 4."
+        "rationale": "Regular: 40 × 15 = 600. OT needed: 750 - 600 = 150. OT rate = 22.50. OT hours = \\(\\frac{150}{22}\\).50 = 4."
       },
       {
         "text": "5",
@@ -136,10 +136,10 @@ module.exports = [
       {
         "text": "A horizontal line at y = 3",
         "isCorrect": false,
-        "rationale": "A horizontal line has slope 0, not -1/2."
+        "rationale": "A horizontal line has slope 0, not -\\(\\frac{1}{2}\\)."
       }
     ],
-    "rationale": "Slope = −1/2 (negative → falls). y-intercept = 3 (crosses y-axis at y = 3).",
+    "rationale": "Slope = −\\(\\frac{1}{2}\\) (negative → falls). y-intercept = 3 (crosses y-axis at y = 3).",
     "challenge_tags": [
       "math-3"
     ]
@@ -289,7 +289,7 @@ module.exports = [
       {
         "text": "34 cm",
         "isCorrect": true,
-        "rationale": "First = 17. Second = 20. Third = 34. 17+20+34=71? Recalculate: 5x+3=54, x=51/5=? Let x=first: x+(x+3)+2x=54 → 4x+3=54 → 4x=51 → x=12.75. Third = 25.5. Round: longest = 2x."
+        "rationale": "First = 17. Second = 20. Third = 34. 17+20+34=71? Recalculate: 5x+3=54, x=\\(\\frac{51}{5}\\)=? Let x=first: x+(x+3)+2x=54 → 4x+3=54 → 4x=51 → x=12.75. Third = 25.5. Round: longest = 2x."
       },
       {
         "text": "24 cm",

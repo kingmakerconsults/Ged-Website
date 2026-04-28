@@ -221,7 +221,7 @@ module.exports = [
   {
     "questionNumber": 8,
     "type": "text",
-    "passage": "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers��powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
+    "passage": "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers—powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
     "question": "The 'Elastic Clause' is significant because it grants Congress:",
     "answerOptions": [
       {

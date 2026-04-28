@@ -21,7 +21,7 @@ module.exports = [
       {
         text: '6',
         isCorrect: true,
-        rationale: 'Divide both sides by 7: 42 / 7 = 6.',
+        rationale: 'Divide both sides by 7: \\(\\frac{42}{7}\\) = 6.',
       },
       {
         text: '7',
@@ -40,7 +40,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To solve for x, divide both sides of the equation by 7. x = 42 / 7 = 6.',
+      'To solve for x, divide both sides of the equation by 7. x = \\(\\frac{42}{7}\\) = 6.',
     challenge_tags: ['math-3'],
   },
   {
@@ -85,7 +85,7 @@ module.exports = [
       'What is the slope of the line passing through (2, 5) and (4, 1)?',
     correctAnswer: '-2',
     rationale:
-      'Slope = (change in y) / (change in x) = (1 - 5) / (4 - 2) = -4 / 2 = -2.',
+      'Slope = (change in y) / (change in x) = (1 - 5) / (4 - 2) = -\\(\\frac{4}{2}\\) = -2.',
     challenge_tags: ['math-3'],
   },
   {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Foundations of American Government: Quiz 1
  * Topics: Articles of Confederation, Constitutional Convention, Federalism, Bill of Rights
  */
@@ -43,7 +43,7 @@ module.exports = [
     type: 'text',
     passage:
       'In 1786, a former Continental Army captain named Daniel Shays led a rebellion of debt-ridden farmers in western Massachusetts. The farmers, many of them Revolutionary War veterans, faced imprisonment for unpaid debts and demanded relief from the state courts. When Shays and his followers attempted to seize a federal armory in Springfield, the national government under the Articles of Confederation proved unable to raise troops to respond. Massachusetts eventually put down the rebellion using a privately funded militia.',
-    question: 'How did Shays\\'s Rebellion demonstrate the need for a stronger national government?',
+    question: 'How did Shays\'s Rebellion demonstrate the need for a stronger national government?',
     answerOptions: [
       {
         text: 'It showed that the national government could not effectively maintain order or raise a military force.',
@@ -55,7 +55,7 @@ module.exports = [
         text: 'It proved that individual states were too large to govern themselves effectively.',
         isCorrect: false,
         rationale:
-          'Massachusetts did manage to suppress the rebellion using its own resources; the issue was the national government\\'s inability to act.',
+          'Massachusetts did manage to suppress the rebellion using its own resources; the issue was the national government\'s inability to act.',
       },
       {
         text: 'It demonstrated that farmers should not be allowed to petition the government.',
@@ -76,7 +76,7 @@ module.exports = [
     questionNumber: 3,
     type: 'text',
     passage:
-      'The Constitutional Convention convened in Philadelphia in May 1787 with the stated purpose of revising the Articles of Confederation. Delegates from twelve of the thirteen states attended; Rhode Island refused to send representatives, fearing that a stronger central government would threaten its autonomy. Early in the proceedings, Virginia delegate James Madison presented a plan that called for an entirely new government with three separate branches and a bicameral legislature based on proportional representation. This proposal, known as the Virginia Plan, effectively shifted the Convention\\'s goal from revision to replacement of the Articles.',
+      'The Constitutional Convention convened in Philadelphia in May 1787 with the stated purpose of revising the Articles of Confederation. Delegates from twelve of the thirteen states attended; Rhode Island refused to send representatives, fearing that a stronger central government would threaten its autonomy. Early in the proceedings, Virginia delegate James Madison presented a plan that called for an entirely new government with three separate branches and a bicameral legislature based on proportional representation. This proposal, known as the Virginia Plan, effectively shifted the Convention\'s goal from revision to replacement of the Articles.',
     question: 'Why did Rhode Island refuse to send delegates to the Constitutional Convention?',
     answerOptions: [
       {
@@ -157,7 +157,7 @@ module.exports = [
         text: 'Northern states wanted enslaved people counted to increase tax revenue from the South.',
         isCorrect: false,
         rationale:
-          'Northern states argued enslaved people should not be counted at all; they were not trying to increase the South\\'s tax burden through this provision.',
+          'Northern states argued enslaved people should not be counted at all; they were not trying to increase the South\'s tax burden through this provision.',
       },
       {
         text: 'The compromise gave enslaved people three-fifths of the rights held by free citizens.',
@@ -247,7 +247,7 @@ module.exports = [
     type: 'text',
     passage:
       'The Bill of Rights, ratified in 1791, comprises the first ten amendments to the United States Constitution. The First Amendment protects freedoms of religion, speech, the press, assembly, and the right to petition the government. The Second Amendment addresses the right to bear arms. The Fourth Amendment guards against unreasonable searches and seizures, while the Fifth Amendment protects against self-incrimination and guarantees due process of law. The Eighth Amendment prohibits cruel and unusual punishment.',
-    question: 'A police officer searches a citizen\\'s home without a warrant or probable cause. Which amendment in the Bill of Rights is most directly violated?',
+    question: 'A police officer searches a citizen\'s home without a warrant or probable cause. Which amendment in the Bill of Rights is most directly violated?',
     answerOptions: [
       {
         text: 'The Fourth Amendment.',
@@ -305,7 +305,7 @@ module.exports = [
         text: 'A senator gives a speech on the floor of Congress.',
         isCorrect: false,
         rationale:
-          'Giving a speech is part of normal legislative activity and does not demonstrate one branch limiting another\\'s power.',
+          'Giving a speech is part of normal legislative activity and does not demonstrate one branch limiting another\'s power.',
       },
     ],
     challenge_tags: ['social-1', 'social-4'],
@@ -353,7 +353,7 @@ module.exports = [
         text: 'They recognized that the document would need to adapt to changing circumstances over time.',
         isCorrect: true,
         rationale:
-          'The framers included Article V\\'s amendment process because they understood that no document could anticipate every future need, making flexibility essential.',
+          'The framers included Article V\'s amendment process because they understood that no document could anticipate every future need, making flexibility essential.',
       },
       {
         text: 'They wanted to make it easy for any single state to change the Constitution.',

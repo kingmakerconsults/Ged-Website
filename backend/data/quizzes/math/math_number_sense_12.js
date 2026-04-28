@@ -14,7 +14,7 @@ module.exports = [
       {
         text: '503',
         isCorrect: true,
-        rationale: '305 + 198 = 503.',
+        rationale: "Correct because adding 305 and 198 gives 305 + 198 = 503, which is the sum.",
       },
       {
         text: '493',
@@ -208,7 +208,7 @@ module.exports = [
       "A company's total expenses are 30,000. If salaries account for 65% of the expenses, how much is spent on salaries?",
     correctAnswer: '19,500',
     rationale:
-      'To find the amount spent on salaries, multiply the total expenses by the percentage: 30,000 \\times 0.65 = 19,500.',
+      'To find the amount spent on salaries, multiply the total expenses by the percentage: 30,000 \\(\\times\\) 0.65 = 19,500.',
     challenge_tags: ['math-1'],
   },
   {

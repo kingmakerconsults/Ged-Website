@@ -143,7 +143,7 @@ module.exports = [
       },
       {
         text: '20 km/h',
-        rationale: 'Correct. Using v = d/t: v = 60 km ÷ 3 h = 20 km/h.',
+        rationale: "Correct because average speed equals distance divided by time (v = d/t), so 60 km divided by 3 h equals 20 km/h.",
         isCorrect: true,
       },
       {
@@ -224,7 +224,7 @@ module.exports = [
       },
       {
         text: '20 N',
-        rationale: 'Correct. Using F = ma: F = (10 kg)(2 m/s²) = 20 N.',
+        rationale: "Correct because Newton’s Second Law states force equals mass times acceleration (F = m × a), so 10 kg × 2 m/s² equals 20 N.",
         isCorrect: true,
       },
       {
@@ -261,7 +261,7 @@ module.exports = [
       },
       {
         text: '400 J',
-        rationale: 'Correct. Using W = F × d: W = (50 N)(8 m) = 400 J.',
+        rationale: "Correct because work equals force times the distance moved in the direction of the force (W = F × d), so 50 N × 8 m equals 400 joules.",
         isCorrect: true,
       },
       {
@@ -292,7 +292,7 @@ module.exports = [
       },
       {
         text: '400 W',
-        rationale: 'Correct. Using P = W/t: P = 12,000 J ÷ 30 s = 400 W.',
+        rationale: "Correct because power equals work divided by time (P = W/t), so 12,000 J divided by 30 s equals 400 W.",
         isCorrect: true,
       },
       {

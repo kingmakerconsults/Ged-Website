@@ -30,7 +30,7 @@ module.exports = [
       },
     ],
     rationale:
-      "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is -2/3.",
+      "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is -\\(\\frac{2}{3}\\).",
     challenge_tags: ['math-3'],
   },
   {
@@ -75,7 +75,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the slope: m = (5 - 1) / (3 - 1) = 4 / 2 = 2. Then use the point-slope form with (1,1): y - 1 = 2(x - 1). y - 1 = 2x - 2. y = 2x - 1.',
+      'First, find the slope: m = (5 - 1) / (3 - 1) = \\(\\frac{4}{2}\\) = 2. Then use the point-slope form with (1,1): y - 1 = 2(x - 1). y - 1 = 2x - 2. y = 2x - 1.',
     challenge_tags: ['math-3'],
   },
   {
@@ -109,12 +109,14 @@ module.exports = [
       {
         text: 'y = x',
         isCorrect: false,
-        rationale: 'This is a diagonal line.',
+        rationale:
+          'This is the diagonal line through the origin with slope 1, not a vertical line.',
       },
       {
         text: 'y = 3x',
         isCorrect: false,
-        rationale: 'This is a diagonal line.',
+        rationale:
+          'This is a diagonal line through the origin with slope 3, not a vertical line.',
       },
     ],
     rationale:
@@ -137,12 +139,14 @@ module.exports = [
       {
         text: '(3, 0)',
         isCorrect: false,
-        rationale: 'This is one of the x-intercepts.',
+        rationale:
+          '(3, 0) is one of the x-intercepts (where f(x)=0); the y-intercept requires x=0, not y=0.',
       },
       {
         text: '(1, 0)',
         isCorrect: false,
-        rationale: 'This is one of the x-intercepts.',
+        rationale:
+          '(1, 0) is the other x-intercept of f(x); the y-intercept is the value of f when x=0, which gives (0, 3).',
       },
       {
         text: '(2, -1)',
@@ -274,7 +278,7 @@ module.exports = [
       },
     ],
     rationale:
-      'A vertical shift of a function f(x) down by k units is represented by the new function g(x) = f(x) - k. So, the new equation is y = x^2 - 3.',
+      'A vertical shift of a function f(x) down by k units is represented by the new function g(x) = f(x) - k. So, the new equation is y = \\(x^{2}\\) - 3.',
     challenge_tags: ['math-3'],
   },
   {
@@ -307,7 +311,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The slope is the change in y divided by the change in x. Using the first two points: m = (4 - 2) / (2 - 1) = 2 / 1 = 2.',
+      'The slope is the change in y divided by the change in x. Using the first two points: m = (4 - 2) / (2 - 1) = \\(\\frac{2}{1}\\) = 2.',
     challenge_tags: ['math-3'],
   },
 ];

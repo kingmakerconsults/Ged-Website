@@ -196,7 +196,8 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students. What additional information is needed before adopting Textbook D schoolwide?",
+    "passage": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students.\n\n| Class | Textbook | Avg. Score |\n| --- | --- | --- |\n| 1 | A | 78 |\n| 2 | B | 81 |\n| 3 | C | 80 |\n| 4 | D | 88 |",
+    "question": "What additional information is needed before adopting Textbook D schoolwide?",
     "answerOptions": [
       {
         "text": "Whether Textbook D was used with the same teaching methods and time as the other textbooks.",

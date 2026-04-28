@@ -9,7 +9,8 @@ module.exports = [
       {
         text: '901',
         isCorrect: true,
-        rationale: '1000 - 99 = 901.',
+        rationale:
+          'Correct because subtracting 99 from 1,000 gives 1,000 − 99 = 901, which is the result of the subtraction.',
       },
       {
         text: '911',
@@ -39,7 +40,7 @@ module.exports = [
     question: 'What is 25% of 200?',
     correctAnswer: '50',
     rationale:
-      '25% is the same as \\((\\frac{1}{4})\\). \\((\\frac{1}{4})\\) of 200 is 200 / 4 = 50.',
+      '25% is the same as \\((\\frac{1}{4})\\). \\((\\frac{1}{4})\\) of 200 is \\(\\frac{200}{4}\\) = 50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -53,27 +54,30 @@ module.exports = [
       {
         text: '$9',
         isCorrect: false,
-        rationale: 'This is the discount amount.',
+        rationale:
+          'This is the discount amount, not the sale price. Subtract the discount from the original price to get the final cost.',
       },
       {
-        text: '$51',
+        text: '$45',
         isCorrect: false,
-        rationale: 'This is a 25% discount.',
+        rationale:
+          'This would be the sale price after a 25% discount: \\(60 - 0.25 \\times 60 = 45\\). The problem specifies a 15% markdown.',
       },
       {
         text: '$51',
         isCorrect: true,
         rationale:
-          'The discount is 0.15 \\(\\times\\) 60 = 9. The sale price is 60 - 9 = 51.',
+          'The discount is \\(0.15 \\times 60 = 9\\) dollars. The sale price is \\(60 - 9 = 51\\) dollars.',
       },
       {
         text: '$69',
         isCorrect: false,
-        rationale: 'This is the price after a 15% markup.',
+        rationale:
+          'This is the price after a 15% markup (an increase), not a markdown. The original price was reduced, not raised.',
       },
     ],
     rationale:
-      'First, calculate the discount: 15% of $60 is 0.15 \\(\\times\\) 60 = 9. Then, subtract the discount from the original price: $60 - $9 = $51.',
+      'First, calculate the discount: 15% of \\(60\\) is \\(0.15 \\times 60 = 9\\). Then subtract the discount from the original price: \\(60 - 9 = 51\\) dollars.',
     challenge_tags: ['math-1'],
   },
   {
@@ -276,7 +280,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Simple interest is calculated using the formula I = P * r * t. So, I = $5000 * 0.06 * 4 = 1200\\).',
+      'Simple interest is calculated using the formula I = P * r * t. So, I = \\(5000 * 0.06 * 4 = 1200\\).',
     challenge_tags: ['math-1'],
   },
   {

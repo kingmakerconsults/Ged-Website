@@ -62,7 +62,7 @@ module.exports = [
         text: '24 \\(in^2\\)',
         isCorrect: true,
         rationale:
-          'The area is (\\(\\(\frac{1}{2}\\)) * base * height = (\\(\\(\frac{1}{2}\\)) * 8 * 6 = 24.',
+          'The area is (\\(\\frac{1}{2}\\)) * base * height = (\\(\\frac{1}{2}\\)) * 8 * 6 = 24.',
       },
       {
         text: '28 \\(in^2\\)',
@@ -73,11 +73,11 @@ module.exports = [
         text: '48 \\(in^2\\)',
         isCorrect: false,
         rationale:
-          'This is the result of multiplying base by height, without multiplying by \\(\\(\frac{1}{2}\\).',
+          'This is the result of multiplying base by height, without multiplying by \\(\\frac{1}{2}\\).',
       },
     ],
     rationale:
-      'The formula for the area of a triangle is A = \\(\\(\frac{1}{2}\\) * b * h. So, A = \\(\\(\frac{1}{2}\\) * 8 inches * 6 inches = 24 \\(in^{2}\\).',
+      'The formula for the area of a triangle is A = \\(\\frac{1}{2}\\) * b * h. So, A = \\(\\frac{1}{2}\\) * 8 inches * 6 inches = 24 \\(in^{2}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -124,7 +124,7 @@ module.exports = [
       },
     ],
     rationale:
-      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(9^{2} + 12^{2} = c^{2}\\), which is $81 + 144 = 225\\). Thus, c = \\(\\(\sqrt{225}\\) = 15 cm.',
+      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(9^{2} + 12^{2} = c^{2}\\), which is \\(81 + 144 = 225\\). Thus, c = \\(sqrt{225}\\) = 15 cm.',
     challenge_tags: ['math-5'],
   },
   {
@@ -143,7 +143,7 @@ module.exports = [
       {
         text: '49 \\(ft^3\\)',
         isCorrect: false,
-        rationale: 'This is the result of an incorrect calculation.',
+        rationale: 'Incorrect. "49 \\(ft^3\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '84 \\(ft^3\\)',
@@ -153,7 +153,7 @@ module.exports = [
       {
         text: '100 \\(ft^3\\)',
         isCorrect: false,
-        rationale: 'This is the result of an incorrect calculation.',
+        rationale: 'Incorrect. "100 \\(ft^3\\)" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:

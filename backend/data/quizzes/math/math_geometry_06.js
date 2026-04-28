@@ -19,7 +19,7 @@ module.exports = [
       {
         "text": "64 \\(cm^2\\)",
         "isCorrect": true,
-        "rationale": "The side length is \\(\\(\frac{32}{4}\\) = 8 cm. The area is 8*8 = 64 \\(cm^{2}\\)."
+        "rationale": "The side length is \\(\\frac{32}{4}\\) = 8 cm. The area is 8*8 = 64 \\(cm^{2}\\)."
       },
       {
         "text": "256 \\(cm^2\\)",
@@ -211,7 +211,7 @@ module.exports = [
     "difficulty": "hard",
     "question": "A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for \\(\\pi\\).",
     "correctAnswer": "16 feet",
-    "rationale": "Area = pi * \\(r^{2}\\). 200.96 = 3.14 * \\(r^{2}\\). \\(r^{2}\\) = 200.96 / 3.14 = 64. r = 8. The diameter is 2 * r = 16 feet.",
+    "rationale": "Area = pi * \\(r^{2}\\). 200.96 = 3.14 * \\(r^{2}\\). \\(r^{2}\\) = 200.\\(\\frac{96}{3}\\).14 = 64. r = 8. The diameter is 2 * r = 16 feet.",
     "challenge_tags": [
       "math-5"
     ]

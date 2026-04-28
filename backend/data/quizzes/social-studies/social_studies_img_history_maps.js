@@ -22,8 +22,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1492",
+        "rationale": "Incorrect. 1492 is the year Columbus first reached the Americas, not a date marked on this map.",
         "isCorrect": false
       },
       {
@@ -50,7 +50,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -60,12 +60,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -87,17 +87,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -133,8 +133,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1776",
+        "rationale": "Incorrect. 1776 is the year of the Declaration of Independence, more than a decade after the territorial changes shown here.",
         "isCorrect": false
       },
       {
@@ -162,7 +162,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -172,12 +172,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -200,17 +200,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -247,8 +247,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1620",
+        "rationale": "Incorrect. 1620 is the year of the Mayflower landing at Plymouth, which predates this map.",
         "isCorrect": false
       },
       {
@@ -276,7 +276,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -286,12 +286,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -314,17 +314,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -361,8 +361,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1812",
+        "rationale": "Incorrect. 1812 is the year the War of 1812 began, well after the events shown on this map.",
         "isCorrect": false
       },
       {
@@ -390,7 +390,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -400,12 +400,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -428,17 +428,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -475,8 +475,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1492",
+        "rationale": "Incorrect. 1492 is the year Columbus first reached the Americas, not a date marked on this map.",
         "isCorrect": false
       },
       {
@@ -513,8 +513,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1776",
+        "rationale": "Incorrect. 1776 is the year of the Declaration of Independence, more than a decade after the territorial changes shown here.",
         "isCorrect": false
       },
       {
@@ -542,7 +542,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -552,12 +552,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -580,17 +580,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -627,8 +627,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1620",
+        "rationale": "Incorrect. 1620 is the year of the Mayflower landing at Plymouth, which predates this map.",
         "isCorrect": false
       },
       {
@@ -656,7 +656,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -666,12 +666,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -694,17 +694,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -741,8 +741,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1812",
+        "rationale": "Incorrect. 1812 is the year the War of 1812 began, well after the events shown on this map.",
         "isCorrect": false
       },
       {
@@ -770,7 +770,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Spanish gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Spanish gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -780,12 +780,12 @@ module.exports = [
       },
       {
         "text": "British gains",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"British gains\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain",
-        "rationale": "Incorrect. That label is paired with a different year on the map.",
+        "rationale": "Incorrect. On the map, the label \"Lost by Spain & gained by Britain\" is paired with a different year than the one this question asks about.",
         "isCorrect": false
       }
     ],
@@ -808,17 +808,17 @@ module.exports = [
     "answerOptions": [
       {
         "text": "' 'British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"' 'British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "British gains (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"British gains (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
         "text": "Lost by Spain & gained by Britain (1763)",
-        "rationale": "Incorrect. That item is labeled with a later year on the map.",
+        "rationale": "Incorrect. The map labels \"Lost by Spain & gained by Britain (1763)\" with a later year than the one this question asks about.",
         "isCorrect": false
       },
       {
@@ -855,8 +855,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Not enough information is shown to decide.",
-        "rationale": "The visual/text provided does not support this choice.",
+        "text": "1492",
+        "rationale": "Incorrect. 1492 is the year Columbus first reached the Americas, not a date marked on this map.",
         "isCorrect": false
       },
       {

@@ -21,7 +21,7 @@ module.exports = [
       {
         text: '16 in',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{64}{4}\\).',
+        rationale: 'This is \\(\\frac{64}{4}\\).',
       },
       {
         text: '32 in',
@@ -98,39 +98,35 @@ module.exports = [
     calculator: false,
     difficulty: 'medium',
     question:
-      'If two angles of a triangle are 30° and 70°, what kind of triangle is it?',
+      'If two angles of a triangle are 30° and 70°, what is the most specific classification of the triangle by its side lengths?',
     answerOptions: [
       {
-        text: 'Acute',
+        text: 'Equilateral',
         isCorrect: false,
         rationale:
-          "An acute triangle has all angles less than 90°. The third angle is 80°, so this is correct, but 'Isosceles' is a better description.",
-      },
-      {
-        text: 'Obtuse',
-        isCorrect: false,
-        rationale: 'An obtuse triangle has one angle greater than 90°.',
-      },
-      {
-        text: 'Right',
-        isCorrect: false,
-        rationale: 'A right triangle has one 90° angle.',
+          'An equilateral triangle has three equal sides and three equal 60° angles. These angles are not equal, so the sides cannot be equal.',
       },
       {
         text: 'Isosceles',
         isCorrect: false,
         rationale:
-          'An isosceles triangle has two equal angles. The angles are 30, 70, and 80.',
+          'An isosceles triangle has two equal angles (and two equal sides). The angles here are 30°, 70°, and 80° — all different, so no two sides are equal.',
+      },
+      {
+        text: 'Right',
+        isCorrect: false,
+        rationale:
+          'A right triangle has one 90° angle. The third angle here is 180° − 30° − 70° = 80°, so no angle is 90°.',
       },
       {
         text: 'Scalene',
         isCorrect: true,
         rationale:
-          'The third angle is 180-30-70 = 80. Since all angles are different, all sides are different, making it a scalene triangle.',
+          'Correct. The third angle is 180° − 30° − 70° = 80°. Since all three angles (30°, 70°, 80°) are different, all three sides have different lengths, which makes the triangle scalene.',
       },
     ],
     rationale:
-      'The sum of angles in a triangle is 180°. The third angle is 180° - 30° - 70° = 80°. Since all three angles (30°, 70°, 80°) are different, the triangle is scalene. Since all angles are less than 90°, it is also an acute triangle, but scalene is a more specific classification based on the side lengths implied by the angles.',
+      'The sum of angles in a triangle is 180°, so the third angle is 180° − 30° − 70° = 80°. Because the three angles (30°, 70°, 80°) are all different, the three sides are all different lengths. A triangle with three unequal sides is called scalene.',
     challenge_tags: ['math-5'],
   },
   {
@@ -320,7 +316,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The radius is half the diameter, so r = 14 / 2 = 7 inches. The area is A = pi * \\(r^{2}\\) = 3.14 * (7 inches)\\(^2\\) = 3.14 * 49 = 153.86 \\(in^{2}\\).',
+      'The radius is half the diameter, so r = \\(\\frac{14}{2}\\) = 7 inches. The area is A = pi * \\(r^{2}\\) = 3.14 * (7 inches)\\(^2\\) = 3.14 * 49 = 153.86 \\(in^{2}\\).',
     challenge_tags: ['math-5'],
   },
 ];

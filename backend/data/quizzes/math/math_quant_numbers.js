@@ -11,7 +11,8 @@ module.exports = [
     answerOptions: [
       {
         text: '5 + 7',
-        rationale: 'Adds 7 to 5.',
+        rationale:
+          'Correct because "seven more than 5" means starting at 5 and adding 7, which is the expression 5 + 7.',
         isCorrect: true,
       },
       {
@@ -95,7 +96,8 @@ module.exports = [
     answerOptions: [
       {
         text: '9',
-        rationale: '3×2=6, 15-6=9.',
+        rationale:
+          'Correct because, following the order of operations, the expression in parentheses is evaluated first: 3 × 2 = 6, and then 15 − 6 = 9.',
         isCorrect: true,
       },
       {
@@ -151,7 +153,8 @@ module.exports = [
     answerOptions: [
       {
         text: '12',
-        rationale: 'LCM of 3 and 4.',
+        rationale:
+          'Correct because 12 is the least common multiple of 3 and 4, since 12 = 3 × 4 = 4 × 3 and is divisible by both numbers.',
         isCorrect: true,
       },
       {
@@ -161,12 +164,14 @@ module.exports = [
       },
       {
         text: '9',
-        rationale: 'Multiple of 3 only.',
+        rationale:
+          '9 is a multiple of 3 (3 × 3 = 9), but it is not divisible by 4, so it is not a multiple of both.',
         isCorrect: false,
       },
       {
         text: '6',
-        rationale: 'Multiple of 3 only.',
+        rationale:
+          '6 is a multiple of 3 (3 × 2 = 6), but it is not a multiple of 4 (\\(6 \\div 4 = 1.5\\)), so it does not satisfy both conditions.',
         isCorrect: false,
       },
     ],
@@ -208,7 +213,8 @@ module.exports = [
     answerOptions: [
       {
         text: '\\(\\frac{20}{3}\\)',
-        rationale: 'Sum=20, divide by 3.',
+        rationale:
+          'Correct because the mean equals the sum of the values divided by the count, so the mean of 4, 7, and 9 is \\((4 + 7 + 9)/3 = 20/3\\).',
         isCorrect: true,
       },
       {
@@ -264,7 +270,8 @@ module.exports = [
     answerOptions: [
       {
         text: '10',
-        rationale: '18÷3=6, +4=10.',
+        rationale:
+          'Correct because, following the order of operations, division is performed before addition: 18 ÷ 3 = 6, and then 6 + 4 = 10.',
         isCorrect: true,
       },
       {

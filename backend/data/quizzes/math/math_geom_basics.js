@@ -17,13 +17,13 @@ module.exports = [
         text: '24 sq units',
         isCorrect: true,
         rationale:
-          'Area of a triangle is \\(\\(\frac{1}{2}\\) \\(\times base \\(\times\\) height\\). \\(A = 0.5 \\(\times\\) 8 \\(\times 6 = 24.\\)\\)',
+          'Area of a triangle is \\(\\frac{1}{2}\\) \\(\times base \\(\times\\) height\\). A = 0.5 \\(\times\\) 8 \\(\times 6 = 24.\\)',
       },
       {
         text: '48 sq units',
         isCorrect: false,
         rationale:
-          'This is base times height, without multiplying by \\(\\(\frac{1}{2}\\).',
+          'This is base times height, without multiplying by \\(\\frac{1}{2}\\).',
       },
       {
         text: '14 sq units',
@@ -117,12 +117,12 @@ module.exports = [
       {
         text: '90 cubic meters',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "90 cubic meters" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '314 cubic meters',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "314 cubic meters" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-5'],
@@ -143,7 +143,7 @@ module.exports = [
       {
         text: '12.5 feet',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "12.5 feet" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '15 feet',
@@ -153,7 +153,7 @@ module.exports = [
       {
         text: '20 feet',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "20 feet" does not match the result of the correct calculation for this problem.',
       },
     ],
   },
@@ -178,12 +178,12 @@ module.exports = [
       {
         text: '100 sq inches',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "100 sq inches" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '314 sq inches',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "314 sq inches" does not match the result of the correct calculation for this problem.',
       },
     ],
   },
@@ -207,12 +207,12 @@ module.exports = [
       {
         text: '84.78 cubic cm',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "84.78 cubic cm" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '28.26 cubic cm',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "28.26 cubic cm" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-5'],
@@ -264,13 +264,13 @@ module.exports = [
         text: '96 sq inches',
         isCorrect: true,
         rationale:
-          'A cube has 6 faces. The area of one face is \\(4 \\(\times\\)\\)4 = 16. The total surface area is $6 \\(\times\\) 16 = 96.',
+          'A cube has 6 faces. The area of one face is 4 \\(\times\\)4 = 16. The total surface area is $6 \\(\times\\) 16 = 96.',
       },
       {
         text: '16 sq inches',
         isCorrect: false,
         rationale:
-          'A cube has 6 faces. The area of one face is 4 \\times 4 = 16. The total surface area is 6 \\times 16 = 96.',
+          'A cube has 6 faces. The area of one face is 4 \\(\\times\\) 4 = 16. The total surface area is 6 \\(\\times\\) 16 = 96.',
       },
       {
         text: '32 sq inches',
@@ -296,17 +296,17 @@ module.exports = [
         text: '6 meters',
         isCorrect: true,
         rationale:
-          'Area = \\(\\(\frac{1}{2}\\) bh\\). $30 = \\(\frac{1}{2}\\)(10)h.  30 = 5h. \\(h = 6.\\)\\)',
+          'Area = \\(\\frac{1}{2}\\) bh. 30 = \\(\\frac{1}{2}\\)(10)h.  30 = 5h. \\(h = 6.\\)',
       },
       {
         text: '15 meters',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "15 meters" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '300 meters',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "300 meters" does not match the result of the correct calculation for this problem.',
       },
     ],
   },
@@ -357,7 +357,7 @@ module.exports = [
         text: '60 sq inches',
         isCorrect: true,
         rationale:
-          'Area of a parallelogram is base \\(\\(\times\\) height. \\(A = 12 \\(\times\\) 5 = 60.\\)\\)',
+          'Area of a parallelogram is base \\(\times\\) height. \\(A = 12 \\(\times\\) 5 = 60.\\)',
       },
       {
         text: '30 sq inches',
@@ -381,12 +381,12 @@ module.exports = [
         text: '60',
         isCorrect: true,
         rationale:
-          'Area of a trapezoid is \\(\\(\frac{1}{2}\\) h(b_1 + b_2)\\). \\(A = 0.5 \\(\times\\) 6 \\(\times\\)\\) (8 + 12) = 3 \\(\times 20 = 60.\\)',
+          'Area of a trapezoid is \\(\\frac{1}{2}\\) h(b_1 + b_2). A = 0.5 \\(\times\\) 6 \\(\times\\) (8 + 12) = 3 \\(\times 20 = 60.\\)',
       },
       {
         text: '120',
         isCorrect: false,
-        rationale: 'Forgot to multiply by \\(\\(\frac{1}{2}\\).',
+        rationale: 'Forgot to multiply by \\(\\frac{1}{2}\\).',
       },
       {
         text: '26',

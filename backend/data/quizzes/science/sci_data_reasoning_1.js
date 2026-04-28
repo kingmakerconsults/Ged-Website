@@ -128,7 +128,8 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "A lab group tested how different amounts of salt affect the boiling point of water. Their data table shows that adding 10 grams of salt raised the boiling point by 1.5°C, 20 grams raised it by 3.0°C, and 30 grams raised it by 4.6°C compared with plain water. Which conclusion is best supported by the data?",
+    "passage": "A lab group tested how different amounts of salt affect the boiling point of water. Their data table shows that adding 10 grams of salt raised the boiling point by 1.5°C, 20 grams raised it by 3.0°C, and 30 grams raised it by 4.6°C compared with plain water.\n\n| Salt added (g) | Boiling point (°C) |\n| --- | --- |\n| 0 | 100.0 |\n| 5 | 100.5 |\n| 10 | 101.0 |\n| 15 | 101.5 |\n| 20 | 102.0 |",
+    "question": "Which conclusion is best supported by the data?",
     "answerOptions": [
       {
         "text": "Salt lowers the boiling point of water.",

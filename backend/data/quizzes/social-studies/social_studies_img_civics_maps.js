@@ -23,12 +23,12 @@ module.exports = [
       },
       {
         "text": "1980 to 1990",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"1980 to 1990\".",
         "isCorrect": false
       },
       {
         "text": "2010 to 2020",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"2010 to 2020\".",
         "isCorrect": false
       }
     ],
@@ -129,7 +129,7 @@ module.exports = [
       },
       {
         "text": "State gaining 6 seats in the House",
-        "rationale": "Incorrect. That category is not listed.",
+        "rationale": "Incorrect. \"State gaining 6 seats in the House\" is not one of the categories listed in the source.",
         "isCorrect": false
       },
       {
@@ -139,7 +139,7 @@ module.exports = [
       },
       {
         "text": "State gaining 5 seats in the House",
-        "rationale": "Incorrect. That category is not listed.",
+        "rationale": "Incorrect. \"State gaining 5 seats in the House\" is not one of the categories listed in the source.",
         "isCorrect": false
       }
     ],
@@ -171,12 +171,12 @@ module.exports = [
       },
       {
         "text": "1980 to 1990",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"1980 to 1990\".",
         "isCorrect": false
       },
       {
         "text": "2010 to 2020",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"2010 to 2020\".",
         "isCorrect": false
       }
     ],
@@ -247,12 +247,12 @@ module.exports = [
       },
       {
         "text": "1980 to 1990",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"1980 to 1990\".",
         "isCorrect": false
       },
       {
         "text": "2010 to 2020",
-        "rationale": "Incorrect. Those years are not shown in the map title.",
+        "rationale": "Incorrect. The map's title and legend do not reference \"2010 to 2020\".",
         "isCorrect": false
       }
     ],

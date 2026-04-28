@@ -58,9 +58,12 @@ function normalizeLatex(text) {
 
     normalized = normalized
         .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
-        .replace(/(?<!\\)\$([^$]*?)(?<!\\)\$/g, '$1')
-        .replace(/\\\(([^]*?)\\\)/g, '$1')
-        .replace(/\\\[([^]*?)\\\]/g, '$1');
+        .replace(/(?<!\\)\$([^$]*?)(?<!\\)\$/g, '$1');
+    // NOTE: We intentionally DO NOT strip \(...\) or \[...\] inline-math
+    // delimiters here. Stripping them lost commands like \times, \leq, and
+    // \geq because the downstream upgradeToKatex only re-wraps a small set
+    // of patterns (fractions, sqrt, pi, comparison ops). Preserving the
+    // delimiters keeps math intact end-to-end.
 
     // unwrap accidentally math-wrapped currency, e.g. "$12.50$" -> "$12.50"
     normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_m, amount) => `$${amount.trim()}`);
@@ -96,7 +99,15 @@ function normalizeLatex(text) {
         normalized = normalizeFractionDelimiters(normalized);
     }
 
-    return normalized.replace(/\s{2,}/g, ' ').trim();
+    // Collapse runs of whitespace within a single line, but preserve newlines
+    // so that markdown structures like pipe-tables and paragraph breaks remain
+    // intact through math sanitization.
+    return normalized
+        .split('\n')
+        .map((line) => line.replace(/[^\S\n]{2,}/g, ' '))
+        .join('\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
 }
 
 module.exports = {

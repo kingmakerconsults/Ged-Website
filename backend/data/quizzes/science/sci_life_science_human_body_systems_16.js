@@ -129,7 +129,8 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when body temperature rises, the nervous system signals sweat glands in the skin to release sweat, which cools the body as it evaporates. Blood vessels in the skin also dilate (widen) to release heat. Based on the passage, which action is a homeostatic response to the body becoming too cold?",
+    "passage": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when body temperature rises, the nervous system signals sweat glands in the skin to release sweat, which cools the body as it evaporates. Blood vessels in the skin also dilate (widen) to release heat.",
+    "question": "Based on the passage, which action is a homeostatic response to the body becoming too cold?",
     "answerOptions": [
       {
         "text": "Blood vessels dilating",

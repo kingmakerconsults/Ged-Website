@@ -27,13 +27,13 @@ test('sanitizeMathText repairs malformed premade math wrappers before upgrading'
     sanitizeMathText(
       'Substitute -2 for x: f(-2) = \\((-2)^2 + 3 = 4 + 3 = 7\\).'
     ),
-    'Substitute -2 for x: f(-2) = \\((-2)^{2}\\) + 3 = 4 + 3 = 7.'
+    'Substitute -2 for x: f(-2) = \\((-2)^2 + 3 = 4 + 3 = 7\\).'
   );
   assert.equal(
     sanitizeMathText(
       'The vertex form of a parabola is y = a\\((x - h)^2\\) + k.'
     ),
-    'The vertex form of a parabola is y = a\\((x - h)^{2}\\) + k.'
+    'The vertex form of a parabola is y = a\\((x - h)^2\\) + k.'
   );
   assert.equal(
     sanitizeMathText(

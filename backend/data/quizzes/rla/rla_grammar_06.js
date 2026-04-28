@@ -1,85 +1,323 @@
 // Language & Grammar — Core Skills: Practice 6
 module.exports = [
-  {questionNumber:1,type:'multipleChoice',difficulty:'easy',
-   question:"Which of the following is a comma splice that needs correction?",
-   answerOptions:[
-    {text:"She studied all night, she passed the exam.", isCorrect:true, rationale:"Two independent clauses joined only by a comma — a classic comma splice."},
-    {text:"She studied all night; therefore, she passed the exam.", isCorrect:false, rationale:"Correctly uses a semicolon and conjunctive adverb."},
-    {text:"Because she studied all night, she passed the exam.", isCorrect:false, rationale:"Correctly uses a subordinating conjunction."},
-    {text:"She studied all night and passed the exam.", isCorrect:false, rationale:"Correctly joined with a coordinating conjunction."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:2,type:'multipleChoice',difficulty:'easy',
-   question:"Identify the run-on sentence.",
-   answerOptions:[
-    {text:"The storm knocked out power for three days residents were without heat.", isCorrect:true, rationale:"Two independent clauses with no punctuation or conjunction separating them — a run-on."},
-    {text:"The storm knocked out power, and residents were without heat for three days.", isCorrect:false, rationale:"Correctly joined with comma + coordinating conjunction."},
-    {text:"When the storm knocked out power, residents were without heat.", isCorrect:false, rationale:"Subordinating conjunction correctly links the clauses."},
-    {text:"The storm knocked out power; residents were without heat for three days.", isCorrect:false, rationale:"Semicolon correctly joins two related independent clauses."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:3,type:'multipleChoice',difficulty:'medium',
-   question:"Combine the following two sentences into one without creating a comma splice or run-on:\nSentence 1: The training was completed. Sentence 2: All staff received certification.",
-   answerOptions:[
-    {text:"The training was completed all staff received certification.", isCorrect:false, rationale:"Run-on."},
-    {text:"After the training was completed, all staff received certification.", isCorrect:true, rationale:"Subordinating clause correctly combines both ideas."},
-    {text:"The training was completed, all staff received certification.", isCorrect:false, rationale:"Comma splice."},
-    {text:"The training was completed; and all staff received certification.", isCorrect:false, rationale:"A semicolon should not be followed by a coordinating conjunction."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:4,type:'multipleChoice',difficulty:'medium',
-   question:"Which word or phrase best fills the blank to show contrast?\n'The candidate had extensive experience. _______, she was passed over for promotion.'",
-   answerOptions:[
-    {text:"Therefore", isCorrect:false, rationale:"'Therefore' signals a result, not a contrast."},
-    {text:"Furthermore", isCorrect:false, rationale:"'Furthermore' adds information, not contrast."},
-    {text:"Nevertheless", isCorrect:true, rationale:"'Nevertheless' signals that despite the experience, the result was unexpected — correct contrast."},
-    {text:"As a result", isCorrect:false, rationale:"Signals a result, not a contradiction."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:5,type:'multipleChoice',difficulty:'medium',
-   question:"Which sentence uses formal register appropriate for a professional report?",
-   answerOptions:[
-    {text:"The data shows the project is basically going okay so far.", isCorrect:false, rationale:"'Basically' and 'going okay' are informal — inappropriate for a report."},
-    {text:"The data indicates that the project is progressing within established parameters.", isCorrect:true, rationale:"Formal, precise, and appropriate for a professional register."},
-    {text:"Looks like the project is pretty much on track.", isCorrect:false, rationale:"'Looks like' and 'pretty much' are informal."},
-    {text:"The project is totally fine based on what the data says.", isCorrect:false, rationale:"'Totally fine' and 'what the data says' are informal."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:6,type:'multipleChoice',difficulty:'hard',
-   passage:"The following paragraph is from an employee performance review. One sentence is inappropriate in register.\n(1) Ms. Garcia consistently meets her performance targets. (2) Her analytical reports are thorough and clearly written. (3) Honestly, she kinda blew everyone away at the last board presentation. (4) Management recommends her for promotion to Senior Analyst.",
-   question:"Which sentence should be revised for register?",
-   answerOptions:[
-    {text:"Sentence 1", isCorrect:false, rationale:"Professional and appropriate."},
-    {text:"Sentence 2", isCorrect:false, rationale:"Professional and appropriate."},
-    {text:"Sentence 3", isCorrect:true, rationale:"'Honestly' and 'kinda blew everyone away' are informal — this sentence needs formal revision."},
-    {text:"Sentence 4", isCorrect:false, rationale:"Professional and appropriately formal."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:7,type:'multipleChoice',difficulty:'hard',
-   question:"Which revision correctly eliminates the redundancy?\nOriginal: 'The two co-authors collaborated together on the joint project.'",
-   answerOptions:[
-    {text:"The two co-authors collaborated on the project.", isCorrect:true, rationale:"'Co-authors' implies multiple authors; 'collaborated' implies working together; 'joint' is redundant. Simplest clean version."},
-    {text:"The co-authors collaborated together on the joint project.", isCorrect:false, rationale:"Still redundant: 'collaborate' already means 'work together.'"},
-    {text:"The two authors collaborated together on the project.", isCorrect:false, rationale:"'Together' is still redundant with 'collaborated.'"},
-    {text:"The two co-authors worked on the joint project.", isCorrect:false, rationale:"Better, but 'joint project' is still somewhat redundant with 'co-authors.'"},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:8,type:'multipleChoice',difficulty:'hard',
-   question:"Select the sentence that most concisely and correctly expresses the idea.\nOriginal: 'At this point in time, there is a need for investment in the area of infrastructure.'",
-   answerOptions:[
-    {text:"At this point in time, infrastructure investment is needed.", isCorrect:false, rationale:"'At this point in time' is wordy — 'now' or 'currently' is better."},
-    {text:"Infrastructure investment is currently needed.", isCorrect:true, rationale:"Most concise: removes deadwood phrases and communicates clearly."},
-    {text:"There is currently a need for infrastructure investment.", isCorrect:false, rationale:"Better than original but 'there is a need for' is still weaker than the active form."},
-    {text:"Currently, in the area of infrastructure, investment is needed.", isCorrect:false, rationale:"'In the area of' is deadwood."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:9,type:'multipleChoice',difficulty:'hard',
-   question:"Which sentence correctly uses an appositive?",
-   answerOptions:[
-    {text:"My supervisor, the department head, approved the request.", isCorrect:true, rationale:"'the department head' is a correctly set-off appositive renaming 'my supervisor.'"},
-    {text:"My supervisor the department head approved the request.", isCorrect:false, rationale:"The appositive must be set off by commas."},
-    {text:"My supervisor, the department head approved the request.", isCorrect:false, rationale:"Only one comma — both opening and closing commas are required."},
-    {text:"My supervisor — the department head approved the request.", isCorrect:false, rationale:"The dash structure is broken — it separates 'supervisor' from the verb incorrectly."},
-   ],challenge_tags:['rla-1']},
-  {questionNumber:10,type:'multipleChoice',difficulty:'hard',
-   passage:"A grant proposal concludes: 'In conclusion, to summarize the above points that were previously made, our program is innovative, which is to say it has new features, and it also is affordable and accessible.' Identify the type of writing problem this sentence has.",
-   question:"What is the primary problem?",
-   answerOptions:[
-    {text:"Wordiness and redundancy — multiple phrases repeat what has already been stated or restate the obvious.", isCorrect:true, rationale:"'In conclusion,' 'to summarize the above points that were previously made,' and 'which is to say it has new features' are all redundant or deadwood."},
-    {text:"Comma splice.", isCorrect:false, rationale:"The sentence uses 'and' — it's wordy but technically not a comma splice."},
-    {text:"Use of passive voice.", isCorrect:false, rationale:"The sentence is mostly active; wordiness is the dominant problem."},
-    {text:"Incorrect subject-verb agreement.", isCorrect:false, rationale:"Subject-verb agreement is correct throughout."},
-   ],challenge_tags:['rla-1']},
+  {
+    questionNumber: 1,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    question: 'Which of the following is a comma splice that needs correction?',
+    answerOptions: [
+      {
+        text: 'She studied all night, she passed the exam.',
+        isCorrect: true,
+        rationale:
+          'Two independent clauses joined only by a comma — a classic comma splice.',
+      },
+      {
+        text: 'She studied all night; therefore, she passed the exam.',
+        isCorrect: false,
+        rationale: 'Correctly uses a semicolon and conjunctive adverb.',
+      },
+      {
+        text: 'Because she studied all night, she passed the exam.',
+        isCorrect: false,
+        rationale: 'Correctly uses a subordinating conjunction.',
+      },
+      {
+        text: 'She studied all night and passed the exam.',
+        isCorrect: false,
+        rationale: 'Correctly joined with a coordinating conjunction.',
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    question: 'Identify the run-on sentence.',
+    answerOptions: [
+      {
+        text: 'The storm knocked out power for three days residents were without heat.',
+        isCorrect: true,
+        rationale:
+          'Two independent clauses with no punctuation or conjunction separating them — a run-on.',
+      },
+      {
+        text: 'The storm knocked out power, and residents were without heat for three days.',
+        isCorrect: false,
+        rationale: 'Correctly joined with comma + coordinating conjunction.',
+      },
+      {
+        text: 'When the storm knocked out power, residents were without heat.',
+        isCorrect: false,
+        rationale: 'Subordinating conjunction correctly links the clauses.',
+      },
+      {
+        text: 'The storm knocked out power; residents were without heat for three days.',
+        isCorrect: false,
+        rationale: 'Semicolon correctly joins two related independent clauses.',
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    question:
+      'Combine the following two sentences into one without creating a comma splice or run-on:\nSentence 1: The training was completed. Sentence 2: All staff received certification.',
+    answerOptions: [
+      {
+        text: 'The training was completed all staff received certification.',
+        isCorrect: false,
+        rationale: 'Run-on.',
+      },
+      {
+        text: 'After the training was completed, all staff received certification.',
+        isCorrect: true,
+        rationale: 'Subordinating clause correctly combines both ideas.',
+      },
+      {
+        text: 'The training was completed, all staff received certification.',
+        isCorrect: false,
+        rationale: 'Comma splice.',
+      },
+      {
+        text: 'The training was completed; and all staff received certification.',
+        isCorrect: false,
+        rationale:
+          'A semicolon should not be followed by a coordinating conjunction.',
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    question:
+      "Which word or phrase best fills the blank to show contrast?\n'The candidate had extensive experience. _______, she was passed over for promotion.'",
+    answerOptions: [
+      {
+        text: 'Therefore',
+        isCorrect: false,
+        rationale: "'Therefore' signals a result, not a contrast.",
+      },
+      {
+        text: 'Furthermore',
+        isCorrect: false,
+        rationale: "'Furthermore' adds information, not contrast.",
+      },
+      {
+        text: 'Nevertheless',
+        isCorrect: true,
+        rationale:
+          "'Nevertheless' signals that despite the experience, the result was unexpected — correct contrast.",
+      },
+      {
+        text: 'As a result',
+        isCorrect: false,
+        rationale: 'Signals a result, not a contradiction.',
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    question:
+      'Which sentence uses formal register appropriate for a professional report?',
+    answerOptions: [
+      {
+        text: 'The data shows the project is basically going okay so far.',
+        isCorrect: false,
+        rationale:
+          "'Basically' and 'going okay' are informal — inappropriate for a report.",
+      },
+      {
+        text: 'The data indicates that the project is progressing within established parameters.',
+        isCorrect: true,
+        rationale:
+          'Formal, precise, and appropriate for a professional register.',
+      },
+      {
+        text: 'Looks like the project is pretty much on track.',
+        isCorrect: false,
+        rationale: "'Looks like' and 'pretty much' are informal.",
+      },
+      {
+        text: 'The project is totally fine based on what the data says.',
+        isCorrect: false,
+        rationale: "'Totally fine' and 'what the data says' are informal.",
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage:
+      'The following paragraph is from an employee performance review. One sentence is inappropriate in register.\n(1) Ms. Garcia consistently meets her performance targets. (2) Her analytical reports are thorough and clearly written. (3) Honestly, she kinda blew everyone away at the last board presentation. (4) Management recommends her for promotion to Senior Analyst.',
+    question: 'Which sentence should be revised for register?',
+    answerOptions: [
+      {
+        text: 'Sentence 1',
+        isCorrect: false,
+        rationale:
+          "Sentence 1 ('Ms. Garcia consistently meets her performance targets') uses neutral, formal language suitable for a performance review.",
+      },
+      {
+        text: 'Sentence 2',
+        isCorrect: false,
+        rationale:
+          "Sentence 2 ('Her analytical reports are thorough and clearly written') uses precise, evaluative wording appropriate to a professional review.",
+      },
+      {
+        text: 'Sentence 3',
+        isCorrect: true,
+        rationale:
+          "'Honestly' and 'kinda blew everyone away' are informal — this sentence needs formal revision.",
+      },
+      {
+        text: 'Sentence 4',
+        isCorrect: false,
+        rationale: 'Professional and appropriately formal.',
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    question:
+      "Which revision correctly eliminates the redundancy?\nOriginal: 'The two co-authors collaborated together on the joint project.'",
+    answerOptions: [
+      {
+        text: 'The two co-authors collaborated on the project.',
+        isCorrect: true,
+        rationale:
+          "'Co-authors' implies multiple authors; 'collaborated' implies working together; 'joint' is redundant. Simplest clean version.",
+      },
+      {
+        text: 'The co-authors collaborated together on the joint project.',
+        isCorrect: false,
+        rationale:
+          "Still redundant: 'collaborate' already means 'work together.'",
+      },
+      {
+        text: 'The two authors collaborated together on the project.',
+        isCorrect: false,
+        rationale: "'Together' is still redundant with 'collaborated.'",
+      },
+      {
+        text: 'The two co-authors worked on the joint project.',
+        isCorrect: false,
+        rationale:
+          "Better, but 'joint project' is still somewhat redundant with 'co-authors.'",
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    question:
+      "Select the sentence that most concisely and correctly expresses the idea.\nOriginal: 'At this point in time, there is a need for investment in the area of infrastructure.'",
+    answerOptions: [
+      {
+        text: 'At this point in time, infrastructure investment is needed.',
+        isCorrect: false,
+        rationale:
+          "'At this point in time' is wordy — 'now' or 'currently' is better.",
+      },
+      {
+        text: 'Infrastructure investment is currently needed.',
+        isCorrect: true,
+        rationale:
+          'Most concise: removes deadwood phrases and communicates clearly.',
+      },
+      {
+        text: 'There is currently a need for infrastructure investment.',
+        isCorrect: false,
+        rationale:
+          "Better than original but 'there is a need for' is still weaker than the active form.",
+      },
+      {
+        text: 'Currently, in the area of infrastructure, investment is needed.',
+        isCorrect: false,
+        rationale: "'In the area of' is deadwood.",
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    question: 'Which sentence correctly uses an appositive?',
+    answerOptions: [
+      {
+        text: 'My supervisor, the department head, approved the request.',
+        isCorrect: true,
+        rationale:
+          "'the department head' is a correctly set-off appositive renaming 'my supervisor.'",
+      },
+      {
+        text: 'My supervisor the department head approved the request.',
+        isCorrect: false,
+        rationale: 'The appositive must be set off by commas.',
+      },
+      {
+        text: 'My supervisor, the department head approved the request.',
+        isCorrect: false,
+        rationale:
+          'Only one comma — both opening and closing commas are required.',
+      },
+      {
+        text: 'My supervisor — the department head approved the request.',
+        isCorrect: false,
+        rationale:
+          "The dash structure is broken — it separates 'supervisor' from the verb incorrectly.",
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
+  {
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage:
+      "A grant proposal concludes: 'In conclusion, to summarize the above points that were previously made, our program is innovative, which is to say it has new features, and it also is affordable and accessible.' Identify the type of writing problem this sentence has.",
+    question: 'What is the primary problem?',
+    answerOptions: [
+      {
+        text: 'Wordiness and redundancy — multiple phrases repeat what has already been stated or restate the obvious.',
+        isCorrect: true,
+        rationale:
+          "'In conclusion,' 'to summarize the above points that were previously made,' and 'which is to say it has new features' are all redundant or deadwood.",
+      },
+      {
+        text: 'Comma splice.',
+        isCorrect: false,
+        rationale:
+          "The sentence uses 'and' — it's wordy but technically not a comma splice.",
+      },
+      {
+        text: 'Use of passive voice.',
+        isCorrect: false,
+        rationale:
+          'The sentence is mostly active; wordiness is the dominant problem.',
+      },
+      {
+        text: 'Incorrect subject-verb agreement.',
+        isCorrect: false,
+        rationale: 'Subject-verb agreement is correct throughout.',
+      },
+    ],
+    challenge_tags: ['rla-1'],
+  },
 ];

@@ -17,25 +17,25 @@ module.exports = [
         text: 'By winning the support of wealthy business owners through fair practices.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          'Incorrect. Political machines did partner with businesses, but typically through bribery and contract favoritism, not through "fair practices"; their power base came from poor immigrant voters.',
       },
       {
         text: 'By providing essential services and assistance to poor and immigrant communities in exchange for their votes.',
         isCorrect: true,
         rationale:
-          'By providing essential services and assistance to poor and immigrant communities in exchange for their votes.',
+          "Correct. Machines like New York's Tammany Hall offered jobs, housing help, food, and citizenship aid to immigrants and the poor, building loyal voting blocs that kept machine bosses in power.",
       },
       {
         text: 'By running honest and transparent city governments.',
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          'Incorrect. Political machines were notorious for graft, kickbacks, and patronage — the very corruption Progressive reformers later targeted.',
       },
       {
         text: 'By strictly enforcing laws against corruption and graft.',
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          'Incorrect. The opposite was true: machines depended on graft, padded contracts, and selective law enforcement to reward supporters and punish opponents.',
       },
     ],
   },
@@ -51,25 +51,25 @@ module.exports = [
         text: 'That government should be smaller and have less influence (laissez-faire).',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+          'Incorrect. Laissez-faire was the late-19th-century ideology Progressives rejected; they argued government should grow more active to address industrial-era problems.',
       },
       {
         text: 'That the government should actively intervene to address social and economic problems.',
         isCorrect: true,
         rationale:
-          'That the government should actively intervene to address social and economic problems.',
+          'Correct. Progressives believed government — at all levels — should regulate corporations, improve labor conditions, and combat political corruption to fix the social ills industrialization had created.',
       },
       {
         text: 'That political machines were the most efficient way to run city governments.',
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          'Incorrect. Dismantling machine politics through reforms like civil-service rules, secret ballots, and direct primaries was a core Progressive goal, not something they endorsed.',
       },
       {
         text: 'That the United States should return to an agrarian economy.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          'Incorrect. Progressives accepted the industrial economy and sought to regulate it; the agrarian-revival view belonged to earlier movements like the Populists, not the Progressives.',
       },
     ],
   },
@@ -84,12 +84,13 @@ module.exports = [
         text: 'Yellow Journalists',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"Yellow Journalists" is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'Muckrakers',
         isCorrect: true,
-        rationale: 'Muckrakers',
+        rationale:
+          'Correct because Progressive Era journalists who investigated and exposed corruption in business and government were known as muckrakers, a term popularized by President Theodore Roosevelt.',
       },
       {
         text: 'Federalists',
@@ -101,7 +102,7 @@ module.exports = [
         text: 'Abolitionists',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"Abolitionists" is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
     ],
   },
@@ -117,7 +118,7 @@ module.exports = [
         text: 'A major strike by meatpacking workers.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"A major strike by meatpacking workers." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'The passage of federal legislation to protect consumers by regulating the food industry.',
@@ -135,7 +136,7 @@ module.exports = [
         text: 'A decline in the popularity of novels.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"A decline in the popularity of novels." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
     ],
     challenge_tags: ['social-1'],
@@ -151,25 +152,25 @@ module.exports = [
         text: 'increase the power of political bosses and party leaders.',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          'Incorrect. These reforms were intended to weaken bosses and party leaders by letting voters bypass them on legislation and recall corrupt officials directly.',
       },
       {
         text: 'make the government more responsive and accountable to the people.',
         isCorrect: true,
         rationale:
-          'make the government more responsive and accountable to the people.',
+          'Correct. The initiative (citizen-proposed laws), referendum (popular vote on legislation), and recall (removal of officials by vote) were all designed to give ordinary citizens more direct control over government.',
       },
       {
         text: 'strengthen the power of large corporations.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          'Incorrect. Progressive reforms sought to curb corporate influence in politics, not enlarge it; trust-busting and antitrust enforcement were parallel goals.',
       },
       {
         text: 'limit the voting rights of immigrants.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          'Incorrect. The initiative, referendum, and recall expanded voter power generally; restrictions on immigrant voting (where they existed) came from separate, often nativist, measures.',
       },
     ],
   },
@@ -186,25 +187,25 @@ module.exports = [
         text: 'It improved communication between cities.',
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          'Incorrect. The Bessemer process refined steel production; long-distance communication improvements came from inventions like the telegraph and telephone, not from steelmaking.',
       },
       {
         text: 'By making steel production more affordable, it enabled the growth of railroads and construction.',
         isCorrect: true,
         rationale:
-          'By making steel production more affordable, it enabled the growth of railroads and construction.',
+          'Correct. The passage explains the Bessemer process made steel cheap and efficient, which fueled the boom in railroad expansion, skyscraper construction, and other steel-dependent industries.',
       },
       {
         text: 'It created a new source of electrical power for factories.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          "Incorrect. The Bessemer process is a steelmaking technique; it produced no electricity. Factory electrification came later, with Edison's and Westinghouse's power systems.",
       },
       {
         text: 'It led to a decrease in the number of factories.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          'Incorrect. Cheaper steel actually accelerated industrial expansion and the growth of factories — the opposite of what this option claims.',
       },
     ],
   },
@@ -220,24 +221,25 @@ module.exports = [
         text: 'Muckrakers',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          'Incorrect. Muckrakers were investigative journalists like Ida Tarbell and Upton Sinclair who exposed corruption — they were the critics, not the industrialists being criticized.',
       },
       {
         text: 'Progressives',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          'Incorrect. Progressives were reformers who pushed for regulation of big business; the cartoon mocks the industrialists themselves, not their reform-minded opponents.',
       },
       {
         text: 'Robber Barons',
         isCorrect: true,
-        rationale: 'Robber Barons',
+        rationale:
+          'Correct. Critics labeled industrialists like Rockefeller, Carnegie, and Vanderbilt "Robber Barons" because they amassed enormous wealth through what reformers viewed as exploitative or monopolistic practices.',
       },
       {
         text: 'Philanthropists',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          'Incorrect. Although several Gilded Age tycoons later donated to charity, "philanthropist" was a complimentary term, not the critical label the cartoon implies.',
       },
     ],
   },
@@ -253,25 +255,25 @@ module.exports = [
         text: "Earlier immigrants primarily settled in cities, while 'new immigrants' moved to farms.",
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          "Incorrect. Both groups had urban and rural members, but the 'new immigrants' (1880s–1920s) were heavily concentrated in industrial cities, not on farms.",
       },
       {
         text: "'New immigrants' were primarily from Southern and Eastern Europe, unlike earlier immigrants from Northern and Western Europe.",
         isCorrect: true,
         rationale:
-          "'New immigrants' were primarily from Southern and Eastern Europe, unlike earlier immigrants from Northern and Western Europe.",
+          "Correct. As the passage notes, the 'new immigrants' (Italians, Poles, Russians, etc.) came from Southern and Eastern Europe and differed culturally and linguistically from the earlier waves drawn from Northern and Western Europe.",
       },
       {
         text: "'New immigrants' were fluent in English, while earlier immigrants were not.",
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          "Incorrect. Many 'new immigrants' arrived speaking little or no English, which actually fueled nativist hostility against them. Earlier waves from the British Isles were more likely to be English-speaking.",
       },
       {
         text: "'New immigrants' were almost all Protestant, like earlier immigrant groups.",
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          "Incorrect. The 'new immigrants' were largely Catholic, Jewish, or Eastern Orthodox, in contrast to the predominantly Protestant earlier waves — a key reason they faced religious discrimination.",
       },
     ],
     challenge_tags: ['social-1'],
@@ -287,24 +289,25 @@ module.exports = [
         text: 'the 1930s',
         isCorrect: false,
         rationale:
-          'The 1930s bar is much lower than the tallest bar on the graph.',
+          'Incorrect. Immigration plummeted in the 1930s due to the Great Depression and the restrictive 1924 quotas; the 1930s bar is one of the shortest on the graph.',
       },
       {
         text: 'the 1970s',
         isCorrect: false,
         rationale:
-          'Immigration rises in the 1970s, but the graph shows a higher peak later.',
+          "Incorrect. Although immigration rose in the 1970s after the 1965 Immigration Act, the chart's tallest bar comes later in the century, not in the 1970s.",
       },
       {
         text: 'the 1990s',
         isCorrect: true,
         rationale:
-          'Correct. The tallest bar appears in the 1990s, indicating the highest immigration total shown.',
+          'Correct. The 1990s bar towers above the others on the graph; this decade saw record-high immigration totals driven by family reunification and economic migration.',
       },
       {
         text: 'the 1950s',
         isCorrect: false,
-        rationale: "The 1950s bar is well below the graph's peak decade.",
+        rationale:
+          'Incorrect. The 1950s bar is well below the chart’s peak; postwar immigration recovered modestly but stayed capped by the 1924 national-origins quotas until 1965.',
       },
     ],
     challenge_tags: ['social-1'],
@@ -313,6 +316,8 @@ module.exports = [
     questionNumber: 10,
     type: 'image',
     imageUrl: '/images/Social Studies/unclassified_0077.png',
+    passage:
+      '| Year | % Urban Population |\n| --- | --- |\n| 1860 | 20% |\n| 1880 | 28% |\n| 1900 | 40% |\n| 1920 | 51% |',
     question:
       'This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
     answerOptions: [
@@ -320,25 +325,25 @@ module.exports = [
         text: 'A shortage of factory jobs.',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          'Incorrect. Cities grew precisely because factories created abundant work; the rapid urbanization shown reflects job availability, not a shortage.',
       },
       {
         text: 'Poor living conditions and the spread of disease in tenements.',
         isCorrect: true,
         rationale:
-          'Poor living conditions and the spread of disease in tenements.',
+          'Correct. The huge urban influx shown in the table outpaced housing and sanitation. Crowded tenements with limited ventilation and plumbing fueled outbreaks of cholera, tuberculosis, and other diseases.',
       },
       {
         text: 'A lack of cultural diversity in cities.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+          'Incorrect. The same urbanization wave brought millions of immigrants from many countries, increasing cultural diversity in cities rather than reducing it.',
       },
       {
         text: 'A decrease in the overall U.S. population.',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          'Incorrect. The total U.S. population grew rapidly during this period; the table shows the share living in cities rising, not a national population decline.',
       },
     ],
     challenge_tags: ['social-1'],
@@ -355,25 +360,25 @@ module.exports = [
         text: 'He believed all trusts were beneficial and should be left unregulated.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          "Incorrect. The passage states Roosevelt distinguished 'good' from 'bad' trusts; he was famous as a 'trust buster,' not a defender of unregulated monopolies.",
       },
       {
         text: 'He sought to break up all large corporations, regardless of their practices.',
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          "Incorrect. Roosevelt's 'good vs. bad' trust distinction meant he targeted only those monopolies he believed harmed the public, not every large corporation.",
       },
       {
         text: 'He used government power to regulate or break up trusts that he believed acted against the public interest.',
         isCorrect: true,
         rationale:
-          'He used government power to regulate or break up trusts that he believed acted against the public interest.',
+          'Correct. Roosevelt enforced the Sherman Antitrust Act selectively — famously dissolving Northern Securities — while letting trusts he viewed as efficient and fair operate, balancing regulation with growth.',
       },
       {
         text: 'He believed only state governments, not the federal government, had the power to regulate trusts.',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          'Incorrect. Roosevelt expanded federal regulatory power, using federal antitrust law against interstate corporations — the opposite of leaving the matter to states.',
       },
     ],
     challenge_tags: ['social-1'],
@@ -389,24 +394,25 @@ module.exports = [
         text: 'Urbanization',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          "Incorrect. Urbanization is the growth of cities, not the protection of natural resources; Roosevelt's national-park and forest policies are the conservation movement.",
       },
       {
         text: 'Conservation',
         isCorrect: true,
-        rationale: 'Conservation',
+        rationale:
+          'Correct. The conservation movement, championed by Theodore Roosevelt and Gifford Pinchot, sought to protect forests, water, and wildlife and led to the U.S. Forest Service and many national parks and monuments.',
       },
       {
         text: 'Industrialization',
         isCorrect: false,
         rationale:
-          'This option does not accurately reflect the passage or question context.',
+          'Incorrect. Industrialization is the rise of large-scale manufacturing; the conservation movement actually arose in part to counter the environmental damage industrialization caused.',
       },
       {
         text: 'Populism',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          'Incorrect. Populism was a 1890s farmer-led political movement focused on banking and currency reform; it is distinct from the conservation movement that protected natural resources.',
       },
     ],
   },

@@ -49,12 +49,12 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the equation of a line with slope \\(\\frac{1}{3}\\) that passes through the point (3, 2)?\\)',
+      'What is the equation of a line with slope \\(\\frac{1}{3}\\) that passes through the point (3, 2)?',
     answerOptions: [
       {
         text: 'y = (\\(\\frac{1}{3}\\))x + 1',
         isCorrect: true,
-        rationale: 'Using y=mx+b: 2 = (1/3)(3) + b -> 2 = 1 + b -> b=1.',
+        rationale: 'Using y=mx+b: 2 = (\\(\\frac{1}{3}\\))(3) + b -> 2 = 1 + b -> b=1.',
       },
       {
         text: 'y = 3x - 7',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/3)(x - 3). This simplifies to y - 2 = (1/3)x - 1, so y = (1/3)x + 1.',
+      'Use the point-slope form y - y1 = m(x - x1): y - 2 = (\\(\\frac{1}{3}\\))(x - 3). This simplifies to y - 2 = (\\(\\frac{1}{3}\\))x - 1, so y = (\\(\\frac{1}{3}\\))x + 1.',
     challenge_tags: ['math-4'],
   },
   {
@@ -138,7 +138,7 @@ module.exports = [
         text: 'y = \\(\\frac{1}{3}x - 1\\)',
         isCorrect: true,
         rationale:
-          'The original line has a slope of -3. The perpendicular slope is the negative reciprocal, 1/3.',
+          'The original line has a slope of -3. The perpendicular slope is the negative reciprocal, \\(\\frac{1}{3}\\).',
       },
       {
         text: 'y = 3x + 5',
@@ -152,7 +152,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is 1/3.',
+      'First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is \\(\\frac{1}{3}\\).',
     challenge_tags: ['math-4'],
   },
   {
@@ -183,7 +183,7 @@ module.exports = [
         text: 'x = 3',
         isCorrect: true,
         rationale:
-          'The axis of symmetry is x = -b/(2a). Here, x = -(-6)/(2*1) = 6/2 = 3.',
+          'The axis of symmetry is x = -b/(2a). Here, x = -(-6)/(2*1) = \\(\\frac{6}{2}\\) = 3.',
       },
       {
         text: 'x = 6',
@@ -197,7 +197,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the axis of symmetry of a parabola in the form y = ax^2 + bx + c is x = -b/(2a). For this equation, a=1 and b=-6. So, x = -(-6)/(2*1) = 6/2 = 3.',
+      'The formula for the axis of symmetry of a parabola in the form y = ax^2 + bx + c is x = -b/(2a). For this equation, a=1 and b=-6. So, x = -(-6)/(2*1) = \\(\\frac{6}{2}\\) = 3.',
     challenge_tags: ['math-4'],
   },
   {
@@ -311,7 +311,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The y-intercept is (0, 4) and the x-intercept is (-2, 0). The slope is change in y over change in x: m = (4 - 0) / (0 - (-2)) = 4/2 = 2.',
+      'The y-intercept is (0, 4) and the x-intercept is (-2, 0). The slope is change in y over change in x: m = (4 - 0) / (0 - (-2)) = \\(\\frac{4}{2}\\) = 2.',
     challenge_tags: ['math-4'],
   },
 ];

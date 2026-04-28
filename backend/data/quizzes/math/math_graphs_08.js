@@ -9,7 +9,7 @@ module.exports = [
       {
         "text": "(2, 7)",
         "isCorrect": true,
-        "rationale": "If x=2, y = 2 + 5 = 7."
+        rationale: "Correct because substituting x = 2 into y = x + 5 gives y = 2 + 5 = 7, so the ordered pair (2, 7) is a solution to the equation."
       },
       {
         "text": "(7, 2)",
@@ -40,7 +40,7 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the slope of the line that passes through (1, 3) and (4, 9)?",
     "correctAnswer": "2",
-    "rationale": "Slope = (change in y) / (change in x) = (9 - 3) / (4 - 1) = 6 / 3 = 2.",
+    "rationale": "Slope = (change in y) / (change in x) = (9 - 3) / (4 - 1) = \\(\\frac{6}{3}\\) = 2.",
     "challenge_tags": [
       "math-4"
     ]
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "1",
         "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "Incorrect. \"1\" does not match the result of the correct calculation for this problem."
       },
       {
         "text": "7",
@@ -70,7 +70,7 @@ module.exports = [
       {
         "text": "31",
         "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "Incorrect. \"31\" does not match the result of the correct calculation for this problem."
       }
     ],
     "rationale": "Substitute -2 for x in the function: f(-2) = 3\\((-2)^2\\) - 5 = 3(4) - 5 = 12 - 5 = 7.",
@@ -101,7 +101,7 @@ module.exports = [
       {
         "text": "\\(y = -4x + 2\\)",
         "isCorrect": false,
-        "rationale": "This line has a different slope."
+        "rationale": "Incorrect. \"\\(y = -4x + 2\\)\" does not match the result of the correct calculation for this problem."
       },
       {
         "text": "\\(y = 4x + 5\\)",
@@ -116,7 +116,7 @@ module.exports = [
       {
         "text": "\\(y = x + 4\\)",
         "isCorrect": false,
-        "rationale": "This line has a different slope."
+        "rationale": "Incorrect. \"\\(y = x + 4\\)\" does not match the result of the correct calculation for this problem."
       }
     ],
     "rationale": "Parallel lines have the same slope. The given line has a slope of 4. This option is the only other line with a slope of 4.",
@@ -144,12 +144,12 @@ module.exports = [
       {
         "text": "\\(y = x - 3\\)",
         "isCorrect": false,
-        "rationale": "This has the wrong slope."
+        "rationale": "Incorrect. \"\\(y = x - 3\\)\" does not match the result of the correct calculation for this problem."
       },
       {
         "text": "\\(y = 3x\\)",
         "isCorrect": false,
-        "rationale": "This has the wrong slope."
+        "rationale": "Incorrect. \"\\(y = 3x\\)\" does not match the result of the correct calculation for this problem."
       }
     ],
     "rationale": "A line that passes through the origin (0,0) has a y-intercept of 0. Using the slope-intercept form y = mx + b, the equation is y = -3x + 0, which simplifies to y = -3x.",
@@ -264,7 +264,7 @@ module.exports = [
       {
         "text": "\\(y = x - 2\\)",
         "isCorrect": true,
-        "rationale": "In y=mx+b form, b=-2."
+        rationale: "Correct because in slope-intercept form y = mx + b the constant b is the y-intercept, and y = x − 2 has b = −2, which means the line crosses the y-axis at −2."
       },
       {
         "text": "\\(y = 2x + 1\\)",
@@ -287,7 +287,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "A linear function passes through (0, 5) and has a slope of -\\(\frac{1}{2}\\). What is its value at x=4?",
+    "question": "A linear function passes through (0, 5) and has a slope of -\\(\\frac{1}{2}\\). What is its value at x=4?",
     "answerOptions": [
       {
         "text": "1",

@@ -89,7 +89,7 @@ module.exports = [
       'Find the slope of the line passing through the points (1, 2) and (3, 10).',
     correctAnswer: '4',
     rationale:
-      'The slope (m) is the change in y divided by the change in x. m = (10 - 2) / (3 - 1) = 8 / 2 = 4.',
+      'The slope (m) is the change in y divided by the change in x. m = (10 - 2) / (3 - 1) = \\(\\frac{8}{2}\\) = 4.',
     challenge_tags: ['math-4'],
   },
   {
@@ -97,7 +97,8 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Which of the following points lies on the line \\(y = -2x + 6\\)?',
+    question:
+      'Which of the following points lies on the line \\(y = -2x + 6\\)?',
     answerOptions: [
       {
         text: '(1, 4)',
@@ -136,7 +137,7 @@ module.exports = [
         text: '\\(y = 3x + 1\\)',
         isCorrect: false,
         rationale:
-          'This line has the correct slope, but does not pass through (2,5).',
+          'This line has the correct slope of 3, but its y-intercept is +1: at x=2, y = 3(2)+1 = 7, not 5, so it does not pass through (2,5).',
       },
       {
         text: '\\(y = -\\frac{1}{3}x + 5\\)',
@@ -147,7 +148,7 @@ module.exports = [
         text: '\\(y = 3x + 5\\)',
         isCorrect: false,
         rationale:
-          'This line has the correct slope, but does not pass through (2,5).',
+          'This line has the correct slope of 3, but its y-intercept is +5: at x=2, y = 3(2)+5 = 11, not 5, so it does not pass through (2,5).',
       },
       {
         text: '\\(y = 3x - 1\\)',
@@ -248,7 +249,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The slope is the change in y divided by the change in x. Using the first two points: (5 - 3) / (1 - 0) = 2 / 1 = 2.',
+      'The slope is the change in y divided by the change in x. Using the first two points: (5 - 3) / (1 - 0) = \\(\\frac{2}{1}\\) = 2.',
     challenge_tags: ['math-4'],
   },
   {

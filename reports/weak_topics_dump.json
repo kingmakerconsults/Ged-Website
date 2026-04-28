@@ -1,0 +1,1582 @@
+{
+  "ss_us_hist_new_nation": {
+    "Q3": {
+      "question": "What was the main purpose of the Homestead Act of 1862?",
+      "passage": "The Homestead Act of 1862 was a pivotal piece of legislation that encouraged westward migration. It allowed any adult citizen, or intended citizen, who had never borne arms against the U.S. government to claim 160 acres of surveyed government land. Claimants were required to 'improve' the plot by building a dwelling and cultivating the land for five years before receiving full ownership.",
+      "opts": [
+        {
+          "t": "To create national parks and preserve wilderness.",
+          "c": false,
+          "r": "Incorrect. The Homestead Act distributed government land for cultivation and settlement; the federal national-park system began later, with Yellowstone in 1872."
+        },
+        {
+          "t": "To sell government land to railroad companies.",
+          "c": false,
+          "r": "Incorrect. Land grants to railroads were made under separate Pacific Railroad Acts; the Homestead Act specifically gave 160-acre plots to individual settlers, not corporations."
+        },
+        {
+          "t": "To encourage the settlement of the American West by individual farmers.",
+          "c": true,
+          "r": "Correct. The Act gave any qualifying adult citizen up to 160 acres of public land in exchange for building a home and farming it for five years, directly promoting individual western settlement."
+        },
+        {
+          "t": "To establish large, government-owned farms.",
+          "c": false,
+          "r": "Incorrect. The Homestead Act transferred land out of government ownership into private hands of individual settlers, not into large state-run farms."
+        }
+      ]
+    },
+    "Q4": {
+      "question": "The forced removal of the Cherokee Nation from their ancestral lands in the southeastern United States to territory in present-day Oklahoma is known as the:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "The Oregon Trail",
+          "c": false,
+          "r": "Incorrect. The Oregon Trail was a voluntary overland route used by settlers heading west; it was not the forced relocation of the Cherokee from the Southeast."
+        },
+        {
+          "t": "The Trail of Tears",
+          "c": true,
+          "r": "Correct. Following the Indian Removal Act of 1830, the U.S. government forcibly relocated the Cherokee and other tribes to Indian Territory (now Oklahoma); thousands died on the journey, which became known as the Trail of Tears."
+        },
+        {
+          "t": "The Great Migration",
+          "c": false,
+          "r": "Incorrect. The Great Migration refers to the early-20th-century movement of African Americans from the rural South to northern cities, not the forced removal of the Cherokee in the 1830s."
+        },
+        {
+          "t": "The Santa Fe Trail",
+          "c": false,
+          "r": "Incorrect. The Santa Fe Trail was a 19th-century commercial trade route between Missouri and New Mexico; it had nothing to do with the forced removal of the Cherokee Nation."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "What was a major consequence of the California Gold Rush?",
+      "passage": "The California Gold Rush began in 1848 after gold was discovered at Sutter's Mill. The news of gold brought some 300,000 people to California from the rest of the United States and abroad. This massive influx of 'forty-niners' dramatically increased California's population, leading to its rapid statehood in 1850 and fueling economic growth and westward expansion.",
+      "opts": [
+        {
+          "t": "A rapid increase in California's population and its admission to the Union as a state.",
+          "c": true,
+          "r": "Correct. As the passage notes, roughly 300,000 'forty-niners' poured into California after gold was discovered in 1848, swelling the population enough that California was admitted to the Union as a state in 1850."
+        },
+        {
+          "t": "A war between the United States and Mexico.",
+          "c": false,
+          "r": "Incorrect. The Mexican-American War (1846–1848) ended just before gold was discovered at Sutter's Mill; the Gold Rush was a consequence of that war's territorial transfer, not a cause of war."
+        },
+        {
+          "t": "The discovery of a water route to the Pacific Ocean.",
+          "c": false,
+          "r": "Incorrect. No new water route to the Pacific was discovered during the Gold Rush; migrants reached California overland or by sea around South America."
+        },
+        {
+          "t": "A decline in the value of gold.",
+          "c": false,
+          "r": "Incorrect. Although large quantities of gold entered circulation, the major consequences described in the passage were demographic and political (population growth and statehood), not a collapse in gold's value."
+        }
+      ]
+    },
+    "Q1": {
+      "question": "What was the core idea of Manifest Destiny?",
+      "passage": "Manifest Destiny was a widely held cultural belief in the 19th-century United States that American settlers were destined to expand across North America. This idea was used to justify westward expansion, the removal of Native American tribes, and the war with Mexico. Proponents argued that it was not only the nation's destiny but its duty to spread democracy and Protestant Christianity across the continent.",
+      "opts": [
+        {
+          "t": "That the United States should limit its territory to the original thirteen colonies.",
+          "c": false,
+          "r": "Incorrect. Manifest Destiny was an expansionist doctrine, not an isolationist one; its central claim was that the U.S. should grow far beyond the original thirteen colonies."
+        },
+        {
+          "t": "That American settlers were destined to expand across the continent, spreading their institutions with them.",
+          "c": true,
+          "r": "Correct. As the passage explains, Manifest Destiny held that Americans were destined — even duty-bound — to spread across North America and carry democracy and Protestant Christianity with them."
+        },
+        {
+          "t": "That the United States should form a military alliance with Mexico.",
+          "c": false,
+          "r": "Incorrect. Manifest Destiny justified war with Mexico (not alliance with it) in order to seize western lands; it never advocated a U.S.–Mexican military partnership."
+        },
+        {
+          "t": "That Native American tribes should be given full citizenship.",
+          "c": false,
+          "r": "Incorrect. Manifest Destiny was used to justify the removal of Native American tribes from their lands, not to extend citizenship to them."
+        }
+      ]
+    },
+    "Q2": {
+      "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continent significantly faster and cheaper?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "The Lewis and Clark Expedition",
+          "c": false,
+          "r": "Incorrect. The Lewis and Clark Expedition occurred from 1804 to 1806 to explore the Louisiana Purchase — over 60 years before 1869 — and did not provide rapid coast-to-coast travel."
+        },
+        {
+          "t": "The construction of the Transcontinental Railroad",
+          "c": true,
+          "r": "Correct. Completed at Promontory Summit, Utah in 1869, the Transcontinental Railroad linked the eastern rail network with the Pacific coast, dramatically cutting the cost and time of transcontinental travel and trade."
+        },
+        {
+          "t": "The California Gold Rush",
+          "c": false,
+          "r": "Incorrect. The California Gold Rush peaked around 1848–1855 and drew migrants westward, but it did not build the transportation infrastructure described, and it predates 1869."
+        },
+        {
+          "t": "The passage of the Homestead Act",
+          "c": false,
+          "r": "Incorrect. The Homestead Act was passed in 1862 and offered free land to settlers; it did not, by itself, provide the faster cross-country travel and trade described in the question."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_divided_nation": {
+    "Q5": {
+      "question": "What was a significant limitation of the Emancipation Proclamation when it was issued?",
+      "passage": "The Emancipation Proclamation, issued by President Abraham Lincoln in 1863, declared that all enslaved people in the Confederate states 'shall be then, thenceforward, and forever free.' However, it did not apply to the slave-holding border states that had remained in the Union. While its immediate practical effect was limited, it was a crucial turning point, reframing the purpose of the Civil War as a fight against slavery.",
+      "opts": [
+        {
+          "t": "It was immediately declared unconstitutional by the Supreme Court.",
+          "c": false,
+          "r": "The Supreme Court did not rule on its constitutionality at the time."
+        },
+        {
+          "t": "It freed all enslaved people throughout the entire United States.",
+          "c": false,
+          "r": "This is incorrect. The proclamation explicitly did not apply to the loyal border states."
+        },
+        {
+          "t": "It only applied to enslaved people in Confederate-held territory, where the Union had no power to enforce it.",
+          "c": true,
+          "r": "Correct. The proclamation freed slaves only in the states that had seceded, where the federal government could not enforce the law until the Union army conquered the territory."
+        },
+        {
+          "t": "It was rejected by the abolitionist movement as being too radical.",
+          "c": false,
+          "r": "Abolitionists generally supported it, though some wished it had gone further."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_industrial_america": {
+    "Q2": {
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?",
+      "passage": "| Year | % Urban Population |\n| --- | --- |\n| 1860 | 20% |\n| 1880 | 28% |\n| 1900 | 40% |\n| 1920 | 51% |",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q1": {
+      "question": "According to the passage, how did the Bessemer process contribute to industrialization?",
+      "passage": "The late 19th century was a period of rapid industrialization in the United States. Key to this was the development of new technologies. The Bessemer process, for example, made the production of steel cheap and efficient. This led to a boom in railroad construction, the building of skyscrapers, and the growth of heavy industry. Innovations like the telephone, invented by Alexander Graham Bell, and the electric light bulb, perfected by Thomas Edison, revolutionized communication and daily life.",
+      "opts": [
+        {
+          "t": "It improved communication between cities.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "By making steel production more affordable, it enabled the growth of railroads and construction.",
+          "c": true,
+          "r": "By making steel production more affordable, it enabled the growth of railroads and construction."
+        },
+        {
+          "t": "It created a new source of electrical power for factories.",
+          "c": false,
+          "r": "\"It created a new source of electrical power for factories.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "It led to a decrease in the number of factories.",
+          "c": false,
+          "r": "\"It led to a decrease in the number of factories.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q3": {
+      "question": "What was a key difference between the 'new immigrants' of the late 19th century and earlier immigrants?",
+      "passage": "During the late 19th century, a new wave of immigrants arrived in the United States, primarily from Southern and Eastern Europe. These 'new immigrants' came from countries like Italy, Poland, and Russia. They were often culturally different from earlier immigrants, who had mostly come from Northern and Western Europe. Many 'new immigrants' were Catholic or Jewish, spoke little English, and settled in crowded ethnic neighborhoods in large cities.",
+      "opts": [
+        {
+          "t": "Earlier immigrants primarily settled in cities, while 'new immigrants' moved to farms.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "'New immigrants' were primarily from Southern and Eastern Europe, unlike earlier immigrants from Northern and Western Europe.",
+          "c": true,
+          "r": "'New immigrants' were primarily from Southern and Eastern Europe, unlike earlier immigrants from Northern and Western Europe."
+        },
+        {
+          "t": "'New immigrants' were fluent in English, while earlier immigrants were not.",
+          "c": false,
+          "r": "\"'New immigrants' were fluent in English, while earlier immigrants were not.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "'New immigrants' were almost all Protestant, like earlier immigrant groups.",
+          "c": false,
+          "r": "\"'New immigrants' were almost all Protestant, like earlier immigrant groups.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q4": {
+      "question": "According to the bar graph, during which decade did the United States receive the highest number of immigrants?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "the 1930s",
+          "c": false,
+          "r": "The 1930s bar is much lower than the tallest bar on the graph."
+        },
+        {
+          "t": "the 1970s",
+          "c": false,
+          "r": "Immigration rises in the 1970s, but the graph shows a higher peak later."
+        },
+        {
+          "t": "the 1990s",
+          "c": true,
+          "r": "Correct. The tallest bar appears in the 1990s, indicating the highest immigration total shown."
+        },
+        {
+          "t": "the 1950s",
+          "c": false,
+          "r": "The 1950s bar is well below the graph's peak decade."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_industrial_america_quiz1": {
+    "Q2": {
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?",
+      "passage": "| Year | % Urban Population |\n| --- | --- |\n| 1860 | 20% |\n| 1880 | 28% |\n| 1900 | 40% |\n| 1920 | 51% |",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q6": {
+      "question": "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "By winning the support of wealthy business owners through fair practices.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes.",
+          "c": true,
+          "r": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes."
+        },
+        {
+          "t": "By running honest and transparent city governments.",
+          "c": false,
+          "r": "\"By running honest and transparent city governments.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "By strictly enforcing laws against corruption and graft.",
+          "c": false,
+          "r": "\"By strictly enforcing laws against corruption and graft.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q7": {
+      "question": "What was a core belief of the Progressive movement?",
+      "passage": "The Progressive Era (roughly 1890-1920) was a period of widespread social activism and political reform. Progressives sought to address the problems caused by industrialization, urbanization, and political corruption. They believed that the government should take a more active role in regulating the economy and protecting the welfare of its citizens.",
+      "opts": [
+        {
+          "t": "That government should be smaller and have less influence (laissez-faire).",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That the government should actively intervene to address social and economic problems.",
+          "c": true,
+          "r": "That the government should actively intervene to address social and economic problems."
+        },
+        {
+          "t": "That political machines were the most efficient way to run city governments.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "That the United States should return to an agrarian economy.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    },
+    "Q10": {
+      "question": "During the Progressive Era, political reforms such as the initiative, referendum, and recall were designed to:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "increase the power of political bosses and party leaders.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "make the government more responsive and accountable to the people.",
+          "c": true,
+          "r": "make the government more responsive and accountable to the people."
+        },
+        {
+          "t": "strengthen the power of large corporations.",
+          "c": false,
+          "r": "\"strengthen the power of large corporations.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "limit the voting rights of immigrants.",
+          "c": false,
+          "r": "\"limit the voting rights of immigrants.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q11": {
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "passage": "President Theodore Roosevelt was known as a 'trust buster' for his efforts to use the Sherman Antitrust Act to break up large corporate monopolies that were harmful to the public interest. He believed that the government should distinguish between 'good trusts,' which were efficient and fair, and 'bad trusts,' which used their power to exploit consumers and stifle competition.",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public interest.",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    "Q12": {
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_industrial_america_quiz2": {
+    "Q1": {
+      "question": "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "By winning the support of wealthy business owners through fair practices.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes.",
+          "c": true,
+          "r": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes."
+        },
+        {
+          "t": "By running honest and transparent city governments.",
+          "c": false,
+          "r": "\"By running honest and transparent city governments.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "By strictly enforcing laws against corruption and graft.",
+          "c": false,
+          "r": "\"By strictly enforcing laws against corruption and graft.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q2": {
+      "question": "What was a core belief of the Progressive movement?",
+      "passage": "The Progressive Era (roughly 1890-1920) was a period of widespread social activism and political reform. Progressives sought to address the problems caused by industrialization, urbanization, and political corruption. They believed that the government should take a more active role in regulating the economy and protecting the welfare of its citizens.",
+      "opts": [
+        {
+          "t": "That government should be smaller and have less influence (laissez-faire).",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That the government should actively intervene to address social and economic problems.",
+          "c": true,
+          "r": "That the government should actively intervene to address social and economic problems."
+        },
+        {
+          "t": "That political machines were the most efficient way to run city governments.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "That the United States should return to an agrarian economy.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "During the Progressive Era, political reforms such as the initiative, referendum, and recall were designed to:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "increase the power of political bosses and party leaders.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "make the government more responsive and accountable to the people.",
+          "c": true,
+          "r": "make the government more responsive and accountable to the people."
+        },
+        {
+          "t": "strengthen the power of large corporations.",
+          "c": false,
+          "r": "\"strengthen the power of large corporations.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "limit the voting rights of immigrants.",
+          "c": false,
+          "r": "\"limit the voting rights of immigrants.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q7": {
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q10": {
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?",
+      "passage": "| Year | % Urban Population |\n| --- | --- |\n| 1860 | 20% |\n| 1880 | 28% |\n| 1900 | 40% |\n| 1920 | 51% |",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q11": {
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "passage": "President Theodore Roosevelt was known as a 'trust buster' for his efforts to use the Sherman Antitrust Act to break up large corporate monopolies that were harmful to the public interest. He believed that the government should distinguish between 'good trusts,' which were efficient and fair, and 'bad trusts,' which used their power to exploit consumers and stifle competition.",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public interest.",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    "Q12": {
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_industrial_america_quiz3": {
+    "Q1": {
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "passage": "President Theodore Roosevelt was known as a 'trust buster' for his efforts to use the Sherman Antitrust Act to break up large corporate monopolies that were harmful to the public interest. He believed that the government should distinguish between 'good trusts,' which were efficient and fair, and 'bad trusts,' which used their power to exploit consumers and stifle competition.",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public interest.",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    "Q2": {
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q3": {
+      "question": "What was the primary goal of the women's suffrage movement?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To secure better working conditions for women in factories.",
+          "c": false,
+          "r": "\"To secure better working conditions for women in factories.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To gain women the right to vote.",
+          "c": true,
+          "r": "To gain women the right to vote."
+        },
+        {
+          "t": "To prohibit the sale of alcoholic beverages.",
+          "c": false,
+          "r": "\"To prohibit the sale of alcoholic beverages.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To improve public education for girls.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q4": {
+      "question": "What legal doctrine was established by the Supreme Court's ruling in Plessy v. Ferguson?",
+      "passage": "The Plessy v. Ferguson Supreme Court case in 1896 was a major setback for civil rights. The Court ruled that racially segregated public facilities were legal, as long as the facilities for blacks and whites were 'separate but equal.' This doctrine of 'separate but equal' legalized segregation and stood as law until it was overturned decades later.",
+      "opts": [
+        {
+          "t": "Judicial Review",
+          "c": false,
+          "r": "\"Judicial Review\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Separate but equal",
+          "c": true,
+          "r": "Separate but equal"
+        },
+        {
+          "t": "Equal protection under the law",
+          "c": false,
+          "r": "\"Equal protection under the law\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Innocent until proven guilty",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q7": {
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q10": {
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?",
+      "passage": "| Year | % Urban Population |\n| --- | --- |\n| 1860 | 20% |\n| 1880 | 28% |\n| 1900 | 40% |\n| 1920 | 51% |",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q11": {
+      "question": "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "By winning the support of wealthy business owners through fair practices.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes.",
+          "c": true,
+          "r": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes."
+        },
+        {
+          "t": "By running honest and transparent city governments.",
+          "c": false,
+          "r": "\"By running honest and transparent city governments.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "By strictly enforcing laws against corruption and graft.",
+          "c": false,
+          "r": "\"By strictly enforcing laws against corruption and graft.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q12": {
+      "question": "What was a core belief of the Progressive movement?",
+      "passage": "The Progressive Era (roughly 1890-1920) was a period of widespread social activism and political reform. Progressives sought to address the problems caused by industrialization, urbanization, and political corruption. They believed that the government should take a more active role in regulating the economy and protecting the welfare of its citizens.",
+      "opts": [
+        {
+          "t": "That government should be smaller and have less influence (laissez-faire).",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That the government should actively intervene to address social and economic problems.",
+          "c": true,
+          "r": "That the government should actively intervene to address social and economic problems."
+        },
+        {
+          "t": "That political machines were the most efficient way to run city governments.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "That the United States should return to an agrarian economy.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_cold_war": {
+    "Q1": {
+      "question": "Why is the conflict between the U.S. and the Soviet Union referred to as the 'Cold War'?",
+      "passage": "The Cold War was a period of geopolitical tension between the United States and the Soviet Union and their respective allies, the Western Bloc and the Eastern Bloc. It is called a 'cold' war because there was no large-scale direct fighting between the two superpowers. The conflict was instead expressed through military buildups, proxy wars in other nations, and a race for technological, economic, and ideological supremacy.",
+      "opts": [
+        {
+          "t": "Because most of the conflicts occurred in cold, northern climates.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "Because there was no direct, large-scale military conflict between the two superpowers.",
+          "c": true,
+          "r": "Because there was no direct, large-scale military conflict between the two superpowers."
+        },
+        {
+          "t": "Because it was fought primarily over access to arctic resources.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Because it ended in a stalemate with no clear winner.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q2": {
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    "Q3": {
+      "question": "What was a key objective of the Marshall Plan?",
+      "passage": "The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western Europe after World War II. The U.S. gave over $13 billion in economic assistance to help rebuild Western European economies. The plan was intended to stabilize the region, promote democratic institutions, and prevent the spread of communism by alleviating poverty and desperation.",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q4": {
+      "question": "The Voting Rights Act of 1965 was signed into law to overcome legal barriers at the state and local levels that prevented African Americans from exercising their right to vote. What was one of its key provisions?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "It lowered the voting age to 18.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "It banned the use of literacy tests as a requirement for voting.",
+          "c": true,
+          "r": "It banned the use of literacy tests as a requirement for voting."
+        },
+        {
+          "t": "It granted women the right to vote.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "It established a national popular vote for president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_cold_war_quiz1": {
+    "Q1": {
+      "question": "Why is the conflict between the U.S. and the Soviet Union referred to as the 'Cold War'?",
+      "passage": "The Cold War was a period of geopolitical tension between the United States and the Soviet Union and their respective allies, the Western Bloc and the Eastern Bloc. It is called a 'cold' war because there was no large-scale direct fighting between the two superpowers. The conflict was instead expressed through military buildups, proxy wars in other nations, and a race for technological, economic, and ideological supremacy.",
+      "opts": [
+        {
+          "t": "Because most of the conflicts occurred in cold, northern climates.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "Because there was no direct, large-scale military conflict between the two superpowers.",
+          "c": true,
+          "r": "Because there was no direct, large-scale military conflict between the two superpowers."
+        },
+        {
+          "t": "Because it was fought primarily over access to arctic resources.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Because it ended in a stalemate with no clear winner.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q2": {
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    "Q3": {
+      "question": "What was a key objective of the Marshall Plan?",
+      "passage": "The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western Europe after World War II. The U.S. gave over $13 billion in economic assistance to help rebuild Western European economies. The plan was intended to stabilize the region, promote democratic institutions, and prevent the spread of communism by alleviating poverty and desperation.",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q6": {
+      "question": "What did the 'domino theory' suggest?",
+      "passage": "The 'domino theory' was a Cold War policy idea that suggested a communist government in one nation would quickly lead to communist takeovers in neighboring states, each falling like a row of perfectly aligned dominoes. This theory was used by successive U.S. administrations to justify American intervention in conflicts around the world, most notably in the Korean War and the Vietnam War.",
+      "opts": [
+        {
+          "t": "That economic instability in one country would cause a global depression.",
+          "c": false,
+          "r": "\"That economic instability in one country would cause a global depression.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That if one country fell to communism, its neighbors would likely follow.",
+          "c": true,
+          "r": "That if one country fell to communism, its neighbors would likely follow."
+        },
+        {
+          "t": "That a nuclear war would cause a chain reaction of destruction.",
+          "c": false,
+          "r": "\"That a nuclear war would cause a chain reaction of destruction.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That all communist countries would eventually collapse like dominoes.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    "Q8": {
+      "question": "What was the central issue of the Cuban Missile Crisis?",
+      "passage": "The Cuban Missile Crisis of 1962 was a 13-day confrontation between the United States and the Soviet Union, initiated by the American discovery of Soviet ballistic missile deployment in Cuba. It is widely regarded as the moment when the Cold War came closest to escalating into a full-scale nuclear war. The crisis was resolved when the Soviets agreed to remove the missiles in exchange for a U.S. pledge not to invade Cuba and a secret agreement to remove U.S. missiles from Turkey.",
+      "opts": [
+        {
+          "t": "A dispute over the political leadership of Cuba.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S.",
+          "c": true,
+          "r": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S."
+        },
+        {
+          "t": "A U.S. naval blockade of the Soviet Union.",
+          "c": false,
+          "r": "\"A U.S. naval blockade of the Soviet Union.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "A disagreement over the price of sugar imports from Cuba.",
+          "c": false,
+          "r": "\"A disagreement over the price of sugar imports from Cuba.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q11": {
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_cold_war_quiz2": {
+    "Q1": {
+      "question": "What did the 'domino theory' suggest?",
+      "passage": "The 'domino theory' was a Cold War policy idea that suggested a communist government in one nation would quickly lead to communist takeovers in neighboring states, each falling like a row of perfectly aligned dominoes. This theory was used by successive U.S. administrations to justify American intervention in conflicts around the world, most notably in the Korean War and the Vietnam War.",
+      "opts": [
+        {
+          "t": "That economic instability in one country would cause a global depression.",
+          "c": false,
+          "r": "\"That economic instability in one country would cause a global depression.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That if one country fell to communism, its neighbors would likely follow.",
+          "c": true,
+          "r": "That if one country fell to communism, its neighbors would likely follow."
+        },
+        {
+          "t": "That a nuclear war would cause a chain reaction of destruction.",
+          "c": false,
+          "r": "\"That a nuclear war would cause a chain reaction of destruction.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That all communist countries would eventually collapse like dominoes.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    "Q3": {
+      "question": "What was the central issue of the Cuban Missile Crisis?",
+      "passage": "The Cuban Missile Crisis of 1962 was a 13-day confrontation between the United States and the Soviet Union, initiated by the American discovery of Soviet ballistic missile deployment in Cuba. It is widely regarded as the moment when the Cold War came closest to escalating into a full-scale nuclear war. The crisis was resolved when the Soviets agreed to remove the missiles in exchange for a U.S. pledge not to invade Cuba and a secret agreement to remove U.S. missiles from Turkey.",
+      "opts": [
+        {
+          "t": "A dispute over the political leadership of Cuba.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S.",
+          "c": true,
+          "r": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S."
+        },
+        {
+          "t": "A U.S. naval blockade of the Soviet Union.",
+          "c": false,
+          "r": "\"A U.S. naval blockade of the Soviet Union.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "A disagreement over the price of sugar imports from Cuba.",
+          "c": false,
+          "r": "\"A disagreement over the price of sugar imports from Cuba.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q6": {
+      "question": "Why is the conflict between the U.S. and the Soviet Union referred to as the 'Cold War'?",
+      "passage": "The Cold War was a period of geopolitical tension between the United States and the Soviet Union and their respective allies, the Western Bloc and the Eastern Bloc. It is called a 'cold' war because there was no large-scale direct fighting between the two superpowers. The conflict was instead expressed through military buildups, proxy wars in other nations, and a race for technological, economic, and ideological supremacy.",
+      "opts": [
+        {
+          "t": "Because most of the conflicts occurred in cold, northern climates.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "Because there was no direct, large-scale military conflict between the two superpowers.",
+          "c": true,
+          "r": "Because there was no direct, large-scale military conflict between the two superpowers."
+        },
+        {
+          "t": "Because it was fought primarily over access to arctic resources.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Because it ended in a stalemate with no clear winner.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q7": {
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    "Q8": {
+      "question": "What was a key objective of the Marshall Plan?",
+      "passage": "The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western Europe after World War II. The U.S. gave over $13 billion in economic assistance to help rebuild Western European economies. The plan was intended to stabilize the region, promote democratic institutions, and prevent the spread of communism by alleviating poverty and desperation.",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    "Q10": {
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q11": {
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    }
+  },
+  "ss_us_hist_cold_war_quiz3": {
+    "Q1": {
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "passage": "",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q3": {
+      "question": "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To protest U.S. involvement in the Vietnam War.",
+          "c": false,
+          "r": "\"To protest U.S. involvement in the Vietnam War.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To advocate for the passage of a comprehensive civil rights bill.",
+          "c": true,
+          "r": "To advocate for the passage of a comprehensive civil rights bill."
+        },
+        {
+          "t": "To celebrate the end of segregation in the United States.",
+          "c": false,
+          "r": "\"To celebrate the end of segregation in the United States.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To demand the impeachment of the president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q4": {
+      "question": "The Voting Rights Act of 1965 was signed into law to overcome legal barriers at the state and local levels that prevented African Americans from exercising their right to vote. What was one of its key provisions?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "It lowered the voting age to 18.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "It banned the use of literacy tests as a requirement for voting.",
+          "c": true,
+          "r": "It banned the use of literacy tests as a requirement for voting."
+        },
+        {
+          "t": "It granted women the right to vote.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "It established a national popular vote for president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    "Q5": {
+      "question": "What event is most closely associated with the end of the Cold War?",
+      "passage": "The end of the Cold War is often symbolized by the fall of the Berlin Wall in 1989. For decades, the wall had physically and ideologically divided the city of Berlin. Its fall was followed by the reunification of Germany and the collapse of communist governments across Eastern Europe, culminating in the dissolution of the Soviet Union itself in 1991.",
+      "opts": [
+        {
+          "t": "The Cuban Missile Crisis",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The start of the Vietnam War",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The fall of the Berlin Wall and the dissolution of the Soviet Union",
+          "c": true,
+          "r": "The fall of the Berlin Wall and the dissolution of the Soviet Union"
+        },
+        {
+          "t": "The formation of NATO",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    "Q6": {
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    "Q8": {
+      "question": "What was a key objective of the Marshall Plan?",
+      "passage": "The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western Europe after World War II. The U.S. gave over $13 billion in economic assistance to help rebuild Western European economies. The plan was intended to stabilize the region, promote democratic institutions, and prevent the spread of communism by alleviating poverty and desperation.",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    "Q10": {
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "passage": "",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    "Q11": {
+      "question": "What did the 'domino theory' suggest?",
+      "passage": "The 'domino theory' was a Cold War policy idea that suggested a communist government in one nation would quickly lead to communist takeovers in neighboring states, each falling like a row of perfectly aligned dominoes. This theory was used by successive U.S. administrations to justify American intervention in conflicts around the world, most notably in the Korean War and the Vietnam War.",
+      "opts": [
+        {
+          "t": "That economic instability in one country would cause a global depression.",
+          "c": false,
+          "r": "\"That economic instability in one country would cause a global depression.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That if one country fell to communism, its neighbors would likely follow.",
+          "c": true,
+          "r": "That if one country fell to communism, its neighbors would likely follow."
+        },
+        {
+          "t": "That a nuclear war would cause a chain reaction of destruction.",
+          "c": false,
+          "r": "\"That a nuclear war would cause a chain reaction of destruction.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That all communist countries would eventually collapse like dominoes.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    }
+  }
+}

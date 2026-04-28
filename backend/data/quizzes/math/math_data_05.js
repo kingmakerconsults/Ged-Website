@@ -87,7 +87,7 @@ module.exports = [
     question: 'Find the mean of the numbers: 2.5, 3.5, 4.0, 5.0.',
     correctAnswer: '3.75',
     rationale:
-      'The sum of the numbers is 2.5 + 3.5 + 4.0 + 5.0 = 15.0. Divide by the count of the numbers (4): 15.0 / 4 = 3.75.',
+      'The sum of the numbers is 2.5 + 3.5 + 4.0 + 5.0 = 15.0. Divide by the count of the numbers (4): 15.\\(\\frac{0}{4}\\) = 3.75.',
     challenge_tags: ['math-6'],
   },
   {
@@ -136,7 +136,7 @@ module.exports = [
       {
         text: '2',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "2" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '4',
@@ -147,12 +147,12 @@ module.exports = [
       {
         text: '5',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "5" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '40',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "40" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:
@@ -216,7 +216,7 @@ module.exports = [
       'The average of 5 numbers is 30. The average of 3 of those numbers is 20. What is the average of the other two numbers?',
     correctAnswer: '45',
     rationale:
-      'The sum of the 5 numbers is 5 * 30 = 150. The sum of the 3 numbers is 3 * 20 = 60. The sum of the other two numbers is 150 - 60 = 90. Their average is 90 / 2 = 45.',
+      'The sum of the 5 numbers is 5 * 30 = 150. The sum of the 3 numbers is 3 * 20 = 60. The sum of the other two numbers is 150 - 60 = 90. Their average is \\(\\frac{90}{2}\\) = 45.',
     challenge_tags: ['math-6'],
   },
   {

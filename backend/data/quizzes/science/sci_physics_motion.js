@@ -414,7 +414,7 @@ module.exports = [
       },
       {
         "text": "The magnets will repel each other.",
-        "rationale": "Correct. The passage states that like poles repel.",
+        rationale: "Correct because, as the passage states, like magnetic poles repel one another, so two north poles (or two south poles) brought together will push each other apart.",
         "isCorrect": true
       },
       {

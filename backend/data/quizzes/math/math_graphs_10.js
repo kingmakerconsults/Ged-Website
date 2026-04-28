@@ -40,7 +40,7 @@ module.exports = [
     "difficulty": "easy",
     "question": "If \\(f(x) = 100 / x\\), what is \\(f(20)\\)?",
     "correctAnswer": "5",
-    "rationale": "Substitute 20 for x: f(20) = 100 / 20 = 5.",
+    "rationale": "Substitute 20 for x: f(20) = \\(\\frac{100}{20}\\) = 5.",
     "challenge_tags": [
       "math-1"
     ]
@@ -73,7 +73,7 @@ module.exports = [
         "rationale": "This is the y-coordinate."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. \\(m = \\(\frac{7 - 7}{5 - 3}\\) = \\(\frac{0}{2}\\) = 0. This indicates a horizontal line.",
+    "rationale": "The slope is the change in y divided by the change in x. m = \\(\\frac{7 - 7}{5 - 3}\\) = \\(\\frac{0}{2}\\) = 0. This indicates a horizontal line.",
     "challenge_tags": [
       "math-1"
     ]
@@ -139,7 +139,7 @@ module.exports = [
       {
         "text": "3000",
         "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "Incorrect. \"3000\" does not match the result of the correct calculation for this problem."
       },
       {
         "text": "\\(5000\\)",
@@ -149,7 +149,7 @@ module.exports = [
       {
         "text": "21000",
         "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "Incorrect. \"21000\" does not match the result of the correct calculation for this problem."
       }
     ],
     "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = $5,000.",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a(x - h)^2\\) + k, where the vertex is (h, k). In this equation, h = -2 and k = 0.",
+    "rationale": "The vertex form of a parabola is y = a(x - h)^2 + k, where the vertex is (h, k). In this equation, h = -2 and k = 0.",
     "challenge_tags": [
       "math-1"
     ]
@@ -269,12 +269,12 @@ module.exports = [
       {
         "text": "y = x",
         "isCorrect": false,
-        "rationale": "This line is not perpendicular to the y-axis."
+        "rationale": "Incorrect. The line \"y = x\" is not perpendicular to the y-axis (a perpendicular line would be horizontal, of the form y = c)."
       },
       {
         "text": "y = -x",
         "isCorrect": false,
-        "rationale": "This line is not perpendicular to the y-axis."
+        "rationale": "Incorrect. The line \"y = -x\" is not perpendicular to the y-axis (a perpendicular line would be horizontal, of the form y = c)."
       }
     ],
     "rationale": "The y-axis is a vertical line. A line that is perpendicular to a vertical line must be a horizontal line. The equation of a horizontal line is y = c.",

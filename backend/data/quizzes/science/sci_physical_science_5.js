@@ -423,7 +423,7 @@ module.exports = [
       },
       {
         "text": "20 Joules",
-        "rationale": "Correct. Work = 10 N × 2 m = 20 J.",
+        rationale: "Correct because work equals force times distance (W = F × d), so 10 N × 2 m equals 20 joules.",
         "isCorrect": true
       },
       {

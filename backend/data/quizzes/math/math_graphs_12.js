@@ -4,7 +4,8 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the slope of a line that is parallel to \\(y = 5x - 3\\)?',
+    question:
+      'What is the slope of a line that is parallel to \\(y = 5x - 3\\)?',
     answerOptions: [
       {
         text: '5',
@@ -17,7 +18,7 @@ module.exports = [
         rationale: 'This is the y-intercept.',
       },
       {
-        text: '\\(-\\(\frac{1}{5}\\)',
+        text: '-\\(\\frac{1}{5}\\)',
         isCorrect: false,
         rationale: 'This is the slope of a perpendicular line.',
       },
@@ -52,7 +53,8 @@ module.exports = [
       {
         text: '(1, 4)',
         isCorrect: true,
-        rationale: 'If x=1, y=3(1)+1=4.',
+        rationale:
+          'Correct because substituting x = 1 into y = 3x + 1 gives y = 3(1) + 1 = 4, so the point (1, 4) lies on the line.',
       },
       {
         text: '(2, 5)',
@@ -82,7 +84,7 @@ module.exports = [
     difficulty: 'medium',
     question: 'What is the slope of a line passing through (4, 2) and (6, 10)?',
     correctAnswer: '4',
-    rationale: 'Slope = (10-2)/(6-4) = \\(\\(\frac{8}{2}\\) = 4.',
+    rationale: 'Slope = (10-2)/(6-4) = \\(\\frac{8}{2}\\) = 4.',
     challenge_tags: ['math-1'],
   },
   {
@@ -95,17 +97,20 @@ module.exports = [
       {
         text: '3',
         isCorrect: false,
-        rationale: 'This is an x-intercept.',
+        rationale:
+          'x = 3 is one of the x-intercepts (where f(x) = 0), not the y-intercept; the y-intercept is found by evaluating f(0).',
       },
       {
         text: '-3',
         isCorrect: false,
-        rationale: 'This is an x-intercept.',
+        rationale:
+          'x = -3 is the other x-intercept (where f(x) = 0); the y-intercept requires substituting x = 0, which gives -9.',
       },
       {
         text: '9',
         isCorrect: false,
-        rationale: 'This is an incorrect value.',
+        rationale:
+          'This forgets the negative sign in \\(x^2 - 9\\); plugging in x = 0 gives \\(0^2 - 9 = -9\\), not +9.',
       },
       {
         text: '-9',
@@ -227,12 +232,14 @@ module.exports = [
       {
         text: 'y = x + 2',
         isCorrect: false,
-        rationale: 'This has the wrong slope.',
+        rationale:
+          'Incorrect. "y = x + 2" does not match the result of the correct calculation for this problem.',
       },
       {
         text: 'y = 3x - 2',
         isCorrect: false,
-        rationale: 'This has the wrong slope.',
+        rationale:
+          'Incorrect. "y = 3x - 2" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:
@@ -295,7 +302,7 @@ module.exports = [
         rationale: 'This is the y-intercept.',
       },
       {
-        text: '\\)\\(\\(\frac{2}{3}\\)',
+        text: '\\(\\frac{2}{3}\\)',
         isCorrect: false,
         rationale: 'This is the x-intercept.',
       },

@@ -1,0 +1,5270 @@
+{
+  "weak": [
+    {
+      "s": "Science",
+      "t": "sci_ged_ready_life_passages",
+      "n": 2,
+      "question": "Based on the passage, which statement best explains why most food chains depend on plants?",
+      "opts": [
+        {
+          "t": "Plants are the only organisms that can carry out cellular respiration.",
+          "c": false,
+          "r": "The passage explicitly states animal cells also carry out cellular respiration, so this is incorrect."
+        },
+        {
+          "t": "Plants capture energy from sunlight and store it in chemical form, making it available to organisms ",
+          "c": true,
+          "r": "Correct. The passage states plants use photosynthesis to combine CO₂ and water into glucose and oxygen, capturing the sun's energy in chemical form, and that this is why they form the base of most food chains."
+        },
+        {
+          "t": "Animals can manufacture their own glucose using sunlight.",
+          "c": false,
+          "r": "The passage credits photosynthesis only to plants and other photosynthetic organisms, not animals."
+        },
+        {
+          "t": "Mitochondria are found only in plant cells.",
+          "c": false,
+          "r": "The passage states both plant and animal cells contain mitochondria."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_newtons_laws_10",
+      "n": 10,
+      "question": "What is the difference between mass and weight?",
+      "opts": [
+        {
+          "t": "They are the same thing.",
+          "c": false,
+          "r": "They are related but distinct concepts."
+        },
+        {
+          "t": "Mass is the amount of matter in an object, while weight is the force of gravity on that object.",
+          "c": true,
+          "r": "Correct. Your mass is the same on Earth and the Moon, but your weight is different."
+        },
+        {
+          "t": "Mass is a force, and weight is a measure of inertia.",
+          "c": false,
+          "r": "This is incorrect. Weight is a force, and mass is a measure of inertia."
+        },
+        {
+          "t": "Mass depends on gravity, while weight does not.",
+          "c": false,
+          "r": "This is the opposite of the correct relationship."
+        }
+      ]
+    },
+    {
+      "s": "Math",
+      "t": "math_alg_expressions",
+      "n": 3,
+      "question": "What is the result of \\((2x + 3) + (x - 1)\\)?",
+      "opts": [
+        {
+          "t": "\\(3x + 2\\)",
+          "c": true,
+          "r": "Combine like terms: \\((2x + x) + (3 - 1) = 3x + 2\\)."
+        },
+        {
+          "t": "\\(2x + 2\\)",
+          "c": false,
+          "r": "Forgot to add the \\(x\\) terms correctly."
+        },
+        {
+          "t": "\\(3x + 4\\)",
+          "c": false,
+          "r": "Incorrectly added 3 and 1."
+        },
+        {
+          "t": "\\(2x^2 - 2\\)",
+          "c": false,
+          "r": "This is incorrect; this is addition, not multiplication."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 1,
+      "question": "The principle of dividing governmental power between a central, national government and state governments is known as:",
+      "opts": [
+        {
+          "t": "Separation of Powers",
+          "c": false,
+          "r": "Separation of powers refers to the division of power among the legislative, executive, and judicial branches of the federal government."
+        },
+        {
+          "t": "Checks and Balances",
+          "c": false,
+          "r": "Checks and balances is the system that allows each branch to limit the power of the others."
+        },
+        {
+          "t": "Federalism",
+          "c": true,
+          "r": "Correct. Federalism is the constitutional principle that divides power and authority between the national government and the various state governments."
+        },
+        {
+          "t": "Popular Sovereignty",
+          "c": false,
+          "r": "Popular sovereignty is the principle that the authority of the government is created and sustained by the consent of its people."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 2,
+      "question": "What important precedent was established by the Supreme Court case Marbury v. Madison (1803)?",
+      "opts": [
+        {
+          "t": "The right to a speedy trial.",
+          "c": false,
+          "r": "This right is guaranteed by the Sixth Amendment."
+        },
+        {
+          "t": "The principle of judicial review.",
+          "c": true,
+          "r": "Correct. This landmark case established the Supreme Court's power to declare an act of Congress unconstitutional, which is the principle of judicial review."
+        },
+        {
+          "t": "The supremacy of federal law over state law.",
+          "c": false,
+          "r": "This principle was established in other cases, such as McCulloch v. Maryland, but Marbury v. Madison was about judicial review."
+        },
+        {
+          "t": "The right to freedom of speech.",
+          "c": false,
+          "r": "This right is guaranteed by the First Amendment."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 3,
+      "question": "What was one of the key warnings President Washington gave in his Farewell Address?",
+      "opts": [
+        {
+          "t": "He warned against the dangers of political parties.",
+          "c": true,
+          "r": "Correct. The passage explicitly states that Washington 'warned against the dangers of political factions (or parties).'"
+        },
+        {
+          "t": "He warned that the Constitution was too weak.",
+          "c": false,
+          "r": "Washington supported the Constitution and the strong central government it created."
+        },
+        {
+          "t": "He advised the nation to seek strong military alliances with European powers.",
+          "c": false,
+          "r": "He advised the opposite, warning against 'entangling alliances.'"
+        },
+        {
+          "t": "He warned that the presidency should be a lifetime appointment.",
+          "c": false,
+          "r": "By stepping down after two terms, he set a precedent against a lifetime presidency."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 4,
+      "question": "The first Secretary of the Treasury, Alexander Hamilton, proposed a financial plan to address the nation's debt. Which of the following was ",
+      "opts": [
+        {
+          "t": "The immediate abolition of all federal taxes.",
+          "c": false,
+          "r": "Hamilton's plan involved creating new taxes, such as a tax on whiskey, to raise revenue."
+        },
+        {
+          "t": "The creation of a national bank.",
+          "c": true,
+          "r": "Correct. A central part of Hamilton's plan was the establishment of the Bank of the United States to stabilize the nation's finances and manage its debt."
+        },
+        {
+          "t": "Giving all federal land to individual states.",
+          "c": false,
+          "r": "Hamilton's plan strengthened federal power, it did not give federal assets away to the states."
+        },
+        {
+          "t": "Refusing to pay any debts from the Revolutionary War.",
+          "c": false,
+          "r": "Hamilton's plan called for the federal government to assume and pay off the war debts to establish good credit."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 5,
+      "question": "What was a major provision of the Northwest Ordinance of 1787?",
+      "opts": [
+        {
+          "t": "It allowed for the expansion of slavery into the new territories.",
+          "c": false,
+          "r": "The passage explicitly states that the ordinance 'prohibited slavery' in the Northwest Territory."
+        },
+        {
+          "t": "It established a clear procedure for territories to become states.",
+          "c": true,
+          "r": "Correct. The passage states that the ordinance 'established a process for creating new states.'"
+        },
+        {
+          "t": "It sold the entire territory to France.",
+          "c": false,
+          "r": "The ordinance organized the territory for American settlement, it did not sell it."
+        },
+        {
+          "t": "It required all settlers to belong to a single, established church.",
+          "c": false,
+          "r": "The passage states it 'guaranteed religious freedom,' not religious uniformity."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 1,
+      "question": "The principle of dividing governmental power between a central, national government and state governments is known as:",
+      "opts": [
+        {
+          "t": "Separation of Powers",
+          "c": false,
+          "r": "Separation of powers refers to the division of power among the legislative, executive, and judicial branches of the federal government."
+        },
+        {
+          "t": "Checks and Balances",
+          "c": false,
+          "r": "Checks and balances is the system that allows each branch to limit the power of the others."
+        },
+        {
+          "t": "Federalism",
+          "c": true,
+          "r": "Correct. Federalism is the constitutional principle that divides power and authority between the national government and the various state governments."
+        },
+        {
+          "t": "Popular Sovereignty",
+          "c": false,
+          "r": "Popular sovereignty is the principle that the authority of the government is created and sustained by the consent of its people."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 2,
+      "question": "What important precedent was established by the Supreme Court case Marbury v. Madison (1803)?",
+      "opts": [
+        {
+          "t": "The right to a speedy trial.",
+          "c": false,
+          "r": "This right is guaranteed by the Sixth Amendment."
+        },
+        {
+          "t": "The principle of judicial review.",
+          "c": true,
+          "r": "Correct. This landmark case established the Supreme Court's power to declare an act of Congress unconstitutional, which is the principle of judicial review."
+        },
+        {
+          "t": "The supremacy of federal law over state law.",
+          "c": false,
+          "r": "This principle was established in other cases, such as McCulloch v. Maryland, but Marbury v. Madison was about judicial review."
+        },
+        {
+          "t": "The right to freedom of speech.",
+          "c": false,
+          "r": "This right is guaranteed by the First Amendment."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 3,
+      "question": "What was one of the key warnings President Washington gave in his Farewell Address?",
+      "opts": [
+        {
+          "t": "He warned against the dangers of political parties.",
+          "c": true,
+          "r": "Correct. The passage explicitly states that Washington 'warned against the dangers of political factions (or parties).'"
+        },
+        {
+          "t": "He warned that the Constitution was too weak.",
+          "c": false,
+          "r": "Washington supported the Constitution and the strong central government it created."
+        },
+        {
+          "t": "He advised the nation to seek strong military alliances with European powers.",
+          "c": false,
+          "r": "He advised the opposite, warning against 'entangling alliances.'"
+        },
+        {
+          "t": "He warned that the presidency should be a lifetime appointment.",
+          "c": false,
+          "r": "By stepping down after two terms, he set a precedent against a lifetime presidency."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 4,
+      "question": "The first Secretary of the Treasury, Alexander Hamilton, proposed a financial plan to address the nation's debt. Which of the following was ",
+      "opts": [
+        {
+          "t": "The immediate abolition of all federal taxes.",
+          "c": false,
+          "r": "Hamilton's plan involved creating new taxes, such as a tax on whiskey, to raise revenue."
+        },
+        {
+          "t": "The creation of a national bank.",
+          "c": true,
+          "r": "Correct. A central part of Hamilton's plan was the establishment of the Bank of the United States to stabilize the nation's finances and manage its debt."
+        },
+        {
+          "t": "Giving all federal land to individual states.",
+          "c": false,
+          "r": "Hamilton's plan strengthened federal power, it did not give federal assets away to the states."
+        },
+        {
+          "t": "Refusing to pay any debts from the Revolutionary War.",
+          "c": false,
+          "r": "Hamilton's plan called for the federal government to assume and pay off the war debts to establish good credit."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 5,
+      "question": "What was a major provision of the Northwest Ordinance of 1787?",
+      "opts": [
+        {
+          "t": "It allowed for the expansion of slavery into the new territories.",
+          "c": false,
+          "r": "The passage explicitly states that the ordinance 'prohibited slavery' in the Northwest Territory."
+        },
+        {
+          "t": "It established a clear procedure for territories to become states.",
+          "c": true,
+          "r": "Correct. The passage states that the ordinance 'established a process for creating new states.'"
+        },
+        {
+          "t": "It sold the entire territory to France.",
+          "c": false,
+          "r": "The ordinance organized the territory for American settlement, it did not sell it."
+        },
+        {
+          "t": "It required all settlers to belong to a single, established church.",
+          "c": false,
+          "r": "The passage states it 'guaranteed religious freedom,' not religious uniformity."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 1,
+      "question": "The principle of dividing governmental power between a central, national government and state governments is known as:",
+      "opts": [
+        {
+          "t": "Separation of Powers",
+          "c": false,
+          "r": "Separation of powers refers to the division of power among the legislative, executive, and judicial branches of the federal government."
+        },
+        {
+          "t": "Checks and Balances",
+          "c": false,
+          "r": "Checks and balances is the system that allows each branch to limit the power of the others."
+        },
+        {
+          "t": "Federalism",
+          "c": true,
+          "r": "Correct. Federalism is the constitutional principle that divides power and authority between the national government and the various state governments."
+        },
+        {
+          "t": "Popular Sovereignty",
+          "c": false,
+          "r": "Popular sovereignty is the principle that the authority of the government is created and sustained by the consent of its people."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 2,
+      "question": "What important precedent was established by the Supreme Court case Marbury v. Madison (1803)?",
+      "opts": [
+        {
+          "t": "The right to a speedy trial.",
+          "c": false,
+          "r": "This right is guaranteed by the Sixth Amendment."
+        },
+        {
+          "t": "The principle of judicial review.",
+          "c": true,
+          "r": "Correct. This landmark case established the Supreme Court's power to declare an act of Congress unconstitutional, which is the principle of judicial review."
+        },
+        {
+          "t": "The supremacy of federal law over state law.",
+          "c": false,
+          "r": "This principle was established in other cases, such as McCulloch v. Maryland, but Marbury v. Madison was about judicial review."
+        },
+        {
+          "t": "The right to freedom of speech.",
+          "c": false,
+          "r": "This right is guaranteed by the First Amendment."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 3,
+      "question": "What was one of the key warnings President Washington gave in his Farewell Address?",
+      "opts": [
+        {
+          "t": "He warned against the dangers of political parties.",
+          "c": true,
+          "r": "Correct. The passage explicitly states that Washington 'warned against the dangers of political factions (or parties).'"
+        },
+        {
+          "t": "He warned that the Constitution was too weak.",
+          "c": false,
+          "r": "Washington supported the Constitution and the strong central government it created."
+        },
+        {
+          "t": "He advised the nation to seek strong military alliances with European powers.",
+          "c": false,
+          "r": "He advised the opposite, warning against 'entangling alliances.'"
+        },
+        {
+          "t": "He warned that the presidency should be a lifetime appointment.",
+          "c": false,
+          "r": "By stepping down after two terms, he set a precedent against a lifetime presidency."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 4,
+      "question": "The first Secretary of the Treasury, Alexander Hamilton, proposed a financial plan to address the nation's debt. Which of the following was ",
+      "opts": [
+        {
+          "t": "The immediate abolition of all federal taxes.",
+          "c": false,
+          "r": "Hamilton's plan involved creating new taxes, such as a tax on whiskey, to raise revenue."
+        },
+        {
+          "t": "The creation of a national bank.",
+          "c": true,
+          "r": "Correct. A central part of Hamilton's plan was the establishment of the Bank of the United States to stabilize the nation's finances and manage its debt."
+        },
+        {
+          "t": "Giving all federal land to individual states.",
+          "c": false,
+          "r": "Hamilton's plan strengthened federal power, it did not give federal assets away to the states."
+        },
+        {
+          "t": "Refusing to pay any debts from the Revolutionary War.",
+          "c": false,
+          "r": "Hamilton's plan called for the federal government to assume and pay off the war debts to establish good credit."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation",
+      "n": 5,
+      "question": "What was a major provision of the Northwest Ordinance of 1787?",
+      "opts": [
+        {
+          "t": "It allowed for the expansion of slavery into the new territories.",
+          "c": false,
+          "r": "The passage explicitly states that the ordinance 'prohibited slavery' in the Northwest Territory."
+        },
+        {
+          "t": "It established a clear procedure for territories to become states.",
+          "c": true,
+          "r": "Correct. The passage states that the ordinance 'established a process for creating new states.'"
+        },
+        {
+          "t": "It sold the entire territory to France.",
+          "c": false,
+          "r": "The ordinance organized the territory for American settlement, it did not sell it."
+        },
+        {
+          "t": "It required all settlers to belong to a single, established church.",
+          "c": false,
+          "r": "The passage states it 'guaranteed religious freedom,' not religious uniformity."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 6,
+      "question": "What was the core idea of Manifest Destiny?",
+      "opts": [
+        {
+          "t": "That the United States should limit its territory to the original thirteen colonies.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That American settlers were destined to expand across the continent, spreading their institutions wi",
+          "c": true,
+          "r": "That American settlers were destined to expand across the continent, spreading their institutions with them."
+        },
+        {
+          "t": "That the United States should form a military alliance with Mexico.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "That Native American tribes should be given full citizenship.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 7,
+      "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continen",
+      "opts": [
+        {
+          "t": "The Lewis and Clark Expedition",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "The construction of the Transcontinental Railroad",
+          "c": true,
+          "r": "The construction of the Transcontinental Railroad"
+        },
+        {
+          "t": "The California Gold Rush",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The passage of the Homestead Act",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 8,
+      "question": "What was the main purpose of the Homestead Act of 1862?",
+      "opts": [
+        {
+          "t": "To create national parks and preserve wilderness.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To sell government land to railroad companies.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "To encourage the settlement of the American West by individual farmers.",
+          "c": true,
+          "r": "To encourage the settlement of the American West by individual farmers."
+        },
+        {
+          "t": "To establish large, government-owned farms.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 9,
+      "question": "The forced removal of the Cherokee Nation from their ancestral lands in the southeastern United States to territory in present-day Oklahoma ",
+      "opts": [
+        {
+          "t": "The Oregon Trail",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "The Trail of Tears",
+          "c": true,
+          "r": "The Trail of Tears"
+        },
+        {
+          "t": "The Great Migration",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The Santa Fe Trail",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 10,
+      "question": "What was a major consequence of the California Gold Rush?",
+      "opts": [
+        {
+          "t": "A rapid increase in California's population and its admission to the Union as a state.",
+          "c": true,
+          "r": "A rapid increase in California's population and its admission to the Union as a state."
+        },
+        {
+          "t": "A war between the United States and Mexico.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The discovery of a water route to the Pacific Ocean.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "A decline in the value of gold.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 11,
+      "question": "The Oregon Trail was a major overland route for westward migration in the 19th century. What was the primary motivation for most pioneers wh",
+      "opts": [
+        {
+          "t": "To find gold and become rich.",
+          "c": false,
+          "r": "\"To find gold and become rich.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To establish new trade routes with Asia.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To acquire fertile farmland and start new lives in the West.",
+          "c": true,
+          "r": "To acquire fertile farmland and start new lives in the West."
+        },
+        {
+          "t": "To escape religious persecution in the East.",
+          "c": false,
+          "r": "\"To escape religious persecution in the East.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz1",
+      "n": 12,
+      "question": "What was a major outcome of the Mexican-American War?",
+      "opts": [
+        {
+          "t": "The United States lost territory to Mexico.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The United States acquired a vast amount of territory, significantly expanding its borders.",
+          "c": true,
+          "r": "The United States acquired a vast amount of territory, significantly expanding its borders."
+        },
+        {
+          "t": "Mexico and the United States formed a permanent military alliance.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "The issue of slavery in the new territories was permanently resolved.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 6,
+      "question": "What was the core idea of Manifest Destiny?",
+      "opts": [
+        {
+          "t": "That the United States should limit its territory to the original thirteen colonies.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That American settlers were destined to expand across the continent, spreading their institutions wi",
+          "c": true,
+          "r": "That American settlers were destined to expand across the continent, spreading their institutions with them."
+        },
+        {
+          "t": "That the United States should form a military alliance with Mexico.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "That Native American tribes should be given full citizenship.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 7,
+      "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continen",
+      "opts": [
+        {
+          "t": "The Lewis and Clark Expedition",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "The construction of the Transcontinental Railroad",
+          "c": true,
+          "r": "The construction of the Transcontinental Railroad"
+        },
+        {
+          "t": "The California Gold Rush",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The passage of the Homestead Act",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 8,
+      "question": "What was the main purpose of the Homestead Act of 1862?",
+      "opts": [
+        {
+          "t": "To create national parks and preserve wilderness.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To sell government land to railroad companies.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "To encourage the settlement of the American West by individual farmers.",
+          "c": true,
+          "r": "To encourage the settlement of the American West by individual farmers."
+        },
+        {
+          "t": "To establish large, government-owned farms.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 9,
+      "question": "The forced removal of the Cherokee Nation from their ancestral lands in the southeastern United States to territory in present-day Oklahoma ",
+      "opts": [
+        {
+          "t": "The Oregon Trail",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "The Trail of Tears",
+          "c": true,
+          "r": "The Trail of Tears"
+        },
+        {
+          "t": "The Great Migration",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The Santa Fe Trail",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 10,
+      "question": "What was a major consequence of the California Gold Rush?",
+      "opts": [
+        {
+          "t": "A rapid increase in California's population and its admission to the Union as a state.",
+          "c": true,
+          "r": "A rapid increase in California's population and its admission to the Union as a state."
+        },
+        {
+          "t": "A war between the United States and Mexico.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The discovery of a water route to the Pacific Ocean.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "A decline in the value of gold.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 11,
+      "question": "The Oregon Trail was a major overland route for westward migration in the 19th century. What was the primary motivation for most pioneers wh",
+      "opts": [
+        {
+          "t": "To find gold and become rich.",
+          "c": false,
+          "r": "\"To find gold and become rich.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To establish new trade routes with Asia.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To acquire fertile farmland and start new lives in the West.",
+          "c": true,
+          "r": "To acquire fertile farmland and start new lives in the West."
+        },
+        {
+          "t": "To escape religious persecution in the East.",
+          "c": false,
+          "r": "\"To escape religious persecution in the East.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz2",
+      "n": 12,
+      "question": "What was a major outcome of the Mexican-American War?",
+      "opts": [
+        {
+          "t": "The United States lost territory to Mexico.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The United States acquired a vast amount of territory, significantly expanding its borders.",
+          "c": true,
+          "r": "The United States acquired a vast amount of territory, significantly expanding its borders."
+        },
+        {
+          "t": "Mexico and the United States formed a permanent military alliance.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "The issue of slavery in the new territories was permanently resolved.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 6,
+      "question": "What was the core idea of Manifest Destiny?",
+      "opts": [
+        {
+          "t": "That the United States should limit its territory to the original thirteen colonies.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That American settlers were destined to expand across the continent, spreading their institutions wi",
+          "c": true,
+          "r": "That American settlers were destined to expand across the continent, spreading their institutions with them."
+        },
+        {
+          "t": "That the United States should form a military alliance with Mexico.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "That Native American tribes should be given full citizenship.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 7,
+      "question": "Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continen",
+      "opts": [
+        {
+          "t": "The Lewis and Clark Expedition",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "The construction of the Transcontinental Railroad",
+          "c": true,
+          "r": "The construction of the Transcontinental Railroad"
+        },
+        {
+          "t": "The California Gold Rush",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The passage of the Homestead Act",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 8,
+      "question": "What was the main purpose of the Homestead Act of 1862?",
+      "opts": [
+        {
+          "t": "To create national parks and preserve wilderness.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To sell government land to railroad companies.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "To encourage the settlement of the American West by individual farmers.",
+          "c": true,
+          "r": "To encourage the settlement of the American West by individual farmers."
+        },
+        {
+          "t": "To establish large, government-owned farms.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 9,
+      "question": "The forced removal of the Cherokee Nation from their ancestral lands in the southeastern United States to territory in present-day Oklahoma ",
+      "opts": [
+        {
+          "t": "The Oregon Trail",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "The Trail of Tears",
+          "c": true,
+          "r": "The Trail of Tears"
+        },
+        {
+          "t": "The Great Migration",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The Santa Fe Trail",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 10,
+      "question": "What was a major consequence of the California Gold Rush?",
+      "opts": [
+        {
+          "t": "A rapid increase in California's population and its admission to the Union as a state.",
+          "c": true,
+          "r": "A rapid increase in California's population and its admission to the Union as a state."
+        },
+        {
+          "t": "A war between the United States and Mexico.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The discovery of a water route to the Pacific Ocean.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "A decline in the value of gold.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 11,
+      "question": "The Oregon Trail was a major overland route for westward migration in the 19th century. What was the primary motivation for most pioneers wh",
+      "opts": [
+        {
+          "t": "To find gold and become rich.",
+          "c": false,
+          "r": "\"To find gold and become rich.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To establish new trade routes with Asia.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To acquire fertile farmland and start new lives in the West.",
+          "c": true,
+          "r": "To acquire fertile farmland and start new lives in the West."
+        },
+        {
+          "t": "To escape religious persecution in the East.",
+          "c": false,
+          "r": "\"To escape religious persecution in the East.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_new_nation_quiz3",
+      "n": 12,
+      "question": "What was a major outcome of the Mexican-American War?",
+      "opts": [
+        {
+          "t": "The United States lost territory to Mexico.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The United States acquired a vast amount of territory, significantly expanding its borders.",
+          "c": true,
+          "r": "The United States acquired a vast amount of territory, significantly expanding its borders."
+        },
+        {
+          "t": "Mexico and the United States formed a permanent military alliance.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "The issue of slavery in the new territories was permanently resolved.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_divided_nation",
+      "n": 5,
+      "question": "What was a significant limitation of the Emancipation Proclamation when it was issued?",
+      "opts": [
+        {
+          "t": "It was immediately declared unconstitutional by the Supreme Court.",
+          "c": false,
+          "r": "The Supreme Court did not rule on its constitutionality at the time."
+        },
+        {
+          "t": "It freed all enslaved people throughout the entire United States.",
+          "c": false,
+          "r": "This is incorrect. The proclamation explicitly did not apply to the loyal border states."
+        },
+        {
+          "t": "It only applied to enslaved people in Confederate-held territory, where the Union had no power to en",
+          "c": true,
+          "r": "Correct. The proclamation freed slaves only in the states that had seceded, where the federal government could not enforce the law until the Union army conquered the territory."
+        },
+        {
+          "t": "It was rejected by the abolitionist movement as being too radical.",
+          "c": false,
+          "r": "Abolitionists generally supported it, though some wished it had gone further."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 2,
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 5,
+      "question": "Which constitutional amendment, ratified in 1920, granted women the right to vote?",
+      "opts": [
+        {
+          "t": "The 17th Amendment",
+          "c": false,
+          "r": "\"The 17th Amendment\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "The 18th Amendment",
+          "c": false,
+          "r": "\"The 18th Amendment\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "The 19th Amendment",
+          "c": true,
+          "r": "The 19th Amendment"
+        },
+        {
+          "t": "The 21st Amendment",
+          "c": false,
+          "r": "\"The 21st Amendment\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 1,
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public in",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 2,
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 5,
+      "question": "Which constitutional amendment, ratified in 1920, granted women the right to vote?",
+      "opts": [
+        {
+          "t": "The 17th Amendment",
+          "c": false,
+          "r": "\"The 17th Amendment\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "The 18th Amendment",
+          "c": false,
+          "r": "\"The 18th Amendment\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "The 19th Amendment",
+          "c": true,
+          "r": "The 19th Amendment"
+        },
+        {
+          "t": "The 21st Amendment",
+          "c": false,
+          "r": "\"The 21st Amendment\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 1,
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public in",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 2,
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 3,
+      "question": "What was the primary goal of the women's suffrage movement?",
+      "opts": [
+        {
+          "t": "To secure better working conditions for women in factories.",
+          "c": false,
+          "r": "\"To secure better working conditions for women in factories.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To gain women the right to vote.",
+          "c": true,
+          "r": "To gain women the right to vote."
+        },
+        {
+          "t": "To prohibit the sale of alcoholic beverages.",
+          "c": false,
+          "r": "\"To prohibit the sale of alcoholic beverages.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To improve public education for girls.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america",
+      "n": 4,
+      "question": "What legal doctrine was established by the Supreme Court's ruling in Plessy v. Ferguson?",
+      "opts": [
+        {
+          "t": "Judicial Review",
+          "c": false,
+          "r": "\"Judicial Review\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Separate but equal",
+          "c": true,
+          "r": "Separate but equal"
+        },
+        {
+          "t": "Equal protection under the law",
+          "c": false,
+          "r": "\"Equal protection under the law\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Innocent until proven guilty",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 2,
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was of",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 5,
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that ar",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 6,
+      "question": "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did poli",
+      "opts": [
+        {
+          "t": "By winning the support of wealthy business owners through fair practices.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "By providing essential services and assistance to poor and immigrant communities in exchange for the",
+          "c": true,
+          "r": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes."
+        },
+        {
+          "t": "By running honest and transparent city governments.",
+          "c": false,
+          "r": "\"By running honest and transparent city governments.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "By strictly enforcing laws against corruption and graft.",
+          "c": false,
+          "r": "\"By strictly enforcing laws against corruption and graft.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 7,
+      "question": "What was a core belief of the Progressive movement?",
+      "opts": [
+        {
+          "t": "That government should be smaller and have less influence (laissez-faire).",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That the government should actively intervene to address social and economic problems.",
+          "c": true,
+          "r": "That the government should actively intervene to address social and economic problems."
+        },
+        {
+          "t": "That political machines were the most efficient way to run city governments.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "That the United States should return to an agrarian economy.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 10,
+      "question": "During the Progressive Era, political reforms such as the initiative, referendum, and recall were designed to:",
+      "opts": [
+        {
+          "t": "increase the power of political bosses and party leaders.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "make the government more responsive and accountable to the people.",
+          "c": true,
+          "r": "make the government more responsive and accountable to the people."
+        },
+        {
+          "t": "strengthen the power of large corporations.",
+          "c": false,
+          "r": "\"strengthen the power of large corporations.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "limit the voting rights of immigrants.",
+          "c": false,
+          "r": "\"limit the voting rights of immigrants.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 11,
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public in",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz1",
+      "n": 12,
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 1,
+      "question": "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did poli",
+      "opts": [
+        {
+          "t": "By winning the support of wealthy business owners through fair practices.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "By providing essential services and assistance to poor and immigrant communities in exchange for the",
+          "c": true,
+          "r": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes."
+        },
+        {
+          "t": "By running honest and transparent city governments.",
+          "c": false,
+          "r": "\"By running honest and transparent city governments.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "By strictly enforcing laws against corruption and graft.",
+          "c": false,
+          "r": "\"By strictly enforcing laws against corruption and graft.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 2,
+      "question": "What was a core belief of the Progressive movement?",
+      "opts": [
+        {
+          "t": "That government should be smaller and have less influence (laissez-faire).",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That the government should actively intervene to address social and economic problems.",
+          "c": true,
+          "r": "That the government should actively intervene to address social and economic problems."
+        },
+        {
+          "t": "That political machines were the most efficient way to run city governments.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "That the United States should return to an agrarian economy.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 5,
+      "question": "During the Progressive Era, political reforms such as the initiative, referendum, and recall were designed to:",
+      "opts": [
+        {
+          "t": "increase the power of political bosses and party leaders.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "make the government more responsive and accountable to the people.",
+          "c": true,
+          "r": "make the government more responsive and accountable to the people."
+        },
+        {
+          "t": "strengthen the power of large corporations.",
+          "c": false,
+          "r": "\"strengthen the power of large corporations.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "limit the voting rights of immigrants.",
+          "c": false,
+          "r": "\"limit the voting rights of immigrants.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 7,
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was of",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 10,
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that ar",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 11,
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public in",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz2",
+      "n": 12,
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 1,
+      "question": "What was President Theodore Roosevelt's approach to dealing with trusts (monopolies)?",
+      "opts": [
+        {
+          "t": "He believed all trusts were beneficial and should be left unregulated.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "He sought to break up all large corporations, regardless of their practices.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "He used government power to regulate or break up trusts that he believed acted against the public in",
+          "c": true,
+          "r": "He used government power to regulate or break up trusts that he believed acted against the public interest."
+        },
+        {
+          "t": "He believed only state governments, not the federal government, had the power to regulate trusts.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 2,
+      "question": "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
+      "opts": [
+        {
+          "t": "Urbanization",
+          "c": false,
+          "r": "\"Urbanization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Conservation",
+          "c": true,
+          "r": "Conservation"
+        },
+        {
+          "t": "Industrialization",
+          "c": false,
+          "r": "\"Industrialization\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Populism",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 3,
+      "question": "What was the primary goal of the women's suffrage movement?",
+      "opts": [
+        {
+          "t": "To secure better working conditions for women in factories.",
+          "c": false,
+          "r": "\"To secure better working conditions for women in factories.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To gain women the right to vote.",
+          "c": true,
+          "r": "To gain women the right to vote."
+        },
+        {
+          "t": "To prohibit the sale of alcoholic beverages.",
+          "c": false,
+          "r": "\"To prohibit the sale of alcoholic beverages.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To improve public education for girls.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 4,
+      "question": "What legal doctrine was established by the Supreme Court's ruling in Plessy v. Ferguson?",
+      "opts": [
+        {
+          "t": "Judicial Review",
+          "c": false,
+          "r": "\"Judicial Review\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Separate but equal",
+          "c": true,
+          "r": "Separate but equal"
+        },
+        {
+          "t": "Equal protection under the law",
+          "c": false,
+          "r": "\"Equal protection under the law\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Innocent until proven guilty",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 7,
+      "question": "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was of",
+      "opts": [
+        {
+          "t": "Muckrakers",
+          "c": false,
+          "r": "\"Muckrakers\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Progressives",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Robber Barons",
+          "c": true,
+          "r": "Robber Barons"
+        },
+        {
+          "t": "Philanthropists",
+          "c": false,
+          "r": "\"Philanthropists\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 10,
+      "question": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that ar",
+      "opts": [
+        {
+          "t": "A shortage of factory jobs.",
+          "c": false,
+          "r": "\"A shortage of factory jobs.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Poor living conditions and the spread of disease in tenements.",
+          "c": true,
+          "r": "Poor living conditions and the spread of disease in tenements."
+        },
+        {
+          "t": "A lack of cultural diversity in cities.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "A decrease in the overall U.S. population.",
+          "c": false,
+          "r": "\"A decrease in the overall U.S. population.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 11,
+      "question": "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did poli",
+      "opts": [
+        {
+          "t": "By winning the support of wealthy business owners through fair practices.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "By providing essential services and assistance to poor and immigrant communities in exchange for the",
+          "c": true,
+          "r": "By providing essential services and assistance to poor and immigrant communities in exchange for their votes."
+        },
+        {
+          "t": "By running honest and transparent city governments.",
+          "c": false,
+          "r": "\"By running honest and transparent city governments.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "By strictly enforcing laws against corruption and graft.",
+          "c": false,
+          "r": "\"By strictly enforcing laws against corruption and graft.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_industrial_america_quiz3",
+      "n": 12,
+      "question": "What was a core belief of the Progressive movement?",
+      "opts": [
+        {
+          "t": "That government should be smaller and have less influence (laissez-faire).",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "That the government should actively intervene to address social and economic problems.",
+          "c": true,
+          "r": "That the government should actively intervene to address social and economic problems."
+        },
+        {
+          "t": "That political machines were the most efficient way to run city governments.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "That the United States should return to an agrarian economy.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 1,
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 2,
+      "question": "What was a major provision of the Civil Rights Act of 1964?",
+      "opts": [
+        {
+          "t": "It guaranteed a minimum wage for all workers.",
+          "c": false,
+          "r": "\"It guaranteed a minimum wage for all workers.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "It outlawed discrimination in public accommodations, such as restaurants and hotels.",
+          "c": true,
+          "r": "It outlawed discrimination in public accommodations, such as restaurants and hotels."
+        },
+        {
+          "t": "It provided federal funding for the arts.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "It abolished the Electoral College.",
+          "c": false,
+          "r": "\"It abolished the Electoral College.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 3,
+      "question": "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1",
+      "opts": [
+        {
+          "t": "To protest U.S. involvement in the Vietnam War.",
+          "c": false,
+          "r": "\"To protest U.S. involvement in the Vietnam War.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To advocate for the passage of a comprehensive civil rights bill.",
+          "c": true,
+          "r": "To advocate for the passage of a comprehensive civil rights bill."
+        },
+        {
+          "t": "To celebrate the end of segregation in the United States.",
+          "c": false,
+          "r": "\"To celebrate the end of segregation in the United States.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To demand the impeachment of the president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 5,
+      "question": "What event is most closely associated with the end of the Cold War?",
+      "opts": [
+        {
+          "t": "The Cuban Missile Crisis",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The start of the Vietnam War",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The fall of the Berlin Wall and the dissolution of the Soviet Union",
+          "c": true,
+          "r": "The fall of the Berlin Wall and the dissolution of the Soviet Union"
+        },
+        {
+          "t": "The formation of NATO",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 1,
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 3,
+      "question": "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1",
+      "opts": [
+        {
+          "t": "To protest U.S. involvement in the Vietnam War.",
+          "c": false,
+          "r": "\"To protest U.S. involvement in the Vietnam War.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To advocate for the passage of a comprehensive civil rights bill.",
+          "c": true,
+          "r": "To advocate for the passage of a comprehensive civil rights bill."
+        },
+        {
+          "t": "To celebrate the end of segregation in the United States.",
+          "c": false,
+          "r": "\"To celebrate the end of segregation in the United States.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To demand the impeachment of the president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 1,
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 3,
+      "question": "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1",
+      "opts": [
+        {
+          "t": "To protest U.S. involvement in the Vietnam War.",
+          "c": false,
+          "r": "\"To protest U.S. involvement in the Vietnam War.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To advocate for the passage of a comprehensive civil rights bill.",
+          "c": true,
+          "r": "To advocate for the passage of a comprehensive civil rights bill."
+        },
+        {
+          "t": "To celebrate the end of segregation in the United States.",
+          "c": false,
+          "r": "\"To celebrate the end of segregation in the United States.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To demand the impeachment of the president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 4,
+      "question": "The Voting Rights Act of 1965 was signed into law to overcome legal barriers at the state and local levels that prevented African Americans ",
+      "opts": [
+        {
+          "t": "It lowered the voting age to 18.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "It banned the use of literacy tests as a requirement for voting.",
+          "c": true,
+          "r": "It banned the use of literacy tests as a requirement for voting."
+        },
+        {
+          "t": "It granted women the right to vote.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "It established a national popular vote for president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war",
+      "n": 5,
+      "question": "What event is most closely associated with the end of the Cold War?",
+      "opts": [
+        {
+          "t": "The Cuban Missile Crisis",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The start of the Vietnam War",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The fall of the Berlin Wall and the dissolution of the Soviet Union",
+          "c": true,
+          "r": "The fall of the Berlin Wall and the dissolution of the Soviet Union"
+        },
+        {
+          "t": "The formation of NATO",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 1,
+      "question": "Why is the conflict between the U.S. and the Soviet Union referred to as the 'Cold War'?",
+      "opts": [
+        {
+          "t": "Because most of the conflicts occurred in cold, northern climates.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "Because there was no direct, large-scale military conflict between the two superpowers.",
+          "c": true,
+          "r": "Because there was no direct, large-scale military conflict between the two superpowers."
+        },
+        {
+          "t": "Because it was fought primarily over access to arctic resources.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Because it ended in a stalemate with no clear winner.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 2,
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 3,
+      "question": "What was a key objective of the Marshall Plan?",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 5,
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 6,
+      "question": "What did the 'domino theory' suggest?",
+      "opts": [
+        {
+          "t": "That economic instability in one country would cause a global depression.",
+          "c": false,
+          "r": "\"That economic instability in one country would cause a global depression.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That if one country fell to communism, its neighbors would likely follow.",
+          "c": true,
+          "r": "That if one country fell to communism, its neighbors would likely follow."
+        },
+        {
+          "t": "That a nuclear war would cause a chain reaction of destruction.",
+          "c": false,
+          "r": "\"That a nuclear war would cause a chain reaction of destruction.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That all communist countries would eventually collapse like dominoes.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 8,
+      "question": "What was the central issue of the Cuban Missile Crisis?",
+      "opts": [
+        {
+          "t": "A dispute over the political leadership of Cuba.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S.",
+          "c": true,
+          "r": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S."
+        },
+        {
+          "t": "A U.S. naval blockade of the Soviet Union.",
+          "c": false,
+          "r": "\"A U.S. naval blockade of the Soviet Union.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "A disagreement over the price of sugar imports from Cuba.",
+          "c": false,
+          "r": "\"A disagreement over the price of sugar imports from Cuba.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz1",
+      "n": 11,
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 1,
+      "question": "What did the 'domino theory' suggest?",
+      "opts": [
+        {
+          "t": "That economic instability in one country would cause a global depression.",
+          "c": false,
+          "r": "\"That economic instability in one country would cause a global depression.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That if one country fell to communism, its neighbors would likely follow.",
+          "c": true,
+          "r": "That if one country fell to communism, its neighbors would likely follow."
+        },
+        {
+          "t": "That a nuclear war would cause a chain reaction of destruction.",
+          "c": false,
+          "r": "\"That a nuclear war would cause a chain reaction of destruction.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That all communist countries would eventually collapse like dominoes.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 3,
+      "question": "What was the central issue of the Cuban Missile Crisis?",
+      "opts": [
+        {
+          "t": "A dispute over the political leadership of Cuba.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S.",
+          "c": true,
+          "r": "The presence of Soviet nuclear missiles in Cuba, posing a direct threat to the U.S."
+        },
+        {
+          "t": "A U.S. naval blockade of the Soviet Union.",
+          "c": false,
+          "r": "\"A U.S. naval blockade of the Soviet Union.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "A disagreement over the price of sugar imports from Cuba.",
+          "c": false,
+          "r": "\"A disagreement over the price of sugar imports from Cuba.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 6,
+      "question": "Why is the conflict between the U.S. and the Soviet Union referred to as the 'Cold War'?",
+      "opts": [
+        {
+          "t": "Because most of the conflicts occurred in cold, northern climates.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "Because there was no direct, large-scale military conflict between the two superpowers.",
+          "c": true,
+          "r": "Because there was no direct, large-scale military conflict between the two superpowers."
+        },
+        {
+          "t": "Because it was fought primarily over access to arctic resources.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Because it ended in a stalemate with no clear winner.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 7,
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 8,
+      "question": "What was a key objective of the Marshall Plan?",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 10,
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz2",
+      "n": 11,
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 1,
+      "question": "The landmark Supreme Court case Brown v. Board of Education of Topeka (1954) declared that:",
+      "opts": [
+        {
+          "t": "the 'separate but equal' doctrine was constitutional.",
+          "c": false,
+          "r": "\"the 'separate but equal' doctrine was constitutional.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "state-sponsored segregation in public schools was unconstitutional.",
+          "c": true,
+          "r": "state-sponsored segregation in public schools was unconstitutional."
+        },
+        {
+          "t": "poll taxes were illegal.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "women had the right to vote.",
+          "c": false,
+          "r": "\"women had the right to vote.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 3,
+      "question": "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1",
+      "opts": [
+        {
+          "t": "To protest U.S. involvement in the Vietnam War.",
+          "c": false,
+          "r": "\"To protest U.S. involvement in the Vietnam War.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To advocate for the passage of a comprehensive civil rights bill.",
+          "c": true,
+          "r": "To advocate for the passage of a comprehensive civil rights bill."
+        },
+        {
+          "t": "To celebrate the end of segregation in the United States.",
+          "c": false,
+          "r": "\"To celebrate the end of segregation in the United States.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To demand the impeachment of the president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 4,
+      "question": "The Voting Rights Act of 1965 was signed into law to overcome legal barriers at the state and local levels that prevented African Americans ",
+      "opts": [
+        {
+          "t": "It lowered the voting age to 18.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "It banned the use of literacy tests as a requirement for voting.",
+          "c": true,
+          "r": "It banned the use of literacy tests as a requirement for voting."
+        },
+        {
+          "t": "It granted women the right to vote.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "It established a national popular vote for president.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 5,
+      "question": "What event is most closely associated with the end of the Cold War?",
+      "opts": [
+        {
+          "t": "The Cuban Missile Crisis",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "The start of the Vietnam War",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The fall of the Berlin Wall and the dissolution of the Soviet Union",
+          "c": true,
+          "r": "The fall of the Berlin Wall and the dissolution of the Soviet Union"
+        },
+        {
+          "t": "The formation of NATO",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 6,
+      "question": "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
+      "opts": [
+        {
+          "t": "To defeat the Soviet Union in a direct military conflict.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To prevent the spread of communism to other countries.",
+          "c": true,
+          "r": "To prevent the spread of communism to other countries."
+        },
+        {
+          "t": "To establish communist governments in Western Europe.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "To create a single global government through the United Nations.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 8,
+      "question": "What was a key objective of the Marshall Plan?",
+      "opts": [
+        {
+          "t": "To provide military aid to Eastern European countries.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "To rebuild Western European economies to make them less susceptible to communism.",
+          "c": true,
+          "r": "To rebuild Western European economies to make them less susceptible to communism."
+        },
+        {
+          "t": "To punish Germany for its role in World War II.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "To create a free trade zone between the U.S. and the Soviet Union.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 10,
+      "question": "The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?",
+      "opts": [
+        {
+          "t": "To promote economic cooperation between member nations.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "To provide collective security against a potential attack by the Soviet Union.",
+          "c": true,
+          "r": "To provide collective security against a potential attack by the Soviet Union."
+        },
+        {
+          "t": "To coordinate the exploration of space.",
+          "c": false,
+          "r": "\"To coordinate the exploration of space.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "To enforce the terms of the Treaty of Versailles.",
+          "c": false,
+          "r": "\"To enforce the terms of the Treaty of Versailles.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Social Studies",
+      "t": "ss_us_hist_cold_war_quiz3",
+      "n": 11,
+      "question": "What did the 'domino theory' suggest?",
+      "opts": [
+        {
+          "t": "That economic instability in one country would cause a global depression.",
+          "c": false,
+          "r": "\"That economic instability in one country would cause a global depression.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That if one country fell to communism, its neighbors would likely follow.",
+          "c": true,
+          "r": "That if one country fell to communism, its neighbors would likely follow."
+        },
+        {
+          "t": "That a nuclear war would cause a chain reaction of destruction.",
+          "c": false,
+          "r": "\"That a nuclear war would cause a chain reaction of destruction.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "That all communist countries would eventually collapse like dominoes.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_structure_purpose",
+      "n": 1,
+      "question": "The overall tone of the passage can best be described as:",
+      "opts": [
+        {
+          "t": "Pessimistic and critical.",
+          "c": false,
+          "r": "\"Pessimistic and critical.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Overly simplistic and biased.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Informative and cautiously optimistic.",
+          "c": true,
+          "r": "Informative and cautiously optimistic."
+        },
+        {
+          "t": "Sarcastic and dismissive.",
+          "c": false,
+          "r": "\"Sarcastic and dismissive.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_graphics",
+      "n": 4,
+      "question": "Which sector is the largest consumer of electricity according to the data?",
+      "opts": [
+        {
+          "t": "Residential",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        },
+        {
+          "t": "Commercial",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "Transportation",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Industrial",
+          "c": true,
+          "r": "Industrial"
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_graphics",
+      "n": 6,
+      "question": "Based on the table, why would growth in transportation electricity use be significant?",
+      "opts": [
+        {
+          "t": "Because transportation already uses the most electricity.",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Because transportation currently represents a very small fraction of electricity use, so any growth ",
+          "c": true,
+          "r": "Because transportation currently represents a very small fraction of electricity use, so any growth will be a large relative change."
+        },
+        {
+          "t": "Because the industrial sector's electricity use is declining rapidly.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Because transportation is the only sector where electricity use is measured.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_graphics",
+      "n": 7,
+      "question": "Which subject has the highest average test score?",
+      "opts": [
+        {
+          "t": "Math",
+          "c": false,
+          "r": "\"Math\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Reading",
+          "c": true,
+          "r": "Reading"
+        },
+        {
+          "t": "Science",
+          "c": false,
+          "r": "This option does not accurately reflect the passage or question context."
+        },
+        {
+          "t": "Social Studies",
+          "c": false,
+          "r": "\"Social Studies\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_graphics",
+      "n": 10,
+      "question": "What is the overall trend shown in the data?",
+      "opts": [
+        {
+          "t": "The population is projected to decrease over time.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        },
+        {
+          "t": "The population is projected to grow at a steady, constant rate.",
+          "c": false,
+          "r": "While this might seem plausible, it is not supported by the information given."
+        },
+        {
+          "t": "The population is projected to grow at an accelerating rate.",
+          "c": true,
+          "r": "The population is projected to grow at an accelerating rate."
+        },
+        {
+          "t": "The population is projected to remain stable after 2030.",
+          "c": false,
+          "r": "This is not the correct answer based on the information provided."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_graphics",
+      "n": 14,
+      "question": "A bar chart is most effective for:",
+      "opts": [
+        {
+          "t": "Showing a trend over a continuous period of time.",
+          "c": false,
+          "r": "\"Showing a trend over a continuous period of time.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Comparing distinct categories or groups.",
+          "c": true,
+          "r": "Comparing distinct categories or groups."
+        },
+        {
+          "t": "Showing the parts of a whole or percentages.",
+          "c": false,
+          "r": "\"Showing the parts of a whole or percentages.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Displaying the exact location of geographical features.",
+          "c": false,
+          "r": "This answer is incorrect. Review the passage carefully to find the correct information."
+        }
+      ]
+    },
+    {
+      "s": "Reasoning Through Language Arts (RLA)",
+      "t": "rla_info_graphics",
+      "n": 15,
+      "question": "A pie chart is most effective for:",
+      "opts": [
+        {
+          "t": "Showing a trend over a continuous period of time.",
+          "c": false,
+          "r": "This answer is incorrect. Consider the key details in the question."
+        },
+        {
+          "t": "Comparing distinct categories or groups.",
+          "c": false,
+          "r": "\"Comparing distinct categories or groups.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        },
+        {
+          "t": "Showing the parts of a whole or percentages.",
+          "c": true,
+          "r": "Showing the parts of a whole or percentages."
+        },
+        {
+          "t": "Displaying the exact location of geographical features.",
+          "c": false,
+          "r": "\"Displaying the exact location of geographical features.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
+        }
+      ]
+    }
+  ],
+  "thin": [
+    {
+      "s": "Science",
+      "t": "sci_life_science_basics",
+      "n": 9,
+      "question": "",
+      "opts": [
+        {
+          "t": "To filter dust and particles from the air.",
+          "c": false,
+          "r": "Filtering happens mainly in the nasal passages and trachea."
+        },
+        {
+          "t": "To produce sound for speech.",
+          "c": false,
+          "r": "The larynx produces sound."
+        },
+        {
+          "t": "To exchange oxygen and carbon dioxide with the blood.",
+          "c": true,
+          "r": "Correct. Gas exchange occurs in the alveoli."
+        },
+        {
+          "t": "To pump air into and out of the lungs.",
+          "c": false,
+          "r": "The diaphragm moves air in and out of the lungs."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_basics",
+      "n": 10,
+      "question": "",
+      "opts": [
+        {
+          "t": "Heterozygous for that gene.",
+          "c": false,
+          "r": "Heterozygous individuals have two different alleles."
+        },
+        {
+          "t": "Homozygous for that gene.",
+          "c": true,
+          "r": "Correct. 'Homo-' means the alleles are the same."
+        },
+        {
+          "t": "Recessive for that gene.",
+          "c": false,
+          "r": "Recessive describes how an allele behaves, not whether the alleles match."
+        },
+        {
+          "t": "Dominant for that gene.",
+          "c": false,
+          "r": "Dominant alleles can be present in homozygous or heterozygous individuals."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_2",
+      "n": 3,
+      "question": "In a food web, which organism is a primary consumer?",
+      "opts": [
+        {
+          "t": "A lion that eats a zebra.",
+          "c": false,
+          "r": "The lion is a secondary or tertiary consumer."
+        },
+        {
+          "t": "A rabbit that eats grass.",
+          "c": true,
+          "r": "Correct. Primary consumers eat producers (plants)."
+        },
+        {
+          "t": "A fungus that breaks down a dead tree.",
+          "c": false,
+          "r": "The fungus is a decomposer."
+        },
+        {
+          "t": "Grass that makes its own food.",
+          "c": false,
+          "r": "The grass is a producer."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_2",
+      "n": 13,
+      "question": "Which part of a plant cell is responsible for converting light energy into chemical energy?",
+      "opts": [
+        {
+          "t": "Nucleus",
+          "c": false,
+          "r": "The nucleus contains the cell's genetic material."
+        },
+        {
+          "t": "Mitochondrion",
+          "c": false,
+          "r": "Mitochondria are responsible for cellular respiration, which releases energy from food."
+        },
+        {
+          "t": "Chloroplast",
+          "c": true,
+          "r": "Correct. Chloroplasts are the site of photosynthesis."
+        },
+        {
+          "t": "Cell wall",
+          "c": false,
+          "r": "The cell wall provides structural support."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_4",
+      "n": 2,
+      "question": "An organism that is made of only one cell is called:",
+      "opts": [
+        {
+          "t": "Multicellular",
+          "c": false,
+          "r": "Multicellular organisms are made of many cells."
+        },
+        {
+          "t": "Eukaryotic",
+          "c": false,
+          "r": "Eukaryotic cells have a nucleus. An organism can be eukaryotic and either single-celled or multicellular."
+        },
+        {
+          "t": "Unicellular",
+          "c": true,
+          "r": "Correct. \"Uni-\" means one."
+        },
+        {
+          "t": "Prokaryotic",
+          "c": false,
+          "r": "Prokaryotic cells lack a nucleus. While many prokaryotes are unicellular, this term describes the cell type, not the number of cells."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_4",
+      "n": 9,
+      "question": "The process of cell division that results in four daughter cells each with half the number of chromosomes of the parent cell, as in the prod",
+      "opts": [
+        {
+          "t": "Mitosis",
+          "c": false,
+          "r": "Mitosis produces two identical daughter cells with the same number of chromosomes."
+        },
+        {
+          "t": "Meiosis",
+          "c": true,
+          "r": "Correct. Meiosis is essential for sexual reproduction."
+        },
+        {
+          "t": "Fertilization",
+          "c": false,
+          "r": "Fertilization is the fusion of gametes to form a zygote."
+        },
+        {
+          "t": "Replication",
+          "c": false,
+          "r": "Replication is the process of copying DNA."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_5",
+      "n": 4,
+      "question": "The process by which organisms better adapted to their environment tend to survive and produce more offspring is known as:",
+      "opts": [
+        {
+          "t": "Artificial selection",
+          "c": false,
+          "r": "Artificial selection is when humans select for desirable traits."
+        },
+        {
+          "t": "Genetic drift",
+          "c": false,
+          "r": "Genetic drift is the change in the frequency of an existing gene variant in a population due to random sampling of organisms."
+        },
+        {
+          "t": "Natural selection",
+          "c": true,
+          "r": "Correct. This is the main mechanism of evolution."
+        },
+        {
+          "t": "Gene flow",
+          "c": false,
+          "r": "Gene flow is the transfer of genetic variation from one population to another."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_5",
+      "n": 13,
+      "question": "What is a species?",
+      "opts": [
+        {
+          "t": "A group of organisms that live in the same area.",
+          "c": false,
+          "r": "This is a community or population."
+        },
+        {
+          "t": "A group of organisms that can successfully interbreed and produce fertile offspring.",
+          "c": true,
+          "r": "Correct. This is the biological species concept."
+        },
+        {
+          "t": "All the organisms in an ecosystem that are at the same trophic level.",
+          "c": false,
+          "r": "This describes a trophic level, not a species."
+        },
+        {
+          "t": "A group of organisms that are genetically identical.",
+          "c": false,
+          "r": "There is genetic variation within a species."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_6",
+      "n": 4,
+      "question": "A relationship between two species in which one species benefits and the other is harmed is called:",
+      "opts": [
+        {
+          "t": "Mutualism",
+          "c": false,
+          "r": "In mutualism, both species benefit."
+        },
+        {
+          "t": "Commensalism",
+          "c": false,
+          "r": "In commensalism, one species benefits and the other is unaffected."
+        },
+        {
+          "t": "Parasitism",
+          "c": true,
+          "r": "Correct. An example is a tick feeding on a dog."
+        },
+        {
+          "t": "Competition",
+          "c": false,
+          "r": "Competition is when two or more organisms vie for the same limited resources."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_cells_organelles_1",
+      "n": 2,
+      "question": "What is the main function of the cell membrane?",
+      "opts": [
+        {
+          "t": "To provide rigid support for the cell.",
+          "c": false,
+          "r": "This is the function of the cell wall in plant cells."
+        },
+        {
+          "t": "To control which substances enter and leave the cell.",
+          "c": true,
+          "r": "Correct. The cell membrane is selectively permeable."
+        },
+        {
+          "t": "To store the cell's genetic material.",
+          "c": false,
+          "r": "This is the function of the nucleus."
+        },
+        {
+          "t": "To synthesize proteins.",
+          "c": false,
+          "r": "This is the function of ribosomes."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_cells_organelles_1",
+      "n": 11,
+      "question": "The basic unit of life is the:",
+      "opts": [
+        {
+          "t": "Atom",
+          "c": false,
+          "r": "The atom is the basic unit of matter."
+        },
+        {
+          "t": "Molecule",
+          "c": false,
+          "r": "A molecule is a group of atoms bonded together."
+        },
+        {
+          "t": "Cell",
+          "c": true,
+          "r": "Correct. All living things are made of cells."
+        },
+        {
+          "t": "Organ",
+          "c": false,
+          "r": "An organ is a group of tissues that perform a specific function."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_cells_organelles_1",
+      "n": 12,
+      "question": "What is the primary function of lysosomes?",
+      "opts": [
+        {
+          "t": "To generate energy for the cell.",
+          "c": false,
+          "r": "This is the function of mitochondria."
+        },
+        {
+          "t": "To break down and recycle waste materials and cellular debris.",
+          "c": true,
+          "r": "Correct. They act as the cell's 'recycling center'."
+        },
+        {
+          "t": "To provide a pathway for transporting molecules.",
+          "c": false,
+          "r": "This is a function of the endoplasmic reticulum."
+        },
+        {
+          "t": "To give the cell its shape.",
+          "c": false,
+          "r": "This is a function of the cytoskeleton and cell wall."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_life_science_human_body_systems_8",
+      "n": 9,
+      "question": "The immune system's primary function is to:",
+      "opts": [
+        {
+          "t": "Defend the body against pathogens like bacteria and viruses.",
+          "c": true,
+          "r": "Correct. It identifies and attacks foreign invaders."
+        },
+        {
+          "t": "Carry oxygen to the cells.",
+          "c": false,
+          "r": "This is the function of red blood cells in the circulatory system."
+        },
+        {
+          "t": "Enable movement.",
+          "c": false,
+          "r": "This is the function of the muscular system."
+        },
+        {
+          "t": "Store minerals.",
+          "c": false,
+          "r": "This is a function of the skeletal system."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_chem_fundamentals",
+      "n": 8,
+      "question": "",
+      "opts": [
+        {
+          "t": "Force",
+          "c": false,
+          "r": "Force is a push or pull, not a rate of doing work."
+        },
+        {
+          "t": "Power",
+          "c": true,
+          "r": "Correct. Power measures how quickly work is performed."
+        },
+        {
+          "t": "Momentum",
+          "c": false,
+          "r": "Momentum is mass times velocity."
+        },
+        {
+          "t": "Inertia",
+          "c": false,
+          "r": "Inertia is the resistance to a change in motion."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_1",
+      "n": 2,
+      "question": "What type of energy is possessed by a moving object?",
+      "opts": [
+        {
+          "t": "Potential Energy",
+          "c": false,
+          "r": "Potential energy is stored energy based on position or state."
+        },
+        {
+          "t": "Chemical Energy",
+          "c": false,
+          "r": "Chemical energy is stored in the bonds of chemical compounds."
+        },
+        {
+          "t": "Kinetic Energy",
+          "c": true,
+          "r": "Correct. Kinetic energy is the energy of motion."
+        },
+        {
+          "t": "Thermal Energy",
+          "c": false,
+          "r": "Thermal energy is related to the temperature of an object."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_2",
+      "n": 2,
+      "question": "The three states of matter are:",
+      "opts": [
+        {
+          "t": "Solid, Liquid, and Gas",
+          "c": true,
+          "r": "Correct. These are the three common states of matter."
+        },
+        {
+          "t": "Atom, Molecule, and Compound",
+          "c": false,
+          "r": "These are levels of organization of matter."
+        },
+        {
+          "t": "Proton, Neutron, and Electron",
+          "c": false,
+          "r": "These are subatomic particles."
+        },
+        {
+          "t": "Energy, Force, and Work",
+          "c": false,
+          "r": "These are concepts in physics, not states of matter."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_3",
+      "n": 4,
+      "question": "What happens when two north poles of a magnet are brought close together?",
+      "opts": [
+        {
+          "t": "They attract each other.",
+          "c": false,
+          "r": "Opposite poles attract (north and south)."
+        },
+        {
+          "t": "They repel each other.",
+          "c": true,
+          "r": "Correct. Like poles of a magnet repel each other."
+        },
+        {
+          "t": "They cancel each other out.",
+          "c": false,
+          "r": "The magnetic fields interact, but they do not cancel out."
+        },
+        {
+          "t": "They have no effect on each other.",
+          "c": false,
+          "r": "Magnets exert forces on each other."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_3",
+      "n": 11,
+      "question": "The electrical power (P) consumed by a device is calculated as P = Voltage (V) × Current (I). If a device connected to a 120-volt outlet dra",
+      "opts": [
+        {
+          "t": "60 watts",
+          "c": false,
+          "r": "This is the result of dividing the voltage by the current."
+        },
+        {
+          "t": "240 watts",
+          "c": true,
+          "r": "Correct. Power = 120 V × 2 A = 240 W."
+        },
+        {
+          "t": "122 watts",
+          "c": false,
+          "r": "This is the sum of the voltage and current."
+        },
+        {
+          "t": "0.017 watts",
+          "c": false,
+          "r": "This is the result of dividing the current by the voltage."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_4",
+      "n": 2,
+      "question": "The measure of the amount of matter in an object is its:",
+      "opts": [
+        {
+          "t": "Weight",
+          "c": false,
+          "r": "Weight is the force of gravity on an object's mass."
+        },
+        {
+          "t": "Volume",
+          "c": false,
+          "r": "Volume is the amount of space an object occupies."
+        },
+        {
+          "t": "Density",
+          "c": false,
+          "r": "Density is mass per unit volume."
+        },
+        {
+          "t": "Mass",
+          "c": true,
+          "r": "Correct. Mass is a fundamental property of matter."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_4",
+      "n": 3,
+      "question": "A substance with a definite shape and a definite volume is a:",
+      "opts": [
+        {
+          "t": "Solid",
+          "c": true,
+          "r": "Correct. Solids have a fixed shape and volume."
+        },
+        {
+          "t": "Liquid",
+          "c": false,
+          "r": "Liquids have a definite volume but take the shape of their container."
+        },
+        {
+          "t": "Gas",
+          "c": false,
+          "r": "Gases have neither a definite shape nor a definite volume."
+        },
+        {
+          "t": "Plasma",
+          "c": false,
+          "r": "Plasma is a state of matter similar to gas in which a certain portion of the particles are ionized."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_4",
+      "n": 7,
+      "question": "The pH scale measures how acidic or basic a substance is. A substance with a pH of 7 is considered:",
+      "opts": [
+        {
+          "t": "Strongly acidic",
+          "c": false,
+          "r": "Strongly acidic substances have a low pH (e.g., 1-3)."
+        },
+        {
+          "t": "Slightly basic",
+          "c": false,
+          "r": "Slightly basic substances have a pH just above 7 (e.g., 8-9)."
+        },
+        {
+          "t": "Neutral",
+          "c": true,
+          "r": "Correct. Pure water has a pH of 7."
+        },
+        {
+          "t": "Strongly basic",
+          "c": false,
+          "r": "Strongly basic substances have a high pH (e.g., 12-14)."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_4",
+      "n": 11,
+      "question": "What type of chemical bond is formed when two atoms share electrons?",
+      "opts": [
+        {
+          "t": "Ionic bond",
+          "c": false,
+          "r": "An ionic bond is formed when one atom transfers electrons to another, creating ions that are attracted to each other."
+        },
+        {
+          "t": "Covalent bond",
+          "c": true,
+          "r": "Correct. Covalent bonds form molecules, like H₂O."
+        },
+        {
+          "t": "Metallic bond",
+          "c": false,
+          "r": "A metallic bond is the type of bond found in metals, where electrons are delocalized in a \"sea\"."
+        },
+        {
+          "t": "Hydrogen bond",
+          "c": false,
+          "r": "A hydrogen bond is a weaker attraction between molecules, not a bond that forms molecules by sharing electrons between atoms."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_5",
+      "n": 14,
+      "question": "Work is calculated as Force × Distance. If you lift a 10 N box a distance of 2 meters, how much work have you done?",
+      "opts": [
+        {
+          "t": "5 Joules",
+          "c": false,
+          "r": "This is calculated by dividing force by distance."
+        },
+        {
+          "t": "12 Joules",
+          "c": false,
+          "r": "This is the sum of the force and distance."
+        },
+        {
+          "t": "20 Joules",
+          "c": true,
+          "r": "Correct. Work = 10 N × 2 m = 20 J."
+        },
+        {
+          "t": "0 Joules",
+          "c": false,
+          "r": "Work is done because a force caused the object to move a distance."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_6",
+      "n": 2,
+      "question": "The transfer of energy as electromagnetic waves is called:",
+      "opts": [
+        {
+          "t": "Conduction",
+          "c": false,
+          "r": "Conduction is heat transfer through direct contact."
+        },
+        {
+          "t": "Convection",
+          "c": false,
+          "r": "Convection is heat transfer through the movement of fluids."
+        },
+        {
+          "t": "Radiation",
+          "c": true,
+          "r": "Correct. This is how the sun heats the Earth."
+        },
+        {
+          "t": "Insulation",
+          "c": false,
+          "r": "Insulation is a material that resists heat transfer."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_6",
+      "n": 3,
+      "question": "What is the law of conservation of energy?",
+      "opts": [
+        {
+          "t": "Energy can be created from nothing.",
+          "c": false,
+          "r": "The law states that energy cannot be created."
+        },
+        {
+          "t": "Energy cannot be created or destroyed, only transformed from one form to another.",
+          "c": true,
+          "r": "Correct. This is the First Law of Thermodynamics."
+        },
+        {
+          "t": "The total energy in the universe is always decreasing.",
+          "c": false,
+          "r": "The law states that the total energy remains constant."
+        },
+        {
+          "t": "Energy is lost as heat in every transformation.",
+          "c": false,
+          "r": "While some energy is often lost as heat (Second Law), the First Law states that the total energy is conserved."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_6",
+      "n": 4,
+      "question": "An object's resistance to a change in its state of motion is called:",
+      "opts": [
+        {
+          "t": "Force",
+          "c": false,
+          "r": "A force is a push or a pull that can cause a change in motion."
+        },
+        {
+          "t": "Acceleration",
+          "c": false,
+          "r": "Acceleration is the rate of change of velocity."
+        },
+        {
+          "t": "Inertia",
+          "c": true,
+          "r": "Correct. Inertia is a property of mass."
+        },
+        {
+          "t": "Momentum",
+          "c": false,
+          "r": "Momentum is mass in motion (mass × velocity)."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_matter_energy_2",
+      "n": 3,
+      "question": "The law of conservation of energy states that:",
+      "opts": [
+        {
+          "t": "Energy can be created from nothing.",
+          "c": false,
+          "r": "Incorrect. The law of conservation of energy explicitly states that energy cannot be created — the total amount must stay constant."
+        },
+        {
+          "t": "Energy can be destroyed.",
+          "c": false,
+          "r": "Incorrect. The law of conservation of energy explicitly states that energy cannot be destroyed; it can only change form (e.g., kinetic to thermal)."
+        },
+        {
+          "t": "Energy cannot be created or destroyed, only transformed from one form to another.",
+          "c": true,
+          "r": "Correct. This is a fundamental principle of physics."
+        },
+        {
+          "t": "The total energy in the universe is decreasing.",
+          "c": false,
+          "r": "The total energy is constant."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_matter_energy_2",
+      "n": 4,
+      "question": "Heat transfer through direct contact is known as:",
+      "opts": [
+        {
+          "t": "Conduction",
+          "c": true,
+          "r": "Correct. An example is a pan heating up on a stove."
+        },
+        {
+          "t": "Convection",
+          "c": false,
+          "r": "Convection is heat transfer through the movement of fluids (liquids or gases)."
+        },
+        {
+          "t": "Radiation",
+          "c": false,
+          "r": "Radiation is heat transfer through electromagnetic waves, like the heat from the sun."
+        },
+        {
+          "t": "Insulation",
+          "c": false,
+          "r": "Insulation is a material that reduces heat transfer."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_chemistry_6",
+      "n": 8,
+      "question": "A substance that speeds up a chemical reaction without being consumed by the reaction is a(n):",
+      "opts": [
+        {
+          "t": "Catalyst",
+          "c": true,
+          "r": "Correct. Enzymes are biological catalysts."
+        },
+        {
+          "t": "Reactant",
+          "c": false,
+          "r": "A reactant is consumed during a reaction."
+        },
+        {
+          "t": "Product",
+          "c": false,
+          "r": "A product is formed during a reaction."
+        },
+        {
+          "t": "Inhibitor",
+          "c": false,
+          "r": "An inhibitor slows down a chemical reaction."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physical_science_newtons_laws_10",
+      "n": 7,
+      "question": "Newton's Third Law of Motion states that for every action, there is an equal and opposite...",
+      "opts": [
+        {
+          "t": "Force",
+          "c": false,
+          "r": "This is part of the law, but 'reaction' is the specific term used."
+        },
+        {
+          "t": "Acceleration",
+          "c": false,
+          "r": "Acceleration is a result of forces, not the opposite of an action."
+        },
+        {
+          "t": "Reaction",
+          "c": true,
+          "r": "Correct. This is the classic statement of the law."
+        },
+        {
+          "t": "Mass",
+          "c": false,
+          "r": "Mass is a property of matter, not a response to a force."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_physics_motion",
+      "n": 14,
+      "question": "If you bring the north pole of one magnet close to the north pole of another magnet, what will happen?",
+      "opts": [
+        {
+          "t": "The magnets will attract each other.",
+          "c": false,
+          "r": "Opposite poles attract."
+        },
+        {
+          "t": "The magnets will repel each other.",
+          "c": true,
+          "r": "Correct. The passage states that like poles repel."
+        },
+        {
+          "t": "Nothing will happen.",
+          "c": false,
+          "r": "A magnetic force will be exerted."
+        },
+        {
+          "t": "The magnets will lose their magnetism.",
+          "c": false,
+          "r": "This will not cause them to lose their magnetism."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_ged_ready_physical_numeracy",
+      "n": 4,
+      "question": "A bicyclist travels 60 kilometers (km) in 3 hours (h). Using the formula for speed (v = d/t), what is the bicyclist's average speed in km/h?",
+      "opts": [
+        {
+          "t": "15 km/h",
+          "c": false,
+          "r": "This is half the correct value. Check the division: 60 ÷ 3 = 20, not 15."
+        },
+        {
+          "t": "20 km/h",
+          "c": true,
+          "r": "Correct. Using v = d/t: v = 60 km ÷ 3 h = 20 km/h."
+        },
+        {
+          "t": "63 km/h",
+          "c": false,
+          "r": "This is 60 + 3. Speed is distance divided by time, not distance plus time."
+        },
+        {
+          "t": "180 km/h",
+          "c": false,
+          "r": "This is 60 × 3. Speed is distance divided by time, not multiplied by it."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_ged_ready_physical_numeracy",
+      "n": 6,
+      "question": "A 10 kilogram (kg) box on a smooth floor is pushed by a horizontal force, giving it an acceleration of 2 m/s². Using Newton's second law (F ",
+      "opts": [
+        {
+          "t": "5 N",
+          "c": false,
+          "r": "This is mass divided by acceleration (10 ÷ 2). F = ma is a product, not a quotient."
+        },
+        {
+          "t": "12 N",
+          "c": false,
+          "r": "This is 10 + 2. The formula F = ma is a product, not a sum."
+        },
+        {
+          "t": "20 N",
+          "c": true,
+          "r": "Correct. Using F = ma: F = (10 kg)(2 m/s²) = 20 N."
+        },
+        {
+          "t": "0.2 N",
+          "c": false,
+          "r": "This is 2 ÷ 10. The formula F = ma is a product (m × a), not a/m."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_ged_ready_physical_numeracy",
+      "n": 7,
+      "question": "A worker pushes a cart with a constant horizontal force of 50 newtons (N) for a distance of 8 meters (m) along a level floor. Using W = F × ",
+      "opts": [
+        {
+          "t": "6.25 J",
+          "c": false,
+          "r": "This is 50 ÷ 8. The formula for work is a product (F × d), not a quotient."
+        },
+        {
+          "t": "58 J",
+          "c": false,
+          "r": "This is 50 + 8. Work is force times distance, not force plus distance."
+        },
+        {
+          "t": "400 J",
+          "c": true,
+          "r": "Correct. Using W = F × d: W = (50 N)(8 m) = 400 J."
+        },
+        {
+          "t": "40,000 J",
+          "c": false,
+          "r": "This appears to multiply correctly (50 × 8 = 400) and then add two extra zeros — likely a unit/decimal slip. The correct value is 400 J."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_ged_ready_physical_numeracy",
+      "n": 8,
+      "question": "An elevator motor lifts a load by doing 12,000 joules (J) of work in 30 seconds (s). Using the formula for power (P = W/t), what is the aver",
+      "opts": [
+        {
+          "t": "40 W",
+          "c": false,
+          "r": "This is too low by a factor of 10. Recheck: 12,000 ÷ 30 = 400, not 40."
+        },
+        {
+          "t": "400 W",
+          "c": true,
+          "r": "Correct. Using P = W/t: P = 12,000 J ÷ 30 s = 400 W."
+        },
+        {
+          "t": "4,000 W",
+          "c": false,
+          "r": "This is too high by a factor of 10. The correct division is 12,000 ÷ 30 = 400."
+        },
+        {
+          "t": "360,000 W",
+          "c": false,
+          "r": "This is 12,000 × 30 (multiplying instead of dividing). Power is work divided by time."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 1,
+      "question": "What is the <strong>mean (average)</strong> height of the plants?",
+      "opts": [
+        {
+          "t": "15 cm",
+          "c": false,
+          "r": "15 is the mode (most common), not the mean."
+        },
+        {
+          "t": "18 cm",
+          "c": true,
+          "r": "Correct. (15+18+15+22+20)=90; 90÷5=18."
+        },
+        {
+          "t": "18.5 cm",
+          "c": false,
+          "r": "Close, but not the exact average."
+        },
+        {
+          "t": "22 cm",
+          "c": false,
+          "r": "22 is just the tallest plant."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 3,
+      "question": "What is the rock’s density?",
+      "opts": [
+        {
+          "t": "1 g/cm³",
+          "c": false,
+          "r": "That would be 20 g ÷ 20 cm³."
+        },
+        {
+          "t": "3 g/cm³",
+          "c": true,
+          "r": "Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm³."
+        },
+        {
+          "t": "20 g/cm³",
+          "c": false,
+          "r": "That’s just the volume, not density."
+        },
+        {
+          "t": "40 g/cm³",
+          "c": false,
+          "r": "Not based on 60 ÷ 20."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 4,
+      "question": "What is the car’s average speed?",
+      "opts": [
+        {
+          "t": "50 km/h",
+          "c": true,
+          "r": "Correct. 150 km ÷ 3 h = 50 km/h."
+        },
+        {
+          "t": "30 km/h",
+          "c": false,
+          "r": "Too low. That would be 90 km over 3 h."
+        },
+        {
+          "t": "100 km/h",
+          "c": false,
+          "r": "Too high. That would be 300 km in 3 h."
+        },
+        {
+          "t": "450 km/h",
+          "c": false,
+          "r": "Impossible for the data given."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 5,
+      "question": "How much work was done on the box?",
+      "opts": [
+        {
+          "t": "12.5 J",
+          "c": false,
+          "r": "This divides instead of multiplying."
+        },
+        {
+          "t": "46 N",
+          "c": false,
+          "r": "Newtons measure force, not work (energy)."
+        },
+        {
+          "t": "200 J",
+          "c": true,
+          "r": "Correct. Work W = F × d = 50 N × 4 m = 200 J."
+        },
+        {
+          "t": "200 N",
+          "c": false,
+          "r": "Units are wrong — work is in joules."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 6,
+      "question": "What net force is acting on the cart?",
+      "opts": [
+        {
+          "t": "0.67 N",
+          "c": false,
+          "r": "That divides instead of multiplies."
+        },
+        {
+          "t": "1.5 N",
+          "c": false,
+          "r": "Still dividing, not multiplying."
+        },
+        {
+          "t": "5 N",
+          "c": false,
+          "r": "Close, but 2 × 3 is 6, not 5."
+        },
+        {
+          "t": "6 N",
+          "c": true,
+          "r": "Correct. F = m × a = 2 kg × 3 m/s² = 6 N."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 7,
+      "question": "Which trial had the greatest temperature increase?",
+      "opts": [
+        {
+          "t": "Trial A",
+          "c": false,
+          "r": "Increase was 30−22 = 8°C."
+        },
+        {
+          "t": "Trial B",
+          "c": false,
+          "r": "Increase was 7°C."
+        },
+        {
+          "t": "Trial C",
+          "c": true,
+          "r": "Correct. Increase was 35−22 = 13°C, the largest."
+        },
+        {
+          "t": "Trial D",
+          "c": false,
+          "r": "Increase was 6°C."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 8,
+      "question": "What is the <strong>range</strong> of the data?",
+      "opts": [
+        {
+          "t": "12",
+          "c": false,
+          "r": "12 is just the smallest value."
+        },
+        {
+          "t": "18",
+          "c": false,
+          "r": "18 is not max − min."
+        },
+        {
+          "t": "30",
+          "c": false,
+          "r": "30 is just the largest value."
+        },
+        {
+          "t": "18 (thousand)",
+          "c": true,
+          "r": "Correct. Range = 30 − 12 = 18."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 9,
+      "question": "What is the runner’s speed during this period (in km/min)?",
+      "opts": [
+        {
+          "t": "0.25 km/min",
+          "c": false,
+          "r": "Too low (that would be 5 km in 20 min)."
+        },
+        {
+          "t": "0.5 km/min",
+          "c": true,
+          "r": "Correct. 10 km ÷ 20 min = 0.5 km/min."
+        },
+        {
+          "t": "2 km/min",
+          "c": false,
+          "r": "Too high. That would be 40 km in 20 min."
+        },
+        {
+          "t": "20 km/min",
+          "c": false,
+          "r": "Way too high for a human runner."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 10,
+      "question": "Which statement is best supported by this data?",
+      "opts": [
+        {
+          "t": "Mass is created during the reaction.",
+          "c": false,
+          "r": "No; mass didn't increase."
+        },
+        {
+          "t": "Mass is destroyed during the reaction.",
+          "c": false,
+          "r": "No; mass didn't decrease."
+        },
+        {
+          "t": "Mass is conserved during the reaction.",
+          "c": true,
+          "r": "Correct. The total stayed 120 g."
+        },
+        {
+          "t": "The container leaked gas.",
+          "c": false,
+          "r": "If it leaked, mass would drop."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 11,
+      "question": "How many liters will it move in 10 minutes?",
+      "opts": [
+        {
+          "t": "20 L",
+          "c": false,
+          "r": "That assumes 2 L/min. Actual rate is 3 L/min."
+        },
+        {
+          "t": "24 L",
+          "c": false,
+          "r": "That’s 12 L in 4 min scaled to 8 min, not 10."
+        },
+        {
+          "t": "30 L",
+          "c": true,
+          "r": "Correct. 12 ÷ 4 = 3 L/min. 3 × 10 = 30 L."
+        },
+        {
+          "t": "120 L",
+          "c": false,
+          "r": "Way too high for this rate."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_scientific_numeracy_core",
+      "n": 12,
+      "question": "How much money goes to housing each month?",
+      "opts": [
+        {
+          "t": "$700",
+          "c": false,
+          "r": "That’s 700 / 3000 ≈ 23%. Too low."
+        },
+        {
+          "t": "$900",
+          "c": false,
+          "r": "That’s 30% of $3,000."
+        },
+        {
+          "t": "$1,050",
+          "c": true,
+          "r": "Correct. 35% of $3,000 = 0.35 × 3000 = $1,050."
+        },
+        {
+          "t": "$1,500",
+          "c": false,
+          "r": "That would be 50%, not 35%."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_1",
+      "n": 2,
+      "question": "The process of water vapor turning into liquid water is called:",
+      "opts": [
+        {
+          "t": "Evaporation",
+          "c": false,
+          "r": "Evaporation is the process of a liquid turning into a gas."
+        },
+        {
+          "t": "Precipitation",
+          "c": false,
+          "r": "Precipitation is any form of water that falls from clouds (e.g., rain, snow)."
+        },
+        {
+          "t": "Condensation",
+          "c": true,
+          "r": "Correct. This process is what forms clouds."
+        },
+        {
+          "t": "Transpiration",
+          "c": false,
+          "r": "Transpiration is the release of water vapor from plants."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_4",
+      "n": 2,
+      "question": "Which type of rock is formed from the cooling of magma or lava?",
+      "opts": [
+        {
+          "t": "Sedimentary",
+          "c": false,
+          "r": "Sedimentary rocks are formed from the accumulation of sediments."
+        },
+        {
+          "t": "Metamorphic",
+          "c": false,
+          "r": "Metamorphic rocks are formed by the alteration of pre-existing rocks by heat and pressure."
+        },
+        {
+          "t": "Igneous",
+          "c": true,
+          "r": "Correct. This is the definition of an igneous rock."
+        },
+        {
+          "t": "Fossil",
+          "c": false,
+          "r": "Fossils are found within rocks, but it is not a type of rock."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_5",
+      "n": 9,
+      "question": "What is a nebula?",
+      "opts": [
+        {
+          "t": "A large, hot star that is about to explode.",
+          "c": false,
+          "r": "This describes a supernova."
+        },
+        {
+          "t": "A large cloud of gas and dust in space, often where new stars are formed.",
+          "c": true,
+          "r": "Correct. Nebulae are the \"nurseries\" of stars."
+        },
+        {
+          "t": "A collection of billions of stars, gas, and dust held together by gravity.",
+          "c": false,
+          "r": "This is a galaxy."
+        },
+        {
+          "t": "The remnant of a star after it has exhausted its nuclear fuel.",
+          "c": false,
+          "r": "This could be a white dwarf, neutron star, or black hole."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_science_rock_cycle_3",
+      "n": 1,
+      "question": "Which type of rock is formed from the cooling and solidification of magma or lava?",
+      "opts": [
+        {
+          "t": "Sedimentary rock",
+          "c": false,
+          "r": "Sedimentary rock is formed from the compaction and cementation of sediments."
+        },
+        {
+          "t": "Metamorphic rock",
+          "c": false,
+          "r": "Metamorphic rock is formed when existing rock is changed by heat and pressure."
+        },
+        {
+          "t": "Igneous rock",
+          "c": true,
+          "r": "Correct. 'Igneous' comes from the Latin word for fire."
+        },
+        {
+          "t": "Fossilized rock",
+          "c": false,
+          "r": "Fossils are found within rocks, usually sedimentary, but it is not a type of rock itself."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_science_geological_time_7",
+      "n": 4,
+      "question": "The half-life of a radioactive isotope is the amount of time it takes for:",
+      "opts": [
+        {
+          "t": "All of the isotope to decay.",
+          "c": false,
+          "r": "The decay process is exponential; it never reaches zero."
+        },
+        {
+          "t": "Half of a sample of the isotope to decay.",
+          "c": true,
+          "r": "Correct. This is the definition of half-life."
+        },
+        {
+          "t": "The isotope to become twice as radioactive.",
+          "c": false,
+          "r": "Radioactivity decreases over time."
+        },
+        {
+          "t": "The isotope to absorb other particles.",
+          "c": false,
+          "r": "This is unrelated to the concept of half-life."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_science_weather_climate_11",
+      "n": 7,
+      "question": "The process by which water vapor in the air is changed into liquid water is called:",
+      "opts": [
+        {
+          "t": "Evaporation",
+          "c": false,
+          "r": "Evaporation is the process of liquid water turning into water vapor."
+        },
+        {
+          "t": "Condensation",
+          "c": true,
+          "r": "Correct. This is how clouds and dew are formed."
+        },
+        {
+          "t": "Precipitation",
+          "c": false,
+          "r": "Precipitation is any form of water that falls from clouds (e.g., rain, snow)."
+        },
+        {
+          "t": "Transpiration",
+          "c": false,
+          "r": "Transpiration is the process of water movement through a plant and its evaporation from leaves."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space_science_weather_climate_15",
+      "n": 10,
+      "question": "The process by which water vapor in the air turns into liquid water is called:",
+      "opts": [
+        {
+          "t": "Evaporation",
+          "c": false,
+          "r": "Evaporation is the process of liquid turning into gas."
+        },
+        {
+          "t": "Condensation",
+          "c": true,
+          "r": "Correct. This is how clouds are formed."
+        },
+        {
+          "t": "Precipitation",
+          "c": false,
+          "r": "Precipitation is water falling from the atmosphere (e.g., rain, snow)."
+        },
+        {
+          "t": "Transpiration",
+          "c": false,
+          "r": "Transpiration is the release of water vapor from plants."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space",
+      "n": 2,
+      "question": "What type of plate boundary is formed when two tectonic plates collide with each other?",
+      "opts": [
+        {
+          "t": "Divergent boundary",
+          "c": false,
+          "r": "At a divergent boundary, plates move apart."
+        },
+        {
+          "t": "Convergent boundary",
+          "c": true,
+          "r": "Correct. 'Converge' means to come together."
+        },
+        {
+          "t": "Transform boundary",
+          "c": false,
+          "r": "At a transform boundary, plates slide past each other."
+        },
+        {
+          "t": "Static boundary",
+          "c": false,
+          "r": "There is no such term in plate tectonics."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space",
+      "n": 7,
+      "question": "What is the correct order of the planets in our solar system, starting from the one closest to the Sun?",
+      "opts": [
+        {
+          "t": "Earth, Mars, Jupiter, Saturn, Venus, Mercury, Uranus, Neptune",
+          "c": false,
+          "r": "This order is incorrect."
+        },
+        {
+          "t": "Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune",
+          "c": true,
+          "r": "Correct. This is the order of the eight planets."
+        },
+        {
+          "t": "Mercury, Venus, Mars, Earth, Jupiter, Saturn, Uranus, Neptune",
+          "c": false,
+          "r": "Earth and Mars are in the wrong order."
+        },
+        {
+          "t": "Jupiter, Saturn, Uranus, Neptune, Mercury, Venus, Earth, Mars",
+          "c": false,
+          "r": "This separates the gas giants and terrestrial planets but is not the correct order from the sun."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "sci_earth_space",
+      "n": 13,
+      "question": "A solar eclipse occurs when:",
+      "opts": [
+        {
+          "t": "The Earth passes between the Sun and the Moon.",
+          "c": false,
+          "r": "This describes a lunar eclipse."
+        },
+        {
+          "t": "The Moon passes between the Sun and the Earth, blocking the Sun's light.",
+          "c": true,
+          "r": "Correct. This alignment casts a shadow on the Earth."
+        },
+        {
+          "t": "The Sun passes between the Earth and the Moon.",
+          "c": false,
+          "r": "This is not a possible alignment."
+        },
+        {
+          "t": "Another planet passes between the Earth and the Sun.",
+          "c": false,
+          "r": "This is called a transit, not a solar eclipse."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_physics_diagrams",
+      "n": 5,
+      "question": "What is the most defensible interpretation of this visual in context?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_physics_diagrams",
+      "n": 8,
+      "question": "Based on the image and description, which interpretation is most accurate?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_biology_diagrams",
+      "n": 5,
+      "question": "What is the most defensible interpretation of this visual in context?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_biology_diagrams",
+      "n": 8,
+      "question": "Based on the image and description, which interpretation is most accurate?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_biology_diagrams",
+      "n": 11,
+      "question": "Which explanation best matches the evidence shown in the visual source?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_biology_diagrams",
+      "n": 23,
+      "question": "What is the most defensible interpretation of this visual in context?",
+      "opts": [
+        {
+          "t": "1990 to 2000",
+          "c": true,
+          "r": "Correct. The map compares changes from 1990 to 2000."
+        },
+        {
+          "t": "2000 to 2010",
+          "c": false,
+          "r": "Incorrect. That span is shown on a different map."
+        },
+        {
+          "t": "1980 to 1990",
+          "c": false,
+          "r": "Incorrect. The map's title and legend do not reference \"1980 to 1990\"."
+        },
+        {
+          "t": "2010 to 2020",
+          "c": false,
+          "r": "Incorrect. The map's title and legend do not reference \"2010 to 2020\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_biology_diagrams",
+      "n": 24,
+      "question": "Which explanation best matches the evidence shown in the visual source?",
+      "opts": [
+        {
+          "t": "State gaining 1 seat",
+          "c": true,
+          "r": "Correct. This category appears in the legend."
+        },
+        {
+          "t": "State gaining 5 seats",
+          "c": false,
+          "r": "Incorrect. That category is not listed in the legend."
+        },
+        {
+          "t": "State losing 3 seats",
+          "c": false,
+          "r": "Incorrect. The legend lists losing 1 or 2 seats, not 3."
+        },
+        {
+          "t": "State gaining 6 seats",
+          "c": false,
+          "r": "Incorrect. That category is not shown in the legend."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_chemistry_diagrams",
+      "n": 5,
+      "question": "What is the most defensible interpretation of this visual in context?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_chemistry_diagrams",
+      "n": 8,
+      "question": "Based on the image and description, which interpretation is most accurate?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "science_img_science_graphs",
+      "n": 5,
+      "question": "What is the most defensible interpretation of this visual in context?",
+      "opts": [
+        {
+          "t": "March 2009–March 2018",
+          "c": true,
+          "r": "Correct. The title specifies March 2009–March 2018."
+        },
+        {
+          "t": "1990–2000",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"1990–2000\"."
+        },
+        {
+          "t": "2010–2020",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2010–2020\"."
+        },
+        {
+          "t": "2005–2015",
+          "c": false,
+          "r": "Incorrect. The figure's title does not cover the span \"2005–2015\"."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "diag_science_composite_v1",
+      "n": 5,
+      "question": "What type of energy is possessed by a moving object?",
+      "opts": [
+        {
+          "t": "Potential Energy",
+          "c": false,
+          "r": "Potential energy is stored energy based on position or state."
+        },
+        {
+          "t": "Chemical Energy",
+          "c": false,
+          "r": "Chemical energy is stored in the bonds of chemical compounds."
+        },
+        {
+          "t": "Kinetic Energy",
+          "c": true,
+          "r": "Correct. Kinetic energy is the energy of motion."
+        },
+        {
+          "t": "Thermal Energy",
+          "c": false,
+          "r": "Thermal energy is related to the temperature of an object."
+        }
+      ]
+    },
+    {
+      "s": "Science",
+      "t": "diag_science_composite_v1",
+      "n": 8,
+      "question": "The process of water vapor turning into liquid water is called:",
+      "opts": [
+        {
+          "t": "Evaporation",
+          "c": false,
+          "r": "Evaporation is the process of a liquid turning into a gas."
+        },
+        {
+          "t": "Precipitation",
+          "c": false,
+          "r": "Precipitation is any form of water that falls from clouds (e.g., rain, snow)."
+        },
+        {
+          "t": "Condensation",
+          "c": true,
+          "r": "Correct. This process is what forms clouds."
+        },
+        {
+          "t": "Transpiration",
+          "c": false,
+          "r": "Transpiration is the release of water vapor from plants."
+        }
+      ]
+    }
+  ]
+}

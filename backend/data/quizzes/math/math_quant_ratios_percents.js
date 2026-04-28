@@ -21,7 +21,7 @@ module.exports = [
         text: '\\(3:5\\)',
         isCorrect: true,
         rationale:
-          'The discount is 25% of $40, which is \\(0.25 \\times 40 = 10\\). The sale price is $40 - $10 = $30.',
+          'The discount is 25% of 40, which is \\(0.25 \\times 40 = 10\\). The sale price is \\(40 - \\)10 = $30.',
       },
       {
         text: '\\(2:3\\)',
@@ -45,7 +45,7 @@ module.exports = [
       {
         text: '150 miles',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "150 miles" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '175 miles',
@@ -56,7 +56,7 @@ module.exports = [
       {
         text: '200 miles',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "200 miles" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '14.3 miles',
@@ -102,7 +102,7 @@ module.exports = [
       'A restaurant bill is $80. If you want to leave a 20% tip, how much should the tip be?',
     answerOptions: [
       {
-        text: '$8\\)',
+        text: '$8',
         isCorrect: false,
         rationale: 'This would be a 10% tip.',
       },
@@ -134,7 +134,7 @@ module.exports = [
       {
         text: '\\(85\\%\\)',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "\\(85\\%\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(90\\%\\)',
@@ -145,7 +145,7 @@ module.exports = [
       {
         text: '\\(95\\%\\)',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "\\(95\\%\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(45\\%\\)',
@@ -164,7 +164,7 @@ module.exports = [
       {
         text: '\\(10\\%\\)',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "\\(10\\%\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(20\\%\\)',
@@ -175,7 +175,7 @@ module.exports = [
       {
         text: '\\(25\\%\\)',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "\\(25\\%\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(100\\%\\)',
@@ -193,7 +193,7 @@ module.exports = [
       {
         text: '15 gallons',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "15 gallons" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '18 gallons',
@@ -204,12 +204,12 @@ module.exports = [
       {
         text: '20 gallons',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "20 gallons" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '24 gallons',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "24 gallons" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -266,7 +266,7 @@ module.exports = [
         rationale: 'This would be a 10% tax.',
       },
       {
-        text: '$1.05\\)',
+        text: '$1.05',
         isCorrect: false,
         rationale: 'This is a decimal placement error.',
       },
@@ -282,12 +282,12 @@ module.exports = [
       {
         text: '4 cups',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "4 cups" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '5 cups',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "5 cups" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '6 cups',
@@ -298,7 +298,7 @@ module.exports = [
       {
         text: '7.5 cups',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "7.5 cups" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -318,7 +318,7 @@ module.exports = [
         text: '320',
         isCorrect: true,
         rationale:
-          'The markup is 60% of $200, which is \\(0.60 \\times 200 = 120\\). The selling price is $200 + 120 = 320\\).',
+          'The markup is 60% of 200, which is \\(0.60 \\times 200 = 120\\). The selling price is \\(200 + 120 = 320\\).',
       },
       {
         text: '\\(280\\)',
@@ -337,23 +337,23 @@ module.exports = [
     questionNumber: 12,
     calculator: true,
     question:
-      "If a city's population grew by $5\\% last year and the original population was 80,000, what is the new population?\\)",
+      "If a city's population grew by $5\\% last year and the original population was 80,000, what is the new population?",
     answerOptions: [
       {
         text: '80,400',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "80,400" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '84,000',
         isCorrect: true,
         rationale:
-          'The growth is \\(5\\%\\) of 80,000, which is \\(0.05 \\times 80,000 = 4,000\\). The new population is $80,000 + 4,000 = 84,000\\).',
+          'The growth is \\(5\\%\\) of 80,000, which is \\(0.05 \\times 80,000 = 4,000\\). The new population is \\(80,000 + 4,000 = 84,000\\).',
       },
       {
         text: '85,000',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "85,000" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '120,000',
@@ -378,12 +378,12 @@ module.exports = [
       {
         text: '16',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "16" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '56',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale: 'Incorrect. "56" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '28',
@@ -397,7 +397,7 @@ module.exports = [
     questionNumber: 14,
     calculator: true,
     question:
-      'A company has 500 employees. If $15\\% of the employees have been with the company for more than 10 years, how many employees is that?\\)',
+      'A company has 500 employees. If $15\\% of the employees have been with the company for more than 10 years, how many employees is that?',
     answerOptions: [
       {
         text: '50',
@@ -462,7 +462,7 @@ module.exports = [
       {
         text: '15 laps',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "15 laps" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '20 laps',
@@ -473,12 +473,12 @@ module.exports = [
       {
         text: '24 laps',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "24 laps" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '18 laps',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "18 laps" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -499,17 +499,17 @@ module.exports = [
         text: '440',
         isCorrect: true,
         rationale:
-          'Set up the proportion \\(\\frac{5 \\text{ boys}}{6 \\text{ girls}} = \\frac{x \\text{ boys}}{240 \\text{ girls}}\\). This gives \\(6x = 1200\\), so \\(x = 200 boys. The total number of students is 200 boys + 240 girls = 440.',
+          'Set up the proportion \\(\\frac{5 \\text{ boys}}{6 \\text{ girls}} = \\frac{x \\text{ boys}}{240 \\text{ girls}}\\). This gives \\(6x = 1200\\), so x = 200 boys. The total number of students is 200 boys + 240 girls = 440.',
       },
       {
         text: '480',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "480" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '540',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "540" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -529,7 +529,7 @@ module.exports = [
         text: '\\(45\\)',
         isCorrect: true,
         rationale:
-          'The discount is 40% of $75, which is \\(0.40 \\times 75 = 30\\). The sale price is $75 - 30 = 45\\).',
+          'The discount is 40% of 75, which is \\(0.40 \\times 75 = 30\\). The sale price is \\(75 - 30 = 45\\).',
       },
       {
         text: '105',

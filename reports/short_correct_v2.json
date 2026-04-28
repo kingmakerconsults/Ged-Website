@@ -1,0 +1,233 @@
+[
+  {
+    "tid": "math_algebra_05",
+    "qn": 3,
+    "prompt": "Which value of \\(x\\) satisfies the inequality \\(5x - 3 > 17\\)?",
+    "text": "5",
+    "rat": "5(5) - 3 = 22 > 17. ✓"
+  },
+  {
+    "tid": "math_graphs_07",
+    "qn": 1,
+    "prompt": "Which ordered pair is a solution to the equation \\(y = x + 5\\)?",
+    "text": "(2, 7)",
+    "rat": "If x=2, y = 2 + 5 = 7."
+  },
+  {
+    "tid": "math_graphs_07",
+    "qn": 11,
+    "prompt": "Which of the following functions has a y-intercept of -2?",
+    "text": "\\(y = x - 2\\)",
+    "rat": "In y=mx+b form, b=-2."
+  },
+  {
+    "tid": "math_graphs_08",
+    "qn": 1,
+    "prompt": "Which ordered pair is a solution to the equation \\(y = x + 5\\)?",
+    "text": "(2, 7)",
+    "rat": "If x=2, y = 2 + 5 = 7."
+  },
+  {
+    "tid": "math_graphs_08",
+    "qn": 11,
+    "prompt": "Which of the following functions has a y-intercept of -2?",
+    "text": "\\(y = x - 2\\)",
+    "rat": "In y=mx+b form, b=-2."
+  },
+  {
+    "tid": "math_graphs_12",
+    "qn": 3,
+    "prompt": "Which point lies on the line \\(y = 3x + 1\\)?",
+    "text": "(1, 4)",
+    "rat": "If x=1, y=3(1)+1=4."
+  },
+  {
+    "tid": "math_data_11",
+    "qn": 12,
+    "prompt": "If the probability that it will snow is 35%, what is the probability that it will not snow?",
+    "text": "65%",
+    "rat": "100% - 35% = 65%."
+  },
+  {
+    "tid": "math_geometry_09",
+    "qn": 1,
+    "prompt": "What is the area of a rectangle with a width of 6 inches and a length of 9 inches?",
+    "text": "54 \\(in^{2}\\)",
+    "rat": "Area = 6 * 9 = 54."
+  },
+  {
+    "tid": "math_geometry_10",
+    "qn": 1,
+    "prompt": "What is the area of a rectangle with a width of 6 inches and a length of 9 inches?",
+    "text": "54 \\(in^{2}\\)",
+    "rat": "Area = 6 * 9 = 54."
+  },
+  {
+    "tid": "math_geometry_11",
+    "qn": 10,
+    "prompt": "A triangle with all three sides of different lengths is called:",
+    "text": "Scalene",
+    "rat": "No sides are equal."
+  },
+  {
+    "tid": "math_geometry_12",
+    "qn": 11,
+    "prompt": "If an angle is 120°, what is its supplementary angle?",
+    "text": "60°",
+    "rat": "180 - 120 = 60."
+  },
+  {
+    "tid": "math_number_sense_06",
+    "qn": 1,
+    "prompt": "What is the result of 805 - 102?",
+    "text": "703",
+    "rat": "805 - 102 = 703."
+  },
+  {
+    "tid": "math_number_sense_07",
+    "qn": 10,
+    "prompt": "What is \\(sqrt(144)\\)?",
+    "text": "12",
+    "rat": "12 * 12 = 144."
+  },
+  {
+    "tid": "math_number_sense_08",
+    "qn": 10,
+    "prompt": "What is \\(sqrt(144)\\)?",
+    "text": "12",
+    "rat": "12 * 12 = 144."
+  },
+  {
+    "tid": "math_number_sense_09",
+    "qn": 12,
+    "prompt": "What is the sum of the first five positive integers?",
+    "text": "15",
+    "rat": "1 + 2 + 3 + 4 + 5 = 15."
+  },
+  {
+    "tid": "math_number_sense_10",
+    "qn": 1,
+    "prompt": "What is the result of 502 - 49?",
+    "text": "453",
+    "rat": "502 - 49 = 453."
+  },
+  {
+    "tid": "math_number_sense_11",
+    "qn": 1,
+    "prompt": "What is the result of 1,000 - 99?",
+    "text": "901",
+    "rat": "1000 - 99 = 901."
+  },
+  {
+    "tid": "math_number_sense_12",
+    "qn": 1,
+    "prompt": "What is the result of 305 + 198?",
+    "text": "503",
+    "rat": "305 + 198 = 503."
+  },
+  {
+    "tid": "math_ratios_12",
+    "qn": 1,
+    "prompt": "In a class, there are 20 boys and 25 girls. What is the ratio of boys to girls in simplest form?",
+    "text": "4:5",
+    "rat": "Divide both parts by 5."
+  },
+  {
+    "tid": "math_quant_basics",
+    "qn": 5,
+    "prompt": "A customer's total bill is 34.56 dollars. If they pay with a 50-dollar bill, how much change should they receive?",
+    "text": "15.44 dollars",
+    "rat": "50.00 - 34.56 = 15.44."
+  },
+  {
+    "tid": "math_quant_basics",
+    "qn": 20,
+    "prompt": "The temperature was -8°C in the morning and rose by 15°C. What is the new temperature?",
+    "text": "7°C",
+    "rat": "-8 + 15 = 7°C."
+  },
+  {
+    "tid": "math_quant_numbers",
+    "qn": 1,
+    "prompt": "",
+    "text": "8.75 cups",
+    "rat": "Correct. 2.5 cups * 3.5 = 8.75 cups."
+  },
+  {
+    "tid": "math_quant_numbers",
+    "qn": 4,
+    "prompt": "Solve: 15 - (3 × 2)",
+    "text": "9",
+    "rat": "3×2=6, 15-6=9."
+  },
+  {
+    "tid": "math_quant_numbers",
+    "qn": 6,
+    "prompt": "Which number is a multiple of both 3 and 4?",
+    "text": "12",
+    "rat": "LCM of 3 and 4."
+  },
+  {
+    "tid": "math_quant_numbers",
+    "qn": 8,
+    "prompt": "Find the mean of 4, 7, 9.",
+    "text": "\\(\\frac{20}{3}\\)",
+    "rat": "Sum=20, divide by 3."
+  },
+  {
+    "tid": "math_quant_numbers",
+    "qn": 10,
+    "prompt": "Solve: 18 ÷ 3 + 4",
+    "text": "10",
+    "rat": "18÷3=6, +4=10."
+  },
+  {
+    "tid": "ss_us_hist_industrial_america",
+    "qn": 3,
+    "prompt": "What was a key difference between the 'new immigrants' of the late 19th century and earlier immigrants?",
+    "text": "'New immigrants' were primarily from Southern and Eastern Europe, unlike earlier immigrants from Northern and Western Europe.",
+    "rat": "Correct. As the passage notes, the 'new immigrants' (Italians, Poles, Russians, etc.) came from Southern and Eastern Europe and differed culturally and linguistically from the earlier waves drawn from Northern and Western Europe."
+  },
+  {
+    "tid": "ss_us_hist_industrial_america",
+    "qn": 5,
+    "prompt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major so",
+    "text": "Poor living conditions and the spread of disease in tenements.",
+    "rat": "Correct. The huge urban influx shown in the table outpaced housing and sanitation. Crowded tenements with limited ventilation and plumbing fueled outbreaks of cholera, tuberculosis, and other diseases."
+  },
+  {
+    "tid": "ss_us_hist_industrial_america_quiz1",
+    "qn": 8,
+    "prompt": "Journalists who exposed corruption in business and government during the Progressive Era were known by what name?",
+    "text": "Muckrakers",
+    "rat": "Muckrakers"
+  },
+  {
+    "tid": "ss_us_hist_industrial_america_quiz2",
+    "qn": 3,
+    "prompt": "Journalists who exposed corruption in business and government during the Progressive Era were known by what name?",
+    "text": "Muckrakers",
+    "rat": "Muckrakers"
+  },
+  {
+    "tid": "ss_us_hist_industrial_america_quiz3",
+    "qn": 5,
+    "prompt": "Which constitutional amendment, ratified in 1920, granted women the right to vote?",
+    "text": "The 19th Amendment",
+    "rat": "The 19th Amendment"
+  },
+  {
+    "tid": "rla_info_graphics",
+    "qn": 5,
+    "prompt": "What is the combined percentage of electricity consumed by the Residential and Commercial sectors?",
+    "text": "59%",
+    "rat": "59%"
+  },
+  {
+    "tid": "rla_info_graphics",
+    "qn": 9,
+    "prompt": "During which 5-year period is the population of City X projected to grow the most?",
+    "text": "2035-2040",
+    "rat": "2035-2040"
+  }
+]

@@ -54,7 +54,8 @@ module.exports = [
       {
         text: '30',
         isCorrect: false,
-        rationale: 'This is one of the numbers.',
+        rationale:
+          '30 is just one value in the list, not the average. The mean of 20, 30, 40, 50, 60 is the sum (200) divided by 5, which gives 40.',
       },
       {
         text: '40',
@@ -65,7 +66,8 @@ module.exports = [
       {
         text: '50',
         isCorrect: false,
-        rationale: 'This is one of the numbers.',
+        rationale:
+          '50 is just one value in the list, not the average. The correct mean (sum 200 divided by 5 numbers) is 40, not 50.',
       },
       {
         text: '200',
@@ -74,7 +76,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, add the numbers (20+30+40+50+60 = 200) and divide by the count of the numbers (5). 200 / 5 = 40.',
+      'To find the mean, add the numbers (20+30+40+50+60 = 200) and divide by the count of the numbers (5). \\(\\frac{200}{5}\\) = 40.',
     challenge_tags: ['math-6'],
   },
   {
@@ -227,12 +229,14 @@ module.exports = [
       {
         text: '80',
         isCorrect: false,
-        rationale: 'This would give an average of 78.75',
+        rationale:
+          'A score of 80 gives a total of 70 + 75 + 80 + 80 = 305, and an average of 305/4 = 76.25, which is below 80.',
       },
       {
         text: '90',
         isCorrect: false,
-        rationale: 'This would give an average of 78.75',
+        rationale:
+          'A score of 90 gives a total of 70 + 75 + 80 + 90 = 315, and an average of 315/4 = 78.75, which is still below 80.',
       },
       {
         text: '95',

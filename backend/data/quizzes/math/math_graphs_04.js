@@ -65,7 +65,7 @@ module.exports = [
       {
         text: '2',
         isCorrect: true,
-        rationale: 'Slope = (3 - (-1)) / (5 - 3) = 4 / 2 = 2.',
+        rationale: 'Slope = (3 - (-1)) / (5 - 3) = \\(\\frac{4}{2}\\) = 2.',
       },
       {
         text: '4',

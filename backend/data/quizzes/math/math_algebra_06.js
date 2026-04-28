@@ -136,7 +136,7 @@ module.exports = [
     difficulty: 'hard',
     question: 'Two cars leave a city at the same time. One travels north at 55 mph and the other travels south at 45 mph. After how many hours will they be 300 miles apart?',
     correctAnswer: '3',
-    rationale: 'Combined speed = 55 + 45 = 100 mph. Time = 300 / 100 = 3 hours.',
+    rationale: 'Combined speed = 55 + 45 = 100 mph. Time = \\(\\frac{300}{100}\\) = 3 hours.',
     challenge_tags: ['math-3'],
   },
 ];

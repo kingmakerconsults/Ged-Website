@@ -80,7 +80,8 @@ module.exports = [
       },
       {
         text: 'A rabbit that eats grass.',
-        rationale: 'Correct. Primary consumers eat producers (plants).',
+        rationale:
+          'Correct because primary consumers are organisms that feed directly on producers, so a rabbit eating grass (a plant) is a textbook example of a primary consumer.',
         isCorrect: true,
       },
       {
@@ -269,7 +270,8 @@ module.exports = [
     answerOptions: [
       {
         text: 'Community -> Population -> Organism -> Ecosystem',
-        rationale: 'This order is incorrect.',
+        rationale:
+          'Incorrect. This places community before population and shows organism in the middle, which breaks the simplest-to-most-complex sequence; the organism (a single individual) is the simplest level.',
         isCorrect: false,
       },
       {
@@ -285,7 +287,8 @@ module.exports = [
       },
       {
         text: 'Population -> Organism -> Ecosystem -> Community',
-        rationale: 'This order is incorrect.',
+        rationale:
+          'Incorrect. The organism (an individual) is simpler than a population, so organism must come first; this sequence also wrongly places ecosystem before community.',
         isCorrect: false,
       },
     ],
@@ -411,7 +414,8 @@ module.exports = [
       },
       {
         text: 'Chloroplast',
-        rationale: 'Correct. Chloroplasts are the site of photosynthesis.',
+        rationale:
+          'Correct because chloroplasts contain chlorophyll, which captures light energy and uses it to convert carbon dioxide and water into glucose and oxygen during photosynthesis.',
         isCorrect: true,
       },
       {

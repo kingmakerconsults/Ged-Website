@@ -25,7 +25,7 @@ module.exports = [
       {
         text: '2.5',
         isCorrect: false,
-        rationale: 'This is 25 / 10.',
+        rationale: 'This is \\(\\frac{25}{10}\\).',
       },
     ],
     rationale:
@@ -137,7 +137,7 @@ module.exports = [
         text: '69.30',
         isCorrect: true,
         rationale:
-          'Monday: $75 * (1 - 0.12) =  66. Tuesday: \\(66 * (1 + 0.05) =  69.30.\\)\\)',
+          'Monday: 75 * (1 - 0.12) =  66. Tuesday: \\(66 * (1 + 0.05) =  69.30.\\)',
       },
       {
         text: '\\(70.88\\)',
@@ -156,7 +156,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the price after the drop: $75 * (1 - 0.12) = 75 * 0.88 = $66. Then, calculate the price after the increase: $66 * (1 + 0.05) = $66 * 1.05 = 69.30.',
+      'First, calculate the price after the drop: \\(75 * (1 - 0.12) = 75 * 0.88 = \\)66. Then, calculate the price after the increase: \\(66 * (1 + 0.05) = \\)66 * 1.05 = 69.30.',
     challenge_tags: ['math-1'],
   },
   {
@@ -227,12 +227,14 @@ module.exports = [
       {
         text: '\\(3.45 \\times 10^4\\)',
         isCorrect: false,
-        rationale: 'The exponent should be 6.',
+        rationale:
+          'Incorrect. \\(3.45 \\times 10^4 = 34{,}500\\), not 3,450,000; the exponent should be 6, not 4.',
       },
       {
         text: '\\(3.45 \\times 10^5\\)',
         isCorrect: false,
-        rationale: 'The exponent should be 6.',
+        rationale:
+          'Incorrect. \\(3.45 \\times 10^5 = 345{,}000\\), not 3,450,000; the exponent should be 6, not 5.',
       },
       {
         text: '\\(3.45 \\times 10^6\\)',
@@ -271,7 +273,7 @@ module.exports = [
         text: '$2400',
         isCorrect: true,
         rationale:
-          'Weekly income is 40 * $15 = $600. Monthly income is $600 * 4 = $2400.',
+          'Weekly income is 40 * \\(15 = \\)600. Monthly income is \\(600 * 4 = \\)2400.',
       },
       {
         text: '3000',
@@ -280,7 +282,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the weekly income: 40 hours/week * $15/hour = $600/week. Then, calculate the monthly income: $600/week * 4 weeks/month = $2400/month.',
+      'First, calculate the weekly income: 40 hours/week * \\(15/hour = \\)600/week. Then, calculate the monthly income: \\(600/week * 4 weeks/month = \\)2400/month.',
     challenge_tags: ['math-1'],
   },
   {
@@ -304,12 +306,14 @@ module.exports = [
       {
         text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(\\frac{1}{2}\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '1',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "1" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:

@@ -1,0 +1,4240 @@
+{
+  "items": [
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_1",
+      "qn": 5,
+      "code": "embedded-choice-text",
+      "excerpt": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_1",
+      "qn": 6,
+      "code": "embedded-choice-text",
+      "excerpt": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_1",
+      "qn": 10,
+      "code": "embedded-choice-text",
+      "excerpt": "A DNA strand has the sequence A-T-T-G-C-A. What will be the sequence of the complementary mRNA strand?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_2",
+      "qn": 5,
+      "code": "duplicate-options",
+      "excerpt": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_3",
+      "qn": 6,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "During vigorous exercise, a person's breathing rate and heart rate both increase. The lungs take in more oxygen from the air, and the heart pumps blood faster around the body. This"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_6",
+      "qn": 6,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_cells_organelles_1",
+      "qn": 6,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's vo"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_human_body_systems_8",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The skeletal system's functions include providing support, protecting organs, and..."
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_human_body_systems_16",
+      "qn": 5,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when body temperature rises, the nervous system sig"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_human_body_systems_16",
+      "qn": 6,
+      "code": "missing-stimulus",
+      "excerpt": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when body temperature rises, the nervous system sig"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_life_science_genetics_heredity_20",
+      "qn": 5,
+      "code": "duplicate-options",
+      "excerpt": "In pea plants, the allele for tallness (T) is dominant over the allele for shortness (t). A plant that is homozygous dominant (TT) is crossed with a plant that is homozygous recess"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_chemistry_6",
+      "qn": 5,
+      "code": "missing-stimulus",
+      "excerpt": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_newtons_laws_10",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Newton's Third Law of Motion states that for every action, there is an equal and opposite..."
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_energy_transformations_14",
+      "qn": 5,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converte"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 1,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[0].text",
+      "excerpt": "What is the output light frequency of the material used before doubling?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 1,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[1].text",
+      "excerpt": "What is the output light frequency of the material used before doubling?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 1,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[2].text",
+      "excerpt": "What is the output light frequency of the material used before doubling?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 1,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[3].text",
+      "excerpt": "What is the output light frequency of the material used before doubling?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 2,
+      "code": "math-latex-dollar-delimiter",
+      "field": "passage",
+      "excerpt": "What is the energy of a single photon from this red laser pointer?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 2,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[0].text",
+      "excerpt": "What is the energy of a single photon from this red laser pointer?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 2,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[1].text",
+      "excerpt": "What is the energy of a single photon from this red laser pointer?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 2,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[2].text",
+      "excerpt": "What is the energy of a single photon from this red laser pointer?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 2,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[3].text",
+      "excerpt": "What is the energy of a single photon from this red laser pointer?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 3,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "passage",
+      "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 3,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[0].text",
+      "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 3,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[1].text",
+      "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 3,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[2].text",
+      "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 3,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[3].text",
+      "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 4,
+      "code": "math-latex-dollar-delimiter",
+      "field": "passage",
+      "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 4,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[0].text",
+      "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 4,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[1].text",
+      "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 4,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[2].text",
+      "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_physical_science_scientific_notation_1",
+      "qn": 4,
+      "code": "math-latex-dollar-unbalanced",
+      "field": "answer[3].text",
+      "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_2",
+      "qn": 5,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Yea"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_2",
+      "qn": 6,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Yea"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_3",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 31"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_3",
+      "qn": 6,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 31"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_4",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_4",
+      "qn": 5,
+      "code": "embedded-choice-text",
+      "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_4",
+      "qn": 6,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_4",
+      "qn": 6,
+      "code": "embedded-choice-text",
+      "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_rock_cycle_3",
+      "qn": 5,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surf"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_rock_cycle_3",
+      "qn": 6,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surf"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_weather_climate_11",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_weather_climate_11",
+      "qn": 6,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_weather_climate_11",
+      "qn": 6,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_weather_climate_15",
+      "qn": 6,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "The Rain Shadow Effect is a common phenomenon in mountainous regions. As moist air from an ocean moves inland and is forced to rise over a mountain range, it cools. This cooling ca"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_earth_space_science_ecosystems_19",
+      "qn": 5,
+      "code": "missing-stimulus",
+      "excerpt": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_1",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Students collected data on the amount of rainfall each month in their town. Which type of graph would best display how rainfall changes throughout the year?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_1",
+      "qn": 5,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A lab group tested how different amounts of salt affect the boiling point of water. Their data table shows that adding 10 grams of salt raised the boiling point by 1.5°C, 20 grams "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_2",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Students track the number of birds visiting a feeder each day for two weeks. Which graph would best show how the number of birds changes over time?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_2",
+      "qn": 4,
+      "code": "embedded-choice-text",
+      "excerpt": "A chemistry teacher gives students four different brands of hand warmers. The students measure how many minutes each hand warmer stays above 35°C. What is the dependent variable in"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_2",
+      "qn": 5,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A table shows the pH of a lake measured each month. The pH drops sharply from 7.2 in May to 6.0 in June and remains near 6.1 for the rest of the summer. Which inference is best sup"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_2",
+      "qn": 13,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "In a newspaper article, a graph shows a sharp increase in flu cases during the first week of November. The sample includes 20 clinics that voluntarily reported their data. Which qu"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_3",
+      "qn": 4,
+      "code": "embedded-choice-text",
+      "excerpt": "A class records the number of seeds that sprout in three identical trays kept at 10°C, 20°C, and 30°C. What is the independent variable?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_3",
+      "qn": 6,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A data table lists the mass of a gas sample at four different pressures while temperature is held constant. The mass does not change. Which inference can be made from the table?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_3",
+      "qn": 9,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A bar graph compares the average test scores of two classes taught by different teachers. Class A averages 82%, while Class B averages 78%. Which question should be answered before"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_4",
+      "qn": 2,
+      "code": "missing-stimulus",
+      "excerpt": "Students design an experiment to test whether cold water dissolves table salt more slowly than warm water. Which step ensures the investigation tests only the effect of temperature"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_4",
+      "qn": 3,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A data table lists the heights of five identical plants grown with different amounts of fertilizer. What is the dependent variable?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_4",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A climate scientist compiles daily high temperatures for June and displays them as a line graph. What feature of the graph would indicate a heat wave occurred mid-month?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_data_reasoning_5",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A researcher measures the height of corn plants grown with three different irrigation schedules. The data are displayed on a bar graph with error bars showing variability. What do "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_reasoning_9",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months. Which question should they ask before concluding that the "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_reasoning_9",
+      "qn": 7,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of "
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_experimental_design_13",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A scientist uses a graph to present their data. What is the primary purpose of graphing data?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_interpretation_18",
+      "qn": 2,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The variable that is intentionally changed by the experimenter is plotted on which axis of a graph?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_interpretation_18",
+      "qn": 3,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Wee"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_interpretation_18",
+      "qn": 4,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Wee"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_interpretation_18",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declin"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_interpretation_18",
+      "qn": 6,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declin"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_scientific_practices_data_interpretation_18",
+      "qn": 10,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which type of graph is best suited for showing percentages or parts of a whole?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_experimental_design_1",
+      "qn": 1,
+      "code": "table-row-mismatch",
+      "field": "question/passage",
+      "excerpt": "Which statement describes a solution for the error in the experiment?"
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_dropdown_cloze_1",
+      "qn": 1,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": ""
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_dropdown_cloze_1",
+      "qn": 2,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": ""
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_dropdown_cloze_1",
+      "qn": 3,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": ""
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_dropdown_cloze_1",
+      "qn": 4,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": ""
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_dropdown_cloze_1",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": ""
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_dropdown_cloze_1",
+      "qn": 6,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": ""
+    },
+    {
+      "subject": "Science",
+      "topicId": "sci_compound_stimulus_1",
+      "qn": 3,
+      "code": "image-asset-missing",
+      "field": "image",
+      "excerpt": "Based on the data table and diagram, which conclusion is best supported?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_algebra_07",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_algebra_08",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_algebra_09",
+      "qn": 7,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_algebra_10",
+      "qn": 7,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_algebra_11",
+      "qn": 7,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_algebra_12",
+      "qn": 7,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_01",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph of a vertical line has a slope that is:"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_01",
+      "qn": 10,
+      "code": "missing-stimulus",
+      "excerpt": "A linear function is represented by the table of values: (x=0, y=3), (x=1, y=5), (x=2, y=7). What is the slope of this function?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_02",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following describes the graph of \\(y = x^2 - 1\\)?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_02",
+      "qn": 12,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "If a graph of a function is a straight line, the function is:"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_03",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "If the graph of \\(f(x) = x^2 is shifted 4 units to the right, what is the new function?\\)"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_04",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph of a quadratic function is a:"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_04",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Given \\(g(x) = x+3\\), what is the new function if the graph is shifted down by 5 units?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_05",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of the following represents the graph of an exponential function?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_06",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph of which function would be a V-shape?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_06",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "If the graph of \\(f(x) = x^3\\) is shifted 2 units to the left and 3 units down, what is the new function?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_06",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of these functions has a graph that opens downward?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_06",
+      "qn": 12,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "The table shows a linear relationship between x and y. What is the slope? (x=2, y=5), (x=4, y=9)"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_09",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of these points is NOT on the graph of the function \\(y = x^2 + 1\\)?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_10",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Which of these points is NOT on the graph of the function \\(y = x^2 + 1\\)?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_11",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph of \\(y = x^2 is shifted 3 units down. What is the new equation?\\)"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphs_12",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph of \\(y = (x+1)^2 - 2 is a parabola. What is its vertex?\\)"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 1,
+      "code": "missing-correct-answer",
+      "excerpt": "Plot the point \\((3, 4)\\) on the coordinate plane."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 1,
+      "code": "missing-answer-rationale",
+      "excerpt": "Plot the point \\((3, 4)\\) on the coordinate plane."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 2,
+      "code": "missing-correct-answer",
+      "excerpt": "The equation of a line is \\(y = 2x - 4\\). Plot the x-intercept and the y-intercept on the coordinate plane."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 2,
+      "code": "missing-answer-rationale",
+      "excerpt": "The equation of a line is \\(y = 2x - 4\\). Plot the x-intercept and the y-intercept on the coordinate plane."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 3,
+      "code": "missing-correct-answer",
+      "excerpt": "Draw the line \\(y = -x + 3\\) on the coordinate plane."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 3,
+      "code": "missing-answer-rationale",
+      "excerpt": "Draw the line \\(y = -x + 3\\) on the coordinate plane."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph below shows a line. What is the slope of this line?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "The graph shows two lines: \\(y = x + 1\\) and \\(y = -x + 5\\). Plot the point where these two lines intersect."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 5,
+      "code": "missing-correct-answer",
+      "excerpt": "The graph shows two lines: \\(y = x + 1\\) and \\(y = -x + 5\\). Plot the point where these two lines intersect."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_graphing_interactive",
+      "qn": 5,
+      "code": "missing-answer-rationale",
+      "excerpt": "The graph shows two lines: \\(y = x + 1\\) and \\(y = -x + 5\\). Plot the point where these two lines intersect."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_data_03",
+      "qn": 5,
+      "code": "embedded-choice-text",
+      "excerpt": "Find the range of the temperatures: 5°C, -2°C, 8°C, 0°C, -5°C."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_data_10",
+      "qn": 10,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "In a pie chart, what does a sector representing 25% of the data look like?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_quant_stats_probability",
+      "qn": 15,
+      "code": "missing-correct-answer",
+      "excerpt": "What is the slope of the line?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_quant_stats_probability",
+      "qn": 15,
+      "code": "missing-answer-rationale",
+      "excerpt": "What is the slope of the line?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_quant_stats_probability",
+      "qn": 18,
+      "code": "math-latex-unbalanced",
+      "field": "answer[3].rationale",
+      "excerpt": "What is the volume of a cube with a side length of 4 inches?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_03",
+      "qn": 5,
+      "code": "non-four-options",
+      "excerpt": "If two angles of a triangle are 30° and 70°, what kind of triangle is it?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_09",
+      "qn": 9,
+      "code": "math-plain-fraction-outside-delimiters",
+      "field": "rationale",
+      "excerpt": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_09",
+      "qn": 12,
+      "code": "math-command-outside-delimiters",
+      "field": "question",
+      "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_09",
+      "qn": 12,
+      "code": "math-command-outside-delimiters",
+      "field": "rationale",
+      "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_09",
+      "qn": 12,
+      "code": "math-latex-brace-unbalanced",
+      "field": "rationale",
+      "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_10",
+      "qn": 9,
+      "code": "math-plain-fraction-outside-delimiters",
+      "field": "rationale",
+      "excerpt": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_10",
+      "qn": 12,
+      "code": "math-command-outside-delimiters",
+      "field": "question",
+      "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_10",
+      "qn": 12,
+      "code": "math-command-outside-delimiters",
+      "field": "rationale",
+      "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_geometry_10",
+      "qn": 12,
+      "code": "math-latex-brace-unbalanced",
+      "field": "rationale",
+      "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_number_sense_11",
+      "qn": 3,
+      "code": "duplicate-options",
+      "excerpt": "A jacket is marked down by 15% from its original price of &#36;60. What is the sale price?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_01",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map has a scale of 1 inch : 50 miles. If two cities are 3.5 inches apart on the map, how far apart are they in reality?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_02",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map has a scale of 1 inch : 50 miles. If two cities are 3.5 inches apart on the map, how far apart are they in reality?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_03",
+      "qn": 11,
+      "code": "math-latex-unbalanced",
+      "field": "rationale",
+      "excerpt": "Which of the following deals is the best value?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_04",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map scale is 1 inch : 25 miles. If the distance on the map is 4 inches, what is the actual distance?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_06",
+      "qn": 9,
+      "code": "math-plain-fraction-outside-delimiters",
+      "field": "rationale",
+      "excerpt": "You pay 12 for a movie ticket that was 25% off. What was the original price?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_06",
+      "qn": 12,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map has a scale where 2 inches represents 75 miles. How many miles does 5 inches represent?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_08",
+      "qn": 6,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "If 2.5 centimeters on a map represents 100 kilometers, how many kilometers does 4 centimeters represent?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_11",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map has a scale of 1 inch to 50 miles. How many inches on the map represent 200 miles?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_ratios_12",
+      "qn": 9,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map scale is 1 cm : 15 km. The distance between two cities is 12 cm. What is the actual distance?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_quant_basics",
+      "qn": 2,
+      "code": "math-command-outside-delimiters",
+      "field": "answer[0].rationale",
+      "excerpt": "A recipe calls for \\(2 \\(\\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?\\)"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_quant_basics",
+      "qn": 20,
+      "code": "embedded-choice-text",
+      "excerpt": "The temperature was -8�C in the morning and rose by 15�C. What is the new temperature?"
+    },
+    {
+      "subject": "Math",
+      "topicId": "math_quant_ratios_percents",
+      "qn": 2,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A map has a scale where 1 inch represents 50 miles. If two cities are 3.5 inches apart on the map, what is the actual distance between them?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_14",
+      "qn": 2,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The landmark Civil Rights Act of 1964 sought to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_14",
+      "qn": 3,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Cesar Chavez was a prominent figure in the mid-20th century who worked to improve the lives of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_14",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Cesar Chavez was a prominent figure in the mid-20th century who worked to improve the lives of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_14",
+      "qn": 8,
+      "code": "embedded-choice-text",
+      "excerpt": "What was the primary goal of the 'Great Society' programs initiated by President Lyndon B. Johnson?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_14",
+      "qn": 10,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The term 'Reaganomics' refers to the economic policies of President Ronald Reagan in the 1980s. A central pillar of these policies was..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_4",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The purpose of the march from Selma to Montgomery in 1965 was to campaign for..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_4",
+      "qn": 8,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The 'Little Rock Nine' were a group of African American students who faced intense opposition when they..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_4",
+      "qn": 11,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The March on Washington for Jobs and Freedom in 1963 is most famous for..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_rights_4",
+      "qn": 12,
+      "code": "embedded-choice-text",
+      "excerpt": "The Kerner Commission, appointed by President Lyndon B. Johnson, was created to investigate what?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_war_11",
+      "qn": 6,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The New York City draft riots in 1863 were primarily a protest against..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_war_11",
+      "qn": 11,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "General William T. Sherman's 'March to the Sea' was an example of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_war_3",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The passage suggests that the Black Codes were an attempt to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civil_war_3",
+      "qn": 12,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Who was the commander of the Confederate Army of Northern Virginia and a key military figure for the South?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_colonial_era_1",
+      "qn": 3,
+      "code": "missing-stimulus",
+      "excerpt": "The 'Middle Passage' refers to which part of the triangular trade route?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_colonial_era_1",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Great Awakening was a period of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_colonial_era_1",
+      "qn": 12,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Bacon's Rebellion in 1676 was a conflict primarily between..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 2,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The California Gold Rush in 1849 led to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 4,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The term 'Gilded Age' suggests that this period was marked by..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "From the perspective of the U.S. government, the Battle of the Little Bighorn was a disaster. From the perspective of the Lakota and Cheyenne, it was..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 8,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The term 'robber baron' was used in the late 19th century to describe industrialists and financiers who..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 9,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Frederick Jackson Turner's 'Frontier Thesis' argued that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 11,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The rise of labor unions in the late 19th century was primarily a response to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_13",
+      "qn": 12,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Populist Party in the 1890s was a political movement that primarily represented the interests of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_2",
+      "qn": 6,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Oregon Trail was primarily used by..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_2",
+      "qn": 8,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Industrial Revolution in the United States was characterized by..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_2",
+      "qn": 9,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The 'Lowell System' in the early 19th century was a labor and production model that primarily employed..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_2",
+      "qn": 12,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The concept of 'nullification,' famously advocated by John C. Calhoun of South Carolina, is the idea that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_westward_expansion_2",
+      "qn": 12,
+      "code": "embedded-choice-text",
+      "excerpt": "The concept of 'nullification,' famously advocated by John C. Calhoun of South Carolina, is the idea that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_revolution",
+      "qn": 2,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Based on the chart, which factor provided the most significant advantage for the American colonies in their war against Great Britain?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_new_nation",
+      "qn": 1,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The primary weakness of the government formed by the Articles of Confederation was that it..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_new_nation_quiz1",
+      "qn": 1,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The primary weakness of the government formed by the Articles of Confederation was that it..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_divided_nation",
+      "qn": 9,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The 'Equal Protection Clause' of the 14th Amendment was intended to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_divided_nation",
+      "qn": 10,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The 15th Amendment to the Constitution, ratified in 1870, stated that the right to vote could not be denied on the basis of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_industrial_america",
+      "qn": 5,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_industrial_america_quiz1",
+      "qn": 5,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_industrial_america_quiz2",
+      "qn": 10,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_industrial_america_quiz3",
+      "qn": 10,
+      "code": "missing-stimulus-table",
+      "field": "question/passage",
+      "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_contemporary_america",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Based on the chart, what was the most significant demographic shift in U.S. immigration between 1960 and 2010?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_us_hist_contemporary_america_quiz3",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Based on the chart, what was the most significant demographic shift in U.S. immigration between 1960 and 2010?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_bill_of_rights_15",
+      "qn": 1,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The first ten amendments to the U.S. Constitution are known as..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_bill_of_rights_15",
+      "qn": 6,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The right to 'plead the fifth' refers to the right to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_bill_of_rights_15",
+      "qn": 10,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The concept of 'double jeopardy,' found in the Fifth Amendment, means that a person cannot be..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_bill_of_rights_15",
+      "qn": 12,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The principle of 'eminent domain,' also found in the Fifth Amendment, allows the government to take private property for public use, but only if it provides..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_citizen_rights_7",
+      "qn": 4,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The process by which a person not born in the United States voluntarily becomes a U.S. citizen is called..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_citizen_rights_7",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Fourth Amendment to the Constitution protects citizens from..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_citizen_rights_7",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The 'due process of law,' guaranteed by the Fifth and Fourteenth Amendments, ensures that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_elections_17",
+      "qn": 3,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "In the United States, a presidential election is held every..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_elections_17",
+      "qn": 9,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A 'Political Action Committee' (PAC) is an organization that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_elections_17",
+      "qn": 12,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A 'swing state' or 'battleground state' in a presidential election is a state where..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_federalism_6",
+      "qn": 1,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The division of power between a central national government and smaller state governments is known as..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_federalism_6",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A 'concurrent power' is a power that is..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_federalism_6",
+      "qn": 8,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The primary weakness of the Articles of Confederation, the first government of the United States, was that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_federalism_6",
+      "qn": 9,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Supreme Court case McCulloch v. Maryland (1819) was significant because it..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_gov_structure_16",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The power to impeach the President or a federal judge belongs to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_lawmaking_10",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "An 'executive order' is a directive issued by the President that manages operations of the federal government. Executive orders have the force of law but do not require the approva"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_lawmaking_10",
+      "qn": 9,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The process of 'gerrymandering' refers to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_lawmaking_10",
+      "qn": 10,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The passage suggests that the creation of public policy is..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_reading_sources_9",
+      "qn": 2,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty "
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_reading_sources_9",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "**Unemployment Rate by Year** - 2008: 5.8% - 2009: 9.3% - 2010: 9.6% - 2011: 8.9% - 2012: 8.1%. Based on the data in the chart, during which period did unemployment see the sharpes"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_reading_sources_9",
+      "qn": 10,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A political cartoon showing a politician being pulled in two different directions by a donkey and an elephant is most likely commenting on..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_reading_sources_9",
+      "qn": 10,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A political cartoon showing a politician being pulled in two different directions by a donkey and an elephant is most likely commenting on..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_separation_of_powers_5",
+      "qn": 4,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The President's power to veto a bill passed by Congress is an example of..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_supreme_court_18",
+      "qn": 2,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The 1954 case of Brown v. Board of Education of Topeka is a landmark decision because it..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_supreme_court_18",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The Supreme Court's decision in Tinker v. Des Moines (1969), which involved students wearing black armbands to protest the Vietnam War, affirmed that..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_supreme_court_18",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "The case of McCulloch v. Maryland (1819) was important because it dealt with the relationship between federal and state power. The Court's decision..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative",
+      "qn": 2,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative",
+      "qn": 1,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative_quiz1",
+      "qn": 7,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative_quiz1",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative_quiz2",
+      "qn": 2,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative_quiz2",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative_quiz3",
+      "qn": 1,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_legislative_quiz3",
+      "qn": 12,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_executive",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the chart, which president issued more than twice as many executive orders as Woodrow Wilson?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_executive_quiz3",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the chart, which president issued more than twice as many executive orders as Woodrow Wilson?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_judicial",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the mode of the number of appointments shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_judicial_quiz3",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the mode of the number of appointments shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_federalism_elections",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Based on the chart of these hypothetical election results, who would win the presidency?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_civics_federalism_elections_quiz3",
+      "qn": 5,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Based on the chart of these hypothetical election results, who would win the presidency?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_economics_geography_8",
+      "qn": 1,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "In economics, 'supply' refers to..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_economics_geography_8",
+      "qn": 3,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A person who is actively looking for a job but is not currently employed is considered..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_economics_geography_8",
+      "qn": 4,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "On a map, what is the purpose of a legend or key?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_economics_geography_8",
+      "qn": 7,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A progressive tax system is one in which..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_economics_geography_8",
+      "qn": 11,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A tariff is a tax on..."
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_econ_foundations",
+      "qn": 15,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "Based on the chart, what is the opportunity cost of increasing soybean production from 30 bushels (Choice B) to 50 bushels (Choice C)?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_geo_map_skills",
+      "qn": 1,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the mean (average) monthly rainfall for the period shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_geo_map_skills",
+      "qn": 2,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the median rainfall for the period shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_geo_map_skills",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the mode of the rainfall data shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_geo_map_skills",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the line graph, in which year did the company's profits decrease compared to the previous year?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_geo_map_skills",
+      "qn": 15,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the pie chart, how much money is allocated to Housing each month?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_historical_maps",
+      "qn": 35,
+      "code": "duplicate-options",
+      "excerpt": "What is the most defensible interpretation of this visual in context?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_historical_maps",
+      "qn": 38,
+      "code": "duplicate-options",
+      "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 1,
+      "code": "duplicate-options",
+      "excerpt": "The map labels “British gains” with a year. What year is shown for “British gains”?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 4,
+      "code": "duplicate-options",
+      "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 7,
+      "code": "duplicate-options",
+      "excerpt": "Which claim is best supported by details visible in this source image?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 10,
+      "code": "duplicate-options",
+      "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 13,
+      "code": "duplicate-options",
+      "excerpt": "Which claim is best supported by details visible in this source image?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 14,
+      "code": "duplicate-options",
+      "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 17,
+      "code": "duplicate-options",
+      "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 20,
+      "code": "duplicate-options",
+      "excerpt": "Which claim is best supported by details visible in this source image?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "social_studies_img_history_maps",
+      "qn": 23,
+      "code": "duplicate-options",
+      "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "diag_ss_composite_v1",
+      "qn": 4,
+      "code": "missing-stimulus-passage",
+      "field": "passage",
+      "excerpt": "Which sentence from the passage best supports the main idea?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "diag_ss_composite_v1",
+      "qn": 7,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the mean (average) monthly rainfall for the period shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "diag_ss_composite_v1",
+      "qn": 8,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the median rainfall for the period shown in the chart?"
+    },
+    {
+      "subject": "Social Studies",
+      "topicId": "ss_ged_ready_geography",
+      "qn": 7,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A geographer wants to compare growing seasons across all of North America. Which type of map would be most appropriate?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_grammar_04",
+      "qn": 3,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Which version correctly punctuates the non-restrictive adjective clause in this sentence? My sister _____ lives in Denver is a nurse."
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_grammar_04",
+      "qn": 5,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Choose the correct relative pronoun to complete the sentence: \"The candidate _____ résumé impressed the committee was offered the position.\""
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_grammar_06",
+      "qn": 4,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Which word or phrase best fills the blank to show contrast? 'The candidate had extensive experience. _______, she was passed over for promotion.'"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_grammar_07",
+      "qn": 2,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "Choose the transition word that best connects these sentences logically: 'The construction project was delayed by two months. _______, the final cost exceeded the original budget b"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_grammar_07",
+      "qn": 8,
+      "code": "missing-prompt",
+      "field": "question",
+      "excerpt": "A paragraph begins: 'Many employees report high levels of stress. Workplace stress leads to lower productivity and higher turnover. _______, organisations that invest in wellness p"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_evidence_06",
+      "qn": 9,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "How does the analyst's context change the meaning of the '38% of new hires' figure?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 1,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 3,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 8,
+      "code": "placeholder-rationale",
+      "field": "answer[0].rationale",
+      "excerpt": "What is the range of the average test scores?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 11,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "What is the primary purpose of a map key or legend?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 12,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A political map is a type of map that primarily shows:"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 13,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "On a map, what does the scale '1 inch = 100 miles' mean?"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 14,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A bar chart is most effective for:"
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "topicId": "rla_info_graphics",
+      "qn": 15,
+      "code": "missing-stimulus-image",
+      "field": "image",
+      "excerpt": "A pie chart is most effective for:"
+    }
+  ],
+  "byTopic": {
+    "Science|sci_life_science_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_1",
+        "qn": 5,
+        "code": "embedded-choice-text",
+        "excerpt": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a "
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_1",
+        "qn": 6,
+        "code": "embedded-choice-text",
+        "excerpt": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a "
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_1",
+        "qn": 10,
+        "code": "embedded-choice-text",
+        "excerpt": "A DNA strand has the sequence A-T-T-G-C-A. What will be the sequence of the complementary mRNA strand?"
+      }
+    ],
+    "Science|sci_life_science_2": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_2",
+        "qn": 5,
+        "code": "duplicate-options",
+        "excerpt": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with"
+      }
+    ],
+    "Science|sci_life_science_3": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_3",
+        "qn": 6,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "During vigorous exercise, a person's breathing rate and heart rate both increase. The lungs take in more oxygen from the air, and the heart pumps blood faster around the body. This"
+      }
+    ],
+    "Science|sci_life_science_6": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_6",
+        "qn": 6,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which "
+      }
+    ],
+    "Science|sci_life_science_cells_organelles_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_cells_organelles_1",
+        "qn": 6,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's vo"
+      }
+    ],
+    "Science|sci_life_science_human_body_systems_8": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_human_body_systems_8",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The skeletal system's functions include providing support, protecting organs, and..."
+      }
+    ],
+    "Science|sci_life_science_human_body_systems_16": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_human_body_systems_16",
+        "qn": 5,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when body temperature rises, the nervous system sig"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_human_body_systems_16",
+        "qn": 6,
+        "code": "missing-stimulus",
+        "excerpt": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when body temperature rises, the nervous system sig"
+      }
+    ],
+    "Science|sci_life_science_genetics_heredity_20": [
+      {
+        "subject": "Science",
+        "topicId": "sci_life_science_genetics_heredity_20",
+        "qn": 5,
+        "code": "duplicate-options",
+        "excerpt": "In pea plants, the allele for tallness (T) is dominant over the allele for shortness (t). A plant that is homozygous dominant (TT) is crossed with a plant that is homozygous recess"
+      }
+    ],
+    "Science|sci_physical_science_chemistry_6": [
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_chemistry_6",
+        "qn": 5,
+        "code": "missing-stimulus",
+        "excerpt": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates"
+      }
+    ],
+    "Science|sci_physical_science_newtons_laws_10": [
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_newtons_laws_10",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Newton's Third Law of Motion states that for every action, there is an equal and opposite..."
+      }
+    ],
+    "Science|sci_physical_science_energy_transformations_14": [
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_energy_transformations_14",
+        "qn": 5,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converte"
+      }
+    ],
+    "Science|sci_physical_science_scientific_notation_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 1,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[0].text",
+        "excerpt": "What is the output light frequency of the material used before doubling?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 1,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[1].text",
+        "excerpt": "What is the output light frequency of the material used before doubling?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 1,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[2].text",
+        "excerpt": "What is the output light frequency of the material used before doubling?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 1,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[3].text",
+        "excerpt": "What is the output light frequency of the material used before doubling?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 2,
+        "code": "math-latex-dollar-delimiter",
+        "field": "passage",
+        "excerpt": "What is the energy of a single photon from this red laser pointer?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 2,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[0].text",
+        "excerpt": "What is the energy of a single photon from this red laser pointer?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 2,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[1].text",
+        "excerpt": "What is the energy of a single photon from this red laser pointer?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 2,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[2].text",
+        "excerpt": "What is the energy of a single photon from this red laser pointer?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 2,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[3].text",
+        "excerpt": "What is the energy of a single photon from this red laser pointer?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 3,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "passage",
+        "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 3,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[0].text",
+        "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 3,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[1].text",
+        "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 3,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[2].text",
+        "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 3,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[3].text",
+        "excerpt": "What is the wavelength of the sound produced by the dog whistle?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 4,
+        "code": "math-latex-dollar-delimiter",
+        "field": "passage",
+        "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 4,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[0].text",
+        "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 4,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[1].text",
+        "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 4,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[2].text",
+        "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_physical_science_scientific_notation_1",
+        "qn": 4,
+        "code": "math-latex-dollar-unbalanced",
+        "field": "answer[3].text",
+        "excerpt": "What is the approximate gravitational force between the Earth and the Moon?"
+      }
+    ],
+    "Science|sci_earth_space_2": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_2",
+        "qn": 5,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Yea"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_2",
+        "qn": 6,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Yea"
+      }
+    ],
+    "Science|sci_earth_space_3": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_3",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 31"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_3",
+        "qn": 6,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 31"
+      }
+    ],
+    "Science|sci_earth_space_4": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_4",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_4",
+        "qn": 5,
+        "code": "embedded-choice-text",
+        "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_4",
+        "qn": 6,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_4",
+        "qn": 6,
+        "code": "embedded-choice-text",
+        "excerpt": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the "
+      }
+    ],
+    "Science|sci_earth_space_science_rock_cycle_3": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_rock_cycle_3",
+        "qn": 5,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surf"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_rock_cycle_3",
+        "qn": 6,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surf"
+      }
+    ],
+    "Science|sci_earth_space_science_weather_climate_11": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_weather_climate_11",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_weather_climate_11",
+        "qn": 6,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_weather_climate_11",
+        "qn": 6,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What"
+      }
+    ],
+    "Science|sci_earth_space_science_weather_climate_15": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_weather_climate_15",
+        "qn": 6,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "The Rain Shadow Effect is a common phenomenon in mountainous regions. As moist air from an ocean moves inland and is forced to rise over a mountain range, it cools. This cooling ca"
+      }
+    ],
+    "Science|sci_earth_space_science_ecosystems_19": [
+      {
+        "subject": "Science",
+        "topicId": "sci_earth_space_science_ecosystems_19",
+        "qn": 5,
+        "code": "missing-stimulus",
+        "excerpt": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of "
+      }
+    ],
+    "Science|sci_data_reasoning_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_1",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Students collected data on the amount of rainfall each month in their town. Which type of graph would best display how rainfall changes throughout the year?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_1",
+        "qn": 5,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A lab group tested how different amounts of salt affect the boiling point of water. Their data table shows that adding 10 grams of salt raised the boiling point by 1.5°C, 20 grams "
+      }
+    ],
+    "Science|sci_data_reasoning_2": [
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_2",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Students track the number of birds visiting a feeder each day for two weeks. Which graph would best show how the number of birds changes over time?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_2",
+        "qn": 4,
+        "code": "embedded-choice-text",
+        "excerpt": "A chemistry teacher gives students four different brands of hand warmers. The students measure how many minutes each hand warmer stays above 35°C. What is the dependent variable in"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_2",
+        "qn": 5,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A table shows the pH of a lake measured each month. The pH drops sharply from 7.2 in May to 6.0 in June and remains near 6.1 for the rest of the summer. Which inference is best sup"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_2",
+        "qn": 13,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "In a newspaper article, a graph shows a sharp increase in flu cases during the first week of November. The sample includes 20 clinics that voluntarily reported their data. Which qu"
+      }
+    ],
+    "Science|sci_data_reasoning_3": [
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_3",
+        "qn": 4,
+        "code": "embedded-choice-text",
+        "excerpt": "A class records the number of seeds that sprout in three identical trays kept at 10°C, 20°C, and 30°C. What is the independent variable?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_3",
+        "qn": 6,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A data table lists the mass of a gas sample at four different pressures while temperature is held constant. The mass does not change. Which inference can be made from the table?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_3",
+        "qn": 9,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A bar graph compares the average test scores of two classes taught by different teachers. Class A averages 82%, while Class B averages 78%. Which question should be answered before"
+      }
+    ],
+    "Science|sci_data_reasoning_4": [
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_4",
+        "qn": 2,
+        "code": "missing-stimulus",
+        "excerpt": "Students design an experiment to test whether cold water dissolves table salt more slowly than warm water. Which step ensures the investigation tests only the effect of temperature"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_4",
+        "qn": 3,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A data table lists the heights of five identical plants grown with different amounts of fertilizer. What is the dependent variable?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_4",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A climate scientist compiles daily high temperatures for June and displays them as a line graph. What feature of the graph would indicate a heat wave occurred mid-month?"
+      }
+    ],
+    "Science|sci_data_reasoning_5": [
+      {
+        "subject": "Science",
+        "topicId": "sci_data_reasoning_5",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A researcher measures the height of corn plants grown with three different irrigation schedules. The data are displayed on a bar graph with error bars showing variability. What do "
+      }
+    ],
+    "Science|sci_scientific_practices_data_reasoning_9": [
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_reasoning_9",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months. Which question should they ask before concluding that the "
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_reasoning_9",
+        "qn": 7,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of "
+      }
+    ],
+    "Science|sci_scientific_practices_experimental_design_13": [
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_experimental_design_13",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A scientist uses a graph to present their data. What is the primary purpose of graphing data?"
+      }
+    ],
+    "Science|sci_scientific_practices_data_interpretation_18": [
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_interpretation_18",
+        "qn": 2,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The variable that is intentionally changed by the experimenter is plotted on which axis of a graph?"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_interpretation_18",
+        "qn": 3,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Wee"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_interpretation_18",
+        "qn": 4,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Wee"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_interpretation_18",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declin"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_interpretation_18",
+        "qn": 6,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declin"
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_scientific_practices_data_interpretation_18",
+        "qn": 10,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which type of graph is best suited for showing percentages or parts of a whole?"
+      }
+    ],
+    "Science|sci_experimental_design_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_experimental_design_1",
+        "qn": 1,
+        "code": "table-row-mismatch",
+        "field": "question/passage",
+        "excerpt": "Which statement describes a solution for the error in the experiment?"
+      }
+    ],
+    "Science|sci_dropdown_cloze_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_dropdown_cloze_1",
+        "qn": 1,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": ""
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_dropdown_cloze_1",
+        "qn": 2,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": ""
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_dropdown_cloze_1",
+        "qn": 3,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": ""
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_dropdown_cloze_1",
+        "qn": 4,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": ""
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_dropdown_cloze_1",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": ""
+      },
+      {
+        "subject": "Science",
+        "topicId": "sci_dropdown_cloze_1",
+        "qn": 6,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": ""
+      }
+    ],
+    "Science|sci_compound_stimulus_1": [
+      {
+        "subject": "Science",
+        "topicId": "sci_compound_stimulus_1",
+        "qn": 3,
+        "code": "image-asset-missing",
+        "field": "image",
+        "excerpt": "Based on the data table and diagram, which conclusion is best supported?"
+      }
+    ],
+    "Math|math_algebra_07": [
+      {
+        "subject": "Math",
+        "topicId": "math_algebra_07",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?"
+      }
+    ],
+    "Math|math_algebra_08": [
+      {
+        "subject": "Math",
+        "topicId": "math_algebra_08",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?"
+      }
+    ],
+    "Math|math_algebra_09": [
+      {
+        "subject": "Math",
+        "topicId": "math_algebra_09",
+        "qn": 7,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+      }
+    ],
+    "Math|math_algebra_10": [
+      {
+        "subject": "Math",
+        "topicId": "math_algebra_10",
+        "qn": 7,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+      }
+    ],
+    "Math|math_algebra_11": [
+      {
+        "subject": "Math",
+        "topicId": "math_algebra_11",
+        "qn": 7,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+      }
+    ],
+    "Math|math_algebra_12": [
+      {
+        "subject": "Math",
+        "topicId": "math_algebra_12",
+        "qn": 7,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?"
+      }
+    ],
+    "Math|math_graphs_01": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_01",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph of a vertical line has a slope that is:"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_01",
+        "qn": 10,
+        "code": "missing-stimulus",
+        "excerpt": "A linear function is represented by the table of values: (x=0, y=3), (x=1, y=5), (x=2, y=7). What is the slope of this function?"
+      }
+    ],
+    "Math|math_graphs_02": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_02",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following describes the graph of \\(y = x^2 - 1\\)?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_02",
+        "qn": 12,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "If a graph of a function is a straight line, the function is:"
+      }
+    ],
+    "Math|math_graphs_03": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_03",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "If the graph of \\(f(x) = x^2 is shifted 4 units to the right, what is the new function?\\)"
+      }
+    ],
+    "Math|math_graphs_04": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_04",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph of a quadratic function is a:"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_04",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Given \\(g(x) = x+3\\), what is the new function if the graph is shifted down by 5 units?"
+      }
+    ],
+    "Math|math_graphs_05": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_05",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of the following represents the graph of an exponential function?"
+      }
+    ],
+    "Math|math_graphs_06": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_06",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph of which function would be a V-shape?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_06",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "If the graph of \\(f(x) = x^3\\) is shifted 2 units to the left and 3 units down, what is the new function?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_06",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of these functions has a graph that opens downward?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_06",
+        "qn": 12,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "The table shows a linear relationship between x and y. What is the slope? (x=2, y=5), (x=4, y=9)"
+      }
+    ],
+    "Math|math_graphs_09": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_09",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of these points is NOT on the graph of the function \\(y = x^2 + 1\\)?"
+      }
+    ],
+    "Math|math_graphs_10": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_10",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Which of these points is NOT on the graph of the function \\(y = x^2 + 1\\)?"
+      }
+    ],
+    "Math|math_graphs_11": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_11",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph of \\(y = x^2 is shifted 3 units down. What is the new equation?\\)"
+      }
+    ],
+    "Math|math_graphs_12": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphs_12",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph of \\(y = (x+1)^2 - 2 is a parabola. What is its vertex?\\)"
+      }
+    ],
+    "Math|math_graphing_interactive": [
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 1,
+        "code": "missing-correct-answer",
+        "excerpt": "Plot the point \\((3, 4)\\) on the coordinate plane."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 1,
+        "code": "missing-answer-rationale",
+        "excerpt": "Plot the point \\((3, 4)\\) on the coordinate plane."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 2,
+        "code": "missing-correct-answer",
+        "excerpt": "The equation of a line is \\(y = 2x - 4\\). Plot the x-intercept and the y-intercept on the coordinate plane."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 2,
+        "code": "missing-answer-rationale",
+        "excerpt": "The equation of a line is \\(y = 2x - 4\\). Plot the x-intercept and the y-intercept on the coordinate plane."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 3,
+        "code": "missing-correct-answer",
+        "excerpt": "Draw the line \\(y = -x + 3\\) on the coordinate plane."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 3,
+        "code": "missing-answer-rationale",
+        "excerpt": "Draw the line \\(y = -x + 3\\) on the coordinate plane."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph below shows a line. What is the slope of this line?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "The graph shows two lines: \\(y = x + 1\\) and \\(y = -x + 5\\). Plot the point where these two lines intersect."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 5,
+        "code": "missing-correct-answer",
+        "excerpt": "The graph shows two lines: \\(y = x + 1\\) and \\(y = -x + 5\\). Plot the point where these two lines intersect."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_graphing_interactive",
+        "qn": 5,
+        "code": "missing-answer-rationale",
+        "excerpt": "The graph shows two lines: \\(y = x + 1\\) and \\(y = -x + 5\\). Plot the point where these two lines intersect."
+      }
+    ],
+    "Math|math_data_03": [
+      {
+        "subject": "Math",
+        "topicId": "math_data_03",
+        "qn": 5,
+        "code": "embedded-choice-text",
+        "excerpt": "Find the range of the temperatures: 5°C, -2°C, 8°C, 0°C, -5°C."
+      }
+    ],
+    "Math|math_data_10": [
+      {
+        "subject": "Math",
+        "topicId": "math_data_10",
+        "qn": 10,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "In a pie chart, what does a sector representing 25% of the data look like?"
+      }
+    ],
+    "Math|math_quant_stats_probability": [
+      {
+        "subject": "Math",
+        "topicId": "math_quant_stats_probability",
+        "qn": 15,
+        "code": "missing-correct-answer",
+        "excerpt": "What is the slope of the line?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_quant_stats_probability",
+        "qn": 15,
+        "code": "missing-answer-rationale",
+        "excerpt": "What is the slope of the line?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_quant_stats_probability",
+        "qn": 18,
+        "code": "math-latex-unbalanced",
+        "field": "answer[3].rationale",
+        "excerpt": "What is the volume of a cube with a side length of 4 inches?"
+      }
+    ],
+    "Math|math_geometry_03": [
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_03",
+        "qn": 5,
+        "code": "non-four-options",
+        "excerpt": "If two angles of a triangle are 30° and 70°, what kind of triangle is it?"
+      }
+    ],
+    "Math|math_geometry_09": [
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_09",
+        "qn": 9,
+        "code": "math-plain-fraction-outside-delimiters",
+        "field": "rationale",
+        "excerpt": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\)."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_09",
+        "qn": 12,
+        "code": "math-command-outside-delimiters",
+        "field": "question",
+        "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_09",
+        "qn": 12,
+        "code": "math-command-outside-delimiters",
+        "field": "rationale",
+        "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_09",
+        "qn": 12,
+        "code": "math-latex-brace-unbalanced",
+        "field": "rationale",
+        "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+      }
+    ],
+    "Math|math_geometry_10": [
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_10",
+        "qn": 9,
+        "code": "math-plain-fraction-outside-delimiters",
+        "field": "rationale",
+        "excerpt": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\)."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_10",
+        "qn": 12,
+        "code": "math-command-outside-delimiters",
+        "field": "question",
+        "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_10",
+        "qn": 12,
+        "code": "math-command-outside-delimiters",
+        "field": "rationale",
+        "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_geometry_10",
+        "qn": 12,
+        "code": "math-latex-brace-unbalanced",
+        "field": "rationale",
+        "excerpt": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\frac{3\\(sqrt(3)\\)}{2}\\(s^2\\)."
+      }
+    ],
+    "Math|math_number_sense_11": [
+      {
+        "subject": "Math",
+        "topicId": "math_number_sense_11",
+        "qn": 3,
+        "code": "duplicate-options",
+        "excerpt": "A jacket is marked down by 15% from its original price of &#36;60. What is the sale price?"
+      }
+    ],
+    "Math|math_ratios_01": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_01",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map has a scale of 1 inch : 50 miles. If two cities are 3.5 inches apart on the map, how far apart are they in reality?"
+      }
+    ],
+    "Math|math_ratios_02": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_02",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map has a scale of 1 inch : 50 miles. If two cities are 3.5 inches apart on the map, how far apart are they in reality?"
+      }
+    ],
+    "Math|math_ratios_03": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_03",
+        "qn": 11,
+        "code": "math-latex-unbalanced",
+        "field": "rationale",
+        "excerpt": "Which of the following deals is the best value?"
+      }
+    ],
+    "Math|math_ratios_04": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_04",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map scale is 1 inch : 25 miles. If the distance on the map is 4 inches, what is the actual distance?"
+      }
+    ],
+    "Math|math_ratios_06": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_06",
+        "qn": 9,
+        "code": "math-plain-fraction-outside-delimiters",
+        "field": "rationale",
+        "excerpt": "You pay 12 for a movie ticket that was 25% off. What was the original price?"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_06",
+        "qn": 12,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map has a scale where 2 inches represents 75 miles. How many miles does 5 inches represent?"
+      }
+    ],
+    "Math|math_ratios_08": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_08",
+        "qn": 6,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "If 2.5 centimeters on a map represents 100 kilometers, how many kilometers does 4 centimeters represent?"
+      }
+    ],
+    "Math|math_ratios_11": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_11",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map has a scale of 1 inch to 50 miles. How many inches on the map represent 200 miles?"
+      }
+    ],
+    "Math|math_ratios_12": [
+      {
+        "subject": "Math",
+        "topicId": "math_ratios_12",
+        "qn": 9,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map scale is 1 cm : 15 km. The distance between two cities is 12 cm. What is the actual distance?"
+      }
+    ],
+    "Math|math_quant_basics": [
+      {
+        "subject": "Math",
+        "topicId": "math_quant_basics",
+        "qn": 2,
+        "code": "math-command-outside-delimiters",
+        "field": "answer[0].rationale",
+        "excerpt": "A recipe calls for \\(2 \\(\\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?\\)"
+      },
+      {
+        "subject": "Math",
+        "topicId": "math_quant_basics",
+        "qn": 20,
+        "code": "embedded-choice-text",
+        "excerpt": "The temperature was -8�C in the morning and rose by 15�C. What is the new temperature?"
+      }
+    ],
+    "Math|math_quant_ratios_percents": [
+      {
+        "subject": "Math",
+        "topicId": "math_quant_ratios_percents",
+        "qn": 2,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A map has a scale where 1 inch represents 50 miles. If two cities are 3.5 inches apart on the map, what is the actual distance between them?"
+      }
+    ],
+    "Social Studies|ss_civil_rights_14": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_14",
+        "qn": 2,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The landmark Civil Rights Act of 1964 sought to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_14",
+        "qn": 3,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Cesar Chavez was a prominent figure in the mid-20th century who worked to improve the lives of..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_14",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Cesar Chavez was a prominent figure in the mid-20th century who worked to improve the lives of..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_14",
+        "qn": 8,
+        "code": "embedded-choice-text",
+        "excerpt": "What was the primary goal of the 'Great Society' programs initiated by President Lyndon B. Johnson?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_14",
+        "qn": 10,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The term 'Reaganomics' refers to the economic policies of President Ronald Reagan in the 1980s. A central pillar of these policies was..."
+      }
+    ],
+    "Social Studies|ss_civil_rights_4": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_4",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The purpose of the march from Selma to Montgomery in 1965 was to campaign for..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_4",
+        "qn": 8,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The 'Little Rock Nine' were a group of African American students who faced intense opposition when they..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_4",
+        "qn": 11,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The March on Washington for Jobs and Freedom in 1963 is most famous for..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_rights_4",
+        "qn": 12,
+        "code": "embedded-choice-text",
+        "excerpt": "The Kerner Commission, appointed by President Lyndon B. Johnson, was created to investigate what?"
+      }
+    ],
+    "Social Studies|ss_civil_war_11": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_war_11",
+        "qn": 6,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The New York City draft riots in 1863 were primarily a protest against..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_war_11",
+        "qn": 11,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "General William T. Sherman's 'March to the Sea' was an example of..."
+      }
+    ],
+    "Social Studies|ss_civil_war_3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_war_3",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The passage suggests that the Black Codes were an attempt to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civil_war_3",
+        "qn": 12,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Who was the commander of the Confederate Army of Northern Virginia and a key military figure for the South?"
+      }
+    ],
+    "Social Studies|ss_colonial_era_1": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_colonial_era_1",
+        "qn": 3,
+        "code": "missing-stimulus",
+        "excerpt": "The 'Middle Passage' refers to which part of the triangular trade route?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_colonial_era_1",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Great Awakening was a period of..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_colonial_era_1",
+        "qn": 12,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Bacon's Rebellion in 1676 was a conflict primarily between..."
+      }
+    ],
+    "Social Studies|ss_westward_expansion_13": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 2,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The California Gold Rush in 1849 led to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 4,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The term 'Gilded Age' suggests that this period was marked by..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "From the perspective of the U.S. government, the Battle of the Little Bighorn was a disaster. From the perspective of the Lakota and Cheyenne, it was..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 8,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The term 'robber baron' was used in the late 19th century to describe industrialists and financiers who..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 9,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Frederick Jackson Turner's 'Frontier Thesis' argued that..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 11,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The rise of labor unions in the late 19th century was primarily a response to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_13",
+        "qn": 12,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Populist Party in the 1890s was a political movement that primarily represented the interests of..."
+      }
+    ],
+    "Social Studies|ss_westward_expansion_2": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_2",
+        "qn": 6,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Oregon Trail was primarily used by..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_2",
+        "qn": 8,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Industrial Revolution in the United States was characterized by..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_2",
+        "qn": 9,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The 'Lowell System' in the early 19th century was a labor and production model that primarily employed..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_2",
+        "qn": 12,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The concept of 'nullification,' famously advocated by John C. Calhoun of South Carolina, is the idea that..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_westward_expansion_2",
+        "qn": 12,
+        "code": "embedded-choice-text",
+        "excerpt": "The concept of 'nullification,' famously advocated by John C. Calhoun of South Carolina, is the idea that..."
+      }
+    ],
+    "Social Studies|ss_us_hist_revolution": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_revolution",
+        "qn": 2,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Based on the chart, which factor provided the most significant advantage for the American colonies in their war against Great Britain?"
+      }
+    ],
+    "Social Studies|ss_us_hist_new_nation": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_new_nation",
+        "qn": 1,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The primary weakness of the government formed by the Articles of Confederation was that it..."
+      }
+    ],
+    "Social Studies|ss_us_hist_new_nation_quiz1": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_new_nation_quiz1",
+        "qn": 1,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The primary weakness of the government formed by the Articles of Confederation was that it..."
+      }
+    ],
+    "Social Studies|ss_us_hist_divided_nation": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_divided_nation",
+        "qn": 9,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The 'Equal Protection Clause' of the 14th Amendment was intended to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_divided_nation",
+        "qn": 10,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The 15th Amendment to the Constitution, ratified in 1870, stated that the right to vote could not be denied on the basis of..."
+      }
+    ],
+    "Social Studies|ss_us_hist_industrial_america": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_industrial_america",
+        "qn": 5,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+      }
+    ],
+    "Social Studies|ss_us_hist_industrial_america_quiz1": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_industrial_america_quiz1",
+        "qn": 5,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+      }
+    ],
+    "Social Studies|ss_us_hist_industrial_america_quiz2": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_industrial_america_quiz2",
+        "qn": 10,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+      }
+    ],
+    "Social Studies|ss_us_hist_industrial_america_quiz3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_industrial_america_quiz3",
+        "qn": 10,
+        "code": "missing-stimulus-table",
+        "field": "question/passage",
+        "excerpt": "This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in t"
+      }
+    ],
+    "Social Studies|ss_us_hist_contemporary_america": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_contemporary_america",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Based on the chart, what was the most significant demographic shift in U.S. immigration between 1960 and 2010?"
+      }
+    ],
+    "Social Studies|ss_us_hist_contemporary_america_quiz3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_us_hist_contemporary_america_quiz3",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Based on the chart, what was the most significant demographic shift in U.S. immigration between 1960 and 2010?"
+      }
+    ],
+    "Social Studies|ss_civics_bill_of_rights_15": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_bill_of_rights_15",
+        "qn": 1,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The first ten amendments to the U.S. Constitution are known as..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_bill_of_rights_15",
+        "qn": 6,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The right to 'plead the fifth' refers to the right to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_bill_of_rights_15",
+        "qn": 10,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The concept of 'double jeopardy,' found in the Fifth Amendment, means that a person cannot be..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_bill_of_rights_15",
+        "qn": 12,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The principle of 'eminent domain,' also found in the Fifth Amendment, allows the government to take private property for public use, but only if it provides..."
+      }
+    ],
+    "Social Studies|ss_civics_citizen_rights_7": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_citizen_rights_7",
+        "qn": 4,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The process by which a person not born in the United States voluntarily becomes a U.S. citizen is called..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_citizen_rights_7",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Fourth Amendment to the Constitution protects citizens from..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_citizen_rights_7",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The 'due process of law,' guaranteed by the Fifth and Fourteenth Amendments, ensures that..."
+      }
+    ],
+    "Social Studies|ss_civics_elections_17": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_elections_17",
+        "qn": 3,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "In the United States, a presidential election is held every..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_elections_17",
+        "qn": 9,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A 'Political Action Committee' (PAC) is an organization that..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_elections_17",
+        "qn": 12,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A 'swing state' or 'battleground state' in a presidential election is a state where..."
+      }
+    ],
+    "Social Studies|ss_civics_federalism_6": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_federalism_6",
+        "qn": 1,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The division of power between a central national government and smaller state governments is known as..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_federalism_6",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A 'concurrent power' is a power that is..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_federalism_6",
+        "qn": 8,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The primary weakness of the Articles of Confederation, the first government of the United States, was that..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_federalism_6",
+        "qn": 9,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Supreme Court case McCulloch v. Maryland (1819) was significant because it..."
+      }
+    ],
+    "Social Studies|ss_civics_gov_structure_16": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_gov_structure_16",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The power to impeach the President or a federal judge belongs to..."
+      }
+    ],
+    "Social Studies|ss_civics_lawmaking_10": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_lawmaking_10",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "An 'executive order' is a directive issued by the President that manages operations of the federal government. Executive orders have the force of law but do not require the approva"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_lawmaking_10",
+        "qn": 9,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The process of 'gerrymandering' refers to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_lawmaking_10",
+        "qn": 10,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The passage suggests that the creation of public policy is..."
+      }
+    ],
+    "Social Studies|ss_reading_sources_9": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_reading_sources_9",
+        "qn": 2,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty "
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_reading_sources_9",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "**Unemployment Rate by Year** - 2008: 5.8% - 2009: 9.3% - 2010: 9.6% - 2011: 8.9% - 2012: 8.1%. Based on the data in the chart, during which period did unemployment see the sharpes"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_reading_sources_9",
+        "qn": 10,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A political cartoon showing a politician being pulled in two different directions by a donkey and an elephant is most likely commenting on..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_reading_sources_9",
+        "qn": 10,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A political cartoon showing a politician being pulled in two different directions by a donkey and an elephant is most likely commenting on..."
+      }
+    ],
+    "Social Studies|ss_civics_separation_of_powers_5": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_separation_of_powers_5",
+        "qn": 4,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The President's power to veto a bill passed by Congress is an example of..."
+      }
+    ],
+    "Social Studies|ss_civics_supreme_court_18": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_supreme_court_18",
+        "qn": 2,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The 1954 case of Brown v. Board of Education of Topeka is a landmark decision because it..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_supreme_court_18",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The Supreme Court's decision in Tinker v. Des Moines (1969), which involved students wearing black armbands to protest the Vietnam War, affirmed that..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_supreme_court_18",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "The case of McCulloch v. Maryland (1819) was important because it dealt with the relationship between federal and state power. The Court's decision..."
+      }
+    ],
+    "Social Studies|ss_civics_legislative": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative",
+        "qn": 2,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative",
+        "qn": 1,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+      }
+    ],
+    "Social Studies|ss_civics_legislative_quiz1": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative_quiz1",
+        "qn": 7,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative_quiz1",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+      }
+    ],
+    "Social Studies|ss_civics_legislative_quiz2": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative_quiz2",
+        "qn": 2,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative_quiz2",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+      }
+    ],
+    "Social Studies|ss_civics_legislative_quiz3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative_quiz3",
+        "qn": 1,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the chart, what happens immediately after a bill is introduced in the House of Representatives?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_legislative_quiz3",
+        "qn": 12,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?"
+      }
+    ],
+    "Social Studies|ss_civics_executive": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_executive",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the chart, which president issued more than twice as many executive orders as Woodrow Wilson?"
+      }
+    ],
+    "Social Studies|ss_civics_executive_quiz3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_executive_quiz3",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the chart, which president issued more than twice as many executive orders as Woodrow Wilson?"
+      }
+    ],
+    "Social Studies|ss_civics_judicial": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_judicial",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the mode of the number of appointments shown in the chart?"
+      }
+    ],
+    "Social Studies|ss_civics_judicial_quiz3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_judicial_quiz3",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the mode of the number of appointments shown in the chart?"
+      }
+    ],
+    "Social Studies|ss_civics_federalism_elections": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_federalism_elections",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Based on the chart of these hypothetical election results, who would win the presidency?"
+      }
+    ],
+    "Social Studies|ss_civics_federalism_elections_quiz3": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_civics_federalism_elections_quiz3",
+        "qn": 5,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Based on the chart of these hypothetical election results, who would win the presidency?"
+      }
+    ],
+    "Social Studies|ss_economics_geography_8": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_economics_geography_8",
+        "qn": 1,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "In economics, 'supply' refers to..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_economics_geography_8",
+        "qn": 3,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A person who is actively looking for a job but is not currently employed is considered..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_economics_geography_8",
+        "qn": 4,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "On a map, what is the purpose of a legend or key?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_economics_geography_8",
+        "qn": 7,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A progressive tax system is one in which..."
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_economics_geography_8",
+        "qn": 11,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A tariff is a tax on..."
+      }
+    ],
+    "Social Studies|ss_econ_foundations": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_econ_foundations",
+        "qn": 15,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "Based on the chart, what is the opportunity cost of increasing soybean production from 30 bushels (Choice B) to 50 bushels (Choice C)?"
+      }
+    ],
+    "Social Studies|ss_geo_map_skills": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_geo_map_skills",
+        "qn": 1,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the mean (average) monthly rainfall for the period shown in the chart?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_geo_map_skills",
+        "qn": 2,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the median rainfall for the period shown in the chart?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_geo_map_skills",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the mode of the rainfall data shown in the chart?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_geo_map_skills",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the line graph, in which year did the company's profits decrease compared to the previous year?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_geo_map_skills",
+        "qn": 15,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the pie chart, how much money is allocated to Housing each month?"
+      }
+    ],
+    "Social Studies|social_studies_img_historical_maps": [
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_historical_maps",
+        "qn": 35,
+        "code": "duplicate-options",
+        "excerpt": "What is the most defensible interpretation of this visual in context?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_historical_maps",
+        "qn": 38,
+        "code": "duplicate-options",
+        "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+      }
+    ],
+    "Social Studies|social_studies_img_history_maps": [
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 1,
+        "code": "duplicate-options",
+        "excerpt": "The map labels “British gains” with a year. What year is shown for “British gains”?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 4,
+        "code": "duplicate-options",
+        "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 7,
+        "code": "duplicate-options",
+        "excerpt": "Which claim is best supported by details visible in this source image?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 10,
+        "code": "duplicate-options",
+        "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 13,
+        "code": "duplicate-options",
+        "excerpt": "Which claim is best supported by details visible in this source image?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 14,
+        "code": "duplicate-options",
+        "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 17,
+        "code": "duplicate-options",
+        "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 20,
+        "code": "duplicate-options",
+        "excerpt": "Which claim is best supported by details visible in this source image?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "social_studies_img_history_maps",
+        "qn": 23,
+        "code": "duplicate-options",
+        "excerpt": "Which conclusion is most strongly supported by the visual evidence provided?"
+      }
+    ],
+    "Social Studies|diag_ss_composite_v1": [
+      {
+        "subject": "Social Studies",
+        "topicId": "diag_ss_composite_v1",
+        "qn": 4,
+        "code": "missing-stimulus-passage",
+        "field": "passage",
+        "excerpt": "Which sentence from the passage best supports the main idea?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "diag_ss_composite_v1",
+        "qn": 7,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the mean (average) monthly rainfall for the period shown in the chart?"
+      },
+      {
+        "subject": "Social Studies",
+        "topicId": "diag_ss_composite_v1",
+        "qn": 8,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the median rainfall for the period shown in the chart?"
+      }
+    ],
+    "Social Studies|ss_ged_ready_geography": [
+      {
+        "subject": "Social Studies",
+        "topicId": "ss_ged_ready_geography",
+        "qn": 7,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A geographer wants to compare growing seasons across all of North America. Which type of map would be most appropriate?"
+      }
+    ],
+    "Reasoning Through Language Arts (RLA)|rla_grammar_04": [
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_grammar_04",
+        "qn": 3,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Which version correctly punctuates the non-restrictive adjective clause in this sentence? My sister _____ lives in Denver is a nurse."
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_grammar_04",
+        "qn": 5,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Choose the correct relative pronoun to complete the sentence: \"The candidate _____ résumé impressed the committee was offered the position.\""
+      }
+    ],
+    "Reasoning Through Language Arts (RLA)|rla_grammar_06": [
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_grammar_06",
+        "qn": 4,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Which word or phrase best fills the blank to show contrast? 'The candidate had extensive experience. _______, she was passed over for promotion.'"
+      }
+    ],
+    "Reasoning Through Language Arts (RLA)|rla_grammar_07": [
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_grammar_07",
+        "qn": 2,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "Choose the transition word that best connects these sentences logically: 'The construction project was delayed by two months. _______, the final cost exceeded the original budget b"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_grammar_07",
+        "qn": 8,
+        "code": "missing-prompt",
+        "field": "question",
+        "excerpt": "A paragraph begins: 'Many employees report high levels of stress. Workplace stress leads to lower productivity and higher turnover. _______, organisations that invest in wellness p"
+      }
+    ],
+    "Reasoning Through Language Arts (RLA)|rla_evidence_06": [
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_evidence_06",
+        "qn": 9,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "How does the analyst's context change the meaning of the '38% of new hires' figure?"
+      }
+    ],
+    "Reasoning Through Language Arts (RLA)|rla_info_graphics": [
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 1,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 3,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 8,
+        "code": "placeholder-rationale",
+        "field": "answer[0].rationale",
+        "excerpt": "What is the range of the average test scores?"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 11,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "What is the primary purpose of a map key or legend?"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 12,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A political map is a type of map that primarily shows:"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 13,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "On a map, what does the scale '1 inch = 100 miles' mean?"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 14,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A bar chart is most effective for:"
+      },
+      {
+        "subject": "Reasoning Through Language Arts (RLA)",
+        "topicId": "rla_info_graphics",
+        "qn": 15,
+        "code": "missing-stimulus-image",
+        "field": "image",
+        "excerpt": "A pie chart is most effective for:"
+      }
+    ]
+  }
+}

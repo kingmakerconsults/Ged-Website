@@ -15,7 +15,7 @@ module.exports = [
       {
         text: '4:5',
         isCorrect: true,
-        rationale: 'Divide both parts by 5.',
+        rationale: "Correct because the ratio 20:25 simplifies by dividing both parts by their greatest common factor 5, which gives 4:5 in simplest form.",
       },
       {
         text: '5:4',
@@ -41,7 +41,7 @@ module.exports = [
     question: 'A book costs $18. The sales tax is 5%. What is the total cost?',
     correctAnswer: '18.90',
     rationale:
-      'The tax is \\(0.05 \\times 18 = 0.90\\). The total cost is $18 + 0.90 = 18.90\\).',
+      'The tax is \\(0.05 \\times 18 = 0.90\\). The total cost is \\(18 + 0.90 = 18.90\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -55,7 +55,7 @@ module.exports = [
       {
         text: '20 mpg',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "20 mpg" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '25 mpg',
@@ -70,7 +70,7 @@ module.exports = [
       {
         text: '36 mpg',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "36 mpg" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:
@@ -102,7 +102,7 @@ module.exports = [
         text: '\\(120\\)',
         isCorrect: true,
         rationale:
-          'The discount is \\(0.20 \\times 150 = 30\\). Then $150 - 30 = 120\\).',
+          'The discount is \\(0.20 \\times 150 = 30\\). Then \\(150 - 30 = 120\\).',
       },
       {
         text: '30',
@@ -121,7 +121,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the discount: \\(20\\%\\) of 150 is \\(0.20 \\times 150 = 30\\). Subtract the discount from the original price: $150 - 30 = 120\\).',
+      'Calculate the discount: \\(20\\%\\) of 150 is \\(0.20 \\times 150 = 30\\). Subtract the discount from the original price: \\(150 - 30 = 120\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -140,7 +140,7 @@ module.exports = [
       {
         text: '30%',
         isCorrect: true,
-        rationale: '(15 / 50) * 100 = 0.3 * 100 = 30%.',
+        rationale: '(\\(\\frac{15}{50}\\)) * 100 = 0.3 * 100 = 30%.',
       },
       {
         text: '35%',
@@ -154,7 +154,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the percentage, divide the number of people with blue eyes by the total number of people and multiply by 100: (15 / 50) * 100 = 0.3 * 100 = 30%.',
+      'To find the percentage, divide the number of people with blue eyes by the total number of people and multiply by 100: (\\(\\frac{15}{50}\\)) * 100 = 0.3 * 100 = 30%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -166,7 +166,7 @@ module.exports = [
     question:
       'A population decreased from 800 to 760. What was the percent decrease?',
     correctAnswer: '5%',
-    rationale: 'The decrease is 40. (40 / 800) * 100 = 0.05 * 100 = 5%.',
+    rationale: 'The decrease is 40. (\\(\\frac{40}{800}\\)) * 100 = 0.05 * 100 = 5%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -243,7 +243,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The markup amount is $16 - 10 = 6\\). The percent markup is \\(\\frac{6}{10} \\times 100 = 60\\%\\).',
+      'The markup amount is \\(16 - 10 = 6\\). The percent markup is \\(\\frac{6}{10} \\times 100 = 60\\%\\).',
     challenge_tags: ['math-1'],
   },
   {

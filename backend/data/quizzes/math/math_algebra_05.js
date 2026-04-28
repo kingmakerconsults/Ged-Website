@@ -36,7 +36,7 @@ module.exports = [
     answerOptions: [
       { text: '3', isCorrect: false, rationale: '5(3) - 3 = 12, not > 17.' },
       { text: '4', isCorrect: false, rationale: '5(4) - 3 = 17, which is NOT greater than 17 (strict inequality).' },
-      { text: '5', isCorrect: true, rationale: '5(5) - 3 = 22 > 17. ✓' },
+      { text: '5', isCorrect: true, rationale: "Correct because substituting x = 5 into 5x − 3 gives 5(5) − 3 = 22, and 22 is greater than 17, so x = 5 satisfies the inequality." },
       { text: '2', isCorrect: false, rationale: '5(2) - 3 = 7 < 17.' },
     ],
     rationale: '5x > 20 → x > 4. Only x = 5 satisfies the strict inequality.',
@@ -106,7 +106,7 @@ module.exports = [
     difficulty: 'hard',
     question: 'A worker earns a weekly base salary of \\$320 plus a 5% commission on all sales. She earns \\$470 in a week. What were her total sales that week?',
     correctAnswer: '3000',
-    rationale: 'Commission = 470 - 320 = 150. Sales = 150 / 0.05 = 3000.',
+    rationale: 'Commission = 470 - 320 = 150. Sales = \\(\\frac{150}{0}\\).05 = 3000.',
     challenge_tags: ['math-3'],
   },
   {
@@ -118,8 +118,8 @@ module.exports = [
     answerOptions: [
       { text: 'less than or equal to \\(-3\\)', isCorrect: true, rationale: 'Subtract 3: -2x ≥ 6. Divide by -2 (flip sign): x ≤ -3.' },
       { text: 'greater than or equal to \\(-3\\)', isCorrect: false, rationale: 'The inequality flips when dividing by a negative number.' },
-      { text: 'less than or equal to $3\\)', isCorrect: false, rationale: 'Sign error when dividing.' },
-      { text: 'greater than or equal to $3\\)', isCorrect: false, rationale: 'x = 3 gives 3 - 6 = -3 < 9.' },
+      { text: 'less than or equal to $3', isCorrect: false, rationale: 'Sign error when dividing.' },
+      { text: 'greater than or equal to $3', isCorrect: false, rationale: 'x = 3 gives 3 - 6 = -3 < 9.' },
     ],
     rationale: '3 - 2x ≥ 9 → -2x ≥ 6 → x ≤ -3 (inequality flips when dividing by -2).',
     challenge_tags: ['math-3'],

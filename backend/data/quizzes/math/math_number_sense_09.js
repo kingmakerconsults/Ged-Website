@@ -9,7 +9,7 @@ module.exports = [
       {
         text: '20',
         isCorrect: true,
-        rationale: '400 / 20 = 40 / 2 = 20.',
+        rationale: '\\(\\frac{400}{20}\\) = \\(\\frac{40}{2}\\) = 20.',
       },
       {
         text: '2',
@@ -28,7 +28,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To divide 400 by 20, you can simplify the problem by removing a zero from both numbers, which is equivalent to dividing both by 10. This leaves 40 / 2, which equals 20.',
+      'To divide 400 by 20, you can simplify the problem by removing a zero from both numbers, which is equivalent to dividing both by 10. This leaves \\(\\frac{40}{2}\\), which equals 20.',
     challenge_tags: ['math-1'],
   },
   {
@@ -55,7 +55,7 @@ module.exports = [
         text: '$84',
         isCorrect: true,
         rationale:
-          'The fee is \\(0.05 \\times 80 = 4\\). Total cost is $80 + 4 = 84\\).',
+          'The fee is \\(0.05 \\times 80 = 4\\). Total cost is \\(80 + 4 = 84\\).',
       },
       {
         text: '$85',
@@ -74,7 +74,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the processing fee: 5% of $80 is \\(0.05 \\times 80 = 4\\). Then add this fee to the ticket price: $80 + 4 = 84\\).',
+      'First, calculate the processing fee: 5% of 80 is \\(0.05 \\times 80 = 4\\). Then add this fee to the ticket price: \\(80 + 4 = 84\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -211,7 +211,7 @@ module.exports = [
       'A recipe for 12 cupcakes requires 1.5 cups of flour. How much flour is needed for 30 cupcakes?',
     correctAnswer: '3.75 cups',
     rationale:
-      'First find the amount of flour per cupcake: 1.5 / 12 = 0.125 cups. Then multiply by 30: 0.125 * 30 = 3.75 cups.',
+      'First find the amount of flour per cupcake: 1.\\(\\frac{5}{12}\\) = 0.125 cups. Then multiply by 30: 0.125 * 30 = 3.75 cups.',
     challenge_tags: ['math-1'],
   },
   {
@@ -277,7 +277,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The amount of decrease is 150 - 135 = 15 lbs. The percent decrease is (decrease / original amount) * 100 = (15 / 150) * 100 = 0.10 * 100 = 10%.',
+      'The amount of decrease is 150 - 135 = 15 lbs. The percent decrease is (decrease / original amount) * 100 = (\\(\\frac{15}{150}\\)) * 100 = 0.10 * 100 = 10%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -295,7 +295,7 @@ module.exports = [
       {
         text: '15',
         isCorrect: true,
-        rationale: '1 + 2 + 3 + 4 + 5 = 15.',
+        rationale: "Correct because the sum of the first five positive integers is 1 + 2 + 3 + 4 + 5, which equals 15.",
       },
       {
         text: '20',

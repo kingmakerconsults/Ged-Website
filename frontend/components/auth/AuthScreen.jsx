@@ -54,6 +54,7 @@ export function AuthScreen({ onLogin }) {
   const handleCredentialResponse = useCallback(
     async (response) => {
       try {
+        setAuthError('');
         const res = await fetch(`${getApiBaseUrl()}/api/auth/google`, {
           method: 'POST',
           headers: {
@@ -64,14 +65,27 @@ export function AuthScreen({ onLogin }) {
         });
 
         if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || `Server responded with ${res.status}`);
+          let serverMessage = '';
+          try {
+            const data = await res.clone().json();
+            serverMessage = data?.error || data?.message || '';
+          } catch (_) {
+            serverMessage = await res.text().catch(() => '');
+          }
+          throw new Error(
+            serverMessage || `Google sign-in failed (HTTP ${res.status}).`
+          );
         }
 
         const { user, token } = await res.json();
         onLogin(user, token);
       } catch (error) {
         console.error('Login Error:', error);
+        setAuthError(
+          error instanceof Error
+            ? error.message
+            : 'Google sign-in failed. Please try again.'
+        );
       }
     },
     [onLogin]

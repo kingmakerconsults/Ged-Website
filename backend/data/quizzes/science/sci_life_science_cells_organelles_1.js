@@ -45,7 +45,7 @@ module.exports = [
       },
       {
         "text": "To control which substances enter and leave the cell.",
-        "rationale": "Correct. The cell membrane is selectively permeable.",
+        rationale: "Correct because the cell membrane is selectively permeable, which means it regulates the passage of ions, nutrients, and waste so the cell can maintain a stable internal environment.",
         "isCorrect": true
       },
       {
@@ -160,7 +160,8 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's volume. Green, oval-shaped organelles are visible throughout the cytoplasm. The cell is surrounded by a thick outer layer outside of its membrane. What is the function of the green, oval-shaped organelles mentioned in the passage?",
+    "passage": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's volume. Green, oval-shaped organelles are visible throughout the cytoplasm. The cell is surrounded by a thick outer layer outside of its membrane.",
+    "question": "What is the function of the green, oval-shaped organelles mentioned in the passage?",
     "answerOptions": [
       {
         "text": "To store water and maintain turgor pressure.",
@@ -329,7 +330,7 @@ module.exports = [
       },
       {
         "text": "Cell",
-        "rationale": "Correct. All living things are made of cells.",
+        rationale: "Correct because cell theory states that the cell is the basic structural and functional unit of life, since all living organisms are made of one or more cells.",
         "isCorrect": true
       },
       {
@@ -355,7 +356,7 @@ module.exports = [
       },
       {
         "text": "To break down and recycle waste materials and cellular debris.",
-        "rationale": "Correct. They act as the cell's 'recycling center'.",
+        rationale: "Correct because lysosomes contain digestive enzymes that break down old organelles, food particles, and cellular debris, which allows the cell to recycle the resulting building blocks.",
         "isCorrect": true
       },
       {

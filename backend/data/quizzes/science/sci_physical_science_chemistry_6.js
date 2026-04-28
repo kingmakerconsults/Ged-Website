@@ -233,7 +233,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Catalyst",
-        "rationale": "Correct. Enzymes are biological catalysts.",
+        rationale: "Correct because a catalyst speeds up a chemical reaction without being consumed, which is exactly what enzymes do in biological systems by lowering the activation energy of metabolic reactions.",
         "isCorrect": true
       },
       {

@@ -18,7 +18,7 @@ module.exports = [
       },
       {
         "text": "Igneous rock",
-        "rationale": "Correct. 'Igneous' comes from the Latin word for fire.",
+        rationale: "Correct because the word \"igneous\" comes from the Latin ignis, meaning fire, which reflects how these rocks form when molten magma or lava cools and hardens.",
         "isCorrect": true
       },
       {
@@ -129,7 +129,8 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surface can be weathered into sediment. This sediment can then be compacted and cemented to form a sedimentary rock. If this sedimentary rock is buried deep within the Earth, intense heat and pressure can transform it into a metamorphic rock. According to the passage, how can an igneous rock become a sedimentary rock?",
+    "passage": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surface can be weathered into sediment. This sediment can then be compacted and cemented to form a sedimentary rock. If this sedimentary rock is buried deep within the Earth, intense heat and pressure can transform it into a metamorphic rock.",
+    "question": "According to the passage, how can an igneous rock become a sedimentary rock?",
     "answerOptions": [
       {
         "text": "By being subjected to intense heat and pressure.",
@@ -160,7 +161,8 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surface can be weathered into sediment. This sediment can then be compacted and cemented to form a sedimentary rock. If this sedimentary rock is buried deep within the Earth, intense heat and pressure can transform it into a metamorphic rock. What would happen to the metamorphic rock described in the passage if it were exposed to even higher temperatures, causing it to melt completely and then cool?",
+    "passage": "The rock cycle is a continuous process through which rocks are created, changed from one form to another, destroyed, and then formed again. For example, an igneous rock on the surface can be weathered into sediment. This sediment can then be compacted and cemented to form a sedimentary rock. If this sedimentary rock is buried deep within the Earth, intense heat and pressure can transform it into a metamorphic rock.",
+    "question": "What would happen to the metamorphic rock described in the passage if it were exposed to even higher temperatures, causing it to melt completely and then cool?",
     "answerOptions": [
       {
         "text": "It would become a sedimentary rock.",

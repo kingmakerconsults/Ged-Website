@@ -14,7 +14,7 @@ module.exports = [
       {
         "text": "24",
         "isCorrect": true,
-        "rationale": "Area = (\\(\\(\frac{1}{2}\\)) * base * height = (\\(\\(\frac{1}{2}\\)) * 6 * 8 = 24."
+        "rationale": "Area = (\\(\\frac{1}{2}\\)) * base * height = (\\(\\frac{1}{2}\\)) * 6 * 8 = 24."
       },
       {
         "text": "28",
@@ -24,10 +24,10 @@ module.exports = [
       {
         "text": "48",
         "isCorrect": false,
-        "rationale": "This is base * height, without multiplying by \\(\\(\frac{1}{2}\\)."
+        "rationale": "This is base * height, without multiplying by \\(\\frac{1}{2}\\)."
       }
     ],
-    "rationale": "The area of a triangle is given by the formula A = \\(\\(\frac{1}{2}\\) * b * h. So, A = \\(\\(\frac{1}{2}\\) * 6 * 8 = 24.",
+    "rationale": "The area of a triangle is given by the formula A = \\(\\frac{1}{2}\\) * b * h. So, A = \\(\\frac{1}{2}\\) * 6 * 8 = 24.",
     "challenge_tags": [
       "math-5"
     ]
@@ -134,7 +134,7 @@ module.exports = [
       {
         "text": "314 cm^3",
         "isCorrect": true,
-        "rationale": "V = (1/3) * 3.14 * 5^2 * 12 = 314."
+        "rationale": "V = (\\(\\frac{1}{3}\\)) * 3.14 * 5^2 * 12 = 314."
       },
       {
         "text": "942 cm^3",
@@ -144,15 +144,15 @@ module.exports = [
       {
         "text": "188.4 cm^3",
         "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "Incorrect. \"188.4 cm^3\" does not match the result of the correct calculation for this problem."
       },
       {
         "text": "1570 cm^3",
         "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "Incorrect. \"1570 cm^3\" does not match the result of the correct calculation for this problem."
       }
     ],
-    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * r^2 * h. V = (1/3) * 3.14 * (5 cm)^2 * 12 cm = (1/3) * 3.14 * 25 * 12 = 314 cm^3.",
+    "rationale": "Using the formula for the volume of a cone, V = (\\(\\frac{1}{3}\\)) * pi * \\(r^{2}\\) * h. V = (\\(\\frac{1}{3}\\)) * 3.14 * (5 cm)^2 * 12 cm = (\\(\\frac{1}{3}\\)) * 3.14 * 25 * 12 = 314 cm^3.",
     "challenge_tags": [
       "math-5"
     ]
@@ -198,7 +198,7 @@ module.exports = [
         "rationale": "This is 7*24."
       }
     ],
-    "rationale": "Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(7^{2} + 24^{2} = c^{2}\\). This becomes $49 + 576 = 625\\). So, \\(c = \\(sqrt{625}\\) = 25.",
+    "rationale": "Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(7^{2} + 24^{2} = c^{2}\\). This becomes \\(49 + 576 = 625\\). So, c = \\(sqrt{625}\\) = 25.",
     "challenge_tags": [
       "math-5"
     ]
@@ -292,7 +292,7 @@ module.exports = [
       {
         "text": "64 meters",
         "isCorrect": true,
-        "rationale": "C = 2 * pi * r. 400 = 2 * 3.14 * r. 400 = 6.28 * r. r = 400 / 6.28 ≈ 63.69, which is 64 to the nearest meter."
+        "rationale": "C = 2 * pi * r. 400 = 2 * 3.14 * r. 400 = 6.28 * r. r = \\(\\frac{400}{6}\\).28 ≈ 63.69, which is 64 to the nearest meter."
       },
       {
         "text": "127 meters",
@@ -302,7 +302,7 @@ module.exports = [
       {
         "text": "200 meters",
         "isCorrect": false,
-        "rationale": "This is 400 / 2."
+        "rationale": "This is \\(\\frac{400}{2}\\)."
       },
       {
         "text": "12739 meters",
@@ -310,7 +310,7 @@ module.exports = [
         "rationale": "This is the area."
       }
     ],
-    "rationale": "The formula for circumference is C = 2 * pi * r. We have 400 = 2 * 3.14 * r. First, divide by (2 * 3.14): r = 400 / 6.28 ≈ 63.69 meters. To the nearest meter, this is 64 meters.",
+    "rationale": "The formula for circumference is C = 2 * pi * r. We have 400 = 2 * 3.14 * r. First, divide by (2 * 3.14): r = \\(\\frac{400}{6}\\).28 ≈ 63.69 meters. To the nearest meter, this is 64 meters.",
     "challenge_tags": [
       "math-5"
     ]

@@ -21,7 +21,7 @@ module.exports = [
         text: '15',
         isCorrect: true,
         rationale:
-          'The ratio parts are 5+3=8. The factor is \\(\\(\frac{24}{8}\\)=3. So, wins are 5*3=15.',
+          'The ratio parts are 5+3=8. The factor is \\(\\frac{24}{8}\\)=3. So, wins are 5*3=15.',
       },
       {
         text: '21',
@@ -43,7 +43,7 @@ module.exports = [
       'A shirt that costs $40 is on sale for 15% off. What is the sale price?',
     correctAnswer: '34',
     rationale:
-      'First, calculate the discount: 15% of $40 is 0.15 * 40 = $6. Then, subtract the discount from the original price: $40 - $6 = $34.',
+      'First, calculate the discount: 15% of \\(40 is 0.15 * 40 = \\)6. Then, subtract the discount from the original price: \\(40 - \\)6 = $34.',
     challenge_tags: ['math-1'],
   },
   {
@@ -63,7 +63,7 @@ module.exports = [
         text: '20%',
         isCorrect: true,
         rationale:
-          'The increase was $0.60. The percent increase is (0.60 / 3.00) * 100 = 20%.\\)',
+          'The increase was \\(0.60. The percent increase is (0.60 / 3.00) * 100 = 20%.\\)',
       },
       {
         text: '25%',
@@ -77,7 +77,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The increase in price is $3.60 - $3.00 = $0.60. The percent increase is (increase / original price) * 100 = ($0.60 / $3.00) * 100 = 0.20 * 100 = 20%.',
+      'The increase in price is \\(3.60 - \\)3.00 = $0.60. The percent increase is (increase / original price) * 100 = (\\(0.60 / \\)3.00) * 100 = 0.20 * 100 = 20%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -149,7 +149,7 @@ module.exports = [
         text: '40%',
         isCorrect: true,
         rationale:
-          'The fraction is \\(\\(\frac{8}{20}\\)\\(, which is equal to \\)\\(\frac{4}{10} or 0.4. As a percentage, this is 40%.\\)',
+          'The fraction is \\(\\frac{8}{20}\\)\\(, which is equal to \\)\\(\\frac{4}{10} or 0.4. As a percentage, this is 40%.\\)',
       },
       {
         text: '50%',
@@ -158,7 +158,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the percentage, divide the number of students with brown eyes by the total number of students and multiply by 100: (8 / 20) * 100 = 0.4 * 100 = 40%.',
+      'To find the percentage, divide the number of students with brown eyes by the total number of students and multiply by 100: (\\(\\frac{8}{20}\\)) * 100 = 0.4 * 100 = 40%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -168,10 +168,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A meal costs $50. You leave a tip of  8. What percentage tip did you leave?\\)',
+      'A meal costs \\(50. You leave a tip of  8. What percentage tip did you leave?\\)',
     correctAnswer: '16%',
     rationale:
-      'To find the percentage, divide the tip amount by the cost of the meal and multiply by 100: ($8 / $50) * 100 = 0.16 * 100 = 16%.',
+      'To find the percentage, divide the tip amount by the cost of the meal and multiply by 100: (\\(8 / \\)50) * 100 = 0.16 * 100 = 16%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -251,7 +251,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \\(\\frac{12 \\text{ muffins}}{2 \\text{ cups}} = \\frac{18 \\text{ muffins}}{x \\text{ cups}}. Cross-multiply:  12x = 36. Divide by 12: x = 3\\) cups.\\)',
+      'Set up a proportion: \\(\\frac{12 \\text{ muffins}}{2 \\text{ cups}} = \\frac{18 \\text{ muffins}}{x \\text{ cups}}. Cross-multiply:  12x = 36. Divide by 12: x = 3\\) cups.',
     challenge_tags: ['math-1'],
   },
   {

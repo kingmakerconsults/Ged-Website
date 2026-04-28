@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-04-28T13:22:50.638Z",
+  "sourceCatalog": "backend/data/quizzes/index.js",
+  "totalQuestions": 3747,
+  "affectedQuestions": 0,
+  "cleanQuestions": 3747,
+  "issueCount": 0,
+  "autofixableIssueCount": 0,
+  "severityCounts": {
+    "blocker": 0,
+    "major": 0,
+    "warning": 0
+  },
+  "issueCounts": {},
+  "bySubject": {
+    "Science": {
+      "totalQuestions": 805,
+      "affectedQuestions": 0,
+      "issueCount": 0,
+      "issueCounts": {}
+    },
+    "Math": {
+      "totalQuestions": 987,
+      "affectedQuestions": 0,
+      "issueCount": 0,
+      "issueCounts": {}
+    },
+    "Social Studies": {
+      "totalQuestions": 1320,
+      "affectedQuestions": 0,
+      "issueCount": 0,
+      "issueCounts": {}
+    },
+    "Reasoning Through Language Arts (RLA)": {
+      "totalQuestions": 635,
+      "affectedQuestions": 0,
+      "issueCount": 0,
+      "issueCounts": {}
+    }
+  },
+  "questions": []
+}

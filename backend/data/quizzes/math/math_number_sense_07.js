@@ -64,7 +64,7 @@ module.exports = [
         text: '$30',
         isCorrect: true,
         rationale:
-          'The discount is 0.40 * $50 = $20. The sale price is $50 - $20 = $30.',
+          'The discount is 0.40 * \\(50 = \\)20. The sale price is \\(50 - \\)20 = $30.',
       },
       {
         text: '$70',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the discount amount: 40% of $50 is 0.40 * 50 = $20. Then, subtract the discount from the original price: $50 - $20 = $30.',
+      'First, calculate the discount amount: 40% of \\(50 is 0.40 * 50 = \\)20. Then, subtract the discount from the original price: \\(50 - \\)20 = $30.',
     challenge_tags: ['math-1'],
   },
   {
@@ -138,7 +138,7 @@ module.exports = [
         text: '$18700',
         isCorrect: true,
         rationale:
-          'The depreciation is 0.15 * $22,000 = $3,300. The new value is $22,000 - $3,300 = $18,700.',
+          'The depreciation is 0.15 * \\(22,000 = \\)3,300. The new value is \\(22,000 - \\)3,300 = $18,700.',
       },
       {
         text: '$20500',
@@ -152,7 +152,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the depreciation amount: 15% of $22,000 is 0.15 * 22000 = $3,300. Then, subtract this from the original price: $22,000 - $3,300 = $18,700.',
+      'First, calculate the depreciation amount: 15% of \\(22,000 is 0.15 * 22000 = \\)3,300. Then, subtract this from the original price: \\(22,000 - \\)3,300 = $18,700.',
     challenge_tags: ['math-1'],
   },
   {
@@ -173,7 +173,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the result of $-4 + 10$?',
+    question: 'What is the result of \\(-4 + 10\\)?',
     answerOptions: [
       {
         text: '-14',
@@ -211,7 +211,7 @@ module.exports = [
       'An electronics store marks up the price of a game console by 30%. If the store bought the console for $250, what is the selling price?',
     correctAnswer: '$325',
     rationale:
-      'The markup amount is 30% of $250, which is 0.30 * 250 = $75. The selling price is the original cost plus the markup: $250 + $75 = $325.',
+      'The markup amount is 30% of \\(250, which is 0.30 * 250 = \\)75. The selling price is the original cost plus the markup: \\(250 + \\)75 = $325.',
     challenge_tags: ['math-1'],
   },
   {
@@ -229,7 +229,7 @@ module.exports = [
       {
         text: '12',
         isCorrect: true,
-        rationale: '12 * 12 = 144.',
+        rationale: "Correct because the square root of 144 is the number that, when multiplied by itself, equals 144, and 12 × 12 = 144.",
       },
       {
         text: '14',
@@ -278,7 +278,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the fraction of the original pizza you ate, you need to calculate \\(\\frac{1}{3}\\) of \\(\\frac{3}{4}\\). This is a multiplication problem: \\(\\frac{1}{3}\\) \\times \\(\\frac{3}{4}\\) = \\(\\frac{3}{12}\\), which simplifies to \\(\\frac{1}{4}\\).',
+      'To find the fraction of the original pizza you ate, you need to calculate \\(\\frac{1}{3}\\) of \\(\\frac{3}{4}\\). This is a multiplication problem: \\(\\frac{1}{3}\\) \\(\\times\\) \\(\\frac{3}{4}\\) = \\(\\frac{3}{12}\\), which simplifies to \\(\\frac{1}{4}\\).',
     challenge_tags: ['math-1'],
   },
   {

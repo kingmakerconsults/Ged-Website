@@ -8,7 +8,7 @@ module.exports = [
     question: 'Solve for b: \\(b - 9 = 2\\).',
     correctAnswer: '11',
     rationale:
-      'To solve for b, add 9 to both sides of the equation: $2 + 9 = 11\\).',
+      'To solve for b, add 9 to both sides of the equation: \\(2 + 9 = 11\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -27,7 +27,7 @@ module.exports = [
       {
         text: '\\(7x\\)',
         isCorrect: true,
-        rationale: 'Combine the like terms: $5 + 3 - 1 = 7\\). So, \\(7x\\).',
+        rationale: 'Combine the like terms: \\(5 + 3 - 1 = 7\\). So, \\(7x\\).',
       },
       {
         text: '\\(9x\\)',
@@ -41,7 +41,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Combine the coefficients of the like terms: $5 + 3 - 1 = 7\\). The simplified expression is \\(7x\\).',
+      'Combine the coefficients of the like terms: \\(5 + 3 - 1 = 7\\). The simplified expression is \\(7x\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -135,12 +135,12 @@ module.exports = [
       {
         text: '2',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "2" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '3',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "3" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '6',
@@ -151,7 +151,7 @@ module.exports = [
       {
         text: '9',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "9" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:
@@ -191,12 +191,12 @@ module.exports = [
       {
         text: '\\(x \\leq 4\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "\\(x \\leq 4\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x \\geq 4\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "\\(x \\geq 4\\)" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:

@@ -129,7 +129,8 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process. Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?",
+    "passage": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process.",
+    "question": "Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?",
     "answerOptions": [
       {
         "text": "The LED bulb converts most of the electrical energy into thermal energy (heat).",
