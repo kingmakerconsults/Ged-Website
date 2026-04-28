@@ -52,7 +52,8 @@ export const ICON_PATHS = Object.freeze({
   eye: '/icons/eye-svgrepo-com.svg',
   headphones: '/icons/headphones-svgrepo-com.svg',
   correct: '/icons/correct-success-tick-svgrepo-com.svg',
-  remove: '/icons/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com (1).svg',
+  remove:
+    '/icons/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com (1).svg',
 });
 
 // Quick semantic aliases for common UI verbs
@@ -80,12 +81,16 @@ export const ICON_TONES = Object.freeze({
   current: 'none', // leave the original art alone
   white: 'brightness(0) saturate(100%) invert(100%)',
   black: 'brightness(0) saturate(100%)',
-  slate: 'brightness(0) saturate(100%) invert(45%) sepia(6%) saturate(545%) hue-rotate(177deg) brightness(92%) contrast(89%)',
+  slate:
+    'brightness(0) saturate(100%) invert(45%) sepia(6%) saturate(545%) hue-rotate(177deg) brightness(92%) contrast(89%)',
   sky: 'brightness(0) saturate(100%) invert(48%) sepia(99%) saturate(1565%) hue-rotate(175deg) brightness(99%) contrast(94%)',
-  emerald: 'brightness(0) saturate(100%) invert(56%) sepia(76%) saturate(384%) hue-rotate(115deg) brightness(92%) contrast(89%)',
-  amber: 'brightness(0) saturate(100%) invert(70%) sepia(85%) saturate(1135%) hue-rotate(2deg) brightness(102%) contrast(101%)',
+  emerald:
+    'brightness(0) saturate(100%) invert(56%) sepia(76%) saturate(384%) hue-rotate(115deg) brightness(92%) contrast(89%)',
+  amber:
+    'brightness(0) saturate(100%) invert(70%) sepia(85%) saturate(1135%) hue-rotate(2deg) brightness(102%) contrast(101%)',
   rose: 'brightness(0) saturate(100%) invert(31%) sepia(84%) saturate(2787%) hue-rotate(336deg) brightness(94%) contrast(95%)',
-  purple: 'brightness(0) saturate(100%) invert(35%) sepia(45%) saturate(1500%) hue-rotate(245deg) brightness(95%) contrast(95%)',
+  purple:
+    'brightness(0) saturate(100%) invert(35%) sepia(45%) saturate(1500%) hue-rotate(245deg) brightness(95%) contrast(95%)',
 });
 
 function resolvePath(name) {
@@ -163,8 +168,10 @@ export function subjectIconName(subject) {
  */
 export function socialStudiesCategoryIcon(category) {
   const c = String(category || '').toLowerCase();
-  if (c.includes('civics') || c.includes('government')) return 'statueOfLiberty';
-  if (c.includes('us history') || c.includes('u.s. history')) return 'statueOfLiberty';
+  if (c.includes('civics') || c.includes('government'))
+    return 'statueOfLiberty';
+  if (c.includes('us history') || c.includes('u.s. history'))
+    return 'statueOfLiberty';
   if (c.includes('world history')) return 'parthenon';
   if (c.includes('ancient')) return 'sphinx';
   if (c.includes('geography') || c.includes('economic')) return 'world';

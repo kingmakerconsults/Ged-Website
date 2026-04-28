@@ -690,11 +690,7 @@ function SyllabusView({ klass, items }) {
                 gap: 8,
               }}
             >
-              <AppIcon
-                name={subjectIconName(subject)}
-                tone="sky"
-                size={18}
-              />
+              <AppIcon name={subjectIconName(subject)} tone="sky" size={18} />
               {subject}
             </div>
             <ol style={{ margin: 0, paddingLeft: 20 }}>

@@ -24444,6 +24444,8 @@ import InstructorCurriculumPanel from '../components/instructor/InstructorCurric
 import InstructorClassesPanel from '../components/instructor/InstructorClassesPanel.jsx';
 import StudentMyClassPanel from '../components/student/StudentMyClassPanel.jsx';
 import AppIcon, { subjectIconName } from '../components/icons/AppIcon.jsx';
+import CheckboxField from '../components/ui/CheckboxField.jsx';
+import RadioOptionCard from '../components/ui/RadioOptionCard.jsx';
 import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -24473,6 +24475,7 @@ function AppHeader({
   const isSettingsActive = activePanel === 'settings';
   const isDark = theme === 'dark';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const toggleButtonStyle = isDark
     ? undefined
     : {
@@ -24590,72 +24593,115 @@ function AppHeader({
             />
           </button>
           {currentUser && (
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-3">
               <NotificationBell />
-              <div className="flex items-center gap-2">
-                {currentUser.picture ? (
-                  <img
-                    src={currentUser.picture}
-                    alt="User avatar"
-                    className="w-9 h-9 rounded-full object-cover shadow"
-                  />
-                ) : (
-                  <div className="w-9 h-9 rounded-full bg-info text-white flex items-center justify-center font-semibold shadow">
-                    {initial}
-                  </div>
-                )}
-                <div className="flex flex-col leading-tight">
-                  <span className="text-xs uppercase tracking-wide text-secondary">
-                    Welcome
-                  </span>
-                  <span className="text-sm font-semibold text-primary truncate max-w-[10rem]">
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setUserMenuOpen((prev) => !prev)}
+                  aria-haspopup="menu"
+                  aria-expanded={userMenuOpen}
+                  aria-label="Account menu"
+                  className="flex items-center gap-2 rounded-full p-1 pr-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                >
+                  {currentUser.picture ? (
+                    <img
+                      src={currentUser.picture}
+                      alt=""
+                      className="w-9 h-9 rounded-full object-cover shadow"
+                    />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full bg-info text-white flex items-center justify-center font-semibold shadow">
+                      {initial}
+                    </div>
+                  )}
+                  <span className="text-sm font-semibold text-primary truncate max-w-[8rem]">
                     {currentUser.name || 'Learner'}
                   </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  id="btnProfile"
-                  onClick={onShowProfile}
-                  className={`btn-ghost flex items-center gap-1.5 ${
-                    isProfileActive ? 'nav-link-active' : ''
-                  }`}
-                  aria-controls="profileView"
-                  aria-expanded={isProfileActive}
-                >
-                  <AppIcon name="student" tone="slate" size={16} />
-                  Profile
+                  <svg
+                    className="w-4 h-4 text-secondary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
                 </button>
-                <button
-                  type="button"
-                  id="btnSettings"
-                  onClick={onShowSettings}
-                  className={`btn-ghost flex items-center gap-1.5 ${
-                    isSettingsActive ? 'nav-link-active' : ''
-                  }`}
-                  aria-controls="settingsView"
-                  aria-expanded={isSettingsActive}
-                >
-                  <AppIcon name="knowledge" tone="slate" size={16} />
-                  Settings
-                </button>
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="btn-ghost text-danger flex items-center gap-2"
-                >
-                  <img
-                    src="/icons/house-svgrepo-com.svg"
-                    alt=""
-                    className="w-4 h-4"
-                    style={{
-                      filter:
-                        'brightness(0) saturate(100%) invert(31%) sepia(84%) saturate(2787%) hue-rotate(336deg) brightness(94%) contrast(95%)',
-                    }}
-                  />
-                  Log Out
-                </button>
+                {userMenuOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setUserMenuOpen(false)}
+                      aria-hidden="true"
+                    />
+                    <div
+                      role="menu"
+                      className="absolute right-0 mt-2 w-48 rounded-xl border border-subtle bg-white dark:bg-slate-900 p-1 shadow-lg z-50"
+                    >
+                      <button
+                        type="button"
+                        role="menuitem"
+                        id="btnProfile"
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          onShowProfile?.();
+                        }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors ${
+                          isProfileActive
+                            ? 'bg-slate-100 dark:bg-slate-700 font-semibold'
+                            : 'hover:bg-slate-50 dark:hover:bg-slate-800'
+                        } text-primary`}
+                      >
+                        <AppIcon name="student" tone="slate" size={16} />
+                        Profile
+                      </button>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        id="btnSettings"
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          onShowSettings?.();
+                        }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors ${
+                          isSettingsActive
+                            ? 'bg-slate-100 dark:bg-slate-700 font-semibold'
+                            : 'hover:bg-slate-50 dark:hover:bg-slate-800'
+                        } text-primary`}
+                      >
+                        <AppIcon name="knowledge" tone="slate" size={16} />
+                        Settings
+                      </button>
+                      <div className="my-1 border-t border-subtle" />
+                      <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          onLogout?.();
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      >
+                        <img
+                          src="/icons/house-svgrepo-com.svg"
+                          alt=""
+                          className="w-4 h-4"
+                          style={{
+                            filter:
+                              'brightness(0) saturate(100%) invert(31%) sepia(84%) saturate(2787%) hue-rotate(336deg) brightness(94%) contrast(95%)',
+                          }}
+                        />
+                        Log Out
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -24875,24 +24921,134 @@ function NamePromptModal({ user, onSave, onDismiss }) {
 function PracticeSessionModal({
   defaultMode = 'balanced',
   defaultDuration = 10,
+  defaultSubject = '',
+  defaultTopic = '',
+  defaultQuestionType = '',
+  defaultTier = '',
   onStart,
   onDismiss,
 }) {
-  const [mode, setMode] = React.useState(defaultMode);
+  // Map a single-subject mode value to the backend subject key the
+  // /api/practice-session endpoint expects.
+  const modeToSubject = (m) => {
+    switch ((m || '').toLowerCase()) {
+      case 'math':
+        return 'math';
+      case 'rla':
+        return 'rla';
+      case 'science':
+        return 'science';
+      case 'social-studies':
+        return 'social-studies';
+      default:
+        return '';
+    }
+  };
+  const subjectToMode = (s) => {
+    const k = (s || '').toLowerCase();
+    if (k === 'math' || k === 'rla' || k === 'science') return k;
+    if (k === 'social-studies' || k === 'social' || k === 'ss')
+      return 'social-studies';
+    return '';
+  };
+
+  const initialMode = defaultSubject
+    ? subjectToMode(defaultSubject) || defaultMode
+    : defaultMode;
+  const [mode, setMode] = React.useState(initialMode);
   const [duration, setDuration] = React.useState(defaultDuration);
+  const [topic, setTopic] = React.useState(defaultTopic || '');
+  const [questionType] = React.useState(defaultQuestionType || '');
+  const [tier] = React.useState(defaultTier || '');
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState('');
+
+  const currentSubjectKey = modeToSubject(mode);
+  const isSingleSubject = !!currentSubjectKey;
+
+  const [topics, setTopics] = React.useState([]);
+  const [topicsLoading, setTopicsLoading] = React.useState(false);
+  const topicsCacheRef = React.useRef(new Map());
+
+  React.useEffect(() => {
+    let active = true;
+    if (!isSingleSubject) {
+      setTopics([]);
+      return () => {
+        active = false;
+      };
+    }
+    const cached = topicsCacheRef.current.get(currentSubjectKey);
+    if (cached) {
+      setTopics(cached);
+      return () => {
+        active = false;
+      };
+    }
+    setTopicsLoading(true);
+    (async () => {
+      try {
+        const token =
+          (typeof localStorage !== 'undefined' &&
+            localStorage.getItem('appToken')) ||
+          null;
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const res = await fetch(
+          `${API_BASE_URL}/api/practice-session/topics?subject=${encodeURIComponent(
+            currentSubjectKey
+          )}`,
+          { headers }
+        );
+        if (!res.ok) throw new Error('Failed to load topics');
+        const data = await res.json();
+        const list = Array.isArray(data?.topics) ? data.topics : [];
+        topicsCacheRef.current.set(currentSubjectKey, list);
+        if (active) setTopics(list);
+      } catch (_e) {
+        if (active) setTopics([]);
+      } finally {
+        if (active) setTopicsLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [currentSubjectKey, isSingleSubject]);
+
+  // Reset topic when leaving single-subject mode (or switching subjects);
+  // keep a default topic if it exists in the new list.
+  React.useEffect(() => {
+    if (!isSingleSubject) {
+      if (topic) setTopic('');
+      return;
+    }
+    if (topic && topics.length && !topics.some((t) => t.topic === topic)) {
+      setTopic('');
+    }
+  }, [isSingleSubject, topics, topic]);
 
   const startSession = async (practiceMode) => {
     if (submitting) return;
     setError('');
     setSubmitting(true);
     try {
-      await onStart({
+      const payload = {
         mode,
         durationMinutes: Number(duration),
         practiceMode,
-      });
+      };
+      if (isSingleSubject) {
+        // Backend expects mode='single-subject' with a subject key when
+        // narrowing further than one of the legacy single-subject modes.
+        if (topic || questionType || tier) {
+          payload.mode = 'single-subject';
+          payload.subject = currentSubjectKey;
+          if (topic) payload.topic = topic;
+          if (questionType) payload.questionType = questionType;
+          if (tier) payload.tier = tier;
+        }
+      }
+      await onStart(payload);
     } catch (e) {
       const msg =
         e && e.message ? e.message : 'Failed to start practice session.';
@@ -24966,6 +25122,43 @@ function PracticeSessionModal({
               <option value="social-studies">Social Studies Only</option>
             </select>
           </div>
+          {isSingleSubject && (
+            <div>
+              <label
+                className="block text-sm font-medium mb-1"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                Topic
+              </label>
+              <select
+                className="w-full rounded-md border px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
+                style={{ borderColor: 'var(--modal-border)' }}
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                disabled={submitting || topicsLoading}
+              >
+                <option value="">All topics</option>
+                {topics.map((t) => (
+                  <option key={t.topic} value={t.topic}>
+                    {t.topic}
+                    {typeof t.count === 'number' ? ` (${t.count})` : ''}
+                  </option>
+                ))}
+              </select>
+              {topicsLoading && (
+                <p className="text-xs text-secondary mt-1">
+                  Loading topics…
+                </p>
+              )}
+              {(questionType || tier) && (
+                <p className="text-xs text-secondary mt-1">
+                  {questionType ? `Focus: ${questionType}` : ''}
+                  {questionType && tier ? ' · ' : ''}
+                  {tier ? `Tier: ${tier}` : ''}
+                </p>
+              )}
+            </div>
+          )}
           {error && <p className="text-sm text-danger">{error}</p>}
         </div>
         <div className="mt-6 flex items-center justify-end gap-3">
@@ -25097,6 +25290,14 @@ function App({ externalTheme, onThemeChange }) {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
+  // Optional prefill for the practice session modal — used by post-quiz
+  // suggestion buttons (Reinforcer / Next Step) so the modal opens with the
+  // right subject/topic/type already selected.
+  const [practiceSessionPrefill, setPracticeSessionPrefill] = useState(null);
+  const openPracticeWithFocus = (prefill) => {
+    setPracticeSessionPrefill(prefill || null);
+    setShowPracticeModal(true);
+  };
   const [showDiagnosticIntroModal, setShowDiagnosticIntroModal] =
     useState(false);
   // Post-quiz survey + stats hub refresh
@@ -28365,6 +28566,7 @@ function App({ externalTheme, onThemeChange }) {
             }
             onHome={navigateHome}
             onReviewMarked={handleReviewMarked}
+            onStartPracticeWithFocus={openPracticeWithFocus}
           />
         );
       case 'generator':
@@ -28681,11 +28883,35 @@ function App({ externalTheme, onThemeChange }) {
         )}
         {showPracticeModal && (
           <PracticeSessionModal
-            defaultMode="balanced"
-            defaultDuration={10}
-            onDismiss={() => setShowPracticeModal(false)}
-            onStart={async ({ mode, durationMinutes, practiceMode }) => {
+            defaultMode={
+              practiceSessionPrefill?.mode ||
+              (practiceSessionPrefill?.subject ? '' : 'balanced')
+            }
+            defaultDuration={practiceSessionPrefill?.durationMinutes || 10}
+            defaultSubject={practiceSessionPrefill?.subject || ''}
+            defaultTopic={practiceSessionPrefill?.topic || ''}
+            defaultQuestionType={
+              practiceSessionPrefill?.questionType || ''
+            }
+            defaultTier={practiceSessionPrefill?.tier || ''}
+            onDismiss={() => {
+              setShowPracticeModal(false);
+              setPracticeSessionPrefill(null);
+            }}
+            onStart={async ({
+              mode,
+              durationMinutes,
+              practiceMode,
+              subject,
+              topic,
+              questionType,
+              tier,
+            }) => {
               const payload = { mode, durationMinutes, practiceMode };
+              if (subject) payload.subject = subject;
+              if (topic) payload.topic = topic;
+              if (questionType) payload.questionType = questionType;
+              if (tier) payload.tier = tier;
               const resp = await fetchJSON(
                 `${API_BASE_URL}/api/practice-session`,
                 {
@@ -28699,14 +28925,20 @@ function App({ externalTheme, onThemeChange }) {
                 !Array.isArray(resp.questions) ||
                 resp.questions.length === 0
               ) {
-                throw new Error('Practice session is not available right now.');
+                throw new Error(
+                  resp?.note ||
+                    'Practice session is not available right now.'
+                );
               }
+              const sessionTitle =
+                practiceMode === 'olympics'
+                  ? 'Olympics Practice'
+                  : topic
+                    ? `Practice · ${topic}`
+                    : 'Practice Session';
               const practiceQuiz = {
                 id: 'practice_' + Date.now(),
-                title:
-                  practiceMode === 'olympics'
-                    ? 'Olympics Practice'
-                    : 'Practice Session',
+                title: sessionTitle,
                 // Mark practice session questions as premade so sanitized math renders with KaTeX
                 isPremade: true,
                 practiceMode: practiceMode || 'standard',
@@ -28727,6 +28959,7 @@ function App({ externalTheme, onThemeChange }) {
                   : 'Practice Session'
               );
               setShowPracticeModal(false);
+              setPracticeSessionPrefill(null);
             }}
           />
         )}
@@ -29405,11 +29638,8 @@ function ProfileView({
                               disabled={savingThisSubject || isNotScheduled}
                             />
                           </label>
-                          <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
-                            <input
-                              type="checkbox"
-                              className="tp-not-scheduled h-4 w-4 rounded border-subtle text-info focus-ring-primary"
-                              data-subject={entry.subject}
+                          <div className="inline-row checkbox-row">
+                            <CheckboxField
                               checked={!!isNotScheduled}
                               onChange={(event) =>
                                 onSubjectFieldChange?.(
@@ -29419,9 +29649,9 @@ function ProfileView({
                                 )
                               }
                               disabled={savingThisSubject}
+                              label="I have not scheduled this test yet"
                             />
-                            <span>I have not scheduled this test yet</span>
-                          </label>
+                          </div>
                           <label className="flex flex-col gap-1 text-sm text-secondary">
                             Location
                             <input
@@ -29440,11 +29670,8 @@ function ProfileView({
                               disabled={savingThisSubject}
                             />
                           </label>
-                          <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
-                            <input
-                              type="checkbox"
-                              className="tp-passed h-4 w-4 rounded border-subtle text-info focus-ring-primary"
-                              data-subject={entry.subject}
+                          <div className="inline-row checkbox-row">
+                            <CheckboxField
                               checked={!!edits.passed}
                               onChange={(event) =>
                                 onSubjectFieldChange?.(
@@ -29454,9 +29681,9 @@ function ProfileView({
                                 )
                               }
                               disabled={savingThisSubject}
+                              label="I already passed this subject"
                             />
-                            <span>I already passed this subject</span>
-                          </label>
+                          </div>
                           <button
                             type="button"
                             className="btn tp-save inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
@@ -29583,38 +29810,29 @@ function ProfileView({
                                     opt.id
                                   );
                                   return (
-                                    <label
+                                    <div
                                       key={opt.id}
-                                      className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${
+                                      className={`ml-8 mt-2 rounded-md border px-2 py-1 transition ${
                                         isChecked
-                                          ? 'bg-info-soft border-info text-secondary shadow-sm'
-                                          : 'panel-surface border-subtle hover:bg-surface-soft text-muted'
+                                          ? 'bg-info-soft border-info shadow-sm'
+                                          : 'panel-surface border-subtle hover:bg-surface-soft'
                                       }`}
                                       data-selected={
                                         isChecked ? 'true' : 'false'
                                       }
                                     >
-                                      <input
-                                        type="checkbox"
-                                        className="challengeBox mt-1 h-4 w-4 rounded border-subtle text-info focus-ring-primary"
-                                        data-id={opt.id}
+                                      <CheckboxField
                                         checked={isChecked}
                                         onChange={() =>
                                           handleChallengeToggle(opt.id)
                                         }
-                                        aria-checked={isChecked}
-                                        aria-label={
+                                        label={
                                           opt.label ||
                                           opt.subtopic ||
                                           opt.subject
                                         }
                                       />
-                                      <span>
-                                        {opt.label ||
-                                          opt.subtopic ||
-                                          opt.subject}
-                                      </span>
-                                    </label>
+                                    </div>
                                   );
                                 }
                               )}
@@ -30012,29 +30230,15 @@ function SettingsView({
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {fontSizeOptions.map((option) => (
-                <label
+                <RadioOptionCard
                   key={option.value}
-                  className={`option-pill ${
-                    fontSize === option.value ? 'is-selected' : ''
-                  } flex items-center gap-3 rounded-lg border-subtle bg-surface-alt px-3 py-2 hover:border-primary focus-within:ring-2 focus-within:focus-ring-primary`}
-                >
-                  <input
-                    type="radio"
-                    name="fontSize"
-                    value={option.value}
-                    checked={fontSize === option.value}
-                    onChange={handleFontSizeChange}
-                    className="h-4 w-4 text-primary focus:ring-2 focus:ring-primary"
-                  />
-                  <span className="flex flex-col">
-                    <span className="font-semibold text-secondary">
-                      {option.label}
-                    </span>
-                    <span className="text-xs text-muted">
-                      {option.description}
-                    </span>
-                  </span>
-                </label>
+                  name="fontSize"
+                  value={option.value}
+                  checked={fontSize === option.value}
+                  onChange={handleFontSizeChange}
+                  label={option.label}
+                  description={option.description}
+                />
               ))}
             </div>
           </fieldset>
@@ -30048,33 +30252,15 @@ function SettingsView({
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {themeOptions.map((option) => (
-                <label
+                <RadioOptionCard
                   key={option.value}
-                  className={`option-pill ${
-                    theme === option.value ? 'is-selected ' : ''
-                  }flex items-center gap-3 rounded-lg border px-3 py-2 transition ${
-                    theme === option.value
-                      ? 'border-primary ring-2 ring-primary/40'
-                      : 'border-subtle'
-                  } bg-surface-alt hover:border-primary`}
-                >
-                  <input
-                    type="radio"
-                    name="theme"
-                    value={option.value}
-                    checked={theme === option.value}
-                    onChange={handleThemeChange}
-                    className="h-4 w-4 text-primary focus:ring-2 focus:ring-primary"
-                  />
-                  <span className="flex flex-col">
-                    <span className="font-semibold text-secondary">
-                      {option.label}
-                    </span>
-                    <span className="text-xs text-muted">
-                      {option.description}
-                    </span>
-                  </span>
-                </label>
+                  name="theme"
+                  value={option.value}
+                  checked={theme === option.value}
+                  onChange={handleThemeChange}
+                  label={option.label}
+                  description={option.description}
+                />
               ))}
             </div>
           </fieldset>
@@ -35654,21 +35840,13 @@ function StartScreen({
                   </div>
                   {(selectedSubject === 'Science' ||
                     selectedSubject === 'Social Studies') && (
-                    <label
-                      className="mt-3 flex items-start gap-2 text-left text-sm"
-                      style={heroMutedTextStyle}
-                    >
-                      <input
-                        type="checkbox"
-                        className="mt-1 h-4 w-4 rounded"
+                    <div className="mt-3" style={heroMutedTextStyle}>
+                      <CheckboxField
                         checked={aiIncludeImages}
                         onChange={(e) => setAiIncludeImages(e.target.checked)}
+                        label="Include image-based questions (charts, maps, political cartoons, diagrams)."
                       />
-                      <span>
-                        Include image-based questions (charts, maps, political
-                        cartoons, diagrams).
-                      </span>
-                    </label>
+                    </div>
                   )}
                 </div>
                 <button
@@ -40110,7 +40288,14 @@ function ComprehensiveExamStartScreen({ quiz, onBack, onStart }) {
     </div>
   );
 }
-function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
+function ResultsScreen({
+  results,
+  quiz,
+  onRestart,
+  onHome,
+  onReviewMarked,
+  onStartPracticeWithFocus,
+}) {
   const selectedSubject = quiz?.subject || results?.subject || null;
   // Confetti celebration effect
   useEffect(() => {
@@ -40411,77 +40596,20 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const safeMarked = Array.isArray(results.marked) ? results.marked : [];
   const safeAnswers = Array.isArray(results.answers) ? results.answers : [];
 
-  const [suggestions, setSuggestions] = useState([]);
-  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const suggestionSubject =
+  // Subject key used for routing post-quiz suggestions to the practice
+  // session modal. Must match one of the modal's single-subject mode keys.
+  const subjectKeyRaw =
     SUBJECT_ID_MAP[quiz?.subject] ||
     SUBJECT_ID_MAP[results?.subject] ||
     (typeof quiz?.subject === 'string' ? quiz.subject.toLowerCase() : '') ||
-    (typeof results?.subject === 'string' ? results.subject.toLowerCase() : '');
+    (typeof results?.subject === 'string'
+      ? results.subject.toLowerCase()
+      : '');
+  const subjectKey =
+    subjectKeyRaw === 'social' || subjectKeyRaw === 'ss'
+      ? 'social-studies'
+      : subjectKeyRaw;
 
-  useEffect(() => {
-    let isActive = true;
-    const load = async () => {
-      try {
-        setLoadingSuggestions(true);
-        const token =
-          (typeof localStorage !== 'undefined' &&
-            localStorage.getItem('appToken')) ||
-          null;
-        if (!token) {
-          setSuggestions([]);
-          return;
-        }
-        const params = new URLSearchParams();
-        if (suggestionSubject) params.set('subject', suggestionSubject);
-        const url = `${API_BASE_URL}/api/challenges/suggestions${params.toString() ? `?${params.toString()}` : ''}`;
-        const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (isActive)
-            setSuggestions(Array.isArray(data?.items) ? data.items : []);
-        }
-      } catch (_e) {
-        // ignore
-      } finally {
-        if (isActive) setLoadingSuggestions(false);
-      }
-    };
-    load();
-    return () => {
-      isActive = false;
-    };
-  }, [suggestionSubject]);
-
-  const prettyLabel = (tag, label) => {
-    if (label && typeof label === 'string') return label;
-    if (!tag) return 'Unknown';
-    const t = String(tag).replace(/[:_\-]/g, ' ');
-    return t.replace(/\b\w/g, (m) => m.toUpperCase());
-  };
-
-  const resolveSuggestion = async (id, action) => {
-    try {
-      const token =
-        (typeof localStorage !== 'undefined' &&
-          localStorage.getItem('appToken')) ||
-        null;
-      if (!token) return;
-      const res = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ suggestion_id: id, action }),
-      });
-      if (res.ok) {
-        setSuggestions((prev) => prev.filter((s) => s.id !== id));
-      }
-    } catch (_e) {}
-  };
   const getPerf = (score) => {
     if (score >= 175)
       return {
@@ -40702,52 +40830,190 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         </div>
       )}
 
-      {(loadingSuggestions || (suggestions && suggestions.length)) && (
-        <div className="mt-6 pt-4 border-t max-w-2xl mx-auto text-left">
-          <h3 className="text-xl font-bold subject-accent-heading mb-3">
-            Suggested Focus Areas
-          </h3>
-          {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-secondary">Loading suggestions...</p>
-          ) : suggestions.length ? (
+      {(() => {
+        // Build purpose-tagged post-quiz suggestions from this quiz's
+        // questions + answers. Capped at 5 items, ordered:
+        // Reinforcer → Next Step → Challenge → Review Marked → Retake.
+        const groupBy = (keyFn) => {
+          const map = new Map();
+          quiz.questions.forEach((q, i) => {
+            const key = keyFn(q);
+            if (!key) return;
+            const correctAnswer = q.answerOptions?.find(
+              (opt) => opt.isCorrect
+            )?.text;
+            const isCorrect = safeAnswers[i] === correctAnswer;
+            const cur = map.get(key) || { correct: 0, total: 0 };
+            cur.total += 1;
+            if (isCorrect) cur.correct += 1;
+            map.set(key, cur);
+          });
+          return Array.from(map.entries()).map(([key, v]) => ({
+            key,
+            correct: v.correct,
+            total: v.total,
+            pct: v.total > 0 ? v.correct / v.total : 0,
+          }));
+        };
+        const topicStats = groupBy(
+          (q) => q.originTopicTitle || q.topic || ''
+        );
+        const typeStats = groupBy((q) =>
+          isRlaComprehensive && q.skill
+            ? q.skill
+            : q.type || q.itemType || 'knowledge'
+        );
+
+        // Reinforcer: weakest topic the student attempted ≥ 2 times and
+        // didn't master.
+        const reinforcerCandidate = topicStats
+          .filter((t) => t.total >= 2 && t.correct < t.total)
+          .sort(
+            (a, b) =>
+              a.pct - b.pct || b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
+
+        // Next Step: weakest question type/skill (also ≥ 2, < mastery).
+        const nextStepCandidate = typeStats
+          .filter((t) => t.total >= 2 && t.correct < t.total)
+          .sort(
+            (a, b) =>
+              a.pct - b.pct || b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
+
+        // Challenge: strongest topic where student was perfect (≥ 2).
+        const challengeCandidate = topicStats
+          .filter((t) => t.total >= 2 && t.correct === t.total)
+          .sort(
+            (a, b) => b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
+
+        const markedCount = safeMarked.filter(Boolean).length;
+        const passed = scaledScore >= 145;
+        const items = [];
+
+        if (reinforcerCandidate && subjectKey && onStartPracticeWithFocus) {
+          items.push({
+            id: 'reinforcer',
+            purpose: 'Reinforcer',
+            badgeColor: 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200',
+            title: `Reinforce: ${reinforcerCandidate.key}`,
+            rationale: `You scored ${reinforcerCandidate.correct}/${reinforcerCandidate.total} on this topic. A short focused practice will help it stick.`,
+            actionLabel: 'Practice this topic',
+            onAction: () =>
+              onStartPracticeWithFocus({
+                subject: subjectKey,
+                topic: reinforcerCandidate.key,
+                durationMinutes: 10,
+              }),
+          });
+        }
+        if (nextStepCandidate && subjectKey && onStartPracticeWithFocus) {
+          const typeLabel =
+            categoryNames[nextStepCandidate.key] ||
+            nextStepCandidate.key.replace(/[_-]/g, ' ');
+          items.push({
+            id: 'next-step',
+            purpose: 'Next Step',
+            badgeColor:
+              'bg-sky-100 text-sky-900 dark:bg-sky-500/20 dark:text-sky-200',
+            title: `Sharpen: ${typeLabel}`,
+            rationale: `Your weakest question style here was ${typeLabel.toLowerCase()} (${nextStepCandidate.correct}/${nextStepCandidate.total}). Train this style across topics.`,
+            actionLabel: 'Practice this style',
+            onAction: () =>
+              onStartPracticeWithFocus({
+                subject: subjectKey,
+                questionType: nextStepCandidate.key,
+                durationMinutes: 10,
+              }),
+          });
+        }
+        if (challengeCandidate && subjectKey && onStartPracticeWithFocus) {
+          items.push({
+            id: 'challenge',
+            purpose: 'Challenge',
+            badgeColor:
+              'bg-violet-100 text-violet-900 dark:bg-violet-500/20 dark:text-violet-200',
+            title: `Level up: ${challengeCandidate.key}`,
+            rationale: `Perfect run on this topic — try a challenge-tier set to push further.`,
+            actionLabel: 'Take the challenge',
+            onAction: () =>
+              onStartPracticeWithFocus({
+                subject: subjectKey,
+                topic: challengeCandidate.key,
+                tier: 'challenge',
+                durationMinutes: 10,
+              }),
+          });
+        }
+        if (markedCount > 0 && onReviewMarked) {
+          items.push({
+            id: 'review-marked',
+            purpose: 'Review',
+            badgeColor:
+              'bg-slate-200 text-slate-800 dark:bg-slate-500/20 dark:text-slate-100',
+            title: `Review your ${markedCount} marked question${
+              markedCount === 1 ? '' : 's'
+            }`,
+            rationale:
+              'You flagged these during the quiz — revisit them while the context is fresh.',
+            actionLabel: 'Review marked',
+            onAction: () => onReviewMarked(),
+          });
+        }
+        if (!passed && onRestart) {
+          items.push({
+            id: 'retake',
+            purpose: 'Retake',
+            badgeColor:
+              'bg-rose-100 text-rose-900 dark:bg-rose-500/20 dark:text-rose-200',
+            title: 'Retake this quiz',
+            rationale: `You scored ${scaledScore} (passing is 145). Another pass with the same set helps solidify what you just reviewed.`,
+            actionLabel: 'Retake quiz',
+            onAction: () => onRestart(),
+          });
+        }
+
+        const capped = items.slice(0, 5);
+        if (!capped.length) return null;
+
+        return (
+          <div className="mt-6 pt-4 border-t max-w-2xl mx-auto text-left">
+            <h3 className="text-xl font-bold subject-accent-heading mb-3">
+              What to do next
+            </h3>
             <ul className="space-y-2">
-              {suggestions.map((s) => (
+              {capped.map((s) => (
                 <li
                   key={s.id}
-                  className="flex items-center justify-between gap-3 panel-surface p-3 rounded-lg"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 panel-surface p-3 rounded-lg"
                 >
-                  <div>
-                    <p className="font-semibold text-primary">
-                      {prettyLabel(s.challenge_tag, s.label)}
-                    </p>
-                    <p className="text-xs text-secondary">
-                      {s.suggestion_type === 'add'
-                        ? 'Consider adding this challenge to your practice plan.'
-                        : 'We think you may be ready to remove this challenge.'}
-                    </p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span
+                        className={`text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded ${s.badgeColor}`}
+                      >
+                        {s.purpose}
+                      </span>
+                      <p className="font-semibold text-primary">{s.title}</p>
+                    </div>
+                    <p className="text-xs text-secondary">{s.rationale}</p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 sm:justify-end">
                     <button
-                      onClick={() => resolveSuggestion(s.id, 'reject')}
-                      className="btn-ghost text-sm"
-                    >
-                      Dismiss
-                    </button>
-                    <button
-                      onClick={() => resolveSuggestion(s.id, 'accept')}
+                      type="button"
+                      onClick={s.onAction}
                       className="btn-primary text-sm"
                     >
-                      Accept
+                      {s.actionLabel}
                     </button>
                   </div>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-sm text-secondary">No suggestions right now.</p>
-          )}
-        </div>
-      )}
+          </div>
+        );
+      })()}
 
       <div className="mt-8 pt-6 border-t max-w-lg mx-auto">
         <h3 className="text-xl font-bold subject-accent-heading mb-4">
@@ -43650,18 +43916,14 @@ function AIQuizGenerator({
         </select>
 
         {supportsImageQuestions && (
-          <label className="flex items-start gap-2 text-left text-sm text-slate-700 mb-4 px-1">
-            <input
-              type="checkbox"
-              className="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded"
+          <div className="mb-4 px-1">
+            <CheckboxField
               checked={includeImages}
               onChange={(e) => setIncludeImages(e.target.checked)}
+              label="Include image-based questions (charts, maps, political cartoons, diagrams)."
+              description={`Recommended for ${subject}.`}
             />
-            <span>
-              Include image-based questions (charts, maps, political cartoons,
-              diagrams). Recommended for {subject}.
-            </span>
-          </label>
+          </div>
         )}
 
         <button

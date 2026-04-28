@@ -16879,6 +16879,53 @@ PASSAGE:\n${picked.text}\n`;
         }
       }
 
+      const desiredQuizLength = Math.max(
+        TOTAL_QUESTIONS,
+        finalQuestions.length
+      );
+      const curatedTopicQuestions = getReviewedCuratedAiQuestions(subject, {
+        count: Math.max(2, Math.round(desiredQuizLength * 0.33)),
+        topic,
+        requireTopicMatch: true,
+        includeImages,
+      });
+      if (curatedTopicQuestions.length > 0) {
+        const mergedQuestions = [];
+        const seenQuestionKeys = new Set();
+        const curatedTargetCount = Math.min(
+          curatedTopicQuestions.length,
+          Math.max(2, Math.round(desiredQuizLength * 0.33))
+        );
+
+        appendUniqueQuestions(
+          mergedQuestions,
+          curatedTopicQuestions.slice(0, curatedTargetCount),
+          seenQuestionKeys,
+          curatedTargetCount
+        );
+        appendUniqueQuestions(
+          mergedQuestions,
+          finalQuestions,
+          seenQuestionKeys,
+          desiredQuizLength
+        );
+        if (mergedQuestions.length < desiredQuizLength) {
+          appendUniqueQuestions(
+            mergedQuestions,
+            curatedTopicQuestions.slice(curatedTargetCount),
+            seenQuestionKeys,
+            desiredQuizLength
+          );
+        }
+
+        finalQuestions = shuffleQuestionsPreservingStimulus(
+          mergedQuestions
+        ).slice(0, desiredQuizLength);
+        console.log(
+          `[Topic Quiz][${subject}] Incorporated ${finalQuestions.filter((q) => q?.source === 'curatedAiBank').length} reviewed curated AI-bank question(s) for "${topic}".`
+        );
+      }
+
       if (subject === 'Science') {
         finalQuestions = dedupeScienceQuestionList(finalQuestions);
       }
@@ -16924,6 +16971,9 @@ PASSAGE:\n${picked.text}\n`;
         title: `${subject}: ${topic}`,
         subject: subject,
         source: 'aiGenerated',
+        curatedAiBankCount: finalQuestions.filter(
+          (q) => q?.source === 'curatedAiBank'
+        ).length,
         fraction_plain_text_mode: subject === 'Math',
         // Enable formula sheet for Math & Science topic quizzes
         config: { formulaSheet: subject === 'Math' || subject === 'Science' },
@@ -19857,10 +19907,9 @@ app.post(
       );
       // Best-effort: notify enrolled students that the curriculum changed.
       try {
-        const cR = await db.query(
-          `SELECT name FROM classes WHERE id=$1`,
-          [classId]
-        );
+        const cR = await db.query(`SELECT name FROM classes WHERE id=$1`, [
+          classId,
+        ]);
         const className = cR.rows[0]?.name || 'your class';
         const enr = await db.query(
           `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
@@ -20252,7 +20301,9 @@ app.post(
       const noteDate = _normalizeNoteDate(req.body?.note_date);
       const recipientRaw = req.body?.recipient_user_id;
       const recipientId =
-        recipientRaw === null || recipientRaw === undefined || recipientRaw === ''
+        recipientRaw === null ||
+        recipientRaw === undefined ||
+        recipientRaw === ''
           ? null
           : parseInt(recipientRaw, 10);
       if (recipientId !== null && !Number.isFinite(recipientId))
@@ -20260,7 +20311,8 @@ app.post(
       // If a recipient is named, make sure they are actually enrolled.
       if (recipientId !== null) {
         const ok = await _studentInClass(recipientId, classId);
-        if (!ok) return res.status(400).json({ error: 'recipient_not_in_class' });
+        if (!ok)
+          return res.status(400).json({ error: 'recipient_not_in_class' });
       }
       const ins = await db.query(
         `INSERT INTO class_notes
@@ -20328,10 +20380,10 @@ app.delete(
       const noteId = parseInt(req.params.noteId, 10);
       if (!(await _instructorOwnsClass(req, classId)))
         return res.status(404).json({ error: 'class_not_found' });
-      await db.query(
-        `DELETE FROM class_notes WHERE id=$1 AND class_id=$2`,
-        [noteId, classId]
-      );
+      await db.query(`DELETE FROM class_notes WHERE id=$1 AND class_id=$2`, [
+        noteId,
+        classId,
+      ]);
       return res.json({ ok: true });
     } catch (err) {
       console.error('[/api/instructor/classes/:id/notes DELETE] failed:', err);
@@ -22888,6 +22940,271 @@ function questionHasObviousImageMismatch(question) {
   return false;
 }
 
+const TOPIC_MATCH_STOPWORDS = new Set([
+  'and',
+  'the',
+  'for',
+  'with',
+  'from',
+  'into',
+  'that',
+  'this',
+  'your',
+  'about',
+  'through',
+  'reasoning',
+  'language',
+  'arts',
+  'studies',
+]);
+
+function getQuestionPromptText(question) {
+  return String(
+    question?.questionText ||
+      question?.question ||
+      question?.content?.questionText ||
+      question?.content?.question ||
+      ''
+  ).trim();
+}
+
+function normalizeQuestionPoolText(text) {
+  return String(text || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, ' and ')
+    .replace(/&/g, ' and ')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function buildQuestionPoolDedupKey(question) {
+  const stem = normalizeQuestionPoolText(getQuestionPromptText(question));
+  const passage = normalizeQuestionPoolText(
+    question?.passage || question?.content?.passage || ''
+  );
+  if (!stem && !passage) return '';
+  return `${stem.slice(0, 220)}::${passage.slice(0, 220)}`;
+}
+
+function appendUniqueQuestions(target, questions, seenKeys, limit = Infinity) {
+  if (!Array.isArray(target) || !Array.isArray(questions)) return target;
+
+  for (const question of questions) {
+    if (target.length >= limit) break;
+    const key =
+      buildQuestionPoolDedupKey(question) ||
+      String(question?.originQuizId || question?.id || '');
+    if (!key || seenKeys.has(key)) continue;
+    seenKeys.add(key);
+    target.push(question);
+  }
+
+  return target;
+}
+
+function buildTopicMatchTokens(topic) {
+  return Array.from(
+    new Set(
+      normalizeQuestionPoolText(topic)
+        .split(' ')
+        .filter(
+          (token) => token.length >= 3 && !TOPIC_MATCH_STOPWORDS.has(token)
+        )
+    )
+  );
+}
+
+function curatedAiQuestionMatchesRequestedTopic(question, topic) {
+  const normalizedTopic = normalizeQuestionPoolText(topic);
+  if (!normalizedTopic) return true;
+
+  const metadata = normalizeQuestionPoolText(
+    [
+      question?.topic,
+      question?.category,
+      question?.originTopicTitle,
+      question?.originCategoryName,
+    ]
+      .filter(Boolean)
+      .join(' ')
+  );
+  if (
+    metadata &&
+    (metadata.includes(normalizedTopic) || normalizedTopic.includes(metadata))
+  ) {
+    return true;
+  }
+
+  const tokens = buildTopicMatchTokens(topic);
+  if (tokens.length === 0) return false;
+
+  const searchable = normalizeQuestionPoolText(
+    [
+      metadata,
+      getQuestionPromptText(question),
+      question?.passage || question?.content?.passage || '',
+    ]
+      .filter(Boolean)
+      .join(' ')
+  );
+  const matches = tokens.filter((token) => searchable.includes(token));
+  if (matches.length === 0) return false;
+  if (metadata && matches.length > 0) return true;
+  if (tokens.length === 1) return matches.length === 1;
+  return matches.length >= Math.ceil(tokens.length / 2);
+}
+
+function prepareCuratedAiQuestion(
+  rawQuestion,
+  { subject, fallbackTopic = null, sourceLabel = 'curatedAiBank' } = {}
+) {
+  const cloned = cloneQuestion(rawQuestion);
+  if (!cloned || !isValidMC(cloned)) return null;
+  if (questionHasMissingLocalImage(cloned)) return null;
+  if (questionHasObviousImageMismatch(cloned)) return null;
+
+  if (cloned.content && cloned.content.questionText && !cloned.question) {
+    cloned.question = cloned.content.questionText;
+  }
+  if (cloned.content && cloned.content.passage && !cloned.passage) {
+    cloned.passage = cloned.content.passage;
+  }
+
+  if (!cloned.questionText) {
+    cloned.questionText =
+      cloned.question ||
+      cloned.content?.questionText ||
+      cloned.content?.question ||
+      '';
+  }
+  if (!cloned.question) {
+    cloned.question = cloned.questionText;
+  }
+  if (!cloned.questionText) return null;
+
+  sanitizeImageQuestionPassage(cloned);
+
+  const normalizedTopic =
+    typeof cloned.topic === 'string' && cloned.topic.trim()
+      ? cloned.topic.trim()
+      : fallbackTopic;
+  if (normalizedTopic) {
+    cloned.topic = normalizedTopic;
+  }
+
+  if (!cloned.subject) cloned.subject = subject;
+  if (!cloned.difficulty) cloned.difficulty = 'medium';
+  cloned.source = sourceLabel;
+  cloned.itemType =
+    cloned.itemType ||
+    (cloned.passage
+      ? 'passage'
+      : collectQuestionImageUrls(cloned).length > 0
+        ? 'image'
+        : 'standalone');
+
+  if (!cloned.originCategoryName) {
+    cloned.originCategoryName = cloned.category || null;
+  }
+  if (!cloned.originTopicTitle) {
+    cloned.originTopicTitle = normalizedTopic || cloned.category || null;
+  }
+  if (!cloned.originQuizTitle) {
+    cloned.originQuizTitle = 'Curated AI Bank';
+  }
+  if (!cloned.originQuizId) {
+    cloned.originQuizId =
+      cloned?.bankMeta?.fingerprint ||
+      buildQuestionPoolDedupKey(cloned) ||
+      null;
+  }
+  if (!cloned.originPath) {
+    cloned.originPath =
+      [cloned.originCategoryName, cloned.originTopicTitle, 'Curated AI Bank']
+        .filter(Boolean)
+        .join(' / ') || 'Curated AI Bank';
+  }
+
+  return ensureQuestionTags(
+    subject,
+    cloned.category || cloned.originCategoryName || null,
+    normalizedTopic ? { id: normalizedTopic, title: normalizedTopic } : null,
+    cloned
+  );
+}
+
+function getReviewedCuratedAiQuestions(subject, options = {}) {
+  const {
+    count = Infinity,
+    targetTier = null,
+    topic = null,
+    requireTopicMatch = false,
+    includeImages = true,
+  } = options;
+
+  const canonicalSubject = isRlaSubject(subject) ? 'RLA' : subject;
+  const rawPool = getCuratedAiQuestionsForSubject(canonicalSubject);
+  if (!Array.isArray(rawPool) || rawPool.length === 0) return [];
+
+  const prepared = [];
+  const seenKeys = new Set();
+  for (const rawQuestion of shuffleArray(rawPool)) {
+    const question = prepareCuratedAiQuestion(rawQuestion, {
+      subject,
+      fallbackTopic: null,
+    });
+    if (!question) continue;
+    if (!includeImages && isImageBasedQuestionForPractice(question)) continue;
+    if (
+      requireTopicMatch &&
+      !curatedAiQuestionMatchesRequestedTopic(question, topic)
+    ) {
+      continue;
+    }
+    appendUniqueQuestions(prepared, [question], seenKeys, count);
+    if (prepared.length >= count) break;
+  }
+
+  const ordered = targetTier
+    ? orderQuestionsForTierTarget(prepared, targetTier)
+    : shuffleArray(prepared);
+  return Number.isFinite(count) ? ordered.slice(0, count) : ordered;
+}
+
+function selectPracticeSessionQuestions(pool, questionsNeeded, targetTier) {
+  const orderedPool = targetTier
+    ? orderQuestionsForTierTarget(pool, targetTier)
+    : shuffleArray(pool);
+  const curated = orderedPool.filter((q) => q?.source === 'curatedAiBank');
+  const premade = orderedPool.filter((q) => q?.source !== 'curatedAiBank');
+
+  const selected = [];
+  const seenKeys = new Set();
+  const curatedTarget = Math.min(
+    curated.length,
+    Math.max(1, Math.round(questionsNeeded * 0.4))
+  );
+
+  appendUniqueQuestions(selected, curated, seenKeys, curatedTarget);
+  appendUniqueQuestions(selected, premade, seenKeys, questionsNeeded);
+  if (selected.length < questionsNeeded) {
+    appendUniqueQuestions(
+      selected,
+      curated.slice(curatedTarget),
+      seenKeys,
+      questionsNeeded
+    );
+  }
+
+  const finalized = targetTier
+    ? orderQuestionsForTierTarget(selected, targetTier)
+    : shuffleArray(selected);
+  return finalized.slice(0, questionsNeeded);
+}
+
 const getPremadeQuestions = (subject, count, options = {}) => {
   const allQuestions = [];
   const targetTier = normalizeLearnerQuestionTier(options?.targetTier);
@@ -23419,8 +23736,28 @@ app.post(
         const pulled = getPremadeQuestions(subj, questionsNeeded * 2, {
           targetTier,
         }); // pull extra to allow tier ordering + fallback
-        if (Array.isArray(pulled)) {
-          pulled.forEach((q) => {
+        const curatedPulled = getReviewedCuratedAiQuestions(subj, {
+          count: questionsNeeded * 2,
+          targetTier,
+          includeImages: false,
+        });
+        const subjectPool = [];
+        const seenSubjectKeys = new Set();
+        appendUniqueQuestions(
+          subjectPool,
+          Array.isArray(pulled) ? pulled : [],
+          seenSubjectKeys,
+          questionsNeeded * 4
+        );
+        appendUniqueQuestions(
+          subjectPool,
+          curatedPulled,
+          seenSubjectKeys,
+          questionsNeeded * 4
+        );
+
+        if (subjectPool.length > 0) {
+          subjectPool.forEach((q) => {
             if (isImageBasedQuestionForPractice(q)) {
               excludedImageCount += 1;
               return;
@@ -23455,7 +23792,7 @@ app.post(
           });
         } else {
           console.warn(
-            `[practice-session] getPremadeQuestions returned non-array for subject: ${subj}`
+            `[practice-session] Empty reviewed pool for subject: ${subj}`
           );
         }
       });
@@ -23483,11 +23820,65 @@ app.post(
         });
       }
 
-      const orderedPool = targetTier
-        ? orderQuestionsForTierTarget(pool, targetTier)
-        : shuffleArray(pool);
+      // Optional narrowing filters: topic and question type/style.
+      // Only meaningful for single-subject mode but applied generically.
+      const requestedTopic =
+        typeof req.body?.topic === 'string' ? req.body.topic.trim() : '';
+      const requestedQuestionType =
+        typeof req.body?.questionType === 'string'
+          ? req.body.questionType.trim()
+          : '';
+      let filterNote = null;
+      if (requestedTopic || requestedQuestionType) {
+        const topicLc = requestedTopic.toLowerCase();
+        const typeLc = requestedQuestionType.toLowerCase();
+        const beforeCount = pool.length;
+        pool = pool.filter((q) => {
+          if (topicLc) {
+            const t = String(
+              q?.originTopicTitle || q?.topic || ''
+            ).toLowerCase();
+            if (t !== topicLc) return false;
+          }
+          if (typeLc) {
+            const ty = String(
+              q?.type || q?.itemType || q?.skill || ''
+            ).toLowerCase();
+            if (ty !== typeLc) return false;
+          }
+          return true;
+        });
+        if (pool.length === 0) {
+          filterNote = `No questions matched ${[
+            requestedTopic && `topic "${requestedTopic}"`,
+            requestedQuestionType && `type "${requestedQuestionType}"`,
+          ]
+            .filter(Boolean)
+            .join(' and ')}.`;
+          return res.json({
+            title: isOlympicsMode ? 'Olympics Practice' : 'Practice Session',
+            durationMinutes,
+            mode,
+            practiceMode: practiceMode || 'standard',
+            questionCount: 0,
+            questions: [],
+            note: filterNote,
+            topic: requestedTopic || null,
+            questionType: requestedQuestionType || null,
+          });
+        }
+        if (pool.length < beforeCount) {
+          console.log(
+            `[practice-session] Narrowed pool ${beforeCount} -> ${pool.length} (topic=${requestedTopic || '-'}, type=${requestedQuestionType || '-'})`
+          );
+        }
+      }
 
-      const questions = orderedPool
+      const questions = selectPracticeSessionQuestions(
+        pool,
+        questionsNeeded,
+        targetTier
+      )
         .slice(0, questionsNeeded)
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
       return res.json({
@@ -23497,12 +23888,63 @@ app.post(
         practiceMode: practiceMode || 'standard',
         questionCount: questions.length,
         questions,
+        topic: requestedTopic || null,
+        questionType: requestedQuestionType || null,
       });
     } catch (e) {
       console.error('practice-session error:', e);
       return res
         .status(500)
         .json({ error: 'Failed to build practice session' });
+    }
+  }
+);
+
+// List the topics available for a single subject (used by Practice Session
+// modal to populate the optional topic narrowing picker).
+app.get(
+  '/api/practice-session/topics',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  (req, res) => {
+    try {
+      const SUBJECT_LABELS = {
+        math: 'Math',
+        science: 'Science',
+        rla: 'Reasoning Through Language Arts (RLA)',
+        social: 'Social Studies',
+        'social-studies': 'Social Studies',
+        ss: 'Social Studies',
+      };
+      const raw = String(req.query?.subject || '')
+        .trim()
+        .toLowerCase();
+      const subjectLabel = SUBJECT_LABELS[raw];
+      if (!subjectLabel) {
+        return res.status(400).json({ error: 'subject_required' });
+      }
+      // Pull a generous slice; getPremadeQuestions caps internally if needed.
+      const pool = getPremadeQuestions(subjectLabel, 100000) || [];
+      const counts = new Map();
+      for (const q of pool) {
+        const name = String(
+          q?.originTopicTitle || q?.topic || ''
+        ).trim();
+        if (!name) continue;
+        counts.set(name, (counts.get(name) || 0) + 1);
+      }
+      const topics = Array.from(counts.entries())
+        .map(([topic, count]) => ({ topic, count }))
+        .sort((a, b) => {
+          if (b.count !== a.count) return b.count - a.count;
+          return a.topic.localeCompare(b.topic);
+        });
+      return res.json({ subject: subjectLabel, topics });
+    } catch (e) {
+      console.error('practice-session/topics error:', e);
+      return res.status(500).json({ error: 'failed_to_load_topics' });
     }
   }
 );
