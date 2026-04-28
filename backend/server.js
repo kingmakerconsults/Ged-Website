@@ -56,8 +56,7 @@ const {
   consumeQuota: consumeQuotaCore,
   grantBonus: grantQuotaBonus,
   isKnownKind: isKnownQuotaKind,
-} = require('./src/quotas');
-const ensureUserNameColumns = require('./db/initUserNameColumns');
+} = require('./src/quotas');const ensureUserNameColumns = require('./db/initUserNameColumns');
 const ensureCollabTables = require('./db/initCollab');
 const { registerCollabRest, attachCollabSockets } = require('./collab');
 const MODEL_HTTP_TIMEOUT_MS =
@@ -6009,10 +6008,10 @@ ensureAssignmentsTables().catch((e) =>
   console.error('Assignments tables init error:', e)
 );
 if (typeof ensureQuestionBankTable === 'function') {
-  ensureUserQuotaDailyTable().catch((e) =>
-    console.error('User quota daily table init error:', e)
-  );
-  ensureQuestionBankTable().catch((e) => {
+  
+ensureUserQuotaDailyTable().catch((e) =>
+  console.error('User quota daily table init error:', e)
+);ensureQuestionBankTable().catch((e) => {
     console.error('Question bank init error:', e?.message || e);
   });
 }
@@ -18603,6 +18602,18 @@ app.post('/api/auth/google', async (req, res) => {
         .json({ error: 'Unable to determine Google account email.' });
     }
 
+    // Require Google to have verified the email (gmail.com addresses always
+    // are; Workspace addresses are too once domain ownership is confirmed).
+    // We treat `undefined` as "Google didn't tell us" and accept it to stay
+    // backward-compatible, but explicit `false` is rejected.
+    if (payload.email_verified === false) {
+      console.warn(`Rejected Google sign-in for unverified email: ${email}`);
+      return res.status(403).json({
+        error:
+          'Your Google account email is not verified. Please verify your email with Google and try again.',
+      });
+    }
+
     const name = payload.name || null;
     const picture = payload.picture || null;
 
@@ -19730,31 +19741,6 @@ app.get(
 // Quota replenish: instructor / org-admin / super-admin grants a student
 // extra generations for today (kind = 'comprehensive' | 'ai_topic',
 // amount = 1..5). Same-org check enforced for instructor + org_admin.
-app.get(
-  '/api/instructor/students/:userId/quota',
-  logAdminAccess,
-  requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
-  async (req, res) => {
-    try {
-      const studentId = parseInt(req.params.userId, 10);
-      if (!Number.isInteger(studentId)) {
-        return res.status(400).json({ error: 'invalid_user_id' });
-      }
-      const role = String(req.user?.role || '').toLowerCase();
-      const isSuper = role === 'super_admin' || role === 'superadmin';
-      if (!isSuper && !(await _instructorOwnsStudent(req, studentId))) {
-        return res.status(404).json({ error: 'student_not_found' });
-      }
-      const state = await getQuotaState(pool, studentId);
-      return res.json(state);
-    } catch (err) {
-      console.error('[/api/instructor/students/:id/quota GET] failed:', err);
-      return res.status(500).json({ error: 'Unable to load quota state' });
-    }
-  }
-);
-
 app.post(
   '/api/instructor/students/:userId/quota/replenish',
   logAdminAccess,
@@ -19800,17 +19786,11 @@ app.post(
           payload: { kind, amount: numericAmount },
         });
       } catch (auditErr) {
-        console.warn(
-          '[quota.replenish] audit failed:',
-          auditErr?.message || auditErr
-        );
+        console.warn('[quota.replenish] audit failed:', auditErr?.message || auditErr);
       }
       return res.json({ ok: true, kind, amount: numericAmount, state });
     } catch (err) {
-      console.error(
-        '[/api/instructor/students/:id/quota/replenish] failed:',
-        err
-      );
+      console.error('[/api/instructor/students/:id/quota/replenish] failed:', err);
       return res.status(500).json({ error: 'Unable to replenish quota' });
     }
   }
@@ -20780,19 +20760,13 @@ app.locals.requireActiveAccount = _activeAccount;
 // ---- Public: search programs (organizations) ----
 app.get('/api/programs', async (req, res) => {
   try {
-    const q = String(req.query.q || '')
-      .trim()
-      .slice(0, 100);
-    const region = String(req.query.region || '')
-      .trim()
-      .slice(0, 50);
+    const q = String(req.query.q || '').trim().slice(0, 100);
+    const region = String(req.query.region || '').trim().slice(0, 50);
     const params = [];
     const where = [];
     if (q) {
       params.push(`%${q.toLowerCase()}%`);
-      where.push(
-        `(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`
-      );
+      where.push(`(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`);
     }
     if (region) {
       params.push(region);
@@ -20859,12 +20833,53 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
     if (!Number.isFinite(orgId)) {
       return res.status(400).json({ error: 'invalid_organization_id' });
     }
-    const orgR = await db.query(
-      'SELECT id, name FROM organizations WHERE id=$1',
-      [orgId]
-    );
-    if (!orgR.rowCount)
-      return res.status(404).json({ error: 'organization_not_found' });
+    const orgR = await db.query('SELECT id, name FROM organizations WHERE id=$1', [orgId]);
+    if (!orgR.rowCount) return res.status(404).json({ error: 'organization_not_found' });
+
+    // ------------------------------------------------------------------
+    // Auto-admit allowlist: certain partner orgs are configured to accept
+    // any signed-in user immediately, with no instructor approval step.
+    // Match is case-insensitive on the canonical org name.
+    // ------------------------------------------------------------------
+    const AUTO_ADMIT_ORG_NAMES = new Set([
+      'commonpoint bronx',
+      'commonpoint queens',
+    ]);
+    const orgName = String(orgR.rows[0]?.name || '').trim().toLowerCase();
+    if (AUTO_ADMIT_ORG_NAMES.has(orgName)) {
+      // Cancel any other pending requests so the auto-admit is the only live one.
+      await db.query(
+        `UPDATE org_membership_requests
+            SET status = 'cancelled', decided_at = NOW()
+          WHERE user_id = $1 AND status = 'pending'`,
+        [userId]
+      );
+      // Record an approved request for audit/history. ON CONFLICT covers the
+      // rare case where a pending row for this exact (user, org) already exists.
+      await db.query(
+        `INSERT INTO org_membership_requests
+            (user_id, organization_id, status, requested_role, decided_by, decided_at, decision_note)
+         VALUES ($1, $2, 'approved', 'student', $1, NOW(), 'auto-admit')
+         ON CONFLICT (user_id, organization_id) WHERE status = 'pending'
+         DO UPDATE SET status = 'approved', decided_by = EXCLUDED.decided_by,
+                       decided_at = NOW(), decision_note = 'auto-admit'`,
+        [userId, orgId]
+      );
+      // Activate the user in the chosen org.
+      await db.query(
+        `UPDATE users
+            SET organization_id = $1,
+                pending_organization_id = NULL,
+                account_status = 'active'
+          WHERE id = $2`,
+        [orgId, userId]
+      );
+      return res.status(201).json({
+        auto_admitted: true,
+        organization_id: orgId,
+        account_status: 'active',
+      });
+    }
 
     // Cancel any other pending request from this user (only one live at a time).
     await db.query(
@@ -20888,14 +20903,10 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
         WHERE id = $2 AND account_status IN ('pending_org','pending_approval','denied')`,
       [orgId, userId]
     );
-    return res
-      .status(201)
-      .json({ request: ins.rows[0] || null, organization_id: orgId });
+    return res.status(201).json({ request: ins.rows[0] || null, organization_id: orgId });
   } catch (err) {
     console.error('[/api/me/membership-request POST] failed:', err);
-    return res
-      .status(500)
-      .json({ error: 'Unable to create membership request' });
+    return res.status(500).json({ error: 'Unable to create membership request' });
   }
 });
 
@@ -20919,9 +20930,7 @@ app.delete('/api/me/membership-request', requireAuth, async (req, res) => {
     return res.json({ ok: true });
   } catch (err) {
     console.error('[/api/me/membership-request DELETE] failed:', err);
-    return res
-      .status(500)
-      .json({ error: 'Unable to cancel membership request' });
+    return res.status(500).json({ error: 'Unable to cancel membership request' });
   }
 });
 
@@ -20971,10 +20980,9 @@ app.get(
       const orgId = req.user?.organization_id || null;
       const filterOrg = parseInt(req.query.organization_id, 10);
       // Super admin can scope to any org; others are pinned to their own.
-      const targetOrg =
-        role === 'super_admin' && Number.isFinite(filterOrg)
-          ? filterOrg
-          : orgId;
+      const targetOrg = role === 'super_admin' && Number.isFinite(filterOrg)
+        ? filterOrg
+        : orgId;
       const status = String(req.query.status || 'pending');
       const params = [status];
       let where = `r.status = $1`;
@@ -21000,9 +21008,7 @@ app.get(
       return res.json({ requests: r.rows });
     } catch (err) {
       console.error('[/api/org/membership-requests GET] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to list membership requests' });
+      return res.status(500).json({ error: 'Unable to list membership requests' });
     }
   }
 );
@@ -21029,9 +21035,7 @@ app.post(
       if (!reqR.rowCount) return res.status(404).json({ error: 'not_found' });
       const m = reqR.rows[0];
       if (m.status !== 'pending') {
-        return res
-          .status(409)
-          .json({ error: 'already_decided', status: m.status });
+        return res.status(409).json({ error: 'already_decided', status: m.status });
       }
       const role = String(req.user?.role || '').toLowerCase();
       const actorOrg = req.user?.organization_id || null;
@@ -21080,19 +21084,13 @@ app.post(
           req,
           action: 'org.membership.deny',
           target: { type: 'membership_request', id: reqId },
-          payload: {
-            user_id: m.user_id,
-            organization_id: m.organization_id,
-            note,
-          },
+          payload: { user_id: m.user_id, organization_id: m.organization_id, note },
         });
       }
       return res.json({ ok: true, decision });
     } catch (err) {
       console.error('[/api/org/membership-requests/:id/decide] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to decide on membership request' });
+      return res.status(500).json({ error: 'Unable to decide on membership request' });
     }
   }
 );
@@ -21107,13 +21105,7 @@ app.post(
     try {
       const targetId = parseInt(req.params.id, 10);
       const status = String(req.body?.account_status || '').toLowerCase();
-      const allowed = [
-        'pending_org',
-        'pending_approval',
-        'active',
-        'denied',
-        'archived',
-      ];
+      const allowed = ['pending_org', 'pending_approval', 'active', 'denied', 'archived'];
       if (!Number.isFinite(targetId) || !allowed.includes(status)) {
         return res.status(400).json({ error: 'invalid_request' });
       }
@@ -21129,10 +21121,10 @@ app.post(
           [status, orgId, targetId]
         );
       } else {
-        await db.query(`UPDATE users SET account_status=$1 WHERE id=$2`, [
-          status,
-          targetId,
-        ]);
+        await db.query(
+          `UPDATE users SET account_status=$1 WHERE id=$2`,
+          [status, targetId]
+        );
       }
       await _audit({
         db,
@@ -22471,53 +22463,6 @@ app.patch(
         runnerState,
       } = req.body || {};
 
-      // 2026-04-29: server-authoritative cutoff. If we're past deadline + 5s
-      // grace, refuse the save and mark the session auto-submitted. The
-      // client will see 410 and trigger its own end-of-exam flow.
-      try {
-        const { rows: clockRows } = await pool.query(
-          `SELECT deadline_at, submitted_at
-             FROM active_exam_sessions
-            WHERE quiz_id = $1 AND user_id = $2
-            LIMIT 1`,
-          [quizId, userId]
-        );
-        if (clockRows.length) {
-          const row = clockRows[0];
-          if (row.submitted_at) {
-            return res.status(410).json({
-              error: 'session_finalized',
-              message: 'This session has already been submitted.',
-            });
-          }
-          if (row.deadline_at) {
-            const deadlineMs = new Date(row.deadline_at).getTime();
-            const GRACE_MS = 5000;
-            if (Date.now() > deadlineMs + GRACE_MS) {
-              await pool.query(
-                `UPDATE active_exam_sessions
-                    SET submitted_at = NOW(),
-                        auto_submitted = TRUE,
-                        updated_at = NOW()
-                  WHERE quiz_id = $1 AND user_id = $2 AND submitted_at IS NULL`,
-                [quizId, userId]
-              );
-              return res.status(410).json({
-                error: 'session_expired',
-                message:
-                  'Time is up. Your exam was auto-submitted with the answers we had.',
-                auto_submitted: true,
-              });
-            }
-          }
-        }
-      } catch (clockErr) {
-        console.warn(
-          '[exam-sessions PATCH] deadline check failed:',
-          clockErr?.message || clockErr
-        );
-      }
-
       const setClauses = ['updated_at = NOW()'];
       const values = [];
       let idx = 1;
@@ -22629,8 +22574,7 @@ app.get(
           LIMIT 1`,
         [quizId, userId]
       );
-      if (!rows.length)
-        return res.status(404).json({ error: 'Session not found.' });
+      if (!rows.length) return res.status(404).json({ error: 'Session not found.' });
       const row = rows[0];
       const serverNow = new Date();
       const deadlineAt = row.deadline_at ? new Date(row.deadline_at) : null;
