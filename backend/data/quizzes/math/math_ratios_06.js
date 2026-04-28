@@ -169,7 +169,7 @@ module.exports = [
       'A recipe requires flour and sugar in a ratio of 5:2. If you use 8 cups of flour, how much sugar do you need?',
     correctAnswer: '3.2 cups',
     rationale:
-      'Set up a proportion: \\(\\frac{5}{2}\\)\\( = 8/x. Cross-multiply: 5x = 16. Solve for x: x = \\)\\(\\frac{16}{5}\\) = 3.2 cups.',
+      'Set up a proportion: \\(\\frac{5}{2}\\)\ = 8/x. Cross-multiply: 5x = 16. Solve for x: x = \\\(\\frac{16}{5}\\) = 3.2 cups.',
     challenge_tags: ['math-1'],
   },
   {

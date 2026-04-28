@@ -87,7 +87,7 @@ module.exports = [
   },
   {
     questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
-    passage: "An economics professor presented students with two job offers. Job A pays \\(75,000 in a company where the average salary is \\)60,000. Job B pays \\(85,000 in a company where the average salary is \\)100,000. In anonymous surveys, 62% of students chose Job A despite its lower absolute salary. When asked to explain, most cited 'feeling valued' and 'being above average' as factors.",
+    passage: "An economics professor presented students with two job offers. Job A pays \75,000 in a company where the average salary is \60,000. Job B pays \85,000 in a company where the average salary is \100,000. In anonymous surveys, 62% of students chose Job A despite its lower absolute salary. When asked to explain, most cited 'feeling valued' and 'being above average' as factors.",
     question: "What does this experiment most strongly suggest about how people evaluate compensation?",
     answerOptions: [
       { text: "The experiment shows students prioritised job security over salary because companies with lower average pay tend to offer more stable long-term employment.", isCorrect: false, rationale: "Job security was not mentioned  students cited feeling valued and being above average, which are about relative standing." },

@@ -171,7 +171,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'The graph of \\(y = (x+1)^2 - 2 is a parabola. What is its vertex?\\)',
+      'The graph of \y = (x+1)^2 - 2 is a parabola. What is its vertex?\',
     answerOptions: [
       {
         text: '(1, -2)',

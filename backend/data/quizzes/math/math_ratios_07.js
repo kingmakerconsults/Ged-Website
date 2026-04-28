@@ -137,12 +137,14 @@ module.exports = [
       {
         text: '14 hours',
         isCorrect: false,
-        rationale: 'Incorrect. "14 hours" does not match the result of the correct calculation for this problem.',
+        rationale:
+          'Incorrect. "14 hours" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '15 hours',
         isCorrect: false,
-        rationale: 'Incorrect. "15 hours" does not match the result of the correct calculation for this problem.',
+        rationale:
+          'Incorrect. "15 hours" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '17.5 hours',
@@ -170,7 +172,7 @@ module.exports = [
       'A product is marked up 25% from its wholesale price of $80. What is the retail price?',
     correctAnswer: '100',
     rationale:
-      'The markup is 25% of \\(80, which is 0.25 \\(\times\\) 80 = 20. The retail price is the wholesale price plus the markup: \\)80 + \\(20 = \\)100.',
+      'The markup is 25% of $80, which is 0.25 \\times 80 = 20. The retail price is the wholesale price plus the markup: $80 + $20 = $100.',
     challenge_tags: ['math-1'],
   },
   {
@@ -214,7 +216,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A car rental company charges \\(50 per day. If a customer paid \\)250, how many days did they rent the car for?',
+      'A car rental company charges \50 per day. If a customer paid \250, how many days did they rent the car for?',
     correctAnswer: '5 days',
     rationale:
       'Divide the total cost by the daily rate: \\(250 / \\)50 per day = 5 days.',
@@ -231,7 +233,8 @@ module.exports = [
       {
         text: '$0.25',
         isCorrect: false,
-        rationale: 'Incorrect. "$0.25" does not match the result of the correct calculation for this problem.',
+        rationale:
+          'Incorrect. "$0.25" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '0.30',
@@ -242,7 +245,8 @@ module.exports = [
       {
         text: '$0.36',
         isCorrect: false,
-        rationale: 'Incorrect. "$0.36" does not match the result of the correct calculation for this problem.',
+        rationale:
+          'Incorrect. "$0.36" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '3.00',

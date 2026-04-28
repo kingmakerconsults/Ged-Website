@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the sales tax amount: 6% of \\(75 is 0.06 * 75 = \\)4.50. Then, add this to the original price: \\(75 + \\)4.50 = $79.50.',
+      'First, calculate the sales tax amount: 6% of \75 is 0.06 * 75 = \4.50. Then, add this to the original price: \\(75 + \\)4.50 = $79.50.',
     challenge_tags: ['math-1'],
   },
   {

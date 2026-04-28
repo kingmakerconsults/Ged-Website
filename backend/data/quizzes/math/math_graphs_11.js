@@ -177,7 +177,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'Which of the following points is a solution to the system of inequalities: \\(y > x and x > 2\\)?',
+      'Which of the following points is a solution to the system of inequalities: \y > x and x > 2\?',
     answerOptions: [
       {
         text: '(1, 3)',
@@ -254,7 +254,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'The graph of \\(y = x^2 is shifted 3 units down. What is the new equation?\\)',
+      'The graph of \\(y = x^2\\) is shifted 3 units down. What is the new equation?',
     answerOptions: [
       {
         text: '\\(y = x^2 - 3\\)',

@@ -5,14 +5,18 @@ const {
   upgradeQuestionToKatex,
 } = require('./mathSanitizer');
 const { normalizeProse } = require('./normalizeProse');
+const { sanitizeMathText } = require('./mathQuestionBankSanitizer');
 
 function sanitizeField(s, mode = 'latex') {
   if (typeof s !== 'string') return s;
-  const prose = normalizeProse(s);
   if (mode === 'html') {
-    return normalizeMathToHTML(prose);
+    return normalizeMathToHTML(normalizeProse(s));
   }
-  return normalizeMathToLatex(prose);
+  // Latex mode: route through the same full catalog pipeline so exam-rendered
+  // math gets sqrt/pi/fraction/inequality conversion + currency escape, and
+  // both pipelines stay in lock-step. (sanitizeMathText already calls
+  // normalizeProse internally.)
+  return sanitizeMathText(s);
 }
 
 function sanitizeExamObject(obj, mode = 'latex') {

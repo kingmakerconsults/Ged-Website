@@ -5,6 +5,8 @@
 // fill-in/text-input questions, shows per-question reveal stats with each
 // participant's answer, and renders a final review when the session ends.
 import React, { useEffect, useMemo, useState } from 'react';
+import ReportQuestionButton from '../../src/components/stats/ReportQuestionButton.jsx';
+import MathText from '../../src/components/MathText.jsx';
 
 const PALETTE = {
   pageText: 'var(--collab-pageText, #0f172a)',
@@ -104,98 +106,9 @@ function isCorrectAnswer(answer, correct) {
   );
 }
 
-// Render text that may contain inline LaTeX delimited by \( ... \), \[ ... \],
-// or $ ... $ using the globally-loaded KaTeX (CDN, available across the
-// legacy app). Also decodes numeric HTML entities (e.g. &#36; → $) and
-// strips backslashes that escape currency $ from the source data.
-function renderInlineLatex(latex) {
-  try {
-    if (typeof window === 'undefined' || !window.katex) return null;
-    return window.katex.renderToString(latex, {
-      throwOnError: false,
-      strict: 'ignore',
-    });
-  } catch {
-    return null;
-  }
-}
-
-function decodeHtmlEntities(s) {
-  if (typeof s !== 'string') return s;
-  return s
-    .replace(/&#(\d+);/g, (_m, n) => String.fromCharCode(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_m, n) =>
-      String.fromCharCode(parseInt(n, 16))
-    )
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
-}
-
-// Outside math segments, "\$120" should display as "$120" (the source
-// often escapes $ to keep it from being treated as a math delimiter).
-function unescapeCurrencyDollars(s) {
-  return typeof s === 'string' ? s.replace(/\\\$/g, '$') : s;
-}
-
-function useKatexReady() {
-  const [ready, setReady] = useState(
-    () => typeof window !== 'undefined' && !!window.katex
-  );
-  useEffect(() => {
-    if (ready) return undefined;
-    if (typeof window === 'undefined') return undefined;
-    let alive = true;
-    const tick = () => {
-      if (!alive) return;
-      if (window.katex) {
-        setReady(true);
-      } else {
-        setTimeout(tick, 100);
-      }
-    };
-    tick();
-    return () => {
-      alive = false;
-    };
-  }, [ready]);
-  return ready;
-}
-
-function MathText({ children }) {
-  // Re-render once KaTeX finishes loading from the CDN.
-  useKatexReady();
-  if (children == null) return null;
-  let text = decodeHtmlEntities(String(children));
-  if (!text) return null;
-  // Match \( ... \) or \[ ... \] or $...$ (single-$, non-greedy)
-  const regex = /\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]|\$([^$\n]+?)\$/g;
-  const parts = [];
-  let lastIndex = 0;
-  let m;
-  let key = 0;
-  while ((m = regex.exec(text)) !== null) {
-    if (m.index > lastIndex) {
-      parts.push(unescapeCurrencyDollars(text.slice(lastIndex, m.index)));
-    }
-    const latex = m[1] ?? m[2] ?? m[3] ?? '';
-    const html = renderInlineLatex(latex);
-    if (html) {
-      parts.push(
-        <span key={`m${key++}`} dangerouslySetInnerHTML={{ __html: html }} />
-      );
-    } else {
-      parts.push(m[0]);
-    }
-    lastIndex = m.index + m[0].length;
-  }
-  if (lastIndex < text.length) {
-    parts.push(unescapeCurrencyDollars(text.slice(lastIndex)));
-  }
-  return <>{parts}</>;
-}
+// (MathText, useKatexReady, decodeHtmlEntities, unescapeCurrencyDollars,
+// renderInlineLatex moved to frontend/src/components/MathText.jsx so the
+// same renderer is shared with the legacy app and any future quiz UIs.)
 
 function QuestionBody({ q }) {
   if (!q) return null;
@@ -257,6 +170,10 @@ function MyAnswerInput({ value, onSubmit, disabled }) {
 }
 
 function ReviewScreen({ roomState, currentUserId }) {
+  const quizMeta = roomState.quiz || {};
+  const quizCode = quizMeta.quizCode || quizMeta.code || quizMeta.id || null;
+  const quizTitle = quizMeta.title || roomState.title || null;
+  const subject = quizMeta.subject || roomState.subject || null;
   const questions = roomState.quiz?.questions || [];
   const participants = roomState.participants || [];
   const myCorrect = useMemo(() => {
@@ -414,7 +331,7 @@ function ReviewScreen({ roomState, currentUserId }) {
                               border: `1px solid ${ok ? PALETTE.correctBorder : PALETTE.wrongBorder}`,
                             }}
                           >
-                            {String(a)} {ok ? '✓' : '✗'}
+                            <MathText>{String(a)}</MathText> {ok ? '✓' : '✗'}
                           </span>
                         )}
                       </li>
@@ -438,6 +355,20 @@ function ReviewScreen({ roomState, currentUserId }) {
                   </div>
                 ) : null;
               })()}
+
+              <div
+                className="mt-3 pt-2 border-t flex justify-end"
+                style={{ borderColor: PALETTE.cardBorder }}
+              >
+                <ReportQuestionButton
+                  question={q}
+                  quizCode={quizCode}
+                  quizTitle={quizTitle}
+                  subject={subject}
+                  source="collab"
+                  questionIndex={idx}
+                />
+              </div>
             </div>
           );
         })}
@@ -742,7 +673,7 @@ export default function CollabQuizSession({
                                 textAlign: 'center',
                               }}
                             >
-                              {value}
+                              <MathText>{value}</MathText>
                             </div>
                             <div className="flex-1 h-2 rounded overflow-hidden bg-slate-200">
                               <div
@@ -784,7 +715,11 @@ export default function CollabQuizSession({
                         <li key={a.userId} className="text-sm">
                           <span className="font-medium">{a.displayName}:</span>{' '}
                           <span className="font-mono">
-                            {a.answer == null ? '—' : String(a.answer)}
+                            {a.answer == null ? (
+                              '—'
+                            ) : (
+                              <MathText>{String(a.answer)}</MathText>
+                            )}
                           </span>{' '}
                           {a.answer != null && (
                             <span style={{ color: ok ? '#15803d' : '#b91c1c' }}>
@@ -800,7 +735,7 @@ export default function CollabQuizSession({
                     <div className="mt-2">
                       <span className="font-semibold">Correct:</span>{' '}
                       <span className="font-mono">
-                        {String(correctAnswerForReveal)}
+                        <MathText>{String(correctAnswerForReveal)}</MathText>
                       </span>
                     </div>
                   )}
@@ -858,6 +793,22 @@ export default function CollabQuizSession({
               >
                 Next
               </button>
+            </div>
+
+            <div className="mt-3 flex justify-end">
+              <ReportQuestionButton
+                question={currentQ}
+                quizCode={
+                  roomState.quiz?.quizCode ||
+                  roomState.quiz?.code ||
+                  roomState.quiz?.id ||
+                  null
+                }
+                quizTitle={roomState.quiz?.title || roomState.title || null}
+                subject={roomState.quiz?.subject || roomState.subject || null}
+                source="collab"
+                questionIndex={currentIndex}
+              />
             </div>
           </>
         ) : (

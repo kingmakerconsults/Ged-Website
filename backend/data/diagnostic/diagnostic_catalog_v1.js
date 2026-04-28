@@ -342,7 +342,7 @@ function buildDiagnosticQuizV1() {
     },
     diag_v1_social_09: {
       subjectKey: 'Social Studies',
-      categoryName: 'World History',
+      categoryName: 'Geography & the World',
       topicIndex: 0,
       questionIndex: 0,
       challengeTags: ['social:5'],
@@ -359,7 +359,7 @@ function buildDiagnosticQuizV1() {
 
     // RLA (Language Arts) - 10 questions covering reading, grammar, vocabulary
     diag_v1_rla_01: {
-      subjectKey: 'Language Arts',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
       categoryName: 'Reading Comprehension',
       topicIndex: 0,
       questionIndex: 0,
@@ -367,7 +367,7 @@ function buildDiagnosticQuizV1() {
       label: 'RLA: Reading Comprehension',
     },
     diag_v1_rla_02: {
-      subjectKey: 'Language Arts',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
       categoryName: 'Reading Comprehension',
       topicIndex: 1,
       questionIndex: 0,
@@ -375,7 +375,7 @@ function buildDiagnosticQuizV1() {
       label: 'RLA: Inference & Analysis',
     },
     diag_v1_rla_03: {
-      subjectKey: 'Language Arts',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
       categoryName: 'Reading Comprehension',
       topicIndex: 2,
       questionIndex: 0,
@@ -383,57 +383,57 @@ function buildDiagnosticQuizV1() {
       label: 'RLA: Vocabulary & Context',
     },
     diag_v1_rla_04: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Writing & Grammar',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Language & Grammar',
       topicIndex: 0,
       questionIndex: 0,
       challengeTags: ['rla:3'],
       label: 'RLA: Grammar & Sentence Structure',
     },
     diag_v1_rla_05: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Writing & Grammar',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Language & Grammar',
       topicIndex: 1,
       questionIndex: 0,
       challengeTags: ['rla:3'],
       label: 'RLA: Punctuation & Capitalization',
     },
     diag_v1_rla_06: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Writing & Grammar',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Language & Grammar',
       topicIndex: 2,
       questionIndex: 0,
       challengeTags: ['rla:3'],
       label: 'RLA: Word Usage & Clarity',
     },
     diag_v1_rla_07: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Literature',
-      topicIndex: 0,
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Reading Comprehension',
+      topicIndex: 3,
       questionIndex: 0,
       challengeTags: ['rla:4'],
       label: 'RLA: Literary Devices',
     },
     diag_v1_rla_08: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Literature',
-      topicIndex: 1,
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Reading Comprehension',
+      topicIndex: 4,
       questionIndex: 0,
       challengeTags: ['rla:4'],
       label: 'RLA: Character & Theme',
     },
     diag_v1_rla_09: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Nonfiction & Rhetoric',
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Reading Comprehension: Informational Texts',
       topicIndex: 0,
       questionIndex: 0,
       challengeTags: ['rla:5'],
       label: 'RLA: Nonfiction Analysis',
     },
     diag_v1_rla_10: {
-      subjectKey: 'Language Arts',
-      categoryName: 'Nonfiction & Rhetoric',
-      topicIndex: 1,
+      subjectKey: 'Reasoning Through Language Arts (RLA)',
+      categoryName: 'Reading Comprehension',
+      topicIndex: 5,
       questionIndex: 0,
       challengeTags: ['rla:5'],
       label: 'RLA: Argument & Evidence',
@@ -442,7 +442,12 @@ function buildDiagnosticQuizV1() {
 
   // Build the complete question array
   const allQuestions = [];
-  const subjects = ['Math', 'Science', 'Social Studies', 'Language Arts'];
+  const subjects = [
+    'Math',
+    'Science',
+    'Social Studies',
+    'Reasoning Through Language Arts (RLA)',
+  ];
 
   for (const diagId of Object.keys(questionSources).sort()) {
     const source = questionSources[diagId];

@@ -1116,18 +1116,10 @@ class ErrorBoundary extends React.Component {
 
 // (removed invalid JSX fragment)
 
-// Pull sanitizer helpers from global window if present
-const {
-  tokenizeMathSegments,
-  restoreMathSegments,
-  normalizeCurrencyOutsideMath,
-  normalizeLatexMacrosInMath,
-  stripTextMacroInPlain,
-  applyPhraseSpacingRepairs,
-  addMissingBackslashesInMath,
-  fixAllMathInText,
-  collapseUnderscoredLatexMacros,
-} = (typeof window !== 'undefined' && window.TextSanitizer) || {};
+// NOTE: The historical window.TextSanitizer global was never assigned
+// anywhere in the repo, so any branches that consumed it were dead code.
+// All sanitizer-helper destructures and `if (typeof helper === 'function')`
+// branches have been removed and replaced with inline fallbacks.
 
 // Fallback alias for API_BASE for legacy code safety
 const API_BASE = API_BASE_URL;
@@ -1207,18 +1199,8 @@ function applySafeMathFix(text) {
   if (typeof text !== 'string') {
     return text;
   }
-  if (typeof fixAllMathInText === 'function') {
-    return fixAllMathInText(text);
-  }
-  let working = text;
-  if (typeof collapseUnderscoredLatexMacros === 'function') {
-    working = collapseUnderscoredLatexMacros(working);
-  }
-  if (typeof addMissingBackslashesInMath === 'function') {
-    return addMissingBackslashesInMath(working);
-  }
-  // Local fallback: add missing backslashes for common LaTeX macros
-  working = working.replace(
+  // Local fallback: add missing backslashes for common LaTeX macros.
+  let working = text.replace(
     /(^|[^\\])\b(frac|sqrt|times|div|cdot|leq|geq|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b/g,
     (_m, p1, macro) => `${p1}\\${macro}`
   );
@@ -1231,13 +1213,6 @@ function applySafeMathFix(text) {
     /\\frac\s*\(([^()]+)\)\s*\(([^()]+)\)/g,
     (_m, num, den) => `\\frac{${num}}{${den}}`
   );
-  const legacy =
-    typeof window !== 'undefined' &&
-    window.TextSanitizer &&
-    window.TextSanitizer.addMissingBackslashesInMath;
-  if (typeof legacy === 'function') {
-    return legacy(working);
-  }
   return working;
 }
 
@@ -1341,9 +1316,11 @@ function normalizeLatex(text) {
 
   normalized = normalized
     .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
-    .replace(/(?<!\\)\$([^$]*?)(?<!\\)\$/g, '$1')
-    .replace(/\\\(([^]*?)\\\)/g, '$1')
-    .replace(/\\\[([^]*?)\\\]/g, '$1');
+    .replace(/(?<!\\)\$([^$]*?)(?<!\\)\$/g, '$1');
+  // NOTE: Do NOT strip \(...\) or \[...\] inline-math delimiters here.
+  // Stripping them historically lost LaTeX commands like \times, \leq, and
+  // \geq because downstream renderers only re-wrap a small set of patterns.
+  // Preserving the delimiters keeps math intact end-to-end.
 
   // unwrap accidentally math-wrapped currency, e.g. "$12.50$" -> "$12.50"
   normalized = normalized.replace(
@@ -1365,10 +1342,6 @@ function normalizeLatex(text) {
     );
 
   normalized = collapseSplitLatexCommands(normalized);
-
-  if (typeof collapseUnderscoredLatexMacros === 'function') {
-    normalized = collapseUnderscoredLatexMacros(normalized);
-  }
 
   normalized = normalized.replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{');
 
@@ -21539,10 +21512,6 @@ function normalizeMathText(text) {
   // Strip surrounding $...$ or $$...$$ once
   t = t.replace(/^\$(.*)\$$/, '$1');
   t = t.replace(/^\$\$(.*)\$\$$/, '$1');
-  // Safe macro fixes inside math
-  if (window.TextSanitizer && window.TextSanitizer.fixAllMathInText) {
-    t = window.TextSanitizer.fixAllMathInText(t);
-  }
   // Replace \frac{a}{b} with (a/b)
   t = t.replace(/\\frac\s*\{\s*([^}]+)\s*\}\s*\{\s*([^}]+)\s*\}/g, '($1/$2)');
   return t.trim();

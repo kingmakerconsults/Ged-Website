@@ -114,7 +114,7 @@ module.exports = [
         text: '\\(60\\)',
         isCorrect: true,
         rationale:
-          'Interest per year is 0.04 * \\(500 = 20. Over 3 years, the total interest is \\)20 * 3 = 60.',
+          'Interest per year is 0.04 * \500 = 20. Over 3 years, the total interest is \20 * 3 = 60.',
       },
       {
         text: '560',
@@ -238,7 +238,7 @@ module.exports = [
         text: '2.5 miles',
         isCorrect: true,
         rationale:
-          'Set up a proportion: \\(\\frac{120}{1}\\)\\( = 300/x. 120x = 300. x = \\)\\(\\frac{300}{120}\\) = 2.5.',
+          'Set up a proportion: \\(\\frac{120}{1}\\)\ = 300/x. 120x = 300. x = \\\(\\frac{300}{120}\\) = 2.5.',
       },
       {
         text: '3 miles',

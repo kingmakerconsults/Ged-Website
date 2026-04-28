@@ -124,7 +124,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the markup amount: 60% of \\(15 is 0.60 \\(\times\\) 15 = 9. Add the markup to the original cost: \\)15 + \\(9 = \\)24.',
+      'Calculate the markup amount: 60% of $15 is 0.60 \\times 15 = 9. Add the markup to the original cost: $15 + $9 = $24.',
     challenge_tags: ['math-1'],
   },
   {
@@ -149,7 +149,7 @@ module.exports = [
         text: '$7.50',
         isCorrect: true,
         rationale:
-          'The price per pound is \\(4.50 / 3 = 1.50. So, 5 pounds cost 5 * \\)1.50 = 7.50.',
+          'The price per pound is \4.50 / 3 = 1.50. So, 5 pounds cost 5 * \1.50 = 7.50.',
       },
       {
         text: '9.00',

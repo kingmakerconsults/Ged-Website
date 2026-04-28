@@ -173,7 +173,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'If the graph of \\(f(x) = x^2 is shifted 4 units to the right, what is the new function?\\)',
+      'If the graph of \f(x) = x^2 is shifted 4 units to the right, what is the new function?\',
     answerOptions: [
       {
         text: '\\(g(x) = x^2 + 4\\)',

@@ -104,7 +104,7 @@ module.exports = [
         text: '\\(144.90\\)',
         isCorrect: true,
         rationale:
-          'Bill with tip: \\(120 * 1.15 = 138. Total with tax: \\)138 * 1.05 = 144.90.',
+          'Bill with tip: \120 * 1.15 = 138. Total with tax: \138 * 1.05 = 144.90.',
       },
       {
         text: '144.00',
@@ -203,7 +203,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The greatest common divisor of 45 and 60 is 15. Divide both parts of the ratio by 15: \\(\\frac{45}{15}\\)\\( = 3 and \\)\\(\\frac{60}{15}\\) = 4. The simplified ratio is 3:4.',
+      'The greatest common divisor of 45 and 60 is 15. Divide both parts of the ratio by 15: \\(\\frac{45}{15}\\)\ = 3 and \\\(\\frac{60}{15}\\) = 4. The simplified ratio is 3:4.',
     challenge_tags: ['math-1'],
   },
   {
@@ -216,7 +216,7 @@ module.exports = [
       'A survey of 80 students showed that 48 of them have a sibling. What is this ratio as a percentage?',
     correctAnswer: '60%',
     rationale:
-      'The fraction of students with a sibling is \\(\\frac{48}{80}\\)\\(. This simplifies to \\)\\(\\frac{6}{10}\\)\\( or \\)\\(\\frac{3}{5}\\)\\(. As a percentage, \\)\\(\\frac{3}{5} is 60%.\\)',
+      'The fraction of students with a sibling is \\(\\frac{48}{80}\\)\. This simplifies to \\\(\\frac{6}{10}\\)\ or \\\(\\frac{3}{5}\\)\. As a percentage, \\\\frac{3}{5} is 60%.\',
     challenge_tags: ['math-1'],
   },
   {
@@ -283,7 +283,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \\(\\frac{2 \\text{ sugar}}{5 \\text{ flour}} = \\frac{x \\text{ sugar}}{15 \\text{ flour}}\\). Cross-multiply: \\(5x = 30\\). Divide by 5: \\(x = 6 cups of sugar.\\)',
+      'Set up a proportion: \\\frac{2 \\text{ sugar}}{5 \\text{ flour}} = \\frac{x \\text{ sugar}}{15 \\text{ flour}}\. Cross-multiply: \\(5x = 30\\). Divide by 5: \x = 6 cups of sugar.\',
     challenge_tags: ['math-1'],
   },
   {

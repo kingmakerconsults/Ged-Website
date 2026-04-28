@@ -43,7 +43,7 @@ module.exports = [
       "A product's price increased by 8%. If the original price was $75, what is the new price?",
     correctAnswer: '81',
     rationale:
-      'The price increase is 8% of \\(75, which is 0.08 * 75 = \\)6. The new price is the original price plus the increase: \\(75 + \\)6 = $81.',
+      'The price increase is 8% of \75, which is 0.08 * 75 = \6. The new price is the original price plus the increase: \\(75 + \\)6 = $81.',
     challenge_tags: ['math-1'],
   },
   {
@@ -282,7 +282,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \\(\\frac{5}{8}\\) = \\(\\frac{30}{x}\\). Cross-multiply:  5x = 240\\(. Divide by 5:  x = 48.\\)',
+      'Set up a proportion: \\(\\frac{5}{8}\\) = \\(\\frac{30}{x}\\). Cross-multiply:  5x = 240\. Divide by 5: x = 48.\',
     challenge_tags: ['math-1'],
   },
   {

@@ -36,8 +36,6 @@
     "report:question-housing": "node scripts/report_question_housing.mjs",
     "quizzes:build-json": "node scripts/build-quizzes.js",
     "quizzes:ensure-min": "node scripts/ensure_min_quiz_questions.js",
-    "sanitize:math:katex": "node scripts/sanitize_math_katex.mjs",
-    "audit:math:premade": "node scripts/audit_premade_math_quizzes.js",
     "audit:premade:quality": "node scripts/audit_backend_premade_quality.cjs",
     "audit:math:compute": "node scripts/audit_math_computation.mjs",
     "audit:tier:progression": "node scripts/audit_tier_progression.js",

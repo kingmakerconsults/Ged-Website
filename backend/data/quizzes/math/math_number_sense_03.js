@@ -252,7 +252,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A car rental costs \\(40 per day plus a one-time fee of \\)25. What is the total cost to rent the car for 5 days?',
+      'A car rental costs \40 per day plus a one-time fee of \25. What is the total cost to rent the car for 5 days?',
     answerOptions: [
       {
         text: '$200',

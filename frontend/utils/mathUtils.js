@@ -7,23 +7,21 @@ export function applySafeMathFix(text) {
   if (typeof text !== 'string') {
     return text;
   }
-  if (typeof fixAllMathInText === 'function') {
-    return fixAllMathInText(text);
-  }
-  let working = text;
-  if (typeof collapseUnderscoredLatexMacros === 'function') {
-    working = collapseUnderscoredLatexMacros(working);
-  }
-  if (typeof addMissingBackslashesInMath === 'function') {
-    return addMissingBackslashesInMath(working);
-  }
-  const legacy =
-    typeof window !== 'undefined' &&
-    window.TextSanitizer &&
-    window.TextSanitizer.addMissingBackslashesInMath;
-  if (typeof legacy === 'function') {
-    return legacy(working);
-  }
+  // Local fallback: add missing backslashes for common LaTeX macros.
+  // (The historical window.TextSanitizer global was never assigned anywhere
+  // in the repo, so the previous branching was always dead code.)
+  let working = text.replace(
+    /(^|[^\\])\b(frac|sqrt|times|div|cdot|leq|geq|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b/g,
+    (_m, p1, macro) => `${p1}\\${macro}`
+  );
+  working = working.replace(
+    /\\sqrt\s*\(([^()]+)\)/g,
+    (_m, inner) => `\\sqrt{${inner}}`
+  );
+  working = working.replace(
+    /\\frac\s*\(([^()]+)\)\s*\(([^()]+)\)/g,
+    (_m, num, den) => `\\frac{${num}}{${den}}`
+  );
   return working;
 }
 
@@ -60,9 +58,11 @@ export function normalizeLatex(text) {
 
   normalized = normalized
     .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
-    .replace(/(?<!\\)\$([^$]*?)(?<!\\)\$/g, '$1')
-    .replace(/\\\(([^]*?)\\\)/g, '$1')
-    .replace(/\\\[([^]*?)\\\]/g, '$1');
+    .replace(/(?<!\\)\$([^$]*?)(?<!\\)\$/g, '$1');
+  // NOTE: Do NOT strip \(...\) or \[...\] inline-math delimiters here.
+  // Stripping them historically lost LaTeX commands like \times, \leq, and
+  // \geq because downstream renderers only re-wrap a small set of patterns.
+  // Preserving the delimiters keeps math intact end-to-end.
 
   normalized = normalized.replace(
     /\$(\s*\d+(?:[.,]\d{1,2}))\$/g,
@@ -81,10 +81,6 @@ export function normalizeLatex(text) {
     );
 
   normalized = collapseSplitLatexCommands(normalized);
-
-  if (typeof collapseUnderscoredLatexMacros === 'function') {
-    normalized = collapseUnderscoredLatexMacros(normalized);
-  }
 
   normalized = normalized.replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{');
 
@@ -256,14 +252,6 @@ export function normalizeMathText(text) {
   // Strip surrounding $...$ or $$...$$ once
   t = t.replace(/^\$(.*)\$$/, '$1');
   t = t.replace(/^\$\$(.*)\$\$$/, '$1');
-  // Safe macro fixes inside math
-  if (
-    typeof window !== 'undefined' &&
-    window.TextSanitizer &&
-    window.TextSanitizer.fixAllMathInText
-  ) {
-    t = window.TextSanitizer.fixAllMathInText(t);
-  }
   // Replace \frac{a}{b} with (a/b)
   t = t.replace(/\\frac\s*\{\s*([^}]+)\s*\}\s*\{\s*([^}]+)\s*\}/g, '($1/$2)');
   return t.trim();

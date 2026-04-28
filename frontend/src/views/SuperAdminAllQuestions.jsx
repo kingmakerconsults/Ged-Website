@@ -472,21 +472,11 @@ function extractMathSegments(text) {
 function renderTextWithKatex(text) {
   if (typeof text !== 'string') return '';
 
-  // First apply sanitization to fix broken LaTeX
-  let sanitized = text;
-  if (typeof window !== 'undefined' && window.TextSanitizer) {
-    if (typeof window.TextSanitizer.fixAllMathInText === 'function') {
-      sanitized = window.TextSanitizer.fixAllMathInText(text);
-    } else if (
-      typeof window.TextSanitizer.addMissingBackslashesInMath === 'function'
-    ) {
-      sanitized = window.TextSanitizer.addMissingBackslashesInMath(text);
-    }
-  } else {
-    // Fallback: basic LaTeX corruption repair
-    sanitized = sanitized.replace(/(?:\^|\f)rac\{/gi, '\\frac{');
-    sanitized = sanitized.replace(/(?:\^|\f)sqrt\{/gi, '\\sqrt{');
-  }
+  // Basic LaTeX corruption repair (window.TextSanitizer was never assigned
+  // anywhere in the repo; the previous branching was always dead).
+  let sanitized = text
+    .replace(/(?:\^|\f)rac\{/gi, '\\frac{')
+    .replace(/(?:\^|\f)sqrt\{/gi, '\\sqrt{');
 
   // Extract math and non-math segments
   const segments = extractMathSegments(sanitized);

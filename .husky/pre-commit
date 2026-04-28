@@ -1,2 +1,4 @@
-# Run quiz validator before committing (Husky v9/v10 compatible)
+# Run quiz validator + sanitizer guardrails before committing (Husky v9/v10 compatible)
 npm run validate-quizzes
+node scripts/find_malformed_latex_wrappers.cjs
+

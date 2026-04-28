@@ -1,6 +1,6 @@
 const { upgradeToKatex } = require('./mathSanitizer');
 const { normalizeProse } = require('./normalizeProse');
-const { normalizeLatex } = require('../../utils/normalizeLatex');
+const { normalizeLatex } = require('./normalizeLatex');
 
 const CONTENT_TEXT_KEYS = new Set([
   'questionText',

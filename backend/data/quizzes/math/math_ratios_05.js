@@ -42,7 +42,7 @@ module.exports = [
       'A TV is priced at $450. A 10% sales tax is added. What is the total cost?',
     correctAnswer: '495',
     rationale:
-      'Calculate the sales tax: 10% of \\(450 is 0.10 * 450 = \\)45. Add the tax to the original price: \\(450 + \\)45 = $495.',
+      'Calculate the sales tax: 10% of \450 is 0.10 * 450 = \45. Add the tax to the original price: \\(450 + \\)45 = $495.',
     challenge_tags: ['math-1'],
   },
   {
@@ -103,7 +103,7 @@ module.exports = [
         text: '\\(19.20\\)',
         isCorrect: true,
         rationale:
-          'New price: \\(20 * 1.20 = 24. Discounted price: \\)24 * 0.80 = 19.20.',
+          'New price: \20 * 1.20 = 24. Discounted price: \24 * 0.80 = 19.20.',
       },
       {
         text: '20.00',

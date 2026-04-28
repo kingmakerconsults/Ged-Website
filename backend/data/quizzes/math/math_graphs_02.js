@@ -270,13 +270,13 @@ module.exports = [
         text: 'A parabola that opens upward with its vertex at (0, -1).',
         isCorrect: true,
         rationale:
-          "The \\(x^2 term means it's a parabola opening upward. The -1 shifts the vertex down one unit from the origin.\\)",
+          "The \x^2 term means it's a parabola opening upward. The -1 shifts the vertex down one unit from the origin.\",
       },
       {
         text: 'A parabola that opens downward with its vertex at (0, 1).',
         isCorrect: false,
         rationale:
-          'The coefficient of \\(x^2 is positive, so it opens upward.\\)',
+          'The coefficient of \x^2 is positive, so it opens upward.\',
       },
       {
         text: 'A circle with a radius of 1.',
@@ -285,7 +285,7 @@ module.exports = [
       },
     ],
     rationale:
-      "The \\(x^{2}\\) term indicates a parabola. Since the coefficient of \\(x^2 is positive, it opens upward. The '-1' term shifts the vertex of the parabola down by one unit from the origin to (0, -1).\\)",
+      "The \\(x^{2}\\) term indicates a parabola. Since the coefficient of \x^2 is positive, it opens upward. The '-1' term shifts the vertex of the parabola down by one unit from the origin to (0, -1).\",
     challenge_tags: ['math-3'],
   },
   {

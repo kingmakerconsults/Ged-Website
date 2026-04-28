@@ -29,7 +29,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To compare the fractions, find a common denominator, which is 8. The fractions become \\(\\frac{4}{8}, \\frac{3}{8}, \\frac{5}{8}, \\text{ and } \\frac{2}{8}\\). The largest is \\(\\frac{5}{8}\\).',
+      'To compare the fractions, find a common denominator, which is 8. The fractions become \\\frac{4}{8}, \\frac{3}{8}, \\frac{5}{8}, \\text{ and } \\frac{2}{8}\. The largest is \\(\\frac{5}{8}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -141,7 +141,7 @@ module.exports = [
         text: '\\(16,200\\)',
         isCorrect: true,
         rationale:
-          'Year 1: \\(20,000 * 0.9 = 18,000. Year 2:  18,000 * 0.9 = 16,200.\\)',
+          'Year 1: \20,000 * 0.9 = 18,000. Year 2: 18,000 * 0.9 = 16,200.\',
       },
       {
         text: '18,000',
@@ -155,7 +155,7 @@ module.exports = [
       },
     ],
     rationale:
-      'After the first year, the value is 90% of the original: \\(20,000 * 0.90 = 18,000. After the second year, the value is 90% of the new value:  18,000 * 0.90 = 16,200.\\)',
+      'After the first year, the value is 90% of the original: \20,000 * 0.90 = 18,000. After the second year, the value is 90% of the new value: 18,000 * 0.90 = 16,200.\',
     challenge_tags: ['math-1'],
   },
   {

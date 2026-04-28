@@ -166,7 +166,7 @@ module.exports = [
     "difficulty": "medium",
     "topic": "Economics",
     "contentArea": "economics",
-    "passage": "The table below shows average household income and spending patterns in a U.S. city.\n\n<strong>Average Annual Household Income and Spending (in dollars)</strong>\n<table><thead><tr><th>Income Level</th><th>Average Income</th><th>Housing</th><th>Food</th><th>Transportation</th><th>Healthcare</th><th>Savings</th></tr></thead><tbody><tr><td>Low income</td><td>\\(25,000</td><td>\\)10,000</td><td>\\(5,500</td><td>\\)4,200</td><td>\\(2,800</td><td>\\)500</td></tr><tr><td>Middle income</td><td>\\(55,000</td><td>\\)16,500</td><td>\\(8,250</td><td>\\)7,700</td><td>\\(4,400</td><td>\\)5,500</td></tr><tr><td>High income</td><td>\\(120,000</td><td>\\)30,000</td><td>\\(12,000</td><td>\\)10,800</td><td>\\(7,200</td><td>\\)24,000</td></tr></tbody></table>",
+    "passage": "The table below shows average household income and spending patterns in a U.S. city.\n\n<strong>Average Annual Household Income and Spending (in dollars)</strong>\n<table><thead><tr><th>Income Level</th><th>Average Income</th><th>Housing</th><th>Food</th><th>Transportation</th><th>Healthcare</th><th>Savings</th></tr></thead><tbody><tr><td>Low income</td><td>\25,000</td><td>\10,000</td><td>\5,500</td><td>\4,200</td><td>\2,800</td><td>\500</td></tr><tr><td>Middle income</td><td>\55,000</td><td>\16,500</td><td>\8,250</td><td>\7,700</td><td>\4,400</td><td>\5,500</td></tr><tr><td>High income</td><td>\120,000</td><td>\30,000</td><td>\12,000</td><td>\10,800</td><td>\7,200</td><td>\24,000</td></tr></tbody></table>",
     "question": "Based on the data in the table, which conclusion is best supported?",
     "answerOptions": [
       {
@@ -197,7 +197,7 @@ module.exports = [
     "difficulty": "hard",
     "topic": "Economics",
     "contentArea": "economics",
-    "passage": "The following table shows economic indicators for five countries.\n\n<strong>Economic Indicators by Country (2019)</strong>\n<table><thead><tr><th>Country</th><th>GDP per Capita</th><th>Unemployment Rate</th><th>Inflation Rate</th><th>Literacy Rate</th></tr></thead><tbody><tr><td>Country A</td><td>\\(62,000</td><td>3.7%</td><td>1.8%</td><td>99%</td></tr><tr><td>Country B</td><td>\\)10,500</td><td>11.5%</td><td>3.7%</td><td>94%</td></tr><tr><td>Country C</td><td>\\(2,100</td><td>23.1%</td><td>9.2%</td><td>62%</td></tr><tr><td>Country D</td><td>\\)42,300</td><td>5.4%</td><td>1.4%</td><td>99%</td></tr><tr><td>Country E</td><td>$8,700</td><td>6.1%</td><td>4.5%</td><td>97%</td></tr></tbody></table>",
+    "passage": "The following table shows economic indicators for five countries.\n\n<strong>Economic Indicators by Country (2019)</strong>\n<table><thead><tr><th>Country</th><th>GDP per Capita</th><th>Unemployment Rate</th><th>Inflation Rate</th><th>Literacy Rate</th></tr></thead><tbody><tr><td>Country A</td><td>\62,000</td><td>3.7%</td><td>1.8%</td><td>99%</td></tr><tr><td>Country B</td><td>\10,500</td><td>11.5%</td><td>3.7%</td><td>94%</td></tr><tr><td>Country C</td><td>\2,100</td><td>23.1%</td><td>9.2%</td><td>62%</td></tr><tr><td>Country D</td><td>\42,300</td><td>5.4%</td><td>1.4%</td><td>99%</td></tr><tr><td>Country E</td><td>$8,700</td><td>6.1%</td><td>4.5%</td><td>97%</td></tr></tbody></table>",
     "question": "Which country's data most strongly suggests a developing economy facing significant economic challenges?",
     "answerOptions": [
       {

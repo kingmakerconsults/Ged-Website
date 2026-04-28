@@ -118,7 +118,7 @@ module.exports = [
         text: '\\(\\frac{5}{8}\\)',
         isCorrect: true,
         rationale:
-          'If 3 out of 8 slices are eaten, \\(8 - 3 = 5 slices are left.\\)',
+          'If 3 out of 8 slices are eaten, \8 - 3 = 5 slices are left.\',
       },
       {
         text: '\\(\\frac{1}{2}\\)',
@@ -480,7 +480,7 @@ module.exports = [
         text: '15 cups',
         isCorrect: true,
         rationale:
-          'The baker used \\(\\frac{1}{4}\\) \\(\times20 = 5 cups. The amount left is 20 - 5 = 15 cups.\\)',
+          'The baker used \\(\\frac{1}{4}\\) \\times20 = 5 cups. The amount left is 20 - 5 = 15 cups.\',
       },
       {
         text: '10 cups',

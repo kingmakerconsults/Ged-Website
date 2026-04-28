@@ -625,13 +625,13 @@ module.exports = [
         text: '21',
         isCorrect: false,
         rationale:
-          'Incorrectly handled the negative signs. \\(5(-2) is -10.\\)',
+          'Incorrectly handled the negative signs. \5(-2) is -10.\',
       },
       {
         text: '-15',
         isCorrect: false,
         rationale:
-          'Incorrect calculation of the exponent. \\((-2)^2 is 4, not -4.\\)',
+          'Incorrect calculation of the exponent. \(-2)^2 is 4, not -4.\',
       },
     ],
     challenge_tags: ['math-6'],
