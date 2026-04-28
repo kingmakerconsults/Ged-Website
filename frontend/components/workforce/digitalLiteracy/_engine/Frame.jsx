@@ -54,7 +54,7 @@ export function WindowFrame({
           </div>
         ) : null}
       </div>
-      <div className="window-body bg-white dark:bg-slate-900">{children}</div>
+      <div className="window-body bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">{children}</div>
     </div>
   );
 }
@@ -63,25 +63,25 @@ export function BrowserFrame({ url, onUrlChange, children, className = '' }) {
   return (
     <WindowFrame title={url || 'New Tab'} os="win11" className={className}>
       <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-        <span className="text-slate-500" aria-hidden="true">
+        <span className="text-slate-500 dark:text-slate-400" aria-hidden="true">
           ←
         </span>
-        <span className="text-slate-500" aria-hidden="true">
+        <span className="text-slate-500 dark:text-slate-400" aria-hidden="true">
           →
         </span>
-        <span className="text-slate-500" aria-hidden="true">
+        <span className="text-slate-500 dark:text-slate-400" aria-hidden="true">
           ↻
         </span>
         <input
           type="text"
           value={url || ''}
           onChange={(e) => onUrlChange?.(e.target.value)}
-          className="flex-1 px-3 py-1 rounded-full border border-slate-300 dark:border-slate-600 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+          className="flex-1 px-3 py-1 rounded-full border border-slate-300 dark:border-slate-600 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400"
           aria-label="Address bar"
           spellCheck="false"
         />
       </div>
-      <div className="browser-body p-4">{children}</div>
+      <div className="browser-body p-4 text-slate-900 dark:text-slate-100">{children}</div>
     </WindowFrame>
   );
 }

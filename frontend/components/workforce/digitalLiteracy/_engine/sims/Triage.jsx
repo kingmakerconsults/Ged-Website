@@ -50,7 +50,7 @@ export default function Triage({ prompt, items, labels, onComplete }) {
                   : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30'
               }`}
             >
-              <div className="text-sm">{it.content}</div>
+              <div className="text-sm text-slate-900 dark:text-slate-100">{it.content}</div>
               <div className="flex flex-wrap gap-2 mt-2">
                 {labels.map((l) => (
                   <button
@@ -61,7 +61,7 @@ export default function Triage({ prompt, items, labels, onComplete }) {
                     className={`px-2 py-1 text-xs rounded-full border transition ${
                       userPick === l.key
                         ? 'bg-teal-600 text-white border-teal-700'
-                        : 'border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'
+                        : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'
                     }`}
                     aria-pressed={userPick === l.key}
                   >

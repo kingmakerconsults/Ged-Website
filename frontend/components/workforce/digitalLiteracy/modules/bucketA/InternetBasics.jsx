@@ -37,11 +37,11 @@ function UrlAnatomy({ onComplete }) {
     ));
   }
   return (
-    <div className="space-y-2">
-      <div className="font-mono text-sm bg-slate-100 dark:bg-slate-800 p-2 rounded">
+    <div className="space-y-2 text-slate-900 dark:text-slate-100">
+      <div className="font-mono text-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 p-2 rounded">
         {highlight()}
       </div>
-      <div className="text-xs opacity-70">
+      <div className="text-xs text-slate-600 dark:text-slate-300">
         Hover or focus a part to highlight it. Click "I see it" when found.
       </div>
       <ul className="space-y-1">
@@ -53,7 +53,7 @@ function UrlAnatomy({ onComplete }) {
               onMouseLeave={() => setHover(null)}
               onFocus={() => setHover(p.id)}
               onBlur={() => setHover(null)}
-              className="text-left flex-1 px-2 py-1 rounded border border-slate-300 dark:border-slate-600 text-xs hover:bg-slate-50 dark:hover:bg-slate-700"
+              className="text-left flex-1 px-2 py-1 rounded border border-slate-300 dark:border-slate-600 text-xs text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700"
             >
               {p.label}
             </button>

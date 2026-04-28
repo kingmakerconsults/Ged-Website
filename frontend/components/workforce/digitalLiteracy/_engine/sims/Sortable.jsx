@@ -37,12 +37,12 @@ export default function Sortable({ prompt, items, buckets, onComplete }) {
   const unplaced = items.filter((i) => !placed[i.id]);
 
   return (
-    <div className="sortable space-y-3">
+    <div className="sortable space-y-3 text-slate-900 dark:text-slate-100">
       <p className="text-sm text-slate-700 dark:text-slate-200">{prompt}</p>
 
       {unplaced.length > 0 && !submitted && (
         <div className="rounded-lg p-3 bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-700">
-          <div className="text-xs uppercase opacity-60 mb-2">
+          <div className="text-xs uppercase text-slate-600 dark:text-slate-300 mb-2">
             Items to place
           </div>
           <div className="flex flex-wrap gap-2">
@@ -54,7 +54,7 @@ export default function Sortable({ prompt, items, buckets, onComplete }) {
                 className={`px-3 py-1.5 text-sm rounded-md border ${
                   activeItem === i.id
                     ? 'bg-teal-600 text-white border-teal-700'
-                    : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600'
+                    : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600'
                 }`}
                 aria-pressed={activeItem === i.id}
               >
@@ -67,7 +67,7 @@ export default function Sortable({ prompt, items, buckets, onComplete }) {
               Now click a bucket below to place it.
             </div>
           ) : (
-            <div className="text-xs mt-2 opacity-60">
+            <div className="text-xs mt-2 text-slate-600 dark:text-slate-300">
               Pick an item, then click a bucket.
             </div>
           )}

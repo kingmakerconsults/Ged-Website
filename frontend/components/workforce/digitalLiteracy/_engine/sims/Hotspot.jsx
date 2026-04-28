@@ -49,7 +49,7 @@ export default function Hotspot({
   }
 
   return (
-    <div className="hotspot space-y-3">
+    <div className="hotspot space-y-3 text-slate-900 dark:text-slate-100">
       <p className="text-sm text-slate-700 dark:text-slate-200">{prompt}</p>
       <div
         className="relative inline-block w-full max-w-2xl rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden"
@@ -91,7 +91,7 @@ export default function Hotspot({
           );
         })}
       </div>
-      <div className="text-xs opacity-70">
+      <div className="text-xs text-slate-600 dark:text-slate-300">
         Selected: {picked.size}
         {submitted ? ` · Score: ${score}%` : ''}
       </div>
