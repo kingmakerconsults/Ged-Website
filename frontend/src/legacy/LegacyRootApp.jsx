@@ -24658,8 +24658,7 @@ function AppHeader({
                     />
                     <div
                       role="menu"
-                      className="absolute right-0 mt-2 w-48 rounded-xl border border-subtle bg-white dark:bg-slate-900 p-1 shadow-lg z-50"
-                      style={{ color: 'var(--text-primary)' }}
+                      className="absolute right-0 mt-2 w-48 rounded-xl border border-subtle bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 p-1 shadow-lg z-50"
                     >
                       <button
                         type="button"
@@ -24669,12 +24668,11 @@ function AppHeader({
                           setUserMenuOpen(false);
                           onShowProfile?.();
                         }}
-                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors ${
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors text-slate-900 dark:text-slate-100 ${
                           isProfileActive
                             ? 'bg-slate-100 dark:bg-slate-700 font-semibold'
                             : 'hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
-                        style={{ color: 'var(--text-primary)' }}
                       >
                         <AppIcon
                           name="student"
@@ -24691,12 +24689,11 @@ function AppHeader({
                           setUserMenuOpen(false);
                           onShowSettings?.();
                         }}
-                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors ${
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors text-slate-900 dark:text-slate-100 ${
                           isSettingsActive
                             ? 'bg-slate-100 dark:bg-slate-700 font-semibold'
                             : 'hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
-                        style={{ color: 'var(--text-primary)' }}
                       >
                         <AppIcon
                           name="knowledge"
