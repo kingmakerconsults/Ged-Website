@@ -34,8 +34,15 @@ const SESSION_LAST_SEEN_BUMP_SECONDS = 30;
 async function validateSessionForPayload(payload) {
   const sid = payload && typeof payload.sid === 'string' ? payload.sid : null;
   const userId = payload && (payload.sub ?? payload.userId ?? payload.user_id);
-  if (!sid || !userId) {
-    return { ok: false, reason: 'no_session' };
+  if (!userId) {
+    return { ok: false, reason: 'no_user' };
+  }
+  // Legacy tokens (issued by /api/login, /api/auth/google, etc.) do not
+  // include a `sid` claim. Those endpoints don't write current_session_id
+  // either, so single-session enforcement is opt-in: skip the DB check
+  // entirely and accept the token, mirroring authenticateBearerToken.
+  if (!sid) {
+    return { ok: true };
   }
   try {
     const row = await db.oneOrNone(

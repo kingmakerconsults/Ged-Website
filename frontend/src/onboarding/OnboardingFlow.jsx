@@ -17,12 +17,29 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 const POLL_MS = 30000;
 const SEARCH_DEBOUNCE_MS = 250;
 
+function getStoredToken() {
+  try {
+    if (typeof localStorage === 'undefined') return null;
+    return (
+      localStorage.getItem('appToken') ||
+      localStorage.getItem('authToken') ||
+      null
+    );
+  } catch {
+    return null;
+  }
+}
+
 function authFetch(url, token, opts = {}) {
+  const effectiveToken = token || getStoredToken();
   return fetch(url, {
+    credentials: 'include',
     ...opts,
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(effectiveToken
+        ? { Authorization: `Bearer ${effectiveToken}` }
+        : {}),
       ...(opts.headers || {}),
     },
   });
@@ -71,7 +88,8 @@ function ProgramSelectWizard({ token, onSubmitted }) {
       });
       if (!r.ok) {
         const j = await r.json().catch(() => ({}));
-        throw new Error(j.error || 'Request failed');
+        const detail = [j.error, j.reason].filter(Boolean).join(': ');
+        throw new Error(detail || `Request failed (${r.status})`);
       }
       const data = await r.json().catch(() => ({}));
       onSubmitted?.(data);
