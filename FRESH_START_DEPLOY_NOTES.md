@@ -9,7 +9,7 @@ introduces a 4-step onboarding tour.
 The archive script keeps these two accounts active:
 
 - `kingmakerconsults@gmail.com` (super_admin)
-- `zsmith@commonpoint.org`      (org_admin, Commonpoint Bronx)
+- `zsmith@commonpoint.org` (org_admin, Commonpoint Bronx)
 
 Both will need to log in via Google OAuth (no passwords are seeded).
 

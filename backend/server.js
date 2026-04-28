@@ -16892,53 +16892,6 @@ PASSAGE:\n${picked.text}\n`;
         }
       }
 
-      const desiredQuizLength = Math.max(
-        TOTAL_QUESTIONS,
-        finalQuestions.length
-      );
-      const curatedTopicQuestions = getReviewedCuratedAiQuestions(subject, {
-        count: Math.max(2, Math.round(desiredQuizLength * 0.33)),
-        topic,
-        requireTopicMatch: true,
-        includeImages,
-      });
-      if (curatedTopicQuestions.length > 0) {
-        const mergedQuestions = [];
-        const seenQuestionKeys = new Set();
-        const curatedTargetCount = Math.min(
-          curatedTopicQuestions.length,
-          Math.max(2, Math.round(desiredQuizLength * 0.33))
-        );
-
-        appendUniqueQuestions(
-          mergedQuestions,
-          curatedTopicQuestions.slice(0, curatedTargetCount),
-          seenQuestionKeys,
-          curatedTargetCount
-        );
-        appendUniqueQuestions(
-          mergedQuestions,
-          finalQuestions,
-          seenQuestionKeys,
-          desiredQuizLength
-        );
-        if (mergedQuestions.length < desiredQuizLength) {
-          appendUniqueQuestions(
-            mergedQuestions,
-            curatedTopicQuestions.slice(curatedTargetCount),
-            seenQuestionKeys,
-            desiredQuizLength
-          );
-        }
-
-        finalQuestions = shuffleQuestionsPreservingStimulus(
-          mergedQuestions
-        ).slice(0, desiredQuizLength);
-        console.log(
-          `[Topic Quiz][${subject}] Incorporated ${finalQuestions.filter((q) => q?.source === 'curatedAiBank').length} reviewed curated AI-bank question(s) for "${topic}".`
-        );
-      }
-
       if (subject === 'Science') {
         finalQuestions = dedupeScienceQuestionList(finalQuestions);
       }
@@ -16984,9 +16937,6 @@ PASSAGE:\n${picked.text}\n`;
         title: `${subject}: ${topic}`,
         subject: subject,
         source: 'aiGenerated',
-        curatedAiBankCount: finalQuestions.filter(
-          (q) => q?.source === 'curatedAiBank'
-        ).length,
         fraction_plain_text_mode: subject === 'Math',
         // Enable formula sheet for Math & Science topic quizzes
         config: { formulaSheet: subject === 'Math' || subject === 'Science' },
@@ -19663,9 +19613,7 @@ app.get(
       return res.json({ classes: rows });
     } catch (err) {
       console.error('[/api/instructor/classes GET] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to list classes', detail: err?.message });
+      return res.status(500).json({ error: 'Unable to list classes' });
     }
   }
 );
@@ -19704,45 +19652,7 @@ app.post(
       return res.status(201).json({ class: r.rows[0] });
     } catch (err) {
       console.error('[/api/instructor/classes POST] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to create class', detail: err?.message });
-    }
-  }
-);
-
-// Delete a class (and its enrollments + curriculum via FK cascades)
-app.delete(
-  '/api/instructor/classes/:classId',
-  logAdminAccess,
-  requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
-  async (req, res) => {
-    try {
-      const classId = parseInt(req.params.classId, 10);
-      if (!Number.isFinite(classId))
-        return res.status(400).json({ error: 'invalid_class_id' });
-      if (!(await _instructorOwnsClass(req, classId)))
-        return res.status(404).json({ error: 'class_not_found' });
-      const r = await db.query(
-        `DELETE FROM classes WHERE id = $1 RETURNING id, name`,
-        [classId]
-      );
-      if (r.rowCount === 0)
-        return res.status(404).json({ error: 'class_not_found' });
-      await _audit({
-        db,
-        req,
-        action: 'instructor.class.delete',
-        target: { type: 'class', id: classId },
-        payload: { name: r.rows[0]?.name },
-      });
-      return res.json({ ok: true });
-    } catch (err) {
-      console.error('[/api/instructor/classes DELETE] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to delete class', detail: err?.message });
+      return res.status(500).json({ error: 'Unable to create class' });
     }
   }
 );
@@ -19847,7 +19757,7 @@ app.get(
         return res.status(404).json({ error: 'class_not_found' });
       const { rows } = await db.query(
         `SELECT id, position, subject, category_name, topic_id, quiz_id,
-                title, planned_date, planned_end_date, manually_marked_covered, created_at
+                title, planned_date, manually_marked_covered, created_at
            FROM class_curriculum_items
           WHERE class_id = $1
           ORDER BY position ASC, id ASC`,
@@ -19874,26 +19784,17 @@ app.post(
       const classId = parseInt(req.params.classId, 10);
       if (!(await _instructorOwnsClass(req, classId)))
         return res.status(404).json({ error: 'class_not_found' });
-      const {
-        title,
-        subject,
-        quiz_id,
-        category_name,
-        topic_id,
-        planned_date,
-        planned_end_date,
-      } = req.body || {};
+      const { title, subject, quiz_id, category_name, topic_id, planned_date } =
+        req.body || {};
       const cleanTitle = String(title || '')
         .trim()
         .slice(0, 255);
       if (!cleanTitle) return res.status(400).json({ error: 'title_required' });
-      const toDate = (raw) => {
-        if (!raw) return null;
-        const d = new Date(raw);
-        return Number.isFinite(d.getTime()) ? d : null;
-      };
-      const pd = toDate(planned_date);
-      const ped = toDate(planned_end_date);
+      let pd = null;
+      if (planned_date) {
+        const d = new Date(planned_date);
+        if (Number.isFinite(d.getTime())) pd = d;
+      }
       const posR = await db.query(
         `SELECT COALESCE(MAX(position), -1) + 1 AS next_pos
            FROM class_curriculum_items WHERE class_id=$1`,
@@ -19902,10 +19803,10 @@ app.post(
       const nextPos = posR.rows[0]?.next_pos ?? 0;
       const r = await db.query(
         `INSERT INTO class_curriculum_items
-           (class_id, position, subject, category_name, topic_id, quiz_id, title, planned_date, planned_end_date)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+           (class_id, position, subject, category_name, topic_id, quiz_id, title, planned_date)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
          RETURNING id, position, subject, category_name, topic_id, quiz_id,
-                   title, planned_date, planned_end_date, manually_marked_covered, created_at`,
+                   title, planned_date, manually_marked_covered, created_at`,
         [
           classId,
           nextPos,
@@ -19915,32 +19816,8 @@ app.post(
           quiz_id ? String(quiz_id).slice(0, 255) : null,
           cleanTitle,
           pd,
-          ped,
         ]
       );
-      // Best-effort: notify enrolled students that the curriculum changed.
-      try {
-        const cR = await db.query(`SELECT name FROM classes WHERE id=$1`, [
-          classId,
-        ]);
-        const className = cR.rows[0]?.name || 'your class';
-        const enr = await db.query(
-          `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
-          [classId]
-        );
-        await notify.notifyUsers(
-          enr.rows.map((row) => row.user_id),
-          {
-            type: 'curriculum_item_added',
-            title: `New curriculum item in ${className}`,
-            body: cleanTitle,
-            link: `/student#myclass/${classId}`,
-            payload: { class_id: classId, item_id: r.rows[0].id },
-          }
-        );
-      } catch (e) {
-        console.warn('[notify curriculum_item_added] skipped:', e.message);
-      }
       return res.status(201).json({ item: r.rows[0] });
     } catch (err) {
       console.error(
@@ -19977,12 +19854,9 @@ app.patch(
         title,
         position,
         planned_date,
-        planned_end_date,
         manually_marked_covered,
         quiz_id,
         subject,
-        category_name,
-        topic_id,
       } = req.body || {};
       const sets = [];
       const params = [];
@@ -20005,17 +19879,6 @@ app.patch(
           }
         }
       }
-      if (planned_end_date !== undefined) {
-        if (planned_end_date === null) {
-          sets.push(`planned_end_date = NULL`);
-        } else {
-          const d = new Date(planned_end_date);
-          if (Number.isFinite(d.getTime())) {
-            params.push(d);
-            sets.push(`planned_end_date = $${params.length}`);
-          }
-        }
-      }
       if (typeof manually_marked_covered === 'boolean') {
         params.push(manually_marked_covered);
         sets.push(`manually_marked_covered = $${params.length}`);
@@ -20028,14 +19891,6 @@ app.patch(
         params.push(subject ? String(subject).slice(0, 100) : null);
         sets.push(`subject = $${params.length}`);
       }
-      if (typeof category_name === 'string' || category_name === null) {
-        params.push(category_name ? String(category_name).slice(0, 200) : null);
-        sets.push(`category_name = $${params.length}`);
-      }
-      if (typeof topic_id === 'string' || topic_id === null) {
-        params.push(topic_id ? String(topic_id).slice(0, 200) : null);
-        sets.push(`topic_id = $${params.length}`);
-      }
       if (sets.length === 0)
         return res.status(400).json({ error: 'nothing_to_update' });
       sets.push(`updated_at = NOW()`);
@@ -20044,7 +19899,7 @@ app.patch(
         `UPDATE class_curriculum_items SET ${sets.join(', ')}
           WHERE id = $${params.length}
           RETURNING id, position, subject, category_name, topic_id, quiz_id,
-                    title, planned_date, planned_end_date, manually_marked_covered`,
+                    title, planned_date, manually_marked_covered`,
         params
       );
       return res.json({ item: r.rows[0] });
@@ -20077,332 +19932,6 @@ app.delete(
     } catch (err) {
       console.error('[/api/instructor/curriculum/:id DELETE] failed:', err);
       return res.status(500).json({ error: 'Unable to delete item' });
-    }
-  }
-);
-
-// ---------------------------------------------------------------------------
-// STUDENT-FACING CLASS ENDPOINTS — read curriculum, calendar notes, post DMs
-// to the instructor. Backed by class_enrollments + class_curriculum_items +
-// class_notes.
-// ---------------------------------------------------------------------------
-
-async function _studentInClass(userId, classId) {
-  if (!Number.isFinite(userId) || !Number.isFinite(classId)) return false;
-  const r = await db.query(
-    `SELECT 1 FROM class_enrollments WHERE user_id=$1 AND class_id=$2 LIMIT 1`,
-    [userId, classId]
-  );
-  return r.rowCount > 0;
-}
-
-// GET /api/student/classes — classes the current user is enrolled in.
-app.get('/api/student/classes', authenticateBearerToken, async (req, res) => {
-  try {
-    const userId = req.user?.id || req.user?.userId;
-    if (!userId) return res.status(401).json({ error: 'unauthorized' });
-    const { rows } = await db.query(
-      `SELECT c.id, c.name, c.color, c.is_active, c.join_code,
-              c.organization_id, c.teacher_id,
-              u.name AS teacher_name, u.email AS teacher_email
-         FROM class_enrollments e
-         JOIN classes c ON c.id = e.class_id
-         LEFT JOIN users u ON u.id = c.teacher_id
-        WHERE e.user_id = $1 AND c.is_active = TRUE
-        ORDER BY c.name ASC`,
-      [userId]
-    );
-    return res.json({ classes: rows });
-  } catch (err) {
-    console.error('[/api/student/classes] failed:', err);
-    return res
-      .status(500)
-      .json({ error: 'Unable to load classes', detail: err?.message });
-  }
-});
-
-// GET /api/student/classes/:classId/curriculum — read-only curriculum view.
-app.get(
-  '/api/student/classes/:classId/curriculum',
-  authenticateBearerToken,
-  async (req, res) => {
-    try {
-      const userId = req.user?.id || req.user?.userId;
-      const classId = parseInt(req.params.classId, 10);
-      if (!(await _studentInClass(userId, classId)))
-        return res.status(404).json({ error: 'not_enrolled' });
-      const { rows } = await db.query(
-        `SELECT id, position, subject, category_name, topic_id, quiz_id,
-                title, planned_date, planned_end_date,
-                manually_marked_covered, created_at
-           FROM class_curriculum_items
-          WHERE class_id = $1
-          ORDER BY position ASC, id ASC`,
-        [classId]
-      );
-      return res.json({ items: rows });
-    } catch (err) {
-      console.error('[/api/student/classes/:id/curriculum] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to load curriculum', detail: err?.message });
-    }
-  }
-);
-
-// ---------- Class notes (shared between student & instructor views) ----------
-
-// Returns the notes the caller is allowed to see in the given class:
-//   - all class-wide notes (recipient_user_id IS NULL)
-//   - any private note where caller is author or recipient
-async function _loadVisibleClassNotes(classId, userId, isInstructor) {
-  const sql = isInstructor
-    ? // Instructors who own the class see every note.
-      `SELECT n.id, n.class_id, n.author_id, n.author_role,
-              n.recipient_user_id, n.body, n.note_date, n.created_at,
-              au.name AS author_name,
-              ru.name AS recipient_name
-         FROM class_notes n
-         LEFT JOIN users au ON au.id = n.author_id
-         LEFT JOIN users ru ON ru.id = n.recipient_user_id
-        WHERE n.class_id = $1
-        ORDER BY n.created_at DESC
-        LIMIT 500`
-    : // Students see class-wide + private notes where they are author or recipient.
-      `SELECT n.id, n.class_id, n.author_id, n.author_role,
-              n.recipient_user_id, n.body, n.note_date, n.created_at,
-              au.name AS author_name,
-              ru.name AS recipient_name
-         FROM class_notes n
-         LEFT JOIN users au ON au.id = n.author_id
-         LEFT JOIN users ru ON ru.id = n.recipient_user_id
-        WHERE n.class_id = $1
-          AND (n.recipient_user_id IS NULL
-               OR n.author_id = $2
-               OR n.recipient_user_id = $2)
-        ORDER BY n.created_at DESC
-        LIMIT 500`;
-  const params = isInstructor ? [classId] : [classId, userId];
-  const r = await db.query(sql, params);
-  return r.rows;
-}
-
-function _normalizeNoteDate(raw) {
-  if (!raw) return null;
-  const d = new Date(raw);
-  return Number.isFinite(d.getTime()) ? d : null;
-}
-
-// GET /api/student/classes/:classId/notes
-app.get(
-  '/api/student/classes/:classId/notes',
-  authenticateBearerToken,
-  async (req, res) => {
-    try {
-      const userId = req.user?.id || req.user?.userId;
-      const classId = parseInt(req.params.classId, 10);
-      if (!(await _studentInClass(userId, classId)))
-        return res.status(404).json({ error: 'not_enrolled' });
-      const notes = await _loadVisibleClassNotes(classId, userId, false);
-      return res.json({ notes });
-    } catch (err) {
-      console.error('[/api/student/classes/:id/notes GET] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to load notes', detail: err?.message });
-    }
-  }
-);
-
-// POST /api/student/classes/:classId/notes — student leaves a note for the
-// instructor (or class — but students default to instructor-only).
-// Body: { body: string, note_date?: 'YYYY-MM-DD' }
-app.post(
-  '/api/student/classes/:classId/notes',
-  authenticateBearerToken,
-  async (req, res) => {
-    try {
-      const userId = req.user?.id || req.user?.userId;
-      const classId = parseInt(req.params.classId, 10);
-      if (!(await _studentInClass(userId, classId)))
-        return res.status(404).json({ error: 'not_enrolled' });
-      const body = String(req.body?.body || '').trim();
-      if (!body) return res.status(400).json({ error: 'body_required' });
-      if (body.length > 4000)
-        return res.status(400).json({ error: 'body_too_long' });
-      const noteDate = _normalizeNoteDate(req.body?.note_date);
-      // Look up the class teacher to deliver the message + a notification.
-      const cR = await db.query(
-        `SELECT teacher_id, name FROM classes WHERE id=$1`,
-        [classId]
-      );
-      if (cR.rowCount === 0)
-        return res.status(404).json({ error: 'class_not_found' });
-      const teacherId = cR.rows[0].teacher_id;
-      const className = cR.rows[0].name;
-      const ins = await db.query(
-        `INSERT INTO class_notes
-           (class_id, author_id, author_role, recipient_user_id, body, note_date)
-         VALUES ($1, $2, 'student', $3, $4, $5)
-         RETURNING id, class_id, author_id, author_role, recipient_user_id,
-                   body, note_date, created_at`,
-        [classId, userId, teacherId || null, body, noteDate]
-      );
-      // Best-effort notify the instructor.
-      try {
-        if (teacherId) {
-          await notify.notifyUser(teacherId, {
-            type: 'class_note_from_student',
-            title: `New note from a student in ${className}`,
-            body: body.length > 160 ? body.slice(0, 160) + '…' : body,
-            link: `/instructor#classes/${classId}`,
-            payload: { class_id: classId, note_id: ins.rows[0].id },
-          });
-        }
-      } catch (e) {
-        console.warn('[notify class_note_from_student] skipped:', e.message);
-      }
-      return res.status(201).json({ note: ins.rows[0] });
-    } catch (err) {
-      console.error('[/api/student/classes/:id/notes POST] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to post note', detail: err?.message });
-    }
-  }
-);
-
-// GET /api/instructor/classes/:classId/notes
-app.get(
-  '/api/instructor/classes/:classId/notes',
-  logAdminAccess,
-  requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
-  async (req, res) => {
-    try {
-      const classId = parseInt(req.params.classId, 10);
-      if (!(await _instructorOwnsClass(req, classId)))
-        return res.status(404).json({ error: 'class_not_found' });
-      const notes = await _loadVisibleClassNotes(classId, null, true);
-      return res.json({ notes });
-    } catch (err) {
-      console.error('[/api/instructor/classes/:id/notes GET] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to load notes', detail: err?.message });
-    }
-  }
-);
-
-// POST /api/instructor/classes/:classId/notes
-// Body: { body, note_date?, recipient_user_id? }   recipient null => class-wide
-app.post(
-  '/api/instructor/classes/:classId/notes',
-  logAdminAccess,
-  requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
-  async (req, res) => {
-    try {
-      const classId = parseInt(req.params.classId, 10);
-      if (!(await _instructorOwnsClass(req, classId)))
-        return res.status(404).json({ error: 'class_not_found' });
-      const userId = req.user.id || req.user.userId;
-      const body = String(req.body?.body || '').trim();
-      if (!body) return res.status(400).json({ error: 'body_required' });
-      if (body.length > 4000)
-        return res.status(400).json({ error: 'body_too_long' });
-      const noteDate = _normalizeNoteDate(req.body?.note_date);
-      const recipientRaw = req.body?.recipient_user_id;
-      const recipientId =
-        recipientRaw === null ||
-        recipientRaw === undefined ||
-        recipientRaw === ''
-          ? null
-          : parseInt(recipientRaw, 10);
-      if (recipientId !== null && !Number.isFinite(recipientId))
-        return res.status(400).json({ error: 'invalid_recipient' });
-      // If a recipient is named, make sure they are actually enrolled.
-      if (recipientId !== null) {
-        const ok = await _studentInClass(recipientId, classId);
-        if (!ok)
-          return res.status(400).json({ error: 'recipient_not_in_class' });
-      }
-      const ins = await db.query(
-        `INSERT INTO class_notes
-           (class_id, author_id, author_role, recipient_user_id, body, note_date)
-         VALUES ($1, $2, 'instructor', $3, $4, $5)
-         RETURNING id, class_id, author_id, author_role, recipient_user_id,
-                   body, note_date, created_at`,
-        [classId, userId, recipientId, body, noteDate]
-      );
-      // Notify recipient(s).
-      try {
-        const cR = await db.query(`SELECT name FROM classes WHERE id=$1`, [
-          classId,
-        ]);
-        const className = cR.rows[0]?.name || 'your class';
-        const preview = body.length > 160 ? body.slice(0, 160) + '…' : body;
-        if (recipientId) {
-          await notify.notifyUser(recipientId, {
-            type: 'class_note_from_instructor',
-            title: `New note in ${className}`,
-            body: preview,
-            link: `/student#myclass/${classId}`,
-            payload: { class_id: classId, note_id: ins.rows[0].id },
-          });
-        } else {
-          // class-wide: notify every enrolled student
-          const enr = await db.query(
-            `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
-            [classId]
-          );
-          await notify.notifyUsers(
-            enr.rows.map((r) => r.user_id),
-            {
-              type: 'class_note_from_instructor',
-              title: `New class note in ${className}`,
-              body: preview,
-              link: `/student#myclass/${classId}`,
-              payload: { class_id: classId, note_id: ins.rows[0].id },
-            }
-          );
-        }
-      } catch (e) {
-        console.warn('[notify class_note_from_instructor] skipped:', e.message);
-      }
-      return res.status(201).json({ note: ins.rows[0] });
-    } catch (err) {
-      console.error('[/api/instructor/classes/:id/notes POST] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to post note', detail: err?.message });
-    }
-  }
-);
-
-// DELETE /api/instructor/classes/:classId/notes/:noteId — author can delete
-// their own notes (handy for moderation / typo cleanup).
-app.delete(
-  '/api/instructor/classes/:classId/notes/:noteId',
-  logAdminAccess,
-  requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
-  async (req, res) => {
-    try {
-      const classId = parseInt(req.params.classId, 10);
-      const noteId = parseInt(req.params.noteId, 10);
-      if (!(await _instructorOwnsClass(req, classId)))
-        return res.status(404).json({ error: 'class_not_found' });
-      await db.query(`DELETE FROM class_notes WHERE id=$1 AND class_id=$2`, [
-        noteId,
-        classId,
-      ]);
-      return res.json({ ok: true });
-    } catch (err) {
-      console.error('[/api/instructor/classes/:id/notes DELETE] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to delete note', detail: err?.message });
     }
   }
 );
@@ -20961,7 +20490,7 @@ app.post('/api/me/mfa/enroll', requireAuth, (req, res) => {
 });
 
 // ============================================================================
-// FRESH-START (2026-04-28) — program search, membership requests,
+// FRESH-START (2026-04-28) \u2014 program search, membership requests,
 // admin status overrides. All wired regardless of flag so orgs can transition;
 // but the requireActiveAccount gate is itself flag-checked, so toggling
 // ORG_GATED_ONBOARDING off restores the previous "everyone is active" world.
@@ -20975,13 +20504,19 @@ app.locals.requireActiveAccount = _activeAccount;
 // ---- Public: search programs (organizations) ----
 app.get('/api/programs', async (req, res) => {
   try {
-    const q = String(req.query.q || '').trim().slice(0, 100);
-    const region = String(req.query.region || '').trim().slice(0, 50);
+    const q = String(req.query.q || '')
+      .trim()
+      .slice(0, 100);
+    const region = String(req.query.region || '')
+      .trim()
+      .slice(0, 50);
     const params = [];
     const where = [];
     if (q) {
       params.push(`%${q.toLowerCase()}%`);
-      where.push(`(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`);
+      where.push(
+        `(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`
+      );
     }
     if (region) {
       params.push(region);
@@ -21048,8 +20583,12 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
     if (!Number.isFinite(orgId)) {
       return res.status(400).json({ error: 'invalid_organization_id' });
     }
-    const orgR = await db.query('SELECT id, name FROM organizations WHERE id=$1', [orgId]);
-    if (!orgR.rowCount) return res.status(404).json({ error: 'organization_not_found' });
+    const orgR = await db.query(
+      'SELECT id, name FROM organizations WHERE id=$1',
+      [orgId]
+    );
+    if (!orgR.rowCount)
+      return res.status(404).json({ error: 'organization_not_found' });
 
     // Cancel any other pending request from this user (only one live at a time).
     await db.query(
@@ -21073,10 +20612,14 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
         WHERE id = $2 AND account_status IN ('pending_org','pending_approval','denied')`,
       [orgId, userId]
     );
-    return res.status(201).json({ request: ins.rows[0] || null, organization_id: orgId });
+    return res
+      .status(201)
+      .json({ request: ins.rows[0] || null, organization_id: orgId });
   } catch (err) {
     console.error('[/api/me/membership-request POST] failed:', err);
-    return res.status(500).json({ error: 'Unable to create membership request' });
+    return res
+      .status(500)
+      .json({ error: 'Unable to create membership request' });
   }
 });
 
@@ -21100,7 +20643,9 @@ app.delete('/api/me/membership-request', requireAuth, async (req, res) => {
     return res.json({ ok: true });
   } catch (err) {
     console.error('[/api/me/membership-request DELETE] failed:', err);
-    return res.status(500).json({ error: 'Unable to cancel membership request' });
+    return res
+      .status(500)
+      .json({ error: 'Unable to cancel membership request' });
   }
 });
 
@@ -21150,9 +20695,10 @@ app.get(
       const orgId = req.user?.organization_id || null;
       const filterOrg = parseInt(req.query.organization_id, 10);
       // Super admin can scope to any org; others are pinned to their own.
-      const targetOrg = role === 'super_admin' && Number.isFinite(filterOrg)
-        ? filterOrg
-        : orgId;
+      const targetOrg =
+        role === 'super_admin' && Number.isFinite(filterOrg)
+          ? filterOrg
+          : orgId;
       const status = String(req.query.status || 'pending');
       const params = [status];
       let where = `r.status = $1`;
@@ -21178,7 +20724,9 @@ app.get(
       return res.json({ requests: r.rows });
     } catch (err) {
       console.error('[/api/org/membership-requests GET] failed:', err);
-      return res.status(500).json({ error: 'Unable to list membership requests' });
+      return res
+        .status(500)
+        .json({ error: 'Unable to list membership requests' });
     }
   }
 );
@@ -21205,7 +20753,9 @@ app.post(
       if (!reqR.rowCount) return res.status(404).json({ error: 'not_found' });
       const m = reqR.rows[0];
       if (m.status !== 'pending') {
-        return res.status(409).json({ error: 'already_decided', status: m.status });
+        return res
+          .status(409)
+          .json({ error: 'already_decided', status: m.status });
       }
       const role = String(req.user?.role || '').toLowerCase();
       const actorOrg = req.user?.organization_id || null;
@@ -21254,13 +20804,19 @@ app.post(
           req,
           action: 'org.membership.deny',
           target: { type: 'membership_request', id: reqId },
-          payload: { user_id: m.user_id, organization_id: m.organization_id, note },
+          payload: {
+            user_id: m.user_id,
+            organization_id: m.organization_id,
+            note,
+          },
         });
       }
       return res.json({ ok: true, decision });
     } catch (err) {
       console.error('[/api/org/membership-requests/:id/decide] failed:', err);
-      return res.status(500).json({ error: 'Unable to decide on membership request' });
+      return res
+        .status(500)
+        .json({ error: 'Unable to decide on membership request' });
     }
   }
 );
@@ -21275,7 +20831,13 @@ app.post(
     try {
       const targetId = parseInt(req.params.id, 10);
       const status = String(req.body?.account_status || '').toLowerCase();
-      const allowed = ['pending_org', 'pending_approval', 'active', 'denied', 'archived'];
+      const allowed = [
+        'pending_org',
+        'pending_approval',
+        'active',
+        'denied',
+        'archived',
+      ];
       if (!Number.isFinite(targetId) || !allowed.includes(status)) {
         return res.status(400).json({ error: 'invalid_request' });
       }
@@ -21291,10 +20853,10 @@ app.post(
           [status, orgId, targetId]
         );
       } else {
-        await db.query(
-          `UPDATE users SET account_status=$1 WHERE id=$2`,
-          [status, targetId]
-        );
+        await db.query(`UPDATE users SET account_status=$1 WHERE id=$2`, [
+          status,
+          targetId,
+        ]);
       }
       await _audit({
         db,
@@ -23304,271 +22866,6 @@ function questionHasObviousImageMismatch(question) {
   return false;
 }
 
-const TOPIC_MATCH_STOPWORDS = new Set([
-  'and',
-  'the',
-  'for',
-  'with',
-  'from',
-  'into',
-  'that',
-  'this',
-  'your',
-  'about',
-  'through',
-  'reasoning',
-  'language',
-  'arts',
-  'studies',
-]);
-
-function getQuestionPromptText(question) {
-  return String(
-    question?.questionText ||
-      question?.question ||
-      question?.content?.questionText ||
-      question?.content?.question ||
-      ''
-  ).trim();
-}
-
-function normalizeQuestionPoolText(text) {
-  return String(text || '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, ' and ')
-    .replace(/&/g, ' and ')
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function buildQuestionPoolDedupKey(question) {
-  const stem = normalizeQuestionPoolText(getQuestionPromptText(question));
-  const passage = normalizeQuestionPoolText(
-    question?.passage || question?.content?.passage || ''
-  );
-  if (!stem && !passage) return '';
-  return `${stem.slice(0, 220)}::${passage.slice(0, 220)}`;
-}
-
-function appendUniqueQuestions(target, questions, seenKeys, limit = Infinity) {
-  if (!Array.isArray(target) || !Array.isArray(questions)) return target;
-
-  for (const question of questions) {
-    if (target.length >= limit) break;
-    const key =
-      buildQuestionPoolDedupKey(question) ||
-      String(question?.originQuizId || question?.id || '');
-    if (!key || seenKeys.has(key)) continue;
-    seenKeys.add(key);
-    target.push(question);
-  }
-
-  return target;
-}
-
-function buildTopicMatchTokens(topic) {
-  return Array.from(
-    new Set(
-      normalizeQuestionPoolText(topic)
-        .split(' ')
-        .filter(
-          (token) => token.length >= 3 && !TOPIC_MATCH_STOPWORDS.has(token)
-        )
-    )
-  );
-}
-
-function curatedAiQuestionMatchesRequestedTopic(question, topic) {
-  const normalizedTopic = normalizeQuestionPoolText(topic);
-  if (!normalizedTopic) return true;
-
-  const metadata = normalizeQuestionPoolText(
-    [
-      question?.topic,
-      question?.category,
-      question?.originTopicTitle,
-      question?.originCategoryName,
-    ]
-      .filter(Boolean)
-      .join(' ')
-  );
-  if (
-    metadata &&
-    (metadata.includes(normalizedTopic) || normalizedTopic.includes(metadata))
-  ) {
-    return true;
-  }
-
-  const tokens = buildTopicMatchTokens(topic);
-  if (tokens.length === 0) return false;
-
-  const searchable = normalizeQuestionPoolText(
-    [
-      metadata,
-      getQuestionPromptText(question),
-      question?.passage || question?.content?.passage || '',
-    ]
-      .filter(Boolean)
-      .join(' ')
-  );
-  const matches = tokens.filter((token) => searchable.includes(token));
-  if (matches.length === 0) return false;
-  if (metadata && matches.length > 0) return true;
-  if (tokens.length === 1) return matches.length === 1;
-  return matches.length >= Math.ceil(tokens.length / 2);
-}
-
-function prepareCuratedAiQuestion(
-  rawQuestion,
-  { subject, fallbackTopic = null, sourceLabel = 'curatedAiBank' } = {}
-) {
-  const cloned = cloneQuestion(rawQuestion);
-  if (!cloned || !isValidMC(cloned)) return null;
-  if (questionHasMissingLocalImage(cloned)) return null;
-  if (questionHasObviousImageMismatch(cloned)) return null;
-
-  if (cloned.content && cloned.content.questionText && !cloned.question) {
-    cloned.question = cloned.content.questionText;
-  }
-  if (cloned.content && cloned.content.passage && !cloned.passage) {
-    cloned.passage = cloned.content.passage;
-  }
-
-  if (!cloned.questionText) {
-    cloned.questionText =
-      cloned.question ||
-      cloned.content?.questionText ||
-      cloned.content?.question ||
-      '';
-  }
-  if (!cloned.question) {
-    cloned.question = cloned.questionText;
-  }
-  if (!cloned.questionText) return null;
-
-  sanitizeImageQuestionPassage(cloned);
-
-  const normalizedTopic =
-    typeof cloned.topic === 'string' && cloned.topic.trim()
-      ? cloned.topic.trim()
-      : fallbackTopic;
-  if (normalizedTopic) {
-    cloned.topic = normalizedTopic;
-  }
-
-  if (!cloned.subject) cloned.subject = subject;
-  if (!cloned.difficulty) cloned.difficulty = 'medium';
-  cloned.source = sourceLabel;
-  cloned.itemType =
-    cloned.itemType ||
-    (cloned.passage
-      ? 'passage'
-      : collectQuestionImageUrls(cloned).length > 0
-        ? 'image'
-        : 'standalone');
-
-  if (!cloned.originCategoryName) {
-    cloned.originCategoryName = cloned.category || null;
-  }
-  if (!cloned.originTopicTitle) {
-    cloned.originTopicTitle = normalizedTopic || cloned.category || null;
-  }
-  if (!cloned.originQuizTitle) {
-    cloned.originQuizTitle = 'Curated AI Bank';
-  }
-  if (!cloned.originQuizId) {
-    cloned.originQuizId =
-      cloned?.bankMeta?.fingerprint ||
-      buildQuestionPoolDedupKey(cloned) ||
-      null;
-  }
-  if (!cloned.originPath) {
-    cloned.originPath =
-      [cloned.originCategoryName, cloned.originTopicTitle, 'Curated AI Bank']
-        .filter(Boolean)
-        .join(' / ') || 'Curated AI Bank';
-  }
-
-  return ensureQuestionTags(
-    subject,
-    cloned.category || cloned.originCategoryName || null,
-    normalizedTopic ? { id: normalizedTopic, title: normalizedTopic } : null,
-    cloned
-  );
-}
-
-function getReviewedCuratedAiQuestions(subject, options = {}) {
-  const {
-    count = Infinity,
-    targetTier = null,
-    topic = null,
-    requireTopicMatch = false,
-    includeImages = true,
-  } = options;
-
-  const canonicalSubject = isRlaSubject(subject) ? 'RLA' : subject;
-  const rawPool = getCuratedAiQuestionsForSubject(canonicalSubject);
-  if (!Array.isArray(rawPool) || rawPool.length === 0) return [];
-
-  const prepared = [];
-  const seenKeys = new Set();
-  for (const rawQuestion of shuffleArray(rawPool)) {
-    const question = prepareCuratedAiQuestion(rawQuestion, {
-      subject,
-      fallbackTopic: null,
-    });
-    if (!question) continue;
-    if (!includeImages && isImageBasedQuestionForPractice(question)) continue;
-    if (
-      requireTopicMatch &&
-      !curatedAiQuestionMatchesRequestedTopic(question, topic)
-    ) {
-      continue;
-    }
-    appendUniqueQuestions(prepared, [question], seenKeys, count);
-    if (prepared.length >= count) break;
-  }
-
-  const ordered = targetTier
-    ? orderQuestionsForTierTarget(prepared, targetTier)
-    : shuffleArray(prepared);
-  return Number.isFinite(count) ? ordered.slice(0, count) : ordered;
-}
-
-function selectPracticeSessionQuestions(pool, questionsNeeded, targetTier) {
-  const orderedPool = targetTier
-    ? orderQuestionsForTierTarget(pool, targetTier)
-    : shuffleArray(pool);
-  const curated = orderedPool.filter((q) => q?.source === 'curatedAiBank');
-  const premade = orderedPool.filter((q) => q?.source !== 'curatedAiBank');
-
-  const selected = [];
-  const seenKeys = new Set();
-  const curatedTarget = Math.min(
-    curated.length,
-    Math.max(1, Math.round(questionsNeeded * 0.4))
-  );
-
-  appendUniqueQuestions(selected, curated, seenKeys, curatedTarget);
-  appendUniqueQuestions(selected, premade, seenKeys, questionsNeeded);
-  if (selected.length < questionsNeeded) {
-    appendUniqueQuestions(
-      selected,
-      curated.slice(curatedTarget),
-      seenKeys,
-      questionsNeeded
-    );
-  }
-
-  const finalized = targetTier
-    ? orderQuestionsForTierTarget(selected, targetTier)
-    : shuffleArray(selected);
-  return finalized.slice(0, questionsNeeded);
-}
-
 const getPremadeQuestions = (subject, count, options = {}) => {
   const allQuestions = [];
   const targetTier = normalizeLearnerQuestionTier(options?.targetTier);
@@ -24100,28 +23397,8 @@ app.post(
         const pulled = getPremadeQuestions(subj, questionsNeeded * 2, {
           targetTier,
         }); // pull extra to allow tier ordering + fallback
-        const curatedPulled = getReviewedCuratedAiQuestions(subj, {
-          count: questionsNeeded * 2,
-          targetTier,
-          includeImages: false,
-        });
-        const subjectPool = [];
-        const seenSubjectKeys = new Set();
-        appendUniqueQuestions(
-          subjectPool,
-          Array.isArray(pulled) ? pulled : [],
-          seenSubjectKeys,
-          questionsNeeded * 4
-        );
-        appendUniqueQuestions(
-          subjectPool,
-          curatedPulled,
-          seenSubjectKeys,
-          questionsNeeded * 4
-        );
-
-        if (subjectPool.length > 0) {
-          subjectPool.forEach((q) => {
+        if (Array.isArray(pulled)) {
+          pulled.forEach((q) => {
             if (isImageBasedQuestionForPractice(q)) {
               excludedImageCount += 1;
               return;
@@ -24156,7 +23433,7 @@ app.post(
           });
         } else {
           console.warn(
-            `[practice-session] Empty reviewed pool for subject: ${subj}`
+            `[practice-session] getPremadeQuestions returned non-array for subject: ${subj}`
           );
         }
       });
@@ -24184,65 +23461,11 @@ app.post(
         });
       }
 
-      // Optional narrowing filters: topic and question type/style.
-      // Only meaningful for single-subject mode but applied generically.
-      const requestedTopic =
-        typeof req.body?.topic === 'string' ? req.body.topic.trim() : '';
-      const requestedQuestionType =
-        typeof req.body?.questionType === 'string'
-          ? req.body.questionType.trim()
-          : '';
-      let filterNote = null;
-      if (requestedTopic || requestedQuestionType) {
-        const topicLc = requestedTopic.toLowerCase();
-        const typeLc = requestedQuestionType.toLowerCase();
-        const beforeCount = pool.length;
-        pool = pool.filter((q) => {
-          if (topicLc) {
-            const t = String(
-              q?.originTopicTitle || q?.topic || ''
-            ).toLowerCase();
-            if (t !== topicLc) return false;
-          }
-          if (typeLc) {
-            const ty = String(
-              q?.type || q?.itemType || q?.skill || ''
-            ).toLowerCase();
-            if (ty !== typeLc) return false;
-          }
-          return true;
-        });
-        if (pool.length === 0) {
-          filterNote = `No questions matched ${[
-            requestedTopic && `topic "${requestedTopic}"`,
-            requestedQuestionType && `type "${requestedQuestionType}"`,
-          ]
-            .filter(Boolean)
-            .join(' and ')}.`;
-          return res.json({
-            title: isOlympicsMode ? 'Olympics Practice' : 'Practice Session',
-            durationMinutes,
-            mode,
-            practiceMode: practiceMode || 'standard',
-            questionCount: 0,
-            questions: [],
-            note: filterNote,
-            topic: requestedTopic || null,
-            questionType: requestedQuestionType || null,
-          });
-        }
-        if (pool.length < beforeCount) {
-          console.log(
-            `[practice-session] Narrowed pool ${beforeCount} -> ${pool.length} (topic=${requestedTopic || '-'}, type=${requestedQuestionType || '-'})`
-          );
-        }
-      }
+      const orderedPool = targetTier
+        ? orderQuestionsForTierTarget(pool, targetTier)
+        : shuffleArray(pool);
 
-      const questions = selectPracticeSessionQuestions(
-        pool,
-        questionsNeeded,
-        targetTier
-      )
+      const questions = orderedPool
         .slice(0, questionsNeeded)
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
       return res.json({
@@ -24252,63 +23475,12 @@ app.post(
         practiceMode: practiceMode || 'standard',
         questionCount: questions.length,
         questions,
-        topic: requestedTopic || null,
-        questionType: requestedQuestionType || null,
       });
     } catch (e) {
       console.error('practice-session error:', e);
       return res
         .status(500)
         .json({ error: 'Failed to build practice session' });
-    }
-  }
-);
-
-// List the topics available for a single subject (used by Practice Session
-// modal to populate the optional topic narrowing picker).
-app.get(
-  '/api/practice-session/topics',
-  devAuth,
-  ensureTestUserForNow,
-  requireAuthInProd,
-  authRequired,
-  (req, res) => {
-    try {
-      const SUBJECT_LABELS = {
-        math: 'Math',
-        science: 'Science',
-        rla: 'Reasoning Through Language Arts (RLA)',
-        social: 'Social Studies',
-        'social-studies': 'Social Studies',
-        ss: 'Social Studies',
-      };
-      const raw = String(req.query?.subject || '')
-        .trim()
-        .toLowerCase();
-      const subjectLabel = SUBJECT_LABELS[raw];
-      if (!subjectLabel) {
-        return res.status(400).json({ error: 'subject_required' });
-      }
-      // Pull a generous slice; getPremadeQuestions caps internally if needed.
-      const pool = getPremadeQuestions(subjectLabel, 100000) || [];
-      const counts = new Map();
-      for (const q of pool) {
-        const name = String(
-          q?.originTopicTitle || q?.topic || ''
-        ).trim();
-        if (!name) continue;
-        counts.set(name, (counts.get(name) || 0) + 1);
-      }
-      const topics = Array.from(counts.entries())
-        .map(([topic, count]) => ({ topic, count }))
-        .sort((a, b) => {
-          if (b.count !== a.count) return b.count - a.count;
-          return a.topic.localeCompare(b.topic);
-        });
-      return res.json({ subject: subjectLabel, topics });
-    } catch (e) {
-      console.error('practice-session/topics error:', e);
-      return res.status(500).json({ error: 'failed_to_load_topics' });
     }
   }
 );
@@ -28455,55 +27627,28 @@ app.get(
     const userId = req.targetStudentId;
     try {
       // Recent attempts (50)
-      let attempts = { rows: [] };
-      try {
-        attempts = await pool.query(
-          `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
-                  attempted_at, scaled_score, passed
-             FROM quiz_attempts
-            WHERE user_id = $1
-            ORDER BY attempted_at DESC
-            LIMIT 50`,
-          [userId]
-        );
-      } catch (e) {
-        console.warn('[instructor stats] attempts failed:', e.message);
-        // Retry without optional columns that may be missing on legacy DBs.
-        try {
-          attempts = await pool.query(
-            `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
-                    attempted_at
-               FROM quiz_attempts
-              WHERE user_id = $1
-              ORDER BY attempted_at DESC
-              LIMIT 50`,
-            [userId]
-          );
-        } catch (e2) {
-          console.warn(
-            '[instructor stats] attempts fallback failed:',
-            e2.message
-          );
-        }
-      }
+      const attempts = await pool.query(
+        `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
+                attempted_at, scaled_score, passed
+           FROM quiz_attempts
+          WHERE user_id = $1
+          ORDER BY attempted_at DESC
+          LIMIT 50`,
+        [userId]
+      );
 
       // Subject mastery rollup
-      let mastery = { rows: [] };
-      try {
-        mastery = await pool.query(
-          `SELECT subject,
-                  COUNT(*)::int AS attempts,
-                  AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
-                  MAX(attempted_at) AS last_attempt_at
-             FROM quiz_attempts
-            WHERE user_id = $1
-            GROUP BY subject
-            ORDER BY subject`,
-          [userId]
-        );
-      } catch (e) {
-        console.warn('[instructor stats] mastery skipped:', e.message);
-      }
+      const mastery = await pool.query(
+        `SELECT subject,
+                COUNT(*)::int AS attempts,
+                AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
+                MAX(attempted_at) AS last_attempt_at
+           FROM quiz_attempts
+          WHERE user_id = $1
+          GROUP BY subject
+          ORDER BY subject`,
+        [userId]
+      );
 
       // Weak areas (per-item incorrect by domain/topic)
       let weakAreas = [];
@@ -28643,9 +27788,7 @@ app.get(
       });
     } catch (err) {
       console.error('[/api/instructor/students/:id/stats] failed:', err);
-      res
-        .status(500)
-        .json({ error: 'Failed to load stats', detail: err?.message });
+      res.status(500).json({ error: 'Failed to load stats' });
     }
   }
 );

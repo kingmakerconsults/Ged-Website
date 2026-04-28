@@ -43,7 +43,9 @@ export default function PendingApprovalsPanel({ token, role, organizationId }) {
     }
   }, [token, role, organizationId]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function decide(id, decision) {
     setBusyId(id);
@@ -68,7 +70,9 @@ export default function PendingApprovalsPanel({ token, role, organizationId }) {
   return (
     <div className="pending-approvals">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-primary">Pending Approvals</h2>
+        <h2 className="text-xl font-semibold text-primary">
+          Pending Approvals
+        </h2>
         <button
           type="button"
           onClick={load}
@@ -102,11 +106,17 @@ export default function PendingApprovalsPanel({ token, role, organizationId }) {
             <tbody>
               {requests.map((r) => (
                 <tr key={r.id} className="border-t border-subtle">
-                  <td className="py-2 pr-4 text-primary">{r.name || '\u2014'}</td>
+                  <td className="py-2 pr-4 text-primary">
+                    {r.name || '\u2014'}
+                  </td>
                   <td className="py-2 pr-4 text-secondary">{r.email}</td>
-                  <td className="py-2 pr-4 text-secondary">{r.organization_name}</td>
+                  <td className="py-2 pr-4 text-secondary">
+                    {r.organization_name}
+                  </td>
                   <td className="py-2 pr-4 text-muted">
-                    {r.created_at ? new Date(r.created_at).toLocaleString() : ''}
+                    {r.created_at
+                      ? new Date(r.created_at).toLocaleString()
+                      : ''}
                   </td>
                   <td className="py-2 pr-4">
                     <div className="flex justify-end gap-2">

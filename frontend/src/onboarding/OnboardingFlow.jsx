@@ -86,7 +86,8 @@ function ProgramSelectWizard({ token, onSubmitted }) {
       <div className="onboarding-card">
         <h1>Find your GED program</h1>
         <p className="muted">
-          Pick the program you attend. Your program admin will confirm and grant access.
+          Pick the program you attend. Your program admin will confirm and grant
+          access.
         </p>
         <input
           className="program-search"
@@ -111,7 +112,11 @@ function ProgramSelectWizard({ token, onSubmitted }) {
               onClick={() => setSelectedId(p.id)}
             >
               <div className="program-name">{p.name}</div>
-              {p.region && <div className="program-meta">{p.region} \u00b7 {p.program_type}</div>}
+              {p.region && (
+                <div className="program-meta">
+                  {p.region} \u00b7 {p.program_type}
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -127,7 +132,11 @@ function ProgramSelectWizard({ token, onSubmitted }) {
         </div>
         <p className="muted" style={{ marginTop: 16, fontSize: 13 }}>
           Don't see your program? Contact your instructor or
-          <a href="mailto:support@kingmaker.consulting"> support@kingmaker.consulting</a>.
+          <a href="mailto:support@kingmaker.consulting">
+            {' '}
+            support@kingmaker.consulting
+          </a>
+          .
         </p>
       </div>
     </div>
@@ -138,7 +147,13 @@ function ProgramSelectWizard({ token, onSubmitted }) {
 // AwaitingApprovalScreen
 // ---------------------------------------------------------------------------
 
-function AwaitingApprovalScreen({ token, pendingOrgName, onCancelled, onApproved, onLogout }) {
+function AwaitingApprovalScreen({
+  token,
+  pendingOrgName,
+  onCancelled,
+  onApproved,
+  onLogout,
+}) {
   const [error, setError] = useState(null);
   useEffect(() => {
     let alive = true;
@@ -155,12 +170,17 @@ function AwaitingApprovalScreen({ token, pendingOrgName, onCancelled, onApproved
     }
     poll();
     const id = setInterval(poll, POLL_MS);
-    return () => { alive = false; clearInterval(id); };
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
   }, [token, onApproved]);
 
   async function cancel() {
     try {
-      await authFetch('/api/me/membership-request', token, { method: 'DELETE' });
+      await authFetch('/api/me/membership-request', token, {
+        method: 'DELETE',
+      });
       onCancelled?.();
     } catch (e) {
       setError('Could not cancel request.');
@@ -172,10 +192,13 @@ function AwaitingApprovalScreen({ token, pendingOrgName, onCancelled, onApproved
       <div className="onboarding-card">
         <h1>Waiting for approval</h1>
         <p>
-          Your request to join <strong>{pendingOrgName || 'your program'}</strong>
-          {' '}has been sent. The program admin will review and approve your access.
+          Your request to join{' '}
+          <strong>{pendingOrgName || 'your program'}</strong> has been sent. The
+          program admin will review and approve your access.
         </p>
-        <p className="muted">We refresh your status every 30 seconds. You can leave this page open.</p>
+        <p className="muted">
+          We refresh your status every 30 seconds. You can leave this page open.
+        </p>
         {error && <div className="onboarding-error">{error}</div>}
         <div className="onboarding-actions">
           <button type="button" className="btn-secondary" onClick={cancel}>
@@ -200,14 +223,16 @@ function DeniedScreen({ token, onRetry, onLogout }) {
       <div className="onboarding-card">
         <h1>Access not granted</h1>
         <p>
-          Your access request was not approved. If you believe this is a mistake,
-          contact your program coordinator.
+          Your access request was not approved. If you believe this is a
+          mistake, contact your program coordinator.
         </p>
         <div className="onboarding-actions">
           <button type="button" className="btn-primary" onClick={onRetry}>
             Request a different program
           </button>
-          <button type="button" className="btn-link" onClick={onLogout}>Sign out</button>
+          <button type="button" className="btn-link" onClick={onLogout}>
+            Sign out
+          </button>
         </div>
       </div>
     </div>
@@ -222,10 +247,16 @@ function ArchivedScreen({ onLogout }) {
         <p>
           Your previous account data has been securely archived as part of our
           program upgrade. To regain access, please contact
-          <a href="mailto:support@kingmaker.consulting"> support@kingmaker.consulting</a>.
+          <a href="mailto:support@kingmaker.consulting">
+            {' '}
+            support@kingmaker.consulting
+          </a>
+          .
         </p>
         <div className="onboarding-actions">
-          <button type="button" className="btn-link" onClick={onLogout}>Sign out</button>
+          <button type="button" className="btn-link" onClick={onLogout}>
+            Sign out
+          </button>
         </div>
       </div>
     </div>
@@ -258,7 +289,9 @@ const TOUR_STEPS = [
 
 function OnboardingTour({ token, initialState, onComplete }) {
   const [step, setStep] = useState(0);
-  const [testDates, setTestDates] = useState(() => initialState?.test_dates || {});
+  const [testDates, setTestDates] = useState(
+    () => initialState?.test_dates || {}
+  );
   const [busy, setBusy] = useState(false);
 
   async function persistTestDates() {
@@ -268,7 +301,9 @@ function OnboardingTour({ token, initialState, onComplete }) {
         method: 'PATCH',
         body: JSON.stringify({ test_dates: testDates }),
       });
-    } catch (_) { /* non-fatal */ }
+    } catch (_) {
+      /* non-fatal */
+    }
   }
 
   async function complete() {
@@ -277,7 +312,12 @@ function OnboardingTour({ token, initialState, onComplete }) {
       await persistTestDates();
       await authFetch('/api/me/onboarding', token, {
         method: 'PATCH',
-        body: JSON.stringify({ onboarding_state: { tour_completed: true, tour_completed_at: new Date().toISOString() } }),
+        body: JSON.stringify({
+          onboarding_state: {
+            tour_completed: true,
+            tour_completed_at: new Date().toISOString(),
+          },
+        }),
       });
     } catch (_) {}
     setBusy(false);
@@ -289,7 +329,9 @@ function OnboardingTour({ token, initialState, onComplete }) {
   return (
     <div className="onboarding-wrap onboarding-tour">
       <div className="onboarding-card">
-        <div className="tour-progress">Step {step + 1} of {TOUR_STEPS.length}</div>
+        <div className="tour-progress">
+          Step {step + 1} of {TOUR_STEPS.length}
+        </div>
         <h2>{cur.title}</h2>
         <p>{cur.body}</p>
         {cur.custom === 'test-dates' && (
@@ -300,7 +342,9 @@ function OnboardingTour({ token, initialState, onComplete }) {
                 <input
                   type="date"
                   value={testDates?.[subj] || ''}
-                  onChange={(e) => setTestDates({ ...testDates, [subj]: e.target.value })}
+                  onChange={(e) =>
+                    setTestDates({ ...testDates, [subj]: e.target.value })
+                  }
                 />
               </label>
             ))}
@@ -308,17 +352,36 @@ function OnboardingTour({ token, initialState, onComplete }) {
         )}
         <div className="onboarding-actions">
           {step > 0 && (
-            <button type="button" className="btn-secondary" onClick={() => setStep(step - 1)}>Back</button>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => setStep(step - 1)}
+            >
+              Back
+            </button>
           )}
           {!last && (
-            <button type="button" className="btn-primary" onClick={() => setStep(step + 1)}>Next</button>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => setStep(step + 1)}
+            >
+              Next
+            </button>
           )}
           {last && (
-            <button type="button" className="btn-primary" disabled={busy} onClick={complete}>
+            <button
+              type="button"
+              className="btn-primary"
+              disabled={busy}
+              onClick={complete}
+            >
               {busy ? 'Saving...' : 'Start learning'}
             </button>
           )}
-          <button type="button" className="btn-link" onClick={complete}>Skip</button>
+          <button type="button" className="btn-link" onClick={complete}>
+            Skip
+          </button>
         </div>
       </div>
     </div>
@@ -329,7 +392,13 @@ function OnboardingTour({ token, initialState, onComplete }) {
 // OnboardingGate \u2014 the orchestrator the host app renders
 // ---------------------------------------------------------------------------
 
-export function OnboardingGate({ user, token, onLogout, onUserUpdated, children }) {
+export function OnboardingGate({
+  user,
+  token,
+  onLogout,
+  onUserUpdated,
+  children,
+}) {
   const [internalUser, setInternalUser] = useState(user);
   useEffect(() => setInternalUser(user), [user]);
 
@@ -340,18 +409,30 @@ export function OnboardingGate({ user, token, onLogout, onUserUpdated, children 
   }, [internalUser]);
 
   if (status === 'pending_org') {
-    return <ProgramSelectWizard token={token} onSubmitted={async () => {
-      // After submission, server flipped us to pending_approval. Refresh local copy.
-      try {
-        const r = await authFetch('/api/me/membership-request', token);
-        const d = await r.json();
-        const next = { ...internalUser, account_status: d.account_status, pending_organization_id: d.pending_organization_id };
-        setInternalUser(next);
-        onUserUpdated?.(next);
-      } catch (_) {
-        setInternalUser({ ...internalUser, account_status: 'pending_approval' });
-      }
-    }} />;
+    return (
+      <ProgramSelectWizard
+        token={token}
+        onSubmitted={async () => {
+          // After submission, server flipped us to pending_approval. Refresh local copy.
+          try {
+            const r = await authFetch('/api/me/membership-request', token);
+            const d = await r.json();
+            const next = {
+              ...internalUser,
+              account_status: d.account_status,
+              pending_organization_id: d.pending_organization_id,
+            };
+            setInternalUser(next);
+            onUserUpdated?.(next);
+          } catch (_) {
+            setInternalUser({
+              ...internalUser,
+              account_status: 'pending_approval',
+            });
+          }
+        }}
+      />
+    );
   }
 
   if (status === 'pending_approval') {
@@ -360,12 +441,20 @@ export function OnboardingGate({ user, token, onLogout, onUserUpdated, children 
         token={token}
         pendingOrgName={internalUser?.pending_organization_name}
         onCancelled={() => {
-          const next = { ...internalUser, account_status: 'pending_org', pending_organization_id: null };
+          const next = {
+            ...internalUser,
+            account_status: 'pending_org',
+            pending_organization_id: null,
+          };
           setInternalUser(next);
           onUserUpdated?.(next);
         }}
         onApproved={(d) => {
-          const next = { ...internalUser, account_status: d.account_status, organization_id: d.organization_id };
+          const next = {
+            ...internalUser,
+            account_status: d.account_status,
+            organization_id: d.organization_id,
+          };
           setInternalUser(next);
           onUserUpdated?.(next);
         }}
@@ -380,7 +469,9 @@ export function OnboardingGate({ user, token, onLogout, onUserUpdated, children 
         token={token}
         onRetry={() => {
           // Cancel-then-pick: move them back to pending_org so wizard renders.
-          authFetch('/api/me/membership-request', token, { method: 'DELETE' }).finally(() => {
+          authFetch('/api/me/membership-request', token, {
+            method: 'DELETE',
+          }).finally(() => {
             const next = { ...internalUser, account_status: 'pending_org' };
             setInternalUser(next);
             onUserUpdated?.(next);
@@ -404,7 +495,10 @@ export function OnboardingGate({ user, token, onLogout, onUserUpdated, children 
         onComplete={() => {
           const next = {
             ...internalUser,
-            onboarding_state: { ...(internalUser?.onboarding_state || {}), tour_completed: true },
+            onboarding_state: {
+              ...(internalUser?.onboarding_state || {}),
+              tour_completed: true,
+            },
           };
           setInternalUser(next);
           onUserUpdated?.(next);

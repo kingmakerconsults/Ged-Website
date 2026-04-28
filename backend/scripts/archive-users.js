@@ -93,7 +93,9 @@ async function ensurePreservedUsers() {
          SET role = 'super_admin', account_status = 'active'`
     );
   }
-  log(`super_admin row ensured: kingmakerconsults@gmail.com${COMMIT ? '' : ' (dry-run)'}`);
+  log(
+    `super_admin row ensured: kingmakerconsults@gmail.com${COMMIT ? '' : ' (dry-run)'}`
+  );
 
   // 2) Commonpoint Bronx org_admin
   if (COMMIT) {
@@ -107,7 +109,9 @@ async function ensurePreservedUsers() {
       [bronxId]
     );
   }
-  log(`org_admin row ensured: zsmith@commonpoint.org -> Commonpoint Bronx (id=${bronxId})${COMMIT ? '' : ' (dry-run)'}`);
+  log(
+    `org_admin row ensured: zsmith@commonpoint.org -> Commonpoint Bronx (id=${bronxId})${COMMIT ? '' : ' (dry-run)'}`
+  );
 }
 
 async function archiveUserOwnedTable(tableName, preservedIds) {
@@ -119,7 +123,9 @@ async function archiveUserOwnedTable(tableName, preservedIds) {
   const archiveTable = `${tableName}_archive`;
   const archiveExists = await tableExists(archiveTable);
   if (!archiveExists) {
-    log(`WARN ${tableName}: ${archiveTable} missing; skipping (run the migration first)`);
+    log(
+      `WARN ${tableName}: ${archiveTable} missing; skipping (run the migration first)`
+    );
     return { archived: 0, deleted: 0 };
   }
 
@@ -146,7 +152,9 @@ async function archiveUserOwnedTable(tableName, preservedIds) {
     `DELETE FROM ${tableName}
       WHERE user_id IS NOT NULL AND user_id NOT IN (${idsList})`
   );
-  log(`OK  ${tableName}: archived ${insertRes.rowCount}, deleted ${delRes.rowCount}`);
+  log(
+    `OK  ${tableName}: archived ${insertRes.rowCount}, deleted ${delRes.rowCount}`
+  );
   return { archived: insertRes.rowCount, deleted: delRes.rowCount };
 }
 
@@ -180,25 +188,29 @@ async function archiveUsers(preservedIds) {
   );
   // Delete users last (cascades will handle anything we missed, but we
   // already wiped user-owned tables explicitly above).
-  const del = await db.query(
-    `DELETE FROM users WHERE id NOT IN (${idsList})`
-  );
+  const del = await db.query(`DELETE FROM users WHERE id NOT IN (${idsList})`);
   log(`OK  users: archived ${ins.rowCount}, deleted ${del.rowCount}`);
   return { archived: ins.rowCount, deleted: del.rowCount };
 }
 
 async function main() {
-  log(`mode = ${COMMIT ? 'COMMIT (writes will happen)' : 'DRY-RUN (no writes)'}`);
+  log(
+    `mode = ${COMMIT ? 'COMMIT (writes will happen)' : 'DRY-RUN (no writes)'}`
+  );
   log(`preserved emails: ${PRESERVE_EMAILS.join(', ')}`);
 
   await ensurePreservedUsers();
 
   const preserved = await fetchPreservedIds();
-  log(`preserved user ids: ${preserved.map((r) => `${r.email}=${r.id}`).join(', ') || 'NONE FOUND'}`);
+  log(
+    `preserved user ids: ${preserved.map((r) => `${r.email}=${r.id}`).join(', ') || 'NONE FOUND'}`
+  );
   const preservedIds = preserved.map((r) => r.id);
 
   if (!preservedIds.length && COMMIT) {
-    throw new Error('Refusing to commit: zero preserved users matched. Run dry-run first.');
+    throw new Error(
+      'Refusing to commit: zero preserved users matched. Run dry-run first.'
+    );
   }
 
   // Archive user-owned tables BEFORE users so FK cascades stay consistent.
@@ -206,19 +218,21 @@ async function main() {
   for (const t of USER_OWNED_TABLES) {
     const r = await archiveUserOwnedTable(t, preservedIds);
     totals.archived += r.archived || 0;
-    totals.deleted  += r.deleted  || 0;
+    totals.deleted += r.deleted || 0;
     totals.candidate += r.candidate || 0;
   }
 
   const u = await archiveUsers(preservedIds);
   totals.archived += u.archived || 0;
-  totals.deleted  += u.deleted  || 0;
+  totals.deleted += u.deleted || 0;
   totals.candidate += u.candidate || 0;
 
   log('---');
-  log(COMMIT
-    ? `DONE: total archived=${totals.archived}, deleted=${totals.deleted}`
-    : `DRY-RUN: would archive ~${totals.candidate} rows total. Re-run with --commit to execute.`);
+  log(
+    COMMIT
+      ? `DONE: total archived=${totals.archived}, deleted=${totals.deleted}`
+      : `DRY-RUN: would archive ~${totals.candidate} rows total. Re-run with --commit to execute.`
+  );
 }
 
 main()

@@ -23,7 +23,12 @@
 
 const { isEnabled } = require('../src/featureFlags');
 
-const PRIVILEGED_ROLES = new Set(['super_admin', 'org_admin', 'instructor', 'teacher']);
+const PRIVILEGED_ROLES = new Set([
+  'super_admin',
+  'org_admin',
+  'instructor',
+  'teacher',
+]);
 
 /**
  * @param {import('pg').PoolClient | { query: Function }} db
@@ -59,7 +64,10 @@ function requireActiveAccount(db) {
       // Failing closed would brick the app on a transient DB blip; fail open
       // so existing students keep working. Status mismatch is recoverable on
       // the next request.
-      console.error('[requireActiveAccount] DB error, allowing request:', err.message || err);
+      console.error(
+        '[requireActiveAccount] DB error, allowing request:',
+        err.message || err
+      );
       return next();
     }
   };

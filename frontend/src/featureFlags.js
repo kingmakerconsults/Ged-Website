@@ -55,11 +55,17 @@ function consumeUrlOverrides() {
       if (!name) return;
       const v = String(val || '').toLowerCase();
       if (['on', 'true', '1'].includes(v)) {
-        try { localStorage.setItem(`feature:${name}`, 'on'); } catch (_) {}
+        try {
+          localStorage.setItem(`feature:${name}`, 'on');
+        } catch (_) {}
       } else if (['off', 'false', '0'].includes(v)) {
-        try { localStorage.setItem(`feature:${name}`, 'off'); } catch (_) {}
+        try {
+          localStorage.setItem(`feature:${name}`, 'off');
+        } catch (_) {}
       } else if (['clear', 'reset', ''].includes(v)) {
-        try { localStorage.removeItem(`feature:${name}`); } catch (_) {}
+        try {
+          localStorage.removeItem(`feature:${name}`);
+        } catch (_) {}
       }
     });
   } catch (_) {
@@ -94,7 +100,11 @@ export function isFeatureEnabled(name, context) {
   } catch (_) {}
   // 2. Window-level (server bootstrap)
   try {
-    if (typeof window !== 'undefined' && window.__FEATURE_FLAGS__ && name in window.__FEATURE_FLAGS__) {
+    if (
+      typeof window !== 'undefined' &&
+      window.__FEATURE_FLAGS__ &&
+      name in window.__FEATURE_FLAGS__
+    ) {
       return Boolean(window.__FEATURE_FLAGS__[name]);
     }
   } catch (_) {}
