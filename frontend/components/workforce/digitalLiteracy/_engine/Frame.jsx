@@ -54,7 +54,9 @@ export function WindowFrame({
           </div>
         ) : null}
       </div>
-      <div className="window-body bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">{children}</div>
+      <div className="window-body bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+        {children}
+      </div>
     </div>
   );
 }
@@ -81,7 +83,9 @@ export function BrowserFrame({ url, onUrlChange, children, className = '' }) {
           spellCheck="false"
         />
       </div>
-      <div className="browser-body p-4 text-slate-900 dark:text-slate-100">{children}</div>
+      <div className="browser-body p-4 text-slate-900 dark:text-slate-100">
+        {children}
+      </div>
     </WindowFrame>
   );
 }

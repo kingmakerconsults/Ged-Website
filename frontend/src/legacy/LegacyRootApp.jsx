@@ -25547,13 +25547,19 @@ function App({ externalTheme, onThemeChange }) {
       });
       if (res.status === 401) {
         // Server invalidated this session (signed in elsewhere or idle > 2h).
-        try { localStorage.removeItem('appUser'); } catch (_) {}
-        try { localStorage.removeItem('appToken'); } catch (_) {}
+        try {
+          localStorage.removeItem('appUser');
+        } catch (_) {}
+        try {
+          localStorage.removeItem('appToken');
+        } catch (_) {}
         setAuthToken(null);
         setCurrentUser(null);
         try {
           if (typeof window !== 'undefined') {
-            window.alert('You were signed out (session ended on another device or after 2 hours of inactivity).');
+            window.alert(
+              'You were signed out (session ended on another device or after 2 hours of inactivity).'
+            );
           }
         } catch (_) {}
       }
@@ -27596,7 +27602,9 @@ function App({ externalTheme, onThemeChange }) {
     const onIdle = () => {
       try {
         if (typeof window !== 'undefined') {
-          window.alert('You were signed out after 2 hours of inactivity. Please sign in again.');
+          window.alert(
+            'You were signed out after 2 hours of inactivity. Please sign in again.'
+          );
         }
       } catch (_) {}
       handleLogout();

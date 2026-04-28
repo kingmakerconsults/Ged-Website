@@ -50,7 +50,9 @@ export default function Triage({ prompt, items, labels, onComplete }) {
                   : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30'
               }`}
             >
-              <div className="text-sm text-slate-900 dark:text-slate-100">{it.content}</div>
+              <div className="text-sm text-slate-900 dark:text-slate-100">
+                {it.content}
+              </div>
               <div className="flex flex-wrap gap-2 mt-2">
                 {labels.map((l) => (
                   <button

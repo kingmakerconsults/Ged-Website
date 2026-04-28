@@ -4611,8 +4611,7 @@ const SESSION_LAST_SEEN_BUMP_SECONDS = 30;
 //              'user_missing', 'db_error' }
 async function validateUserSession(payload) {
   const sid = payload && typeof payload.sid === 'string' ? payload.sid : null;
-  const userId =
-    payload && (payload.sub ?? payload.userId ?? payload.user_id);
+  const userId = payload && (payload.sub ?? payload.userId ?? payload.user_id);
   if (!sid || !userId) {
     return { ok: false, reason: 'no_session' };
   }
@@ -4642,10 +4641,9 @@ async function validateUserSession(payload) {
     }
     if (idle > SESSION_LAST_SEEN_BUMP_SECONDS) {
       try {
-        await db.query(
-          `UPDATE users SET last_seen_at = NOW() WHERE id = $1`,
-          [userId]
-        );
+        await db.query(`UPDATE users SET last_seen_at = NOW() WHERE id = $1`, [
+          userId,
+        ]);
       } catch (_) {}
     }
     return { ok: true };
@@ -4740,10 +4738,15 @@ function authenticateBearerToken(req, res, next) {
   validateUserSession(payload)
     .then((result) => {
       if (!result.ok) {
-        try { res.clearCookie('auth'); } catch (_) {}
+        try {
+          res.clearCookie('auth');
+        } catch (_) {}
         return res
           .status(401)
-          .json({ error: 'Unauthorized: session ended.', reason: result.reason });
+          .json({
+            error: 'Unauthorized: session ended.',
+            reason: result.reason,
+          });
       }
       const normalizedId =
         payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
@@ -4835,7 +4838,10 @@ async function createUserToken(userId) {
       [sid, userId]
     );
   } catch (err) {
-    console.warn('[auth] failed to persist current_session_id:', err?.message || err);
+    console.warn(
+      '[auth] failed to persist current_session_id:',
+      err?.message || err
+    );
   }
   const payload = { ...buildAuthPayloadFromUserRow(userRow), sid };
   return jwt.sign(payload, secret, { expiresIn: USER_TOKEN_TTL });
@@ -10361,7 +10367,8 @@ app.post('/api/logout', async (req, res) => {
     if (token && secret) {
       try {
         const payload = jwt.verify(token, secret, { ignoreExpiration: true });
-        const userId = payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+        const userId =
+          payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
         const sid = typeof payload?.sid === 'string' ? payload.sid : null;
         if (userId && sid) {
           // Only clear if the sid still matches — avoids racing with a fresh
@@ -10380,7 +10387,9 @@ app.post('/api/logout', async (req, res) => {
   } catch (err) {
     console.warn('[logout] cleanup failed:', err?.message || err);
   }
-  try { res.clearCookie('auth'); } catch (_) {}
+  try {
+    res.clearCookie('auth');
+  } catch (_) {}
   return res.json({ ok: true });
 });
 
@@ -18931,7 +18940,10 @@ app.post('/api/auth/google', async (req, res) => {
         [sid, userId]
       );
     } catch (e) {
-      console.warn('[google-auth] failed to persist current_session_id:', e?.message || e);
+      console.warn(
+        '[google-auth] failed to persist current_session_id:',
+        e?.message || e
+      );
     }
     const token = jwt.sign({ ...authPayload, sid }, process.env.JWT_SECRET, {
       expiresIn: '1d',
