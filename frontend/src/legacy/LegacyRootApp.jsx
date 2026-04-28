@@ -22,7 +22,6 @@ import {
   saveExamProgress,
   fetchActiveSessions,
   deleteExamSession,
-  fetchExamClock,
 } from '../../utils/examSessionManager.js';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
@@ -1168,9 +1167,7 @@ async function generateTopicQuiz(
     if (typeof window !== 'undefined') {
       // Let the header pill refetch when quota was burned.
       if (response.status === 429) {
-        try {
-          window.dispatchEvent(new Event('quota:refresh'));
-        } catch {}
+        try { window.dispatchEvent(new Event('quota:refresh')); } catch {}
       }
     }
     const err = new Error(message);
@@ -24513,8 +24510,8 @@ function AppHeader({
 
   return (
     <header className="app-header fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center gap-4 justify-between px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="w-full flex items-center gap-6 justify-between px-4 sm:px-6 lg:px-8 py-3">
+        <div className="flex items-center gap-4 min-w-0 flex-1">
           <button
             type="button"
             onClick={onShowHome}
@@ -24523,7 +24520,7 @@ function AppHeader({
             <AppIcon name="home" tone="sky" size={20} />
             Mr. Smith's Learning Canvas
           </button>
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-4">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
             <button
               onClick={onShowHome}
               className="nav-link flex items-center gap-1.5 whitespace-nowrap"
@@ -24566,14 +24563,16 @@ function AppHeader({
                 href="/collab"
                 className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline inline-flex items-center gap-1.5 whitespace-nowrap"
                 style={{ textDecoration: 'none' }}
+                title="Work Together"
               >
                 <AppIcon name="workTogether" tone="white" size={14} />
-                Work Together
+                <span className="hidden xl:inline">Work Together</span>
+                <span className="xl:hidden">Collab</span>
               </a>
             )}
           </nav>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -24622,7 +24621,7 @@ function AppHeader({
                       {initial}
                     </div>
                   )}
-                  <span className="text-sm font-semibold text-primary truncate max-w-[8rem]">
+                  <span className="text-sm font-semibold text-primary truncate max-w-[10rem] xl:max-w-[14rem]">
                     {currentUser.name || 'Learner'}
                   </span>
                   <svg
@@ -25149,7 +25148,9 @@ function PracticeSessionModal({
                 ))}
               </select>
               {topicsLoading && (
-                <p className="text-xs text-secondary mt-1">Loading topics…</p>
+                <p className="text-xs text-secondary mt-1">
+                  Loading topics…
+                </p>
               )}
               {(questionType || tier) && (
                 <p className="text-xs text-secondary mt-1">
@@ -27690,10 +27691,7 @@ function App({ externalTheme, onThemeChange }) {
           setQuotaRefreshKey((k) => k + 1);
         }
         // In-progress session — surface as a clear, non-error message.
-        if (
-          response.status === 409 &&
-          errBody?.error === 'in_progress_session_exists'
-        ) {
+        if (response.status === 409 && errBody?.error === 'in_progress_session_exists') {
           alert(
             errBody.message ||
               'You already have an unfinished comprehensive exam for this subject. Resume it from your dashboard before generating a new one.'
@@ -27797,32 +27795,6 @@ function App({ externalTheme, onThemeChange }) {
             'Comprehensive Exam',
           quizPayload: preparedQuiz,
           timeRemainingMs: totalTime,
-          // 2026-04-29: server-authoritative timer + dup-gen guard inputs.
-          durationMs: totalTime,
-          kind: 'comprehensive',
-          topic: preparedQuiz.topic || null,
-        }).catch(() => {});
-      } else if (
-        preparedQuiz._kind === 'ai_topic' &&
-        preparedQuiz.quizCode &&
-        !preparedQuiz._resumed
-      ) {
-        // 2026-04-29: persist AI smart quizzes too so the user can resume
-        // within 24h, and so the resume guard / dup-gen 409 has something
-        // to compare against.
-        const aiTime = (preparedQuiz.questions?.length || 10) * 90 * 1000;
-        createExamSession({
-          quizId: preparedQuiz.quizCode,
-          subject: preparedQuiz.subject,
-          quizType: preparedQuiz.quizType || preparedQuiz.type || 'ai_topic',
-          quizTitle:
-            preparedQuiz.title ||
-            `${preparedQuiz.subject} Quiz: ${preparedQuiz.topic || ''}`,
-          quizPayload: preparedQuiz,
-          timeRemainingMs: aiTime,
-          durationMs: aiTime,
-          kind: 'ai_topic',
-          topic: preparedQuiz.topic || null,
         }).catch(() => {});
       }
 
@@ -28533,10 +28505,8 @@ function App({ externalTheme, onThemeChange }) {
     // Student view (default) - keep existing quiz/practice UI
     // Fresh-start gating (2026-04-28): show onboarding flow first if needed.
     const _accountStatus = currentUser?.account_status || 'active';
-    const _tourDone = !!(
-      currentUser?.onboarding_state?.tour_completed ||
-      currentUser?.onboarding_state?.tour_skipped
-    );
+    const _tourDone = !!(currentUser?.onboarding_state?.tour_completed
+      || currentUser?.onboarding_state?.tour_skipped);
     if (_accountStatus !== 'active' || !_tourDone) {
       return (
         <OnboardingGate
@@ -28834,40 +28804,6 @@ function App({ externalTheme, onThemeChange }) {
                 alert('Sorry, this subject is not supported yet.');
                 return;
               }
-
-              // 2026-04-29: AI-quiz resume guard. If the user already has an
-              // unfinished smart quiz on this exact subject+topic, offer to
-              // resume rather than burn another quota slot. The dup-gen 409
-              // from the backend would otherwise just block them.
-              try {
-                const sessions = await fetchActiveSessions();
-                const matching = (sessions || []).find((s) => {
-                  if (!s || s.kind !== 'ai_topic') return false;
-                  const sSubj = String(s.subject || '').toLowerCase();
-                  const sTopic = String(s.topic || '').toLowerCase();
-                  return (
-                    sSubj === String(subjectParam).toLowerCase() &&
-                    sTopic === String(topic).toLowerCase()
-                  );
-                });
-                if (matching) {
-                  const resume = window.confirm(
-                    `You already have an unfinished ${subject} quiz on "${topic}". ` +
-                      'Resume where you left off? (Cancel to discard it and start fresh.)'
-                  );
-                  if (resume) {
-                    handleResumeExam(matching);
-                    return;
-                  }
-                  await handleAbandonSession(matching);
-                }
-              } catch (resumeErr) {
-                console.warn(
-                  '[ai-resume] check failed, falling through to generate:',
-                  resumeErr?.message || resumeErr
-                );
-              }
-
               setLoadingMessage(
                 'Please give us a moment to smith this for you...'
               );
@@ -28896,9 +28832,6 @@ function App({ externalTheme, onThemeChange }) {
                   id: `ai_${Date.now()}`,
                   title: `${subject} Quiz: ${topic}`,
                   questions,
-                  // Tag this so launchPreparedQuiz registers an ai_topic
-                  // session for resume + dup-gen detection.
-                  _kind: 'ai_topic',
                   // Enable formula sheet for Math & Science topic quizzes
                   config: {
                     formulaSheet: subject === 'Math' || subject === 'Science',
@@ -28909,18 +28842,7 @@ function App({ externalTheme, onThemeChange }) {
                 startQuiz(generatedQuiz, subject);
               } catch (err) {
                 console.error('Error generating quiz:', err);
-                if (err?.status === 409) {
-                  alert(
-                    'You already have an unfinished smart quiz. Open it from the dashboard to continue.'
-                  );
-                } else if (err?.status === 429) {
-                  alert(
-                    err.message ||
-                      "You've used today's smart-quiz allowance. Ask your instructor for more, or try again tomorrow."
-                  );
-                } else {
-                  alert(`Sorry, something went wrong. ${err.message}`);
-                }
+                alert(`Sorry, something went wrong. ${err.message}`);
               } finally {
                 setIsLoading(false);
               }
@@ -28975,7 +28897,9 @@ function App({ externalTheme, onThemeChange }) {
           onShowSettings={confirmThenNav(goToSettings)}
           onShowQuizzes={confirmThenNav(goToQuizzes)}
           onShowProgress={confirmThenNav(goToProgress)}
-          onShowMyClass={goToMyClass ? confirmThenNav(goToMyClass) : undefined}
+          onShowMyClass={
+            goToMyClass ? confirmThenNav(goToMyClass) : undefined
+          }
           activePanel={
             activeView === 'profile'
               ? 'profile'
@@ -29063,7 +28987,9 @@ function App({ externalTheme, onThemeChange }) {
             defaultDuration={practiceSessionPrefill?.durationMinutes || 10}
             defaultSubject={practiceSessionPrefill?.subject || ''}
             defaultTopic={practiceSessionPrefill?.topic || ''}
-            defaultQuestionType={practiceSessionPrefill?.questionType || ''}
+            defaultQuestionType={
+              practiceSessionPrefill?.questionType || ''
+            }
             defaultTier={practiceSessionPrefill?.tier || ''}
             onDismiss={() => {
               setShowPracticeModal(false);
@@ -29097,7 +29023,8 @@ function App({ externalTheme, onThemeChange }) {
                 resp.questions.length === 0
               ) {
                 throw new Error(
-                  resp?.note || 'Practice session is not available right now.'
+                  resp?.note ||
+                    'Practice session is not available right now.'
                 );
               }
               const sessionTitle =
@@ -37009,15 +36936,6 @@ function QuizInterface({
       : Array(questions.length).fill(0)
   );
   const lastNavTsRef = useRef(Date.now());
-  // 2026-04-29: server-authoritative deadline. Defaults to client deadline so
-  // the timer keeps working when there's no live exam session, and gets
-  // overwritten by /clock once we know the server's deadline_at.
-  const deadlineRef = useRef(
-    Date.now() +
-      (resumedState?.timeRemainingMs != null
-        ? Math.max(0, resumedState.timeRemainingMs)
-        : (timeLimit || questions.length * 90) * 1000)
-  );
 
   // Olympics mode state
   const isOlympicsMode = practiceMode === 'olympics';
@@ -37037,9 +36955,6 @@ function QuizInterface({
     // Reset per-question timing on new quiz
     timeSpentRef.current = Array(questions.length).fill(0);
     lastNavTsRef.current = Date.now();
-    // Reset deadline so the new quiz starts a fresh server-authoritative window.
-    deadlineRef.current =
-      Date.now() + (timeLimit || questions.length * 90) * 1000;
   }, [questions, timeLimit]);
 
   // Record time spent on previous question whenever currentIndex changes
@@ -37061,53 +36976,18 @@ function QuizInterface({
   useEffect(() => {
     if (isOlympicsMode) return; // No timer for Olympics mode
     if (!onComplete || isPaused) return; // Don't run timer if there's no completion action (e.g., in a part of a larger quiz)
-    // Deadline-based countdown: tab throttling can no longer pause time.
-    // We recompute remaining from a wall-clock deadline each tick, and the
-    // server-clock effect below corrects for drift on long sessions.
-    const tick = () => {
-      const remainingMs = Math.max(0, deadlineRef.current - Date.now());
-      const remainingSec = Math.ceil(remainingMs / 1000);
-      setTimeLeft(remainingSec);
-      if (remainingSec <= 0) {
-        clearInterval(timer);
-        handleSubmitRef.current?.();
-      }
-    };
-    const timer = setInterval(tick, 1000);
-    tick();
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          handleSubmitRef.current?.();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     return () => clearInterval(timer);
   }, [onComplete, isPaused, isOlympicsMode]);
-
-  // Server-authoritative clock sync (Commit A): poll /clock on mount, every
-  // 30s, and whenever the tab becomes visible. Aligns the local deadline
-  // with the server's deadline_at so client clock skew / sleep / DST changes
-  // can't extend exam time.
-  useEffect(() => {
-    if (!quizCode || !isComprehensive) return;
-    let cancelled = false;
-    const sync = async () => {
-      const clock = await fetchExamClock(quizCode);
-      if (cancelled || !clock) return;
-      if (typeof clock.remaining_ms === 'number') {
-        deadlineRef.current = Date.now() + Math.max(0, clock.remaining_ms);
-        setTimeLeft(Math.ceil(Math.max(0, clock.remaining_ms) / 1000));
-      }
-      if (clock.expired) {
-        handleSubmitRef.current?.();
-      }
-    };
-    sync();
-    const id = setInterval(sync, 30000);
-    const onVisibility = () => {
-      if (document.visibilityState === 'visible') sync();
-    };
-    document.addEventListener('visibilitychange', onVisibility);
-    return () => {
-      cancelled = true;
-      clearInterval(id);
-      document.removeEventListener('visibilitychange', onVisibility);
-    };
-  }, [quizCode, isComprehensive]);
 
   // ── Auto-save exam progress for resume-on-disconnect ──────────────────────
   const autoSaveTimerRef = useRef(null);
@@ -39681,9 +39561,6 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   const [showFiveMinWarning, setShowFiveMinWarning] = useState(false);
   const fiveMinWarningShownRef = React.useRef({});
   const initialPartRef = useRef(true); // track initial render to skip timer reset
-  // 2026-04-29: deadline-based per-part timer. Initialized in the part-change
-  // effect so tab-switching can't pause exam time.
-  const partDeadlineRef = useRef(Date.now());
 
   // Resume: split saved answers across parts
   const [part1Answers, setPart1Answers] = useState(() => {
@@ -39839,8 +39716,6 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   useEffect(() => {
     if (initialPartRef.current) {
       initialPartRef.current = false;
-      // Set initial deadline based on the saved or default time-left.
-      partDeadlineRef.current = Date.now() + timeLeft * 1000;
       return;
     }
     setTimeLeft(PART_TIMES[currentPart]);
@@ -39848,29 +39723,23 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     setPausesRemaining(2);
     setShowFiveMinWarning(false);
     fiveMinWarningShownRef.current[currentPart] = false;
-    partDeadlineRef.current = Date.now() + PART_TIMES[currentPart] * 1000;
   }, [currentPart]);
 
   useEffect(() => {
     if (isPaused || timeLeft <= 0) return;
-    // Deadline-based: tab throttling can't pause time. We compute remaining
-    // from a wall-clock deadline each tick.
-    const tick = () => {
-      const remainingMs = Math.max(0, partDeadlineRef.current - Date.now());
-      const next = Math.ceil(remainingMs / 1000);
-      // 5-minute warning, fired once per part on the way down through 300s.
-      if (
-        next <= 300 &&
-        next > 0 &&
-        !fiveMinWarningShownRef.current[currentPart]
-      ) {
-        fiveMinWarningShownRef.current[currentPart] = true;
-        setShowFiveMinWarning(true);
-      }
-      setTimeLeft(next);
-    };
-    const timerId = setInterval(tick, 1000);
-    tick();
+    const timerId = setInterval(
+      () =>
+        setTimeLeft((t) => {
+          const next = t - 1;
+          // Trigger 5-minute warning once per part
+          if (next === 300 && !fiveMinWarningShownRef.current[currentPart]) {
+            fiveMinWarningShownRef.current[currentPart] = true;
+            setShowFiveMinWarning(true);
+          }
+          return next;
+        }),
+      1000
+    );
     return () => clearInterval(timerId);
   }, [isPaused, timeLeft, currentPart]);
 
@@ -40852,7 +40721,9 @@ function ResultsScreen({
     SUBJECT_ID_MAP[quiz?.subject] ||
     SUBJECT_ID_MAP[results?.subject] ||
     (typeof quiz?.subject === 'string' ? quiz.subject.toLowerCase() : '') ||
-    (typeof results?.subject === 'string' ? results.subject.toLowerCase() : '');
+    (typeof results?.subject === 'string'
+      ? results.subject.toLowerCase()
+      : '');
   const subjectKey =
     subjectKeyRaw === 'social' || subjectKeyRaw === 'ss'
       ? 'social-studies'
@@ -41103,7 +40974,9 @@ function ResultsScreen({
             pct: v.total > 0 ? v.correct / v.total : 0,
           }));
         };
-        const topicStats = groupBy((q) => q.originTopicTitle || q.topic || '');
+        const topicStats = groupBy(
+          (q) => q.originTopicTitle || q.topic || ''
+        );
         const typeStats = groupBy((q) =>
           isRlaComprehensive && q.skill
             ? q.skill
@@ -41130,7 +41003,9 @@ function ResultsScreen({
         // Challenge: strongest topic where student was perfect (≥ 2).
         const challengeCandidate = topicStats
           .filter((t) => t.total >= 2 && t.correct === t.total)
-          .sort((a, b) => b.total - a.total || a.key.localeCompare(b.key))[0];
+          .sort(
+            (a, b) => b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
 
         const markedCount = safeMarked.filter(Boolean).length;
         const passed = scaledScore >= 145;
@@ -41140,8 +41015,7 @@ function ResultsScreen({
           items.push({
             id: 'reinforcer',
             purpose: 'Reinforcer',
-            badgeColor:
-              'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200',
+            badgeColor: 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200',
             title: `Reinforce: ${reinforcerCandidate.key}`,
             rationale: `You scored ${reinforcerCandidate.correct}/${reinforcerCandidate.total} on this topic. A short focused practice will help it stick.`,
             actionLabel: 'Practice this topic',
