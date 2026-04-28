@@ -263,10 +263,6 @@
           const saved = window.localStorage
             ? window.localStorage.getItem('appTheme')
             : null;
-          const prefersDark =
-            window.matchMedia &&
-            typeof window.matchMedia === 'function' &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches;
 
           // FORCE LIGHT MODE when not authenticated
           if (!hasToken) {
@@ -274,20 +270,21 @@
             console.log(
               '[preloadTheme] No token found, forcing light mode for auth screen'
             );
-          } else if (hasToken && (saved === 'light' || saved === 'dark')) {
+          } else if (saved === 'light' || saved === 'dark') {
             theme = saved;
             console.log(
               '[preloadTheme] User authenticated, using saved theme:',
               theme
             );
-          } else if (hasToken && prefersDark) {
-            theme = 'dark';
-            console.log(
-              '[preloadTheme] User authenticated, using dark from system preference'
-            );
           } else {
+            // Default to light. Do NOT auto-flip from prefers-color-scheme:
+            // it caused inconsistent UI (e.g. profile dropdown rendering dark
+            // in Edge while staying light in browsers that ignore the media
+            // query). Users opt into dark mode explicitly via Settings.
             theme = 'light';
-            console.log('[preloadTheme] Fallback to light mode');
+            console.log(
+              '[preloadTheme] Authenticated, no saved theme — defaulting to light'
+            );
           }
         } catch (e) {
           console.warn('theme preload failed', e);
