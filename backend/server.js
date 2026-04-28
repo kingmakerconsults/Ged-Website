@@ -4596,6 +4596,65 @@ const pool = db;
 
 const SALT_ROUNDS = 10;
 const USER_TOKEN_TTL = '12h';
+// Idle timeout for any authenticated session. After this much wall-clock time
+// without an authenticated request the next call returns 401 with
+// `reason: 'inactivity_timeout'` and the frontend kicks the user back to the
+// sign-in screen. Keep this in sync with the frontend inactivity watcher in
+// LegacyRootApp.jsx.
+const SESSION_IDLE_TIMEOUT_SQL = `INTERVAL '2 hours'`;
+const SESSION_LAST_SEEN_BUMP_SECONDS = 30;
+
+// Validates the JWT payload against the row in `users.current_session_id` and
+// the idle timeout. Resolves to { ok: true } on success and bumps
+// last_seen_at when stale; otherwise { ok: false, reason }.
+//   reason ∈ { 'no_session', 'signed_in_elsewhere', 'inactivity_timeout',
+//              'user_missing', 'db_error' }
+async function validateUserSession(payload) {
+  const sid = payload && typeof payload.sid === 'string' ? payload.sid : null;
+  const userId =
+    payload && (payload.sub ?? payload.userId ?? payload.user_id);
+  if (!sid || !userId) {
+    return { ok: false, reason: 'no_session' };
+  }
+  try {
+    const row = await db.oneOrNone(
+      `SELECT current_session_id,
+              EXTRACT(EPOCH FROM (NOW() - COALESCE(last_seen_at, NOW()))) AS idle_seconds
+         FROM users
+        WHERE id = $1`,
+      [userId]
+    );
+    if (!row) return { ok: false, reason: 'user_missing' };
+    if (!row.current_session_id || row.current_session_id !== sid) {
+      return { ok: false, reason: 'signed_in_elsewhere' };
+    }
+    const idle = Number(row.idle_seconds) || 0;
+    if (idle > 2 * 60 * 60) {
+      // Clear the stored sid so a future request gets the same answer even
+      // if last_seen_at moves around.
+      try {
+        await db.query(
+          `UPDATE users SET current_session_id = NULL WHERE id = $1`,
+          [userId]
+        );
+      } catch (_) {}
+      return { ok: false, reason: 'inactivity_timeout' };
+    }
+    if (idle > SESSION_LAST_SEEN_BUMP_SECONDS) {
+      try {
+        await db.query(
+          `UPDATE users SET last_seen_at = NOW() WHERE id = $1`,
+          [userId]
+        );
+      } catch (_) {}
+    }
+    return { ok: true };
+  } catch (err) {
+    console.warn('[auth] validateUserSession failed:', err?.message || err);
+    // Fail open on transient DB errors so we don't lock everyone out.
+    return { ok: true };
+  }
+}
 
 function formatUserRow(row) {
   if (!row) return null;
@@ -4671,27 +4730,53 @@ function authenticateBearerToken(req, res, next) {
       .json({ error: 'Unauthorized: missing bearer token or auth cookie.' });
   }
 
+  let payload;
   try {
-    const payload = jwt.verify(token, secret);
-    const normalizedId =
-      payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
-    const normalizedRole = payload?.role || 'student';
-    const normalizedOrg = payload?.organization_id ?? null;
-    const normalizedEmail = payload?.email || null;
-
-    req.user = {
-      ...(req.user || {}),
-      ...payload,
-      id: normalizedId,
-      userId: normalizedId,
-      role: normalizedRole,
-      organization_id: normalizedOrg,
-      email: normalizedEmail,
-    };
-    return next();
+    payload = jwt.verify(token, secret);
   } catch (error) {
     return res.status(401).json({ error: 'Unauthorized: invalid auth token.' });
   }
+
+  validateUserSession(payload)
+    .then((result) => {
+      if (!result.ok) {
+        try { res.clearCookie('auth'); } catch (_) {}
+        return res
+          .status(401)
+          .json({ error: 'Unauthorized: session ended.', reason: result.reason });
+      }
+      const normalizedId =
+        payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+      const normalizedRole = payload?.role || 'student';
+      const normalizedOrg = payload?.organization_id ?? null;
+      const normalizedEmail = payload?.email || null;
+
+      req.user = {
+        ...(req.user || {}),
+        ...payload,
+        id: normalizedId,
+        userId: normalizedId,
+        role: normalizedRole,
+        organization_id: normalizedOrg,
+        email: normalizedEmail,
+      };
+      return next();
+    })
+    .catch(() => {
+      // Fail open on unexpected errors
+      const normalizedId =
+        payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+      req.user = {
+        ...(req.user || {}),
+        ...payload,
+        id: normalizedId,
+        userId: normalizedId,
+        role: payload?.role || 'student',
+        organization_id: payload?.organization_id ?? null,
+        email: payload?.email || null,
+      };
+      return next();
+    });
 }
 
 // Soft-auth: best-effort decode of bearer/cookie token, no error if missing/invalid.
@@ -4740,7 +4825,19 @@ async function createUserToken(userId) {
     ]);
     userRow.role = 'student';
   }
-  const payload = buildAuthPayloadFromUserRow(userRow);
+  // Issue a fresh session id and persist it so any other token issued for this
+  // account becomes invalid (single-active-session enforcement). Also reset
+  // last_seen_at so the 2h idle clock starts at login.
+  const sid = crypto.randomUUID();
+  try {
+    await pool.query(
+      `UPDATE users SET current_session_id = $1, last_seen_at = NOW() WHERE id = $2`,
+      [sid, userId]
+    );
+  } catch (err) {
+    console.warn('[auth] failed to persist current_session_id:', err?.message || err);
+  }
+  const payload = { ...buildAuthPayloadFromUserRow(userRow), sid };
   return jwt.sign(payload, secret, { expiresIn: USER_TOKEN_TTL });
 }
 
@@ -6673,6 +6770,13 @@ async function ensureMembershipColumns() {
     await pool.query(
       `ALTER TABLE users
          ADD COLUMN IF NOT EXISTS test_dates JSONB DEFAULT '{}'::jsonb`
+    );
+    // Single-active-session enforcement: each successful login writes a fresh
+    // session id here. Auth middleware rejects tokens whose `sid` claim does
+    // not match this column, kicking out other devices/tabs.
+    await pool.query(
+      `ALTER TABLE users
+         ADD COLUMN IF NOT EXISTS current_session_id TEXT`
     );
     await pool.query(
       `UPDATE users SET account_status = 'active' WHERE account_status IS NULL`
@@ -10240,6 +10344,44 @@ app.post('/api/login', loginLimiter, async (req, res) => {
     console.error('Login failed:', error);
     return res.status(500).json({ error: 'Login failed' });
   }
+});
+
+// Logout: best-effort clear of the server-side session id + auth cookie. Safe
+// to call without an Authorization header (the frontend calls this before
+// dropping its local token, but a missing/invalid token still returns 200).
+app.post('/api/logout', async (req, res) => {
+  try {
+    const secret = process.env.JWT_SECRET;
+    const cookieToken = req?.cookies?.auth || null;
+    const authorization = req.headers.authorization || '';
+    const bearerToken = authorization.startsWith('Bearer ')
+      ? authorization.slice('Bearer '.length).trim()
+      : null;
+    const token = bearerToken || cookieToken;
+    if (token && secret) {
+      try {
+        const payload = jwt.verify(token, secret, { ignoreExpiration: true });
+        const userId = payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+        const sid = typeof payload?.sid === 'string' ? payload.sid : null;
+        if (userId && sid) {
+          // Only clear if the sid still matches — avoids racing with a fresh
+          // login from another device.
+          await db.query(
+            `UPDATE users
+                SET current_session_id = NULL
+              WHERE id = $1 AND current_session_id = $2`,
+            [userId, sid]
+          );
+        }
+      } catch (_) {
+        // Invalid token is fine — still clear the cookie below.
+      }
+    }
+  } catch (err) {
+    console.warn('[logout] cleanup failed:', err?.message || err);
+  }
+  try { res.clearCookie('auth'); } catch (_) {}
+  return res.json({ ok: true });
 });
 
 app.post('/api/scores', authenticateBearerToken, async (req, res) => {
@@ -18780,7 +18922,18 @@ app.post('/api/auth/google', async (req, res) => {
     }
 
     const authPayload = buildAuthPayloadFromUserRow(userRow);
-    const token = jwt.sign(authPayload, process.env.JWT_SECRET, {
+    // Single-active-session: persist a fresh sid and reset idle clock so any
+    // earlier token issued for this account is rejected on the next request.
+    const sid = crypto.randomUUID();
+    try {
+      await pool.query(
+        `UPDATE users SET current_session_id = $1, last_seen_at = NOW() WHERE id = $2`,
+        [sid, userId]
+      );
+    } catch (e) {
+      console.warn('[google-auth] failed to persist current_session_id:', e?.message || e);
+    }
+    const token = jwt.sign({ ...authPayload, sid }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
     setAuthCookie(res, token, 24 * 60 * 60 * 1000);
