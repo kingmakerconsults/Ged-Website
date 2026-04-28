@@ -338,18 +338,23 @@ function OnboardingTour({ token, initialState, onComplete }) {
           <div className="tour-test-dates">
             {['rla', 'math', 'science', 'social_studies'].map((subj) => {
               const raw = testDates?.[subj] || '';
-              const status =
-                raw === 'passed'
-                  ? 'passed'
-                  : raw === 'none' || raw === ''
-                    ? raw === 'none'
-                      ? 'none'
-                      : 'none-default'
-                    : 'scheduled';
+              // Status:
+              //   'passed'    -> raw === 'passed'
+              //   'scheduled' -> raw is 'scheduled' (just picked, no date yet)
+              //                  OR raw is a YYYY-MM-DD date string
+              //   'none'      -> anything else (raw === '' or 'none')
+              let status;
+              if (raw === 'passed') status = 'passed';
+              else if (raw === 'scheduled' || /^\d{4}-\d{2}-\d{2}$/.test(raw))
+                status = 'scheduled';
+              else status = 'none';
               const isScheduled = status === 'scheduled';
+              const dateValue = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : '';
               const select = (val) => {
                 if (val === 'scheduled') {
-                  setTestDates({ ...testDates, [subj]: '' });
+                  // Use a sentinel string until the user picks an actual date
+                  // so the date input renders.
+                  setTestDates({ ...testDates, [subj]: 'scheduled' });
                 } else if (val === 'passed') {
                   setTestDates({ ...testDates, [subj]: 'passed' });
                 } else {
@@ -362,13 +367,7 @@ function OnboardingTour({ token, initialState, onComplete }) {
                   <div className="tour-date-controls">
                     <select
                       className="tour-date-status"
-                      value={
-                        status === 'scheduled'
-                          ? 'scheduled'
-                          : status === 'passed'
-                            ? 'passed'
-                            : 'none'
-                      }
+                      value={status}
                       onChange={(e) => select(e.target.value)}
                     >
                       <option value="none">Not scheduled</option>
@@ -378,15 +377,16 @@ function OnboardingTour({ token, initialState, onComplete }) {
                     {isScheduled && (
                       <input
                         type="date"
-                        value={
-                          raw && raw !== 'passed' && raw !== 'none' ? raw : ''
-                        }
-                        onChange={(e) =>
+                        value={dateValue}
+                        onChange={(e) => {
+                          const next = e.target.value;
                           setTestDates({
                             ...testDates,
-                            [subj]: e.target.value,
-                          })
-                        }
+                            // If they clear the date, fall back to the
+                            // scheduled sentinel so the input stays visible.
+                            [subj]: next || 'scheduled',
+                          });
+                        }}
                       />
                     )}
                   </div>
