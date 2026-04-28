@@ -24713,7 +24713,7 @@ function AppHeader({
                           setUserMenuOpen(false);
                           onLogout?.();
                         }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
                       >
                         <AppIcon name="logout" tone="rose" size={16} />
                         Log Out
