@@ -82,6 +82,12 @@ export default function useCollabSocket({
         s ? { ...s, state: { ...s.state, paceMode: d.paceMode } } : s
       );
     });
+    sock.on('join_lock:changed', (d) => {
+      setRoomState((s) =>
+        s ? { ...s, state: { ...s.state, joinLocked: !!d.joinLocked } } : s
+      );
+      setLastEvent({ type: 'join_lock:changed', data: d });
+    });
     sock.on('answer:revealed', (d) => {
       setLastReveal(d);
       setRoomState((s) => {

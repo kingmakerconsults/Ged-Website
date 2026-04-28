@@ -39,6 +39,24 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
     emit('essay:pass_turn', {}, () => {});
   };
 
+  const submitEssay = () => {
+    const text = isMyTurn ? draft : state.essayContent || '';
+    const wc = text.trim() ? text.trim().split(/\s+/).length : 0;
+    let warning = '';
+    if (wc < 80) {
+      warning = 'This essay is quite short (under 80 words). ';
+    }
+    const ok = window.confirm(
+      `${warning}Submit the essay now? Once submitted, the session will end and no more edits can be made.`
+    );
+    if (!ok) return;
+    if (isMyTurn && debounceRef.current) {
+      clearTimeout(debounceRef.current);
+      emit('essay:update', { content: draft });
+    }
+    emit('essay:submit', {}, () => {});
+  };
+
   const wordCount = draft.trim() ? draft.trim().split(/\s+/).length : 0;
 
   const turnHolder = (roomState.participants || []).find(
@@ -192,7 +210,7 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
               }`}
             />
 
-            <div className="flex items-center justify-end gap-2 mt-4">
+            <div className="flex items-center justify-end gap-2 mt-4 flex-wrap">
               {isMyTurn && (
                 <button
                   onClick={passTurn}
@@ -201,6 +219,13 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
                   Pass Turn
                 </button>
               )}
+              <button
+                onClick={submitEssay}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold"
+                title="Finalize the essay and end the session for everyone"
+              >
+                Submit Essay
+              </button>
             </div>
 
             {state.essayHistory?.length > 0 && (

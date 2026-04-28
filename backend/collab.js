@@ -1239,6 +1239,28 @@ function attachCollabSockets(io, { getAllQuizzes }) {
           return;
         }
 
+        // Enforce host-controlled "lock joining". Participants who are
+        // already in the session may always reconnect; only brand-new
+        // joiners are blocked when the host has locked the room.
+        const isHostUser = session.host_id && session.host_id === user.id;
+        const joinLocked = !!(
+          session.session_state && session.session_state.joinLocked
+        );
+        if (!isHostUser && joinLocked) {
+          const existing = await db.oneOrNone(
+            'SELECT id FROM collab_participants WHERE session_id = $1 AND user_id = $2',
+            [session.id, user.id]
+          );
+          if (!existing) {
+            if (ack)
+              ack({
+                error:
+                  'This session is locked. The host is not allowing new joiners right now.',
+              });
+            return;
+          }
+        }
+
         const participant = await upsertParticipant(session.id, user);
         await db.none(
           'UPDATE collab_participants SET socket_id = $1, connected = TRUE WHERE id = $2',
@@ -1346,6 +1368,56 @@ function attachCollabSockets(io, { getAllQuizzes }) {
           }
         }
 
+        // Instructor-led auto-reveal: when every student (everyone except
+        // the host) has submitted an answer for this question, automatically
+        // reveal the answer + per-student breakdown to the whole room.
+        if (session.session_type === 'instructor_led' && session.host_id) {
+          const idx = Number(questionIndex);
+          const alreadyRevealed = (
+            session.session_state?.revealedQuestions || []
+          ).includes(idx);
+          if (!alreadyRevealed) {
+            const participants = await loadParticipants(sessionId);
+            const students = participants.filter(
+              (p) => Number(p.user_id) !== Number(session.host_id)
+            );
+            const allAnswered =
+              students.length > 0 &&
+              students.every(
+                (p) => p.answers && p.answers[String(idx)] !== undefined
+              );
+            if (allAnswered) {
+              const newRevealed = Array.from(
+                new Set([
+                  ...(session.session_state?.revealedQuestions || []),
+                  idx,
+                ])
+              );
+              await db.none(
+                `UPDATE collab_sessions
+                 SET session_state = jsonb_set(session_state, '{revealedQuestions}', $1::jsonb)
+                 WHERE id = $2`,
+                [JSON.stringify(newRevealed), sessionId]
+              );
+              const quiz = session.quiz_snapshot || {};
+              const q = (quiz.questions || [])[idx] || {};
+              const correct = deriveCorrectAnswer(q);
+              nsp.to(`session:${sessionId}`).emit('answer:revealed', {
+                questionIndex: idx,
+                answers: students.map((p) => ({
+                  userId: p.user_id,
+                  displayName: p.display_name,
+                  answer: p.answers ? p.answers[String(idx)] : null,
+                })),
+                correctAnswer: correct,
+                explanation: deriveExplanation(q, correct),
+                auto: true,
+              });
+              await emitRoomState(socket, sessionId, { toAll: true });
+            }
+          }
+        }
+
         // Peer auto-reveal
         if (session.session_type === 'peer') {
           const participants = await loadParticipants(sessionId);
@@ -1442,6 +1514,21 @@ function attachCollabSockets(io, { getAllQuizzes }) {
       );
       nsp.to(`session:${sessionId}`).emit('mode:changed', { paceMode });
       if (ack) ack({ ok: true });
+    });
+
+    socket.on('instructor:set_join_lock', async ({ locked } = {}, ack) => {
+      const sessionId = socket.data.sessionId;
+      const session = await ensureHost(sessionId);
+      if (!session) return ack && ack({ error: 'not host' });
+      const joinLocked = !!locked;
+      const newState = { ...(session.session_state || {}), joinLocked };
+      await db.none(
+        `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
+        [JSON.stringify(newState), sessionId]
+      );
+      nsp.to(`session:${sessionId}`).emit('join_lock:changed', { joinLocked });
+      await emitRoomState(socket, sessionId, { toAll: true });
+      if (ack) ack({ ok: true, joinLocked });
     });
 
     socket.on(
@@ -1587,6 +1674,46 @@ function attachCollabSockets(io, { getAllQuizzes }) {
         if (ack) ack({ ok: true });
       } catch (err) {
         console.error('[collab] essay:pass_turn error:', err);
+        if (ack) ack({ error: 'failed' });
+      }
+    });
+
+    // Finalize the collaborative essay. Any participant in the room may hit
+    // the Submit button — once submitted the room status flips to 'complete'
+    // so the review screen renders for everyone. The current essay text and
+    // turn history are preserved in session_state.
+    socket.on('essay:submit', async (_payload, ack) => {
+      const sessionId = socket.data.sessionId;
+      if (!sessionId) return ack && ack({ error: 'not in session' });
+      try {
+        const session = await loadSessionById(sessionId);
+        if (!session || session.session_type !== 'essay') {
+          return ack && ack({ error: 'not essay session' });
+        }
+        if (session.status === 'complete') {
+          if (ack) ack({ ok: true, alreadyComplete: true });
+          return;
+        }
+        const finalState = {
+          ...(session.session_state || {}),
+          phase: 'complete',
+          essaySubmittedBy: user.id,
+          essaySubmittedAt: new Date().toISOString(),
+        };
+        await db.none(
+          `UPDATE collab_sessions
+              SET status = 'complete', session_state = $1
+            WHERE id = $2`,
+          [JSON.stringify(finalState), sessionId]
+        );
+        nsp.to(`session:${sessionId}`).emit('essay:submitted', {
+          submittedBy: user.id,
+          content: finalState.essayContent || '',
+        });
+        await emitRoomState(socket, sessionId, { toAll: true });
+        if (ack) ack({ ok: true });
+      } catch (err) {
+        console.error('[collab] essay:submit error:', err);
         if (ack) ack({ error: 'failed' });
       }
     });

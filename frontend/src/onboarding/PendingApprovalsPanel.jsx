@@ -10,7 +10,11 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-const API = (typeof window !== 'undefined' && window.__API_BASE_URL__) || '';
+const API =
+  (typeof window !== 'undefined' &&
+    typeof window.API_BASE_URL === 'string' &&
+    window.API_BASE_URL) ||
+  '';
 
 function authHeaders(token) {
   return token ? { Authorization: `Bearer ${token}` } : {};

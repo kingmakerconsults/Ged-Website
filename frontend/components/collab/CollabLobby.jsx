@@ -23,6 +23,11 @@ export default function CollabLobby({
     emit('instructor:start', {}, () => {});
   };
 
+  const joinLocked = !!roomState.state?.joinLocked;
+  const toggleJoinLock = () => {
+    emit('instructor:set_join_lock', { locked: !joinLocked }, () => {});
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-6 bg-white dark:bg-slate-800 shadow">
@@ -53,8 +58,33 @@ export default function CollabLobby({
         </div>
 
         <div className="border-t border-slate-200 dark:border-slate-700 pt-4 mb-4">
-          <div className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
-            Participants ({roomState.participants.length})
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+              Participants ({roomState.participants.length})
+            </div>
+            {isHost && (
+              <button
+                type="button"
+                onClick={toggleJoinLock}
+                className={`text-xs px-2 py-1 rounded border font-medium ${
+                  joinLocked
+                    ? 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200'
+                    : 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200'
+                }`}
+                title={
+                  joinLocked
+                    ? 'Click to allow new joiners'
+                    : 'Click to prevent new joiners (already-joined students can still rejoin)'
+                }
+              >
+                {joinLocked ? '🔒 Joining locked' : '🔓 Joining open'}
+              </button>
+            )}
+            {!isHost && joinLocked && (
+              <span className="text-xs px-2 py-1 rounded bg-amber-100 text-amber-800">
+                🔒 Locked
+              </span>
+            )}
           </div>
           <ul className="space-y-1.5">
             {roomState.participants.map((p) => (

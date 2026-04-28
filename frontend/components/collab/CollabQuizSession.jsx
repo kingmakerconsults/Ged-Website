@@ -137,14 +137,52 @@ function QuestionBody({ q }) {
 
 function MyAnswerInput({ value, onSubmit, disabled }) {
   const [text, setText] = useState(value || '');
-  const submit = (e) => {
+  const [staged, setStaged] = useState(null);
+  const stage = (e) => {
     e.preventDefault();
+    if (disabled) return;
     const v = text.trim();
     if (!v) return;
-    onSubmit(v);
+    setStaged(v);
   };
+  const confirm = () => {
+    if (staged == null) return;
+    onSubmit(staged);
+    setStaged(null);
+  };
+  if (staged != null && !value) {
+    return (
+      <div className="space-y-2">
+        <div className="text-sm" style={{ color: PALETTE.pageText }}>
+          Confirm your answer:{' '}
+          <span className="font-mono font-semibold">{staged}</span>
+        </div>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={confirm}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+          >
+            Confirm answer
+          </button>
+          <button
+            type="button"
+            onClick={() => setStaged(null)}
+            className="px-3 py-2 text-sm rounded border"
+            style={{
+              backgroundColor: '#ffffff',
+              borderColor: PALETTE.optionBorder,
+              color: PALETTE.pageText,
+            }}
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
-    <form onSubmit={submit} className="space-y-2">
+    <form onSubmit={stage} className="space-y-2">
       <input
         type="text"
         value={text}
@@ -163,7 +201,7 @@ function MyAnswerInput({ value, onSubmit, disabled }) {
         disabled={disabled || !text.trim()}
         className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold disabled:opacity-50"
       >
-        Submit Answer
+        Review answer
       </button>
     </form>
   );
@@ -396,6 +434,10 @@ export default function CollabQuizSession({
   const hostQuestionIndex = roomState.state?.currentQuestion || 0;
   const [studentIndex, setStudentIndex] = useState(0);
   const [submittedAnswers, setSubmittedAnswers] = useState({});
+  // Two-step submit: students stage a choice locally, then must explicitly
+  // confirm before it is sent to the server. Cleared whenever the active
+  // question changes so each new question starts unstaged.
+  const [pendingChoice, setPendingChoice] = useState(null);
 
   useEffect(() => {
     if (lockedToHost) setStudentIndex(hostQuestionIndex);
@@ -416,12 +458,23 @@ export default function CollabQuizSession({
 
   const submitAnswer = (choice) => {
     setSubmittedAnswers((s) => ({ ...s, [myAnswerKey]: choice }));
+    setPendingChoice(null);
     emit(
       'answer:submit',
       { questionIndex: currentIndex, answer: choice },
       () => {}
     );
   };
+
+  const confirmPending = () => {
+    if (pendingChoice == null) return;
+    submitAnswer(pendingChoice);
+  };
+
+  // Reset any unconfirmed selection whenever the active question changes.
+  useEffect(() => {
+    setPendingChoice(null);
+  }, [currentIndex]);
 
   const advance = (delta) => {
     const next = Math.max(
@@ -441,6 +494,11 @@ export default function CollabQuizSession({
     });
   };
 
+  const joinLocked = !!roomState.state?.joinLocked;
+  const toggleJoinLock = () => {
+    emit('instructor:set_join_lock', { locked: !joinLocked }, () => {});
+  };
+
   const revealAnswers = () => {
     emit('instructor:reveal_answers', { questionIndex: currentIndex });
   };
@@ -453,19 +511,20 @@ export default function CollabQuizSession({
 
   const answeredStats = useMemo(() => {
     const all = roomState.participants || [];
-    // For instructor-led, the host doesn't answer questions, so only count
-    // students. For peer, both partners answer (the host is a student too).
+    // For instructor-led, the host doesn't answer questions, so exclude
+    // them from both the responder count and the "answered" count. The
+    // host always has role='participant' in the participants table, so we
+    // identify them by userId === hostId, not by role.
     const responders =
       sessionType === 'instructor_led'
-        ? all.filter((p) => p.role !== 'host')
+        ? all.filter((p) => p.userId !== roomState.hostId)
         : all;
     const total = responders.length;
     const answered = responders.filter((p) =>
       p.answeredQuestions?.includes(currentIndex)
     ).length;
     return { answered, total };
-  }, [currentIndex, roomState.participants, sessionType]);
-  const answeredCount = answeredStats.answered;
+  }, [currentIndex, roomState.participants, roomState.hostId, sessionType]);
 
   const distribution = useMemo(() => {
     if (!revealed || !lastReveal || lastReveal.questionIndex !== currentIndex)
@@ -536,7 +595,23 @@ export default function CollabQuizSession({
             </div>
           </div>
           {isHost && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
+              <button
+                onClick={toggleJoinLock}
+                className="px-3 py-1.5 text-sm rounded border font-medium"
+                style={{
+                  backgroundColor: joinLocked ? '#fef3c7' : '#dcfce7',
+                  borderColor: joinLocked ? '#f59e0b' : '#16a34a',
+                  color: joinLocked ? '#92400e' : '#166534',
+                }}
+                title={
+                  joinLocked
+                    ? 'Click to allow new joiners (already-joined students can always rejoin)'
+                    : 'Click to prevent new joiners'
+                }
+              >
+                {joinLocked ? '🔒 Joining locked' : '🔓 Joining open'}
+              </button>
               <button
                 onClick={toggleMode}
                 className="px-3 py-1.5 text-sm rounded border hover:bg-slate-100"
@@ -560,6 +635,31 @@ export default function CollabQuizSession({
 
         {currentQ ? (
           <>
+            {sessionType === 'instructor_led' && !isHost && (
+              <div
+                className="mb-4 px-3 py-2 rounded text-sm border"
+                style={{
+                  backgroundColor:
+                    paceMode === 'locked' ? '#dbeafe' : '#dcfce7',
+                  borderColor: paceMode === 'locked' ? '#3b82f6' : '#16a34a',
+                  color: paceMode === 'locked' ? '#1e3a8a' : '#14532d',
+                }}
+              >
+                {paceMode === 'locked' ? (
+                  <>
+                    🔒 <strong>Locked pace.</strong> The instructor controls
+                    which question you see. Sit tight while the rest of the
+                    class catches up.
+                  </>
+                ) : (
+                  <>
+                    🏃 <strong>Free pace.</strong> Use Previous / Next below to
+                    move through the questions on your own. Instructor is on Q
+                    {(roomState.state?.currentQuestion ?? 0) + 1}.
+                  </>
+                )}
+              </div>
+            )}
             <div className="mb-6">
               <QuestionBody q={currentQ} />
             </div>
@@ -570,6 +670,9 @@ export default function CollabQuizSession({
                   const value = opt.value;
                   const label = opt.label ?? value;
                   const isMine = myAnswer === value;
+                  const isPending =
+                    !myAnswer && !revealed && pendingChoice === value;
+                  const isSelected = isMine || isPending;
                   const isCorrect =
                     revealed && isCorrectAnswer(value, correctAnswerForReveal);
                   const isWrongMine = revealed && isMine && !isCorrect;
@@ -582,22 +685,26 @@ export default function CollabQuizSession({
                   } else if (isWrongMine) {
                     bg = PALETTE.wrong;
                     border = PALETTE.wrongBorder;
-                  } else if (isMine) {
+                  } else if (isSelected) {
                     bg = PALETTE.myChoice;
                     border = PALETTE.myChoiceBorder;
                   }
 
+                  const optionDisabled = !!myAnswer || revealed || isHost;
                   return (
                     <button
                       key={idx}
-                      disabled={!!myAnswer || revealed}
-                      onClick={() => submitAnswer(value)}
+                      disabled={optionDisabled}
+                      onClick={() => {
+                        if (optionDisabled) return;
+                        setPendingChoice(value);
+                      }}
                       className="block w-full text-left px-4 py-3 rounded-md border transition"
                       style={{
                         backgroundColor: bg,
                         borderColor: border,
                         color: PALETTE.pageText,
-                        cursor: myAnswer || revealed ? 'default' : 'pointer',
+                        cursor: optionDisabled ? 'default' : 'pointer',
                       }}
                     >
                       <span className="font-semibold mr-2">
@@ -607,13 +714,47 @@ export default function CollabQuizSession({
                     </button>
                   );
                 })}
+                {!isHost && !myAnswer && !revealed && (
+                  <div className="flex items-center gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={confirmPending}
+                      disabled={pendingChoice == null}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold disabled:opacity-50"
+                    >
+                      Confirm answer
+                    </button>
+                    {pendingChoice != null && (
+                      <button
+                        type="button"
+                        onClick={() => setPendingChoice(null)}
+                        className="px-3 py-2 text-sm rounded border"
+                        style={{
+                          backgroundColor: '#ffffff',
+                          borderColor: PALETTE.optionBorder,
+                          color: PALETTE.pageText,
+                        }}
+                      >
+                        Change
+                      </button>
+                    )}
+                    <span
+                      className="text-xs"
+                      style={{ color: PALETTE.pageMuted }}
+                    >
+                      {pendingChoice == null
+                        ? 'Select a choice, then confirm.'
+                        : 'You can still change before you confirm.'}
+                    </span>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="mb-4">
                 <MyAnswerInput
                   value={myAnswer}
                   onSubmit={submitAnswer}
-                  disabled={!!myAnswer || revealed}
+                  disabled={!!myAnswer || revealed || isHost}
                 />
                 {myAnswer && (
                   <div
@@ -758,7 +899,8 @@ export default function CollabQuizSession({
                 className="mt-4 text-xs"
                 style={{ color: PALETTE.pageMuted }}
               >
-                {answeredCount} / {roomState.participants?.length || 0} answered
+                {answeredStats.answered} / {answeredStats.total} students
+                answered
               </div>
             )}
 
@@ -823,7 +965,7 @@ export default function CollabQuizSession({
             <div className="text-sm font-semibold mb-2">Student Progress</div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {(roomState.participants || [])
-                .filter((p) => p.role !== 'host')
+                .filter((p) => p.userId !== roomState.hostId)
                 .map((p) => (
                   <div
                     key={p.userId}

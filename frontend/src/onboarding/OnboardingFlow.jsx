@@ -73,7 +73,8 @@ function ProgramSelectWizard({ token, onSubmitted }) {
         const j = await r.json().catch(() => ({}));
         throw new Error(j.error || 'Request failed');
       }
-      onSubmitted?.();
+      const data = await r.json().catch(() => ({}));
+      onSubmitted?.(data);
     } catch (e) {
       setError(e.message || 'Could not submit request.');
     } finally {
@@ -447,7 +448,14 @@ export function OnboardingGate({
   const [internalUser, setInternalUser] = useState(user);
   useEffect(() => setInternalUser(user), [user]);
 
-  const status = internalUser?.account_status || 'active';
+  const rawStatus = internalUser?.account_status || 'active';
+  // A non-staff user without an organization_id must be treated as
+  // pending_org regardless of what `account_status` says, so they
+  // always see the program-pick wizard before reaching the app.
+  const status =
+    rawStatus === 'active' && !internalUser?.organization_id
+      ? 'pending_org'
+      : rawStatus;
   const tourDone = useMemo(() => {
     const s = internalUser?.onboarding_state;
     return !!(s && (s.tour_completed === true || s.tour_skipped === true));
@@ -457,23 +465,38 @@ export function OnboardingGate({
     return (
       <ProgramSelectWizard
         token={token}
-        onSubmitted={async () => {
-          // After submission, server flipped us to pending_approval. Refresh local copy.
+        onSubmitted={async (postData) => {
+          // The server now auto-admits every signed-in student to whichever
+          // org they pick (no approval step). Use the POST response when
+          // available, then refresh from the GET endpoint so we pick up the
+          // resolved organization_id and account_status.
           try {
             const r = await authFetch('/api/me/membership-request', token);
             const d = await r.json();
             const next = {
               ...internalUser,
               account_status: d.account_status,
+              organization_id:
+                d.organization_id ??
+                postData?.organization_id ??
+                internalUser?.organization_id ??
+                null,
               pending_organization_id: d.pending_organization_id,
             };
             setInternalUser(next);
             onUserUpdated?.(next);
           } catch (_) {
-            setInternalUser({
+            // Fallback: trust the POST response.
+            const next = {
               ...internalUser,
-              account_status: 'pending_approval',
-            });
+              account_status:
+                postData?.account_status ||
+                (postData?.auto_admitted ? 'active' : 'pending_approval'),
+              organization_id:
+                postData?.organization_id ?? internalUser?.organization_id,
+            };
+            setInternalUser(next);
+            onUserUpdated?.(next);
           }
         }}
       />

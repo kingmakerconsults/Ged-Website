@@ -6028,9 +6028,9 @@ ensureUserNameColumns().catch((e) =>
 ensureChallengeSystemTables().catch((e) =>
   console.error('Challenge system init error:', e)
 );
-ensureMembershipColumns().catch((e) =>
-  console.error('Membership columns init error:', e)
-);
+ensureMembershipColumns()
+  .then(() => ensureStudentOrgPickerReset())
+  .catch((e) => console.error('Membership/reset init error:', e));
 ensurePremadeMasteryTables().catch((e) =>
   console.error('Premade mastery tables init error:', e)
 );
@@ -6709,6 +6709,63 @@ async function ensureMembershipColumns() {
   } catch (e) {
     console.warn(
       '[ensure] membership columns/table',
+      e?.code || e?.message || e
+    );
+  }
+}
+
+// One-shot reset (2026-04-28). Force every student user back to the
+// org-picker so they can pick the correct organization once. Marker row in
+// `app_one_shot_migrations` ensures the reset runs at most once per DB.
+// Privileged roles (super_admin / org_admin / instructor / teacher) are NOT
+// reset — they need access to the org tools immediately.
+async function ensureStudentOrgPickerReset() {
+  const MARKER_KEY = '2026-04-28-student-org-reset-v1';
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS app_one_shot_migrations (
+        key         TEXT PRIMARY KEY,
+        applied_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+        notes       TEXT
+      )
+    `);
+    const already = await pool.query(
+      `SELECT 1 FROM app_one_shot_migrations WHERE key = $1`,
+      [MARKER_KEY]
+    );
+    if (already.rowCount > 0) return;
+
+    // Cancel every live pending org request — the new auto-admit flow no
+    // longer uses approval, so any leftover 'pending' rows are stale.
+    await pool.query(
+      `UPDATE org_membership_requests
+          SET status = 'cancelled', decided_at = NOW(),
+              decision_note = COALESCE(decision_note, '') || ' [reset 2026-04-28]'
+        WHERE status = 'pending'`
+    );
+
+    // Reset student-tier users back to pending_org so the picker re-prompts
+    // them exactly once. Skip privileged roles.
+    const upd = await pool.query(
+      `UPDATE users
+          SET account_status = 'pending_org',
+              organization_id = NULL,
+              pending_organization_id = NULL
+        WHERE LOWER(COALESCE(role, 'student')) NOT IN
+              ('super_admin','superadmin','org_admin','orgadmin','admin',
+               'instructor','teacher')`
+    );
+
+    await pool.query(
+      `INSERT INTO app_one_shot_migrations (key, notes) VALUES ($1, $2)`,
+      [MARKER_KEY, `reset ${upd.rowCount || 0} student account(s)`]
+    );
+    console.log(
+      `[ensure] student-org-picker reset applied (${upd.rowCount || 0} users)`
+    );
+  } catch (e) {
+    console.warn(
+      '[ensure] student-org-picker reset',
       e?.code || e?.message || e
     );
   }
@@ -7469,10 +7526,16 @@ app.post(
         }
       }
 
-      // Update user's organization
+      // Update user's organization. Also force account_status='active' and
+      // clear any leftover pending_organization_id so the requireActiveAccount
+      // gate stops blocking this user (otherwise they'd see "account
+      // restricted" errors after picking an org).
       await db.query(
-        `UPDATE users 
-         SET organization_id = $1, organization_join_code = $2
+        `UPDATE users
+         SET organization_id = $1,
+             organization_join_code = $2,
+             account_status = 'active',
+             pending_organization_id = NULL
          WHERE id = $3`,
         [organization_id, access_code || null, userId]
       );
@@ -21225,8 +21288,12 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
       return res.status(404).json({ error: 'organization_not_found' });
 
     // ------------------------------------------------------------------
-    // Auto-admit allowlist: certain partner orgs are configured to accept
-    // any signed-in user immediately, with no instructor approval step.
+    // Auto-admit allowlist (2026-04-28). Only Commonpoint partner orgs
+    // get the explicit `auto_admitted: true` audit path. Every other org
+    // also admits the student immediately (active, no approval screen)
+    // via the fallback below — that fallback NEVER returns the legacy
+    // pending_approval state, so students never see an "unauthorized" /
+    // restricted screen after picking their program.
     // Match is case-insensitive on the canonical org name.
     // ------------------------------------------------------------------
     const AUTO_ADMIT_ORG_NAMES = new Set([
@@ -21271,31 +21338,37 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
       });
     }
 
-    // Cancel any other pending request from this user (only one live at a time).
+    // Non-allowlisted orgs: admit the student immediately as well so they
+    // never see the awaiting-approval / "unauthorized" screen. Recorded as
+    // a self-selected approved row instead of the explicit auto-admit
+    // audit note so org admins can distinguish the two paths.
     await db.query(
       `UPDATE org_membership_requests
           SET status = 'cancelled', decided_at = NOW()
-        WHERE user_id = $1 AND status = 'pending' AND organization_id <> $2`,
-      [userId, orgId]
+        WHERE user_id = $1 AND status = 'pending'`,
+      [userId]
     );
-    // Upsert pending request (unique partial index handles dedupe).
-    const ins = await db.query(
-      `INSERT INTO org_membership_requests (user_id, organization_id, status, requested_role)
-       VALUES ($1, $2, 'pending', 'student')
-       ON CONFLICT (user_id, organization_id) WHERE status = 'pending'
-       DO NOTHING
-       RETURNING id, organization_id, status, created_at`,
-      [userId, orgId]
-    );
-    // Move user to pending_approval and stash pending org for UI.
     await db.query(
-      `UPDATE users SET account_status = 'pending_approval', pending_organization_id = $1
-        WHERE id = $2 AND account_status IN ('pending_org','pending_approval','denied')`,
+      `INSERT INTO org_membership_requests
+          (user_id, organization_id, status, requested_role, decided_by, decided_at, decision_note)
+       VALUES ($1, $2, 'approved', 'student', $1, NOW(), 'self-selected')
+       ON CONFLICT (user_id, organization_id) WHERE status = 'pending'
+       DO UPDATE SET status = 'approved', decided_by = EXCLUDED.decided_by,
+                     decided_at = NOW(), decision_note = 'self-selected'`,
+      [userId, orgId]
+    );
+    await db.query(
+      `UPDATE users
+          SET organization_id = $1,
+              pending_organization_id = NULL,
+              account_status = 'active'
+        WHERE id = $2`,
       [orgId, userId]
     );
-    return res
-      .status(201)
-      .json({ request: ins.rows[0] || null, organization_id: orgId });
+    return res.status(201).json({
+      organization_id: orgId,
+      account_status: 'active',
+    });
   } catch (err) {
     console.error('[/api/me/membership-request POST] failed:', err);
     return res

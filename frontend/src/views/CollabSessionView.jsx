@@ -208,17 +208,45 @@ export default function CollabSessionView() {
     }
     return (
       <PageShell roomCode={roomCode}>
-        <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-2 text-slate-900">
-            Session Complete
-          </h2>
-          <p className="text-slate-600 mb-4">Thanks for working together!</p>
-          <button
-            onClick={() => navigate('/collab')}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
-          >
-            ← Back to Work Together
-          </button>
+        <div className="max-w-3xl mx-auto">
+          <div className="rounded-lg border border-slate-200 bg-white shadow p-6">
+            <h2 className="text-2xl font-bold mb-1 text-slate-900">
+              Essay Submitted
+            </h2>
+            <div className="text-sm text-slate-600 mb-4">
+              Thanks for working together! Here is the final draft.
+            </div>
+            {roomState.state?.essayTopic && (
+              <div className="mb-3 text-sm">
+                <span className="font-semibold text-slate-800">Topic:</span>{' '}
+                <span className="text-slate-700">
+                  {roomState.state.essayTopic}
+                </span>
+              </div>
+            )}
+            <div className="rounded-md border border-slate-200 bg-slate-50 p-4 whitespace-pre-wrap font-serif text-[15px] leading-relaxed text-slate-900">
+              {roomState.state?.essayContent ||
+                '(No essay content was written.)'}
+            </div>
+            {(() => {
+              const t = roomState.state?.essayContent || '';
+              const wc = t.trim() ? t.trim().split(/\s+/).length : 0;
+              return (
+                <div className="mt-2 text-xs text-slate-500">
+                  {wc} words • {(roomState.state?.essayHistory || []).length}{' '}
+                  turns passed
+                </div>
+              );
+            })()}
+          </div>
+          <div className="text-center mt-6">
+            <button
+              onClick={() => navigate('/collab')}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+            >
+              ← Back to Work Together
+            </button>
+          </div>
         </div>
       </PageShell>
     );
