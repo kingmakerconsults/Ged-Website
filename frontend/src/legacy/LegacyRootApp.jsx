@@ -24443,6 +24443,7 @@ import InstructorAssignmentsPanel from '../components/instructor/InstructorAssig
 import InstructorCurriculumPanel from '../components/instructor/InstructorCurriculumPanel.jsx';
 import InstructorClassesPanel from '../components/instructor/InstructorClassesPanel.jsx';
 import StudentMyClassPanel from '../components/student/StudentMyClassPanel.jsx';
+import AppIcon, { subjectIconName } from '../components/icons/AppIcon.jsx';
 import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -24516,37 +24517,41 @@ function AppHeader({
             </button>
             <button
               onClick={onShowQuizzes}
-              className="nav-link"
+              className="nav-link flex items-center gap-1.5"
               type="button"
               aria-controls="quizzes"
             >
+              <AppIcon name="pencil" tone="slate" size={16} />
               Quizzes
             </button>
             <button
               onClick={onShowProgress}
-              className="nav-link"
+              className="nav-link flex items-center gap-1.5"
               type="button"
               aria-controls="progress"
             >
+              <AppIcon name="progress" tone="slate" size={16} />
               Progress
             </button>
             {onShowMyClass && (
               <button
                 onClick={onShowMyClass}
-                className="nav-link"
+                className="nav-link flex items-center gap-1.5"
                 type="button"
                 aria-controls="myclass"
               >
+                <AppIcon name="myClass" tone="slate" size={16} />
                 My Class
               </button>
             )}
             {currentUser && (
               <a
                 href="/collab"
-                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline"
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline inline-flex items-center gap-1.5"
                 style={{ textDecoration: 'none' }}
               >
-                🤝 Work Together
+                <AppIcon name="workTogether" tone="white" size={14} />
+                Work Together
               </a>
             )}
           </nav>
@@ -24613,24 +24618,26 @@ function AppHeader({
                   type="button"
                   id="btnProfile"
                   onClick={onShowProfile}
-                  className={`btn-ghost ${
+                  className={`btn-ghost flex items-center gap-1.5 ${
                     isProfileActive ? 'nav-link-active' : ''
                   }`}
                   aria-controls="profileView"
                   aria-expanded={isProfileActive}
                 >
+                  <AppIcon name="student" tone="slate" size={16} />
                   Profile
                 </button>
                 <button
                   type="button"
                   id="btnSettings"
                   onClick={onShowSettings}
-                  className={`btn-ghost ${
+                  className={`btn-ghost flex items-center gap-1.5 ${
                     isSettingsActive ? 'nav-link-active' : ''
                   }`}
                   aria-controls="settingsView"
                   aria-expanded={isSettingsActive}
                 >
+                  <AppIcon name="knowledge" tone="slate" size={16} />
                   Settings
                 </button>
                 <button
@@ -24667,23 +24674,26 @@ function AppHeader({
             <button
               type="button"
               onClick={() => handleMobileAction(onShowQuizzes)}
-              className="btn-ghost justify-start"
+              className="btn-ghost justify-start flex items-center gap-1.5"
             >
+              <AppIcon name="pencil" tone="slate" size={16} />
               Quizzes
             </button>
             <button
               type="button"
               onClick={() => handleMobileAction(onShowProgress)}
-              className="btn-ghost justify-start"
+              className="btn-ghost justify-start flex items-center gap-1.5"
             >
+              <AppIcon name="progress" tone="slate" size={16} />
               Progress
             </button>
             {onShowMyClass && (
               <button
                 type="button"
                 onClick={() => handleMobileAction(onShowMyClass)}
-                className="btn-ghost justify-start"
+                className="btn-ghost justify-start flex items-center gap-1.5"
               >
+                <AppIcon name="myClass" tone="slate" size={16} />
                 My Class
               </button>
             )}
@@ -24691,10 +24701,11 @@ function AppHeader({
               <a
                 href="/collab"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline text-center"
+                className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline text-center inline-flex items-center justify-center gap-1.5"
                 style={{ textDecoration: 'none' }}
               >
-                🤝 Work Together
+                <AppIcon name="workTogether" tone="white" size={14} />
+                Work Together
               </a>
             )}
             {currentUser && (

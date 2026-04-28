@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import AppIcon from '../icons/AppIcon.jsx';
 
 function getApiBase() {
   if (
@@ -365,9 +366,8 @@ export default function InstructorClassesPanel({ students = [] }) {
                         padding: '6px 12px',
                         border: '1px solid #cbd5e1',
                         borderRadius: 8,
-                        background: notesOpenClassId === c.id
-                          ? '#e0f2fe'
-                          : '#f8fafc',
+                        background:
+                          notesOpenClassId === c.id ? '#e0f2fe' : '#f8fafc',
                         color: '#0f172a',
                         fontSize: 13,
                         fontWeight: 600,
@@ -543,10 +543,7 @@ export default function InstructorClassesPanel({ students = [] }) {
                   </div>
                 )}
                 {notesOpenClassId === c.id && (
-                  <ClassNotesSection
-                    classId={c.id}
-                    members={classMembers}
-                  />
+                  <ClassNotesSection classId={c.id} members={classMembers} />
                 )}
               </div>
             );
@@ -570,9 +567,7 @@ function ClassNotesSection({ classId, members }) {
     setLoading(true);
     setError(null);
     try {
-      const data = await apiFetch(
-        `/api/instructor/classes/${classId}/notes`
-      );
+      const data = await apiFetch(`/api/instructor/classes/${classId}/notes`);
       setNotes(Array.isArray(data?.notes) ? data.notes : []);
     } catch (e) {
       setError(e?.message || 'Failed to load notes');
@@ -613,10 +608,9 @@ function ClassNotesSection({ classId, members }) {
   const remove = async (noteId) => {
     if (!window.confirm('Delete this note?')) return;
     try {
-      await apiFetch(
-        `/api/instructor/classes/${classId}/notes/${noteId}`,
-        { method: 'DELETE' }
-      );
+      await apiFetch(`/api/instructor/classes/${classId}/notes/${noteId}`, {
+        method: 'DELETE',
+      });
       await load();
     } catch (err) {
       setError(err?.message || 'Failed to delete note');
@@ -641,8 +635,12 @@ function ClassNotesSection({ classId, members }) {
             color: '#475569',
             textTransform: 'uppercase',
             marginBottom: 6,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
           }}
         >
+          <AppIcon name="writing" tone="slate" size={14} />
           Post a class note or DM a student
         </div>
         <textarea
@@ -825,9 +823,11 @@ function ClassNotesSection({ classId, members }) {
                   cursor: 'pointer',
                   fontSize: 11,
                   padding: 0,
+                  display: 'inline-flex',
+                  alignItems: 'center',
                 }}
               >
-                ✕
+                <AppIcon name="delete" tone="rose" size={12} alt="Delete" />
               </button>
             </div>
             <div

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import AppIcon, { subjectIconName } from '../icons/AppIcon.jsx';
 
 // Student-facing class hub: read-only curriculum, a Google-Calendar-style
 // month grid that overlays curriculum items + instructor/student notes onto
@@ -85,8 +86,18 @@ const parseYmd = (raw) => {
 };
 
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -208,10 +219,8 @@ function CalendarGrid({ year, month, eventsByDay, selectedDay, onSelectDay }) {
                   key={`${ev.kind}-${ev.id}-${i}`}
                   title={ev.label}
                   style={{
-                    background:
-                      ev.kind === 'note' ? '#fef3c7' : '#dbeafe',
-                    color:
-                      ev.kind === 'note' ? '#854d0e' : '#1e3a8a',
+                    background: ev.kind === 'note' ? '#fef3c7' : '#dbeafe',
+                    color: ev.kind === 'note' ? '#854d0e' : '#1e3a8a',
                     fontSize: 10,
                     padding: '1px 4px',
                     borderRadius: 3,
@@ -240,10 +249,10 @@ function CalendarGrid({ year, month, eventsByDay, selectedDay, onSelectDay }) {
 // ---- Tabs ------------------------------------------------------------------
 function Tabs({ active, onChange }) {
   const tabs = [
-    { id: 'curriculum', label: '📚 Curriculum' },
-    { id: 'calendar', label: '🗓 Calendar' },
-    { id: 'notes', label: '💬 Notes' },
-    { id: 'syllabus', label: '📄 Syllabus' },
+    { id: 'curriculum', label: 'Curriculum', icon: 'curriculum' },
+    { id: 'calendar', label: 'Calendar', icon: 'calendar' },
+    { id: 'notes', label: 'Notes', icon: 'notes' },
+    { id: 'syllabus', label: 'Syllabus', icon: 'syllabus' },
   ];
   return (
     <div
@@ -269,8 +278,16 @@ function Tabs({ active, onChange }) {
             fontSize: 13,
             fontWeight: 600,
             cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
           }}
         >
+          <AppIcon
+            name={t.icon}
+            tone={active === t.id ? 'white' : 'slate'}
+            size={14}
+          />
           {t.label}
         </button>
       ))}
@@ -307,9 +324,21 @@ function ItemCard({ item }) {
           fontSize: 18,
           width: 28,
           textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        {item.manually_marked_covered ? '✅' : '📘'}
+        {item.manually_marked_covered ? (
+          <AppIcon name="correct" tone="emerald" size={18} alt="Covered" />
+        ) : (
+          <AppIcon
+            name={subjectIconName(item.subject)}
+            tone="sky"
+            size={18}
+            alt={item.subject || 'Item'}
+          />
+        )}
       </div>
       <div style={{ flex: 1 }}>
         <div
@@ -474,8 +503,7 @@ function NotesThread({ notes, currentUserId, onPost, posting }) {
             fontSize: 13,
           }}
         >
-          No messages yet. Use the form above to ask your instructor a
-          question.
+          No messages yet. Use the form above to ask your instructor a question.
         </div>
       )}
       {notes.map((n) => {
@@ -509,9 +537,7 @@ function NotesThread({ notes, currentUserId, onPost, posting }) {
                 flexWrap: 'wrap',
               }}
             >
-              <strong>
-                {mine ? 'You' : n.author_name || 'Instructor'}
-              </strong>
+              <strong>{mine ? 'You' : n.author_name || 'Instructor'}</strong>
               {n.recipient_user_id === null && (
                 <span
                   style={{
@@ -612,8 +638,21 @@ function SyllabusView({ klass, items }) {
           color: '#0f172a',
         }}
       >
-        <div style={{ marginBottom: 16, borderBottom: '2px solid #0f172a', paddingBottom: 12 }}>
-          <div style={{ fontSize: 12, color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>
+        <div
+          style={{
+            marginBottom: 16,
+            borderBottom: '2px solid #0f172a',
+            paddingBottom: 12,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 12,
+              color: '#64748b',
+              textTransform: 'uppercase',
+              fontWeight: 700,
+            }}
+          >
             Course Syllabus
           </div>
           <div style={{ fontSize: 22, fontWeight: 700, marginTop: 4 }}>
@@ -646,8 +685,16 @@ function SyllabusView({ klass, items }) {
                 borderBottom: '1px solid #e2e8f0',
                 paddingBottom: 4,
                 marginBottom: 8,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
               }}
             >
+              <AppIcon
+                name={subjectIconName(subject)}
+                tone="sky"
+                size={18}
+              />
               {subject}
             </div>
             <ol style={{ margin: 0, paddingLeft: 20 }}>
@@ -737,9 +784,7 @@ export default function StudentMyClassPanel({ currentUser }) {
     if (!classId) return;
     setLoading(true);
     try {
-      const data = await apiFetch(
-        `/api/student/classes/${classId}/curriculum`
-      );
+      const data = await apiFetch(`/api/student/classes/${classId}/curriculum`);
       setItems(Array.isArray(data?.items) ? data.items : []);
     } catch (e) {
       console.warn('[my-class] load curriculum failed', e);
@@ -868,8 +913,8 @@ export default function StudentMyClassPanel({ currentUser }) {
           You're not enrolled in any class yet.
         </div>
         <div style={{ fontSize: 12, marginTop: 4 }}>
-          Ask your instructor for a class join code, or wait for them to
-          enroll you.
+          Ask your instructor for a class join code, or wait for them to enroll
+          you.
         </div>
         {error && (
           <div
@@ -1064,7 +1109,10 @@ export default function StudentMyClassPanel({ currentUser }) {
                     }}
                   >
                     <div style={{ fontWeight: 600, color: '#854d0e' }}>
-                      {n.author_name || (n.author_role === 'instructor' ? 'Instructor' : 'Student')}
+                      {n.author_name ||
+                        (n.author_role === 'instructor'
+                          ? 'Instructor'
+                          : 'Student')}
                     </div>
                     <div style={{ whiteSpace: 'pre-wrap', color: '#0f172a' }}>
                       {n.body}
