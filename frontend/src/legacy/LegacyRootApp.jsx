@@ -10,6 +10,7 @@
 } from 'react';
 import ReactDOM from 'react-dom/client';
 import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
+import { getApiBaseUrl } from '../utils/apiBase.js';
 import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
 import { OnboardingGate } from '../onboarding/OnboardingFlow.jsx';
 import PendingApprovalsPanel from '../onboarding/PendingApprovalsPanel.jsx';
@@ -1120,6 +1121,11 @@ class ErrorBoundary extends React.Component {
 // anywhere in the repo, so any branches that consumed it were dead code.
 // All sanitizer-helper destructures and `if (typeof helper === 'function')`
 // branches have been removed and replaced with inline fallbacks.
+
+const API_BASE_URL = getApiBaseUrl();
+if (typeof window !== 'undefined' && !window.API_BASE_URL) {
+  window.API_BASE_URL = API_BASE_URL;
+}
 
 // Fallback alias for API_BASE for legacy code safety
 const API_BASE = API_BASE_URL;
@@ -28534,7 +28540,12 @@ function App({ externalTheme, onThemeChange }) {
       currentUser?.onboarding_state?.tour_completed ||
       currentUser?.onboarding_state?.tour_skipped
     );
-    if (_accountStatus !== 'active' || !_tourDone) {
+    // Non-staff users MUST be in an organization. If a student account
+    // somehow got `active` status without an organization_id (legacy data,
+    // an admin clearing the org, etc.), force them back into the org-pick
+    // wizard before they can access the app.
+    const _missingOrg = !currentUser?.organization_id;
+    if (_accountStatus !== 'active' || !_tourDone || _missingOrg) {
       return (
         <OnboardingGate
           user={currentUser}
@@ -30448,21 +30459,27 @@ function SettingsView({
 }
 
 function AdminRoleBadge({ role }) {
-  const normalizedRole = role?.replace('_', '') || role;
+  // Normalize to a single canonical form so both `org_admin` and `orgAdmin`
+  // map to the same key. Previously this stripped underscores and then
+  // compared against the underscored form, so e.g. an `org_admin` always
+  // fell through to the "Student" branch.
+  const normalizedRole = String(role || '')
+    .toLowerCase()
+    .replace(/_/g, '');
   const label =
-    normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
+    normalizedRole === 'superadmin'
       ? 'Super Admin'
-      : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
+      : normalizedRole === 'orgadmin'
         ? 'Organization Admin'
-        : normalizedRole === 'instructor'
+        : normalizedRole === 'instructor' || normalizedRole === 'teacher'
           ? 'Instructor'
           : 'Student';
   const palette =
-    normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
+    normalizedRole === 'superadmin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
-      : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
+      : normalizedRole === 'orgadmin'
         ? 'bg-info-soft text-info'
-        : normalizedRole === 'instructor'
+        : normalizedRole === 'instructor' || normalizedRole === 'teacher'
           ? 'bg-success-soft text-success'
           : 'bg-surface-soft text-secondary';
   return (
