@@ -40852,52 +40852,190 @@ function ResultsScreen({
         </div>
       )}
 
-      {(loadingSuggestions || (suggestions && suggestions.length)) && (
-        <div className="mt-6 pt-4 border-t max-w-2xl mx-auto text-left">
-          <h3 className="text-xl font-bold subject-accent-heading mb-3">
-            Suggested Focus Areas
-          </h3>
-          {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-secondary">Loading suggestions...</p>
-          ) : suggestions.length ? (
+      {(() => {
+        // Build purpose-tagged post-quiz suggestions from this quiz's
+        // questions + answers. Capped at 5 items, ordered:
+        // Reinforcer → Next Step → Challenge → Review Marked → Retake.
+        const groupBy = (keyFn) => {
+          const map = new Map();
+          quiz.questions.forEach((q, i) => {
+            const key = keyFn(q);
+            if (!key) return;
+            const correctAnswer = q.answerOptions?.find(
+              (opt) => opt.isCorrect
+            )?.text;
+            const isCorrect = safeAnswers[i] === correctAnswer;
+            const cur = map.get(key) || { correct: 0, total: 0 };
+            cur.total += 1;
+            if (isCorrect) cur.correct += 1;
+            map.set(key, cur);
+          });
+          return Array.from(map.entries()).map(([key, v]) => ({
+            key,
+            correct: v.correct,
+            total: v.total,
+            pct: v.total > 0 ? v.correct / v.total : 0,
+          }));
+        };
+        const topicStats = groupBy(
+          (q) => q.originTopicTitle || q.topic || ''
+        );
+        const typeStats = groupBy((q) =>
+          isRlaComprehensive && q.skill
+            ? q.skill
+            : q.type || q.itemType || 'knowledge'
+        );
+
+        // Reinforcer: weakest topic the student attempted ≥ 2 times and
+        // didn't master.
+        const reinforcerCandidate = topicStats
+          .filter((t) => t.total >= 2 && t.correct < t.total)
+          .sort(
+            (a, b) =>
+              a.pct - b.pct || b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
+
+        // Next Step: weakest question type/skill (also ≥ 2, < mastery).
+        const nextStepCandidate = typeStats
+          .filter((t) => t.total >= 2 && t.correct < t.total)
+          .sort(
+            (a, b) =>
+              a.pct - b.pct || b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
+
+        // Challenge: strongest topic where student was perfect (≥ 2).
+        const challengeCandidate = topicStats
+          .filter((t) => t.total >= 2 && t.correct === t.total)
+          .sort(
+            (a, b) => b.total - a.total || a.key.localeCompare(b.key)
+          )[0];
+
+        const markedCount = safeMarked.filter(Boolean).length;
+        const passed = scaledScore >= 145;
+        const items = [];
+
+        if (reinforcerCandidate && subjectKey && onStartPracticeWithFocus) {
+          items.push({
+            id: 'reinforcer',
+            purpose: 'Reinforcer',
+            badgeColor: 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200',
+            title: `Reinforce: ${reinforcerCandidate.key}`,
+            rationale: `You scored ${reinforcerCandidate.correct}/${reinforcerCandidate.total} on this topic. A short focused practice will help it stick.`,
+            actionLabel: 'Practice this topic',
+            onAction: () =>
+              onStartPracticeWithFocus({
+                subject: subjectKey,
+                topic: reinforcerCandidate.key,
+                durationMinutes: 10,
+              }),
+          });
+        }
+        if (nextStepCandidate && subjectKey && onStartPracticeWithFocus) {
+          const typeLabel =
+            categoryNames[nextStepCandidate.key] ||
+            nextStepCandidate.key.replace(/[_-]/g, ' ');
+          items.push({
+            id: 'next-step',
+            purpose: 'Next Step',
+            badgeColor:
+              'bg-sky-100 text-sky-900 dark:bg-sky-500/20 dark:text-sky-200',
+            title: `Sharpen: ${typeLabel}`,
+            rationale: `Your weakest question style here was ${typeLabel.toLowerCase()} (${nextStepCandidate.correct}/${nextStepCandidate.total}). Train this style across topics.`,
+            actionLabel: 'Practice this style',
+            onAction: () =>
+              onStartPracticeWithFocus({
+                subject: subjectKey,
+                questionType: nextStepCandidate.key,
+                durationMinutes: 10,
+              }),
+          });
+        }
+        if (challengeCandidate && subjectKey && onStartPracticeWithFocus) {
+          items.push({
+            id: 'challenge',
+            purpose: 'Challenge',
+            badgeColor:
+              'bg-violet-100 text-violet-900 dark:bg-violet-500/20 dark:text-violet-200',
+            title: `Level up: ${challengeCandidate.key}`,
+            rationale: `Perfect run on this topic — try a challenge-tier set to push further.`,
+            actionLabel: 'Take the challenge',
+            onAction: () =>
+              onStartPracticeWithFocus({
+                subject: subjectKey,
+                topic: challengeCandidate.key,
+                tier: 'challenge',
+                durationMinutes: 10,
+              }),
+          });
+        }
+        if (markedCount > 0 && onReviewMarked) {
+          items.push({
+            id: 'review-marked',
+            purpose: 'Review',
+            badgeColor:
+              'bg-slate-200 text-slate-800 dark:bg-slate-500/20 dark:text-slate-100',
+            title: `Review your ${markedCount} marked question${
+              markedCount === 1 ? '' : 's'
+            }`,
+            rationale:
+              'You flagged these during the quiz — revisit them while the context is fresh.',
+            actionLabel: 'Review marked',
+            onAction: () => onReviewMarked(),
+          });
+        }
+        if (!passed && onRestart) {
+          items.push({
+            id: 'retake',
+            purpose: 'Retake',
+            badgeColor:
+              'bg-rose-100 text-rose-900 dark:bg-rose-500/20 dark:text-rose-200',
+            title: 'Retake this quiz',
+            rationale: `You scored ${scaledScore} (passing is 145). Another pass with the same set helps solidify what you just reviewed.`,
+            actionLabel: 'Retake quiz',
+            onAction: () => onRestart(),
+          });
+        }
+
+        const capped = items.slice(0, 5);
+        if (!capped.length) return null;
+
+        return (
+          <div className="mt-6 pt-4 border-t max-w-2xl mx-auto text-left">
+            <h3 className="text-xl font-bold subject-accent-heading mb-3">
+              What to do next
+            </h3>
             <ul className="space-y-2">
-              {suggestions.map((s) => (
+              {capped.map((s) => (
                 <li
                   key={s.id}
-                  className="flex items-center justify-between gap-3 panel-surface p-3 rounded-lg"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 panel-surface p-3 rounded-lg"
                 >
-                  <div>
-                    <p className="font-semibold text-primary">
-                      {prettyLabel(s.challenge_tag, s.label)}
-                    </p>
-                    <p className="text-xs text-secondary">
-                      {s.suggestion_type === 'add'
-                        ? 'Consider adding this challenge to your practice plan.'
-                        : 'We think you may be ready to remove this challenge.'}
-                    </p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span
+                        className={`text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded ${s.badgeColor}`}
+                      >
+                        {s.purpose}
+                      </span>
+                      <p className="font-semibold text-primary">{s.title}</p>
+                    </div>
+                    <p className="text-xs text-secondary">{s.rationale}</p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 sm:justify-end">
                     <button
-                      onClick={() => resolveSuggestion(s.id, 'reject')}
-                      className="btn-ghost text-sm"
-                    >
-                      Dismiss
-                    </button>
-                    <button
-                      onClick={() => resolveSuggestion(s.id, 'accept')}
+                      type="button"
+                      onClick={s.onAction}
                       className="btn-primary text-sm"
                     >
-                      Accept
+                      {s.actionLabel}
                     </button>
                   </div>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-sm text-secondary">No suggestions right now.</p>
-          )}
-        </div>
-      )}
+          </div>
+        );
+      })()}
 
       <div className="mt-8 pt-6 border-t max-w-lg mx-auto">
         <h3 className="text-xl font-bold subject-accent-heading mb-4">
