@@ -24525,9 +24525,7 @@ function AppHeader({
             title="Mr. Smith's Learning Canvas"
           >
             <AppIcon name="home" tone="sky" size={20} />
-            <span className="hidden xl:inline">
-              Mr. Smith's Learning Canvas
-            </span>
+            <span className="hidden xl:inline">Mr. Smith's Learning Canvas</span>
             <span className="xl:hidden">Mr. Smith's</span>
           </button>
           <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
@@ -25533,36 +25531,11 @@ function App({ externalTheme, onThemeChange }) {
 
   const sendPresencePing = useCallback(async () => {
     try {
-      const tok =
-        (typeof localStorage !== 'undefined' &&
-          localStorage.getItem('appToken')) ||
-        null;
-      const res = await fetch(`${API_BASE_URL}/presence/ping`, {
+      await fetch(`${API_BASE_URL}/presence/ping`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(tok ? { Authorization: `Bearer ${tok}` } : {}),
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
-      if (res.status === 401) {
-        // Server invalidated this session (signed in elsewhere or idle > 2h).
-        try {
-          localStorage.removeItem('appUser');
-        } catch (_) {}
-        try {
-          localStorage.removeItem('appToken');
-        } catch (_) {}
-        setAuthToken(null);
-        setCurrentUser(null);
-        try {
-          if (typeof window !== 'undefined') {
-            window.alert(
-              'You were signed out (session ended on another device or after 2 hours of inactivity).'
-            );
-          }
-        } catch (_) {}
-      }
     } catch (err) {
       console.warn('presence ping failed:', err);
     }
@@ -27363,6 +27336,42 @@ function App({ externalTheme, onThemeChange }) {
         } else {
           setShowNamePrompt(false);
         }
+        // Refresh account_status / organization_id from server so we don't
+        // re-prompt the org-pick wizard on a stale localStorage snapshot
+        // (e.g. user picked their org on another device, or local cache is
+        // older than the most recent membership change).
+        (async () => {
+          try {
+            const r = await fetch(
+              `${API_BASE_URL}/api/me/membership-request`,
+              { headers: { Authorization: `Bearer ${storedToken}` } }
+            );
+            if (!r.ok) return;
+            const d = await r.json();
+            if (!d || typeof d !== 'object') return;
+            setCurrentUser((prev) => {
+              if (!prev) return prev;
+              const merged = {
+                ...prev,
+                account_status: d.account_status || prev.account_status,
+                organization_id:
+                  d.organization_id != null
+                    ? d.organization_id
+                    : prev.organization_id,
+                pending_organization_id:
+                  d.pending_organization_id != null
+                    ? d.pending_organization_id
+                    : prev.pending_organization_id,
+              };
+              try {
+                localStorage.setItem('appUser', JSON.stringify(merged));
+              } catch (_) {}
+              return merged;
+            });
+          } catch (_) {
+            /* best-effort */
+          }
+        })();
       }
     } catch (error) {
       console.error('Failed to restore stored user:', error);
@@ -27543,21 +27552,6 @@ function App({ externalTheme, onThemeChange }) {
   };
 
   const handleLogout = () => {
-    // Best-effort server-side cleanup of the session id + auth cookie. We
-    // fire-and-forget so a network blip does not block local sign-out.
-    try {
-      const tok =
-        (typeof localStorage !== 'undefined' &&
-          localStorage.getItem('appToken')) ||
-        null;
-      fetch(`${API_BASE_URL}/api/logout`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: tok ? { Authorization: `Bearer ${tok}` } : {},
-      }).catch(() => {});
-    } catch (e) {
-      // noop
-    }
     localStorage.removeItem('appUser');
     localStorage.removeItem('appToken');
     setCurrentUser(null);
@@ -27588,50 +27582,6 @@ function App({ externalTheme, onThemeChange }) {
       google.accounts.id.disableAutoSelect();
     }
   };
-
-  // Idle/inactivity auto-logout. Mirrors the 2h server-side timeout in
-  // backend/server.js (validateUserSession). We track real user activity
-  // (keyboard, mouse, touch, scroll) — closing the laptop or switching to
-  // another tab also counts as inactivity since these listeners stop firing.
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-    if (!currentUser) return undefined;
-    const IDLE_MS = 2 * 60 * 60 * 1000; // 2 hours
-    let lastActivity = Date.now();
-    let timer = null;
-    const onIdle = () => {
-      try {
-        if (typeof window !== 'undefined') {
-          window.alert(
-            'You were signed out after 2 hours of inactivity. Please sign in again.'
-          );
-        }
-      } catch (_) {}
-      handleLogout();
-    };
-    const schedule = () => {
-      if (timer) clearTimeout(timer);
-      const remaining = Math.max(0, IDLE_MS - (Date.now() - lastActivity));
-      timer = setTimeout(() => {
-        if (Date.now() - lastActivity >= IDLE_MS) {
-          onIdle();
-        } else {
-          schedule();
-        }
-      }, remaining + 1000);
-    };
-    const bump = () => {
-      lastActivity = Date.now();
-    };
-    const events = ['mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
-    events.forEach((e) => window.addEventListener(e, bump, { passive: true }));
-    schedule();
-    return () => {
-      events.forEach((e) => window.removeEventListener(e, bump));
-      if (timer) clearTimeout(timer);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
 
   const isComprehensiveQuiz = useCallback((quizPayload) => {
     if (!quizPayload || typeof quizPayload !== 'object') {
@@ -28620,7 +28570,18 @@ function App({ externalTheme, onThemeChange }) {
           user={currentUser}
           token={authToken}
           onLogout={handleLogout}
-          onUserUpdated={(next) => setCurrentUser(next)}
+          onUserUpdated={(next) => {
+            // Persist the refreshed user (with the new account_status,
+            // organization_id, and onboarding_state) so a page reload or
+            // next-day login does not send the student back through the
+            // program-pick wizard.
+            try {
+              if (next && typeof next === 'object') {
+                localStorage.setItem('appUser', JSON.stringify(next));
+              }
+            } catch (_) {}
+            setCurrentUser(next);
+          }}
         >
           {null}
         </OnboardingGate>
