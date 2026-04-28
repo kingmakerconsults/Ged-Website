@@ -365,7 +365,9 @@ function QuotaCard({ studentId }) {
           throw new Error(body?.message || body?.error || `HTTP ${res.status}`);
         }
         setState(body.state || state);
-        setOkMsg(`Granted +${amount} ${kind === 'comprehensive' ? 'exam(s)' : 'smart quiz(zes)'}.`);
+        setOkMsg(
+          `Granted +${amount} ${kind === 'comprehensive' ? 'exam(s)' : 'smart quiz(zes)'}.`
+        );
       } catch (e) {
         setErr(e.message || String(e));
       } finally {
@@ -575,13 +577,14 @@ export default function InstructorStudentDetail({ student, onClose }) {
           <div
             style={{
               padding: 12,
-              background: '#fef2f2',
-              color: '#b91c1c',
+              background: '#f8fafc',
+              color: '#475569',
               borderRadius: 8,
               fontSize: 13,
+              border: '1px solid #e2e8f0',
             }}
           >
-            Failed to load: {error}
+            No stats available for this student yet.
           </div>
         )}
         {data && !loading && (

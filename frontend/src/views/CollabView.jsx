@@ -141,8 +141,11 @@ export default function CollabView() {
       });
       if (!res.ok) {
         if (res.status === 404) {
-          setError(
-            `Collaboration server is not yet available (404 from ${url}). The backend may still be deploying — please try again in a minute.`
+          // The active-sessions endpoint may briefly 404 right after a
+          // deploy. The page is still fully usable (Join with Code +
+          // Find a Partner). Log silently instead of showing a red banner.
+          console.warn(
+            `[collab] /sessions/active returned 404 from ${url} — hiding banner`
           );
         } else if (res.status === 401 || res.status === 403) {
           if (!token) {

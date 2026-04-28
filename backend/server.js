@@ -20257,6 +20257,280 @@ app.delete(
   }
 );
 
+// ---------- Class notes (instructor side) ----------
+// Visible by everyone in the class when recipient_user_id is NULL,
+// otherwise visible only to author and the addressed student.
+async function _studentEnrolledInClass(userId, classId) {
+  if (!Number.isFinite(userId) || !Number.isFinite(classId)) return false;
+  const r = await db.query(
+    `SELECT 1 FROM class_enrollments WHERE class_id=$1 AND user_id=$2 LIMIT 1`,
+    [classId, userId]
+  );
+  return r.rowCount > 0;
+}
+
+app.get(
+  '/api/instructor/classes/:classId/notes',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { rows } = await db.query(
+        `SELECT n.id, n.class_id, n.author_id, n.author_role,
+                n.recipient_user_id, n.body, n.note_date, n.created_at,
+                a.name AS author_name, a.email AS author_email,
+                r.name AS recipient_name, r.email AS recipient_email
+           FROM class_notes n
+           LEFT JOIN users a ON a.id = n.author_id
+           LEFT JOIN users r ON r.id = n.recipient_user_id
+          WHERE n.class_id = $1
+          ORDER BY n.created_at DESC
+          LIMIT 200`,
+        [classId]
+      );
+      return res.json({ notes: rows });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/notes GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to load notes' });
+    }
+  }
+);
+
+app.post(
+  '/api/instructor/classes/:classId/notes',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const authorId = req.user.id || req.user.userId;
+      const { body, recipient_user_id, note_date } = req.body || {};
+      const cleanBody = String(body || '').trim();
+      if (!cleanBody) return res.status(400).json({ error: 'body_required' });
+      let recipientId = null;
+      if (
+        recipient_user_id !== null &&
+        recipient_user_id !== undefined &&
+        recipient_user_id !== ''
+      ) {
+        const rid = parseInt(recipient_user_id, 10);
+        if (!Number.isFinite(rid))
+          return res.status(400).json({ error: 'invalid_recipient' });
+        // Recipient must be enrolled in this class
+        if (!(await _studentEnrolledInClass(rid, classId)))
+          return res.status(400).json({ error: 'recipient_not_in_class' });
+        recipientId = rid;
+      }
+      let nDate = null;
+      if (note_date) {
+        const d = new Date(note_date);
+        if (Number.isFinite(d.getTime())) nDate = d;
+      }
+      const r = await db.query(
+        `INSERT INTO class_notes
+           (class_id, author_id, author_role, recipient_user_id, body, note_date)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, class_id, author_id, author_role, recipient_user_id,
+                   body, note_date, created_at`,
+        [
+          classId,
+          authorId,
+          String(req.user?.role || 'instructor').slice(0, 20),
+          recipientId,
+          cleanBody.slice(0, 4000),
+          nDate,
+        ]
+      );
+      // Best-effort notification to the recipient (or all enrolled students)
+      try {
+        let recipients = [];
+        if (recipientId) {
+          recipients = [recipientId];
+        } else {
+          const rs = await db.query(
+            `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
+            [classId]
+          );
+          recipients = rs.rows.map((row) => row.user_id);
+        }
+        if (recipients.length > 0 && notify && notify.notifyUsers) {
+          await notify.notifyUsers(recipients, {
+            type: 'class_note',
+            title: 'New class note',
+            body: cleanBody.slice(0, 140),
+            link: '/student/my-class',
+          });
+        }
+      } catch (notifyErr) {
+        console.warn('[notes] notify failed:', notifyErr?.message);
+      }
+      return res.status(201).json({ note: r.rows[0] });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/notes POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to post note' });
+    }
+  }
+);
+
+app.delete(
+  '/api/instructor/classes/:classId/notes/:noteId',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      const noteId = parseInt(req.params.noteId, 10);
+      if (!Number.isFinite(noteId))
+        return res.status(400).json({ error: 'invalid_id' });
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      await db.query(`DELETE FROM class_notes WHERE id=$1 AND class_id=$2`, [
+        noteId,
+        classId,
+      ]);
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/notes DELETE] failed:', err);
+      return res.status(500).json({ error: 'Unable to delete note' });
+    }
+  }
+);
+
+// ---------- Student-facing class hub ----------
+app.get('/api/student/classes', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id || req.user.userId;
+    const { rows } = await db.query(
+      `SELECT c.id, c.name, c.color, c.is_active, c.created_at,
+              u.name AS teacher_name, u.email AS teacher_email
+         FROM class_enrollments e
+         JOIN classes c ON c.id = e.class_id
+         LEFT JOIN users u ON u.id = c.teacher_id
+        WHERE e.user_id = $1
+        ORDER BY c.created_at DESC`,
+      [userId]
+    );
+    return res.json({ classes: rows });
+  } catch (err) {
+    console.error('[/api/student/classes GET] failed:', err);
+    return res.status(500).json({ error: 'Unable to load classes' });
+  }
+});
+
+app.get(
+  '/api/student/classes/:classId/curriculum',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user.id || req.user.userId;
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _studentEnrolledInClass(userId, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { rows } = await db.query(
+        `SELECT id, position, subject, category_name, topic_id, quiz_id,
+                title, planned_date, manually_marked_covered, created_at
+           FROM class_curriculum_items
+          WHERE class_id = $1
+          ORDER BY position ASC, id ASC`,
+        [classId]
+      );
+      return res.json({ items: rows });
+    } catch (err) {
+      console.error('[/api/student/classes/:id/curriculum GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to load curriculum' });
+    }
+  }
+);
+
+app.get(
+  '/api/student/classes/:classId/notes',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user.id || req.user.userId;
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _studentEnrolledInClass(userId, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { rows } = await db.query(
+        `SELECT n.id, n.class_id, n.author_id, n.author_role,
+                n.recipient_user_id, n.body, n.note_date, n.created_at,
+                a.name AS author_name
+           FROM class_notes n
+           LEFT JOIN users a ON a.id = n.author_id
+          WHERE n.class_id = $1
+            AND (n.recipient_user_id IS NULL
+                 OR n.recipient_user_id = $2
+                 OR n.author_id = $2)
+          ORDER BY n.created_at DESC
+          LIMIT 200`,
+        [classId, userId]
+      );
+      return res.json({ notes: rows });
+    } catch (err) {
+      console.error('[/api/student/classes/:id/notes GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to load notes' });
+    }
+  }
+);
+
+app.post(
+  '/api/student/classes/:classId/notes',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user.id || req.user.userId;
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _studentEnrolledInClass(userId, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const { body, note_date } = req.body || {};
+      const cleanBody = String(body || '').trim();
+      if (!cleanBody) return res.status(400).json({ error: 'body_required' });
+      let nDate = null;
+      if (note_date) {
+        const d = new Date(note_date);
+        if (Number.isFinite(d.getTime())) nDate = d;
+      }
+      // Find the class teacher so the note is addressed to them by default.
+      const tq = await db.query(`SELECT teacher_id FROM classes WHERE id=$1`, [
+        classId,
+      ]);
+      const teacherId = tq.rows[0]?.teacher_id || null;
+      const r = await db.query(
+        `INSERT INTO class_notes
+           (class_id, author_id, author_role, recipient_user_id, body, note_date)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, class_id, author_id, author_role, recipient_user_id,
+                   body, note_date, created_at`,
+        [classId, userId, 'student', teacherId, cleanBody.slice(0, 4000), nDate]
+      );
+      try {
+        if (teacherId && notify && notify.notifyUsers) {
+          await notify.notifyUsers([teacherId], {
+            type: 'class_note',
+            title: 'New student note',
+            body: cleanBody.slice(0, 140),
+            link: '/instructor/classes',
+          });
+        }
+      } catch (notifyErr) {
+        console.warn('[student notes] notify failed:', notifyErr?.message);
+      }
+      return res.status(201).json({ note: r.rows[0] });
+    } catch (err) {
+      console.error('[/api/student/classes/:id/notes POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to post note' });
+    }
+  }
+);
+
 // ---------- Assignments ----------
 app.get(
   '/api/instructor/assignments',
@@ -28074,29 +28348,60 @@ app.get(
   async (req, res) => {
     const userId = req.targetStudentId;
     try {
-      // Recent attempts (50)
-      const attempts = await pool.query(
-        `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
-                attempted_at, scaled_score, passed
-           FROM quiz_attempts
-          WHERE user_id = $1
-          ORDER BY attempted_at DESC
-          LIMIT 50`,
-        [userId]
-      );
+      // Recent attempts (50). Wrap each "outer" query so a missing column
+      // (e.g. on older DBs that lack scaled_score / passed) never crashes
+      // the whole endpoint with a 500. Fall back to empty rows instead.
+      let attempts = { rows: [] };
+      try {
+        attempts = await pool.query(
+          `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
+                  attempted_at,
+                  COALESCE(scaled_score, NULL) AS scaled_score,
+                  COALESCE(passed, NULL) AS passed
+             FROM quiz_attempts
+            WHERE user_id = $1
+            ORDER BY attempted_at DESC
+            LIMIT 50`,
+          [userId]
+        );
+      } catch (e) {
+        console.warn('[instructor stats] attempts skipped:', e.message);
+        try {
+          // Retry without optional columns
+          attempts = await pool.query(
+            `SELECT id, subject, quiz_id, quiz_type, score, total_questions,
+                    attempted_at
+               FROM quiz_attempts
+              WHERE user_id = $1
+              ORDER BY attempted_at DESC
+              LIMIT 50`,
+            [userId]
+          );
+        } catch (e2) {
+          console.warn(
+            '[instructor stats] attempts retry skipped:',
+            e2.message
+          );
+        }
+      }
 
       // Subject mastery rollup
-      const mastery = await pool.query(
-        `SELECT subject,
-                COUNT(*)::int AS attempts,
-                AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
-                MAX(attempted_at) AS last_attempt_at
-           FROM quiz_attempts
-          WHERE user_id = $1
-          GROUP BY subject
-          ORDER BY subject`,
-        [userId]
-      );
+      let mastery = { rows: [] };
+      try {
+        mastery = await pool.query(
+          `SELECT subject,
+                  COUNT(*)::int AS attempts,
+                  AVG(NULLIF(score,0)::float / NULLIF(total_questions,0)::float) AS avg_ratio,
+                  MAX(attempted_at) AS last_attempt_at
+             FROM quiz_attempts
+            WHERE user_id = $1
+            GROUP BY subject
+            ORDER BY subject`,
+          [userId]
+        );
+      } catch (e) {
+        console.warn('[instructor stats] mastery skipped:', e.message);
+      }
 
       // Weak areas (per-item incorrect by domain/topic)
       let weakAreas = [];

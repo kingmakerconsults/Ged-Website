@@ -570,7 +570,16 @@ function ClassNotesSection({ classId, members }) {
       const data = await apiFetch(`/api/instructor/classes/${classId}/notes`);
       setNotes(Array.isArray(data?.notes) ? data.notes : []);
     } catch (e) {
-      setError(e?.message || 'Failed to load notes');
+      // A 404 just means the notes feature isn't available on the current
+      // backend deployment yet — treat as "no notes" instead of a red banner.
+      const msg = String(e?.message || '');
+      const isNotDeployed = /404/.test(msg) || /Cannot GET/i.test(msg);
+      if (isNotDeployed) {
+        console.warn('[notes] endpoint unavailable, hiding error:', msg);
+        setNotes([]);
+      } else {
+        setError(msg || 'Failed to load notes');
+      }
     } finally {
       setLoading(false);
     }
