@@ -179,6 +179,32 @@ export default function InstructorClassesPanel({ students = [] }) {
     }
   };
 
+  const deleteClass = async (cls) => {
+    if (
+      !window.confirm(
+        `Delete class "${cls.name}"? This removes all enrollments and curriculum items for this class. This cannot be undone.`
+      )
+    ) {
+      return;
+    }
+    setLoadError(null);
+    try {
+      await apiFetch(`/api/instructor/classes/${cls.id}`, {
+        method: 'DELETE',
+      });
+      if (expandedClassId === cls.id) setExpandedClassId(null);
+      setMembers((prev) => {
+        const next = { ...prev };
+        delete next[cls.id];
+        return next;
+      });
+      await loadClasses();
+    } catch (e) {
+      console.warn('[classes] delete class failed', e);
+      setLoadError(e?.message || 'Failed to delete class');
+    }
+  };
+
   const studentOptions = (classId) => {
     const current = new Set((members[classId] || []).map((m) => m.id));
     return students.filter((s) => !current.has(s.id));
@@ -308,22 +334,40 @@ export default function InstructorClassesPanel({ students = [] }) {
                       {c.member_count === 1 ? '' : 's'}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => expandClass(c.id)}
-                    style={{
-                      padding: '6px 12px',
-                      border: '1px solid #cbd5e1',
-                      borderRadius: 8,
-                      background: '#f8fafc',
-                      color: '#0f172a',
-                      fontSize: 13,
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {isOpen ? 'Close' : 'Manage students'}
-                  </button>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button
+                      type="button"
+                      onClick={() => expandClass(c.id)}
+                      style={{
+                        padding: '6px 12px',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: 8,
+                        background: '#f8fafc',
+                        color: '#0f172a',
+                        fontSize: 13,
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {isOpen ? 'Close' : 'Manage students'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteClass(c)}
+                      style={{
+                        padding: '6px 12px',
+                        border: '1px solid #fecaca',
+                        borderRadius: 8,
+                        background: '#fff1f2',
+                        color: '#b91c1c',
+                        fontSize: 13,
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Delete class
+                    </button>
+                  </div>
                 </div>
                 {isOpen && (
                   <div style={{ marginTop: 12 }}>

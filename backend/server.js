@@ -19648,6 +19648,42 @@ app.post(
   }
 );
 
+// Delete a class (and its enrollments + curriculum via FK cascades)
+app.delete(
+  '/api/instructor/classes/:classId',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!Number.isFinite(classId))
+        return res.status(400).json({ error: 'invalid_class_id' });
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const r = await db.query(
+        `DELETE FROM classes WHERE id = $1 RETURNING id, name`,
+        [classId]
+      );
+      if (r.rowCount === 0)
+        return res.status(404).json({ error: 'class_not_found' });
+      await _audit({
+        db,
+        req,
+        action: 'instructor.class.delete',
+        target: { type: 'class', id: classId },
+        payload: { name: r.rows[0]?.name },
+      });
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/instructor/classes DELETE] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to delete class', detail: err?.message });
+    }
+  }
+);
+
 // Roster of a single class
 app.get(
   '/api/instructor/classes/:classId/roster',
