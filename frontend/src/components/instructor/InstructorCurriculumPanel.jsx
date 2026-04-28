@@ -540,6 +540,28 @@ export default function InstructorCurriculumPanel() {
             No classes yet. Create one in the <strong>Classes</strong> tab.
           </div>
         )}
+        {classId && items.length > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== 'undefined') window.print();
+            }}
+            style={{
+              marginLeft: 'auto',
+              padding: '6px 12px',
+              border: '1px solid #0ea5e9',
+              borderRadius: 6,
+              background: '#0ea5e9',
+              color: '#ffffff',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+            title="Print or save the current curriculum as a syllabus PDF"
+          >
+            🖨 Print as Syllabus
+          </button>
+        )}
       </div>
 
       {classId && (

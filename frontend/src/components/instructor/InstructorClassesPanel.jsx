@@ -76,6 +76,9 @@ export default function InstructorClassesPanel({ students = [] }) {
   const [memberError, setMemberError] = useState(null);
   const [addStudentId, setAddStudentId] = useState('');
 
+  // Per-class notes state
+  const [notesOpenClassId, setNotesOpenClassId] = useState(null);
+
   const loadClasses = useCallback(async () => {
     setLoading(true);
     setLoadError(null);
@@ -353,6 +356,28 @@ export default function InstructorClassesPanel({ students = [] }) {
                     </button>
                     <button
                       type="button"
+                      onClick={() =>
+                        setNotesOpenClassId((cur) =>
+                          cur === c.id ? null : c.id
+                        )
+                      }
+                      style={{
+                        padding: '6px 12px',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: 8,
+                        background: notesOpenClassId === c.id
+                          ? '#e0f2fe'
+                          : '#f8fafc',
+                        color: '#0f172a',
+                        fontSize: 13,
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      💬 {notesOpenClassId === c.id ? 'Hide notes' : 'Notes'}
+                    </button>
+                    <button
+                      type="button"
                       onClick={() => deleteClass(c)}
                       style={{
                         padding: '6px 12px',
@@ -517,11 +542,306 @@ export default function InstructorClassesPanel({ students = [] }) {
                     )}
                   </div>
                 )}
+                {notesOpenClassId === c.id && (
+                  <ClassNotesSection
+                    classId={c.id}
+                    members={classMembers}
+                  />
+                )}
               </div>
             );
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+function ClassNotesSection({ classId, members }) {
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [body, setBody] = useState('');
+  const [recipientId, setRecipientId] = useState('');
+  const [noteDate, setNoteDate] = useState('');
+  const [posting, setPosting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiFetch(
+        `/api/instructor/classes/${classId}/notes`
+      );
+      setNotes(Array.isArray(data?.notes) ? data.notes : []);
+    } catch (e) {
+      setError(e?.message || 'Failed to load notes');
+    } finally {
+      setLoading(false);
+    }
+  }, [classId]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!body.trim()) return;
+    setPosting(true);
+    setError(null);
+    try {
+      await apiFetch(`/api/instructor/classes/${classId}/notes`, {
+        method: 'POST',
+        body: JSON.stringify({
+          body: body.trim(),
+          recipient_user_id: recipientId ? Number(recipientId) : null,
+          note_date: noteDate || null,
+        }),
+      });
+      setBody('');
+      setNoteDate('');
+      setRecipientId('');
+      await load();
+    } catch (err) {
+      setError(err?.message || 'Failed to post note');
+    } finally {
+      setPosting(false);
+    }
+  };
+
+  const remove = async (noteId) => {
+    if (!window.confirm('Delete this note?')) return;
+    try {
+      await apiFetch(
+        `/api/instructor/classes/${classId}/notes/${noteId}`,
+        { method: 'DELETE' }
+      );
+      await load();
+    } catch (err) {
+      setError(err?.message || 'Failed to delete note');
+    }
+  };
+
+  return (
+    <div
+      style={{
+        marginTop: 12,
+        background: '#f8fafc',
+        border: '1px solid #cbd5e1',
+        borderRadius: 8,
+        padding: 12,
+      }}
+    >
+      <form onSubmit={submit} style={{ marginBottom: 12 }}>
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 700,
+            color: '#475569',
+            textTransform: 'uppercase',
+            marginBottom: 6,
+          }}
+        >
+          Post a class note or DM a student
+        </div>
+        <textarea
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          placeholder="Announcement, reply, reminder…"
+          rows={3}
+          maxLength={4000}
+          style={{
+            width: '100%',
+            padding: 8,
+            border: '1px solid #cbd5e1',
+            borderRadius: 6,
+            fontSize: 13,
+            fontFamily: 'inherit',
+            resize: 'vertical',
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            gap: 8,
+            alignItems: 'center',
+            marginTop: 6,
+            flexWrap: 'wrap',
+          }}
+        >
+          <select
+            value={recipientId}
+            onChange={(e) => setRecipientId(e.target.value)}
+            style={{
+              padding: '4px 8px',
+              border: '1px solid #cbd5e1',
+              borderRadius: 6,
+              fontSize: 12,
+            }}
+          >
+            <option value="">📢 Whole class</option>
+            {members.map((m) => (
+              <option key={m.id} value={m.id}>
+                ✉️ {m.name || m.email || `Student #${m.id}`}
+              </option>
+            ))}
+          </select>
+          <label style={{ fontSize: 12, color: '#475569' }}>
+            Pin to date:{' '}
+            <input
+              type="date"
+              value={noteDate}
+              onChange={(e) => setNoteDate(e.target.value)}
+              style={{
+                padding: '4px 6px',
+                border: '1px solid #cbd5e1',
+                borderRadius: 6,
+                fontSize: 12,
+              }}
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={!body.trim() || posting}
+            style={{
+              padding: '6px 14px',
+              border: 'none',
+              borderRadius: 6,
+              background: !body.trim() || posting ? '#94a3b8' : '#0ea5e9',
+              color: '#ffffff',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: !body.trim() || posting ? 'default' : 'pointer',
+            }}
+          >
+            {posting ? 'Sending…' : 'Send'}
+          </button>
+        </div>
+        {error && (
+          <div
+            style={{
+              marginTop: 8,
+              padding: 6,
+              background: '#fef2f2',
+              color: '#b91c1c',
+              border: '1px solid #fecaca',
+              borderRadius: 6,
+              fontSize: 12,
+            }}
+          >
+            {error}
+          </div>
+        )}
+      </form>
+
+      {loading && (
+        <div style={{ fontSize: 12, color: '#64748b' }}>Loading notes…</div>
+      )}
+      {!loading && notes.length === 0 && (
+        <div style={{ fontSize: 12, color: '#64748b' }}>
+          No notes yet for this class.
+        </div>
+      )}
+      {notes.map((n) => {
+        const when = n.created_at
+          ? new Date(n.created_at).toLocaleString()
+          : '';
+        const noteDay = n.note_date
+          ? new Date(n.note_date).toLocaleDateString()
+          : null;
+        return (
+          <div
+            key={n.id}
+            style={{
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: 8,
+              padding: 8,
+              marginBottom: 6,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                color: '#475569',
+                marginBottom: 4,
+                display: 'flex',
+                gap: 6,
+                alignItems: 'center',
+                flexWrap: 'wrap',
+              }}
+            >
+              <strong>{n.author_name || n.author_role}</strong>
+              {n.recipient_user_id === null ? (
+                <span
+                  style={{
+                    background: '#dbeafe',
+                    color: '#1e3a8a',
+                    padding: '0 6px',
+                    borderRadius: 4,
+                    fontWeight: 600,
+                  }}
+                >
+                  Class-wide
+                </span>
+              ) : (
+                <span
+                  style={{
+                    background: '#fef3c7',
+                    color: '#854d0e',
+                    padding: '0 6px',
+                    borderRadius: 4,
+                    fontWeight: 600,
+                  }}
+                >
+                  ✉️ to {n.recipient_name || `#${n.recipient_user_id}`}
+                </span>
+              )}
+              {noteDay && (
+                <span
+                  style={{
+                    background: '#fef9c3',
+                    color: '#854d0e',
+                    padding: '0 6px',
+                    borderRadius: 4,
+                    fontWeight: 600,
+                  }}
+                >
+                  📅 {noteDay}
+                </span>
+              )}
+              <span style={{ marginLeft: 'auto', color: '#94a3b8' }}>
+                {when}
+              </span>
+              <button
+                type="button"
+                onClick={() => remove(n.id)}
+                title="Delete this note"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#dc2626',
+                  cursor: 'pointer',
+                  fontSize: 11,
+                  padding: 0,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <div
+              style={{
+                fontSize: 13,
+                color: '#0f172a',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {n.body}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

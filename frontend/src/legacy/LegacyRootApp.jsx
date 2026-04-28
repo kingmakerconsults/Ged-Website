@@ -24442,6 +24442,7 @@ import InstructorReportsPanel from '../components/instructor/InstructorReportsPa
 import InstructorAssignmentsPanel from '../components/instructor/InstructorAssignmentsPanel.jsx';
 import InstructorCurriculumPanel from '../components/instructor/InstructorCurriculumPanel.jsx';
 import InstructorClassesPanel from '../components/instructor/InstructorClassesPanel.jsx';
+import StudentMyClassPanel from '../components/student/StudentMyClassPanel.jsx';
 import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -24458,6 +24459,7 @@ function AppHeader({
   onShowSettings,
   onShowQuizzes,
   onShowProgress,
+  onShowMyClass,
   activePanel,
   theme,
   onToggleTheme,
@@ -24528,6 +24530,16 @@ function AppHeader({
             >
               Progress
             </button>
+            {onShowMyClass && (
+              <button
+                onClick={onShowMyClass}
+                className="nav-link"
+                type="button"
+                aria-controls="myclass"
+              >
+                My Class
+              </button>
+            )}
             {currentUser && (
               <a
                 href="/collab"
@@ -24574,6 +24586,7 @@ function AppHeader({
           </button>
           {currentUser && (
             <div className="hidden md:flex items-center gap-4">
+              <NotificationBell />
               <div className="flex items-center gap-2">
                 {currentUser.picture ? (
                   <img
@@ -24665,6 +24678,15 @@ function AppHeader({
             >
               Progress
             </button>
+            {onShowMyClass && (
+              <button
+                type="button"
+                onClick={() => handleMobileAction(onShowMyClass)}
+                className="btn-ghost justify-start"
+              >
+                My Class
+              </button>
+            )}
             {currentUser && (
               <a
                 href="/collab"
@@ -26009,6 +26031,10 @@ function App({ externalTheme, onThemeChange }) {
   );
   const goToProgress = useCallback(
     () => hardJump('progress', { scrollTarget: 'progress' }),
+    [hardJump]
+  );
+  const goToMyClass = useCallback(
+    () => hardJump('myclass', { scrollTarget: '__top' }),
     [hardJump]
   );
   const goToProfile = useCallback(() => {
@@ -28401,6 +28427,23 @@ function App({ externalTheme, onThemeChange }) {
             />
           );
         }
+        if (activeView === 'myclass') {
+          return (
+            <div className="mx-auto max-w-6xl px-4 py-6">
+              <h1
+                style={{
+                  fontSize: 22,
+                  fontWeight: 700,
+                  marginBottom: 12,
+                  color: 'var(--text-primary)',
+                }}
+              >
+                My Class
+              </h1>
+              <StudentMyClassPanel currentUser={currentUser} />
+            </div>
+          );
+        }
         if (activeView === 'settings') {
           return (
             <SettingsView
@@ -28554,6 +28597,7 @@ function App({ externalTheme, onThemeChange }) {
           onShowSettings={goToSettings}
           onShowQuizzes={goToQuizzes}
           onShowProgress={goToProgress}
+          onShowMyClass={goToMyClass}
           activePanel={
             activeView === 'profile'
               ? 'profile'

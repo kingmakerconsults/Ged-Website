@@ -19855,6 +19855,30 @@ app.post(
           ped,
         ]
       );
+      // Best-effort: notify enrolled students that the curriculum changed.
+      try {
+        const cR = await db.query(
+          `SELECT name FROM classes WHERE id=$1`,
+          [classId]
+        );
+        const className = cR.rows[0]?.name || 'your class';
+        const enr = await db.query(
+          `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
+          [classId]
+        );
+        await notify.notifyUsers(
+          enr.rows.map((row) => row.user_id),
+          {
+            type: 'curriculum_item_added',
+            title: `New curriculum item in ${className}`,
+            body: cleanTitle,
+            link: `/student#myclass/${classId}`,
+            payload: { class_id: classId, item_id: r.rows[0].id },
+          }
+        );
+      } catch (e) {
+        console.warn('[notify curriculum_item_added] skipped:', e.message);
+      }
       return res.status(201).json({ item: r.rows[0] });
     } catch (err) {
       console.error(
@@ -19991,6 +20015,329 @@ app.delete(
     } catch (err) {
       console.error('[/api/instructor/curriculum/:id DELETE] failed:', err);
       return res.status(500).json({ error: 'Unable to delete item' });
+    }
+  }
+);
+
+// ---------------------------------------------------------------------------
+// STUDENT-FACING CLASS ENDPOINTS — read curriculum, calendar notes, post DMs
+// to the instructor. Backed by class_enrollments + class_curriculum_items +
+// class_notes.
+// ---------------------------------------------------------------------------
+
+async function _studentInClass(userId, classId) {
+  if (!Number.isFinite(userId) || !Number.isFinite(classId)) return false;
+  const r = await db.query(
+    `SELECT 1 FROM class_enrollments WHERE user_id=$1 AND class_id=$2 LIMIT 1`,
+    [userId, classId]
+  );
+  return r.rowCount > 0;
+}
+
+// GET /api/student/classes — classes the current user is enrolled in.
+app.get('/api/student/classes', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = req.user?.id || req.user?.userId;
+    if (!userId) return res.status(401).json({ error: 'unauthorized' });
+    const { rows } = await db.query(
+      `SELECT c.id, c.name, c.color, c.is_active, c.join_code,
+              c.organization_id, c.teacher_id,
+              u.name AS teacher_name, u.email AS teacher_email
+         FROM class_enrollments e
+         JOIN classes c ON c.id = e.class_id
+         LEFT JOIN users u ON u.id = c.teacher_id
+        WHERE e.user_id = $1 AND c.is_active = TRUE
+        ORDER BY c.name ASC`,
+      [userId]
+    );
+    return res.json({ classes: rows });
+  } catch (err) {
+    console.error('[/api/student/classes] failed:', err);
+    return res
+      .status(500)
+      .json({ error: 'Unable to load classes', detail: err?.message });
+  }
+});
+
+// GET /api/student/classes/:classId/curriculum — read-only curriculum view.
+app.get(
+  '/api/student/classes/:classId/curriculum',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _studentInClass(userId, classId)))
+        return res.status(404).json({ error: 'not_enrolled' });
+      const { rows } = await db.query(
+        `SELECT id, position, subject, category_name, topic_id, quiz_id,
+                title, planned_date, planned_end_date,
+                manually_marked_covered, created_at
+           FROM class_curriculum_items
+          WHERE class_id = $1
+          ORDER BY position ASC, id ASC`,
+        [classId]
+      );
+      return res.json({ items: rows });
+    } catch (err) {
+      console.error('[/api/student/classes/:id/curriculum] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to load curriculum', detail: err?.message });
+    }
+  }
+);
+
+// ---------- Class notes (shared between student & instructor views) ----------
+
+// Returns the notes the caller is allowed to see in the given class:
+//   - all class-wide notes (recipient_user_id IS NULL)
+//   - any private note where caller is author or recipient
+async function _loadVisibleClassNotes(classId, userId, isInstructor) {
+  const sql = isInstructor
+    ? // Instructors who own the class see every note.
+      `SELECT n.id, n.class_id, n.author_id, n.author_role,
+              n.recipient_user_id, n.body, n.note_date, n.created_at,
+              au.name AS author_name,
+              ru.name AS recipient_name
+         FROM class_notes n
+         LEFT JOIN users au ON au.id = n.author_id
+         LEFT JOIN users ru ON ru.id = n.recipient_user_id
+        WHERE n.class_id = $1
+        ORDER BY n.created_at DESC
+        LIMIT 500`
+    : // Students see class-wide + private notes where they are author or recipient.
+      `SELECT n.id, n.class_id, n.author_id, n.author_role,
+              n.recipient_user_id, n.body, n.note_date, n.created_at,
+              au.name AS author_name,
+              ru.name AS recipient_name
+         FROM class_notes n
+         LEFT JOIN users au ON au.id = n.author_id
+         LEFT JOIN users ru ON ru.id = n.recipient_user_id
+        WHERE n.class_id = $1
+          AND (n.recipient_user_id IS NULL
+               OR n.author_id = $2
+               OR n.recipient_user_id = $2)
+        ORDER BY n.created_at DESC
+        LIMIT 500`;
+  const params = isInstructor ? [classId] : [classId, userId];
+  const r = await db.query(sql, params);
+  return r.rows;
+}
+
+function _normalizeNoteDate(raw) {
+  if (!raw) return null;
+  const d = new Date(raw);
+  return Number.isFinite(d.getTime()) ? d : null;
+}
+
+// GET /api/student/classes/:classId/notes
+app.get(
+  '/api/student/classes/:classId/notes',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _studentInClass(userId, classId)))
+        return res.status(404).json({ error: 'not_enrolled' });
+      const notes = await _loadVisibleClassNotes(classId, userId, false);
+      return res.json({ notes });
+    } catch (err) {
+      console.error('[/api/student/classes/:id/notes GET] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to load notes', detail: err?.message });
+    }
+  }
+);
+
+// POST /api/student/classes/:classId/notes — student leaves a note for the
+// instructor (or class — but students default to instructor-only).
+// Body: { body: string, note_date?: 'YYYY-MM-DD' }
+app.post(
+  '/api/student/classes/:classId/notes',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _studentInClass(userId, classId)))
+        return res.status(404).json({ error: 'not_enrolled' });
+      const body = String(req.body?.body || '').trim();
+      if (!body) return res.status(400).json({ error: 'body_required' });
+      if (body.length > 4000)
+        return res.status(400).json({ error: 'body_too_long' });
+      const noteDate = _normalizeNoteDate(req.body?.note_date);
+      // Look up the class teacher to deliver the message + a notification.
+      const cR = await db.query(
+        `SELECT teacher_id, name FROM classes WHERE id=$1`,
+        [classId]
+      );
+      if (cR.rowCount === 0)
+        return res.status(404).json({ error: 'class_not_found' });
+      const teacherId = cR.rows[0].teacher_id;
+      const className = cR.rows[0].name;
+      const ins = await db.query(
+        `INSERT INTO class_notes
+           (class_id, author_id, author_role, recipient_user_id, body, note_date)
+         VALUES ($1, $2, 'student', $3, $4, $5)
+         RETURNING id, class_id, author_id, author_role, recipient_user_id,
+                   body, note_date, created_at`,
+        [classId, userId, teacherId || null, body, noteDate]
+      );
+      // Best-effort notify the instructor.
+      try {
+        if (teacherId) {
+          await notify.notifyUser(teacherId, {
+            type: 'class_note_from_student',
+            title: `New note from a student in ${className}`,
+            body: body.length > 160 ? body.slice(0, 160) + '…' : body,
+            link: `/instructor#classes/${classId}`,
+            payload: { class_id: classId, note_id: ins.rows[0].id },
+          });
+        }
+      } catch (e) {
+        console.warn('[notify class_note_from_student] skipped:', e.message);
+      }
+      return res.status(201).json({ note: ins.rows[0] });
+    } catch (err) {
+      console.error('[/api/student/classes/:id/notes POST] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to post note', detail: err?.message });
+    }
+  }
+);
+
+// GET /api/instructor/classes/:classId/notes
+app.get(
+  '/api/instructor/classes/:classId/notes',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const notes = await _loadVisibleClassNotes(classId, null, true);
+      return res.json({ notes });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/notes GET] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to load notes', detail: err?.message });
+    }
+  }
+);
+
+// POST /api/instructor/classes/:classId/notes
+// Body: { body, note_date?, recipient_user_id? }   recipient null => class-wide
+app.post(
+  '/api/instructor/classes/:classId/notes',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      const userId = req.user.id || req.user.userId;
+      const body = String(req.body?.body || '').trim();
+      if (!body) return res.status(400).json({ error: 'body_required' });
+      if (body.length > 4000)
+        return res.status(400).json({ error: 'body_too_long' });
+      const noteDate = _normalizeNoteDate(req.body?.note_date);
+      const recipientRaw = req.body?.recipient_user_id;
+      const recipientId =
+        recipientRaw === null || recipientRaw === undefined || recipientRaw === ''
+          ? null
+          : parseInt(recipientRaw, 10);
+      if (recipientId !== null && !Number.isFinite(recipientId))
+        return res.status(400).json({ error: 'invalid_recipient' });
+      // If a recipient is named, make sure they are actually enrolled.
+      if (recipientId !== null) {
+        const ok = await _studentInClass(recipientId, classId);
+        if (!ok) return res.status(400).json({ error: 'recipient_not_in_class' });
+      }
+      const ins = await db.query(
+        `INSERT INTO class_notes
+           (class_id, author_id, author_role, recipient_user_id, body, note_date)
+         VALUES ($1, $2, 'instructor', $3, $4, $5)
+         RETURNING id, class_id, author_id, author_role, recipient_user_id,
+                   body, note_date, created_at`,
+        [classId, userId, recipientId, body, noteDate]
+      );
+      // Notify recipient(s).
+      try {
+        const cR = await db.query(`SELECT name FROM classes WHERE id=$1`, [
+          classId,
+        ]);
+        const className = cR.rows[0]?.name || 'your class';
+        const preview = body.length > 160 ? body.slice(0, 160) + '…' : body;
+        if (recipientId) {
+          await notify.notifyUser(recipientId, {
+            type: 'class_note_from_instructor',
+            title: `New note in ${className}`,
+            body: preview,
+            link: `/student#myclass/${classId}`,
+            payload: { class_id: classId, note_id: ins.rows[0].id },
+          });
+        } else {
+          // class-wide: notify every enrolled student
+          const enr = await db.query(
+            `SELECT user_id FROM class_enrollments WHERE class_id=$1`,
+            [classId]
+          );
+          await notify.notifyUsers(
+            enr.rows.map((r) => r.user_id),
+            {
+              type: 'class_note_from_instructor',
+              title: `New class note in ${className}`,
+              body: preview,
+              link: `/student#myclass/${classId}`,
+              payload: { class_id: classId, note_id: ins.rows[0].id },
+            }
+          );
+        }
+      } catch (e) {
+        console.warn('[notify class_note_from_instructor] skipped:', e.message);
+      }
+      return res.status(201).json({ note: ins.rows[0] });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/notes POST] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to post note', detail: err?.message });
+    }
+  }
+);
+
+// DELETE /api/instructor/classes/:classId/notes/:noteId — author can delete
+// their own notes (handy for moderation / typo cleanup).
+app.delete(
+  '/api/instructor/classes/:classId/notes/:noteId',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const classId = parseInt(req.params.classId, 10);
+      const noteId = parseInt(req.params.noteId, 10);
+      if (!(await _instructorOwnsClass(req, classId)))
+        return res.status(404).json({ error: 'class_not_found' });
+      await db.query(
+        `DELETE FROM class_notes WHERE id=$1 AND class_id=$2`,
+        [noteId, classId]
+      );
+      return res.json({ ok: true });
+    } catch (err) {
+      console.error('[/api/instructor/classes/:id/notes DELETE] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to delete note', detail: err?.message });
     }
   }
 );

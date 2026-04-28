@@ -148,6 +148,29 @@ async function ensureCollabTables() {
     CREATE INDEX IF NOT EXISTS collab_sessions_curriculum_item_idx
       ON collab_sessions(curriculum_item_id);
   `);
+
+  // ---------- Class notes (instructor ↔ student messaging + calendar notes) ----------
+  // recipient_user_id NULL  => visible to the entire class
+  // recipient_user_id NOT NULL => private note between author and that user
+  // note_date NULL => undated (Notes tab); non-null => pinned to that calendar day
+  await db.none(`
+    CREATE TABLE IF NOT EXISTS class_notes (
+      id SERIAL PRIMARY KEY,
+      class_id INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+      author_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      author_role VARCHAR(20) NOT NULL,
+      recipient_user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      body TEXT NOT NULL,
+      note_date DATE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS class_notes_class_idx
+      ON class_notes(class_id, created_at DESC);
+    CREATE INDEX IF NOT EXISTS class_notes_recipient_idx
+      ON class_notes(class_id, recipient_user_id);
+    CREATE INDEX IF NOT EXISTS class_notes_date_idx
+      ON class_notes(class_id, note_date);
+  `);
 }
 
 module.exports = ensureCollabTables;
