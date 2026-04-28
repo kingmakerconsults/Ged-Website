@@ -596,8 +596,8 @@ async function createUser(email, rawName) {
   }
 
   return db.oneOrNone(
-    `INSERT INTO users (email, name, first_name, last_name, display_name)
-     VALUES ($1, $2, $3, $4, $5)
+    `INSERT INTO users (email, name, first_name, last_name, display_name, account_status)
+     VALUES ($1, $2, $3, $4, $5, 'pending_org')
      RETURNING id, email, name, first_name, last_name, display_name`,
     [email, baseName, firstName, lastName, baseName]
   );
@@ -630,10 +630,16 @@ async function loadUserWithRole(userId) {
             u.organization_id,
             u.organization_join_code,
             u.picture_url,
+            u.account_status,
+            u.pending_organization_id,
+            u.onboarding_state,
+            u.test_dates,
             o.name AS organization_name,
-            (o.access_code IS NOT NULL) AS organization_requires_code
+            (o.access_code IS NOT NULL) AS organization_requires_code,
+            po.name AS pending_organization_name
          FROM users u
          LEFT JOIN organizations o ON o.id = u.organization_id
+         LEFT JOIN organizations po ON po.id = u.pending_organization_id
          WHERE u.id = $1`,
     [userId]
   );
@@ -700,6 +706,11 @@ function buildUserResponse(row, fallbackPicture = null) {
     organization_join_code: row.organization_join_code || null,
     organization_requires_code: row.organization_requires_code || false,
     picture: row.picture_url || fallbackPicture || null,
+    account_status: row.account_status || 'active',
+    pending_organization_id: row.pending_organization_id || null,
+    pending_organization_name: row.pending_organization_name || null,
+    onboarding_state: row.onboarding_state || {},
+    test_dates: row.test_dates || {},
   };
 }
 
@@ -9817,7 +9828,9 @@ app.post('/api/register', registerLimiter, async (req, res) => {
   try {
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
     const result = await pool.query(
-      'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
+      `INSERT INTO users (email, password_hash, account_status)
+       VALUES ($1, $2, 'pending_org')
+       RETURNING id, email, created_at`,
       [normalizedEmail, passwordHash]
     );
 
@@ -20946,6 +20959,357 @@ app.post('/api/me/mfa/enroll', requireAuth, (req, res) => {
     detail: 'MFA enrollment scaffolded but not wired.',
   });
 });
+
+// ============================================================================
+// FRESH-START (2026-04-28) — program search, membership requests,
+// admin status overrides. All wired regardless of flag so orgs can transition;
+// but the requireActiveAccount gate is itself flag-checked, so toggling
+// ORG_GATED_ONBOARDING off restores the previous "everyone is active" world.
+// ============================================================================
+
+const { requireActiveAccount } = require('./middleware/requireActiveAccount');
+const _activeAccount = requireActiveAccount(db);
+// Re-export so we can attach to specific student endpoints below.
+app.locals.requireActiveAccount = _activeAccount;
+
+// ---- Public: search programs (organizations) ----
+app.get('/api/programs', async (req, res) => {
+  try {
+    const q = String(req.query.q || '').trim().slice(0, 100);
+    const region = String(req.query.region || '').trim().slice(0, 50);
+    const params = [];
+    const where = [];
+    if (q) {
+      params.push(`%${q.toLowerCase()}%`);
+      where.push(`(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`);
+    }
+    if (region) {
+      params.push(region);
+      where.push(`region = $${params.length}`);
+    }
+    const sql = `
+      SELECT id, name, COALESCE(slug,'') AS slug,
+             COALESCE(region,'') AS region,
+             COALESCE(program_type,'') AS program_type,
+             COALESCE(website_url,'') AS website_url
+        FROM organizations
+        ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
+       ORDER BY name ASC
+       LIMIT 100`;
+    const r = await db.query(sql, params);
+    return res.json({ programs: r.rows });
+  } catch (err) {
+    console.error('[/api/programs] failed:', err);
+    return res.status(500).json({ error: 'Unable to list programs' });
+  }
+});
+
+// ---- Authenticated user: my membership-request status ----
+app.get('/api/me/membership-request', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user?.id || req.user?.userId;
+    if (!userId) return res.status(401).json({ error: 'unauthorized' });
+    const r = await db.query(
+      `SELECT r.id, r.organization_id, r.status, r.requested_role,
+              r.created_at, r.decided_at, r.decision_note,
+              o.name AS organization_name,
+              COALESCE(o.display_name, o.name) AS organization_display_name
+         FROM org_membership_requests r
+         JOIN organizations o ON o.id = r.organization_id
+        WHERE r.user_id = $1
+          AND r.status IN ('pending','approved','denied','cancelled')
+        ORDER BY r.created_at DESC
+        LIMIT 1`,
+      [userId]
+    );
+    const u = await db.query(
+      `SELECT account_status, organization_id, pending_organization_id
+         FROM users WHERE id = $1`,
+      [userId]
+    );
+    return res.json({
+      request: r.rows[0] || null,
+      account_status: u.rows[0]?.account_status || 'active',
+      organization_id: u.rows[0]?.organization_id || null,
+      pending_organization_id: u.rows[0]?.pending_organization_id || null,
+    });
+  } catch (err) {
+    console.error('[/api/me/membership-request GET] failed:', err);
+    return res.status(500).json({ error: 'Unable to load membership request' });
+  }
+});
+
+// ---- Authenticated user: create / replace pending request ----
+app.post('/api/me/membership-request', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user?.id || req.user?.userId;
+    if (!userId) return res.status(401).json({ error: 'unauthorized' });
+    const orgId = parseInt(req.body?.organization_id, 10);
+    if (!Number.isFinite(orgId)) {
+      return res.status(400).json({ error: 'invalid_organization_id' });
+    }
+    const orgR = await db.query('SELECT id, name FROM organizations WHERE id=$1', [orgId]);
+    if (!orgR.rowCount) return res.status(404).json({ error: 'organization_not_found' });
+
+    // Cancel any other pending request from this user (only one live at a time).
+    await db.query(
+      `UPDATE org_membership_requests
+          SET status = 'cancelled', decided_at = NOW()
+        WHERE user_id = $1 AND status = 'pending' AND organization_id <> $2`,
+      [userId, orgId]
+    );
+    // Upsert pending request (unique partial index handles dedupe).
+    const ins = await db.query(
+      `INSERT INTO org_membership_requests (user_id, organization_id, status, requested_role)
+       VALUES ($1, $2, 'pending', 'student')
+       ON CONFLICT (user_id, organization_id) WHERE status = 'pending'
+       DO NOTHING
+       RETURNING id, organization_id, status, created_at`,
+      [userId, orgId]
+    );
+    // Move user to pending_approval and stash pending org for UI.
+    await db.query(
+      `UPDATE users SET account_status = 'pending_approval', pending_organization_id = $1
+        WHERE id = $2 AND account_status IN ('pending_org','pending_approval','denied')`,
+      [orgId, userId]
+    );
+    return res.status(201).json({ request: ins.rows[0] || null, organization_id: orgId });
+  } catch (err) {
+    console.error('[/api/me/membership-request POST] failed:', err);
+    return res.status(500).json({ error: 'Unable to create membership request' });
+  }
+});
+
+// ---- Authenticated user: cancel pending request and pick a different program ----
+app.delete('/api/me/membership-request', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user?.id || req.user?.userId;
+    if (!userId) return res.status(401).json({ error: 'unauthorized' });
+    await db.query(
+      `UPDATE org_membership_requests
+          SET status = 'cancelled', decided_at = NOW()
+        WHERE user_id = $1 AND status = 'pending'`,
+      [userId]
+    );
+    await db.query(
+      `UPDATE users
+          SET account_status = 'pending_org', pending_organization_id = NULL
+        WHERE id = $1 AND account_status = 'pending_approval'`,
+      [userId]
+    );
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[/api/me/membership-request DELETE] failed:', err);
+    return res.status(500).json({ error: 'Unable to cancel membership request' });
+  }
+});
+
+// ---- Authenticated user: persist onboarding-state + test dates ----
+app.patch('/api/me/onboarding', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user?.id || req.user?.userId;
+    if (!userId) return res.status(401).json({ error: 'unauthorized' });
+    const { onboarding_state, test_dates } = req.body || {};
+    // We allow partial merges via JSONB || jsonb_build_object.
+    if (onboarding_state && typeof onboarding_state === 'object') {
+      await db.query(
+        `UPDATE users
+            SET onboarding_state = COALESCE(onboarding_state,'{}'::jsonb) || $1::jsonb
+          WHERE id = $2`,
+        [JSON.stringify(onboarding_state), userId]
+      );
+    }
+    if (test_dates && typeof test_dates === 'object') {
+      await db.query(
+        `UPDATE users
+            SET test_dates = COALESCE(test_dates,'{}'::jsonb) || $1::jsonb
+          WHERE id = $2`,
+        [JSON.stringify(test_dates), userId]
+      );
+    }
+    const r = await db.query(
+      `SELECT onboarding_state, test_dates FROM users WHERE id=$1`,
+      [userId]
+    );
+    return res.json({ ok: true, ...r.rows[0] });
+  } catch (err) {
+    console.error('[/api/me/onboarding PATCH] failed:', err);
+    return res.status(500).json({ error: 'Unable to update onboarding state' });
+  }
+});
+
+// ---- Org admin / super_admin: list pending requests ----
+app.get(
+  '/api/org/membership-requests',
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const role = String(req.user?.role || '').toLowerCase();
+      const orgId = req.user?.organization_id || null;
+      const filterOrg = parseInt(req.query.organization_id, 10);
+      // Super admin can scope to any org; others are pinned to their own.
+      const targetOrg = role === 'super_admin' && Number.isFinite(filterOrg)
+        ? filterOrg
+        : orgId;
+      const status = String(req.query.status || 'pending');
+      const params = [status];
+      let where = `r.status = $1`;
+      if (targetOrg) {
+        params.push(targetOrg);
+        where += ` AND r.organization_id = $${params.length}`;
+      } else if (role !== 'super_admin') {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
+      const r = await db.query(
+        `SELECT r.id, r.user_id, r.organization_id, r.status, r.requested_role,
+                r.created_at, r.decided_at, r.decision_note,
+                u.email, u.name,
+                o.name AS organization_name
+           FROM org_membership_requests r
+           JOIN users u ON u.id = r.user_id
+           JOIN organizations o ON o.id = r.organization_id
+          WHERE ${where}
+          ORDER BY r.created_at DESC
+          LIMIT 500`,
+        params
+      );
+      return res.json({ requests: r.rows });
+    } catch (err) {
+      console.error('[/api/org/membership-requests GET] failed:', err);
+      return res.status(500).json({ error: 'Unable to list membership requests' });
+    }
+  }
+);
+
+// ---- Org admin / super_admin: decide on a request ----
+app.post(
+  '/api/org/membership-requests/:id/decide',
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const reqId = parseInt(req.params.id, 10);
+      const decision = String(req.body?.decision || '').toLowerCase();
+      const note = req.body?.note ? String(req.body.note).slice(0, 1000) : null;
+      if (!Number.isFinite(reqId) || !['approve', 'deny'].includes(decision)) {
+        return res.status(400).json({ error: 'invalid_request' });
+      }
+      const reqR = await db.query(
+        `SELECT id, user_id, organization_id, status, requested_role
+           FROM org_membership_requests WHERE id = $1 LIMIT 1`,
+        [reqId]
+      );
+      if (!reqR.rowCount) return res.status(404).json({ error: 'not_found' });
+      const m = reqR.rows[0];
+      if (m.status !== 'pending') {
+        return res.status(409).json({ error: 'already_decided', status: m.status });
+      }
+      const role = String(req.user?.role || '').toLowerCase();
+      const actorOrg = req.user?.organization_id || null;
+      if (role !== 'super_admin' && actorOrg !== m.organization_id) {
+        return res.status(403).json({ error: 'forbidden_other_org' });
+      }
+      const decidedBy = req.user?.id || req.user?.userId;
+      if (decision === 'approve') {
+        await db.query(
+          `UPDATE org_membership_requests
+              SET status='approved', decided_by=$1, decided_at=NOW(), decision_note=$2
+            WHERE id=$3`,
+          [decidedBy, note, reqId]
+        );
+        await db.query(
+          `UPDATE users
+              SET account_status='active',
+                  organization_id=$1,
+                  pending_organization_id=NULL,
+                  organization_join_code=COALESCE(organization_join_code, 'admin-approved')
+            WHERE id=$2`,
+          [m.organization_id, m.user_id]
+        );
+        await _audit({
+          db,
+          req,
+          action: 'org.membership.approve',
+          target: { type: 'membership_request', id: reqId },
+          payload: { user_id: m.user_id, organization_id: m.organization_id },
+        });
+      } else {
+        await db.query(
+          `UPDATE org_membership_requests
+              SET status='denied', decided_by=$1, decided_at=NOW(), decision_note=$2
+            WHERE id=$3`,
+          [decidedBy, note, reqId]
+        );
+        await db.query(
+          `UPDATE users
+              SET account_status='denied', pending_organization_id=NULL
+            WHERE id=$1`,
+          [m.user_id]
+        );
+        await _audit({
+          db,
+          req,
+          action: 'org.membership.deny',
+          target: { type: 'membership_request', id: reqId },
+          payload: { user_id: m.user_id, organization_id: m.organization_id, note },
+        });
+      }
+      return res.json({ ok: true, decision });
+    } catch (err) {
+      console.error('[/api/org/membership-requests/:id/decide] failed:', err);
+      return res.status(500).json({ error: 'Unable to decide on membership request' });
+    }
+  }
+);
+
+// ---- Super admin: change any user's account_status ----
+app.post(
+  '/api/admin/users/:id/status',
+  logAdminAccess,
+  requireAuth,
+  requireSuperAdmin,
+  async (req, res) => {
+    try {
+      const targetId = parseInt(req.params.id, 10);
+      const status = String(req.body?.account_status || '').toLowerCase();
+      const allowed = ['pending_org', 'pending_approval', 'active', 'denied', 'archived'];
+      if (!Number.isFinite(targetId) || !allowed.includes(status)) {
+        return res.status(400).json({ error: 'invalid_request' });
+      }
+      // Optional: super admin can also force-set organization in same call.
+      const setOrg = req.body?.organization_id;
+      if (setOrg != null && setOrg !== '') {
+        const orgId = parseInt(setOrg, 10);
+        if (!Number.isFinite(orgId)) {
+          return res.status(400).json({ error: 'invalid_organization_id' });
+        }
+        await db.query(
+          `UPDATE users SET account_status=$1, organization_id=$2, pending_organization_id=NULL WHERE id=$3`,
+          [status, orgId, targetId]
+        );
+      } else {
+        await db.query(
+          `UPDATE users SET account_status=$1 WHERE id=$2`,
+          [status, targetId]
+        );
+      }
+      await _audit({
+        db,
+        req,
+        action: 'admin.user.status.change',
+        target: { type: 'user', id: targetId },
+        payload: { account_status: status, organization_id: setOrg || null },
+      });
+      return res.json({ ok: true, account_status: status });
+    } catch (err) {
+      console.error('[/api/admin/users/:id/status] failed:', err);
+      return res.status(500).json({ error: 'Unable to change user status' });
+    }
+  }
+);
 
 // --- Instructor: Students list ---
 app.get(

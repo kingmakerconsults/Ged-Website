@@ -15,29 +15,32 @@
  */
 
 const DEFAULTS = {
-  // Phase 4 — student-facing additions (default OFF; only NEW users see them)
-  ONBOARDING_TOUR: false,
-  ACCOUNT_SETTINGS_EXTENDED: false,
+  // Phase 4 \u2014 student-facing additions (flipped ON 2026-04-28 for fresh-start)
+  ONBOARDING_TOUR: true,
+  ACCOUNT_SETTINGS_EXTENDED: true,
   ACCESSIBILITY_TTS: false,
   ACCESSIBILITY_HIGH_CONTRAST: false,
-  STREAKS: false,
-  RECOMMENDATIONS: false,
+  STREAKS: true,
+  RECOMMENDATIONS: true,
 
-  // Phase 2 — org admin
-  ORG_INVITATIONS: false,
-  ORG_BRANDING: false,
-  ORG_USER_MANAGEMENT: false,
-  ORG_CSV_EXPORT: false,
+  // Phase 2 \u2014 org admin
+  ORG_INVITATIONS: true,
+  ORG_BRANDING: true,
+  ORG_USER_MANAGEMENT: true,
+  ORG_CSV_EXPORT: true,
 
-  // Phase 3 — instructor
-  INSTRUCTOR_ROSTER_UI: false,
+  // Phase 3 \u2014 instructor
+  INSTRUCTOR_ROSTER_UI: true,
   INSTRUCTOR_ASSIGNMENTS: false,
   INSTRUCTOR_REPORTS: false,
 
-  // Phase 5 — SSO/MFA
+  // Phase 5 \u2014 SSO/MFA
   SSO_OIDC: false,
   SSO_SAML: false,
   MFA: false,
+
+  // Fresh-start (2026-04-28)
+  ORG_GATED_ONBOARDING: true,
 };
 
 // Apply ?ff=NAME:on,OTHER:off URL overrides once per page load.

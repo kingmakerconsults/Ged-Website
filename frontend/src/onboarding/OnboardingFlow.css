@@ -1,0 +1,152 @@
+/* Fresh-start onboarding flow (2026-04-28) */
+
+.onboarding-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.onboarding-card h1,
+.onboarding-card h2 {
+  margin: 0 0 12px;
+  color: #0f172a;
+}
+
+.onboarding-card p {
+  color: #334155;
+  line-height: 1.5;
+}
+
+.onboarding-card .muted {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.onboarding-error {
+  margin: 12px 0;
+  padding: 10px 14px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.program-search {
+  width: 100%;
+  margin: 16px 0 12px;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.program-list {
+  max-height: 320px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.program-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #ffffff;
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 120ms;
+}
+
+.program-item:last-child { border-bottom: none; }
+.program-item:hover { background: #f8fafc; }
+.program-item.selected { background: #dbeafe; }
+
+.program-name { font-weight: 600; color: #0f172a; }
+.program-meta { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+.onboarding-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.onboarding-actions .btn-primary {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.onboarding-actions .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.onboarding-actions .btn-secondary {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.onboarding-actions .btn-link {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Tour */
+.onboarding-tour .tour-progress {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.tour-test-dates {
+  margin: 16px 0;
+  display: grid;
+  gap: 10px;
+}
+
+.tour-date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tour-date-row span {
+  font-size: 14px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.tour-date-row input[type='date'] {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}

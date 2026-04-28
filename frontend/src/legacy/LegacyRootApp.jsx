@@ -24905,24 +24905,134 @@ function NamePromptModal({ user, onSave, onDismiss }) {
 function PracticeSessionModal({
   defaultMode = 'balanced',
   defaultDuration = 10,
+  defaultSubject = '',
+  defaultTopic = '',
+  defaultQuestionType = '',
+  defaultTier = '',
   onStart,
   onDismiss,
 }) {
-  const [mode, setMode] = React.useState(defaultMode);
+  // Map a single-subject mode value to the backend subject key the
+  // /api/practice-session endpoint expects.
+  const modeToSubject = (m) => {
+    switch ((m || '').toLowerCase()) {
+      case 'math':
+        return 'math';
+      case 'rla':
+        return 'rla';
+      case 'science':
+        return 'science';
+      case 'social-studies':
+        return 'social-studies';
+      default:
+        return '';
+    }
+  };
+  const subjectToMode = (s) => {
+    const k = (s || '').toLowerCase();
+    if (k === 'math' || k === 'rla' || k === 'science') return k;
+    if (k === 'social-studies' || k === 'social' || k === 'ss')
+      return 'social-studies';
+    return '';
+  };
+
+  const initialMode = defaultSubject
+    ? subjectToMode(defaultSubject) || defaultMode
+    : defaultMode;
+  const [mode, setMode] = React.useState(initialMode);
   const [duration, setDuration] = React.useState(defaultDuration);
+  const [topic, setTopic] = React.useState(defaultTopic || '');
+  const [questionType] = React.useState(defaultQuestionType || '');
+  const [tier] = React.useState(defaultTier || '');
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState('');
+
+  const currentSubjectKey = modeToSubject(mode);
+  const isSingleSubject = !!currentSubjectKey;
+
+  const [topics, setTopics] = React.useState([]);
+  const [topicsLoading, setTopicsLoading] = React.useState(false);
+  const topicsCacheRef = React.useRef(new Map());
+
+  React.useEffect(() => {
+    let active = true;
+    if (!isSingleSubject) {
+      setTopics([]);
+      return () => {
+        active = false;
+      };
+    }
+    const cached = topicsCacheRef.current.get(currentSubjectKey);
+    if (cached) {
+      setTopics(cached);
+      return () => {
+        active = false;
+      };
+    }
+    setTopicsLoading(true);
+    (async () => {
+      try {
+        const token =
+          (typeof localStorage !== 'undefined' &&
+            localStorage.getItem('appToken')) ||
+          null;
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const res = await fetch(
+          `${API_BASE_URL}/api/practice-session/topics?subject=${encodeURIComponent(
+            currentSubjectKey
+          )}`,
+          { headers }
+        );
+        if (!res.ok) throw new Error('Failed to load topics');
+        const data = await res.json();
+        const list = Array.isArray(data?.topics) ? data.topics : [];
+        topicsCacheRef.current.set(currentSubjectKey, list);
+        if (active) setTopics(list);
+      } catch (_e) {
+        if (active) setTopics([]);
+      } finally {
+        if (active) setTopicsLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [currentSubjectKey, isSingleSubject]);
+
+  // Reset topic when leaving single-subject mode (or switching subjects);
+  // keep a default topic if it exists in the new list.
+  React.useEffect(() => {
+    if (!isSingleSubject) {
+      if (topic) setTopic('');
+      return;
+    }
+    if (topic && topics.length && !topics.some((t) => t.topic === topic)) {
+      setTopic('');
+    }
+  }, [isSingleSubject, topics, topic]);
 
   const startSession = async (practiceMode) => {
     if (submitting) return;
     setError('');
     setSubmitting(true);
     try {
-      await onStart({
+      const payload = {
         mode,
         durationMinutes: Number(duration),
         practiceMode,
-      });
+      };
+      if (isSingleSubject) {
+        // Backend expects mode='single-subject' with a subject key when
+        // narrowing further than one of the legacy single-subject modes.
+        if (topic || questionType || tier) {
+          payload.mode = 'single-subject';
+          payload.subject = currentSubjectKey;
+          if (topic) payload.topic = topic;
+          if (questionType) payload.questionType = questionType;
+          if (tier) payload.tier = tier;
+        }
+      }
+      await onStart(payload);
     } catch (e) {
       const msg =
         e && e.message ? e.message : 'Failed to start practice session.';
@@ -24996,6 +25106,43 @@ function PracticeSessionModal({
               <option value="social-studies">Social Studies Only</option>
             </select>
           </div>
+          {isSingleSubject && (
+            <div>
+              <label
+                className="block text-sm font-medium mb-1"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                Topic
+              </label>
+              <select
+                className="w-full rounded-md border px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
+                style={{ borderColor: 'var(--modal-border)' }}
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                disabled={submitting || topicsLoading}
+              >
+                <option value="">All topics</option>
+                {topics.map((t) => (
+                  <option key={t.topic} value={t.topic}>
+                    {t.topic}
+                    {typeof t.count === 'number' ? ` (${t.count})` : ''}
+                  </option>
+                ))}
+              </select>
+              {topicsLoading && (
+                <p className="text-xs text-secondary mt-1">
+                  Loading topics…
+                </p>
+              )}
+              {(questionType || tier) && (
+                <p className="text-xs text-secondary mt-1">
+                  {questionType ? `Focus: ${questionType}` : ''}
+                  {questionType && tier ? ' · ' : ''}
+                  {tier ? `Tier: ${tier}` : ''}
+                </p>
+              )}
+            </div>
+          )}
           {error && <p className="text-sm text-danger">{error}</p>}
         </div>
         <div className="mt-6 flex items-center justify-end gap-3">
@@ -25127,6 +25274,14 @@ function App({ externalTheme, onThemeChange }) {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
+  // Optional prefill for the practice session modal — used by post-quiz
+  // suggestion buttons (Reinforcer / Next Step) so the modal opens with the
+  // right subject/topic/type already selected.
+  const [practiceSessionPrefill, setPracticeSessionPrefill] = useState(null);
+  const openPracticeWithFocus = (prefill) => {
+    setPracticeSessionPrefill(prefill || null);
+    setShowPracticeModal(true);
+  };
   const [showDiagnosticIntroModal, setShowDiagnosticIntroModal] =
     useState(false);
   // Post-quiz survey + stats hub refresh
@@ -28411,6 +28566,7 @@ function App({ externalTheme, onThemeChange }) {
             }
             onHome={navigateHome}
             onReviewMarked={handleReviewMarked}
+            onStartPracticeWithFocus={openPracticeWithFocus}
           />
         );
       case 'generator':
@@ -28727,11 +28883,35 @@ function App({ externalTheme, onThemeChange }) {
         )}
         {showPracticeModal && (
           <PracticeSessionModal
-            defaultMode="balanced"
-            defaultDuration={10}
-            onDismiss={() => setShowPracticeModal(false)}
-            onStart={async ({ mode, durationMinutes, practiceMode }) => {
+            defaultMode={
+              practiceSessionPrefill?.mode ||
+              (practiceSessionPrefill?.subject ? '' : 'balanced')
+            }
+            defaultDuration={practiceSessionPrefill?.durationMinutes || 10}
+            defaultSubject={practiceSessionPrefill?.subject || ''}
+            defaultTopic={practiceSessionPrefill?.topic || ''}
+            defaultQuestionType={
+              practiceSessionPrefill?.questionType || ''
+            }
+            defaultTier={practiceSessionPrefill?.tier || ''}
+            onDismiss={() => {
+              setShowPracticeModal(false);
+              setPracticeSessionPrefill(null);
+            }}
+            onStart={async ({
+              mode,
+              durationMinutes,
+              practiceMode,
+              subject,
+              topic,
+              questionType,
+              tier,
+            }) => {
               const payload = { mode, durationMinutes, practiceMode };
+              if (subject) payload.subject = subject;
+              if (topic) payload.topic = topic;
+              if (questionType) payload.questionType = questionType;
+              if (tier) payload.tier = tier;
               const resp = await fetchJSON(
                 `${API_BASE_URL}/api/practice-session`,
                 {
@@ -28745,14 +28925,20 @@ function App({ externalTheme, onThemeChange }) {
                 !Array.isArray(resp.questions) ||
                 resp.questions.length === 0
               ) {
-                throw new Error('Practice session is not available right now.');
+                throw new Error(
+                  resp?.note ||
+                    'Practice session is not available right now.'
+                );
               }
+              const sessionTitle =
+                practiceMode === 'olympics'
+                  ? 'Olympics Practice'
+                  : topic
+                    ? `Practice · ${topic}`
+                    : 'Practice Session';
               const practiceQuiz = {
                 id: 'practice_' + Date.now(),
-                title:
-                  practiceMode === 'olympics'
-                    ? 'Olympics Practice'
-                    : 'Practice Session',
+                title: sessionTitle,
                 // Mark practice session questions as premade so sanitized math renders with KaTeX
                 isPremade: true,
                 practiceMode: practiceMode || 'standard',
@@ -28773,6 +28959,7 @@ function App({ externalTheme, onThemeChange }) {
                   : 'Practice Session'
               );
               setShowPracticeModal(false);
+              setPracticeSessionPrefill(null);
             }}
           />
         )}
@@ -40123,7 +40310,14 @@ function ComprehensiveExamStartScreen({ quiz, onBack, onStart }) {
     </div>
   );
 }
-function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
+function ResultsScreen({
+  results,
+  quiz,
+  onRestart,
+  onHome,
+  onReviewMarked,
+  onStartPracticeWithFocus,
+}) {
   const selectedSubject = quiz?.subject || results?.subject || null;
   // Confetti celebration effect
   useEffect(() => {
@@ -40424,77 +40618,20 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const safeMarked = Array.isArray(results.marked) ? results.marked : [];
   const safeAnswers = Array.isArray(results.answers) ? results.answers : [];
 
-  const [suggestions, setSuggestions] = useState([]);
-  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const suggestionSubject =
+  // Subject key used for routing post-quiz suggestions to the practice
+  // session modal. Must match one of the modal's single-subject mode keys.
+  const subjectKeyRaw =
     SUBJECT_ID_MAP[quiz?.subject] ||
     SUBJECT_ID_MAP[results?.subject] ||
     (typeof quiz?.subject === 'string' ? quiz.subject.toLowerCase() : '') ||
-    (typeof results?.subject === 'string' ? results.subject.toLowerCase() : '');
+    (typeof results?.subject === 'string'
+      ? results.subject.toLowerCase()
+      : '');
+  const subjectKey =
+    subjectKeyRaw === 'social' || subjectKeyRaw === 'ss'
+      ? 'social-studies'
+      : subjectKeyRaw;
 
-  useEffect(() => {
-    let isActive = true;
-    const load = async () => {
-      try {
-        setLoadingSuggestions(true);
-        const token =
-          (typeof localStorage !== 'undefined' &&
-            localStorage.getItem('appToken')) ||
-          null;
-        if (!token) {
-          setSuggestions([]);
-          return;
-        }
-        const params = new URLSearchParams();
-        if (suggestionSubject) params.set('subject', suggestionSubject);
-        const url = `${API_BASE_URL}/api/challenges/suggestions${params.toString() ? `?${params.toString()}` : ''}`;
-        const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (isActive)
-            setSuggestions(Array.isArray(data?.items) ? data.items : []);
-        }
-      } catch (_e) {
-        // ignore
-      } finally {
-        if (isActive) setLoadingSuggestions(false);
-      }
-    };
-    load();
-    return () => {
-      isActive = false;
-    };
-  }, [suggestionSubject]);
-
-  const prettyLabel = (tag, label) => {
-    if (label && typeof label === 'string') return label;
-    if (!tag) return 'Unknown';
-    const t = String(tag).replace(/[:_\-]/g, ' ');
-    return t.replace(/\b\w/g, (m) => m.toUpperCase());
-  };
-
-  const resolveSuggestion = async (id, action) => {
-    try {
-      const token =
-        (typeof localStorage !== 'undefined' &&
-          localStorage.getItem('appToken')) ||
-        null;
-      if (!token) return;
-      const res = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ suggestion_id: id, action }),
-      });
-      if (res.ok) {
-        setSuggestions((prev) => prev.filter((s) => s.id !== id));
-      }
-    } catch (_e) {}
-  };
   const getPerf = (score) => {
     if (score >= 175)
       return {
