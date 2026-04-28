@@ -32,15 +32,19 @@
     <!-- Canvas Confetti for Celebrations -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-      // Tailwind Play CDN defaults `dark:` to prefers-color-scheme (media).
-      // This app toggles dark mode via the `.dark` class + `data-theme`, so
-      // we must configure Tailwind to use class-based dark mode.
+      // Tailwind Play CDN config must be set AFTER the CDN script loads,
+      // otherwise `darkMode: 'class'` is ignored and `dark:` utilities fall
+      // back to `prefers-color-scheme: dark` — which causes the UI to render
+      // dark in browsers like Edge that honor the system preference, even
+      // when the app's own theme toggle is set to light.
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
       tailwind = window.tailwind || {};
       tailwind.config = {
         darkMode: 'class',
       };
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       window.__COACH_ENABLED__ = true;
       window.__ASK_COACH_ENABLED__ = true;
