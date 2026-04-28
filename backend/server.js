@@ -6027,6 +6027,9 @@ ensureUserNameColumns().catch((e) =>
 ensureChallengeSystemTables().catch((e) =>
   console.error('Challenge system init error:', e)
 );
+ensureMembershipColumns().catch((e) =>
+  console.error('Membership columns init error:', e)
+);
 ensurePremadeMasteryTables().catch((e) =>
   console.error('Premade mastery tables init error:', e)
 );
@@ -6644,6 +6647,69 @@ async function ensureChallengeSystemTables() {
         `);
   } catch (e) {
     console.warn('[ensure] essay_challenge_log', e?.code || e?.message || e);
+  }
+}
+
+// --- Membership / account-status columns ensure (best-effort, complements
+// migrations/2026-04-28-user-archive-and-membership.sql). Production DBs that
+// have not yet had the migration applied need these columns and the requests
+// table to exist or /api/auth/google and the OnboardingGate flow will 500.
+async function ensureMembershipColumns() {
+  try {
+    await pool.query(
+      `ALTER TABLE users
+         ADD COLUMN IF NOT EXISTS account_status VARCHAR(30) DEFAULT 'active'`
+    );
+    await pool.query(
+      `ALTER TABLE users
+         ADD COLUMN IF NOT EXISTS pending_organization_id INTEGER
+           REFERENCES organizations(id) ON DELETE SET NULL`
+    );
+    await pool.query(
+      `ALTER TABLE users
+         ADD COLUMN IF NOT EXISTS onboarding_state JSONB DEFAULT '{}'::jsonb`
+    );
+    await pool.query(
+      `ALTER TABLE users
+         ADD COLUMN IF NOT EXISTS test_dates JSONB DEFAULT '{}'::jsonb`
+    );
+    await pool.query(
+      `UPDATE users SET account_status = 'active' WHERE account_status IS NULL`
+    );
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_users_account_status ON users(account_status)`
+    );
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS org_membership_requests (
+        id               SERIAL PRIMARY KEY,
+        user_id          INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        organization_id  INTEGER NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+        status           VARCHAR(20) NOT NULL DEFAULT 'pending',
+        requested_role   VARCHAR(50) NOT NULL DEFAULT 'student',
+        decided_by       INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        decided_at       TIMESTAMP,
+        decision_note    TEXT,
+        created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_membership_requests_user
+         ON org_membership_requests (user_id)`
+    );
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_membership_requests_org_status
+         ON org_membership_requests (organization_id, status)`
+    );
+    await pool.query(
+      `CREATE UNIQUE INDEX IF NOT EXISTS idx_membership_requests_unique_pending
+         ON org_membership_requests (user_id, organization_id)
+         WHERE status = 'pending'`
+    );
+  } catch (e) {
+    console.warn(
+      '[ensure] membership columns/table',
+      e?.code || e?.message || e
+    );
   }
 }
 
