@@ -18,12 +18,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -92,17 +92,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -129,12 +129,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -205,17 +205,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -243,12 +243,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -319,17 +319,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -357,12 +357,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -433,17 +433,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],
@@ -471,12 +471,12 @@ module.exports = [
       },
       {
         "text": "1990 and 2010",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"1990 and 2010\".",
         "isCorrect": false
       },
       {
         "text": "2000 and 2020",
-        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "rationale": "Incorrect. The chart's data series does not include the value \"2000 and 2020\".",
         "isCorrect": false
       },
       {
@@ -547,17 +547,17 @@ module.exports = [
       },
       {
         "text": "1990–2000",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"1990–2000\".",
         "isCorrect": false
       },
       {
         "text": "2010–2020",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2010–2020\".",
         "isCorrect": false
       },
       {
         "text": "2005–2015",
-        "rationale": "Incorrect. That span is not shown in the title.",
+        "rationale": "Incorrect. The figure's title does not cover the span \"2005–2015\".",
         "isCorrect": false
       }
     ],

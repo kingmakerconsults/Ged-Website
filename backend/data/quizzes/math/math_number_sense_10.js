@@ -9,7 +9,7 @@ module.exports = [
       {
         text: '453',
         isCorrect: true,
-        rationale: '502 - 49 = 453.',
+        rationale: "Correct because subtracting 49 from 502 gives 502 − 49 = 453, which is the result of the subtraction.",
       },
       {
         text: '451',
@@ -59,7 +59,7 @@ module.exports = [
         text: '\\(121\\)',
         isCorrect: true,
         rationale:
-          'The fee is 0.10 * \\(110\\) = \\(11\\). Total cost = $110 + 11 = 121\\).',
+          'The fee is 0.10 * \\(110\\) = \\(11\\). Total cost = \\(110 + 11 = 121\\).',
       },
       {
         text: '\\(120\\)',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the service fee: 10% of \\(110\\) is 0.10 * 110 = \\(11\\). Then, add this to the ticket price: $110 + 11 = 121\\).',
+      'First, calculate the service fee: 10% of \\(110\\) is 0.10 * 110 = \\(11\\). Then, add this to the ticket price: \\(110 + 11 = 121\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -151,7 +151,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The amount of increase is $360,000 - $300,000 = $60,000. The percent increase is (increase / original amount) * 100 = (60,000 / 300,000) * 100 = 0.20 * 100 = 20%.',
+      'The amount of increase is \\(360,000 - \\)300,000 = $60,000. The percent increase is (increase / original amount) * 100 = (60,\\(\\frac{000}{300}\\),000) * 100 = 0.20 * 100 = 20%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -222,12 +222,12 @@ module.exports = [
       {
         text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "\\(\\frac{1}{2}\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(\\frac{5}{8}\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "\\(\\frac{5}{8}\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(\\frac{7}{8}\\)',
@@ -238,7 +238,7 @@ module.exports = [
       {
         text: '1',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "1" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:
@@ -298,12 +298,12 @@ module.exports = [
       {
         text: '9',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "9" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '21',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "21" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:

@@ -53,7 +53,7 @@ module.exports = [
       'Find the slope of the line that passes through the points (-1, 3) and (2, 9).',
     answerOptions: [
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -61,7 +61,7 @@ module.exports = [
         text: '2',
         isCorrect: true,
         rationale:
-          'Slope = (change in y) / (change in x) = (9 - 3) / (2 - (-1)) = 6 / 3 = 2.',
+          'Slope = (change in y) / (change in x) = (9 - 3) / (2 - (-1)) = \\(\\frac{6}{3}\\) = 2.',
       },
       {
         text: '3',
@@ -75,7 +75,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the slope is \\(m = \\(\frac{y_2 - y_1}{x_2 - x_1}\\). So, \\(m = \\(\frac{9 - 3}{2 - (-1)}\\) = \\(\frac{6}{3}\\) = 2.',
+      'The formula for the slope is m = \\(\\frac{y_2 - y_1}{x_2 - x_1}\\). So, m = \\(\\frac{9 - 3}{2 - (-1)}\\) = \\(\\frac{6}{3}\\) = 2.',
     challenge_tags: ['math-3'],
   },
   {
@@ -250,7 +250,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the slope: \\(m = \\(\frac{0 - 4}{2 - 0}\\) = -2. The y-intercept is the point where x=0, which is (0, 4). So, b = 4. The equation is y = -2x + 4.',
+      'First, find the slope: m = \\(\\frac{0 - 4}{2 - 0}\\) = -2. The y-intercept is the point where x=0, which is (0, 4). So, b = 4. The equation is y = -2x + 4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -285,7 +285,7 @@ module.exports = [
       },
     ],
     rationale:
-      "The \\(x^2 term indicates a parabola. Since the coefficient of \\(x^2 is positive, it opens upward. The '-1' term shifts the vertex of the parabola down by one unit from the origin to (0, -1).\\)\\)",
+      "The \\(x^{2}\\) term indicates a parabola. Since the coefficient of \\(x^2 is positive, it opens upward. The '-1' term shifts the vertex of the parabola down by one unit from the origin to (0, -1).\\)",
     challenge_tags: ['math-3'],
   },
   {

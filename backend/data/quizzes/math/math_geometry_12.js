@@ -15,7 +15,7 @@ module.exports = [
       {
         text: '25',
         isCorrect: true,
-        rationale: 'Area = (1/2)*10*5 = 25.',
+        rationale: 'Area = (\\(\\frac{1}{2}\\))*10*5 = 25.',
       },
       {
         text: '30',
@@ -29,7 +29,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The area of a triangle is A = (1/2) * b * h. A = (1/2) * 10 * 5 = 25.',
+      'The area of a triangle is A = (\\(\\frac{1}{2}\\)) * b * h. A = (\\(\\frac{1}{2}\\)) * 10 * 5 = 25.',
     challenge_tags: ['math-5'],
   },
   {
@@ -257,7 +257,7 @@ module.exports = [
       {
         text: '60°',
         isCorrect: true,
-        rationale: '180 - 120 = 60.',
+        rationale: "Correct because supplementary angles add to 180°, so the supplement of a 120° angle is 180° − 120° = 60°.",
       },
       {
         text: '90°',
@@ -306,7 +306,7 @@ module.exports = [
       },
     ],
     rationale:
-      "The volume of a cone is given by V = (1/3) * pi * r^2 * h, while the volume of a cylinder is V = pi * r^2 * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
+      "The volume of a cone is given by V = (\\(\\frac{1}{3}\\)) * pi * \\(r^{2}\\) * h, while the volume of a cylinder is V = pi * \\(r^{2}\\) * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
     challenge_tags: ['math-5'],
   },
 ];

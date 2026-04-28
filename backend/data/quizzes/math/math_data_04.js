@@ -74,7 +74,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, sum the numbers (100+110+120+130+140 = 600) and divide by the number of values (5). 600 / 5 = 120.',
+      'To find the mean, sum the numbers (100+110+120+130+140 = 600) and divide by the number of values (5). \\(\\frac{600}{5}\\) = 120.',
     challenge_tags: ['math-6'],
   },
   {
@@ -167,7 +167,7 @@ module.exports = [
       'The average score of 5 students on a test is 82. If a sixth student scores a 94, what is the new average?',
     correctAnswer: '84',
     rationale:
-      'The total score of the first 5 students is 5 * 82 = 410. The new total score is 410 + 94 = 504. The new average for 6 students is 504 / 6 = 84.',
+      'The total score of the first 5 students is 5 * 82 = 410. The new total score is 410 + 94 = 504. The new average for 6 students is \\(\\frac{504}{6}\\) = 84.',
     challenge_tags: ['math-6'],
   },
   {
@@ -233,7 +233,7 @@ module.exports = [
       {
         text: '40%',
         isCorrect: true,
-        rationale: '(120 / 300) * 100 = 0.4 * 100 = 40%.',
+        rationale: '(\\(\\frac{120}{300}\\)) * 100 = 0.4 * 100 = 40%.',
       },
       {
         text: '50%',
@@ -247,7 +247,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the percentage, divide the number of people who prefer cats by the total number of people surveyed and multiply by 100: (120 / 300) * 100 = 0.4 * 100 = 40%.',
+      'To find the percentage, divide the number of people who prefer cats by the total number of people surveyed and multiply by 100: (\\(\\frac{120}{300}\\)) * 100 = 0.4 * 100 = 40%.',
     challenge_tags: ['math-6'],
   },
   {

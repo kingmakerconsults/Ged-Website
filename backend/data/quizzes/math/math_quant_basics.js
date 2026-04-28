@@ -10,13 +10,13 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: false,
     question:
-      'A construction project requires \\(\\(\frac{5}{8}\\) inch bolts. If a worker has a bolt that is \\(\\(\frac{3}{4}\\) inch, is it too large or too small, and by how much?\\)\\)',
+      'A construction project requires \\(\\frac{5}{8}\\) inch bolts. If a worker has a bolt that is \\(\\frac{3}{4}\\) inch, is it too large or too small, and by how much?',
     answerOptions: [
       {
-        text: 'The bolt is \\(\\(\frac{1}{8}\\) inch too large.\\)',
+        text: 'The bolt is \\(\\frac{1}{8}\\) inch too large.',
         isCorrect: true,
         rationale:
-          'To compare \\(\\(\frac{3}{4}\\) and \\(\frac{5}{8}\\), find a common denominator, which is 8. \\(\\(\frac{3}{4}\\) is equal to \\(\frac{6}{8}\\), so it exceeds \\(\\(\frac{5}{8}\\) by \\(\frac{1}{8}\\).',
+          'To compare \\(\\frac{3}{4}\\) and \\(\\frac{5}{8}\\), find a common denominator, which is 8. \\(\\frac{3}{4}\\) is equal to \\(\\frac{6}{8}\\), so it exceeds \\(\\frac{5}{8}\\) by \\(\\frac{1}{8}\\).',
       },
       {
         text: 'The bolt is \\(\\frac{1}{8}\\) inch too small.',
@@ -42,28 +42,31 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: false,
     question:
-      'A recipe calls for $2 \\(\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?\\)',
+      'A recipe calls for \\(2\\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{5}{4}\\) cups\\)',
+        text: '\\(\\frac{5}{4}\\) cups',
         isCorrect: true,
         rationale:
-          'Half of $2 \\(\frac{1}{2}\\) is \\left(\\(\frac{5}{2}\\)\\right) \\(\div 2 = \\(\frac{5}{4} cups.\\)\\)',
+          'Half of \\(2\\frac{1}{2}\\) is \\(\\frac{5}{2} \\div 2 = \\frac{5}{4}\\) cups (which is \\(1\\frac{1}{4}\\) cups).',
       },
       {
-        text: '\\(\\(\frac{3}{2}\\) cups\\)',
+        text: '\\(\\frac{3}{2}\\) cups',
         isCorrect: false,
-        rationale: 'This would be more than half of the original amount.',
+        rationale:
+          'Halving \\(2\\frac{1}{2}\\) means dividing by 2, not subtracting 1. \\(\\frac{3}{2}\\) cups would be too much.',
       },
       {
-        text: '\\(1 cup\\)',
+        text: '1 cup',
         isCorrect: false,
-        rationale: 'This is less than half of \\(2 \\(\frac{1}{2}\\) cups.\\)',
+        rationale:
+          'This is less than half of \\(2\\frac{1}{2}\\) cups; the correct value is \\(\\frac{5}{4}\\) cups.',
       },
       {
-        text: '\\(\\(\frac{7}{4}\\) cups\\)',
+        text: '\\(\\frac{7}{4}\\) cups',
         isCorrect: false,
-        rationale: 'This is greater than the correct amount.',
+        rationale:
+          'This is more than half of the original amount. Half of \\(2\\frac{1}{2}\\) cups is \\(\\frac{5}{4}\\) cups.',
       },
     ],
   },
@@ -107,23 +110,23 @@ module.exports = [
       'If a pizza is cut into 8 slices and you eat 3 of them, what fraction of the pizza is left?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{3}{8}\\)',
+        text: '\\(\\frac{3}{8}\\)',
         isCorrect: false,
         rationale: 'This is the fraction eaten.',
       },
       {
-        text: '\\(\\(\frac{5}{8}\\)',
+        text: '\\(\\frac{5}{8}\\)',
         isCorrect: true,
         rationale:
-          'If 3 out of 8 slices are eaten, $8 - 3 = 5 slices are left.\\)',
+          'If 3 out of 8 slices are eaten, \\(8 - 3 = 5 slices are left.\\)',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
-        rationale: '\\(\\(\frac{1}{2}\\) would be 4 slices.\\)',
+        rationale: '\\(\\frac{1}{2}\\) would be 4 slices.',
       },
       {
-        text: '\\(\\(\frac{3}{5}\\)',
+        text: '\\(\\frac{3}{5}\\)',
         isCorrect: false,
         rationale: 'This incorrectly uses the eaten slices as the denominator.',
       },
@@ -139,7 +142,8 @@ module.exports = [
       {
         text: '15.44 dollars',
         isCorrect: true,
-        rationale: '50.00 - 34.56 = 15.44.',
+        rationale:
+          'Correct because the change owed equals the amount paid minus the bill, so $50.00 − $34.56 = $15.44.',
       },
       {
         text: '16.44 dollars',
@@ -250,25 +254,25 @@ module.exports = [
     questionNumber: 9,
     calculator: true,
     question:
-      'A carpenter has a board that is $10 \\(\frac{1}{2}\\) feet long. He needs to cut a piece that is $3 \\(\frac{3}{4}\\) feet long. How much of the board is left?\\)\\)',
+      'A carpenter has a board that is 10 \\(\\frac{1}{2}\\) feet long. He needs to cut a piece that is \\(3 \\(\\frac{3}{4}\\) feet long. How much of the board is left?\\)',
     answerOptions: [
       {
-        text: '\\(\\(\frac{27}{4}\\) feet\\)',
+        text: '\\(\\frac{27}{4}\\) feet',
         isCorrect: true,
         rationale:
-          '$10 \\(\frac{1}{2}\\) - 3 \\(\frac{3}{4}\\) = \\(\frac{21}{2}\\) - \\(\frac{15}{4}\\) = \\(\frac{42}{4}\\) - \\(\frac{15}{4}\\) = \\(\frac{27}{4} feet.\\)',
+          '10 \\(\\frac{1}{2}\\) - 3 \\(\\frac{3}{4}\\) = \\(\\frac{21}{2}\\) - \\(\\frac{15}{4}\\) = \\(\\frac{42}{4}\\) - \\(\\frac{15}{4}\\) = \\(\\frac{27}{4} feet.\\)',
       },
       {
-        text: '\\(\\(\frac{29}{4}\\) feet\\)',
+        text: '\\(\\frac{29}{4}\\) feet',
         isCorrect: false,
         rationale:
-          'This would come from subtracting $3 \\(\frac{1}{4}\\) instead of 3 \\(\frac{3}{4}\\).',
+          'This would come from subtracting 3 \\(\\frac{1}{4}\\) instead of 3 \\(\\frac{3}{4}\\).',
       },
       {
-        text: '\\(\\(\frac{13}{2}\\) feet\\)',
+        text: '\\(\\frac{13}{2}\\) feet',
         isCorrect: false,
         rationale:
-          'This corresponds to $6 \\(\frac{1}{2}\\) feet, which is too small.\\)',
+          'This corresponds to \\(6 \\(\\frac{1}{2}\\) feet, which is too small.\\)',
       },
       {
         text: '7 feet',
@@ -293,17 +297,20 @@ module.exports = [
       {
         text: '11.9 miles',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "11.9 miles" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '13.0 miles',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "13.0 miles" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '10.9 miles',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "10.9 miles" does not match the result of the correct calculation for this problem.',
       },
     ],
   },
@@ -370,23 +377,25 @@ module.exports = [
     questionNumber: 13,
     calculator: true,
     question:
-      'If a baker has 12 cups of sugar and each cake requires $1 \\(\frac{1}{2}\\) cups of sugar, how many cakes can the baker make?\\)',
+      'If a baker has 12 cups of sugar and each cake requires \\(1 \\(\\frac{1}{2}\\) cups of sugar, how many cakes can the baker make?\\)',
     answerOptions: [
       {
         text: '6 cakes',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "6 cakes" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '8 cakes',
         isCorrect: true,
         rationale:
-          '$12 / (1 \\(\frac{1}{2}\\)) = 12 / (\\(\frac{3}{2}\\)) = 12 * (\\(\frac{2}{3}\\)) = 24 / 3 = 8 cakes.',
+          '12 / (1 \\(\\frac{1}{2}\\)) = 12 / (\\(\\frac{3}{2}\\)) = 12 * (\\(\\frac{2}{3}\\)) = \\(\\frac{24}{3}\\) = 8 cakes.',
       },
       {
         text: '9 cakes',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "9 cakes" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '18 cakes',
@@ -401,27 +410,27 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: true,
     question:
-      'Order the following fractions from smallest to largest: \\(\\(\frac{1}{2}\\), \\(\frac{3}{5}\\), \\(\frac{2}{3}\\).',
+      'Order the following fractions from smallest to largest: \\(\\frac{1}{2}\\), \\(\\frac{3}{5}\\), \\(\\frac{2}{3}\\).',
     answerOptions: [
       {
-        text: '\\(\\(\frac{3}{5}\\), \\(\frac{1}{2}\\), \\(\frac{2}{3}\\)',
+        text: '\\(\\frac{3}{5}\\), \\(\\frac{1}{2}\\), \\(\\frac{2}{3}\\)',
         isCorrect: false,
         rationale:
-          'Find a common denominator (30): \\(\\(\frac{1}{2}\\)=\\(\frac{15}{30}\\), \\(\frac{3}{5}\\)=\\(\frac{18}{30}\\), \\(\frac{2}{3}\\)=\\(\frac{20}{30}\\).',
+          'Find a common denominator (30): \\(\\frac{1}{2}\\)=\\(\\frac{15}{30}\\), \\(\\frac{3}{5}\\)=\\(\\frac{18}{30}\\), \\(\\frac{2}{3}\\)=\\(\\frac{20}{30}\\).',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\), \\(\frac{3}{5}\\), \\(\frac{2}{3}\\)',
+        text: '\\(\\frac{1}{2}\\), \\(\\frac{3}{5}\\), \\(\\frac{2}{3}\\)',
         isCorrect: true,
         rationale:
-          'In decimal form: \\(\\(\frac{1}{2}\\)=0.5, \\(\frac{3}{5}\\)=0.6, \\(\frac{2}{3}\\) \\approx 0.66...\\( The correct order is \\(\frac{1}{2}\\), \\(\frac{3}{5}\\), \\(\frac{2}{3}\\).',
+          'In decimal form: \\(\\frac{1}{2}\\)=0.5, \\(\\frac{3}{5}\\)=0.6, \\(\\frac{2}{3}\\) \\(\\approx\\) 0.66... The correct order is \\(\\frac{1}{2}\\), \\(\\frac{3}{5}\\), \\(\\frac{2}{3}\\).',
       },
       {
-        text: '\\(\\(\frac{2}{3}\\), \\(\frac{3}{5}\\), \\(\frac{1}{2}\\)',
+        text: '\\(\\frac{2}{3}\\), \\(\\frac{3}{5}\\), \\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is largest to smallest.',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\), \\(\frac{2}{3}\\), \\(\frac{3}{5}\\)',
+        text: '\\(\\frac{1}{2}\\), \\(\\frac{2}{3}\\), \\(\\frac{3}{5}\\)',
         isCorrect: false,
         rationale: 'This order is incorrect.',
       },
@@ -460,7 +469,7 @@ module.exports = [
     questionNumber: 16,
     calculator: true,
     question:
-      'A baker uses \\(\\(\frac{1}{4}\\) of a bag of flour for a batch of cookies. If the bag originally contained 20 cups of flour, how many cups are left?\\)',
+      'A baker uses \\(\\frac{1}{4}\\) of a bag of flour for a batch of cookies. If the bag originally contained 20 cups of flour, how many cups are left?',
     answerOptions: [
       {
         text: '5 cups',
@@ -471,17 +480,19 @@ module.exports = [
         text: '15 cups',
         isCorrect: true,
         rationale:
-          'The baker used \\(\\(\frac{1}{4}\\) \\(\times20 = 5 cups. The amount left is 20 - 5 = 15 cups.\\)',
+          'The baker used \\(\\frac{1}{4}\\) \\(\times20 = 5 cups. The amount left is 20 - 5 = 15 cups.\\)',
       },
       {
         text: '10 cups',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "10 cups" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '16 cups',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "16 cups" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -490,27 +501,29 @@ module.exports = [
     questionNumber: 17,
     calculator: true,
     question:
-      "Sarah's temperature was 102.5�F. After taking some medicine, her temperature dropped by 3.8�F. What is her new temperature?",
+      "Sarah's temperature was 102.5°F. After taking some medicine, her temperature dropped by 3.8°F. What is her new temperature?",
     answerOptions: [
       {
-        text: '98.7�F',
+        text: '98.7°F',
         isCorrect: true,
-        rationale: '$102.5 - 3.8 = 98.7\\)�F.',
+        rationale: '\\(102.5 - 3.8 = 98.7\\)°F.',
       },
       {
-        text: '99.7�F',
+        text: '99.7°F',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "99.7°F" does not match the result of the correct calculation for this problem.',
       },
       {
-        text: '106.3�F',
+        text: '106.3°F',
         isCorrect: false,
         rationale: 'This is the result of adding the numbers, not subtracting.',
       },
       {
-        text: '98.2�F',
+        text: '98.2°F',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "98.2°F" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -524,7 +537,8 @@ module.exports = [
       {
         text: '20 MPG',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "20 MPG" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '25 MPG',
@@ -535,12 +549,14 @@ module.exports = [
       {
         text: '30 MPG',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "30 MPG" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '35 MPG',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "35 MPG" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -580,27 +596,30 @@ module.exports = [
     questionNumber: 20,
     calculator: false,
     question:
-      'The temperature was -8�C in the morning and rose by 15�C. What is the new temperature?',
+      'The temperature was -8°C in the morning and rose by 15°C. What is the new temperature?',
     answerOptions: [
       {
-        text: '-23�C',
+        text: '-23°C',
         isCorrect: false,
         rationale: 'This would be the temperature if it dropped by 15 degrees.',
       },
       {
-        text: '7�C',
+        text: '7°C',
         isCorrect: true,
-        rationale: '-8 + 15 = 7�C.',
+        rationale:
+          'Correct because adding the 15°C rise to the morning temperature of −8°C gives −8 + 15 = 7°C as the new temperature.',
       },
       {
-        text: '23�C',
+        text: '23°C',
         isCorrect: false,
-        rationale: 'Incorrect calculation.',
+        rationale:
+          'Incorrect. "23°C" does not match the result of the correct calculation for this problem.',
       },
       {
-        text: '-7�C',
+        text: '-7°C',
         isCorrect: false,
-        rationale: 'Incorrect calculation.',
+        rationale:
+          'Incorrect. "-7°C" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],
@@ -625,12 +644,14 @@ module.exports = [
       {
         text: '46.56 seconds',
         isCorrect: false,
-        rationale: 'Incorrect calculation.',
+        rationale:
+          'Incorrect. "46.56 seconds" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '47.46 seconds',
         isCorrect: false,
-        rationale: 'Incorrect calculation.',
+        rationale:
+          'Incorrect. "47.46 seconds" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-1'],

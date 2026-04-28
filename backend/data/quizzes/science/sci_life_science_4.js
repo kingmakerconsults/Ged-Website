@@ -50,7 +50,7 @@ module.exports = [
       },
       {
         "text": "Unicellular",
-        "rationale": "Correct. \"Uni-\" means one.",
+        rationale: "Correct because the prefix \"uni-\" means one, so a unicellular organism is one made up of a single cell that performs all of its life functions.",
         "isCorrect": true
       },
       {
@@ -263,7 +263,7 @@ module.exports = [
       },
       {
         "text": "Meiosis",
-        "rationale": "Correct. Meiosis is essential for sexual reproduction.",
+        rationale: "Correct because meiosis is the cell division that produces gametes (sex cells) with half the parent’s chromosome number, which is essential for sexual reproduction and genetic variation.",
         "isCorrect": true
       },
       {

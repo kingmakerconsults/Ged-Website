@@ -16,26 +16,22 @@ module.exports = [
       {
         text: 'Hydropower is the most reliable and established form of renewable energy available today.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. The passage mentions hydropower only as one example among several renewable sources; it does not single hydropower out as the most reliable, so this cannot be the main idea.",
       },
       {
         text: 'The global shift to renewable energy is a multifaceted response to the environmental impact of fossil fuels, driven by technology and policy.',
         isCorrect: true,
-        rationale:
-          'The global shift to renewable energy is a multifaceted response to the environmental impact of fossil fuels, driven by technology and policy.',
+        rationale: "Correct. The passage frames the energy transition as a response to fossil-fuel-driven climate change and notes that it is supported by improving technology, government policy, and public demand — capturing the central argument as a whole.",
       },
       {
         text: 'The primary challenge of renewable energy is overcoming the high cost of solar panels and wind turbines.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. Cost is a side detail at most; the passage instead emphasizes the overall transition and its drivers, so cost cannot be the main idea.",
       },
       {
         text: 'Fossil fuels, despite their environmental drawbacks, remain the only viable option for large-scale energy production.',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
+        rationale: "Incorrect. The passage actually argues the opposite — that renewable sources are increasingly viable replacements for fossil fuels, supported by policy and technological advances.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -51,25 +47,22 @@ module.exports = [
       {
         text: 'The high cost of installation.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. The passage uses \"intermittency\" to describe inconsistent output, not cost; price is a separate concern discussed elsewhere in the passage.",
       },
       {
         text: 'The state of being inconsistent or not continuous.',
         isCorrect: true,
-        rationale: 'The state of being inconsistent or not continuous.',
+        rationale: "Correct. In context, the passage uses \"intermittency\" to mean that solar and wind power generation cuts in and out depending on weather and time of day — i.e., it is not steady or continuous.",
       },
       {
         text: 'The potential harm to local wildlife.',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
+        rationale: "Incorrect. Wildlife impacts are discussed separately as an environmental concern; \"intermittency\" specifically refers to the inconsistent nature of generation, not to ecological harm.",
       },
       {
         text: 'The requirement for large areas of land.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. Land use is a different drawback the passage may mention; \"intermittency\" specifically denotes the on-and-off nature of solar and wind output.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -85,26 +78,22 @@ module.exports = [
       {
         text: 'To reduce the visual impact of power plants on landscapes.',
         isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "Incorrect. The passage frames the transition as a response to climate change driven by greenhouse-gas emissions, not as an aesthetic concern about how power plants look.",
       },
       {
         text: 'To mitigate climate change caused by greenhouse gas emissions from fossil fuels.',
         isCorrect: true,
-        rationale:
-          'To mitigate climate change caused by greenhouse gas emissions from fossil fuels.',
+        rationale: "Correct. The passage explicitly identifies greenhouse-gas-driven climate change as the central environmental cost of fossil fuels and the primary motivation for moving to renewables.",
       },
       {
         text: 'To prevent the disruption of fish migration caused by large dams.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. The passage discusses dam impacts as a downside of one renewable source (hydropower), not as a motivation for the transition itself.",
       },
       {
         text: 'To decrease reliance on foreign energy sources.',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
+        rationale: "Incorrect. Energy independence is an economic/geopolitical motive; the passage frames the *environmental* motivation specifically in terms of reducing greenhouse-gas emissions.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -120,25 +109,22 @@ module.exports = [
       {
         text: 'their cost-effectiveness.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. The passage does not present cost as the defining contrast between these technologies; it focuses on their reliability profiles.",
       },
       {
         text: 'their geographical limitations.',
         isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
+        rationale: "Incorrect. All four sources have geographic constraints (rivers, hot subsurface zones, sun, wind); the passage emphasizes consistency of output as the key differentiator, not location.",
       },
       {
         text: 'their level of reliability and consistency.',
         isCorrect: true,
-        rationale: 'their level of reliability and consistency.',
+        rationale: "Correct. The passage portrays hydropower and geothermal as steady, on-demand sources, while solar and wind are intermittent — inconsistent and weather-dependent — making reliability the central contrast.",
       },
       {
         text: 'their impact on avian wildlife.',
         isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
+        rationale: "Incorrect. Bird strikes are mainly a wind-power concern, but the passage uses reliability/consistency — not wildlife impact — to draw the contrast between these sets of technologies.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -154,26 +140,22 @@ module.exports = [
       {
         text: 'To lower the cost of electricity for consumers by reducing waste.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. Cost savings may be a side effect, but paragraph 5 frames smart grids as a tool for *managing* electricity flow from many varied sources, not as a price-cutting measure.",
       },
       {
         text: 'To generate more power from existing solar and wind farms.',
         isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "Incorrect. Smart grids do not generate electricity; they coordinate distribution. Increasing solar or wind output requires more or improved generating equipment, not grid software.",
       },
       {
         text: 'To better manage electricity distribution from varied and decentralized sources.',
         isCorrect: true,
-        rationale:
-          'To better manage electricity distribution from varied and decentralized sources.',
+        rationale: "Correct. Paragraph 5 explains smart grids handle the unpredictable mix of inputs from rooftop solar, wind farms, batteries, and traditional plants by routing power dynamically across the network.",
       },
       {
         text: 'To provide tax incentives for homeowners to install their own solar panels.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. Tax incentives are a policy tool, separate from smart-grid infrastructure; the passage describes smart grids as technological systems for distributing power, not as financial programs.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -190,13 +172,13 @@ module.exports = [
         text: 'the need for effective energy storage.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"the need for effective energy storage." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'the geographical limitations of certain sources.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"the geographical limitations of certain sources." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'the lack of any viable renewable technology.',
@@ -223,26 +205,22 @@ module.exports = [
       {
         text: 'By chronologically detailing the invention of each renewable technology.',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
+        rationale: "Incorrect. Paragraphs 2–4 are organized by *type* of energy (solar, wind, hydropower, etc.), not by the historical order in which each technology was invented.",
       },
       {
         text: 'By comparing and contrasting the economic cost of each energy source.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. The body paragraphs cover several aspects of each technology; cost is mentioned in passing but is not the organizing principle of paragraphs 2–4.",
       },
       {
         text: 'By dedicating separate paragraphs to different types of renewable energy, outlining their pros and cons.',
         isCorrect: true,
-        rationale:
-          'By dedicating separate paragraphs to different types of renewable energy, outlining their pros and cons.',
+        rationale: "Correct. Each of paragraphs 2–4 focuses on a different renewable source (such as solar, wind, hydropower, geothermal) and discusses both the advantages and the limitations of that technology in turn.",
       },
       {
         text: 'By presenting a problem and then immediately offering a single, definitive solution.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. The passage presents the problem of fossil fuels but then surveys *several* renewable solutions, each with trade-offs, rather than naming one definitive answer.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -270,13 +248,13 @@ module.exports = [
         text: 'Unimportant and trivial.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+          '"Unimportant and trivial." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'Related to government policy.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+          '"Related to government policy." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -292,26 +270,22 @@ module.exports = [
       {
         text: 'Increase subsidies for fossil fuel companies.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. Subsidizing fossil fuels would entrench the very source the passage identifies as the problem, slowing rather than accelerating the renewable transition.",
       },
       {
         text: 'Ban the construction of new dams for hydropower.',
         isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "Incorrect. The passage treats hydropower as part of the renewable mix; banning new dams would limit, not accelerate, the move away from fossil fuels.",
       },
       {
         text: 'Invest in battery technology and offer tax incentives for solar installations.',
         isCorrect: true,
-        rationale:
-          'Invest in battery technology and offer tax incentives for solar installations.',
+        rationale: "Correct. The passage highlights better storage and supportive policy as the two main accelerators of the transition; investing in batteries (storage) and offering solar tax credits (policy) targets both directly.",
       },
       {
         text: 'Focus exclusively on geothermal energy regardless of geographic location.',
         isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "Incorrect. Geothermal works only where geological conditions permit; the passage actually argues for a *diversified* renewable strategy, not single-source reliance.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -326,25 +300,22 @@ module.exports = [
       {
         text: 'Wind power generation.',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
+        rationale: "Incorrect. Wind power uses turbines that convert kinetic energy of moving air into electricity — not photovoltaic cells, which convert sunlight directly to electricity.",
       },
       {
         text: 'Geothermal energy extraction.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. Geothermal energy uses heat from inside the Earth to drive steam turbines; it does not rely on photovoltaic cells.",
       },
       {
         text: 'Hydropower dams.',
         isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
+        rationale: "Incorrect. Hydropower dams convert the kinetic energy of flowing water into electricity through turbines; photovoltaic cells are not part of that process.",
       },
       {
         text: 'Solar power generation.',
         isCorrect: true,
-        rationale: 'Solar power generation.',
+        rationale: "Correct. Photovoltaic (PV) cells convert sunlight directly into electricity through the photovoltaic effect, which is the core technology behind solar panels described in the passage.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -360,26 +331,22 @@ module.exports = [
       {
         text: 'The transition is primarily an economic burden with no financial benefits.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. The passage discusses falling renewable costs and growing markets; it does not portray the transition as purely a burden but as a major economic shift with both costs and opportunities.",
       },
       {
         text: 'It involves significant technological and economic evolution.',
         isCorrect: true,
-        rationale:
-          'It involves significant technological and economic evolution.',
+        rationale: "Correct. The passage describes new generation, storage, and grid technologies emerging together with shifting investment patterns and policy support — a combined technological and economic transformation.",
       },
       {
         text: 'All renewable technologies are still significantly more expensive than coal or natural gas.',
         isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
+        rationale: "Incorrect. The passage notes that the cost of solar and wind has fallen dramatically and is now competitive in many markets, contradicting a blanket \"always more expensive\" claim.",
       },
       {
         text: 'The only economic driver for renewables is government mandates.',
         isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "Incorrect. The passage credits *both* policy support and improving technology/economics with driving renewables forward; mandates are not described as the sole economic driver.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -396,13 +363,13 @@ module.exports = [
         text: 'Available only during peak demand hours.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          '"Available only during peak demand hours." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'The cheapest available option.',
         isCorrect: false,
         rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+          '"The cheapest available option." is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'Geographically restricted.',
@@ -429,26 +396,22 @@ module.exports = [
       {
         text: 'a negligible issue that has been resolved by modern technology.',
         isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "Incorrect. The passage treats dam-related impacts as a real, ongoing limitation — not a problem already solved by technology.",
       },
       {
         text: 'a significant limitation that can alter ecosystems and displace people.',
         isCorrect: true,
-        rationale:
-          'a significant limitation that can alter ecosystems and displace people.',
+        rationale: "Correct. The passage notes that large dams change river ecosystems, block fish migration, and can flood inhabited areas, forcing people to relocate — all serious drawbacks of hydropower.",
       },
       {
         text: 'a positive effect that creates new habitats for aquatic life.',
         isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
+        rationale: "Incorrect. The passage frames hydropower’s ecological impact negatively (disruption and displacement); reservoirs may host some species, but that is not how the author characterizes the impact.",
       },
       {
         text: 'an unproven theory without sufficient evidence.',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
+        rationale: "Incorrect. The passage presents the negative environmental effects of large dams as well-established consequences, not as a speculative or unproven claim.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -477,13 +440,13 @@ module.exports = [
         text: 'Fossil fuels will always be required to supplement the intermittency of renewables.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"Fossil fuels will always be required to supplement the intermittency of renew…" is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
       {
         text: 'International conflict will arise over access to the best locations for wind and solar farms.',
         isCorrect: false,
         rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+          '"International conflict will arise over access to the best locations for wind …" is not supported by the passage or data; the correct option is the one whose claim is directly supported.',
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],
@@ -498,25 +461,22 @@ module.exports = [
       {
         text: 'Pessimistic and critical.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. The passage acknowledges challenges but also points to genuine progress and viable solutions, so its overall stance is not strictly pessimistic.",
       },
       {
         text: 'Overly simplistic and biased.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
+        rationale: "Incorrect. The author surveys multiple technologies and discusses both pros and cons; the writing is balanced rather than one-sided or oversimplified.",
       },
       {
         text: 'Informative and cautiously optimistic.',
         isCorrect: true,
-        rationale: 'Informative and cautiously optimistic.',
+        rationale: "Correct. The passage methodically describes each renewable source (informative) while suggesting that progress is real but tempered by remaining challenges — the hallmark of cautious optimism.",
       },
       {
         text: 'Sarcastic and dismissive.',
         isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
+        rationale: "Incorrect. The author uses straightforward expository language and treats the topic seriously; nothing in the wording is sarcastic or dismissive.",
       },
     ],
     challenge_tags: ['rla-3', 'rla-4'],

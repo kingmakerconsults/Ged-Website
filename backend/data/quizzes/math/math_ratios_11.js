@@ -43,7 +43,7 @@ module.exports = [
       'You get 18 questions right on a 20-question test. What is your score as a percentage?',
     correctAnswer: '90%',
     rationale:
-      'To find the percentage, divide the number of correct questions by the total number of questions and multiply by 100: (18 / 20) * 100 = 0.90 * 100 = 90%.',
+      'To find the percentage, divide the number of correct questions by the total number of questions and multiply by 100: (\\(\\frac{18}{20}\\)) * 100 = 0.90 * 100 = 90%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -108,7 +108,7 @@ module.exports = [
       {
         text: '8%',
         isCorrect: true,
-        rationale: 'The fees are $4. \\(\\frac{4}{50} \\times 100 = 8\\%\\).',
+        rationale: 'The fees are 4. \\(\\frac{4}{50} \\times 100 = 8\\%\\).',
       },
       {
         text: '92.6%',
@@ -122,7 +122,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The amount of taxes and fees is $54 - $50 = $4. To find the percentage, divide this amount by the original bill and multiply by 100: \\(\\frac{4}{50} \\times 100 = 8\\%\\).',
+      'The amount of taxes and fees is \\(54 - \\)50 = 4. To find the percentage, divide this amount by the original bill and multiply by 100: \\(\\frac{4}{50} \\times 100 = 8\\%\\).',
     challenge_tags: ['math-1'],
   },
   {

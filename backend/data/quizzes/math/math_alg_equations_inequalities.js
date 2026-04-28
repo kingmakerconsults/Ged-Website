@@ -20,12 +20,14 @@ module.exports = [
       {
         text: '\\(x = 8.7\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 8.7\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 3\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 3\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 12\\)',
@@ -54,12 +56,14 @@ module.exports = [
       {
         text: '\\(x > 3\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x > 3\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x < 3\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x < 3\\)" does not match the result of the correct calculation for this problem.',
       },
     ],
   },
@@ -72,7 +76,8 @@ module.exports = [
       {
         text: '\\(y = 3\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(y = 3\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(y = 5\\)',
@@ -83,7 +88,8 @@ module.exports = [
       {
         text: '\\(y = -\\frac{1}{3}\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(y = -\\frac{1}{3}\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(y = 15\\)',
@@ -136,7 +142,8 @@ module.exports = [
       {
         text: '\\(x = 28\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 28\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 3\\)',
@@ -146,7 +153,8 @@ module.exports = [
       {
         text: '\\(x = 7\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 7\\)" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-3'],
@@ -171,12 +179,14 @@ module.exports = [
       {
         text: '\\(x \\ge 4\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x \\ge 4\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x \\le 4\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x \\le 4\\)" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-3'],
@@ -190,7 +200,8 @@ module.exports = [
       {
         text: '15 and 20',
         isCorrect: false,
-        rationale: 'These are not consecutive.',
+        rationale:
+          '15 and 20 are not consecutive (they differ by 5), and their sum is 35 only because 5 is added arbitrarily; consecutive integers must differ by exactly 1.',
       },
       {
         text: '17 and 18',
@@ -201,12 +212,14 @@ module.exports = [
       {
         text: '16 and 19',
         isCorrect: false,
-        rationale: 'These are not consecutive.',
+        rationale:
+          '16 and 19 differ by 3, so they are not consecutive integers; consecutive integers must differ by exactly 1.',
       },
       {
         text: '10 and 25',
         isCorrect: false,
-        rationale: 'These are not consecutive.',
+        rationale:
+          '10 and 25 differ by 15, so they are not consecutive; consecutive integers differ by exactly 1.',
       },
     ],
     challenge_tags: ['math-3'],
@@ -232,12 +245,14 @@ module.exports = [
       {
         text: '\\(b = \\frac{Ah}{2}\\)',
         isCorrect: false,
-        rationale: 'Incorrectly rearranged the formula.',
+        rationale:
+          'Incorrect. This multiplies A by h instead of dividing by h; after multiplying both sides by 2 you should divide by h, not multiply.',
       },
       {
         text: '\\(b = \\frac{2h}{A}\\)',
         isCorrect: false,
-        rationale: 'Incorrectly rearranged the formula.',
+        rationale:
+          'Incorrect. A and h are swapped: the equation should be solved for b in terms of A and h, not h in terms of A; A belongs in the numerator, not the denominator.',
       },
     ],
   },
@@ -285,12 +300,14 @@ module.exports = [
       {
         text: '\\(x = 5.5\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 5.5\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 11\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 11\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 8\\)',
@@ -309,7 +326,8 @@ module.exports = [
       {
         text: '5',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "5" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '10',
@@ -320,7 +338,8 @@ module.exports = [
       {
         text: '12.5',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "12.5" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '20',
@@ -375,17 +394,20 @@ module.exports = [
       {
         text: '\\(x = 6, y = 4\\)',
         isCorrect: false,
-        rationale: 'This does not satisfy the second equation.',
+        rationale:
+          'Incorrect. \\(6 + 4 = 10\\) satisfies the first equation, but \\(6 - 4 = 2\\), not 4, so the second equation fails.',
       },
       {
         text: '\\(x = 8, y = 2\\)',
         isCorrect: false,
-        rationale: 'This does not satisfy the second equation.',
+        rationale:
+          'Incorrect. \\(8 + 2 = 10\\) satisfies the first equation, but \\(8 - 2 = 6\\), not 4, so the second equation fails.',
       },
       {
         text: '\\(x = 5, y = 5\\)',
         isCorrect: false,
-        rationale: 'This does not satisfy the second equation.',
+        rationale:
+          'Incorrect. \\(5 + 5 = 10\\) satisfies the first equation, but \\(5 - 5 = 0\\), not 4, so the second equation fails.',
       },
     ],
   },
@@ -397,7 +419,8 @@ module.exports = [
       {
         text: '\\(x = 10\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 10\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 14\\)',
@@ -408,12 +431,14 @@ module.exports = [
       {
         text: '\\(x = -13\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = -13\\)" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '\\(x = 5\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "\\(x = 5\\)" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-3'],

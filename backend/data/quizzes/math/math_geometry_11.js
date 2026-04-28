@@ -132,7 +132,7 @@ module.exports = [
       {
         text: '20 feet',
         isCorrect: true,
-        rationale: 'd^2 = 12^2 + 16^2 = 144 + 256 = 400. d = sqrt(400) = 20.',
+        rationale: '\\(d^{2}\\) = 12^2 + 16^2 = 144 + 256 = 400. d = sqrt(400) = 20.',
       },
       {
         text: '28 feet',
@@ -151,7 +151,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as legs. Using the Pythagorean theorem: d^2 = 12^2 + 16^2 = 144 + 256 = 400. d = sqrt(400) = 20 feet.',
+      'The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as legs. Using the Pythagorean theorem: \\(d^{2}\\) = 12^2 + 16^2 = 144 + 256 = 400. d = sqrt(400) = 20 feet.',
     challenge_tags: ['math-5'],
   },
   {
@@ -177,7 +177,7 @@ module.exports = [
         text: '28.26',
         isCorrect: true,
         rationale:
-          'C = 2*pi*r -> 18.84 = 2*3.14*r -> r=3. Area = pi*r^2 = 3.14*3^2 = 28.26.',
+          'C = 2*pi*r -> 18.84 = 2*3.14*r -> r=3. Area = pi*\\(r^{2}\\) = 3.14*3^2 = 28.26.',
       },
       {
         text: '56.52',
@@ -187,7 +187,7 @@ module.exports = [
       {
         text: '9',
         isCorrect: false,
-        rationale: 'This is r^2.',
+        rationale: 'This is \\(r^{2}\\).',
       },
       {
         text: '3',
@@ -196,7 +196,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the radius from the circumference: C = 2 * pi * r. 18.84 = 2 * 3.14 * r. r = 18.84 / 6.28 = 3. Now, find the area: A = pi * r^2 = 3.14 * 3^2 = 28.26.',
+      'First, find the radius from the circumference: C = 2 * pi * r. 18.84 = 2 * 3.14 * r. r = 18.\\(\\frac{84}{6}\\).28 = 3. Now, find the area: A = pi * \\(r^{2}\\) = 3.14 * 3^2 = 28.26.',
     challenge_tags: ['math-5'],
   },
   {
@@ -232,7 +232,7 @@ module.exports = [
       {
         text: 'Scalene',
         isCorrect: true,
-        rationale: 'No sides are equal.',
+        rationale: "Correct because a scalene triangle is defined as a triangle in which all three sides have different lengths and no two sides are equal.",
       },
       {
         text: 'Right',
@@ -292,12 +292,12 @@ module.exports = [
       {
         text: '10 ft',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "10 ft" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '24 ft',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "24 ft" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '720 ft',
@@ -306,7 +306,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the area of a parallelogram is A = b * h. We have 60 = 12 * h. To find the height, divide the area by the base: h = 60 / 12 = 5 feet.',
+      'The formula for the area of a parallelogram is A = b * h. We have 60 = 12 * h. To find the height, divide the area by the base: h = \\(\\frac{60}{12}\\) = 5 feet.',
     challenge_tags: ['math-5'],
   },
 ];

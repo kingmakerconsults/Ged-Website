@@ -257,7 +257,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Defend the body against pathogens like bacteria and viruses.",
-        "rationale": "Correct. It identifies and attacks foreign invaders.",
+        rationale: "Correct because the immune system identifies foreign pathogens such as bacteria and viruses and mounts a response that destroys them, which protects the body from infection and disease.",
         "isCorrect": true
       },
       {

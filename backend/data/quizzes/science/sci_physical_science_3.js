@@ -107,7 +107,7 @@ module.exports = [
       },
       {
         "text": "They repel each other.",
-        "rationale": "Correct. Like poles of a magnet repel each other.",
+        rationale: "Correct because magnets follow the rule that like poles repel and opposite poles attract, which means two north poles or two south poles brought together will push each other apart.",
         "isCorrect": true
       },
       {
@@ -324,7 +324,7 @@ module.exports = [
       },
       {
         "text": "240 watts",
-        "rationale": "Correct. Power = 120 V × 2 A = 240 W.",
+        rationale: "Correct because electrical power equals voltage times current (P = V × I), so 120 V × 2 A equals 240 watts.",
         "isCorrect": true
       },
       {

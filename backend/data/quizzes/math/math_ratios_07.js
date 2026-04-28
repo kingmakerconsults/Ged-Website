@@ -58,7 +58,7 @@ module.exports = [
         text: '60 feet',
         isCorrect: true,
         rationale:
-          'The actual length is 10 * 72 = 720 inches. To convert to feet, divide by 12: 720 / 12 = 60 feet.',
+          'The actual length is 10 * 72 = 720 inches. To convert to feet, divide by 12: \\(\\frac{720}{12}\\) = 60 feet.',
       },
       {
         text: '72 feet',
@@ -137,12 +137,12 @@ module.exports = [
       {
         text: '14 hours',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "14 hours" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '15 hours',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "15 hours" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '17.5 hours',
@@ -170,7 +170,7 @@ module.exports = [
       'A product is marked up 25% from its wholesale price of $80. What is the retail price?',
     correctAnswer: '100',
     rationale:
-      'The markup is 25% of $80, which is 0.25 \\(\times\\) 80 = 20. The retail price is the wholesale price plus the markup: $80 + $20 = $100.',
+      'The markup is 25% of \\(80, which is 0.25 \\(\times\\) 80 = 20. The retail price is the wholesale price plus the markup: \\)80 + \\(20 = \\)100.',
     challenge_tags: ['math-1'],
   },
   {
@@ -204,7 +204,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio is 6 to 10. Both numbers are divisible by 2. \\(\frac{6}{2}\\) = 3 and \\(\frac{10}{2}\\) = 5. The simplified ratio is 3:5.',
+      'The ratio is 6 to 10. Both numbers are divisible by 2. \\(\\frac{6}{2}\\) = 3 and \\(\\frac{10}{2}\\) = 5. The simplified ratio is 3:5.',
     challenge_tags: ['math-1'],
   },
   {
@@ -214,10 +214,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A car rental company charges $50 per day. If a customer paid $250, how many days did they rent the car for?',
+      'A car rental company charges \\(50 per day. If a customer paid \\)250, how many days did they rent the car for?',
     correctAnswer: '5 days',
     rationale:
-      'Divide the total cost by the daily rate: $250 / $50 per day = 5 days.',
+      'Divide the total cost by the daily rate: \\(250 / \\)50 per day = 5 days.',
     challenge_tags: ['math-1'],
   },
   {
@@ -229,20 +229,20 @@ module.exports = [
       'If a 12-ounce bottle of shampoo costs 3.60, what is the price per ounce?',
     answerOptions: [
       {
-        text: '$0.25\\)',
+        text: '$0.25',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "$0.25" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '0.30',
         isCorrect: true,
         rationale:
-          'Divide the total cost by the number of ounces: 3.60 / 12 oz = 0.30 per oz.',
+          'Divide the total cost by the number of ounces: 3.\\(\\frac{60}{12}\\) oz = 0.30 per oz.',
       },
       {
-        text: '$0.36\\)',
+        text: '$0.36',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "$0.36" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '3.00',
@@ -251,7 +251,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the price per ounce, divide the total cost by the number of ounces: 3.60 / 12 ounces = $0.30 per ounce.',
+      'To find the price per ounce, divide the total cost by the number of ounces: 3.\\(\\frac{60}{12}\\) ounces = $0.30 per ounce.',
     challenge_tags: ['math-1'],
   },
   {
@@ -271,7 +271,7 @@ module.exports = [
         text: '72 pounds',
         isCorrect: true,
         rationale:
-          'Set up the proportion \\(\\(\frac{2}{5}\\) = x/180. 5x = 360. x = 72.',
+          'Set up the proportion \\(\\frac{2}{5}\\) = x/180. 5x = 360. x = 72.',
       },
       {
         text: '90 pounds',
@@ -281,7 +281,7 @@ module.exports = [
       {
         text: '450 pounds',
         isCorrect: false,
-        rationale: 'This is 180 * 5 / 2.',
+        rationale: 'This is 180 * \\(\\frac{5}{2}\\).',
       },
     ],
     rationale:
@@ -299,12 +299,12 @@ module.exports = [
       {
         text: '8%',
         isCorrect: true,
-        rationale: '(24 / 300) * 100 = 0.08 * 100 = 8%.',
+        rationale: '(\\(\\frac{24}{300}\\)) * 100 = 0.08 * 100 = 8%.',
       },
       {
         text: '12.5%',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{24}{192}\\).',
+        rationale: 'This is \\(\\frac{24}{192}\\).',
       },
       {
         text: '24%',
@@ -318,7 +318,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the percentage, divide the number of left-handed employees by the total number of employees and multiply by 100: (24 / 300) * 100 = 0.08 * 100 = 8%.',
+      'To find the percentage, divide the number of left-handed employees by the total number of employees and multiply by 100: (\\(\\frac{24}{300}\\)) * 100 = 0.08 * 100 = 8%.',
     challenge_tags: ['math-1'],
   },
 ];

@@ -77,7 +77,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, add the scores (70 + 80 + 80 + 90 + 100 = 420) and divide by the number of scores (5). The mean is 420 / 5 = 84.',
+      'To find the mean, add the scores (70 + 80 + 80 + 90 + 100 = 420) and divide by the number of scores (5). The mean is \\(\\frac{420}{5}\\) = 84.',
     challenge_tags: ['math-6'],
   },
   {

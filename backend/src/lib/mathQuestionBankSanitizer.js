@@ -35,7 +35,7 @@ function protectCurrency(text) {
   const protectedText = text.replace(
     /(?<!\\)\$\d[\d,]*(?:\.\d{1,2})?/g,
     (match) => {
-      const token = `__MATH_CURRENCY_${tokens.length}__`;
+      const token = `\u0000MATHCUR${tokens.length}\u0000`;
       tokens.push(match);
       return token;
     }
@@ -47,7 +47,7 @@ function protectCurrency(text) {
 function restoreCurrency(text, tokens) {
   let restored = text;
   tokens.forEach((value, index) => {
-    restored = restored.replace(`__MATH_CURRENCY_${index}__`, value);
+    restored = restored.replace(`\u0000MATHCUR${index}\u0000`, value);
   });
   return restored;
 }
@@ -65,8 +65,11 @@ function sanitizeMathText(text) {
     .replace(/√\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, 'sqrt($1)')
     .replace(/√\s*([A-Za-z0-9]+)/g, 'sqrt($1)')
     .replace(/\\sqrt\s*\{([^{}]+)\}/g, 'sqrt($1)')
-    .replace(/(?<!\\)sqrt\s*\{([^{}]+)\}/g, 'sqrt($1)')
-    .replace(/\\[()\[\]]/g, '');
+    .replace(/(?<!\\)sqrt\s*\{([^{}]+)\}/g, 'sqrt($1)');
+    // NOTE: We deliberately do NOT strip \(...\) or \[...\] delimiters here.
+    // upgradeToKatex relies on those markers to know what's already math; the
+    // legacy strip lost LaTeX commands like \times, \leq, \geq inside math
+    // blocks (because upgradeToKatex only re-wraps a small set of patterns).
 
   cleaned = restoreCurrency(cleaned, tokens);
   return upgradeToKatex(cleaned);

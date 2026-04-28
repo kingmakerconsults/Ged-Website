@@ -20,7 +20,8 @@ module.exports = [
       {
         text: '54 in^2',
         isCorrect: true,
-        rationale: 'Area = 6 * 9 = 54.',
+        rationale:
+          'Correct because the area of a rectangle equals length × width, so 9 in × 6 in = 54 square inches.',
       },
       {
         text: '81 in^2',
@@ -202,7 +203,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(a^{2} + 9^{2} = 41^{2}\\). \\(a^{2} + 81 = 1681\\). \\(a^{2} = 1681 - 81 = 1600\\). So, \\(a = \\(\sqrt{1600}\\) = 40.',
+      'Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(a^{2} + 9^{2} = 41^{2}\\). \\(a^{2} + 81 = 1681\\). \\(a^{2} = 1681 - 81 = 1600\\). So, a = \\(sqrt{1600}\\) = 40.',
     challenge_tags: ['math-5'],
   },
   {
@@ -215,7 +216,7 @@ module.exports = [
       'A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '560 rotations',
     rationale:
-      'The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560.',
+      'The circumference of the wheel is \\(C = 2 \\pi r = 2 \\times 3.14 \\times 1.5 = 9.42\\) feet. The number of rotations is the total distance divided by the circumference: \\(\\frac{5280}{9.42} \\approx 560.5\\). The number of full rotations is 560.',
     challenge_tags: ['math-5'],
   },
   {
@@ -291,31 +292,35 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'What is the area of a regular hexagon with a side length of 6? Use the formula A = \\(\\frac{3\\(\sqrt{3}\\)}{2}\\(s^2\\).',
+      'What is the area of a regular hexagon with a side length of 6? Use the formula \\(A = \\frac{3\\sqrt{3}}{2} s^{2}\\).',
     answerOptions: [
       {
         text: '54',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'This drops the \\(\\sqrt{3}\\) factor. \\(\\frac{3}{2} \\times 36 = 54\\), so 54 is the area without multiplying by \\(\\sqrt{3} \\approx 1.732\\).',
       },
       {
         text: '93.53',
         isCorrect: true,
-        rationale: 'A = (3 * sqrt(3) / 2) * 6^2 ≈ 93.53.',
+        rationale:
+          'Substitute \\(s = 6\\): \\(A = \\frac{3\\sqrt{3}}{2} \\times 6^{2} = \\frac{3\\sqrt{3}}{2} \\times 36 = 54\\sqrt{3} \\approx 93.53\\) square units.',
       },
       {
         text: '108',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'This is \\(3 \\times 6^{2} = 108\\), which forgets to divide by 2 and to multiply by \\(\\sqrt{3}\\).',
       },
       {
         text: '127.28',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'This results from doubling the side length to 12 and using the perimeter as the apothem-times-perimeter quantity, instead of substituting 6 directly into \\(\\frac{3\\sqrt{3}}{2} s^{2}\\).',
       },
     ],
     rationale:
-      'Using the formula, A = \\(\\frac{3\\(\sqrt{3}\\)}{2}$s^{2}\\). A = \\(\\frac{3\\(\sqrt{3}\\)}{2}(6)\\)^2\\( = \\frac{3\\(\sqrt{3}\\)}{2}(36) = 54\\(\\(\sqrt{3}\\) \\approx 93.53.',
+      'Using the formula \\(A = \\frac{3\\sqrt{3}}{2} s^{2}\\) with \\(s = 6\\): \\(A = \\frac{3\\sqrt{3}}{2} \\times 36 = 54\\sqrt{3} \\approx 93.53\\) square units.',
     challenge_tags: ['math-5'],
   },
 ];

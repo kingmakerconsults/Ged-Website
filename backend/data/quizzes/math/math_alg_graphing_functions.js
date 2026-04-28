@@ -54,12 +54,12 @@ module.exports = [
       {
         text: '23',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "23" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '8',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "8" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-4'],
@@ -198,17 +198,17 @@ module.exports = [
       {
         text: '-4',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "-4" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '19',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "19" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '8',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale: 'Incorrect. "8" does not match the result of the correct calculation for this problem.',
       },
     ],
     challenge_tags: ['math-4'],

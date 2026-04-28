@@ -42,7 +42,7 @@ module.exports = [
       'A TV is priced at $450. A 10% sales tax is added. What is the total cost?',
     correctAnswer: '495',
     rationale:
-      'Calculate the sales tax: 10% of $450 is 0.10 * 450 = $45. Add the tax to the original price: $450 + $45 = $495.',
+      'Calculate the sales tax: 10% of \\(450 is 0.10 * 450 = \\)45. Add the tax to the original price: \\(450 + \\)45 = $495.',
     challenge_tags: ['math-1'],
   },
   {
@@ -103,7 +103,7 @@ module.exports = [
         text: '\\(19.20\\)',
         isCorrect: true,
         rationale:
-          'New price: $20 * 1.20 = 24. Discounted price: $24 * 0.80 = 19.20.',
+          'New price: \\(20 * 1.20 = 24. Discounted price: \\)24 * 0.80 = 19.20.',
       },
       {
         text: '20.00',
@@ -123,7 +123,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, the price is increased by 20%: $20 * 1.20 = $24. Then, this new price is discounted by 20%: $24 * (1 - 0.20) = $24 * 0.80 = $19.20.',
+      'First, the price is increased by 20%: \\(20 * 1.20 = \\)24. Then, this new price is discounted by 20%: \\(24 * (1 - 0.20) = \\)24 * 0.80 = $19.20.',
     challenge_tags: ['math-1'],
   },
   {
@@ -167,10 +167,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A car's value decreased from $15,000 to  12,000. What was the percent decrease?\\)",
+      "A car's value decreased from $15,000 to  12,000. What was the percent decrease?",
     correctAnswer: '20%',
     rationale:
-      'The decrease in value is $15,000 -  12,000 = $3,000. The percent decrease is (decrease / original value) * 100 = ( 3,000 / 15,000) * 100 = 0.20 * 100 = 20%.\\)\\)',
+      'The decrease in value is \\(15,000 -  12,000 = \\)3,000. The percent decrease is (decrease / original value) * 100 = ( 3,\\(\\frac{000}{15}\\),000) * 100 = 0.20 * 100 = 20%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -235,7 +235,7 @@ module.exports = [
         text: '6 feet',
         isCorrect: true,
         rationale:
-          'The ratio of height to shadow is 6:4 or 3:2. So, for a 9-foot signpost, the shadow is (\\(\\(\frac{2}{3}\\))*9 = 6 feet.',
+          'The ratio of height to shadow is 6:4 or 3:2. So, for a 9-foot signpost, the shadow is (\\(\\frac{2}{3}\\))*9 = 6 feet.',
       },
       {
         text: '9 feet',
@@ -270,7 +270,7 @@ module.exports = [
         text: '4000',
         isCorrect: true,
         rationale:
-          'Let S be the total sales. 0.15 * S = \\(600\\). S = $600 / 0.15 = 4000\\).',
+          'Let S be the total sales. 0.15 * S = \\(600\\). S = \\(600 / 0.15 = 4000\\).',
       },
       {
         text: '6000',

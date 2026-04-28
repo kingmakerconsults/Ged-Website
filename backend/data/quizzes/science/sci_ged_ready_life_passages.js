@@ -59,8 +59,7 @@ module.exports = [
     answerOptions: [
       {
         text: 'Plants are the only organisms that can carry out cellular respiration.',
-        rationale:
-          'The passage explicitly states animal cells also carry out cellular respiration, so this is incorrect.',
+        rationale: "Incorrect because the passage explicitly states that animal cells also carry out cellular respiration to produce ATP from glucose and oxygen.",
         isCorrect: false,
       },
       {
@@ -71,14 +70,12 @@ module.exports = [
       },
       {
         text: 'Animals can manufacture their own glucose using sunlight.',
-        rationale:
-          'The passage credits photosynthesis only to plants and other photosynthetic organisms, not animals.',
+        rationale: "Incorrect because the passage credits photosynthesis only to plants and other photosynthetic organisms; animals must obtain glucose by eating, since they cannot make it from sunlight.",
         isCorrect: false,
       },
       {
         text: 'Mitochondria are found only in plant cells.',
-        rationale:
-          'The passage states both plant and animal cells contain mitochondria.',
+        rationale: "Incorrect because the passage explicitly states both plant and animal cells contain mitochondria, where cellular respiration produces ATP.",
         isCorrect: false,
       },
     ],

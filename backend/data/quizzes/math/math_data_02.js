@@ -15,7 +15,7 @@ module.exports = [
         text: '20',
         isCorrect: true,
         rationale:
-          'The sum is 100. 100 / 5 = 20. Since the numbers are evenly spaced, the mean is the middle number.',
+          'The sum is 100. \\(\\frac{100}{5}\\) = 20. Since the numbers are evenly spaced, the mean is the middle number.',
       },
       {
         text: '25',
@@ -29,7 +29,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, sum the numbers (10+15+20+25+30 = 100) and divide by the count of the numbers (5). 100 / 5 = 20.',
+      'To find the mean, sum the numbers (10+15+20+25+30 = 100) and divide by the count of the numbers (5). \\(\\frac{100}{5}\\) = 20.',
     challenge_tags: ['math-6'],
   },
   {

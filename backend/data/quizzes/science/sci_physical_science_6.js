@@ -50,7 +50,7 @@ module.exports = [
       },
       {
         "text": "Radiation",
-        "rationale": "Correct. This is how the sun heats the Earth.",
+        rationale: "Correct because radiation transfers heat as electromagnetic waves through empty space, which is how the Sun’s energy reaches and warms the Earth without any matter in between.",
         "isCorrect": true
       },
       {
@@ -76,7 +76,7 @@ module.exports = [
       },
       {
         "text": "Energy cannot be created or destroyed, only transformed from one form to another.",
-        "rationale": "Correct. This is the First Law of Thermodynamics.",
+        rationale: "Correct because the First Law of Thermodynamics, also called the law of conservation of energy, states that energy is never created or destroyed but only transferred or transformed between forms.",
         "isCorrect": true
       },
       {
@@ -112,7 +112,7 @@ module.exports = [
       },
       {
         "text": "Inertia",
-        "rationale": "Correct. Inertia is a property of mass.",
+        rationale: "Correct because inertia is an object's resistance to changes in its state of motion, which is directly proportional to its mass — the more massive an object, the greater its inertia.",
         "isCorrect": true
       },
       {

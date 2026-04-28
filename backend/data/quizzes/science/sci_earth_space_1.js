@@ -50,7 +50,7 @@ module.exports = [
       },
       {
         "text": "Condensation",
-        "rationale": "Correct. This process is what forms clouds.",
+        rationale: "Correct because condensation is the process by which water vapor cools and changes back into liquid droplets, which is how clouds, fog, and dew are formed in the atmosphere.",
         "isCorrect": true
       },
       {

@@ -234,7 +234,7 @@ module.exports = [
       },
       {
         "text": "To declare laws passed by Congress and signed by the President to be unconstitutional.",
-        "rationale": "Correct. This is the core function of judicial review��ensuring that laws adhere to the Constitution.",
+        "rationale": "Correct. This is the core function of judicial review—ensuring that laws adhere to the Constitution.",
         "isCorrect": true
       },
       {
@@ -282,7 +282,7 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "text",
-    "passage": "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorari��an order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
+    "passage": "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorari—an order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
     "question": "What is the 'rule of four'?",
     "answerOptions": [
       {

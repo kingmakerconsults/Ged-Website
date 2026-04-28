@@ -30,7 +30,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, add all the numbers together (2+5+8+9+11 = 35) and divide by the count of the numbers (5). 35 / 5 = 7.',
+      'To find the mean, add all the numbers together (2+5+8+9+11 = 35) and divide by the count of the numbers (5). \\(\\frac{35}{5}\\) = 7.',
     challenge_tags: ['math-6'],
   },
   {

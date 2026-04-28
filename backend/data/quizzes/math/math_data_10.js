@@ -9,7 +9,8 @@ module.exports = [
       {
         text: '4',
         isCorrect: false,
-        rationale: 'This is one of the numbers.',
+        rationale:
+          '4 is just one value in the list, not the mean. The mean of 2, 4, 6, 8, 10 is the sum (30) divided by 5, which gives 6.',
       },
       {
         text: '6',
@@ -20,7 +21,8 @@ module.exports = [
       {
         text: '8',
         isCorrect: false,
-        rationale: 'This is one of the numbers.',
+        rationale:
+          '8 is just one value in the list, not the average. The mean (sum 30 divided by 5 numbers) is 6, not 8.',
       },
       {
         text: '10',
@@ -29,7 +31,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, add the numbers together (2+4+6+8+10 = 30) and divide by the number of values (5). 30 / 5 = 6.',
+      'To find the mean, add the numbers together (2+4+6+8+10 = 30) and divide by the number of values (5). \\(\\frac{30}{5}\\) = 6.',
     challenge_tags: ['math-6'],
   },
   {
@@ -292,7 +294,7 @@ module.exports = [
     calculator: false,
     difficulty: 'medium',
     question:
-      'If the probability of an event is \\(\frac{3}{8}\\), what is the probability that the event will NOT happen?',
+      'If the probability of an event is \\(\\frac{3}{8}\\), what is the probability that the event will NOT happen?',
     answerOptions: [
       {
         text: '\\(\\frac{3}{8}\\)',

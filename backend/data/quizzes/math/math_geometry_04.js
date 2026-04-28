@@ -42,7 +42,7 @@ module.exports = [
       'Find the area of a triangle with a base of 15 cm and a height of 10 cm.',
     correctAnswer: '75 cm^2',
     rationale:
-      'The area of a triangle is A = \\(\frac{1}{2}\\) * b * h. So, A = \\(\frac{1}{2}\\) * 15 cm * 10 cm = 75 cm^2.',
+      'The area of a triangle is A = \\(\\frac{1}{2}\\) * b * h. So, A = \\(\\frac{1}{2}\\) * 15 cm * 10 cm = 75 cm^2.',
     challenge_tags: ['math-5'],
   },
   {
@@ -122,7 +122,7 @@ module.exports = [
       },
     ],
     rationale:
-      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(5^{2} + 12^{2} = c^{2}\\), which is $25 + 144 = 169\\). Thus, c = \\(\\sqrt{169}\\) = 13 cm.',
+      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(5^{2} + 12^{2} = c^{2}\\), which is \\(25 + 144 = 169\\). Thus, c = \\(\\sqrt{169}\\) = 13 cm.',
     challenge_tags: ['math-5'],
   },
   {
@@ -199,7 +199,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The volume of a cube is calculated as V = s^3. So, V = (4 cm)^3 = 64 cm^3.',
+      'The volume of a cube is calculated as V = \\(s^{3}\\). So, V = (4 cm)^3 = 64 cm^3.',
     challenge_tags: ['math-5'],
   },
   {
@@ -289,29 +289,29 @@ module.exports = [
       'Find the surface area of a rectangular prism with length 6m, width 4m, and height 2m.',
     answerOptions: [
       {
-        text: '48 m^2',
+        text: '48 \\(m^{2}\\)',
         isCorrect: false,
         rationale: 'This is the volume of the prism.',
       },
       {
-        text: '24 m^2',
+        text: '24 \\(m^{2}\\)',
         isCorrect: false,
         rationale: 'This is the area of the largest face.',
       },
       {
-        text: '88 m^2',
+        text: '88 \\(m^{2}\\)',
         isCorrect: true,
         rationale:
           'SA = 2(lw + lh + wh) = 2(6*4 + 6*2 + 4*2) = 2(24 + 12 + 8) = 2(44) = 88.',
       },
       {
-        text: '44 m^2',
+        text: '44 \\(m^{2}\\)',
         isCorrect: false,
         rationale: 'This is half the surface area.',
       },
     ],
     rationale:
-      'The formula for the surface area of a rectangular prism is SA = 2(lw + lh + wh). SA = 2((6)(4) + (6)(2) + (4)(2)) = 2(24 + 12 + 8) = 2(44) = 88 m^2.',
+      'The formula for the surface area of a rectangular prism is SA = 2(lw + lh + wh). SA = 2((6)(4) + (6)(2) + (4)(2)) = 2(24 + 12 + 8) = 2(44) = 88 \\(m^{2}\\).',
     challenge_tags: ['math-5'],
   },
 ];

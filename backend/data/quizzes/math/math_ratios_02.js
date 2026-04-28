@@ -119,7 +119,7 @@ module.exports = [
         "rationale": "This is a 100% markup."
       }
     ],
-    "rationale": "Calculate the markup amount: 60% of $15 is 0.60 \\(\times\\) 15 = 9. Add the markup to the original cost: $15 + $9 = $24.",
+    "rationale": "Calculate the markup amount: 60% of \\(15 is 0.60 \\(\times\\) 15 = 9. Add the markup to the original cost: \\)15 + \\(9 = \\)24.",
     "challenge_tags": [
       "math-1"
     ]
@@ -132,7 +132,7 @@ module.exports = [
     "question": "If 3 pounds of apples cost 4.50, what is the cost of 5 pounds of apples?",
     "answerOptions": [
       {
-        "text": "$1.50\\)",
+        "text": "$1.50",
         "isCorrect": false,
         "rationale": "This is the price per pound."
       },
@@ -142,9 +142,9 @@ module.exports = [
         "rationale": "This is the cost for 4 pounds."
       },
       {
-        "text": "$7.50\\)",
+        "text": "$7.50",
         "isCorrect": true,
-        "rationale": "The price per pound is $4.50 / 3 = 1.50. So, 5 pounds cost 5 * $1.50 = 7.50."
+        "rationale": "The price per pound is \\(4.50 / 3 = 1.50. So, 5 pounds cost 5 * \\)1.50 = 7.50."
       },
       {
         "text": "9.00",
@@ -152,7 +152,7 @@ module.exports = [
         "rationale": "This is the cost for 6 pounds."
       }
     ],
-    "rationale": "First, find the unit price: $4.50 / 3 pounds = $1.50 per pound. Then multiply by the desired quantity: $1.50 * 5 = $7.50.",
+    "rationale": "First, find the unit price: \\(4.50 / 3 pounds = \\)1.50 per pound. Then multiply by the desired quantity: \\(1.50 * 5 = \\)7.50.",
     "challenge_tags": [
       "math-1"
     ]
@@ -190,7 +190,7 @@ module.exports = [
       {
         "text": "75.00",
         "isCorrect": true,
-        "rationale": "The tip is 0.20 * $62.50 = $12.50. The total amount is $62.50 + $12.50 = $75.00."
+        "rationale": "The tip is 0.20 * \\(62.50 = \\)12.50. The total amount is \\(62.50 + \\)12.50 = $75.00."
       },
       {
         "text": "82.50",
@@ -198,7 +198,7 @@ module.exports = [
         "rationale": "This is the result of a 32% tip."
       }
     ],
-    "rationale": "Calculate the tip amount: 20% of $62.50 is $12.50. Add the tip to the bill: $62.50 + $12.50 = $75.00.",
+    "rationale": "Calculate the tip amount: 20% of $62.50 is $12.50. Add the tip to the bill: \\(62.50 + \\)12.50 = $75.00.",
     "challenge_tags": [
       "math-1"
     ]
@@ -209,9 +209,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Solve the proportion: \\(\frac{x}{9}\\) = \\(\frac{10}{15}\\)",
+    "question": "Solve the proportion: \\(\\frac{x}{9}\\) = \\(\\frac{10}{15}\\)",
     "correctAnswer": "6",
-    "rationale": "To solve for x, you can cross-multiply: 15 * x = 9 * 10, which gives 15x = 90. Divide by 15 to get x = 6. Alternatively, simplify \\(\frac{10}{15}\\) to \\(\frac{2}{3}\\) and solve x/9 = \\(\frac{2}{3}\\).",
+    "rationale": "To solve for x, you can cross-multiply: 15 * x = 9 * 10, which gives 15x = 90. Divide by 15 to get x = 6. Alternatively, simplify \\(\\frac{10}{15}\\) to \\(\\frac{2}{3}\\) and solve x/9 = \\(\\frac{2}{3}\\).",
     "challenge_tags": [
       "math-1"
     ]
@@ -264,7 +264,7 @@ module.exports = [
       {
         "text": "0.5%",
         "isCorrect": true,
-        "rationale": "The ratio is \\(\frac{5}{1000}\\) = 0.005. To convert to a percentage, multiply by 100, which gives 0.5%."
+        "rationale": "The ratio is \\(\\frac{5}{1000}\\) = 0.005. To convert to a percentage, multiply by 100, which gives 0.5%."
       },
       {
         "text": "5%",
@@ -277,7 +277,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The ratio of defective to total is \\(\frac{5}{1000}\\). As a decimal, this is 0.005. To express this as a percentage, multiply by 100: 0.005 * 100 = 0.5%.",
+    "rationale": "The ratio of defective to total is \\(\\frac{5}{1000}\\). As a decimal, this is 0.005. To express this as a percentage, multiply by 100: 0.005 * 100 = 0.5%.",
     "challenge_tags": [
       "math-1"
     ]

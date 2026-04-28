@@ -103,7 +103,7 @@ module.exports = [
         text: '\\(y = 3x^2 - 4x + 2\\)',
         isCorrect: true,
         rationale:
-          'A quadratic function has a term with x^2 as its highest power.',
+          'A quadratic function has a term with \\(x^{2}\\) as its highest power.',
       },
       {
         text: '\\(y = |x-3|\\)',
@@ -295,7 +295,7 @@ module.exports = [
       {
         text: 'The initial value of the car',
         isCorrect: false,
-        rationale: 'The initial value is $25,000.\\)',
+        rationale: 'The initial value is $25,000.',
       },
       {
         text: 'The value of the car after one year',
@@ -306,12 +306,12 @@ module.exports = [
         text: "The yearly decrease in the car's value",
         isCorrect: true,
         rationale:
-          'The slope of the linear function represents the rate of change, which is a decrease of $1500 per year.\\)',
+          'The slope of the linear function represents the rate of change, which is a decrease of $1500 per year.',
       },
       {
         text: 'The number of years until the car has no value',
         isCorrect: false,
-        rationale: 'This would be \\)\\(\\(\frac{25000}{1500}\\).',
+        rationale: 'This would be \\(\\frac{25000}{1500}\\).',
       },
     ],
     rationale:

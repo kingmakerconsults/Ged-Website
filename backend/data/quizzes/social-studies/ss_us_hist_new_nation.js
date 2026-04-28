@@ -17,22 +17,22 @@ module.exports = [
       {
         "text": "That the United States should limit its territory to the original thirteen colonies.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "Incorrect. Manifest Destiny was an expansionist doctrine, not an isolationist one; its central claim was that the U.S. should grow far beyond the original thirteen colonies."
       },
       {
         "text": "That American settlers were destined to expand across the continent, spreading their institutions with them.",
         "isCorrect": true,
-        "rationale": "That American settlers were destined to expand across the continent, spreading their institutions with them."
+        "rationale": "Correct. As the passage explains, Manifest Destiny held that Americans were destined — even duty-bound — to spread across North America and carry democracy and Protestant Christianity with them."
       },
       {
         "text": "That the United States should form a military alliance with Mexico.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        "rationale": "Incorrect. Manifest Destiny justified war with Mexico (not alliance with it) in order to seize western lands; it never advocated a U.S.–Mexican military partnership."
       },
       {
         "text": "That Native American tribes should be given full citizenship.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        "rationale": "Incorrect. Manifest Destiny was used to justify the removal of Native American tribes from their lands, not to extend citizenship to them."
       }
     ]
   },
@@ -47,22 +47,22 @@ module.exports = [
       {
         "text": "The Lewis and Clark Expedition",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        "rationale": "Incorrect. The Lewis and Clark Expedition occurred from 1804 to 1806 to explore the Louisiana Purchase — over 60 years before 1869 — and did not provide rapid coast-to-coast travel."
       },
       {
         "text": "The construction of the Transcontinental Railroad",
         "isCorrect": true,
-        "rationale": "The construction of the Transcontinental Railroad"
+        "rationale": "Correct. Completed at Promontory Summit, Utah in 1869, the Transcontinental Railroad linked the eastern rail network with the Pacific coast, dramatically cutting the cost and time of transcontinental travel and trade."
       },
       {
         "text": "The California Gold Rush",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "Incorrect. The California Gold Rush peaked around 1848–1855 and drew migrants westward, but it did not build the transportation infrastructure described, and it predates 1869."
       },
       {
         "text": "The passage of the Homestead Act",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        "rationale": "Incorrect. The Homestead Act was passed in 1862 and offered free land to settlers; it did not, by itself, provide the faster cross-country travel and trade described in the question."
       }
     ]
   },
@@ -78,22 +78,22 @@ module.exports = [
       {
         "text": "To create national parks and preserve wilderness.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "Incorrect. The Homestead Act distributed government land for cultivation and settlement; the federal national-park system began later, with Yellowstone in 1872."
       },
       {
         "text": "To sell government land to railroad companies.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        "rationale": "Incorrect. Land grants to railroads were made under separate Pacific Railroad Acts; the Homestead Act specifically gave 160-acre plots to individual settlers, not corporations."
       },
       {
         "text": "To encourage the settlement of the American West by individual farmers.",
         "isCorrect": true,
-        "rationale": "To encourage the settlement of the American West by individual farmers."
+        "rationale": "Correct. The Act gave any qualifying adult citizen up to 160 acres of public land in exchange for building a home and farming it for five years, directly promoting individual western settlement."
       },
       {
         "text": "To establish large, government-owned farms.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        "rationale": "Incorrect. The Homestead Act transferred land out of government ownership into private hands of individual settlers, not into large state-run farms."
       }
     ]
   },
@@ -105,22 +105,22 @@ module.exports = [
       {
         "text": "The Oregon Trail",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        "rationale": "Incorrect. The Oregon Trail was a voluntary overland route used by settlers heading west; it was not the forced relocation of the Cherokee from the Southeast."
       },
       {
         "text": "The Trail of Tears",
         "isCorrect": true,
-        "rationale": "The Trail of Tears"
+        "rationale": "Correct. Following the Indian Removal Act of 1830, the U.S. government forcibly relocated the Cherokee and other tribes to Indian Territory (now Oklahoma); thousands died on the journey, which became known as the Trail of Tears."
       },
       {
         "text": "The Great Migration",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "Incorrect. The Great Migration refers to the early-20th-century movement of African Americans from the rural South to northern cities, not the forced removal of the Cherokee in the 1830s."
       },
       {
         "text": "The Santa Fe Trail",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        "rationale": "Incorrect. The Santa Fe Trail was a 19th-century commercial trade route between Missouri and New Mexico; it had nothing to do with the forced removal of the Cherokee Nation."
       }
     ],
     "challenge_tags": [
@@ -136,22 +136,22 @@ module.exports = [
       {
         "text": "A rapid increase in California's population and its admission to the Union as a state.",
         "isCorrect": true,
-        "rationale": "A rapid increase in California's population and its admission to the Union as a state."
+        "rationale": "Correct. As the passage notes, roughly 300,000 'forty-niners' poured into California after gold was discovered in 1848, swelling the population enough that California was admitted to the Union as a state in 1850."
       },
       {
         "text": "A war between the United States and Mexico.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        "rationale": "Incorrect. The Mexican-American War (1846–1848) ended just before gold was discovered at Sutter's Mill; the Gold Rush was a consequence of that war's territorial transfer, not a cause of war."
       },
       {
         "text": "The discovery of a water route to the Pacific Ocean.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        "rationale": "Incorrect. No new water route to the Pacific was discovered during the Gold Rush; migrants reached California overland or by sea around South America."
       },
       {
         "text": "A decline in the value of gold.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        "rationale": "Incorrect. Although large quantities of gold entered circulation, the major consequences described in the passage were demographic and political (population growth and statehood), not a collapse in gold's value."
       }
     ],
     "challenge_tags": [
@@ -169,22 +169,22 @@ module.exports = [
       {
         "text": "To find gold and become rich.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "\"To find gold and become rich.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
       },
       {
         "text": "To establish new trade routes with Asia.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        "rationale": "Incorrect. The Oregon Trail was a wagon route across the continent for settlers; trans-Pacific trade with Asia was conducted by ship, not by overland pioneers."
       },
       {
         "text": "To acquire fertile farmland and start new lives in the West.",
         "isCorrect": true,
-        "rationale": "To acquire fertile farmland and start new lives in the West."
+        "rationale": "Correct. Most Oregon Trail pioneers were drawn by reports of rich farmland in the Pacific Northwest and the chance to claim cheap or free land for homesteads."
       },
       {
         "text": "To escape religious persecution in the East.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "\"To escape religious persecution in the East.\" is not supported by the passage or data; the correct option is the one whose claim is directly supported."
       }
     ]
   },
@@ -200,22 +200,22 @@ module.exports = [
       {
         "text": "The United States lost territory to Mexico.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        "rationale": "Incorrect. The opposite occurred: under the Treaty of Guadalupe Hidalgo, Mexico ceded the Mexican Cession to the United States, not the other way around."
       },
       {
         "text": "The United States acquired a vast amount of territory, significantly expanding its borders.",
         "isCorrect": true,
-        "rationale": "The United States acquired a vast amount of territory, significantly expanding its borders."
+        "rationale": "Correct. The Treaty of Guadalupe Hidalgo (1848) transferred a huge area — including modern California, Nevada, Utah, and parts of several other states — to the United States, dramatically enlarging the country."
       },
       {
         "text": "Mexico and the United States formed a permanent military alliance.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        "rationale": "Incorrect. The war ended with a peace treaty and a territorial cession, not a military alliance; the two nations remained separate sovereign states."
       },
       {
         "text": "The issue of slavery in the new territories was permanently resolved.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        "rationale": "Incorrect. Whether slavery would be allowed in the newly acquired lands became one of the most divisive issues of the 1850s, leading to the Compromise of 1850 and ultimately the Civil War."
       }
     ]
   },
@@ -231,22 +231,22 @@ module.exports = [
       {
         "text": "A decisive victory for the U.S. Army, leading to the immediate surrender of the Sioux.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        rationale: "Incorrect. The U.S. Army was defeated at Little Bighorn — Custer's 7th Cavalry was wiped out; the Sioux did not surrender as a result of this battle."
       },
       {
         "text": "A major victory for the Lakota, Cheyenne, and Arapaho tribes against the U.S. Army.",
         "isCorrect": true,
-        "rationale": "A major victory for the Lakota, Cheyenne, and Arapaho tribes against the U.S. Army."
+        rationale: "Correct. Lakota, Cheyenne, and Arapaho warriors led by Sitting Bull and Crazy Horse overwhelmed Custer’s detachment, killing him and roughly 268 of his men in one of the worst U.S. Army defeats of the Indian Wars."
       },
       {
         "text": "A peace treaty that granted the Sioux permanent control of the Black Hills.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        rationale: "Incorrect. The Black Hills had been guaranteed to the Sioux in the 1868 Fort Laramie Treaty, but after Little Bighorn the U.S. seized them; no permanent grant followed the battle."
       },
       {
         "text": "A stalemate that resulted in a temporary truce.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. The battle was a clear tactical defeat for the U.S. Army, not a draw; the U.S. responded with intensified military campaigns, not a truce."
       }
     ]
   },
@@ -262,22 +262,22 @@ module.exports = [
       {
         "text": "It had little impact, as they primarily relied on farming.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        rationale: "Incorrect. Plains tribes such as the Lakota and Cheyenne were primarily nomadic hunters who depended on bison for food, clothing, shelter, and tools — not on farming."
       },
       {
         "text": "It forced them to migrate to Canada.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        rationale: "Incorrect. While some leaders like Sitting Bull briefly fled to Canada, mass northern migration was not the primary outcome; the dominant consequence was confinement on U.S. reservations."
       },
       {
         "text": "It destroyed their traditional way of life and forced them onto reservations.",
         "isCorrect": true,
-        "rationale": "It destroyed their traditional way of life and forced them onto reservations."
+        rationale: "Correct. Bison provided food, hides for clothing and shelter, and materials for nearly every aspect of Plains life; their near-extermination by hunters and the U.S. Army eliminated the resource base that made independent life possible, pushing tribes onto reservations."
       },
       {
         "text": "It led to a shift from hunting to fishing.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. The Plains environment offers limited fishing resources; tribes did not transition from hunting bison to fishing as a substitute economy."
       }
     ]
   },
@@ -289,22 +289,22 @@ module.exports = [
       {
         "text": "That the President should have the power to decide the status of slavery in new territories.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. Popular sovereignty placed the decision with the territory’s settlers (a local-democracy approach), not with the executive branch."
       },
       {
         "text": "That the settlers in a new territory should vote to decide whether to allow slavery.",
         "isCorrect": true,
-        "rationale": "That the settlers in a new territory should vote to decide whether to allow slavery."
+        rationale: "Correct. Championed by Stephen Douglas and embodied in the Kansas-Nebraska Act (1854), popular sovereignty held that the white male settlers of a territory should vote on slavery, replacing earlier congressional limits like the Missouri Compromise."
       },
       {
         "text": "That Congress should ban slavery in all new territories.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        rationale: "Incorrect. That position belonged to the Wilmot Proviso and the Republican Party; popular sovereignty was offered as an alternative that *removed* Congress from the decision."
       },
       {
         "text": "That Native American tribes should have the final say on the status of slavery.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        rationale: "Incorrect. Native tribes were excluded from the U.S. political system at the time; popular sovereignty referred specifically to the votes of white male settlers in territorial governments."
       }
     ],
     "challenge_tags": [
@@ -322,22 +322,22 @@ module.exports = [
       {
         "text": "The steel plow",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        rationale: "Incorrect. John Deere’s steel plow (1830s) made breaking the prairie sod easier but did not provide a way to fence off open rangeland."
       },
       {
         "text": "The windmill",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. Windmills helped pump scarce groundwater on the Plains, supporting settlement, but they did not enclose pastures or end the open range."
       },
       {
         "text": "Barbed wire",
         "isCorrect": true,
-        "rationale": "Barbed wire"
+        rationale: "Correct. Joseph Glidden’s patent for barbed wire (1874) made cheap, effective fencing possible across the treeless Plains, allowing ranchers and farmers to enclose land and ending the era of open-range grazing and long cattle drives."
       },
       {
         "text": "The railroad",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. Railroads actually enabled the long cattle drives by carrying cattle east from railhead towns; they did not fence off ranchland."
       }
     ]
   },
@@ -350,22 +350,22 @@ module.exports = [
       {
         "text": "To strengthen tribal governments and preserve Native American culture.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        rationale: "Incorrect. The Dawes Act did the opposite: it broke up communal tribal landholdings into individual allotments, deliberately undermining tribal governance and traditional culture."
       },
       {
         "text": "To encourage Native Americans to assimilate by turning them into individual farmers.",
         "isCorrect": true,
-        "rationale": "To encourage Native Americans to assimilate by turning them into individual farmers."
+        rationale: "Correct. The Dawes Act of 1887 divided reservation land into 160-acre allotments held by individual Native households, with the explicit goal of pressuring tribes to abandon communal life and adopt yeoman-farmer assimilation."
       },
       {
         "text": "To create new, larger reservations for Native American tribes.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. The Dawes Act actually shrank Native landholdings dramatically: \"surplus\" land remaining after allotments was sold to white settlers, costing tribes roughly two-thirds of their reservation lands."
       },
       {
         "text": "To grant immediate U.S. citizenship to all Native Americans.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        rationale: "Incorrect. The Dawes Act offered citizenship only to those who accepted allotments and adopted assimilated lifestyles; universal citizenship for Native Americans came later, with the Indian Citizenship Act of 1924."
       }
     ],
     "challenge_tags": [
@@ -380,22 +380,22 @@ module.exports = [
       {
         "text": "A successful peace treaty was signed between the U.S. government and the Lakota.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        rationale: "Incorrect. Wounded Knee was a massacre of disarmed Lakota by U.S. troops, not a treaty; it ended the era of large-scale armed Native resistance, but no peace agreement was signed there."
       },
       {
         "text": "A battle in which Native American warriors defeated a U.S. Army regiment.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        rationale: "Incorrect. That description fits Little Bighorn (1876), not Wounded Knee. At Wounded Knee, U.S. cavalry inflicted heavy casualties on Lakota men, women, and children."
       },
       {
         "text": "The U.S. Army killed approximately 300 Lakota men, women, and children.",
         "isCorrect": true,
-        "rationale": "The U.S. Army killed approximately 300 Lakota men, women, and children."
+        rationale: "Correct. On December 29, 1890, the U.S. 7th Cavalry surrounded a Lakota encampment near Wounded Knee Creek; an attempt to disarm the group erupted in gunfire, leaving roughly 250–300 Lakota dead, most of them noncombatants."
       },
       {
         "text": "A Ghost Dance ceremony that led to a spiritual revival.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        rationale: "Incorrect. The Ghost Dance movement preceded and helped trigger the events at Wounded Knee, but the conflict itself was a violent massacre, not a spiritual ceremony."
       }
     ],
     "challenge_tags": [
@@ -408,28 +408,28 @@ module.exports = [
       "rla-7"
     ],
     "type": "text",
-    "passage": "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontier��a line between 'civilization' and 'wilderness'��had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
+    "passage": "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontier—a line between 'civilization' and 'wilderness'—had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
     "question": "According to Frederick Jackson Turner's 'Frontier Thesis,' what role did the frontier play in American history?",
     "answerOptions": [
       {
         "text": "It was a source of conflict that weakened the nation.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        rationale: "Incorrect. Turner argued the frontier *strengthened* American character through self-reliance and democratic experience; conflict was part of the story, but the overall thesis was positive about the frontier’s national role."
       },
       {
         "text": "It was a defining force that shaped American character and institutions.",
         "isCorrect": true,
-        "rationale": "It was a defining force that shaped American character and institutions."
+        rationale: "Correct. In his 1893 essay, Turner argued that successive frontiers fostered individualism, democratic practices, and innovation, and that this experience uniquely shaped American identity — the very heart of the Frontier Thesis."
       },
       {
         "text": "It was a barrier to economic growth and progress.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Consider the key details in the question."
+        rationale: "Incorrect. Turner viewed the frontier as an *engine* of growth that absorbed energy and ambition, opening land and opportunity, not as an obstacle to development."
       },
       {
         "text": "It had little to no impact on American culture.",
         "isCorrect": false,
-        "rationale": "This option does not accurately reflect the passage or question context."
+        rationale: "Incorrect. Turner’s entire argument was that the frontier was *the* defining cultural influence on the United States, so claiming negligible impact directly contradicts the thesis."
       }
     ]
   },
@@ -441,22 +441,22 @@ module.exports = [
       {
         "text": "To acquire land for a southern transcontinental railroad route.",
         "isCorrect": true,
-        "rationale": "To acquire land for a southern transcontinental railroad route."
+        rationale: "Correct. The 1854 Gadsden Purchase added roughly 30,000 square miles in present-day southern Arizona and New Mexico, providing the relatively flat terrain needed for a southern transcontinental railroad route."
       },
       {
         "text": "To gain access to new gold mines.",
         "isCorrect": false,
-        "rationale": "While this might seem plausible, it is not supported by the information given."
+        rationale: "Incorrect. The land had limited mineral importance at the time; the deal’s purpose was the favorable rail corridor, not access to a known goldfield."
       },
       {
         "text": "To create a buffer zone between the two countries.",
         "isCorrect": false,
-        "rationale": "This answer is incorrect. Review the passage carefully to find the correct information."
+        rationale: "Incorrect. The purchase moved the U.S.–Mexico border *southward* and integrated the strip into the United States; it did not create an unsettled buffer between the nations."
       },
       {
         "text": "To settle a border dispute over the state of Texas.",
         "isCorrect": false,
-        "rationale": "This is not the correct answer based on the information provided."
+        rationale: "Incorrect. The Texas border had already been settled by the Treaty of Guadalupe Hidalgo in 1848; the Gadsden Purchase concerned a different strip of territory farther west."
       }
     ],
     "challenge_tags": [

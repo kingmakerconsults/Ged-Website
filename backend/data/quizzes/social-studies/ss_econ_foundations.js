@@ -450,13 +450,13 @@ module.exports = [
       {
         text: 'It will cause the demand curve to shift to the right, leading to a higher equilibrium price.',
         rationale:
-          'A change in production technology affects supply, not demand.',
+          'A new harvesting machine changes how producers make wheat, so it shifts supply (rightward), not demand. Demand shifts come from changes in consumer preferences, income, or related-good prices.',
         isCorrect: false,
       },
       {
         text: 'It will cause the demand curve to shift to the left, leading to a lower equilibrium price.',
         rationale:
-          'A change in production technology affects supply, not demand.',
+          'A production technology improvement does not reduce consumer willingness to buy wheat, so demand does not shift left. Instead, supply shifts right, lowering price by adding output, not by cutting demand.',
         isCorrect: false,
       },
     ],

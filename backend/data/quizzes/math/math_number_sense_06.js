@@ -9,7 +9,8 @@ module.exports = [
       {
         text: '703',
         isCorrect: true,
-        rationale: '805 - 102 = 703.',
+        rationale:
+          'Correct because subtracting 102 from 805 gives 805 − 102 = 703, which is the result of the subtraction.',
       },
       {
         text: '705',
@@ -143,12 +144,14 @@ module.exports = [
       {
         text: '35%',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "35%" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '33%',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "33%" does not match the result of the correct calculation for this problem.',
       },
     ],
     rationale:
@@ -257,12 +260,14 @@ module.exports = [
       {
         text: '0.75',
         isCorrect: false,
-        rationale: 'This is equivalent to \\(\\frac{3}{4}\\).',
+        rationale:
+          '0.75 is the decimal form of \\(\\frac{3}{4}\\), so it is equivalent to the others and not the odd one out.',
       },
       {
         text: '75%',
         isCorrect: false,
-        rationale: 'This is equivalent to \\(\\frac{3}{4}\\).',
+        rationale:
+          '75% means 75 per 100, which equals \\(\\frac{75}{100} = \\frac{3}{4}\\), so it is equivalent to the others.',
       },
       {
         text: '\\(\\frac{3}{4}\\)',

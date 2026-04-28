@@ -235,7 +235,7 @@ module.exports = [
     topic: 'Economics',
     contentArea: 'data_interpretation',
     passage:
-      "This information is adapted from federal labor data.\n\n<strong>Median Weekly Earnings by Highest Level of Education Completed (Workers Age 25+)</strong>\n<table><thead><tr><th>Education Level</th><th>Median Weekly Earnings</th><th>Unemployment Rate</th></tr></thead><tbody><tr><td>Less than a high school diploma</td><td>$626</td><td>5.4%</td></tr><tr><td>High school diploma, no college</td><td>$809</td><td>3.9%</td></tr><tr><td>Some college, no degree</td><td>$899</td><td>3.3%</td></tr><tr><td>Associate degree</td><td>$963</td><td>2.7%</td></tr><tr><td>Bachelor's degree</td><td>$1,334</td><td>2.2%</td></tr><tr><td>Master's degree</td><td>$1,574</td><td>2.0%</td></tr></tbody></table>",
+      "This information is adapted from federal labor data.\n\n<strong>Median Weekly Earnings by Highest Level of Education Completed (Workers Age 25+)</strong>\n<table><thead><tr><th>Education Level</th><th>Median Weekly Earnings</th><th>Unemployment Rate</th></tr></thead><tbody><tr><td>Less than a high school diploma</td><td>\\(626</td><td>5.4%</td></tr><tr><td>High school diploma, no college</td><td>\\)809</td><td>3.9%</td></tr><tr><td>Some college, no degree</td><td>\\(899</td><td>3.3%</td></tr><tr><td>Associate degree</td><td>\\)963</td><td>2.7%</td></tr><tr><td>Bachelor's degree</td><td>\\(1,334</td><td>2.2%</td></tr><tr><td>Master's degree</td><td>\\)1,574</td><td>2.0%</td></tr></tbody></table>",
     question:
       'Which generalization is best supported by both columns of the table?',
     answerOptions: [

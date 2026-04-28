@@ -59,7 +59,7 @@ module.exports = [
         text: '\\(22.40\\)',
         isCorrect: true,
         rationale:
-          'The discount is 0.20 * $28 = $5.60. The sale price is $28 - $5.60 = 22.40.',
+          'The discount is 0.20 * \\(28 = \\)5.60. The sale price is \\(28 - \\)5.60 = 22.40.',
       },
       {
         text: '\\(27.80\\)',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the discount: 20% of $28.00 is $5.60. Subtract the discount from the original price: $28.00 - $5.60 = $22.40.',
+      'Calculate the discount: 20% of $28.00 is $5.60. Subtract the discount from the original price: \\(28.00 - \\)5.60 = $22.40.',
     challenge_tags: ['math-1'],
   },
   {
@@ -252,7 +252,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A car rental costs $40 per day plus a one-time fee of $25. What is the total cost to rent the car for 5 days?',
+      'A car rental costs \\(40 per day plus a one-time fee of \\)25. What is the total cost to rent the car for 5 days?',
     answerOptions: [
       {
         text: '$200',
@@ -263,7 +263,7 @@ module.exports = [
         text: '$225',
         isCorrect: true,
         rationale:
-          'The daily cost is 5 * $40 = $200. Add the one-time fee: $200 + $25 = $225.',
+          'The daily cost is 5 * \\(40 = \\)200. Add the one-time fee: \\(200 + \\)25 = $225.',
       },
       {
         text: '$325',
@@ -277,7 +277,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The total cost is calculated as (cost per day * number of days) + one-time fee. So, ($40 * 5) + $25 = $200 + $25 = $225.',
+      'The total cost is calculated as (cost per day * number of days) + one-time fee. So, (\\(40 * 5) + \\)25 = \\(200 + \\)25 = $225.',
     challenge_tags: ['math-1'],
   },
   {

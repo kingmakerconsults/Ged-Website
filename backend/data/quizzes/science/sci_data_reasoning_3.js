@@ -159,7 +159,8 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "A data table lists the mass of a gas sample at four different pressures while temperature is held constant. The mass does not change. Which inference can be made from the table?",
+    "passage": "A data table lists the mass of a gas sample at four different pressures while temperature is held constant. The mass does not change.\n\n| Pressure (atm) | Mass (g) |\n| --- | --- |\n| 1 | 1.20 |\n| 2 | 1.20 |\n| 3 | 1.20 |\n| 4 | 1.20 |",
+    "question": "Which inference can be made from the table?",
     "answerOptions": [
       {
         "text": "The mass of the gas remains constant when temperature and the amount of gas do not change.",

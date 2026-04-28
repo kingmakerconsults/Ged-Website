@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the mean, add the numbers together (1+1+2+3+5+8 = 20) and divide by the number of values (6). 20 / 6 ≈ 3.33.',
+      'To find the mean, add the numbers together (1+1+2+3+5+8 = 20) and divide by the number of values (6). \\(\\frac{20}{6}\\) ≈ 3.33.',
     challenge_tags: ['math-6'],
   },
   {
@@ -231,7 +231,7 @@ module.exports = [
       {
         text: '30%',
         isCorrect: true,
-        rationale: '(240 / 800) * 100 = 0.3 * 100 = 30%.',
+        rationale: '(\\(\\frac{240}{800}\\)) * 100 = 0.3 * 100 = 30%.',
       },
       {
         text: '33.3%',
@@ -245,7 +245,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the percentage, divide the number of students in the band by the total number of students and multiply by 100: (240 / 800) * 100 = 0.3 * 100 = 30%.',
+      'To find the percentage, divide the number of students in the band by the total number of students and multiply by 100: (\\(\\frac{240}{800}\\)) * 100 = 0.3 * 100 = 30%.',
     challenge_tags: ['math-6'],
   },
   {
@@ -301,7 +301,7 @@ module.exports = [
       {
         text: '65%',
         isCorrect: true,
-        rationale: '100% - 35% = 65%.',
+        rationale: "Correct because the probabilities of an event happening and not happening must add to 100%, so 100% − 35% = 65%.",
       },
       {
         text: '70%',

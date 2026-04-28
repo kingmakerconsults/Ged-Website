@@ -53,12 +53,14 @@ module.exports = [
       {
         text: '2',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "2" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '12',
         isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        rationale:
+          'Incorrect. "12" does not match the result of the correct calculation for this problem.',
       },
     ],
   },
@@ -76,17 +78,20 @@ module.exports = [
       {
         text: '\\(2x + 2\\)',
         isCorrect: false,
-        rationale: 'Forgot to add the \\(x\\) terms correctly.',
+        rationale:
+          'Incorrect because the \\(x\\)-terms were not combined: \\(2x + x = 3x\\), so the answer cannot start with \\(2x\\).',
       },
       {
         text: '\\(3x + 4\\)',
         isCorrect: false,
-        rationale: 'Incorrectly added 3 and 1.',
+        rationale:
+          'Incorrect because the constants were added with the wrong sign: \\(3 + (-1) = 2\\), not \\(4\\).',
       },
       {
         text: '\\(2x^2 - 2\\)',
         isCorrect: false,
-        rationale: 'This is incorrect; this is addition, not multiplication.',
+        rationale:
+          'Incorrect because adding linear expressions does not produce an \\(x^2\\) term; an \\(x^2\\) term would only appear from multiplying the binomials, not adding them.',
       },
     ],
   },
@@ -99,7 +104,7 @@ module.exports = [
         text: '\\(3x + 5\\)',
         isCorrect: false,
         rationale:
-          'Using the distributive property, \\(3 \\times x + 3 \\times 5 = 3x + 15\\).',
+          'Incorrect. This only multiplies the 3 by \\(x\\) and forgets to also multiply 3 by 5; the distributive property requires multiplying both terms inside the parentheses.',
       },
       {
         text: '\\(3x + 15\\)',
@@ -115,7 +120,8 @@ module.exports = [
       {
         text: '\\(8x\\)',
         isCorrect: false,
-        rationale: 'This is an incorrect simplification.',
+        rationale:
+          'Incorrect. This adds the coefficients (3 + 5) and treats the 5 as another \\(x\\) term; \\(x\\) and 5 are unlike terms and cannot be combined.',
       },
     ],
     challenge_tags: ['math-3'],
@@ -158,7 +164,7 @@ module.exports = [
       {
         text: '16',
         isCorrect: false,
-        rationale: 'This would be the result if \\(b\\) were $2\\).',
+        rationale: 'This would be the result if \\(b\\) were $2.',
       },
       {
         text: '4',
@@ -244,7 +250,7 @@ module.exports = [
       {
         text: '\\((x + 6)(x + 2)\\)',
         isCorrect: false,
-        rationale: '\\(6 \\times 2 = 12\\), but $6 + 2 = 8\\), not 7.',
+        rationale: '\\(6 \\times 2 = 12\\), but \\(6 + 2 = 8\\), not 7.',
       },
       {
         text: '\\((x + 3)(x + 4)\\)',
@@ -255,7 +261,7 @@ module.exports = [
       {
         text: '\\((x + 12)(x + 1)\\)',
         isCorrect: false,
-        rationale: '\\(12 \\times 1 = 12\\), but $12 + 1 = 13\\), not 7.',
+        rationale: '\\(12 \\times 1 = 12\\), but \\(12 + 1 = 13\\), not 7.',
       },
       {
         text: '\\((x - 3)(x - 4)\\)',
@@ -332,7 +338,8 @@ module.exports = [
       {
         text: '-16',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "-16" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '2',
@@ -342,7 +349,8 @@ module.exports = [
       {
         text: '4',
         isCorrect: false,
-        rationale: 'This is a calculation error.',
+        rationale:
+          'Incorrect. "4" does not match the result of the correct calculation for this problem.',
       },
       {
         text: '-4',
@@ -431,7 +439,7 @@ module.exports = [
         text: '\\(4x^3\\)',
         isCorrect: true,
         rationale:
-          'Divide the coefficients \\(\\frac{8}{2} = 4\\) and subtract the exponents $6 - 3 = 3\\).',
+          'Divide the coefficients \\(\\frac{8}{2} = 4\\) and subtract the exponents \\(6 - 3 = 3\\).',
       },
       {
         text: '\\(4x^9\\)',

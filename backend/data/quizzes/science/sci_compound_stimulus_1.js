@@ -77,12 +77,8 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Scientists measured the concentration of carbon dioxide (CO₂) in the atmosphere at a Hawaiian observatory from 1960 to 2020. The table below shows selected readings.\n\n<table class=\"data-table\"><thead><tr><th>Year</th><th>CO₂ (ppm)</th></tr></thead><tbody><tr><td>1960</td><td>317</td></tr><tr><td>1970</td><td>326</td></tr><tr><td>1980</td><td>339</td></tr><tr><td>1990</td><td>354</td></tr><tr><td>2000</td><td>369</td></tr><tr><td>2010</td><td>390</td></tr><tr><td>2020</td><td>414</td></tr></tbody></table>\n\nThe diagram below illustrates the greenhouse effect, showing how CO₂ and other gases trap heat in Earth's atmosphere.",
-    "question": "Based on the data table and diagram, which conclusion is best supported?",
-    "stimulusImage": {
-      "src": "/images/Science/ged_scince_fig_8_0001.png",
-      "alt": "Diagram illustrating the greenhouse effect and atmospheric temperature changes"
-    },
+    "passage": "Scientists measured the concentration of carbon dioxide (CO₂) in the atmosphere at a Hawaiian observatory from 1960 to 2020. The table below shows selected readings.\n\n<table class=\"data-table\"><thead><tr><th>Year</th><th>CO₂ (ppm)</th></tr></thead><tbody><tr><td>1960</td><td>317</td></tr><tr><td>1970</td><td>326</td></tr><tr><td>1980</td><td>339</td></tr><tr><td>1990</td><td>354</td></tr><tr><td>2000</td><td>369</td></tr><tr><td>2010</td><td>390</td></tr><tr><td>2020</td><td>414</td></tr></tbody></table>\n\nCO₂ is a greenhouse gas: it absorbs and re-emits infrared radiation in Earth's atmosphere, trapping heat that would otherwise escape to space.",
+    "question": "Based on the data table and information about the greenhouse effect, which conclusion is best supported?",
     "answerOptions": [
       {
         "text": "CO₂ levels are decreasing, which will reduce the greenhouse effect over time.",
@@ -91,7 +87,7 @@ module.exports = [
       },
       {
         "text": "Rising CO₂ concentrations are likely to increase heat trapping in the atmosphere, contributing to warming.",
-        "rationale": "Correct. The table shows a steady increase in CO₂, and the greenhouse effect diagram shows how CO₂ traps heat. Together they support the conclusion that increasing CO₂ leads to more warming.",
+        "rationale": "Correct. The table shows a steady increase in CO₂, and the passage explains that CO₂ traps heat. Together they support the conclusion that increasing CO₂ leads to more warming.",
         "isCorrect": true
       },
       {
@@ -101,7 +97,7 @@ module.exports = [
       },
       {
         "text": "The greenhouse effect only applies to water vapor, not carbon dioxide.",
-        "rationale": "The diagram explicitly shows CO₂ as one of the greenhouse gases that trap heat.",
+        "rationale": "The passage explicitly identifies CO₂ as a greenhouse gas that traps heat.",
         "isCorrect": false
       }
     ],

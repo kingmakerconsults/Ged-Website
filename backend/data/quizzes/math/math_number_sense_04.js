@@ -37,9 +37,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Calculate: $100 - 35\\).',
+    question: 'Calculate: \\(100 - 35\\).',
     correctAnswer: '65',
-    rationale: 'This is a basic subtraction problem. $100 - 35 = 65\\).',
+    rationale: 'This is a basic subtraction problem. \\(100 - 35 = 65\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the sales tax amount: 6% of $75 is 0.06 * 75 = $4.50. Then, add this to the original price: $75 + $4.50 = $79.50.',
+      'First, calculate the sales tax amount: 6% of \\(75 is 0.06 * 75 = \\)4.50. Then, add this to the original price: \\(75 + \\)4.50 = $79.50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -99,7 +99,7 @@ module.exports = [
         text: '0.35',
         isCorrect: true,
         rationale:
-          'To convert a fraction to a decimal, divide the numerator by the denominator: 7 / 20 = 0.35.',
+          'To convert a fraction to a decimal, divide the numerator by the denominator: \\(\\frac{7}{20}\\) = 0.35.',
       },
       {
         text: '0.7',
@@ -118,7 +118,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To convert a fraction to a decimal, divide the numerator by the denominator. 7 / 20 = 0.35.',
+      'To convert a fraction to a decimal, divide the numerator by the denominator. \\(\\frac{7}{20}\\) = 0.35.',
     challenge_tags: ['math-1'],
   },
   {
@@ -271,13 +271,13 @@ module.exports = [
         rationale: 'This is the total interest earned, not the final balance.',
       },
       {
-        text: '$2,150\\)',
+        text: '$2,150',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'First, calculate the total simple interest earned: I = P * r * t = $2,000 * 0.03 * 5 = $300. Then, add the interest to the initial principal: $2,000 + $300 = 2,300.',
+      'First, calculate the total simple interest earned: I = P * r * t = \\(2,000 * 0.03 * 5 = \\)300. Then, add the interest to the initial principal: \\(2,000 + \\)300 = 2,300.',
     challenge_tags: ['math-1'],
   },
   {
@@ -285,32 +285,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Subtract: \\(\\(\frac{5}{6}\\) - \\(\frac{1}{3}\\).',
+    question: 'Subtract: \\(\\frac{5}{6}\\) - \\(\\frac{1}{3}\\).',
     answerOptions: [
       {
-        text: '\\(\\(\frac{4}{3}\\)',
+        text: '\\(\\frac{4}{3}\\)',
         isCorrect: false,
         rationale: 'This is the result of adding the fractions.',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: true,
         rationale:
-          'Find a common denominator (6). The problem becomes \\(\\(\frac{5}{6}\\) - \\(\\(\frac{2}{6}\\) = \\(\\(\frac{3}{6}\\), which simplifies to \\(\\(\frac{1}{2}\\).',
+          'Find a common denominator (6). The problem becomes \\(\\frac{5}{6}\\) - \\(\\frac{2}{6}\\) = \\(\\frac{3}{6}\\), which simplifies to \\(\\frac{1}{2}\\).',
       },
       {
-        text: '\\(\\(\frac{2}{3}\\)',
+        text: '\\(\\frac{2}{3}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\\(\\(\frac{4}{6}\\)',
+        text: '\\(\\frac{4}{6}\\)',
         isCorrect: false,
-        rationale: 'This simplifies to \\(\\(\frac{2}{3}\\).',
+        rationale: 'This simplifies to \\(\\frac{2}{3}\\).',
       },
     ],
     rationale:
-      'To subtract the fractions, find a common denominator, which is 6. Convert \\(\\(\frac{1}{3}\\) to \\(\frac{2}{6}\\). The problem becomes \\(\\(\frac{5}{6}\\) - \\(\frac{2}{6}\\) = \\(\frac{3}{6}\\), which simplifies to \\(\\(\frac{1}{2}\\).',
+      'To subtract the fractions, find a common denominator, which is 6. Convert \\(\\frac{1}{3}\\) to \\(\\frac{2}{6}\\). The problem becomes \\(\\frac{5}{6}\\) - \\(\\frac{2}{6}\\) = \\(\\frac{3}{6}\\), which simplifies to \\(\\frac{1}{2}\\).',
     challenge_tags: ['math-1'],
   },
 ];

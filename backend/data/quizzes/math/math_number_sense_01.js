@@ -100,7 +100,7 @@ module.exports = [
         text: '$60',
         isCorrect: true,
         rationale:
-          'The discount is 0.25 * $80 = $20. The sale price is $80 - $20 = $60.',
+          'The discount is 0.25 * \\(80 = \\)20. The sale price is \\(80 - \\)20 = $60.',
       },
       {
         text: '$100',
@@ -109,7 +109,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the discount: 25% of $80 is $20. Subtract the discount from the original price: $80 - $20 = $60.',
+      'Calculate the discount: 25% of $80 is $20. Subtract the discount from the original price: \\(80 - \\)20 = $60.',
     challenge_tags: ['math-1'],
   },
   {
@@ -121,7 +121,7 @@ module.exports = [
     question: 'What is \\(\\frac{3}{5}\\) as a percentage?',
     correctAnswer: '60%',
     rationale:
-      'To convert a fraction to a percentage, divide the numerator by the denominator and multiply by 100. (3 / 5) * 100 = 0.6 * 100 = 60%.',
+      'To convert a fraction to a percentage, divide the numerator by the denominator and multiply by 100. (\\(\\frac{3}{5}\\)) * 100 = 0.6 * 100 = 60%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -146,7 +146,7 @@ module.exports = [
         text: '16%',
         isCorrect: true,
         rationale:
-          'The increase is 8. The percent increase is (8 / 50) * 100 = 16%.',
+          'The increase is 8. The percent increase is (\\(\\frac{8}{50}\\)) * 100 = 16%.',
       },
       {
         text: '84%',
@@ -155,7 +155,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for percent increase is [(New Price - Original Price) / Original Price] * 100. So, [($58 - $50) / $50] * 100 = (8 / 50) * 100 = 0.16 * 100 = 16%.',
+      'The formula for percent increase is [(New Price - Original Price) / Original Price] * 100. So, [(\\(58 - \\)50) / $50] * 100 = (\\(\\frac{8}{50}\\)) * 100 = 0.16 * 100 = 16%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -179,7 +179,7 @@ module.exports = [
         text: '25',
         isCorrect: true,
         rationale:
-          'Parentheses first: 5 * 6 - 10 / 2. Then multiplication/division: 30 - 5. Finally, subtraction: 25.',
+          'Parentheses first: 5 * 6 - \\(\\frac{10}{2}\\). Then multiplication/division: 30 - 5. Finally, subtraction: 25.',
       },
       {
         text: '30',
@@ -201,7 +201,7 @@ module.exports = [
       'A recipe calls for \\(2 \\frac{1}{2}\\) cups of flour, but you only want to make half the recipe. How many cups of flour do you need?',
     correctAnswer: '1.25 cups',
     rationale:
-      'First, convert \\(2 \\frac{1}{2}\\) to a decimal, which is 2.5. Then, divide by 2 to make half the recipe: 2.5 / 2 = 1.25 cups.',
+      'First, convert \\(2 \\frac{1}{2}\\) to a decimal, which is 2.5. Then, divide by 2 to make half the recipe: 2.\\(\\frac{5}{2}\\) = 1.25 cups.',
     challenge_tags: ['math-1'],
   },
   {

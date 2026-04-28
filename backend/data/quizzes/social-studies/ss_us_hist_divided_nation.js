@@ -70,7 +70,7 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "text",
-    "passage": "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36�30' parallel.",
+    "passage": "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36°30' parallel.",
     "question": "What was the main goal of the Missouri Compromise?",
     "answerOptions": [
       {
@@ -136,12 +136,12 @@ module.exports = [
     "answerOptions": [
       {
         "text": "It was immediately declared unconstitutional by the Supreme Court.",
-        "rationale": "The Supreme Court did not rule on its constitutionality at the time.",
+        "rationale": "Incorrect. The Supreme Court never ruled on the proclamation's constitutionality during the war; Lincoln issued it as a wartime measure under his Commander-in-Chief authority.",
         "isCorrect": false
       },
       {
         "text": "It freed all enslaved people throughout the entire United States.",
-        "rationale": "This is incorrect. The proclamation explicitly did not apply to the loyal border states.",
+        "rationale": "Incorrect. The proclamation explicitly excluded the loyal border states (Maryland, Kentucky, Missouri, Delaware) and parts of the Confederacy already under Union control — it did not free everyone in the U.S.",
         "isCorrect": false
       },
       {
@@ -151,7 +151,7 @@ module.exports = [
       },
       {
         "text": "It was rejected by the abolitionist movement as being too radical.",
-        "rationale": "Abolitionists generally supported it, though some wished it had gone further.",
+        "rationale": "Incorrect. Abolitionists generally welcomed the proclamation as a major step forward, though some criticized it for not freeing slaves in the loyal border states or in Union-held Southern territory.",
         "isCorrect": false
       }
     ],

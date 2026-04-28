@@ -317,7 +317,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "To exchange oxygen and carbon dioxide with the blood.",
-                    "rationale": "Correct. Gas exchange occurs in the alveoli.",
+                    rationale: "Correct because the alveoli are tiny air sacs surrounded by capillaries, which is where oxygen diffuses into the blood and carbon dioxide diffuses out into the lungs to be exhaled.",
                     "isCorrect": true
                   },
                   {
@@ -346,7 +346,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "Homozygous for that gene.",
-                    "rationale": "Correct. 'Homo-' means the alleles are the same.",
+                    rationale: "Correct because the prefix 'homo-' means \"same,\" so an organism with two identical alleles for a gene is described as homozygous for that gene.",
                     "isCorrect": true
                   },
                   {
@@ -1135,7 +1135,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "Power",
-                    "rationale": "Correct. Power measures how quickly work is performed.",
+                    rationale: "Correct because power is defined as the rate at which work is done (P = W/t), which means it measures how quickly energy is transferred or work is performed.",
                     "isCorrect": true
                   },
                   {
@@ -1326,7 +1326,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "18 cm",
-                    "rationale": "Correct. (15+18+15+22+20)=90; 90÷5=18.",
+                    rationale: "Correct because the mean is found by adding all values and dividing by the count, which gives (15 + 18 + 15 + 22 + 20) = 90 and 90 ÷ 5 = 18 cm.",
                     "isCorrect": true
                   },
                   {
@@ -1392,7 +1392,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "3 g/cm³",
-                    "rationale": "Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm³.",
+                    rationale: "Correct because density equals mass divided by volume (D = m/V), so 60 g divided by 20 cm³ equals 3 g/cm³.",
                     "isCorrect": true
                   },
                   {
@@ -1420,7 +1420,7 @@ const ALL_QUIZZES = {
                 "answerOptions": [
                   {
                     "text": "50 km/h",
-                    "rationale": "Correct. 150 km ÷ 3 h = 50 km/h.",
+                    rationale: "Correct because average speed equals total distance divided by total time, so 150 km ÷ 3 h equals 50 km/h.",
                     "isCorrect": true
                   },
                   {
@@ -1463,7 +1463,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "200 J",
-                    "rationale": "Correct. Work W = F × d = 50 N × 4 m = 200 J.",
+                    rationale: "Correct because work equals force times distance moved in the direction of the force (W = F × d), so 50 N × 4 m equals 200 J.",
                     "isCorrect": true
                   },
                   {
@@ -1501,7 +1501,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "6 N",
-                    "rationale": "Correct. F = m × a = 2 kg × 3 m/s² = 6 N.",
+                    rationale: "Correct because Newton’s Second Law gives F = m × a, so 2 kg × 3 m/s² equals 6 N.",
                     "isCorrect": true
                   }
                 ],
@@ -1529,7 +1529,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "Trial C",
-                    "rationale": "Correct. Increase was 35−22 = 13°C, the largest.",
+                    rationale: "Correct because the temperature change in Trial C is 35 − 22 = 13 °C, which is the largest increase shown among all the trials.",
                     "isCorrect": true
                   },
                   {
@@ -1567,7 +1567,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "18 (thousand)",
-                    "rationale": "Correct. Range = 30 − 12 = 18.",
+                    rationale: "Correct because the range of a data set equals the maximum value minus the minimum value, so 30 − 12 equals 18 (thousand).",
                     "isCorrect": true
                   }
                 ],
@@ -1590,7 +1590,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "0.5 km/min",
-                    "rationale": "Correct. 10 km ÷ 20 min = 0.5 km/min.",
+                    rationale: "Correct because average speed equals distance divided by time, so 10 km divided by 20 min equals 0.5 km/min.",
                     "isCorrect": true
                   },
                   {
@@ -1628,7 +1628,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "Mass is conserved during the reaction.",
-                    "rationale": "Correct. The total stayed 120 g.",
+                    rationale: "Correct because the law of conservation of mass states the total mass of reactants equals the total mass of products, which is shown by the total remaining at 120 g throughout the reaction.",
                     "isCorrect": true
                   },
                   {
@@ -1661,7 +1661,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "30 L",
-                    "rationale": "Correct. 12 ÷ 4 = 3 L/min. 3 × 10 = 30 L.",
+                    rationale: "Correct because the flow rate is 12 L ÷ 4 min = 3 L/min, so in 10 minutes the volume equals 3 L/min × 10 min = 30 L.",
                     "isCorrect": true
                   },
                   {
@@ -1694,7 +1694,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "$1,050",
-                    "rationale": "Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.",
+                    rationale: "Correct because 35% of $3,000 is calculated as 0.35 × 3,000, which equals $1,050.",
                     "isCorrect": true
                   },
                   {
@@ -1752,7 +1752,7 @@ const ALL_QUIZZES = {
                   },
                   {
                     "text": "8.75 cups",
-                    "rationale": "Correct. 2.5 cups * 3.5 = 8.75 cups.",
+                    rationale: "Correct because multiplying 2.5 cups by 3.5 gives 2.5 × 3.5 = 8.75 cups, which is the total amount needed.",
                     "isCorrect": true
                   },
                   {

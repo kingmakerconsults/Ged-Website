@@ -40,7 +40,7 @@ module.exports = [
     "answerOptions": [
       {
         "text": "Solid, Liquid, and Gas",
-        "rationale": "Correct. These are the three common states of matter.",
+        rationale: "Correct because solid, liquid, and gas are the three most common states of matter, which differ in how tightly their particles are packed and how freely those particles can move.",
         "isCorrect": true
       },
       {

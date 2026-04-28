@@ -14,7 +14,7 @@ module.exports = [
       {
         "text": "6.25",
         "isCorrect": true,
-        "rationale": "15/6 × 2.5 = 2.5 × 2.5 = 6.25 cups."
+        "rationale": "\\(\\frac{15}{6}\\) × 2.5 = 2.5 × 2.5 = 6.25 cups."
       },
       {
         "text": "7.5",
@@ -27,7 +27,7 @@ module.exports = [
         "rationale": "This divides by 2.5 instead of multiplying."
       }
     ],
-    "rationale": "Scale factor = 15/6 = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.",
+    "rationale": "Scale factor = \\(\\frac{15}{6}\\) = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.",
     "challenge_tags": [
       "math-3"
     ]
@@ -40,7 +40,7 @@ module.exports = [
     "difficulty": "medium",
     "question": "If \\(y = kx\\) and \\(y = 45\\) when \\(x = 9\\), find \\(y\\) when \\(x = 15\\).",
     "correctAnswer": "75",
-    "rationale": "k = 45/9 = 5. When x = 15: y = 5 × 15 = 75.",
+    "rationale": "k = \\(\\frac{45}{9}\\) = 5. When x = 15: y = 5 × 15 = 75.",
     "challenge_tags": [
       "math-3"
     ]

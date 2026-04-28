@@ -66,7 +66,8 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "A data table lists the heights of five identical plants grown with different amounts of fertilizer. What is the dependent variable?",
+    "passage": "A data table lists the heights of five identical plants grown with different amounts of fertilizer.\n\n| Plant | Fertilizer (g) | Height (cm) |\n| --- | --- | --- |\n| 1 | 0 | 12 |\n| 2 | 5 | 18 |\n| 3 | 10 | 24 |\n| 4 | 15 | 27 |\n| 5 | 20 | 26 |",
+    "question": "What is the dependent variable?",
     "answerOptions": [
       {
         "text": "The height of each plant",
