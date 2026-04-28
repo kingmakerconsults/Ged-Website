@@ -24525,7 +24525,9 @@ function AppHeader({
             title="Mr. Smith's Learning Canvas"
           >
             <AppIcon name="home" tone="sky" size={20} />
-            <span className="hidden xl:inline">Mr. Smith's Learning Canvas</span>
+            <span className="hidden xl:inline">
+              Mr. Smith's Learning Canvas
+            </span>
             <span className="xl:hidden">Mr. Smith's</span>
           </button>
           <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
@@ -27342,10 +27344,9 @@ function App({ externalTheme, onThemeChange }) {
         // older than the most recent membership change).
         (async () => {
           try {
-            const r = await fetch(
-              `${API_BASE_URL}/api/me/membership-request`,
-              { headers: { Authorization: `Bearer ${storedToken}` } }
-            );
+            const r = await fetch(`${API_BASE_URL}/api/me/membership-request`, {
+              headers: { Authorization: `Bearer ${storedToken}` },
+            });
             if (!r.ok) return;
             const d = await r.json();
             if (!d || typeof d !== 'object') return;
@@ -36134,7 +36135,7 @@ function StartScreen({
                   </div>
                   {(selectedSubject === 'Science' ||
                     selectedSubject === 'Social Studies') && (
-                    <div className="mt-3" style={heroMutedTextStyle}>
+                    <div className="mt-3">
                       <CheckboxField
                         checked={aiIncludeImages}
                         onChange={(e) => setAiIncludeImages(e.target.checked)}
