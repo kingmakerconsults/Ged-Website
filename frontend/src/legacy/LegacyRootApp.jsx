@@ -1161,8 +1161,20 @@ async function generateTopicQuiz(
 
   if (!response.ok) {
     const message =
-      payload?.error || `Request failed with status ${response.status}`;
-    throw new Error(message);
+      payload?.message ||
+      payload?.error ||
+      `Request failed with status ${response.status}`;
+    if (typeof window !== 'undefined') {
+      // Let the header pill refetch when quota was burned.
+      if (response.status === 429) {
+        try { window.dispatchEvent(new Event('quota:refresh')); } catch {}
+      }
+    }
+    const err = new Error(message);
+    err.status = response.status;
+    err.code = payload?.error || null;
+    err.quizId = payload?.quiz_id || null;
+    throw err;
   }
 
   if (!payload?.success || !Array.isArray(payload.items)) {
@@ -24440,6 +24452,8 @@ import StatsHub from '../components/stats/StatsHub.jsx';
 import PostQuizSurvey from '../components/stats/PostQuizSurvey.jsx';
 import ReportQuestionButton from '../components/stats/ReportQuestionButton.jsx';
 import NotificationBell from '../components/notifications/NotificationBell.jsx';
+import QuotaPill from '../components/quota/QuotaPill.jsx';
+import ExitConfirmModal from '../components/exit/ExitConfirmModal.jsx';
 import InstructorStudentDetail from '../components/instructor/InstructorStudentDetail.jsx';
 import InstructorReportsPanel from '../components/instructor/InstructorReportsPanel.jsx';
 import InstructorAssignmentsPanel from '../components/instructor/InstructorAssignmentsPanel.jsx';
@@ -24469,6 +24483,7 @@ function AppHeader({
   activePanel,
   theme,
   onToggleTheme,
+  quotaRefreshKey,
 }) {
   const displayName = currentUser?.name || currentUser?.email || 'Learner';
   const initial = displayName
@@ -24582,6 +24597,7 @@ function AppHeader({
           </button>
           {currentUser && (
             <div className="hidden lg:flex items-center gap-3">
+              <QuotaPill refreshKey={quotaRefreshKey} />
               <NotificationBell />
               <div className="relative">
                 <button
@@ -25285,6 +25301,10 @@ function App({ externalTheme, onThemeChange }) {
   const [showDiagnosticIntroModal, setShowDiagnosticIntroModal] =
     useState(false);
   // Post-quiz survey + stats hub refresh
+  // Bump to force the header QuotaPill to refetch (e.g., after a quiz completes).
+  const [quotaRefreshKey, setQuotaRefreshKey] = useState(0);
+  // Pending exit-confirm modal: { kind, onConfirm } | null
+  const [pendingExit, setPendingExit] = useState(null);
   const [pendingSurvey, setPendingSurvey] = useState(null); // { attemptId, subject } | null
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
@@ -26237,6 +26257,56 @@ function App({ externalTheme, onThemeChange }) {
     setProfileTab('profile');
     hardJump('profile');
   }, [hardJump]);
+
+  // Detect whether the user is currently inside an active quiz/exam/essay.
+  // Returns the exit-modal kind ('standalone' | 'comprehensive' | 'ai_topic' | 'essay')
+  // or null when navigation should proceed without confirmation.
+  const detectActiveExitKind = useCallback(() => {
+    const v = viewRef.current;
+    const inQuizView =
+      v === 'quiz' ||
+      v === 'reading' ||
+      v === 'essay' ||
+      v === 'comprehensiveStart';
+    if (!inQuizView) return null;
+    if (v === 'essay') return 'essay';
+    const q = activeQuiz || {};
+    const qt = String(q.quizType || q.type || '').toLowerCase();
+    if (
+      qt === 'comprehensive' ||
+      qt === 'multipart-rla' ||
+      qt === 'multipart_rla' ||
+      qt.startsWith('comprehensive')
+    ) {
+      return 'comprehensive';
+    }
+    if (qt === 'ai_topic' || qt === 'topic' || qt === 'ai-topic') {
+      return 'ai_topic';
+    }
+    return 'standalone';
+  }, [activeQuiz]);
+
+  // Wraps a navigation callback so that, when invoked while a quiz is in
+  // progress, the user is shown the typed ExitConfirmModal first. AI-topic
+  // quizzes pause and remain resumable; everything else ends the attempt.
+  const confirmThenNav = useCallback(
+    (navFn) => () => {
+      if (typeof navFn !== 'function') return;
+      const kind = detectActiveExitKind();
+      if (!kind) {
+        navFn();
+        return;
+      }
+      setPendingExit({
+        kind,
+        onConfirm: () => {
+          setPendingExit(null);
+          navFn();
+        },
+      });
+    },
+    [detectActiveExitKind]
+  );
   const goToSettings = useCallback(() => {
     navigateTo('settings');
     if (!profileData) {
@@ -27606,12 +27676,25 @@ function App({ externalTheme, onThemeChange }) {
 
       if (!response.ok) {
         let errMsg = `Request failed with status ${response.status}`;
+        let errBody = null;
         try {
-          const errBody = await response.json();
-          errMsg = errBody.error || errMsg;
+          errBody = await response.json();
+          errMsg = errBody.message || errBody.error || errMsg;
         } catch {
           // Non-JSON error response (e.g. Render 502 timeout page)
           errMsg = `Server returned ${response.status} – the exam may have timed out. Please try again.`;
+        }
+        // Quota exceeded — refresh the header pill so the user sees zero remaining.
+        if (response.status === 429) {
+          setQuotaRefreshKey((k) => k + 1);
+        }
+        // In-progress session — surface as a clear, non-error message.
+        if (response.status === 409 && errBody?.error === 'in_progress_session_exists') {
+          alert(
+            errBody.message ||
+              'You already have an unfinished comprehensive exam for this subject. Resume it from your dashboard before generating a new one.'
+          );
+          return;
         }
         throw new Error(errMsg);
       }
@@ -27904,6 +27987,8 @@ function App({ externalTheme, onThemeChange }) {
   const onQuizComplete = async (results) => {
     setQuizResults(results);
     setView('results');
+    // Refresh header quota pill — used budget may have changed.
+    setQuotaRefreshKey((k) => k + 1);
 
     if (results.quiz) {
       setActiveQuiz(results.quiz);
@@ -28805,12 +28890,14 @@ function App({ externalTheme, onThemeChange }) {
         <AppHeader
           currentUser={currentUser}
           onLogout={handleLogout}
-          onShowHome={goToDashboard}
-          onShowProfile={goToProfile}
-          onShowSettings={goToSettings}
-          onShowQuizzes={goToQuizzes}
-          onShowProgress={goToProgress}
-          onShowMyClass={goToMyClass}
+          onShowHome={confirmThenNav(goToDashboard)}
+          onShowProfile={confirmThenNav(goToProfile)}
+          onShowSettings={confirmThenNav(goToSettings)}
+          onShowQuizzes={confirmThenNav(goToQuizzes)}
+          onShowProgress={confirmThenNav(goToProgress)}
+          onShowMyClass={
+            goToMyClass ? confirmThenNav(goToMyClass) : undefined
+          }
           activePanel={
             activeView === 'profile'
               ? 'profile'
@@ -28820,7 +28907,15 @@ function App({ externalTheme, onThemeChange }) {
           }
           theme={preferences.theme}
           onToggleTheme={toggleThemePreference}
+          quotaRefreshKey={quotaRefreshKey}
         />
+        {pendingExit && (
+          <ExitConfirmModal
+            kind={pendingExit.kind}
+            onCancel={() => setPendingExit(null)}
+            onConfirm={pendingExit.onConfirm}
+          />
+        )}
         {isLoading && (
           <div
             className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center z-50 text-center px-4"

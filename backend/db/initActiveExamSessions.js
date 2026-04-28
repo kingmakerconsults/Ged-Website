@@ -34,6 +34,27 @@ async function ensureActiveExamSessionsTable() {
   await db.none(`
     ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS essay_text TEXT NOT NULL DEFAULT '';
     ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS runner_state JSONB;
+    -- 2026-04-29: server-authoritative timer + AI-quiz dup-gen lock
+    ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS deadline_at TIMESTAMPTZ;
+    ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS duration_ms INTEGER;
+    ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS submitted_at TIMESTAMPTZ;
+    ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS auto_submitted BOOLEAN NOT NULL DEFAULT FALSE;
+    ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS kind TEXT;
+    ALTER TABLE active_exam_sessions ADD COLUMN IF NOT EXISTS topic TEXT;
+  `);
+
+  // Backfill deadline_at = started_at + time_remaining_ms for any pre-existing rows.
+  await db.none(`
+    UPDATE active_exam_sessions
+       SET deadline_at = started_at + (COALESCE(time_remaining_ms, 0) || ' milliseconds')::interval
+     WHERE deadline_at IS NULL
+  `);
+
+  // Index used by /api/generate/* dup-gen lock (only counts unsubmitted sessions).
+  await db.none(`
+    CREATE INDEX IF NOT EXISTS active_exam_sessions_user_kind_subject_topic_idx
+      ON active_exam_sessions(user_id, kind, subject, topic)
+      WHERE submitted_at IS NULL;
   `);
 
   console.log('[init] active_exam_sessions table ensured');

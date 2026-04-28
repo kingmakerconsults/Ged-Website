@@ -48,7 +48,15 @@ const ensureAssignmentsTables = require('./db/initAssignments');
 const notify = require('./lib/notify');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
 const ensureActiveExamSessionsTable = require('./db/initActiveExamSessions');
-const ensureUserNameColumns = require('./db/initUserNameColumns');
+const ensureUserQuotaDailyTable = require('./db/initUserQuotaDaily');
+const {
+  DAILY_LIMITS: QUOTA_DAILY_LIMITS,
+  QuotaExceededError,
+  getQuotaState,
+  consumeQuota: consumeQuotaCore,
+  grantBonus: grantQuotaBonus,
+  isKnownKind: isKnownQuotaKind,
+} = require('./src/quotas');const ensureUserNameColumns = require('./db/initUserNameColumns');
 const ensureCollabTables = require('./db/initCollab');
 const { registerCollabRest, attachCollabSockets } = require('./collab');
 const MODEL_HTTP_TIMEOUT_MS =
@@ -4685,6 +4693,37 @@ function authenticateBearerToken(req, res, next) {
   }
 }
 
+// Soft-auth: best-effort decode of bearer/cookie token, no error if missing/invalid.
+// Sets req.user when a valid token is present. Used by generation endpoints that
+// historically allowed unauthenticated calls but now want to enforce per-user
+// quotas + dup-gen locks WHEN the caller is signed in.
+function softDecodeUser(req) {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) return null;
+  const authorization = req.headers?.authorization || '';
+  const bearerToken = authorization.startsWith('Bearer ')
+    ? authorization.slice('Bearer '.length).trim()
+    : null;
+  const cookieToken = req?.cookies?.auth || null;
+  const token = bearerToken || cookieToken;
+  if (!token) return null;
+  try {
+    const payload = jwt.verify(token, secret);
+    const id = payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+    const numericId = Number(id);
+    if (!Number.isInteger(numericId)) return null;
+    return {
+      id: numericId,
+      userId: numericId,
+      role: payload?.role || 'student',
+      email: payload?.email || null,
+      organization_id: payload?.organization_id ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function createUserToken(userId) {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
@@ -5969,7 +6008,10 @@ ensureAssignmentsTables().catch((e) =>
   console.error('Assignments tables init error:', e)
 );
 if (typeof ensureQuestionBankTable === 'function') {
-  ensureQuestionBankTable().catch((e) => {
+  
+ensureUserQuotaDailyTable().catch((e) =>
+  console.error('User quota daily table init error:', e)
+);ensureQuestionBankTable().catch((e) => {
     console.error('Question bank init error:', e?.message || e);
   });
 }
@@ -10793,6 +10835,48 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
       .json({ success: false, error: 'Missing or invalid topic' });
   }
 
+  // 2026-04-29: per-user dup-gen lock + daily quota for smart topic quizzes.
+  const softUser = softDecodeUser(req);
+  if (softUser?.id) {
+    try {
+      const { rows: existing } = await pool.query(
+        `SELECT quiz_id FROM active_exam_sessions
+          WHERE user_id = $1 AND kind = 'ai_topic'
+            AND subject = $2 AND COALESCE(topic, '') = COALESCE($3, '')
+            AND submitted_at IS NULL
+            AND expires_at > NOW()
+          LIMIT 1`,
+        [softUser.id, subject, topic]
+      );
+      if (existing.length) {
+        return res.status(409).json({
+          success: false,
+          error: 'in_progress_session_exists',
+          message:
+            'You already have an unfinished smart quiz for this topic. Resume it before generating a new one.',
+          quiz_id: existing[0].quiz_id,
+        });
+      }
+    } catch (e) {
+      console.warn('[topic-based] dup-gen check failed:', e?.message || e);
+    }
+    try {
+      await consumeQuotaCore(pool, softUser.id, 'ai_topic');
+    } catch (e) {
+      if (e instanceof QuotaExceededError) {
+        return res.status(429).json({
+          success: false,
+          error: 'quota_exceeded',
+          kind: 'ai_topic',
+          state: e.state,
+          message:
+            'You have used all of your smart quizzes for today. Ask your instructor for more attempts.',
+        });
+      }
+      console.warn('[topic-based] quota check failed:', e?.message || e);
+    }
+  }
+
   const isScientificNumeracy =
     subject === 'Science' && /scientific\s+numeracy/i.test(topic);
 
@@ -14612,6 +14696,51 @@ ${JSON.stringify(questionObject)}
 app.post('/api/generate/topic', express.json(), async (req, res) => {
   const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
   const QUIZ_COUNT = 12;
+
+  // 2026-04-29: per-user dup-gen lock + daily quota for AI-topic quizzes.
+  // Soft-auth: anonymous callers (e.g. legacy tooling) bypass these checks.
+  const softUser = softDecodeUser(req);
+  let consumedQuota = false;
+  if (softUser?.id) {
+    try {
+      const { rows: existing } = await pool.query(
+        `SELECT quiz_id FROM active_exam_sessions
+          WHERE user_id = $1 AND kind = 'ai_topic'
+            AND subject = $2 AND COALESCE(topic, '') = COALESCE($3, '')
+            AND submitted_at IS NULL
+            AND expires_at > NOW()
+          LIMIT 1`,
+        [softUser.id, subject, topic]
+      );
+      if (existing.length) {
+        return res.status(409).json({
+          error: 'in_progress_session_exists',
+          message:
+            'You already have an unfinished smart quiz for this topic. Resume it before generating a new one.',
+          quiz_id: existing[0].quiz_id,
+          resume_url: `/api/exam-sessions`,
+        });
+      }
+    } catch (e) {
+      console.warn('[generate/topic] dup-gen check failed:', e?.message || e);
+      // fall through — never block generation on a check failure
+    }
+    try {
+      await consumeQuotaCore(pool, softUser.id, 'ai_topic');
+      consumedQuota = true;
+    } catch (e) {
+      if (e instanceof QuotaExceededError) {
+        return res.status(429).json({
+          error: 'quota_exceeded',
+          kind: 'ai_topic',
+          state: e.state,
+          message:
+            'You have used all of your smart quizzes for today. Ask your instructor for more attempts.',
+        });
+      }
+      console.warn('[generate/topic] quota check failed:', e?.message || e);
+    }
+  }
   try {
     const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
     const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
@@ -19556,6 +19685,64 @@ app.get(
   }
 );
 
+// Quota replenish: instructor / org-admin / super-admin grants a student
+// extra generations for today (kind = 'comprehensive' | 'ai_topic',
+// amount = 1..5). Same-org check enforced for instructor + org_admin.
+app.post(
+  '/api/instructor/students/:userId/quota/replenish',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const studentId = parseInt(req.params.userId, 10);
+      if (!Number.isInteger(studentId)) {
+        return res.status(400).json({ error: 'invalid_user_id' });
+      }
+      const { kind, amount } = req.body || {};
+      if (!isKnownQuotaKind(kind)) {
+        return res.status(400).json({
+          error: 'invalid_kind',
+          allowed: Object.keys(QUOTA_DAILY_LIMITS),
+        });
+      }
+      const numericAmount = Number(amount);
+      if (
+        !Number.isInteger(numericAmount) ||
+        numericAmount < 1 ||
+        numericAmount > 5
+      ) {
+        return res.status(400).json({
+          error: 'invalid_amount',
+          message: 'amount must be an integer 1..5',
+        });
+      }
+      // Super-admin bypasses ownership; everyone else must share an org.
+      const role = String(req.user?.role || '').toLowerCase();
+      const isSuper = role === 'super_admin' || role === 'superadmin';
+      if (!isSuper && !(await _instructorOwnsStudent(req, studentId))) {
+        return res.status(404).json({ error: 'student_not_found' });
+      }
+      const state = await grantQuotaBonus(pool, studentId, kind, numericAmount);
+      try {
+        await _audit({
+          db: pool,
+          req,
+          action: 'quota.replenish',
+          target: { user_id: studentId },
+          payload: { kind, amount: numericAmount },
+        });
+      } catch (auditErr) {
+        console.warn('[quota.replenish] audit failed:', auditErr?.message || auditErr);
+      }
+      return res.json({ ok: true, kind, amount: numericAmount, state });
+    } catch (err) {
+      console.error('[/api/instructor/students/:id/quota/replenish] failed:', err);
+      return res.status(500).json({ error: 'Unable to replenish quota' });
+    }
+  }
+);
+
 // ---------------------------------------------------------------------------
 // INSTRUCTOR: classes, assignments, curriculum.
 // Backed by the real `classes` / `class_enrollments` / `class_curriculum_items`
@@ -20409,6 +20596,22 @@ app.get('/api/me/streak', requireAuth, async (req, res) => {
   }
 });
 
+// Daily generation quotas (Commit B): live counts for the header pill.
+app.get('/api/me/quota', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user?.userId || req.user?.id;
+    const numericId = Number(userId);
+    if (!Number.isInteger(numericId)) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const state = await getQuotaState(pool, numericId);
+    return res.json(state);
+  } catch (err) {
+    console.error('[/api/me/quota] failed:', err?.message || err);
+    return res.status(500).json({ error: 'Failed to read quota state.' });
+  }
+});
+
 // Recommendations: surface the subject with the lowest avg ratio as the
 // "next focus area" suggestion. Falls back to {} when flag off or no data.
 app.get('/api/me/recommendations', requireAuth, async (req, res) => {
@@ -20504,19 +20707,13 @@ app.locals.requireActiveAccount = _activeAccount;
 // ---- Public: search programs (organizations) ----
 app.get('/api/programs', async (req, res) => {
   try {
-    const q = String(req.query.q || '')
-      .trim()
-      .slice(0, 100);
-    const region = String(req.query.region || '')
-      .trim()
-      .slice(0, 50);
+    const q = String(req.query.q || '').trim().slice(0, 100);
+    const region = String(req.query.region || '').trim().slice(0, 50);
     const params = [];
     const where = [];
     if (q) {
       params.push(`%${q.toLowerCase()}%`);
-      where.push(
-        `(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`
-      );
+      where.push(`(LOWER(name) LIKE $${params.length} OR LOWER(COALESCE(slug,'')) LIKE $${params.length})`);
     }
     if (region) {
       params.push(region);
@@ -20583,12 +20780,8 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
     if (!Number.isFinite(orgId)) {
       return res.status(400).json({ error: 'invalid_organization_id' });
     }
-    const orgR = await db.query(
-      'SELECT id, name FROM organizations WHERE id=$1',
-      [orgId]
-    );
-    if (!orgR.rowCount)
-      return res.status(404).json({ error: 'organization_not_found' });
+    const orgR = await db.query('SELECT id, name FROM organizations WHERE id=$1', [orgId]);
+    if (!orgR.rowCount) return res.status(404).json({ error: 'organization_not_found' });
 
     // Cancel any other pending request from this user (only one live at a time).
     await db.query(
@@ -20612,14 +20805,10 @@ app.post('/api/me/membership-request', requireAuth, async (req, res) => {
         WHERE id = $2 AND account_status IN ('pending_org','pending_approval','denied')`,
       [orgId, userId]
     );
-    return res
-      .status(201)
-      .json({ request: ins.rows[0] || null, organization_id: orgId });
+    return res.status(201).json({ request: ins.rows[0] || null, organization_id: orgId });
   } catch (err) {
     console.error('[/api/me/membership-request POST] failed:', err);
-    return res
-      .status(500)
-      .json({ error: 'Unable to create membership request' });
+    return res.status(500).json({ error: 'Unable to create membership request' });
   }
 });
 
@@ -20643,9 +20832,7 @@ app.delete('/api/me/membership-request', requireAuth, async (req, res) => {
     return res.json({ ok: true });
   } catch (err) {
     console.error('[/api/me/membership-request DELETE] failed:', err);
-    return res
-      .status(500)
-      .json({ error: 'Unable to cancel membership request' });
+    return res.status(500).json({ error: 'Unable to cancel membership request' });
   }
 });
 
@@ -20695,10 +20882,9 @@ app.get(
       const orgId = req.user?.organization_id || null;
       const filterOrg = parseInt(req.query.organization_id, 10);
       // Super admin can scope to any org; others are pinned to their own.
-      const targetOrg =
-        role === 'super_admin' && Number.isFinite(filterOrg)
-          ? filterOrg
-          : orgId;
+      const targetOrg = role === 'super_admin' && Number.isFinite(filterOrg)
+        ? filterOrg
+        : orgId;
       const status = String(req.query.status || 'pending');
       const params = [status];
       let where = `r.status = $1`;
@@ -20724,9 +20910,7 @@ app.get(
       return res.json({ requests: r.rows });
     } catch (err) {
       console.error('[/api/org/membership-requests GET] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to list membership requests' });
+      return res.status(500).json({ error: 'Unable to list membership requests' });
     }
   }
 );
@@ -20753,9 +20937,7 @@ app.post(
       if (!reqR.rowCount) return res.status(404).json({ error: 'not_found' });
       const m = reqR.rows[0];
       if (m.status !== 'pending') {
-        return res
-          .status(409)
-          .json({ error: 'already_decided', status: m.status });
+        return res.status(409).json({ error: 'already_decided', status: m.status });
       }
       const role = String(req.user?.role || '').toLowerCase();
       const actorOrg = req.user?.organization_id || null;
@@ -20804,19 +20986,13 @@ app.post(
           req,
           action: 'org.membership.deny',
           target: { type: 'membership_request', id: reqId },
-          payload: {
-            user_id: m.user_id,
-            organization_id: m.organization_id,
-            note,
-          },
+          payload: { user_id: m.user_id, organization_id: m.organization_id, note },
         });
       }
       return res.json({ ok: true, decision });
     } catch (err) {
       console.error('[/api/org/membership-requests/:id/decide] failed:', err);
-      return res
-        .status(500)
-        .json({ error: 'Unable to decide on membership request' });
+      return res.status(500).json({ error: 'Unable to decide on membership request' });
     }
   }
 );
@@ -20831,13 +21007,7 @@ app.post(
     try {
       const targetId = parseInt(req.params.id, 10);
       const status = String(req.body?.account_status || '').toLowerCase();
-      const allowed = [
-        'pending_org',
-        'pending_approval',
-        'active',
-        'denied',
-        'archived',
-      ];
+      const allowed = ['pending_org', 'pending_approval', 'active', 'denied', 'archived'];
       if (!Number.isFinite(targetId) || !allowed.includes(status)) {
         return res.status(400).json({ error: 'invalid_request' });
       }
@@ -20853,10 +21023,10 @@ app.post(
           [status, orgId, targetId]
         );
       } else {
-        await db.query(`UPDATE users SET account_status=$1 WHERE id=$2`, [
-          status,
-          targetId,
-        ]);
+        await db.query(
+          `UPDATE users SET account_status=$1 WHERE id=$2`,
+          [status, targetId]
+        );
       }
       await _audit({
         db,
@@ -22115,6 +22285,10 @@ app.post('/api/exam-sessions', authenticateBearerToken, async (req, res) => {
       quizTitle = null,
       quizPayload,
       timeRemainingMs = null,
+      // 2026-04-29 server-timer + AI-resume:
+      durationMs = null, // total exam duration; deadline = NOW() + durationMs
+      kind = null, // 'ai_topic' | 'comprehensive' | 'essay' | 'standalone'
+      topic = null,
     } = req.body || {};
 
     if (!quizId || !subject || !quizPayload) {
@@ -22129,11 +22303,23 @@ app.post('/api/exam-sessions', authenticateBearerToken, async (req, res) => {
       [userId, subject]
     );
 
+    // Compute server-authoritative deadline.
+    // Prefer explicit durationMs; fall back to legacy timeRemainingMs for back-compat.
+    const effectiveDuration = Number.isFinite(Number(durationMs))
+      ? Number(durationMs)
+      : Number.isFinite(Number(timeRemainingMs))
+        ? Number(timeRemainingMs)
+        : null;
+
     const { rows } = await pool.query(
       `INSERT INTO active_exam_sessions
-         (user_id, quiz_id, subject, quiz_type, quiz_title, quiz_payload, time_remaining_ms)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING id, quiz_id, started_at`,
+         (user_id, quiz_id, subject, quiz_type, quiz_title, quiz_payload,
+          time_remaining_ms, duration_ms, kind, topic, deadline_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+               CASE WHEN $8::int IS NOT NULL
+                    THEN NOW() + ($8::int || ' milliseconds')::interval
+                    ELSE NULL END)
+       RETURNING id, quiz_id, started_at, deadline_at, duration_ms, kind, topic`,
       [
         userId,
         quizId,
@@ -22142,6 +22328,9 @@ app.post('/api/exam-sessions', authenticateBearerToken, async (req, res) => {
         quizTitle,
         quizPayload,
         timeRemainingMs,
+        effectiveDuration,
+        kind,
+        topic,
       ]
     );
 
@@ -22253,9 +22442,11 @@ app.get(
               quiz_payload, answers, marked, confidence, time_spent,
               current_question_index, current_part, time_remaining_ms,
               essay_text, runner_state,
-              started_at, updated_at
+              started_at, updated_at,
+              deadline_at, duration_ms, kind, topic,
+              submitted_at, auto_submitted
        FROM active_exam_sessions
-       WHERE user_id = $1 AND expires_at > NOW()
+       WHERE user_id = $1 AND expires_at > NOW() AND submitted_at IS NULL
        ORDER BY updated_at DESC`,
         [userId]
       );
@@ -22264,6 +22455,48 @@ app.get(
     } catch (error) {
       console.error('[exam-sessions] Fetch error:', error?.message || error);
       res.status(500).json({ error: 'Failed to fetch active sessions.' });
+    }
+  }
+);
+
+// GET /api/exam-sessions/:quizId/clock — Server-authoritative time remaining.
+// Used by the frontend timer to correct clock drift / tab-throttling.
+app.get(
+  '/api/exam-sessions/:quizId/clock',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const { quizId } = req.params;
+      const { rows } = await pool.query(
+        `SELECT deadline_at, duration_ms, started_at, submitted_at, auto_submitted
+           FROM active_exam_sessions
+          WHERE quiz_id = $1 AND user_id = $2
+          LIMIT 1`,
+        [quizId, userId]
+      );
+      if (!rows.length) return res.status(404).json({ error: 'Session not found.' });
+      const row = rows[0];
+      const serverNow = new Date();
+      const deadlineAt = row.deadline_at ? new Date(row.deadline_at) : null;
+      const remainingMs = deadlineAt
+        ? Math.max(0, deadlineAt.getTime() - serverNow.getTime())
+        : null;
+      const expired = !!(deadlineAt && remainingMs === 0);
+      return res.json({
+        server_now: serverNow.toISOString(),
+        deadline_at: row.deadline_at,
+        duration_ms: row.duration_ms,
+        started_at: row.started_at,
+        remaining_ms: remainingMs,
+        expired,
+        submitted_at: row.submitted_at,
+        auto_submitted: !!row.auto_submitted,
+      });
+    } catch (error) {
+      console.error('[exam-sessions] Clock error:', error?.message || error);
+      res.status(500).json({ error: 'Failed to read session clock.' });
     }
   }
 );
