@@ -378,7 +378,9 @@ function OnboardingTour({ token, initialState, onComplete }) {
                     {isScheduled && (
                       <input
                         type="date"
-                        value={raw && raw !== 'passed' && raw !== 'none' ? raw : ''}
+                        value={
+                          raw && raw !== 'passed' && raw !== 'none' ? raw : ''
+                        }
                         onChange={(e) =>
                           setTestDates({
                             ...testDates,

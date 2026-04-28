@@ -83,6 +83,10 @@ export async function createExamSession({
   quizTitle,
   quizPayload,
   timeRemainingMs,
+  // 2026-04-29: server-authoritative timer + dup-gen lock fields
+  durationMs = null,
+  kind = null, // 'ai_topic' | 'comprehensive' | 'essay' | 'standalone'
+  topic = null,
 }) {
   const token = getAuthToken();
   if (!token) return null;
@@ -100,6 +104,9 @@ export async function createExamSession({
     timeSpent: [],
     currentQuestionIndex: 0,
     timeRemainingMs,
+    durationMs,
+    kind,
+    topic,
   });
 
   try {
@@ -113,6 +120,9 @@ export async function createExamSession({
         quizTitle,
         quizPayload,
         timeRemainingMs,
+        durationMs,
+        kind,
+        topic,
       }),
     });
     if (!res.ok) {
@@ -140,7 +150,7 @@ export async function saveExamProgress(quizId, progress) {
   if (!token) return;
 
   try {
-    await fetch(
+    const res = await fetch(
       `${getApiBase()}/api/exam-sessions/${encodeURIComponent(quizId)}`,
       {
         method: 'PATCH',
@@ -148,6 +158,22 @@ export async function saveExamProgress(quizId, progress) {
         body: JSON.stringify(progress),
       }
     );
+    // 410 = server-side deadline cutoff. Surface to listeners so the runner
+    // can submit immediately instead of silently keeping the user on screen.
+    if (res.status === 410 && typeof window !== 'undefined') {
+      try {
+        const body = await res.json();
+        window.dispatchEvent(
+          new CustomEvent('exam-session:expired', {
+            detail: { quizId, ...body },
+          })
+        );
+      } catch {
+        window.dispatchEvent(
+          new CustomEvent('exam-session:expired', { detail: { quizId } })
+        );
+      }
+    }
   } catch (e) {
     // Silently fail — localStorage serves as fallback
     console.warn('[examSession] save error:', e?.message);
@@ -207,6 +233,26 @@ export async function fetchActiveSessions() {
 }
 
 /**
+ * Fetch the server-authoritative clock for an active session. Returns
+ * { server_now, deadline_at, remaining_ms, expired, ... } or null on error.
+ * Used by the in-quiz timer to correct for client clock drift / tab throttling.
+ */
+export async function fetchExamClock(quizId) {
+  const token = getAuthToken();
+  if (!token || !quizId) return null;
+  try {
+    const res = await fetch(
+      `${getApiBase()}/api/exam-sessions/${encodeURIComponent(quizId)}/clock`,
+      { headers: authHeaders(token) }
+    );
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
  * Delete an exam session (on submit or abandon).
  */
 export async function deleteExamSession(quizId) {
@@ -249,5 +295,11 @@ function normalizeSession(row) {
     runnerState: row.runner_state || row.runnerState || null,
     startedAt: row.started_at || row.startedAt || null,
     updatedAt: row.updated_at || row.updatedAt || null,
+    deadlineAt: row.deadline_at || row.deadlineAt || null,
+    durationMs: row.duration_ms ?? row.durationMs ?? null,
+    kind: row.kind || null,
+    topic: row.topic || null,
+    submittedAt: row.submitted_at || row.submittedAt || null,
+    autoSubmitted: !!(row.auto_submitted ?? row.autoSubmitted),
   };
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 function getApiBase() {
   if (
@@ -315,6 +315,170 @@ function RecentAttemptsCard({ attempts }) {
   );
 }
 
+// QuotaCard — daily generation quota state + replenish controls. Lets an
+// instructor / org-admin / super-admin grant +N comprehensive or smart-quiz
+// attempts to this student for the current UTC day.
+function QuotaCard({ studentId }) {
+  const [state, setState] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+  const [okMsg, setOkMsg] = useState(null);
+
+  const reload = useCallback(async () => {
+    if (!studentId) return;
+    try {
+      setErr(null);
+      const data = await fetchJson(
+        `/api/instructor/students/${studentId}/quota`
+      );
+      setState(data);
+    } catch (e) {
+      setErr(e.message || String(e));
+    }
+  }, [studentId]);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
+
+  const replenish = useCallback(
+    async (kind, amount) => {
+      if (busy) return;
+      setBusy(true);
+      setErr(null);
+      setOkMsg(null);
+      try {
+        const token = getAuthToken();
+        const res = await fetch(
+          `${getApiBase()}/api/instructor/students/${studentId}/quota/replenish`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ kind, amount }),
+          }
+        );
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(body?.message || body?.error || `HTTP ${res.status}`);
+        }
+        setState(body.state || state);
+        setOkMsg(`Granted +${amount} ${kind === 'comprehensive' ? 'exam(s)' : 'smart quiz(zes)'}.`);
+      } catch (e) {
+        setErr(e.message || String(e));
+      } finally {
+        setBusy(false);
+      }
+    },
+    [busy, state, studentId]
+  );
+
+  const comp = state?.kinds?.comprehensive;
+  const ai = state?.kinds?.ai_topic;
+
+  return (
+    <div style={cardStyle}>
+      <div style={headerStyle}>Daily Generation Quota</div>
+      {err && (
+        <div
+          style={{
+            background: '#fef2f2',
+            color: '#b91c1c',
+            padding: 8,
+            borderRadius: 6,
+            fontSize: 12,
+            marginBottom: 8,
+          }}
+        >
+          {err}
+        </div>
+      )}
+      {okMsg && (
+        <div
+          style={{
+            background: '#ecfdf5',
+            color: '#047857',
+            padding: 8,
+            borderRadius: 6,
+            fontSize: 12,
+            marginBottom: 8,
+          }}
+        >
+          {okMsg}
+        </div>
+      )}
+      <div style={{ display: 'grid', gap: 10 }}>
+        <QuotaRow
+          label="Comprehensive exams"
+          row={comp}
+          onAdd={(n) => replenish('comprehensive', n)}
+          disabled={busy}
+        />
+        <QuotaRow
+          label="Smart (AI) quizzes"
+          row={ai}
+          onAdd={(n) => replenish('ai_topic', n)}
+          disabled={busy}
+        />
+      </div>
+      <div style={{ marginTop: 8, fontSize: 11, color: '#64748b' }}>
+        Quotas reset at midnight UTC. Granted bonus stacks on top of the base
+        daily limit.
+      </div>
+    </div>
+  );
+}
+
+function QuotaRow({ label, row, onAdd, disabled }) {
+  const used = row?.used ?? 0;
+  const total = row?.total ?? '—';
+  const granted = row?.granted_bonus || 0;
+  const remaining = row?.remaining ?? '—';
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 12,
+        flexWrap: 'wrap',
+      }}
+    >
+      <div style={{ fontSize: 13 }}>
+        <div style={{ fontWeight: 600 }}>{label}</div>
+        <div style={{ color: '#64748b', fontFamily: 'monospace' }}>
+          used {used}/{total}
+          {granted ? ` (+${granted} bonus)` : ''} · {remaining} left today
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 6 }}>
+        {[1, 2, 5].map((n) => (
+          <button
+            key={n}
+            type="button"
+            disabled={disabled}
+            onClick={() => onAdd(n)}
+            style={{
+              padding: '6px 10px',
+              fontSize: 12,
+              fontWeight: 700,
+              borderRadius: 6,
+              border: '1px solid #0ea5e9',
+              background: disabled ? '#e0f2fe' : '#0ea5e9',
+              color: '#fff',
+              cursor: disabled ? 'wait' : 'pointer',
+            }}
+          >
+            +{n}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function InstructorStudentDetail({ student, onClose }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -422,6 +586,7 @@ export default function InstructorStudentDetail({ student, onClose }) {
         )}
         {data && !loading && (
           <>
+            <QuotaCard studentId={student.id} />
             <MasteryCard mastery={data.mastery} />
             <WeakAreasCard weakAreas={data.weakAreas} />
             <VocabularyCard vocabulary={data.vocabulary} />
