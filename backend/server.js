@@ -19895,6 +19895,8 @@ app.patch(
         manually_marked_covered,
         quiz_id,
         subject,
+        category_name,
+        topic_id,
       } = req.body || {};
       const sets = [];
       const params = [];
@@ -19939,6 +19941,14 @@ app.patch(
       if (typeof subject === 'string' || subject === null) {
         params.push(subject ? String(subject).slice(0, 100) : null);
         sets.push(`subject = $${params.length}`);
+      }
+      if (typeof category_name === 'string' || category_name === null) {
+        params.push(category_name ? String(category_name).slice(0, 200) : null);
+        sets.push(`category_name = $${params.length}`);
+      }
+      if (typeof topic_id === 'string' || topic_id === null) {
+        params.push(topic_id ? String(topic_id).slice(0, 200) : null);
+        sets.push(`topic_id = $${params.length}`);
       }
       if (sets.length === 0)
         return res.status(400).json({ error: 'nothing_to_update' });
@@ -27317,7 +27327,10 @@ app.get(
             [userId]
           );
         } catch (e2) {
-          console.warn('[instructor stats] attempts fallback failed:', e2.message);
+          console.warn(
+            '[instructor stats] attempts fallback failed:',
+            e2.message
+          );
         }
       }
 

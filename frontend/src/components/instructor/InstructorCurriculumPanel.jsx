@@ -1,28 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  QuizCatalogPicker,
-  SUBJECT_KEY_FROM_LABEL,
-} from './InstructorAssignmentsPanel.jsx';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-const SUBJECT_LABEL_FROM_KEY = Object.entries(SUBJECT_KEY_FROM_LABEL).reduce(
-  (acc, [label, key]) => {
-    acc[key] = label;
-    return acc;
-  },
-  {}
-);
+// Subjects available for curriculum planning. Workforce is curriculum-only
+// and is intentionally not part of the assignment quiz catalog flow.
+const SUBJECT_LABELS = [
+  'Math',
+  'Science',
+  'Social Studies',
+  'RLA',
+  'Workforce',
+];
 
-const EMPTY_PICKER = {
-  subjectKey: '',
-  categoryName: '',
-  topicTitle: '',
-  quizId: '',
+// Maps the curriculum subject label to the catalog key used in /api/all-quizzes.
+const CATALOG_KEY_FROM_LABEL = {
+  Math: 'Math',
+  Science: 'Science',
+  'Social Studies': 'Social Studies',
+  RLA: 'Reasoning Through Language Arts (RLA)',
+  Workforce: 'Workforce Readiness',
 };
 
 const EMPTY_DRAFT = {
   title: '',
   subject: '',
-  picker: { ...EMPTY_PICKER },
+  categories: [],
   planned_start_date: '',
   planned_end_date: '',
 };
@@ -65,7 +65,11 @@ async function apiFetch(path, options = {}) {
       const text = await res.text();
       try {
         const j = JSON.parse(text);
-        detail = j?.error || j?.message || text;
+        const parts = [];
+        if (j?.error) parts.push(j.error);
+        if (j?.detail && j.detail !== j?.error) parts.push(j.detail);
+        if (!parts.length && j?.message) parts.push(j.message);
+        detail = parts.join(' — ') || text;
       } catch {
         detail = text;
       }
@@ -84,7 +88,19 @@ async function apiFetch(path, options = {}) {
   return text ? JSON.parse(text) : null;
 }
 
-const SUBJECTS = ['', 'Math', 'Science', 'Social Studies', 'RLA'];
+let _catalogPromise = null;
+function loadCatalogOnce() {
+  if (_catalogPromise) return _catalogPromise;
+  _catalogPromise = fetch(`${getApiBase()}/api/all-quizzes`)
+    .then((r) =>
+      r.ok ? r.json() : Promise.reject(new Error(`status ${r.status}`))
+    )
+    .catch((e) => {
+      _catalogPromise = null;
+      throw e;
+    });
+  return _catalogPromise;
+}
 
 function ClassPicker({ classes, value, onChange }) {
   return (
@@ -109,6 +125,246 @@ function ClassPicker({ classes, value, onChange }) {
   );
 }
 
+// Multi-select content-area picker. Renders a chip list of categories for the
+// chosen subject; clicking a chip toggles its selection.
+function CategoryChips({ subject, value, onChange, catalog }) {
+  const categories = useMemo(() => {
+    if (!subject) return [];
+    const key = CATALOG_KEY_FROM_LABEL[subject];
+    if (!key || !catalog) return [];
+    const data = catalog[key];
+    if (!data || !data.categories) return [];
+    return Object.keys(data.categories);
+  }, [subject, catalog]);
+
+  if (!subject) {
+    return (
+      <div style={{ fontSize: 12, color: '#64748b' }}>
+        Pick a subject above to see its content areas.
+      </div>
+    );
+  }
+  if (categories.length === 0) {
+    return (
+      <div style={{ fontSize: 12, color: '#64748b' }}>
+        No content areas catalogued for {subject} yet — title-only items still
+        work.
+      </div>
+    );
+  }
+
+  const set = new Set(value || []);
+  const toggle = (name) => {
+    const next = new Set(set);
+    if (next.has(name)) next.delete(name);
+    else next.add(name);
+    onChange(Array.from(next));
+  };
+
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+      {categories.map((name) => {
+        const active = set.has(name);
+        return (
+          <button
+            key={name}
+            type="button"
+            onClick={() => toggle(name)}
+            style={{
+              padding: '4px 10px',
+              border: '1px solid',
+              borderColor: active ? '#0ea5e9' : '#cbd5e1',
+              borderRadius: 999,
+              background: active ? '#0ea5e9' : '#ffffff',
+              color: active ? '#ffffff' : '#0f172a',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            {name}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const inputStyle = {
+  padding: '6px 10px',
+  border: '1px solid #cbd5e1',
+  borderRadius: 6,
+  fontSize: 13,
+};
+
+function EditItemRow({ item, onSave, onCancel, catalog }) {
+  const [draft, setDraft] = useState({
+    title: item.title || '',
+    subject: item.subject || '',
+    category_name: item.category_name || '',
+    planned_start_date: item.planned_date
+      ? new Date(item.planned_date).toISOString().slice(0, 10)
+      : '',
+    planned_end_date: item.planned_end_date
+      ? new Date(item.planned_end_date).toISOString().slice(0, 10)
+      : '',
+  });
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+
+  const categoryOptions = useMemo(() => {
+    if (!draft.subject || !catalog) return [];
+    const key = CATALOG_KEY_FROM_LABEL[draft.subject];
+    if (!key) return [];
+    const data = catalog[key];
+    if (!data || !data.categories) return [];
+    return Object.keys(data.categories);
+  }, [draft.subject, catalog]);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setError(null);
+    try {
+      await onSave({
+        title: draft.title.trim(),
+        subject: draft.subject || null,
+        category_name: draft.category_name || null,
+        planned_date: draft.planned_start_date || null,
+        planned_end_date:
+          draft.planned_end_date || draft.planned_start_date || null,
+      });
+    } catch (err) {
+      setError(err?.message || 'Failed to save');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={submit}
+      style={{
+        background: '#f8fafc',
+        border: '1px solid #cbd5e1',
+        borderRadius: 8,
+        padding: 10,
+        marginBottom: 6,
+        display: 'grid',
+        gridTemplateColumns: '2fr 1fr 1.5fr 1fr 1fr auto auto',
+        gap: 6,
+        alignItems: 'center',
+      }}
+    >
+      <input
+        type="text"
+        required
+        value={draft.title}
+        placeholder="Title"
+        onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
+        style={inputStyle}
+      />
+      <select
+        value={draft.subject}
+        onChange={(e) =>
+          setDraft((d) => ({
+            ...d,
+            subject: e.target.value,
+            category_name: '',
+          }))
+        }
+        style={inputStyle}
+      >
+        <option value="">Subject…</option>
+        {SUBJECT_LABELS.map((s) => (
+          <option key={s} value={s}>
+            {s}
+          </option>
+        ))}
+      </select>
+      <select
+        value={draft.category_name}
+        onChange={(e) =>
+          setDraft((d) => ({ ...d, category_name: e.target.value }))
+        }
+        style={inputStyle}
+        disabled={!draft.subject}
+      >
+        <option value="">Content area…</option>
+        {categoryOptions.map((c) => (
+          <option key={c} value={c}>
+            {c}
+          </option>
+        ))}
+      </select>
+      <input
+        type="date"
+        value={draft.planned_start_date}
+        onChange={(e) =>
+          setDraft((d) => ({ ...d, planned_start_date: e.target.value }))
+        }
+        style={inputStyle}
+      />
+      <input
+        type="date"
+        value={draft.planned_end_date}
+        min={draft.planned_start_date || undefined}
+        onChange={(e) =>
+          setDraft((d) => ({ ...d, planned_end_date: e.target.value }))
+        }
+        style={inputStyle}
+      />
+      <button
+        type="submit"
+        disabled={saving}
+        style={{
+          padding: '6px 12px',
+          border: 'none',
+          borderRadius: 6,
+          background: saving ? '#94a3b8' : '#0ea5e9',
+          color: '#ffffff',
+          fontWeight: 600,
+          cursor: saving ? 'default' : 'pointer',
+          fontSize: 13,
+        }}
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        onClick={onCancel}
+        style={{
+          padding: '6px 12px',
+          border: '1px solid #cbd5e1',
+          borderRadius: 6,
+          background: '#ffffff',
+          color: '#0f172a',
+          fontSize: 13,
+          fontWeight: 600,
+          cursor: 'pointer',
+        }}
+      >
+        Cancel
+      </button>
+      {error && (
+        <div
+          style={{
+            gridColumn: '1 / -1',
+            padding: 6,
+            background: '#fef2f2',
+            color: '#b91c1c',
+            border: '1px solid #fecaca',
+            borderRadius: 6,
+            fontSize: 12,
+          }}
+        >
+          {error}
+        </div>
+      )}
+    </form>
+  );
+}
+
 export default function InstructorCurriculumPanel() {
   const [classes, setClasses] = useState([]);
   const [classId, setClassId] = useState(null);
@@ -116,9 +372,9 @@ export default function InstructorCurriculumPanel() {
   const [loading, setLoading] = useState(false);
   const [addItemError, setAddItemError] = useState(null);
   const [draftItem, setDraftItem] = useState(() => ({ ...EMPTY_DRAFT }));
+  const [catalog, setCatalog] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
-  // Stable: never depends on classId so creating a class can't trigger a
-  // stale-closure refetch race.
   const loadClasses = useCallback(async () => {
     try {
       const data = await apiFetch('/api/instructor/classes');
@@ -154,7 +410,20 @@ export default function InstructorCurriculumPanel() {
     loadClasses();
   }, [loadClasses]);
 
-  // Auto-pick the first class only on initial load if nothing is selected.
+  useEffect(() => {
+    let alive = true;
+    loadCatalogOnce()
+      .then((d) => {
+        if (alive) setCatalog(d || {});
+      })
+      .catch((e) => {
+        console.warn('[curriculum] catalog load failed', e);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   useEffect(() => {
     if (classId == null && classes.length > 0) {
       setClassId(classes[0].id);
@@ -170,23 +439,27 @@ export default function InstructorCurriculumPanel() {
     if (!classId || !draftItem.title.trim()) return;
     setAddItemError(null);
     try {
-      const subjectLabel =
-        draftItem.subject ||
-        SUBJECT_LABEL_FROM_KEY[draftItem.picker.subjectKey] ||
-        '';
-      await apiFetch(`/api/instructor/classes/${classId}/curriculum`, {
-        method: 'POST',
-        body: JSON.stringify({
-          title: draftItem.title.trim(),
-          subject: subjectLabel || null,
-          quiz_id: draftItem.picker.quizId || null,
-          category_name: draftItem.picker.categoryName || null,
-          topic_id: draftItem.picker.topicTitle || null,
-          planned_date: draftItem.planned_start_date || null,
-          planned_end_date:
-            draftItem.planned_end_date || draftItem.planned_start_date || null,
-        }),
-      });
+      const baseTitle = draftItem.title.trim();
+      const cats = draftItem.categories.length ? draftItem.categories : [null];
+      // One item per selected category (or a single item with no category if
+      // none was selected).
+      for (const cat of cats) {
+        const title =
+          cats.length > 1 && cat ? `${baseTitle} — ${cat}` : baseTitle;
+        await apiFetch(`/api/instructor/classes/${classId}/curriculum`, {
+          method: 'POST',
+          body: JSON.stringify({
+            title,
+            subject: draftItem.subject || null,
+            category_name: cat || null,
+            planned_date: draftItem.planned_start_date || null,
+            planned_end_date:
+              draftItem.planned_end_date ||
+              draftItem.planned_start_date ||
+              null,
+          }),
+        });
+      }
       setDraftItem({ ...EMPTY_DRAFT });
       await loadItems();
     } catch (err) {
@@ -241,6 +514,15 @@ export default function InstructorCurriculumPanel() {
     }
   };
 
+  const saveEdit = async (item, payload) => {
+    await apiFetch(`/api/instructor/curriculum/${item.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+    setEditingId(null);
+    await loadItems();
+  };
+
   return (
     <div>
       <div
@@ -280,73 +562,45 @@ export default function InstructorCurriculumPanel() {
                 textTransform: 'uppercase',
               }}
             >
-              Add Curriculum Item
+              Add Curriculum Item(s)
             </div>
             <form
               onSubmit={addItem}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr auto',
+                gridTemplateColumns: '2fr 1fr 1fr 1fr auto',
                 gap: 6,
+                alignItems: 'center',
               }}
             >
               <input
                 type="text"
                 required
-                placeholder="Title (e.g. Linear Equations Intro)"
+                placeholder="Title (e.g. Week 1)"
                 value={draftItem.title}
                 onChange={(e) =>
                   setDraftItem((d) => ({ ...d, title: e.target.value }))
                 }
-                style={{
-                  padding: '6px 10px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: 6,
-                  fontSize: 13,
-                }}
+                style={inputStyle}
               />
               <select
                 value={draftItem.subject}
-                onChange={(e) => {
-                  const label = e.target.value;
+                onChange={(e) =>
                   setDraftItem((d) => ({
                     ...d,
-                    subject: label,
-                    // Reset picker when subject changes so old categoryName/quizId
-                    // don't leak across subjects.
-                    picker: {
-                      ...EMPTY_PICKER,
-                      subjectKey: SUBJECT_KEY_FROM_LABEL[label] || '',
-                    },
-                  }));
-                }}
-                style={{
-                  padding: '6px 10px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: 6,
-                  fontSize: 13,
-                }}
+                    subject: e.target.value,
+                    categories: [],
+                  }))
+                }
+                style={inputStyle}
               >
-                {SUBJECTS.map((s) => (
+                <option value="">Subject…</option>
+                {SUBJECT_LABELS.map((s) => (
                   <option key={s} value={s}>
-                    {s || 'Subject…'}
+                    {s}
                   </option>
                 ))}
               </select>
-              <input
-                type="text"
-                placeholder="Quiz ID (auto)"
-                value={draftItem.picker.quizId}
-                readOnly
-                style={{
-                  padding: '6px 10px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: 6,
-                  fontSize: 13,
-                  background: '#f1f5f9',
-                  color: '#475569',
-                }}
-              />
               <input
                 type="date"
                 aria-label="Planned from"
@@ -358,12 +612,7 @@ export default function InstructorCurriculumPanel() {
                     planned_start_date: e.target.value,
                   }))
                 }
-                style={{
-                  padding: '6px 10px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: 6,
-                  fontSize: 13,
-                }}
+                style={inputStyle}
               />
               <input
                 type="date"
@@ -377,68 +626,52 @@ export default function InstructorCurriculumPanel() {
                     planned_end_date: e.target.value,
                   }))
                 }
-                style={{
-                  padding: '6px 10px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: 6,
-                  fontSize: 13,
-                }}
+                style={inputStyle}
               />
               <button
                 type="submit"
+                disabled={!draftItem.title.trim()}
                 style={{
                   padding: '6px 12px',
                   border: 'none',
                   borderRadius: 6,
-                  background: '#0ea5e9',
+                  background: draftItem.title.trim() ? '#0ea5e9' : '#94a3b8',
                   color: '#ffffff',
                   fontWeight: 600,
-                  cursor: 'pointer',
+                  cursor: draftItem.title.trim() ? 'pointer' : 'default',
                   fontSize: 13,
                 }}
               >
-                Add
+                {draftItem.categories.length > 1
+                  ? `Add ${draftItem.categories.length} items`
+                  : 'Add'}
               </button>
             </form>
-            <div style={{ marginTop: 8 }}>
+            <div style={{ marginTop: 10 }}>
               <div
                 style={{
                   fontSize: 11,
                   color: '#475569',
                   fontWeight: 600,
-                  marginBottom: 4,
+                  marginBottom: 6,
                   textTransform: 'uppercase',
                 }}
               >
-                Pick quiz from catalog
+                Content areas (pick one or many — one item is created per
+                selection)
               </div>
-              <QuizCatalogPicker
-                subjectKey={
-                  SUBJECT_KEY_FROM_LABEL[draftItem.subject] ||
-                  draftItem.picker.subjectKey ||
-                  ''
-                }
-                value={draftItem.picker}
+              <CategoryChips
+                subject={draftItem.subject}
+                value={draftItem.categories}
                 onChange={(next) =>
-                  setDraftItem((d) => {
-                    const picker = { ...d.picker, ...next };
-                    // If picker exposes subjectKey (when no subject is locked),
-                    // keep the form's subject label in sync.
-                    let subject = d.subject;
-                    if (
-                      next.subjectKey !== undefined &&
-                      SUBJECT_LABEL_FROM_KEY[next.subjectKey]
-                    ) {
-                      subject = SUBJECT_LABEL_FROM_KEY[next.subjectKey];
-                    }
-                    return { ...d, subject, picker };
-                  })
+                  setDraftItem((d) => ({ ...d, categories: next }))
                 }
+                catalog={catalog}
               />
               {addItemError && (
                 <div
                   style={{
-                    marginTop: 6,
+                    marginTop: 8,
                     padding: 6,
                     background: '#fef2f2',
                     color: '#b91c1c',
@@ -468,117 +701,152 @@ export default function InstructorCurriculumPanel() {
               No items yet. Add one above to start your class outline.
             </div>
           )}
-          {items.map((item, idx) => (
-            <div
-              key={item.id}
-              style={{
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderRadius: 8,
-                padding: 10,
-                marginBottom: 6,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                opacity: item.manually_marked_covered ? 0.6 : 1,
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <button
-                  type="button"
-                  onClick={() => move(item, -1)}
-                  disabled={idx === 0}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: idx === 0 ? 'default' : 'pointer',
-                    color: idx === 0 ? '#cbd5e1' : '#475569',
-                    fontSize: 12,
-                    padding: 0,
-                  }}
-                >
-                  ▲
-                </button>
-                <button
-                  type="button"
-                  onClick={() => move(item, 1)}
-                  disabled={idx === items.length - 1}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: idx === items.length - 1 ? 'default' : 'pointer',
-                    color: idx === items.length - 1 ? '#cbd5e1' : '#475569',
-                    fontSize: 12,
-                    padding: 0,
-                  }}
-                >
-                  ▼
-                </button>
-              </div>
-              <div style={{ flex: 1 }}>
+          {items.map((item, idx) => {
+            if (editingId === item.id) {
+              return (
+                <EditItemRow
+                  key={item.id}
+                  item={item}
+                  catalog={catalog}
+                  onCancel={() => setEditingId(null)}
+                  onSave={(payload) => saveEdit(item, payload)}
+                />
+              );
+            }
+            return (
+              <div
+                key={item.id}
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 8,
+                  padding: 10,
+                  marginBottom: 6,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  opacity: item.manually_marked_covered ? 0.6 : 1,
+                }}
+              >
                 <div
                   style={{
-                    fontSize: 14,
-                    fontWeight: 600,
-                    textDecoration: item.manually_marked_covered
-                      ? 'line-through'
-                      : 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
                   }}
                 >
-                  {item.title}
+                  <button
+                    type="button"
+                    onClick={() => move(item, -1)}
+                    disabled={idx === 0}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: idx === 0 ? 'default' : 'pointer',
+                      color: idx === 0 ? '#cbd5e1' : '#475569',
+                      fontSize: 12,
+                      padding: 0,
+                    }}
+                  >
+                    ▲
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => move(item, 1)}
+                    disabled={idx === items.length - 1}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: idx === items.length - 1 ? 'default' : 'pointer',
+                      color: idx === items.length - 1 ? '#cbd5e1' : '#475569',
+                      fontSize: 12,
+                      padding: 0,
+                    }}
+                  >
+                    ▼
+                  </button>
                 </div>
-                <div style={{ fontSize: 11, color: '#64748b' }}>
-                  {item.subject || '—'}
-                  {item.quiz_id ? ` · quiz ${item.quiz_id}` : ''}
-                  {(() => {
-                    const start = item.planned_date
-                      ? new Date(item.planned_date).toLocaleDateString()
-                      : null;
-                    const end = item.planned_end_date
-                      ? new Date(item.planned_end_date).toLocaleDateString()
-                      : null;
-                    if (start && end && start !== end) {
-                      return ` · ${start} – ${end}`;
-                    }
-                    if (start) return ` · planned ${start}`;
-                    return '';
-                  })()}
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      textDecoration: item.manually_marked_covered
+                        ? 'line-through'
+                        : 'none',
+                    }}
+                  >
+                    {item.title}
+                  </div>
+                  <div style={{ fontSize: 11, color: '#64748b' }}>
+                    {item.subject || '—'}
+                    {item.category_name ? ` · ${item.category_name}` : ''}
+                    {(() => {
+                      const start = item.planned_date
+                        ? new Date(item.planned_date).toLocaleDateString()
+                        : null;
+                      const end = item.planned_end_date
+                        ? new Date(item.planned_end_date).toLocaleDateString()
+                        : null;
+                      if (start && end && start !== end) {
+                        return ` · ${start} – ${end}`;
+                      }
+                      if (start) return ` · ${start}`;
+                      return '';
+                    })()}
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => toggleCovered(item)}
+                  style={{
+                    padding: '4px 10px',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: 6,
+                    background: item.manually_marked_covered
+                      ? '#dcfce7'
+                      : '#ffffff',
+                    color: item.manually_marked_covered ? '#166534' : '#334155',
+                    fontSize: 12,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {item.manually_marked_covered ? '✓ Covered' : 'Mark covered'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingId(item.id)}
+                  style={{
+                    padding: '4px 10px',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: 6,
+                    background: '#ffffff',
+                    color: '#0f172a',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeItem(item)}
+                  style={{
+                    padding: '4px 8px',
+                    border: '1px solid #fecaca',
+                    borderRadius: 6,
+                    background: '#fef2f2',
+                    color: '#b91c1c',
+                    fontSize: 12,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Remove
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => toggleCovered(item)}
-                style={{
-                  padding: '4px 10px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: 6,
-                  background: item.manually_marked_covered
-                    ? '#dcfce7'
-                    : '#ffffff',
-                  color: item.manually_marked_covered ? '#166534' : '#334155',
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                {item.manually_marked_covered ? '✓ Covered' : 'Mark covered'}
-              </button>
-              <button
-                type="button"
-                onClick={() => removeItem(item)}
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #fecaca',
-                  borderRadius: 6,
-                  background: '#fef2f2',
-                  color: '#b91c1c',
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </>
       )}
     </div>
