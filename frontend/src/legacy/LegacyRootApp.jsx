@@ -1167,7 +1167,9 @@ async function generateTopicQuiz(
     if (typeof window !== 'undefined') {
       // Let the header pill refetch when quota was burned.
       if (response.status === 429) {
-        try { window.dispatchEvent(new Event('quota:refresh')); } catch {}
+        try {
+          window.dispatchEvent(new Event('quota:refresh'));
+        } catch {}
       }
     }
     const err = new Error(message);
@@ -22789,11 +22791,14 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
   };
 
   // helpers: truncation and summaries
-  const truncate = (text, max = 100) => {
+  const truncate = (text, max = 240) => {
     if (!text) return '';
     const clean = String(text).trim();
     if (clean.length <= max) return clean;
-    return clean.slice(0, Math.max(0, max - 1)).trim() + '';
+    const slice = clean.slice(0, Math.max(0, max - 1));
+    const lastSpace = slice.lastIndexOf(' ');
+    const cut = lastSpace > Math.floor(max * 0.6) ? slice.slice(0, lastSpace) : slice;
+    return cut.trimEnd() + '…';
   };
   const topicOneLiner = (topic) => {
     const fromTopic = topic?.description?.trim();
@@ -22804,14 +22809,14 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       fromTopic ||
       fromQuiz ||
       'A short practice set covering key concepts in this topic.';
-    return truncate(line, 100);
+    return truncate(line, 240);
   };
   const quizOneLiner = (quiz, topic) => {
     const line =
       (quiz && quiz.description) ||
       (topic && topic.description) ||
       'A short practice set covering key concepts in this topic.';
-    return truncate(line, 100);
+    return truncate(line, 240);
   };
   const levelScore = (lvl) =>
     lvl === 'Beginner' ? 1 : lvl === 'Advanced' ? 3 : 2;
@@ -25148,9 +25153,7 @@ function PracticeSessionModal({
                 ))}
               </select>
               {topicsLoading && (
-                <p className="text-xs text-secondary mt-1">
-                  Loading topics…
-                </p>
+                <p className="text-xs text-secondary mt-1">Loading topics…</p>
               )}
               {(questionType || tier) && (
                 <p className="text-xs text-secondary mt-1">
@@ -27691,7 +27694,10 @@ function App({ externalTheme, onThemeChange }) {
           setQuotaRefreshKey((k) => k + 1);
         }
         // In-progress session — surface as a clear, non-error message.
-        if (response.status === 409 && errBody?.error === 'in_progress_session_exists') {
+        if (
+          response.status === 409 &&
+          errBody?.error === 'in_progress_session_exists'
+        ) {
           alert(
             errBody.message ||
               'You already have an unfinished comprehensive exam for this subject. Resume it from your dashboard before generating a new one.'
@@ -28505,8 +28511,10 @@ function App({ externalTheme, onThemeChange }) {
     // Student view (default) - keep existing quiz/practice UI
     // Fresh-start gating (2026-04-28): show onboarding flow first if needed.
     const _accountStatus = currentUser?.account_status || 'active';
-    const _tourDone = !!(currentUser?.onboarding_state?.tour_completed
-      || currentUser?.onboarding_state?.tour_skipped);
+    const _tourDone = !!(
+      currentUser?.onboarding_state?.tour_completed ||
+      currentUser?.onboarding_state?.tour_skipped
+    );
     if (_accountStatus !== 'active' || !_tourDone) {
       return (
         <OnboardingGate
@@ -28897,9 +28905,7 @@ function App({ externalTheme, onThemeChange }) {
           onShowSettings={confirmThenNav(goToSettings)}
           onShowQuizzes={confirmThenNav(goToQuizzes)}
           onShowProgress={confirmThenNav(goToProgress)}
-          onShowMyClass={
-            goToMyClass ? confirmThenNav(goToMyClass) : undefined
-          }
+          onShowMyClass={goToMyClass ? confirmThenNav(goToMyClass) : undefined}
           activePanel={
             activeView === 'profile'
               ? 'profile'
@@ -28987,9 +28993,7 @@ function App({ externalTheme, onThemeChange }) {
             defaultDuration={practiceSessionPrefill?.durationMinutes || 10}
             defaultSubject={practiceSessionPrefill?.subject || ''}
             defaultTopic={practiceSessionPrefill?.topic || ''}
-            defaultQuestionType={
-              practiceSessionPrefill?.questionType || ''
-            }
+            defaultQuestionType={practiceSessionPrefill?.questionType || ''}
             defaultTier={practiceSessionPrefill?.tier || ''}
             onDismiss={() => {
               setShowPracticeModal(false);
@@ -29023,8 +29027,7 @@ function App({ externalTheme, onThemeChange }) {
                 resp.questions.length === 0
               ) {
                 throw new Error(
-                  resp?.note ||
-                    'Practice session is not available right now.'
+                  resp?.note || 'Practice session is not available right now.'
                 );
               }
               const sessionTitle =
@@ -40721,9 +40724,7 @@ function ResultsScreen({
     SUBJECT_ID_MAP[quiz?.subject] ||
     SUBJECT_ID_MAP[results?.subject] ||
     (typeof quiz?.subject === 'string' ? quiz.subject.toLowerCase() : '') ||
-    (typeof results?.subject === 'string'
-      ? results.subject.toLowerCase()
-      : '');
+    (typeof results?.subject === 'string' ? results.subject.toLowerCase() : '');
   const subjectKey =
     subjectKeyRaw === 'social' || subjectKeyRaw === 'ss'
       ? 'social-studies'
@@ -40974,9 +40975,7 @@ function ResultsScreen({
             pct: v.total > 0 ? v.correct / v.total : 0,
           }));
         };
-        const topicStats = groupBy(
-          (q) => q.originTopicTitle || q.topic || ''
-        );
+        const topicStats = groupBy((q) => q.originTopicTitle || q.topic || '');
         const typeStats = groupBy((q) =>
           isRlaComprehensive && q.skill
             ? q.skill
@@ -41003,9 +41002,7 @@ function ResultsScreen({
         // Challenge: strongest topic where student was perfect (≥ 2).
         const challengeCandidate = topicStats
           .filter((t) => t.total >= 2 && t.correct === t.total)
-          .sort(
-            (a, b) => b.total - a.total || a.key.localeCompare(b.key)
-          )[0];
+          .sort((a, b) => b.total - a.total || a.key.localeCompare(b.key))[0];
 
         const markedCount = safeMarked.filter(Boolean).length;
         const passed = scaledScore >= 145;
@@ -41015,7 +41012,8 @@ function ResultsScreen({
           items.push({
             id: 'reinforcer',
             purpose: 'Reinforcer',
-            badgeColor: 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200',
+            badgeColor:
+              'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-200',
             title: `Reinforce: ${reinforcerCandidate.key}`,
             rationale: `You scored ${reinforcerCandidate.correct}/${reinforcerCandidate.total} on this topic. A short focused practice will help it stick.`,
             actionLabel: 'Practice this topic',

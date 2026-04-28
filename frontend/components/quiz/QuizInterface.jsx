@@ -298,7 +298,9 @@ export function QuizInterface({
       : currentAnswer
         ? [currentAnswer]
         : []
-    : [currentAnswer];
+    : currentAnswer != null && currentAnswer !== ''
+      ? [currentAnswer]
+      : [];
 
   const subjectForRender = currentQ.subject || subject || 'Default';
   const quizSubject = subject || 'Default';
@@ -1141,7 +1143,17 @@ export function QuizInterface({
                     return (
                       <button
                         key={i}
-                        onClick={() => handleSelect(optText)}
+                        onClick={(e) => {
+                          handleSelect(optText);
+                          // Drop focus so no lingering focus ring stays
+                          // on the previously-clicked option after the user
+                          // moves to a different option.
+                          try {
+                            e.currentTarget.blur();
+                          } catch (_blurErr) {
+                            /* no-op */
+                          }
+                        }}
                         className={optionClassNames.join(' ')}
                         style={optionStyles}
                       >
