@@ -22797,7 +22797,8 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     if (clean.length <= max) return clean;
     const slice = clean.slice(0, Math.max(0, max - 1));
     const lastSpace = slice.lastIndexOf(' ');
-    const cut = lastSpace > Math.floor(max * 0.6) ? slice.slice(0, lastSpace) : slice;
+    const cut =
+      lastSpace > Math.floor(max * 0.6) ? slice.slice(0, lastSpace) : slice;
     return cut.trimEnd() + '…';
   };
   const topicOneLiner = (topic) => {
@@ -24515,17 +24516,19 @@ function AppHeader({
 
   return (
     <header className="app-header fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b shadow-sm">
-      <div className="w-full flex items-center gap-6 justify-between px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center gap-4 min-w-0 flex-1">
+      <div className="w-full flex items-center gap-3 lg:gap-4 justify-between px-4 sm:px-6 lg:px-8 py-3">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
           <button
             type="button"
             onClick={onShowHome}
-            className="text-left text-base sm:text-lg font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2 inline-flex items-center gap-2 whitespace-nowrap"
+            className="text-left text-base sm:text-lg font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2 inline-flex items-center gap-2 whitespace-nowrap min-w-0"
+            title="Mr. Smith's Learning Canvas"
           >
             <AppIcon name="home" tone="sky" size={20} />
-            Mr. Smith's Learning Canvas
+            <span className="hidden xl:inline">Mr. Smith's Learning Canvas</span>
+            <span className="xl:hidden">Mr. Smith's</span>
           </button>
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
             <button
               onClick={onShowHome}
               className="nav-link flex items-center gap-1.5 whitespace-nowrap"
@@ -24566,18 +24569,18 @@ function AppHeader({
             {currentUser && (
               <a
                 href="/collab"
-                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline inline-flex items-center gap-1.5 whitespace-nowrap"
+                className="px-2.5 xl:px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline inline-flex items-center gap-1.5 whitespace-nowrap"
                 style={{ textDecoration: 'none' }}
                 title="Work Together"
+                aria-label="Work Together"
               >
                 <AppIcon name="workTogether" tone="white" size={14} />
                 <span className="hidden xl:inline">Work Together</span>
-                <span className="xl:hidden">Collab</span>
               </a>
             )}
           </nav>
         </div>
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -24603,8 +24606,10 @@ function AppHeader({
             />
           </button>
           {currentUser && (
-            <div className="hidden lg:flex items-center gap-3">
-              <QuotaPill refreshKey={quotaRefreshKey} />
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+              <div className="hidden xl:flex">
+                <QuotaPill refreshKey={quotaRefreshKey} />
+              </div>
               <NotificationBell />
               <div className="relative">
                 <button
@@ -24653,7 +24658,8 @@ function AppHeader({
                     />
                     <div
                       role="menu"
-                      className="absolute right-0 mt-2 w-48 rounded-xl border border-subtle bg-white dark:bg-slate-900 p-1 shadow-lg z-50 text-slate-900 dark:text-slate-100"
+                      className="absolute right-0 mt-2 w-48 rounded-xl border border-subtle bg-white dark:bg-slate-900 p-1 shadow-lg z-50"
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       <button
                         type="button"
@@ -24663,13 +24669,18 @@ function AppHeader({
                           setUserMenuOpen(false);
                           onShowProfile?.();
                         }}
-                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors text-slate-900 dark:text-slate-100 ${
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors ${
                           isProfileActive
                             ? 'bg-slate-100 dark:bg-slate-700 font-semibold'
                             : 'hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
+                        style={{ color: 'var(--text-primary)' }}
                       >
-                        <AppIcon name="student" tone="slate" size={16} />
+                        <AppIcon
+                          name="student"
+                          tone={isDark ? 'white' : 'slate'}
+                          size={16}
+                        />
                         Profile
                       </button>
                       <button
@@ -24680,13 +24691,18 @@ function AppHeader({
                           setUserMenuOpen(false);
                           onShowSettings?.();
                         }}
-                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors text-slate-900 dark:text-slate-100 ${
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors ${
                           isSettingsActive
                             ? 'bg-slate-100 dark:bg-slate-700 font-semibold'
                             : 'hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
+                        style={{ color: 'var(--text-primary)' }}
                       >
-                        <AppIcon name="knowledge" tone="slate" size={16} />
+                        <AppIcon
+                          name="knowledge"
+                          tone={isDark ? 'white' : 'slate'}
+                          size={16}
+                        />
                         Settings
                       </button>
                       <div className="my-1 border-t border-subtle" />
@@ -34139,8 +34155,7 @@ function StartScreen({
   // purely from what's actually missing in their data.
   const dashboardOnboardingMissing = [];
   if (!profile?.name) dashboardOnboardingMissing.push('Add your name');
-  if (!hasSavedTest)
-    dashboardOnboardingMissing.push('Set your GED test dates');
+  if (!hasSavedTest) dashboardOnboardingMissing.push('Set your GED test dates');
   if (selectedChallenges.length === 0)
     dashboardOnboardingMissing.push('Pick a few challenge areas');
   const showDashboardOnboardingBanner =
