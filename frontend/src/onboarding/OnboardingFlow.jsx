@@ -336,18 +336,61 @@ function OnboardingTour({ token, initialState, onComplete }) {
         <p>{cur.body}</p>
         {cur.custom === 'test-dates' && (
           <div className="tour-test-dates">
-            {['rla', 'math', 'science', 'social_studies'].map((subj) => (
-              <label key={subj} className="tour-date-row">
-                <span>{subj.replace('_', ' ').toUpperCase()}</span>
-                <input
-                  type="date"
-                  value={testDates?.[subj] || ''}
-                  onChange={(e) =>
-                    setTestDates({ ...testDates, [subj]: e.target.value })
-                  }
-                />
-              </label>
-            ))}
+            {['rla', 'math', 'science', 'social_studies'].map((subj) => {
+              const raw = testDates?.[subj] || '';
+              const status =
+                raw === 'passed'
+                  ? 'passed'
+                  : raw === 'none' || raw === ''
+                    ? raw === 'none'
+                      ? 'none'
+                      : 'none-default'
+                    : 'scheduled';
+              const isScheduled = status === 'scheduled';
+              const select = (val) => {
+                if (val === 'scheduled') {
+                  setTestDates({ ...testDates, [subj]: '' });
+                } else if (val === 'passed') {
+                  setTestDates({ ...testDates, [subj]: 'passed' });
+                } else {
+                  setTestDates({ ...testDates, [subj]: 'none' });
+                }
+              };
+              return (
+                <div key={subj} className="tour-date-row">
+                  <span>{subj.replace('_', ' ').toUpperCase()}</span>
+                  <div className="tour-date-controls">
+                    <select
+                      className="tour-date-status"
+                      value={
+                        status === 'scheduled'
+                          ? 'scheduled'
+                          : status === 'passed'
+                            ? 'passed'
+                            : 'none'
+                      }
+                      onChange={(e) => select(e.target.value)}
+                    >
+                      <option value="none">Not scheduled</option>
+                      <option value="scheduled">Scheduled…</option>
+                      <option value="passed">Already passed</option>
+                    </select>
+                    {isScheduled && (
+                      <input
+                        type="date"
+                        value={raw && raw !== 'passed' && raw !== 'none' ? raw : ''}
+                        onChange={(e) =>
+                          setTestDates({
+                            ...testDates,
+                            [subj]: e.target.value,
+                          })
+                        }
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
         <div className="onboarding-actions">

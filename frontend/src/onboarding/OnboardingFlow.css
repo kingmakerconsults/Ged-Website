@@ -166,3 +166,18 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
 }
+
+.tour-date-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tour-date-status {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+}
