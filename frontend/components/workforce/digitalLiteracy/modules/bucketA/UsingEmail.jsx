@@ -72,7 +72,7 @@ function ComposeForm({ onSent, prefill = {} }) {
               : 'border-slate-300 dark:border-slate-600'
           }`}
         >
-          ðŸ“Ž {attached ? 'resume.pdf attached' : 'Attach a file'}
+          📎 {attached ? 'resume.pdf attached' : 'Attach a file'}
         </button>
         <div className="flex-1" />
         <button
@@ -81,7 +81,7 @@ function ComposeForm({ onSent, prefill = {} }) {
           onClick={() => onSent({ to, subject, body, attached })}
           className="px-3 py-1.5 rounded bg-teal-600 text-white text-sm font-semibold disabled:opacity-50"
         >
-          Send â†’
+          Send →
         </button>
       </div>
       {!ok ? (
@@ -124,7 +124,7 @@ function MailClient({ onMilestone, milestones }) {
           }}
           className="w-full mb-2 px-2 py-1.5 rounded bg-teal-600 text-white text-sm font-semibold"
         >
-          âœï¸ Compose
+          ✏️ Compose
         </button>
         {['Inbox', 'Sent', 'Spam', 'Trash'].map((f) => (
           <button
@@ -170,14 +170,14 @@ function MailClient({ onMilestone, milestones }) {
                 onClick={() => setReplying(open)}
                 className="px-3 py-1 rounded bg-teal-600 text-white text-sm"
               >
-                â†© Reply
+                ↩ Reply
               </button>
               <button
                 type="button"
                 onClick={() => onMilestone('flaggedSpam')}
                 className="px-3 py-1 rounded border border-slate-300 dark:border-slate-600 text-sm"
               >
-                ðŸš« Flag as spam
+                🚫 Flag as spam
               </button>
             </div>
           </div>
@@ -211,7 +211,7 @@ function MailClient({ onMilestone, milestones }) {
                 key={k}
                 className={milestones[k] ? 'text-green-600' : 'opacity-60'}
               >
-                {milestones[k] ? 'âœ“' : 'â—‹'} {label}
+                {milestones[k] ? '✓' : '○'} {label}
               </li>
             ))}
           </ul>
@@ -253,7 +253,7 @@ function Sim({ onComplete }) {
           Use the simulated email client below to complete all four milestones,
           then continue to the spam-triage drill.
         </p>
-        <WindowFrame title="Mail Â· Inbox">
+        <WindowFrame title="Mail · Inbox">
           <MailClient onMilestone={bump} milestones={milestones} />
         </WindowFrame>
         <button
@@ -262,7 +262,7 @@ function Sim({ onComplete }) {
           onClick={() => setPhase2(true)}
           className="px-4 py-2 rounded bg-teal-600 text-white font-semibold disabled:opacity-50"
         >
-          Continue to spam triage â†’
+          Continue to spam triage →
         </button>
       </div>
     );

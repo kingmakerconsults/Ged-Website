@@ -45,6 +45,7 @@ const ensureQuizSurveysTable = require('./db/initQuizSurveys');
 const ensureQuestionReportsTable = require('./db/initQuestionReports');
 const ensureNotificationsTable = require('./db/initNotifications');
 const ensureAssignmentsTables = require('./db/initAssignments');
+const ensureWorkforcePlansTables = require('./db/initWorkforcePlans');
 const notify = require('./lib/notify');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
 const ensureActiveExamSessionsTable = require('./db/initActiveExamSessions');
@@ -6007,6 +6008,9 @@ ensureNotificationsTable().catch((e) =>
 );
 ensureAssignmentsTables().catch((e) =>
   console.error('Assignments tables init error:', e)
+);
+ensureWorkforcePlansTables().catch((e) =>
+  console.error('Workforce plans tables init error:', e)
 );
 if (typeof ensureQuestionBankTable === 'function') {
   ensureUserQuotaDailyTable().catch((e) =>
@@ -21245,7 +21249,7 @@ app.get('/api/me/membership-request', requireAuth, async (req, res) => {
       `SELECT r.id, r.organization_id, r.status, r.requested_role,
               r.created_at, r.decided_at, r.decision_note,
               o.name AS organization_name,
-              COALESCE(o.display_name, o.name) AS organization_display_name
+              o.name AS organization_display_name
          FROM org_membership_requests r
          JOIN organizations o ON o.id = r.organization_id
         WHERE r.user_id = $1
@@ -25028,6 +25032,877 @@ app.get('/api/workforce/career-paths', (req, res) => {
   }
 });
 
+function getBearerOrCookieToken(req) {
+  const auth = req?.headers?.authorization || '';
+  if (auth.startsWith('Bearer ')) return auth.slice('Bearer '.length).trim();
+  return req?.cookies?.auth || req?.cookies?.appToken || null;
+}
+
+async function getWorkforceActor(req) {
+  const userId = req.user?.userId || req.user?.id || req.user?.sub;
+  if (!userId) return null;
+  const row = await db.oneOrNone(
+    'SELECT id, organization_id, role, email FROM users WHERE id = $1',
+    [userId]
+  );
+  if (row) return row;
+  return {
+    id: userId,
+    organization_id: req.user?.organization_id ?? null,
+    role: req.user?.role || 'student',
+    email: req.user?.email || null,
+  };
+}
+
+async function getOptionalWorkforceActor(req) {
+  if (req.user?.id || req.user?.userId) return getWorkforceActor(req);
+  const token = getBearerOrCookieToken(req);
+  const secret = process.env.JWT_SECRET;
+  if (!token || !secret) return null;
+  try {
+    const payload = jwt.verify(token, secret);
+    const userId = payload?.sub ?? payload?.userId ?? payload?.user_id;
+    if (!userId) return null;
+    req.user = {
+      ...payload,
+      id: userId,
+      userId,
+      role: payload?.role || 'student',
+      organization_id: payload?.organization_id ?? null,
+      email: payload?.email || null,
+    };
+    return getWorkforceActor(req);
+  } catch (_) {
+    return null;
+  }
+}
+
+function cleanText(value, max = 4000) {
+  if (value === undefined || value === null) return null;
+  const text = String(value).trim();
+  return text ? text.slice(0, max) : null;
+}
+
+function cleanStatus(value, fallback = 'active') {
+  const allowed = new Set([
+    'active',
+    'completed',
+    'archived',
+    'paused',
+    'not_started',
+    'in_progress',
+    'needs_review',
+  ]);
+  const status = String(value || '')
+    .trim()
+    .toLowerCase();
+  return allowed.has(status) ? status : fallback;
+}
+
+function jsonParam(value, fallback = {}) {
+  if (value === undefined || value === null) return JSON.stringify(fallback);
+  return JSON.stringify(value);
+}
+
+function defaultWorkforceMilestones() {
+  return [
+    {
+      title: 'Choose a target career path',
+      description: 'Explore careers and save one realistic first target.',
+      sectionId: 'pathways',
+      toolId: 'career-explorer',
+    },
+    {
+      title: 'Build one career document',
+      description: 'Draft or update a resume, cover letter, or thank-you note.',
+      sectionId: 'career-docs',
+      toolId: 'document-studio',
+    },
+    {
+      title: 'Practice a STAR story',
+      description:
+        'Write one interview story with Situation, Task, Action, and Result.',
+      sectionId: 'interview',
+      toolId: 'star-builder',
+    },
+    {
+      title: 'Complete an AI mock interview',
+      description: 'Run a role-based mock interview and review the feedback.',
+      sectionId: 'interview',
+      toolId: 'ai-mock',
+    },
+    {
+      title: 'Track one application or employer',
+      description:
+        'Save an application, employer research note, or job-search prompt response.',
+      sectionId: 'job-search',
+      toolId: 'application-tracker',
+    },
+  ];
+}
+
+async function insertWorkforceMilestones(planId, userId, milestones = []) {
+  const rows = [];
+  const source =
+    Array.isArray(milestones) && milestones.length
+      ? milestones
+      : defaultWorkforceMilestones();
+  for (let index = 0; index < source.length; index += 1) {
+    const item = source[index] || {};
+    const title = cleanText(item.title || item.label, 180);
+    if (!title) continue;
+    const result = await db.query(
+      `INSERT INTO workforce_milestones
+         (plan_id, user_id, section_id, tool_id, career_id, title, description,
+          status, target_date, evidence_json, milestone_json, position)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb, $11::jsonb, $12)
+       RETURNING *`,
+      [
+        planId,
+        userId,
+        cleanText(item.sectionId || item.section_id, 80),
+        cleanText(item.toolId || item.tool_id, 80),
+        cleanText(item.careerId || item.career_id, 120),
+        title,
+        cleanText(item.description, 1000),
+        cleanStatus(item.status, 'not_started'),
+        item.targetDate || item.target_date || null,
+        jsonParam(item.evidence || item.evidence_json, {}),
+        jsonParam(item.milestoneJson || item.milestone_json || item, {}),
+        Number.isFinite(Number(item.position)) ? Number(item.position) : index,
+      ]
+    );
+    rows.push(result.rows[0]);
+  }
+  return rows;
+}
+
+async function loadWorkforcePlansForUser(userId, limit = 20) {
+  const plans = await db.many(
+    `SELECT *
+       FROM workforce_plans
+      WHERE user_id = $1 AND archived_at IS NULL
+      ORDER BY
+        CASE status WHEN 'active' THEN 0 WHEN 'paused' THEN 1 ELSE 2 END,
+        updated_at DESC
+      LIMIT $2`,
+    [userId, limit]
+  );
+  if (!plans.length) return [];
+  const milestones = await db.many(
+    `SELECT *
+       FROM workforce_milestones
+      WHERE plan_id = ANY($1::int[])
+      ORDER BY plan_id, position, id`,
+    [plans.map((p) => p.id)]
+  );
+  const byPlan = new Map();
+  milestones.forEach((m) => {
+    if (!byPlan.has(m.plan_id)) byPlan.set(m.plan_id, []);
+    byPlan.get(m.plan_id).push(m);
+  });
+  return plans.map((plan) => ({
+    ...plan,
+    milestones: byPlan.get(plan.id) || [],
+  }));
+}
+
+app.get('/api/workforce/overview', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const plans = await loadWorkforcePlansForUser(actor.id, 8);
+    const activePlan =
+      plans.find((plan) => plan.status === 'active') || plans[0] || null;
+    const recentActivity = await db.many(
+      `SELECT * FROM workforce_activity_events
+        WHERE user_id = $1
+        ORDER BY occurred_at DESC
+        LIMIT 20`,
+      [actor.id]
+    );
+    const interviewSummary = await db.one(
+      `SELECT COUNT(*)::int AS total_sessions,
+              COUNT(*) FILTER (WHERE status = 'completed')::int AS completed_sessions,
+              MAX(updated_at) AS last_interview_at,
+              AVG(
+                CASE
+                  WHEN score_report->>'score' ~ '^[0-9]+(\\.[0-9]+)?$'
+                  THEN (score_report->>'score')::numeric
+                  ELSE NULL
+                END
+              ) AS average_score
+         FROM interview_sessions
+        WHERE user_id = $1`,
+      [actor.id]
+    );
+    const artifactSummary = await db.many(
+      `SELECT artifact_type, COUNT(*)::int AS count, MAX(updated_at) AS last_updated_at
+         FROM workforce_artifacts
+        WHERE user_id = $1 AND archived_at IS NULL
+        GROUP BY artifact_type
+        ORDER BY artifact_type`,
+      [actor.id]
+    );
+    return res.json({
+      ok: true,
+      activePlan,
+      plans,
+      recentActivity,
+      interviewSummary,
+      artifactSummary,
+    });
+  } catch (err) {
+    console.error('[/api/workforce/overview] failed:', err);
+    return res.status(500).json({ error: 'Unable to load workforce overview' });
+  }
+});
+
+app.get('/api/workforce/plans', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const plans = await loadWorkforcePlansForUser(actor.id, 50);
+    return res.json({ ok: true, plans });
+  } catch (err) {
+    console.error('[/api/workforce/plans GET] failed:', err);
+    return res.status(500).json({ error: 'Unable to load workforce plans' });
+  }
+});
+
+app.post('/api/workforce/plans', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const body = req.body || {};
+    const name = cleanText(body.name, 180) || 'Workforce Readiness Plan';
+    const result = await db.query(
+      `INSERT INTO workforce_plans
+         (user_id, organization_id, created_by_user_id, class_id, name, description,
+          status, source, start_date, target_date, plan_json)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb)
+       RETURNING *`,
+      [
+        actor.id,
+        actor.organization_id || null,
+        actor.id,
+        null,
+        name,
+        cleanText(body.description, 1200),
+        cleanStatus(body.status, 'active'),
+        cleanText(body.source, 80) || 'self_directed',
+        body.startDate || body.start_date || null,
+        body.targetDate || body.target_date || null,
+        jsonParam(body.planJson || body.plan_json || body.plan || {}, {}),
+      ]
+    );
+    const plan = result.rows[0];
+    const milestones = await insertWorkforceMilestones(
+      plan.id,
+      actor.id,
+      body.milestones
+    );
+    return res.status(201).json({ ok: true, plan: { ...plan, milestones } });
+  } catch (err) {
+    console.error('[/api/workforce/plans POST] failed:', err);
+    return res.status(500).json({ error: 'Unable to create workforce plan' });
+  }
+});
+
+app.patch('/api/workforce/plans/:id', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const planId = parseInt(req.params.id, 10);
+    if (!Number.isFinite(planId)) {
+      return res.status(400).json({ error: 'invalid_plan_id' });
+    }
+    const existing = await db.oneOrNone(
+      'SELECT * FROM workforce_plans WHERE id = $1 AND user_id = $2',
+      [planId, actor.id]
+    );
+    if (!existing) return res.status(404).json({ error: 'not_found' });
+    const body = req.body || {};
+    const archived = body.archived === true;
+    const result = await db.query(
+      `UPDATE workforce_plans
+          SET name = $3,
+              description = $4,
+              status = $5,
+              start_date = $6,
+              target_date = $7,
+              plan_json = $8::jsonb,
+              archived_at = CASE WHEN $9::bool THEN NOW() ELSE archived_at END,
+              updated_at = NOW()
+        WHERE id = $1 AND user_id = $2
+        RETURNING *`,
+      [
+        planId,
+        actor.id,
+        cleanText(body.name, 180) || existing.name,
+        body.description === undefined
+          ? existing.description
+          : cleanText(body.description, 1200),
+        body.status
+          ? cleanStatus(body.status, existing.status)
+          : existing.status,
+        body.startDate || body.start_date || existing.start_date,
+        body.targetDate || body.target_date || existing.target_date,
+        jsonParam(
+          body.planJson || body.plan_json || existing.plan_json || {},
+          {}
+        ),
+        archived,
+      ]
+    );
+    return res.json({ ok: true, plan: result.rows[0] });
+  } catch (err) {
+    console.error('[/api/workforce/plans/:id PATCH] failed:', err);
+    return res.status(500).json({ error: 'Unable to update workforce plan' });
+  }
+});
+
+app.patch(
+  '/api/workforce/plans/:planId/milestones/:milestoneId',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const actor = await getWorkforceActor(req);
+      if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+      const planId = parseInt(req.params.planId, 10);
+      const milestoneId = parseInt(req.params.milestoneId, 10);
+      if (!Number.isFinite(planId) || !Number.isFinite(milestoneId)) {
+        return res.status(400).json({ error: 'invalid_milestone_id' });
+      }
+      const existing = await db.oneOrNone(
+        `SELECT m.*
+           FROM workforce_milestones m
+           JOIN workforce_plans p ON p.id = m.plan_id
+          WHERE m.id = $1 AND m.plan_id = $2 AND p.user_id = $3`,
+        [milestoneId, planId, actor.id]
+      );
+      if (!existing) return res.status(404).json({ error: 'not_found' });
+      const body = req.body || {};
+      const nextStatus = body.status
+        ? cleanStatus(body.status, existing.status)
+        : body.completed === true
+          ? 'completed'
+          : existing.status;
+      const result = await db.query(
+        `UPDATE workforce_milestones
+            SET status = $4,
+                evidence_json = $5::jsonb,
+                milestone_json = $6::jsonb,
+                completed_at = CASE
+                  WHEN $4 = 'completed' THEN COALESCE(completed_at, NOW())
+                  WHEN $7::bool THEN NULL
+                  ELSE completed_at
+                END,
+                updated_at = NOW()
+          WHERE id = $1 AND plan_id = $2 AND user_id = $3
+          RETURNING *`,
+        [
+          milestoneId,
+          planId,
+          actor.id,
+          nextStatus,
+          jsonParam(
+            body.evidence || body.evidence_json || existing.evidence_json || {},
+            {}
+          ),
+          jsonParam(
+            body.milestoneJson ||
+              body.milestone_json ||
+              existing.milestone_json ||
+              {},
+            {}
+          ),
+          body.completed === false,
+        ]
+      );
+      await db.query(
+        `UPDATE workforce_plans SET updated_at = NOW() WHERE id = $1`,
+        [planId]
+      );
+      return res.json({ ok: true, milestone: result.rows[0] });
+    } catch (err) {
+      console.error(
+        '[/api/workforce/plans/:planId/milestones/:milestoneId PATCH] failed:',
+        err
+      );
+      return res.status(500).json({ error: 'Unable to update milestone' });
+    }
+  }
+);
+
+app.post('/api/workforce/activity', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const body = req.body || {};
+    const activityType = cleanText(
+      body.activityType || body.activity_type,
+      120
+    );
+    if (!activityType)
+      return res.status(400).json({ error: 'activity_type_required' });
+    const result = await db.query(
+      `INSERT INTO workforce_activity_events
+         (user_id, organization_id, plan_id, milestone_id, section_id, tool_id,
+          career_id, activity_type, status, score, evidence_json, metadata_json)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12::jsonb)
+       RETURNING *`,
+      [
+        actor.id,
+        actor.organization_id || null,
+        body.planId || body.plan_id || null,
+        body.milestoneId || body.milestone_id || null,
+        cleanText(body.sectionId || body.section_id, 80),
+        cleanText(body.toolId || body.tool_id, 80),
+        cleanText(body.careerId || body.career_id, 120),
+        activityType,
+        cleanText(body.status, 80),
+        body.score === undefined || body.score === null
+          ? null
+          : Number(body.score),
+        jsonParam(body.evidence || body.evidence_json || {}, {}),
+        jsonParam(body.metadata || body.metadata_json || {}, {}),
+      ]
+    );
+    return res.status(201).json({ ok: true, event: result.rows[0] });
+  } catch (err) {
+    console.error('[/api/workforce/activity POST] failed:', err);
+    return res.status(500).json({ error: 'Unable to log workforce activity' });
+  }
+});
+
+app.get('/api/workforce/artifacts', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const artifacts = await db.many(
+      `SELECT * FROM workforce_artifacts
+        WHERE user_id = $1 AND archived_at IS NULL
+        ORDER BY updated_at DESC
+        LIMIT 100`,
+      [actor.id]
+    );
+    return res.json({ ok: true, artifacts });
+  } catch (err) {
+    console.error('[/api/workforce/artifacts GET] failed:', err);
+    return res.status(500).json({ error: 'Unable to load artifacts' });
+  }
+});
+
+app.post('/api/workforce/artifacts', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const body = req.body || {};
+    const artifactType = cleanText(body.artifactType || body.artifact_type, 80);
+    const title = cleanText(body.title, 180);
+    if (!artifactType || !title) {
+      return res
+        .status(400)
+        .json({ error: 'artifact_type_and_title_required' });
+    }
+    const result = await db.query(
+      `INSERT INTO workforce_artifacts
+         (user_id, organization_id, plan_id, milestone_id, section_id, tool_id,
+          artifact_type, title, content_json, metadata_json)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10::jsonb)
+       RETURNING *`,
+      [
+        actor.id,
+        actor.organization_id || null,
+        body.planId || body.plan_id || null,
+        body.milestoneId || body.milestone_id || null,
+        cleanText(body.sectionId || body.section_id, 80),
+        cleanText(body.toolId || body.tool_id, 80),
+        artifactType,
+        title,
+        jsonParam(body.content || body.content_json || {}, {}),
+        jsonParam(body.metadata || body.metadata_json || {}, {}),
+      ]
+    );
+    return res.status(201).json({ ok: true, artifact: result.rows[0] });
+  } catch (err) {
+    console.error('[/api/workforce/artifacts POST] failed:', err);
+    return res.status(500).json({ error: 'Unable to save artifact' });
+  }
+});
+
+app.get('/api/workforce/interview-sessions', requireAuth, async (req, res) => {
+  try {
+    const actor = await getWorkforceActor(req);
+    if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const sessions = await db.many(
+      `SELECT * FROM interview_sessions
+        WHERE user_id = $1
+        ORDER BY updated_at DESC
+        LIMIT 50`,
+      [actor.id]
+    );
+    return res.json({ ok: true, sessions });
+  } catch (err) {
+    console.error('[/api/workforce/interview-sessions GET] failed:', err);
+    return res.status(500).json({ error: 'Unable to load interview sessions' });
+  }
+});
+
+app.get(
+  '/api/workforce/interview-sessions/:id/turns',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const actor = await getWorkforceActor(req);
+      if (!actor?.id) return res.status(401).json({ error: 'Unauthorized' });
+      const sessionId = parseInt(req.params.id, 10);
+      if (!Number.isFinite(sessionId)) {
+        return res.status(400).json({ error: 'invalid_session_id' });
+      }
+      const session = await db.oneOrNone(
+        'SELECT id FROM interview_sessions WHERE id = $1 AND user_id = $2',
+        [sessionId, actor.id]
+      );
+      if (!session) return res.status(404).json({ error: 'not_found' });
+      const turns = await db.many(
+        `SELECT * FROM interview_turns
+          WHERE session_id = $1
+          ORDER BY turn_index, id`,
+        [sessionId]
+      );
+      return res.json({ ok: true, turns });
+    } catch (err) {
+      console.error(
+        '[/api/workforce/interview-sessions/:id/turns GET] failed:',
+        err
+      );
+      return res.status(500).json({ error: 'Unable to load interview turns' });
+    }
+  }
+);
+
+app.get(
+  '/api/instructor/workforce/summary',
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user?.organization_id;
+      if (!orgId) return res.json({ ok: true, students: [] });
+      const students = await db.many(
+        `SELECT u.id, u.name, u.email,
+                COUNT(DISTINCT p.id)::int AS plan_count,
+                COUNT(DISTINCT m.id) FILTER (WHERE m.status = 'completed')::int AS completed_milestones,
+                COUNT(DISTINCT m.id)::int AS total_milestones,
+                COUNT(DISTINCT s.id)::int AS interview_sessions,
+                NULLIF(MAX(GREATEST(
+                  COALESCE(p.updated_at, 'epoch'::timestamptz),
+                  COALESCE(s.updated_at, 'epoch'::timestamptz)
+                )), 'epoch'::timestamptz) AS last_workforce_at
+           FROM users u
+           LEFT JOIN workforce_plans p ON p.user_id = u.id AND p.archived_at IS NULL
+           LEFT JOIN workforce_milestones m ON m.plan_id = p.id
+           LEFT JOIN interview_sessions s ON s.user_id = u.id
+          WHERE u.organization_id = $1
+            AND COALESCE(u.role, 'student') IN ('student', 'learner')
+          GROUP BY u.id, u.name, u.email
+          ORDER BY last_workforce_at DESC NULLS LAST, u.name NULLS LAST
+          LIMIT 500`,
+        [orgId]
+      );
+      return res.json({ ok: true, students });
+    } catch (err) {
+      console.error('[/api/instructor/workforce/summary] failed:', err);
+      return res
+        .status(500)
+        .json({ error: 'Unable to load workforce summary' });
+    }
+  }
+);
+
+app.post(
+  '/api/instructor/workforce/plans',
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user?.organization_id;
+      const instructorId = req.user?.id || req.user?.userId;
+      if (!orgId || !instructorId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const body = req.body || {};
+      const targetIds = new Set();
+      if (Array.isArray(body.target_user_ids)) {
+        body.target_user_ids.forEach((raw) => {
+          const id = parseInt(raw, 10);
+          if (Number.isFinite(id)) targetIds.add(id);
+        });
+      }
+      const classId = body.class_id || body.classId;
+      if (classId) {
+        const classCheck = await db.oneOrNone(
+          'SELECT id FROM classes WHERE id = $1 AND organization_id = $2',
+          [classId, orgId]
+        );
+        if (!classCheck)
+          return res.status(404).json({ error: 'class_not_found' });
+        const roster = await db.many(
+          'SELECT user_id FROM class_enrollments WHERE class_id = $1',
+          [classId]
+        );
+        roster.forEach((row) => targetIds.add(row.user_id));
+      }
+      if (!targetIds.size) {
+        return res.status(400).json({ error: 'target_students_required' });
+      }
+      const validStudents = await db.many(
+        `SELECT id FROM users
+          WHERE organization_id = $1 AND id = ANY($2::int[])`,
+        [orgId, Array.from(targetIds)]
+      );
+      const created = [];
+      for (const student of validStudents) {
+        const result = await db.query(
+          `INSERT INTO workforce_plans
+             (user_id, organization_id, created_by_user_id, class_id, name, description,
+              status, source, start_date, target_date, plan_json)
+           VALUES ($1, $2, $3, $4, $5, $6, 'active', 'instructor_assigned', $7, $8, $9::jsonb)
+           RETURNING *`,
+          [
+            student.id,
+            orgId,
+            instructorId,
+            classId || null,
+            cleanText(body.name, 180) || 'Workforce Readiness Plan',
+            cleanText(body.description, 1200),
+            body.startDate || body.start_date || null,
+            body.targetDate || body.target_date || null,
+            jsonParam(body.planJson || body.plan_json || body.plan || {}, {}),
+          ]
+        );
+        const plan = result.rows[0];
+        const milestones = await insertWorkforceMilestones(
+          plan.id,
+          student.id,
+          body.milestones
+        );
+        created.push({ ...plan, milestones });
+      }
+      return res.status(201).json({ ok: true, plans: created });
+    } catch (err) {
+      console.error('[/api/instructor/workforce/plans POST] failed:', err);
+      return res.status(500).json({ error: 'Unable to assign workforce plan' });
+    }
+  }
+);
+
+function normalizeInterviewRole(value) {
+  const role = String(value || '').toLowerCase();
+  if (role === 'ai' || role === 'assistant' || role === 'interviewer') {
+    return 'interviewer';
+  }
+  if (role === 'system') return 'system';
+  return 'user';
+}
+
+function normalizeInterviewHistory(history = []) {
+  if (!Array.isArray(history)) return [];
+  return history
+    .map((turn, index) => {
+      const text = cleanText(
+        turn?.text || turn?.content || turn?.message,
+        16000
+      );
+      if (!text) return null;
+      return {
+        role: normalizeInterviewRole(turn?.role || turn?.from || turn?.sender),
+        text,
+        turnIndex: Number.isFinite(Number(turn?.turnIndex ?? turn?.turn_index))
+          ? Number(turn?.turnIndex ?? turn?.turn_index)
+          : index,
+        inputMode: cleanText(turn?.inputMode || turn?.input_mode, 40) || 'text',
+        transcriptSource: cleanText(
+          turn?.transcriptSource || turn?.transcript_source,
+          80
+        ),
+        audioUrl: cleanText(turn?.audioUrl || turn?.audio_url, 2000),
+        latencyMs:
+          turn?.latencyMs === undefined && turn?.latency_ms === undefined
+            ? null
+            : Number(turn?.latencyMs ?? turn?.latency_ms),
+        realtimeEventRef: cleanText(
+          turn?.realtimeEventRef || turn?.realtime_event_ref,
+          200
+        ),
+        feedback: turn?.feedback || turn?.feedback_json || {},
+        metadata: turn?.metadata || turn?.metadata_json || {},
+      };
+    })
+    .filter(Boolean);
+}
+
+function clampInterviewQuestionCount(value) {
+  const count = Number(value);
+  if (!Number.isFinite(count)) return 5;
+  return Math.max(1, Math.min(12, Math.round(count)));
+}
+
+async function ensureInterviewSessionForActor(actor, payload = {}) {
+  const requestedId = parseInt(payload.sessionId || payload.session_id, 10);
+  if (Number.isFinite(requestedId)) {
+    const existing = await db.oneOrNone(
+      'SELECT * FROM interview_sessions WHERE id = $1 AND user_id = $2',
+      [requestedId, actor.id]
+    );
+    if (existing) return existing;
+  }
+
+  const result = await db.query(
+    `INSERT INTO interview_sessions
+       (user_id, organization_id, plan_id, milestone_id, career_id, role,
+        experience_level, interview_style, session_mode, target_questions,
+        current_question_index, input_mode, realtime_session_ref, setup_json)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14::jsonb)
+     RETURNING *`,
+    [
+      actor.id,
+      actor.organization_id || null,
+      payload.planId || payload.plan_id || null,
+      payload.milestoneId || payload.milestone_id || null,
+      cleanText(payload.careerId || payload.career_id, 120),
+      cleanText(payload.role, 180),
+      cleanText(payload.experienceLevel || payload.experience_level, 80),
+      cleanText(payload.interviewStyle || payload.interview_style, 80),
+      cleanText(payload.sessionMode || payload.session_mode, 80),
+      Number.isFinite(
+        Number(payload.targetQuestions || payload.target_questions)
+      )
+        ? Number(payload.targetQuestions || payload.target_questions)
+        : 5,
+      Number.isFinite(
+        Number(payload.currentQuestionIndex || payload.current_question_index)
+      )
+        ? Number(payload.currentQuestionIndex || payload.current_question_index)
+        : 0,
+      cleanText(payload.inputMode || payload.input_mode, 40) || 'text',
+      cleanText(
+        payload.realtimeSessionRef || payload.realtime_session_ref,
+        200
+      ),
+      jsonParam(
+        {
+          role: payload.role || null,
+          experienceLevel:
+            payload.experienceLevel || payload.experience_level || null,
+          interviewStyle:
+            payload.interviewStyle || payload.interview_style || null,
+          sessionMode: payload.sessionMode || payload.session_mode || null,
+          targetQuestions:
+            payload.targetQuestions || payload.target_questions || 5,
+          careerId: payload.careerId || payload.career_id || null,
+          createdFrom: payload.mode || 'mock',
+        },
+        {}
+      ),
+    ]
+  );
+  return result.rows[0];
+}
+
+async function upsertInterviewTurn(sessionId, userId, turn) {
+  if (!turn?.text || turn.role === 'system') return null;
+  const result = await db.query(
+    `INSERT INTO interview_turns
+       (session_id, user_id, role, text, turn_index, input_mode, transcript_source,
+        audio_url, latency_ms, realtime_event_ref, feedback_json, metadata_json)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12::jsonb)
+     ON CONFLICT (session_id, turn_index, role)
+     DO UPDATE SET
+       text = EXCLUDED.text,
+       input_mode = EXCLUDED.input_mode,
+       transcript_source = EXCLUDED.transcript_source,
+       audio_url = EXCLUDED.audio_url,
+       latency_ms = EXCLUDED.latency_ms,
+       realtime_event_ref = EXCLUDED.realtime_event_ref,
+       feedback_json = EXCLUDED.feedback_json,
+       metadata_json = EXCLUDED.metadata_json
+     RETURNING *`,
+    [
+      sessionId,
+      userId,
+      turn.role,
+      turn.text,
+      turn.turnIndex,
+      turn.inputMode || 'text',
+      turn.transcriptSource || null,
+      turn.audioUrl || null,
+      Number.isFinite(turn.latencyMs) ? turn.latencyMs : null,
+      turn.realtimeEventRef || null,
+      jsonParam(turn.feedback || {}, {}),
+      jsonParam(turn.metadata || {}, {}),
+    ]
+  );
+  return result.rows[0];
+}
+
+async function persistInterviewExchange({
+  req,
+  parsed,
+  normalizedHistory,
+  replyText,
+}) {
+  if ((req.body?.mode || 'mock') !== 'mock') return null;
+  const actor = await getOptionalWorkforceActor(req);
+  if (!actor?.id) return null;
+  const session = await ensureInterviewSessionForActor(actor, req.body || {});
+
+  for (const turn of normalizedHistory) {
+    await upsertInterviewTurn(session.id, actor.id, turn);
+  }
+
+  if (replyText) {
+    await upsertInterviewTurn(session.id, actor.id, {
+      role: 'interviewer',
+      text: replyText,
+      turnIndex: normalizedHistory.length,
+      inputMode: 'text',
+      transcriptSource: 'ai_text',
+      feedback: parsed?.feedback || {},
+      metadata: { modelProgress: parsed?.progress || null },
+    });
+  }
+
+  const done =
+    parsed?.progress?.done === true || parsed?.message?.type === 'wrap_up';
+  const progressIndex = Number.isFinite(
+    Number(parsed?.progress?.currentQuestionIndex)
+  )
+    ? Number(parsed.progress.currentQuestionIndex)
+    : session.current_question_index || 0;
+  await db.query(
+    `UPDATE interview_sessions
+        SET current_question_index = $3,
+            status = $4,
+            feedback_json = $5::jsonb,
+            score_report = $6::jsonb,
+            completed_at = CASE WHEN $4 = 'completed' THEN COALESCE(completed_at, NOW()) ELSE completed_at END,
+            updated_at = NOW()
+      WHERE id = $1 AND user_id = $2`,
+    [
+      session.id,
+      actor.id,
+      progressIndex,
+      done ? 'completed' : 'in_progress',
+      jsonParam(parsed?.feedback || {}, {}),
+      jsonParam(parsed?.scoreReport || {}, {}),
+    ]
+  );
+  return session.id;
+}
+
 // AI Interview Practice Route
 app.post('/api/workforce/interview-session', async (req, res) => {
   try {
@@ -25042,6 +25917,15 @@ app.post('/api/workforce/interview-session', async (req, res) => {
       mode, // new: interview mode
       progress,
     } = req.body;
+
+    const normalizedHistory = normalizeInterviewHistory(history);
+    const targetQuestionCount = clampInterviewQuestionCount(targetQuestions);
+    const currentQuestionNumber = Number.isFinite(Number(currentQuestionIndex))
+      ? Number(currentQuestionIndex)
+      : Math.max(
+          0,
+          normalizedHistory.filter((turn) => turn.role === 'interviewer').length
+        );
 
     const careerInfo = getCareerInfo(role);
 
@@ -25083,9 +25967,9 @@ PARAMETERS (PROVIDED BY THE BACKEND)
 Current session parameters:
 - role: ${role}
 - experienceLevel: ${experienceLevel}
-- interviewStyle: ${interviewStyle}
-- sessionMode: ${sessionMode}
-- targetQuestions: ${targetQuestions}
+- interviewStyle: ${interviewStyle || 'general'}
+- sessionMode: ${sessionMode || 'mock'}
+- targetQuestions: ${targetQuestionCount}
 - careerInfo: ${careerInfo ? JSON.stringify(careerInfo) : 'NONE'}
 
 From "role", you can infer common tasks and soft skills. For example:
@@ -25145,7 +26029,8 @@ SESSION FLOW
 
 You must keep an internal count of how many main questions have been asked (excluding wrap-up messages). The backend will tell you:
 - currentQuestionIndex: ${currentQuestionIndex}
-- targetQuestions: ${targetQuestions}
+- currentQuestionIndex: ${currentQuestionNumber}
+- targetQuestions: ${targetQuestionCount}
 
 Follow this flow:
 
@@ -25347,8 +26232,8 @@ IMPORTANT
 
     const chatHistory = [
       { role: 'system', content: systemPrompt },
-      ...(history || []).map((m) => ({
-        role: m.from === 'ai' ? 'assistant' : 'user',
+      ...normalizedHistory.map((m) => ({
+        role: m.role === 'interviewer' ? 'assistant' : 'user',
         content: m.text,
       })),
     ];
@@ -25447,8 +26332,8 @@ IMPORTANT
         currentQuestionIndex:
           typeof parsed.currentQuestionIndex === 'number'
             ? parsed.currentQuestionIndex
-            : (req.body?.currentQuestionIndex ?? 0),
-        targetQuestions: req.body?.targetQuestions ?? 5,
+            : currentQuestionNumber,
+        targetQuestions: targetQuestionCount,
         done: false,
       };
     }
@@ -25472,6 +26357,33 @@ IMPORTANT
           suggestions: [],
         };
       }
+    }
+
+    const replyText = cleanText(
+      parsed?.message?.questionText || parsed.reply || parsed.text,
+      12000
+    );
+    if (replyText) {
+      parsed.reply = replyText;
+      parsed.text = parsed.text || replyText;
+    }
+
+    try {
+      const sessionId = await persistInterviewExchange({
+        req,
+        parsed,
+        normalizedHistory,
+        replyText,
+      });
+      if (sessionId) {
+        parsed.sessionId = sessionId;
+        parsed.session_id = sessionId;
+      }
+    } catch (persistErr) {
+      console.warn(
+        '[Interview] persistence skipped:',
+        persistErr?.message || persistErr
+      );
     }
 
     res.json(parsed);

@@ -176,4 +176,163 @@ export const ECON_CHART_QUESTIONS = [
     explanation:
       'On a demand line P = 10 − Q, when P = 8, Q = 2. Buyers only want 2 units when price is $8.',
   },
+  // ── Additional chart questions ────────────────────────────────────────
+  {
+    id: 'cq_011',
+    prompt:
+      'The demand curve shifted left as shown. What effect does this have on equilibrium?',
+    chart: {
+      type: 'sd-shift',
+      curve: 'demand',
+      dIntercept: 10,
+      sIntercept: 0,
+      shift: -2,
+    },
+    choices: [
+      'Price down, quantity down',
+      'Price up, quantity up',
+      'Price down, quantity up',
+      'Price up, quantity down',
+    ],
+    correct: 0,
+    explanation:
+      'A decrease in demand (left shift) lowers both the equilibrium price and quantity.',
+  },
+  {
+    id: 'cq_012',
+    prompt:
+      'The chart shows a supply curve and demand curve with equilibrium at (6, 4). A new supply curve (dashed) now intersects demand at (8, 2). What happened?',
+    chart: {
+      type: 'sd-shift',
+      curve: 'supply',
+      dIntercept: 10,
+      sIntercept: 0,
+      shift: 4,
+    },
+    choices: [
+      'Supply increased — price fell, quantity rose',
+      'Supply decreased — price rose, quantity fell',
+      'Demand increased — price rose, quantity rose',
+      'Demand decreased — price fell, quantity fell',
+    ],
+    correct: 0,
+    explanation:
+      'An increase in supply (right shift) drives equilibrium price down and quantity up.',
+  },
+  {
+    id: 'cq_013',
+    prompt:
+      'According to the chart, what quantity is supplied when the price is $7?',
+    chart: { type: 'reading', dIntercept: 10, sIntercept: 0, readPrice: 7 },
+    choices: ['3 units', '5 units', '7 units', '9 units'],
+    correct: 2,
+    explanation:
+      'On the supply line P = Q, when P = 7, Q = 7. Sellers want to supply 7 units at this price.',
+  },
+  {
+    id: 'cq_014',
+    prompt:
+      'According to the chart, what quantity is demanded when the price is $3?',
+    chart: { type: 'reading', dIntercept: 10, sIntercept: 0, readPrice: 3 },
+    choices: ['3 units', '5 units', '7 units', '9 units'],
+    correct: 2,
+    explanation:
+      'On the demand line P = 10 − Q, when P = 3, Q = 7. More is demanded at lower prices.',
+  },
+  {
+    id: 'cq_015',
+    prompt:
+      'A price floor is set at $7 (above equilibrium). What situation results?',
+    chart: {
+      type: 'price-change',
+      dIntercept: 10,
+      sIntercept: 0,
+      pricedAt: 7,
+    },
+    choices: [
+      'A surplus — quantity supplied exceeds quantity demanded',
+      'A shortage — quantity demanded exceeds quantity supplied',
+      'The market remains in equilibrium',
+      'Demand automatically increases to fix the surplus',
+    ],
+    correct: 0,
+    explanation:
+      'Price floors set above equilibrium cause surpluses because sellers supply more than buyers want at that high price.',
+  },
+  {
+    id: 'cq_016',
+    prompt:
+      'On a standard supply and demand graph, what does the X-axis (horizontal) represent?',
+    chart: { type: 'sd-baseline', dIntercept: 10, sIntercept: 0 },
+    choices: ['Quantity', 'Price', 'Revenue', 'Supply'],
+    correct: 0,
+    explanation:
+      'The horizontal axis (X) represents Quantity and the vertical axis (Y) represents Price on a standard supply and demand graph.',
+  },
+  {
+    id: 'cq_017',
+    prompt:
+      'On a standard supply and demand graph, which curve slopes downward from left to right?',
+    chart: { type: 'sd-baseline', dIntercept: 10, sIntercept: 0 },
+    choices: [
+      'The demand curve',
+      'The supply curve',
+      'Both curves slope downward',
+      'Neither — both are flat',
+    ],
+    correct: 0,
+    explanation:
+      'The demand curve slopes downward (negative slope) because at higher prices, buyers demand less.',
+  },
+  {
+    id: 'cq_018',
+    prompt:
+      'The supply curve shifted right (increased). Which of these could have caused this shift?',
+    chart: {
+      type: 'sd-shift',
+      curve: 'supply',
+      dIntercept: 10,
+      sIntercept: 0,
+      shift: 2,
+    },
+    choices: [
+      'New technology made production cheaper',
+      'A new tax increased production costs',
+      'Consumer income fell',
+      'Consumer preferences changed',
+    ],
+    correct: 0,
+    explanation:
+      'Supply increases (shifts right) when production costs decrease — e.g., new technology, lower input costs, or subsidies.',
+  },
+  {
+    id: 'cq_019',
+    prompt:
+      'A price ceiling is set at $3 (below equilibrium). What quantity is supplied at this price?',
+    chart: {
+      type: 'price-change',
+      dIntercept: 10,
+      sIntercept: 0,
+      pricedAt: 3,
+    },
+    choices: ['3 units', '5 units', '7 units', '10 units'],
+    correct: 0,
+    explanation:
+      'On the supply line P = Q, when P = 3, Q = 3. The price ceiling limits the price, so sellers only produce 3 units.',
+  },
+  {
+    id: 'cq_020',
+    prompt:
+      'Which of the following would shift the demand curve to the left (decrease demand)?',
+    chart: { type: 'sd-baseline', dIntercept: 10, sIntercept: 0 },
+    choices: [
+      'A decrease in consumer income',
+      'A decrease in the price of the good',
+      'A decrease in production costs',
+      'A decrease in the number of suppliers',
+    ],
+    correct: 0,
+    explanation:
+      'Demand decreases (shifts left) when consumer income falls, when a complementary good gets more expensive, or when consumer tastes change. A price change moves along the demand curve — it does not shift it.',
+  },
 ];

@@ -71,21 +71,21 @@ function Editor({ onComplete }) {
           onClick={() => setAlign('left')}
           className={`px-2 py-1 rounded ${align === 'left' ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          â‰¡L
+          ≡L
         </button>
         <button
           type="button"
           onClick={bumpCenter}
           className={`px-2 py-1 rounded ${align === 'center' ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          â‰¡C
+          ≡C
         </button>
         <button
           type="button"
           onClick={() => setAlign('right')}
           className={`px-2 py-1 rounded ${align === 'right' ? 'bg-teal-600 text-white' : 'border border-slate-300'}`}
         >
-          â‰¡R
+          ≡R
         </button>
         <span className="border-l border-slate-300 mx-1" />
         <button
@@ -116,13 +116,13 @@ function Editor({ onComplete }) {
       <div className="text-xs space-y-1 p-2 rounded bg-slate-50 dark:bg-slate-800">
         <div className="font-semibold mb-1">Tasks</div>
         <div className={tasks.bold ? 'text-green-600' : ''}>
-          {tasks.bold ? 'âœ“' : 'â—‹'} Apply <strong>Bold</strong>.
+          {tasks.bold ? '✓' : '○'} Apply <strong>Bold</strong>.
         </div>
         <div className={tasks.center ? 'text-green-600' : ''}>
-          {tasks.center ? 'âœ“' : 'â—‹'} Center the document.
+          {tasks.center ? '✓' : '○'} Center the document.
         </div>
         <div className={tasks.bullets ? 'text-green-600' : ''}>
-          {tasks.bullets ? 'âœ“' : 'â—‹'} Convert text to a bulleted list.
+          {tasks.bullets ? '✓' : '○'} Convert text to a bulleted list.
         </div>
       </div>
     </div>

@@ -63,7 +63,7 @@ function UrlAnatomy({ onComplete }) {
               disabled={done[p.id]}
               className="px-2 py-1 text-xs rounded bg-teal-600 text-white disabled:opacity-50"
             >
-              {done[p.id] ? 'âœ“' : 'I see it'}
+              {done[p.id] ? '✓' : 'I see it'}
             </button>
           </li>
         ))}

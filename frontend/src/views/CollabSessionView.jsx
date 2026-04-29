@@ -5,7 +5,7 @@ import useCollabSocket from '../../components/collab/useCollabSocket.js';
 import CollabLobby from '../../components/collab/CollabLobby.jsx';
 import CollabQuizSession from '../../components/collab/CollabQuizSession.jsx';
 import CollabEssaySession from '../../components/collab/CollabEssaySession.jsx';
-import CollabHeader from '../../components/collab/CollabHeader.jsx';
+import PlatformHeader from '../../components/layout/PlatformHeader.jsx';
 import useCollabTheme from '../../components/collab/useCollabTheme.js';
 
 function getCurrentUserId() {
@@ -34,7 +34,7 @@ function PageShell({ children, roomCode }) {
       className="min-h-screen w-full"
       style={{ backgroundColor: t.pageBg, color: t.pageText, ...t.cssVars }}
     >
-      <CollabHeader />
+      <PlatformHeader />
       {roomCode ? <RoomCodeBanner roomCode={roomCode} /> : null}
       <div className="max-w-5xl mx-auto p-6">{children}</div>
     </div>

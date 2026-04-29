@@ -18,6 +18,8 @@ import '../onboarding/OnboardingFlow.css';
 import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
 import SuperAdminQuestionBrowser from '../views/SuperAdminQuestionBrowser.jsx';
 import MathInputWithPad from '../../components/MathInputWithPad.jsx';
+import { DiagnosticIntroModal } from '../../components/diagnostic/DiagnosticIntroModal.jsx';
+import { DiagnosticReport } from '../../components/diagnostic/DiagnosticReport.jsx';
 import {
   createExamSession,
   saveExamProgress,
@@ -135,17 +137,6 @@ if (typeof window !== 'undefined') {
 
 // Hydrate early so createEmptyProgress can pick up totals
 hydratePremadeCatalogFromWindow();
-// Regression guard: warn if catalog is empty
-try {
-  if (
-    !Array.isArray(PREMADE_QUIZ_CATALOG?.['Math']) ||
-    PREMADE_QUIZ_CATALOG['Math'].length === 0
-  ) {
-    console.warn(
-      '[progress] Math premade catalog is empty - progress bars will show 0/0'
-    );
-  }
-} catch {}
 
 const isAvailableQuiz = (quiz) => {
   if (!quiz || typeof quiz !== 'object') return false;
@@ -24440,6 +24431,7 @@ import InstructorReportsPanel from '../components/instructor/InstructorReportsPa
 import InstructorAssignmentsPanel from '../components/instructor/InstructorAssignmentsPanel.jsx';
 import InstructorCurriculumPanel from '../components/instructor/InstructorCurriculumPanel.jsx';
 import InstructorClassesPanel from '../components/instructor/InstructorClassesPanel.jsx';
+import InstructorWorkforcePanel from '../components/instructor/InstructorWorkforcePanel.jsx';
 import StudentMyClassPanel from '../components/student/StudentMyClassPanel.jsx';
 import AppIcon, { subjectIconName } from '../components/icons/AppIcon.jsx';
 import CheckboxField from '../components/ui/CheckboxField.jsx';
@@ -26309,6 +26301,48 @@ function App({ externalTheme, onThemeChange }) {
     }
   }, [navigateTo, loadProfileOnce, profileData]);
 
+  // Consume `?nav=<view>` on first mount so external pages (PlatformHeader on
+  // /workforce, /collab, etc.) can deep-link into the legacy app's top-level
+  // views. We strip the param afterward so a refresh doesn't re-trigger nav.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    let target;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      target = params.get('nav');
+      if (!target) return;
+      params.delete('nav');
+      const qs = params.toString();
+      const cleanUrl =
+        window.location.pathname + (qs ? `?${qs}` : '') + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+    } catch (_) {
+      return;
+    }
+    const dispatch = {
+      dashboard: goToDashboard,
+      home: goToDashboard,
+      quizzes: goToQuizzes,
+      progress: goToProgress,
+      profile: goToProfile,
+      settings: goToSettings,
+      myclass: goToMyClass,
+    };
+    const fn = dispatch[String(target).toLowerCase()];
+    if (typeof fn === 'function') {
+      // Defer slightly so the rest of mount-time effects settle first.
+      setTimeout(() => {
+        try {
+          fn();
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn('[nav] failed to apply ?nav= target:', target, err);
+        }
+      }, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Subject/category selection wrappers (record history before changing selection)
   const selectSubject = useCallback(
     (subject) => {
@@ -27588,7 +27622,10 @@ function App({ externalTheme, onThemeChange }) {
 
     const requiresStandardView =
       quizPayload.type === 'multi-part-rla' ||
-      quizPayload.type === 'multi-part-math';
+      quizPayload.type === 'multi-part-math' ||
+      quizPayload.type === 'diagnostic' ||
+      quizPayload.quizType === 'diagnostic' ||
+      quizPayload.isDiagnostic === true;
     const normalizedType =
       quizPayload.type === 'reading' ? 'quiz' : quizPayload.type || 'quiz';
 
@@ -28016,6 +28053,71 @@ function App({ externalTheme, onThemeChange }) {
       alert('Something went wrong starting the quiz. Please try again.');
     }
   };
+
+  const handleStartDiagnostic = useCallback(() => {
+    setShowDiagnosticIntroModal(true);
+  }, []);
+
+  const handleConfirmStartDiagnostic = useCallback(async () => {
+    setShowDiagnosticIntroModal(false);
+    try {
+      setIsLoading(true);
+      setLoadingMessage('Preparing your diagnostic test...');
+
+      const token =
+        localStorage.getItem('appToken') || localStorage.getItem('token');
+      const res = await fetch(`${getApiBaseUrl()}/api/diagnostic-test`, {
+        method: 'POST',
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : {},
+      });
+
+      let payload = null;
+      try {
+        payload = await res.json();
+      } catch (_error) {
+        payload = null;
+      }
+
+      if (!res.ok) {
+        if (payload?.alreadyCompleted) {
+          alert(
+            payload?.message ||
+              'You have already completed the GED Diagnostic. Each student may take it only once.'
+          );
+          return;
+        }
+        throw new Error(payload?.error || 'Failed to start diagnostic');
+      }
+
+      if (payload?.alreadyCompleted) {
+        alert(
+          payload?.message ||
+            'You have already completed the GED Diagnostic. Each student may take it only once.'
+        );
+        return;
+      }
+
+      if (
+        !payload ||
+        !Array.isArray(payload.questions) ||
+        !payload.questions.length
+      ) {
+        throw new Error('No diagnostic quiz was returned.');
+      }
+
+      startQuiz(payload, payload.subject || 'Diagnostic');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to start diagnostic test. Please try again.');
+    } finally {
+      setIsLoading(false);
+      setLoadingMessage('');
+    }
+  }, [startQuiz]);
 
   const onQuizComplete = async (results) => {
     setQuizResults(results);
@@ -28677,10 +28779,6 @@ function App({ externalTheme, onThemeChange }) {
           activeQuiz?.quizType === 'diagnostic' ||
           activeQuiz?.type === 'diagnostic';
         if (isDiagnosticResult) {
-          // Import DiagnosticReport dynamically to avoid circular dependencies
-          const {
-            DiagnosticReport,
-          } = require('../../components/diagnostic/DiagnosticReport.jsx');
           return (
             <DiagnosticReport
               results={quizResults}
@@ -28831,12 +28929,14 @@ function App({ externalTheme, onThemeChange }) {
             setToolsModalSubject={setToolsModalSubject}
             setShowToolsModal={setShowToolsModal}
             theme={preferences.theme}
+            activeView={activeView}
             selectedSubject={selectedSubject}
             selectedCategory={selectedCategory}
             onSelectSubject={selectSubject}
             onSelectCategory={selectCategory}
             onBack={goBack}
             statsRefreshKey={statsRefreshKey}
+            onStartDiagnostic={handleStartDiagnostic}
             onSelectGenerator={async (
               subject,
               topic,
@@ -28998,23 +29098,12 @@ function App({ externalTheme, onThemeChange }) {
             onDismiss={handleDismissNamePrompt}
           />
         )}
-        {showDiagnosticIntroModal &&
-          (() => {
-            try {
-              const {
-                DiagnosticIntroModal,
-              } = require('../../components/diagnostic/DiagnosticIntroModal.jsx');
-              return (
-                <DiagnosticIntroModal
-                  onStart={handleConfirmStartDiagnostic}
-                  onCancel={() => setShowDiagnosticIntroModal(false)}
-                />
-              );
-            } catch (e) {
-              console.warn('[DiagnosticIntro] Failed to load:', e);
-              return null;
-            }
-          })()}
+        {showDiagnosticIntroModal && (
+          <DiagnosticIntroModal
+            onStart={handleConfirmStartDiagnostic}
+            onCancel={() => setShowDiagnosticIntroModal(false)}
+          />
+        )}
         {pendingSurvey && (
           <PostQuizSurvey
             attemptId={pendingSurvey.attemptId}
@@ -30774,6 +30863,7 @@ function InstructorDashboard({ user, token, onLogout }) {
             { id: 'classes', label: 'Classes' },
             { id: 'reports', label: 'Question Reports' },
             { id: 'assignments', label: 'Assignments' },
+            { id: 'workforce', label: 'Workforce' },
             { id: 'curriculum', label: 'Curriculum' },
           ].map((tab) => {
             const active = activeTab === tab.id;
@@ -30995,6 +31085,15 @@ function InstructorDashboard({ user, token, onLogout }) {
                   Assignments
                 </h2>
                 <InstructorAssignmentsPanel students={students} />
+              </section>
+            )}
+
+            {activeTab === 'workforce' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Workforce Readiness
+                </h2>
+                <InstructorWorkforcePanel students={students} />
               </section>
             )}
 
@@ -31858,6 +31957,17 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               </button>
               <button
                 type="button"
+                onClick={() => setActiveTab('workforce')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'workforce'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Workforce
+              </button>
+              <button
+                type="button"
                 onClick={() => setActiveTab('curriculum')}
                 className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
                   activeTab === 'curriculum'
@@ -32060,6 +32170,23 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                   All assignments created by instructors in your organization.
                 </p>
                 <InstructorAssignmentsPanel
+                  students={users.filter(
+                    (u) => String(u.role || '').toLowerCase() === 'student'
+                  )}
+                />
+              </section>
+            )}
+
+            {activeTab === 'workforce' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                  Organization Workforce Readiness
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  Assign program-long workforce goals and review interview
+                  readiness across students.
+                </p>
+                <InstructorWorkforcePanel
                   students={users.filter(
                     (u) => String(u.role || '').toLowerCase() === 'student'
                   )}
@@ -33215,6 +33342,7 @@ function StartScreen({
   setToolsModalSubject,
   setShowToolsModal,
   theme = 'light',
+  activeView,
   onRefreshProfile,
   selectedSubject,
   selectedCategory,
@@ -33222,12 +33350,17 @@ function StartScreen({
   onSelectCategory,
   onBack,
   statsRefreshKey,
+  onStartDiagnostic,
 }) {
   const [aiQuizTopic, setAiQuizTopic] = useState('');
   // Image-based questions are only available for Science / Social Studies.
   // Default ON so users get the richer experience without an extra click.
   const [aiIncludeImages, setAiIncludeImages] = useState(true);
   const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+
+  useEffect(() => {
+    setDetailedViewSubject(null);
+  }, [activeView]);
 
   // Back button handler to return to dashboard from progress view
   const handleBackToProgress = useCallback(() => {
@@ -33262,75 +33395,6 @@ function StartScreen({
   const [coachChatError, setCoachChatError] = useState('');
   const coachChatEndRef = useRef(null);
   const coachChatInputRef = useRef(null);
-
-  // Diagnostic Test Handler
-  const handleStartDiagnostic = () => {
-    // Show the intro modal first
-    setShowDiagnosticIntroModal(true);
-  };
-
-  const handleConfirmStartDiagnostic = async () => {
-    setShowDiagnosticIntroModal(false);
-    try {
-      setIsLoading(true);
-      setLoadingMessage('Preparing your diagnostic test...');
-
-      const token =
-        localStorage.getItem('appToken') || localStorage.getItem('token');
-      const res = await fetch('/api/diagnostic-test', {
-        method: 'POST',
-        headers: token
-          ? {
-              Authorization: `Bearer ${token}`,
-            }
-          : {},
-      });
-
-      let payload = null;
-      try {
-        payload = await res.json();
-      } catch (_error) {
-        payload = null;
-      }
-
-      if (!res.ok) {
-        // Check if diagnostic already completed
-        if (payload?.alreadyCompleted) {
-          alert(
-            payload?.message ||
-              'You have already completed the GED Diagnostic. Each student may take it only once.'
-          );
-          return;
-        }
-        throw new Error(payload?.error || 'Failed to start diagnostic');
-      }
-
-      if (payload?.alreadyCompleted) {
-        alert(
-          payload?.message ||
-            'You have already completed the GED Diagnostic. Each student may take it only once.'
-        );
-        return;
-      }
-
-      if (
-        !payload ||
-        !Array.isArray(payload.questions) ||
-        !payload.questions.length
-      ) {
-        throw new Error('No diagnostic quiz was returned.');
-      }
-
-      // Use onSelectQuiz to launch it
-      onSelectQuiz(payload, payload.subject || 'Diagnostic');
-    } catch (err) {
-      console.error(err);
-      alert('Failed to start diagnostic test. Please try again.');
-    } finally {
-      setIsLoading(false);
-      setLoadingMessage('');
-    }
-  };
 
   // Weekly coach helpers (top-level)
   const canonicalSubjectId = (value) => {
@@ -36376,7 +36440,7 @@ function StartScreen({
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleStartDiagnostic();
+                  onStartDiagnostic?.();
                 }}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >

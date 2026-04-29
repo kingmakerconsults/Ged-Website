@@ -26,7 +26,7 @@ function TypingDrill({ onPass }) {
         onClick={onPass}
         className="px-3 py-1.5 rounded bg-teal-600 text-white text-sm disabled:opacity-50"
       >
-        {matches ? 'Done — continue âœ“' : 'Match the target text exactly'}
+        {matches ? 'Done — continue ✓' : 'Match the target text exactly'}
       </button>
     </div>
   );
@@ -39,12 +39,12 @@ function PinUnlock({ onPass }) {
     <div className="space-y-2">
       <div className="text-xs uppercase opacity-60">Unlock with PIN 4827</div>
       <div className="flex gap-1.5 justify-center">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'â†', 0, 'OK'].map((k) => (
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, '←', 0, 'OK'].map((k) => (
           <button
             key={k}
             type="button"
             onClick={() => {
-              if (k === 'â†') setPin((p) => p.slice(0, -1));
+              if (k === '←') setPin((p) => p.slice(0, -1));
               else if (k === 'OK') {
                 if (pin === PIN) onPass();
                 else setPin('');
@@ -93,10 +93,10 @@ function Sim({ onComplete }) {
               <Sortable
                 prompt="Which app would you tap to do each task?"
                 buckets={[
-                  { key: 'phone', name: 'ðŸ“ž Phone' },
-                  { key: 'mail', name: 'âœ‰ï¸ Email' },
-                  { key: 'maps', name: 'ðŸ—ºï¸ Maps' },
-                  { key: 'camera', name: 'ðŸ“· Camera' },
+                  { key: 'phone', name: '📞 Phone' },
+                  { key: 'mail', name: '✉️ Email' },
+                  { key: 'maps', name: '🗺️ Maps' },
+                  { key: 'camera', name: '📷 Camera' },
                 ]}
                 items={[
                   {
@@ -142,7 +142,7 @@ function Sim({ onComplete }) {
                     : 'opacity-50'
               }
             >
-              {i < step ? 'âœ“ ' : i === step ? 'â†’ ' : 'Â· '}
+              {i < step ? '✓ ' : i === step ? '→ ' : '· '}
               {s}
             </li>
           ))}
@@ -194,7 +194,7 @@ export const MODULE = {
         'A reset button',
       ],
       correct: 1,
-      rationale: 'Press-and-hold reveals related characters (Ã , Ã¡, etc.).',
+      rationale: 'Press-and-hold reveals related characters (à, á, etc.).',
     },
     {
       q: 'A site asks for your username and password. What is a username?',

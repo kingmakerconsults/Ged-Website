@@ -49,7 +49,7 @@ function ShareDialog({ onComplete }) {
         </div>
         {shared ? (
           <div className="text-xs mt-2 text-green-600">
-            âœ“ Shared with {email} as {perm}
+            ✓ Shared with {email} as {perm}
           </div>
         ) : null}
       </div>
@@ -77,7 +77,7 @@ function ShareDialog({ onComplete }) {
         </div>
         {posted ? (
           <div className="text-xs mt-2 text-green-600">
-            âœ“ Comment posted: "{comment}"
+            ✓ Comment posted: "{comment}"
           </div>
         ) : null}
       </div>
@@ -200,8 +200,8 @@ export const MODULE = {
     {
       q: 'To export as a Word file you use:',
       choices: [
-        'Tools â†’ Spelling',
-        'File â†’ Download â†’ .docx',
+        'Tools → Spelling',
+        'File → Download → .docx',
         'Help',
         'Insert menu',
       ],

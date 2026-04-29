@@ -16,7 +16,7 @@ function StartMenu({ onSnip }) {
         className="px-2 py-1 rounded bg-blue-700 text-white text-xs font-semibold"
         aria-expanded={open}
       >
-        âŠž Start
+        ⊞ Start
       </button>
       <div className="ml-2 text-xs opacity-70">Type here to search</div>
       {open ? (
@@ -29,21 +29,21 @@ function StartMenu({ onSnip }) {
             }}
             className="w-full text-left px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs"
           >
-            âœ‚ Snipping Tool
+            ✂ Snipping Tool
           </button>
           <button
             type="button"
             onClick={() => setOpen(false)}
             className="w-full text-left px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs"
           >
-            âš™ Settings
+            ⚙ Settings
           </button>
           <button
             type="button"
             onClick={() => setOpen(false)}
             className="w-full text-left px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs"
           >
-            â» Power â†’ Shut down
+            ⏻ Power → Shut down
           </button>
         </div>
       ) : null}
@@ -79,7 +79,7 @@ function Sim({ onComplete }) {
           </div>
           {snipped ? (
             <div className="absolute top-4 right-4 bg-white text-slate-900 rounded p-2 text-xs shadow">
-              âœ‚ Snip captured âœ“
+              ✂ Snip captured ✓
             </div>
           ) : null}
         </div>
@@ -87,7 +87,7 @@ function Sim({ onComplete }) {
       </WindowFrame>
       <div className="text-xs">
         <strong>Task 1:</strong> Open the Start menu and choose Snipping Tool.
-        {snipped ? <span className="text-green-600 ml-2">âœ“ done</span> : null}
+        {snipped ? <span className="text-green-600 ml-2">✓ done</span> : null}
       </div>
 
       <Sequencer
@@ -104,7 +104,7 @@ function Sim({ onComplete }) {
       <Sortable
         prompt="Task 3 — Match each task to the right Settings page."
         buckets={[
-          { key: 'display', name: 'System â†’ Display' },
+          { key: 'display', name: 'System → Display' },
           { key: 'network', name: 'Network & Internet' },
           { key: 'accounts', name: 'Accounts' },
           { key: 'update', name: 'Update & Security' },
@@ -187,7 +187,7 @@ export const MODULE = {
       choices: [
         'Pull the plug',
         'Hold the power button',
-        'Start â†’ Power â†’ Shut down',
+        'Start → Power → Shut down',
         'Close the lid only',
       ],
       correct: 2,

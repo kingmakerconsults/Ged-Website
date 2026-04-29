@@ -12,13 +12,20 @@
  *   - Workplace Skills Sims
  *   - Soft Skills Coach
  */
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import {
   useWorkforceProgress,
   FOUNDATION_MODULES,
   PRO_MODULES,
   setProctored,
 } from './progressStore.js';
+import ProgramDashboard from './program/ProgramDashboard.jsx';
+import {
+  createWorkforcePlan,
+  fetchWorkforceOverview,
+  hasWorkforceAuth,
+  updateWorkforceMilestone,
+} from './workforceApi.js';
 
 const CareerDocumentStudio = lazy(() => import('./CareerDocumentStudio.jsx'));
 const DigitalLiteracyAcademy = lazy(
@@ -136,8 +143,13 @@ function SectionProgressChip({ section, dl }) {
 
 export default function WorkforceHub({ onBack, userId = 'anon' }) {
   const [activeId, setActiveId] = useState(null);
+  const [overview, setOverview] = useState(null);
+  const [overviewLoading, setOverviewLoading] = useState(false);
+  const [overviewError, setOverviewError] = useState('');
+  const [programBusy, setProgramBusy] = useState(false);
   const progress = useWorkforceProgress(userId);
   const apiBase = (typeof window !== 'undefined' && window.API_BASE_URL) || '';
+  const syncAvailable = hasWorkforceAuth();
 
   const foundationCount = FOUNDATION_MODULES.filter(
     (m) => progress.dl[m]?.mastered
@@ -146,6 +158,73 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
 
   function close() {
     setActiveId(null);
+  }
+
+  const loadOverview = useCallback(async () => {
+    if (!syncAvailable) {
+      setOverview(null);
+      setOverviewError('');
+      return;
+    }
+    setOverviewLoading(true);
+    setOverviewError('');
+    try {
+      const data = await fetchWorkforceOverview();
+      setOverview(data || null);
+    } catch (err) {
+      setOverviewError(
+        err?.status === 401
+          ? 'Sign in again to sync workforce progress.'
+          : err?.message || 'Could not load workforce program progress.'
+      );
+    } finally {
+      setOverviewLoading(false);
+    }
+  }, [syncAvailable]);
+
+  useEffect(() => {
+    loadOverview();
+  }, [loadOverview]);
+
+  async function handleCreatePlan() {
+    setProgramBusy(true);
+    setOverviewError('');
+    try {
+      const data = await createWorkforcePlan({
+        name: 'Workforce Readiness Plan',
+        description:
+          'A self-paced plan for career exploration, documents, interview practice, and job-search habits.',
+        source: 'self_directed',
+      });
+      setOverview((prev) => ({
+        ...(prev || {}),
+        activePlan: data?.plan || null,
+        plans: data?.plan
+          ? [data.plan, ...(prev?.plans || [])]
+          : prev?.plans || [],
+      }));
+      await loadOverview();
+    } catch (err) {
+      setOverviewError(err?.message || 'Could not create workforce plan.');
+    } finally {
+      setProgramBusy(false);
+    }
+  }
+
+  async function handleCompleteMilestone(planId, milestoneId) {
+    setProgramBusy(true);
+    setOverviewError('');
+    try {
+      await updateWorkforceMilestone(planId, milestoneId, {
+        status: 'completed',
+        evidence: { completedFrom: 'workforce_hub' },
+      });
+      await loadOverview();
+    } catch (err) {
+      setOverviewError(err?.message || 'Could not update milestone.');
+    } finally {
+      setProgramBusy(false);
+    }
   }
 
   function renderSection() {
@@ -264,6 +343,18 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
           </div>
         </div>
       </div>
+
+      <ProgramDashboard
+        overview={overview}
+        loading={overviewLoading}
+        error={overviewError}
+        syncAvailable={syncAvailable}
+        onCreatePlan={handleCreatePlan}
+        onRefresh={loadOverview}
+        onOpenSection={setActiveId}
+        onCompleteMilestone={handleCompleteMilestone}
+        actionBusy={programBusy}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {SECTIONS.map((s) => (

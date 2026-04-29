@@ -38,8 +38,8 @@ function GovBrowser({ onComplete }) {
         className={`p-3 rounded text-xs ${safe ? 'bg-green-50 text-green-900 border border-green-300' : 'bg-red-50 text-red-900 border border-red-300'}`}
       >
         {safe
-          ? 'âœ… This domain ends in .gov — official US government site.'
-          : 'âš ï¸ This is NOT a .gov domain. Likely a scam impersonating government services.'}
+          ? '✅ This domain ends in .gov — official US government site.'
+          : '⚠️ This is NOT a .gov domain. Likely a scam impersonating government services.'}
       </div>
       <div className="flex gap-2">
         <button

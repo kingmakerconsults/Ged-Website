@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import WorkforceSectionFrame from '../WorkforceSectionFrame.jsx';
+import { getWorkforceAuthToken } from '../workforceApi.js';
 import {
   INTERVIEW_QUESTIONS,
   INTERVIEW_CATEGORIES,
@@ -240,14 +241,35 @@ function localMockReply(history) {
 
 function AIMock({ userId, apiBase }) {
   const key = storageKey(userId, 'mock');
+  const setupKey = storageKey(userId, 'mockSetup');
   const [history, setHistory] = useState(() => loadJSON(key, []));
+  const [setup, setSetup] = useState(() =>
+    loadJSON(setupKey, {
+      role: 'Customer Service Associate',
+      experienceLevel: 'entry',
+      interviewStyle: 'general',
+      targetQuestions: 5,
+      sessionId: null,
+    })
+  );
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const [progress, setProgress] = useState(null);
   useEffect(() => saveJSON(key, history), [key, history]);
+  useEffect(() => saveJSON(setupKey, setup), [setupKey, setup]);
 
-  const turns = history.length;
-  const done = turns >= 10;
+  const targetQuestions = Math.max(
+    1,
+    Math.min(12, Number(setup.targetQuestions) || 5)
+  );
+  const interviewerTurns = history.filter((m) => m.role !== 'user').length;
+  const done = progress?.done === true || interviewerTurns >= targetQuestions;
+
+  function updateSetup(patch) {
+    setSetup((current) => ({ ...current, ...patch }));
+  }
 
   async function send() {
     if (!input.trim() || loading || done) return;
@@ -258,18 +280,46 @@ function AIMock({ userId, apiBase }) {
     setLoading(true);
     setError(null);
     try {
+      const token = getWorkforceAuthToken();
       const res = await fetch(
         `${apiBase || ''}/api/workforce/interview-session`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mode: 'mock', history: newHistory }),
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            mode: 'mock',
+            sessionId: setup.sessionId || null,
+            role: setup.role,
+            experienceLevel: setup.experienceLevel,
+            interviewStyle: setup.interviewStyle,
+            sessionMode: 'mock',
+            targetQuestions,
+            currentQuestionIndex: interviewerTurns,
+            inputMode: 'text',
+            history: newHistory,
+          }),
         }
       );
       if (!res.ok) throw new Error(`Server ${res.status}`);
       const data = await res.json();
-      const reply = data.reply || data.text || '...';
-      setHistory((h) => [...h, { role: 'interviewer', text: reply }]);
+      const reply =
+        data.reply || data.text || data.message?.questionText || '...';
+      if (data.sessionId || data.session_id) {
+        updateSetup({ sessionId: data.sessionId || data.session_id });
+      }
+      setProgress(data.progress || null);
+      setFeedback(data.feedback || null);
+      setHistory((h) => [
+        ...h,
+        {
+          role: 'interviewer',
+          text: reply,
+          feedback: data.feedback || null,
+        },
+      ]);
     } catch (e) {
       setError(e.message || 'Mock service unavailable.');
       setHistory((h) => [
@@ -284,27 +334,81 @@ function AIMock({ userId, apiBase }) {
   function reset() {
     if (history.length && !window.confirm('Reset this mock interview?')) return;
     setHistory([]);
+    setProgress(null);
+    setFeedback(null);
+    updateSetup({ sessionId: null });
   }
 
   return (
     <div className="space-y-3 max-w-3xl">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-600 dark:text-slate-400">
-          5-question AI mock interview. Be specific - use STAR.
-        </p>
-        <button
-          type="button"
-          onClick={reset}
-          className="text-xs text-red-600 hover:underline"
-        >
-          Reset
-        </button>
+      <div className="rounded-lg border bg-white dark:bg-slate-800/70 p-3 space-y-3">
+        <div className="grid sm:grid-cols-2 gap-3">
+          <label className="text-xs font-bold uppercase tracking-wide text-slate-500">
+            Target role
+            <input
+              value={setup.role}
+              onChange={(e) => updateSetup({ role: e.target.value })}
+              className="mt-1 w-full px-2 py-1 rounded border bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-normal normal-case tracking-normal"
+            />
+          </label>
+          <label className="text-xs font-bold uppercase tracking-wide text-slate-500">
+            Interview style
+            <select
+              value={setup.interviewStyle}
+              onChange={(e) => updateSetup({ interviewStyle: e.target.value })}
+              className="mt-1 w-full px-2 py-1 rounded border bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-normal normal-case tracking-normal"
+            >
+              <option value="general">General</option>
+              <option value="behavioral">Behavioral / STAR</option>
+              <option value="customer_service">Customer service</option>
+              <option value="technical">Entry technical</option>
+            </select>
+          </label>
+          <label className="text-xs font-bold uppercase tracking-wide text-slate-500">
+            Experience
+            <select
+              value={setup.experienceLevel}
+              onChange={(e) => updateSetup({ experienceLevel: e.target.value })}
+              className="mt-1 w-full px-2 py-1 rounded border bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-normal normal-case tracking-normal"
+            >
+              <option value="entry">Entry-level</option>
+              <option value="some_experience">Some experience</option>
+              <option value="career_change">Career change</option>
+            </select>
+          </label>
+          <label className="text-xs font-bold uppercase tracking-wide text-slate-500">
+            Questions
+            <input
+              type="number"
+              min="1"
+              max="12"
+              value={targetQuestions}
+              onChange={(e) =>
+                updateSetup({ targetQuestions: Number(e.target.value) })
+              }
+              className="mt-1 w-full px-2 py-1 rounded border bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-normal normal-case tracking-normal"
+            />
+          </label>
+        </div>
+        <div className="flex items-center justify-between gap-3 text-sm text-slate-600 dark:text-slate-400">
+          <span>
+            {interviewerTurns}/{targetQuestions} interviewer questions
+            {setup.sessionId ? ` - saved session #${setup.sessionId}` : ''}
+          </span>
+          <button
+            type="button"
+            onClick={reset}
+            className="text-xs text-red-600 hover:underline"
+          >
+            Reset
+          </button>
+        </div>
       </div>
       <div className="space-y-2 max-h-96 overflow-y-auto p-3 rounded border bg-slate-50 dark:bg-slate-900">
         {history.length === 0 ? (
           <div className="text-sm italic text-slate-500">
-            Type your introduction below to begin. The interviewer will ask 5
-            questions.
+            Type your introduction below to begin. The interviewer will adapt
+            the session to the role and style above.
           </div>
         ) : (
           history.map((m, i) => (
@@ -354,6 +458,26 @@ function AIMock({ userId, apiBase }) {
       {error ? (
         <div className="text-xs text-amber-600">
           Online coach unavailable; using local fallback. ({error})
+        </div>
+      ) : null}
+      {feedback?.present ? (
+        <div className="rounded-lg border bg-teal-50 dark:bg-teal-900/20 p-3 text-sm">
+          <div className="font-bold text-teal-800 dark:text-teal-100">
+            Coach feedback
+          </div>
+          {feedback.summary ? <p className="mt-1">{feedback.summary}</p> : null}
+          {Array.isArray(feedback.tips) && feedback.tips.length ? (
+            <ul className="mt-2 list-disc pl-5 space-y-1">
+              {feedback.tips.map((tip, index) => (
+                <li key={index}>{tip}</li>
+              ))}
+            </ul>
+          ) : null}
+          {feedback.summaryPayload?.overallScore != null ? (
+            <div className="mt-2 text-xs font-semibold text-teal-700 dark:text-teal-200">
+              Overall score: {feedback.summaryPayload.overallScore}/100
+            </div>
+          ) : null}
         </div>
       ) : null}
     </div>

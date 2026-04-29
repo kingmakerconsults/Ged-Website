@@ -95,9 +95,9 @@ function Sim({ onComplete }) {
         <Sortable
           prompt="Drag each task to the input device that does it."
           buckets={[
-            { key: 'mouse', name: 'ðŸ–±ï¸ Mouse' },
-            { key: 'kb', name: 'âŒ¨ï¸ Keyboard' },
-            { key: 'both', name: 'ðŸ–±ï¸âŒ¨ï¸ Either / both' },
+            { key: 'mouse', name: '🖱️ Mouse' },
+            { key: 'kb', name: '⌨️ Keyboard' },
+            { key: 'both', name: '🖱️⌨️ Either / both' },
           ]}
           items={[
             { id: 'i1', label: 'Type your name', correctBucket: 'kb' },

@@ -29,7 +29,7 @@ function ContrastSim({ onComplete }) {
   return (
     <div className="p-3 space-y-2 text-sm">
       <div className="font-semibold">
-        Adjust colors until contrast ratio â‰¥ 4.5 (WCAG AA for body text)
+        Adjust colors until contrast ratio ≥ 4.5 (WCAG AA for body text)
       </div>
       <div className="flex flex-wrap items-center gap-3">
         <label className="text-xs">
@@ -114,7 +114,7 @@ function Sim({ onComplete }) {
         onComplete={setB}
       />
       <Sortable
-        prompt="Match accessibility need â†’ assistive feature."
+        prompt="Match accessibility need → assistive feature."
         buckets={[
           { key: 'sr', name: 'Screen reader' },
           { key: 'capt', name: 'Captions / transcripts' },

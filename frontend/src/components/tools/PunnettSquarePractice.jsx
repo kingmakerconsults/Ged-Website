@@ -34,6 +34,70 @@ const GENETICS_TRAITS = [
     dominantPhenotype: 'Brown',
     recessivePhenotype: 'Blue',
   },
+  {
+    id: 'seed_shape',
+    name: 'Seed Shape',
+    dominantAllele: 'R',
+    recessiveAllele: 'r',
+    dominantPhenotype: 'Round',
+    recessivePhenotype: 'Wrinkled',
+  },
+  {
+    id: 'coat_texture',
+    name: 'Coat Texture',
+    dominantAllele: 'C',
+    recessiveAllele: 'c',
+    dominantPhenotype: 'Curly',
+    recessivePhenotype: 'Straight',
+  },
+  {
+    id: 'wing_pattern',
+    name: 'Wing Pattern',
+    dominantAllele: 'W',
+    recessiveAllele: 'w',
+    dominantPhenotype: 'Spotted',
+    recessivePhenotype: 'Plain',
+  },
+  {
+    id: 'beak_shape',
+    name: 'Beak Shape',
+    dominantAllele: 'N',
+    recessiveAllele: 'n',
+    dominantPhenotype: 'Wide',
+    recessivePhenotype: 'Narrow',
+  },
+  {
+    id: 'pea_color',
+    name: 'Pea Color',
+    dominantAllele: 'Y',
+    recessiveAllele: 'y',
+    dominantPhenotype: 'Yellow',
+    recessivePhenotype: 'Green',
+  },
+  {
+    id: 'tail_length',
+    name: 'Tail Length',
+    dominantAllele: 'L',
+    recessiveAllele: 'l',
+    dominantPhenotype: 'Long',
+    recessivePhenotype: 'Short',
+  },
+  {
+    id: 'horn_presence',
+    name: 'Horn Presence',
+    dominantAllele: 'H',
+    recessiveAllele: 'h',
+    dominantPhenotype: 'Horned',
+    recessivePhenotype: 'Hornless',
+  },
+  {
+    id: 'scale_color',
+    name: 'Scale Color',
+    dominantAllele: 'S',
+    recessiveAllele: 's',
+    dominantPhenotype: 'Dark',
+    recessivePhenotype: 'Light',
+  },
 ];
 
 const GENOTYPE_OPTIONS = [
@@ -464,7 +528,42 @@ function PracticePunnett({ dark, onClose }) {
       }));
       if (isCorrect) {
         const idx = CELL_ORDER.indexOf(cellKey);
-        if (idx < 3) setCurrentGuidedCell(CELL_ORDER[idx + 1]);
+        if (idx < 3) {
+          setCurrentGuidedCell(CELL_ORDER[idx + 1]);
+        } else {
+          // Last cell correct — auto-submit for guided mode
+          const updatedCells = { ...squareCells, [cellKey]: formatted };
+          const finalFb = {};
+          Object.keys(correct).forEach((k) => {
+            finalFb[k] =
+              updatedCells[k] === correct[k] ? 'correct' : 'incorrect';
+          });
+          setCellFeedback(finalFb);
+          const { genoCounts, phenoCounts } = (() => {
+            const genotypes = Object.values(correct);
+            const gc = {};
+            genotypes.forEach((g) => {
+              gc[g] = (gc[g] || 0) + 1;
+            });
+            let dom = 0,
+              rec = 0;
+            genotypes.forEach((g) => {
+              if (g.includes(selectedTrait.dominantAllele)) dom++;
+              else rec++;
+            });
+            return {
+              genoCounts: gc,
+              phenoCounts: { dominant: dom, recessive: rec },
+            };
+          })();
+          setFinalFeedback({
+            squareCorrect: true,
+            correctSquare: correct,
+            genoCounts,
+            phenoCounts,
+          });
+          setShowExplanation(true);
+        }
       }
     }
   };

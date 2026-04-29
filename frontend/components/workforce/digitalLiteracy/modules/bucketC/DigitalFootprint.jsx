@@ -32,7 +32,7 @@ function FootprintMap({ onComplete }) {
             onClick={() => setMarked((m) => ({ ...m, [s.id]: true }))}
             className={`p-2 rounded border text-xs ${marked[s.id] ? 'bg-teal-100 border-teal-400 text-teal-900' : 'border-slate-300'}`}
           >
-            {marked[s.id] ? 'âœ“ ' : ''}
+            {marked[s.id] ? '✓ ' : ''}
             {s.label}
           </button>
         ))}

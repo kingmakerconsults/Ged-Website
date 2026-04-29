@@ -37,7 +37,7 @@ function Sim({ onComplete }) {
               className="text-xs"
               aria-label="Spotlight"
             >
-              ðŸ”
+              🔍
             </button>
           </div>
           {spotOpened ? (
@@ -56,7 +56,7 @@ function Sim({ onComplete }) {
             </div>
           ) : null}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 bg-white/15 px-3 py-2 rounded-2xl">
-            {['ðŸ§­', 'ðŸ“§', 'ðŸ—‚ï¸', 'ðŸŽµ', 'âš™ï¸'].map((i) => (
+            {['🧭', '📧', '🗂️', '🎵', '⚙️'].map((i) => (
               <span
                 key={i}
                 className="w-9 h-9 bg-white/30 rounded-lg flex items-center justify-center"
@@ -70,7 +70,7 @@ function Sim({ onComplete }) {
       <div className="text-xs">
         <strong>Task 1:</strong> Open Spotlight (top-right magnifier).
         {spotOpened ? (
-          <span className="text-green-600 ml-2">âœ“ done</span>
+          <span className="text-green-600 ml-2">✓ done</span>
         ) : null}
       </div>
       <Triage
@@ -171,7 +171,7 @@ export const MODULE = {
       q: 'An app froze. Best step?',
       choices: [
         'Pull the plug',
-        'Cmd+Option+Esc â†’ Force Quit',
+        'Cmd+Option+Esc → Force Quit',
         'Reinstall macOS',
         'Wait days',
       ],

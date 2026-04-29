@@ -107,7 +107,7 @@ function MfaSim({ onPass }) {
         </div>
       ) : (
         <div className="text-green-600 text-xs">
-          âœ“ Signed in with MFA. Even if someone steals your password, they still
+          ✓ Signed in with MFA. Even if someone steals your password, they still
           need your phone.
         </div>
       )}
@@ -159,7 +159,7 @@ function Sim({ onComplete }) {
             content: (
               <div>
                 <div className="text-xs opacity-60">
-                  From: amÐ°zon-billing.com (Cyrillic Ð°)
+                  From: amаzon-billing.com (Cyrillic а)
                 </div>
                 <div>Link: http://amazon-billing.tk/verify</div>
               </div>

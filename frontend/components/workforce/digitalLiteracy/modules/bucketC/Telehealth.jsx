@@ -38,7 +38,7 @@ function PortalSim({ onComplete }) {
               onClick={() => setScheduled(true)}
               className="px-2 py-1 rounded bg-teal-600 text-white text-xs disabled:opacity-50"
             >
-              {scheduled ? 'âœ“ Scheduled for Thursday 2pm' : 'Schedule'}
+              {scheduled ? '✓ Scheduled for Thursday 2pm' : 'Schedule'}
             </button>
           </div>
         )}
@@ -51,7 +51,7 @@ function PortalSim({ onComplete }) {
               onClick={() => setRefilled(true)}
               className="px-2 py-1 rounded bg-teal-600 text-white text-xs disabled:opacity-50"
             >
-              {refilled ? 'âœ“ Refill request sent' : 'Request refill'}
+              {refilled ? '✓ Refill request sent' : 'Request refill'}
             </button>
           </div>
         )}

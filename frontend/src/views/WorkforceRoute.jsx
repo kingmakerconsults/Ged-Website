@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useMemo } from 'react';
+import PlatformHeader from '../../components/layout/PlatformHeader.jsx';
 
 const WorkforceHub = lazy(
   () => import('../../components/workforce/WorkforceHub.jsx')
@@ -67,6 +68,7 @@ export default function WorkforceRoute() {
   console.log('[WorkforceRoute] mounted, userId =', userId);
   return (
     <div className="min-h-screen bg-page text-primary">
+      <PlatformHeader />
       <WorkforceErrorBoundary>
         <Suspense
           fallback={

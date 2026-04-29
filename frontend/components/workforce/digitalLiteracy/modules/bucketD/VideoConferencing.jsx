@@ -22,7 +22,7 @@ function VideoChrome({ onComplete }) {
     <div className="p-3 space-y-2 text-sm">
       <div className="aspect-video bg-slate-900 text-white rounded relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center text-xs opacity-60">
-          {cam ? 'ðŸŽ¥ Your camera (live)' : 'ðŸ“· Camera off'}
+          {cam ? '🎥 Your camera (live)' : '📷 Camera off'}
         </div>
         {bg !== 'none' ? (
           <div className="absolute top-1 left-1 text-[10px] bg-black/40 px-1 rounded">
@@ -44,14 +44,14 @@ function VideoChrome({ onComplete }) {
           onClick={() => setMic((m) => !m)}
           className={`px-2 py-1 rounded border ${mic ? 'border-slate-300' : 'bg-red-100 border-red-400 text-red-900'}`}
         >
-          {mic ? 'ðŸŽ™ Mic on' : 'ðŸ”‡ Mic off'}
+          {mic ? '🎙 Mic on' : '🔇 Mic off'}
         </button>
         <button
           type="button"
           onClick={() => setCam((c) => !c)}
           className={`px-2 py-1 rounded border ${cam ? 'bg-teal-50 border-teal-400 text-teal-900' : 'border-slate-300'}`}
         >
-          {cam ? 'ðŸŽ¥ Cam on' : 'ðŸ“· Cam off'}
+          {cam ? '🎥 Cam on' : '📷 Cam off'}
         </button>
         <select
           value={bg}
@@ -62,7 +62,7 @@ function VideoChrome({ onComplete }) {
           <option value="blur">Blur</option>
           <option value="office">Office</option>
         </select>
-        {['ðŸ‘', 'ðŸ‘', 'âœ‹'].map((r) => (
+        {['👍', '👏', '✋'].map((r) => (
           <button
             key={r}
             type="button"
@@ -77,7 +77,7 @@ function VideoChrome({ onComplete }) {
           onClick={() => setShare(true)}
           className={`px-2 py-1 rounded border ${share ? 'bg-teal-600 text-white border-teal-700' : 'border-slate-300'}`}
         >
-          {share ? 'ðŸ–¥ Sharing' : 'ðŸ–¥ Share screen'}
+          {share ? '🖥 Sharing' : '🖥 Share screen'}
         </button>
       </div>
       <div className="flex gap-2 mt-2">
@@ -93,7 +93,7 @@ function VideoChrome({ onComplete }) {
           onClick={() => setChatSent(true)}
           className="px-2 py-1 text-xs rounded bg-teal-600 text-white disabled:opacity-50"
         >
-          {chatSent ? 'Sent âœ“' : 'Send to chat'}
+          {chatSent ? 'Sent ✓' : 'Send to chat'}
         </button>
       </div>
       <div className="text-xs opacity-70">

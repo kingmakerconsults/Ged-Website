@@ -31,7 +31,7 @@ function ChatSim({ onComplete }) {
     ) {
       aiMsg = {
         role: 'ai',
-        text: 'âš ï¸ You asked me about private info. Reminder: never paste real SSNs, card numbers, or passwords into any chatbot.',
+        text: '⚠️ You asked me about private info. Reminder: never paste real SSNs, card numbers, or passwords into any chatbot.',
       };
     } else if (
       lower.length > 30 &&
@@ -102,15 +102,15 @@ function ChatSim({ onComplete }) {
       </div>
       <div className="text-xs space-y-1">
         <div className={milestones.specific ? 'text-green-600' : ''}>
-          {milestones.specific ? 'âœ“' : 'â—‹'} Send a clear, specific prompt (â‰¥30
+          {milestones.specific ? '✓' : '○'} Send a clear, specific prompt (≥30
           chars, includes a question)
         </div>
         <div className={milestones.verify ? 'text-green-600' : ''}>
-          {milestones.verify ? 'âœ“' : 'â—‹'} Get the AI to remind you to verify
+          {milestones.verify ? '✓' : '○'} Get the AI to remind you to verify
           (use "explain"/"how do I"/"what is")
         </div>
         <div className={milestones.noPrivate ? 'text-green-600' : ''}>
-          {milestones.noPrivate ? 'âœ“' : 'â—‹'} Don\'t paste private info (SSN,
+          {milestones.noPrivate ? '✓' : '○'} Don\'t paste private info (SSN,
           card, password)
         </div>
       </div>

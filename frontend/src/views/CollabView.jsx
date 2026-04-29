@@ -10,7 +10,7 @@ import { getApiBaseUrl } from '../utils/apiBase.js';
 import { ESSAY_TOPICS, buildEssayPromptForTopic } from '../data/essayTopics.js';
 import CollabSessionCard from '../../components/collab/CollabSessionCard.jsx';
 import useCollabSocket from '../../components/collab/useCollabSocket.js';
-import CollabHeader from '../../components/collab/CollabHeader.jsx';
+import PlatformHeader from '../../components/layout/PlatformHeader.jsx';
 import useCollabTheme from '../../components/collab/useCollabTheme.js';
 
 const SESSION_TYPES = [
@@ -517,7 +517,7 @@ export default function CollabView() {
         className="min-h-screen w-full"
         style={{ backgroundColor: t.pageBg, color: t.pageText }}
       >
-        <CollabHeader />
+        <PlatformHeader />
         <div className="max-w-xl mx-auto p-6 mt-10">
           <div
             className="rounded-lg border p-6 shadow-sm"
@@ -547,7 +547,7 @@ export default function CollabView() {
       style={{ backgroundColor: t.pageBg, color: t.pageText }}
     >
       <style>{themeStyleCss}</style>
-      <CollabHeader />
+      <PlatformHeader />
       <div className="max-w-5xl mx-auto p-6 space-y-8">
         <div className="flex items-center justify-between">
           <div>

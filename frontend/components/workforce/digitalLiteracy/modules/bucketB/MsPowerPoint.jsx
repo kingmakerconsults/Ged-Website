@@ -112,13 +112,13 @@ function Builder({ onComplete }) {
         </div>
         <div className="text-xs mt-2 space-y-1 p-2 rounded bg-slate-50 dark:bg-slate-800">
           <div className={done.added ? 'text-green-600' : ''}>
-            {done.added ? 'âœ“' : 'â—‹'} Add at least one new slide
+            {done.added ? '✓' : '○'} Add at least one new slide
           </div>
           <div className={done.themed ? 'text-green-600' : ''}>
-            {done.themed ? 'âœ“' : 'â—‹'} Pick a non-default theme
+            {done.themed ? '✓' : '○'} Pick a non-default theme
           </div>
           <div className={done.filled ? 'text-green-600' : ''}>
-            {done.filled ? 'âœ“' : 'â—‹'} Give every slide a title AND body (&gt;5
+            {done.filled ? '✓' : '○'} Give every slide a title AND body (&gt;5
             chars)
           </div>
         </div>
@@ -142,7 +142,7 @@ function Sim({ onComplete }) {
         prompt="Order the steps to deliver a slide presentation."
         items={[
           { id: 'a', label: 'Open the file' },
-          { id: 'b', label: 'Click Slide Show â†’ From Beginning' },
+          { id: 'b', label: 'Click Slide Show → From Beginning' },
           { id: 'c', label: 'Use arrow keys to advance slides' },
           { id: 'd', label: 'Press Esc to end' },
         ]}

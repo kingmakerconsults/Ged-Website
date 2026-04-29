@@ -34,13 +34,13 @@ export function DiagnosticIntroModal({ onStart, onCancel }) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
                 <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                  40
+                  30
                 </div>
                 <div className="text-slate-700 dark:text-slate-300 font-semibold">
                   Questions
                 </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  10 per subject area
+                  Mixed across subject areas
                 </div>
               </div>
 

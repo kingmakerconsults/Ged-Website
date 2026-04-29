@@ -27,23 +27,23 @@ function Sim({ onComplete }) {
             <div className="absolute top-4 left-4 bg-white text-slate-900 rounded p-3 text-xs shadow w-48">
               <div className="font-semibold mb-1">File Explorer</div>
               <ul className="text-[11px] space-y-0.5">
-                <li>ðŸ“ Documents</li>
-                <li>ðŸ“ Downloads</li>
-                <li>ðŸ“ Pictures</li>
+                <li>📁 Documents</li>
+                <li>📁 Downloads</li>
+                <li>📁 Pictures</li>
               </ul>
             </div>
           ) : null}
         </div>
         <div className="bg-slate-100 dark:bg-slate-800 border-t border-slate-300 dark:border-slate-700 flex items-center justify-center gap-3 py-1.5">
-          {['ðŸ”', 'âŠž', 'ðŸ“', 'ðŸŒ', 'ðŸ›ï¸', 'ðŸ’¬'].map((ico, i) => (
+          {['🔍', '⊞', '📁', '🌐', '🛍️', '💬'].map((ico, i) => (
             <button
               key={i}
               type="button"
               onClick={() => {
-                if (ico === 'ðŸ“') setOpened(true);
+                if (ico === '📁') setOpened(true);
               }}
               className={`w-8 h-8 rounded ${
-                ico === 'ðŸ“' ? 'bg-blue-100 hover:bg-blue-200' : 'bg-white/40'
+                ico === '📁' ? 'bg-blue-100 hover:bg-blue-200' : 'bg-white/40'
               }`}
               aria-label={ico}
             >
@@ -54,7 +54,7 @@ function Sim({ onComplete }) {
       </WindowFrame>
       <div className="text-xs">
         <strong>Task 1:</strong> Open File Explorer from the centered taskbar.
-        {opened ? <span className="text-green-600 ml-2">âœ“ done</span> : null}
+        {opened ? <span className="text-green-600 ml-2">✓ done</span> : null}
       </div>
 
       <Triage
@@ -157,7 +157,7 @@ export const MODULE = {
       q: 'You want to install a new printer. Where should you go?',
       choices: [
         'Recycle Bin',
-        'Settings â†’ Bluetooth & devices',
+        'Settings → Bluetooth & devices',
         'Edge',
         'Notepad',
       ],

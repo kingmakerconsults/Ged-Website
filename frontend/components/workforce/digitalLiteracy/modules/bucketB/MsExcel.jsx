@@ -177,22 +177,22 @@ function Sim({ onComplete }) {
       <div className="text-xs space-y-1 p-2 rounded bg-slate-50 dark:bg-slate-800">
         <div className="font-semibold mb-1">Tasks</div>
         <div className={tasksDone.sum ? 'text-green-600' : ''}>
-          {tasksDone.sum ? 'âœ“' : 'â—‹'} <strong>B7:</strong> Total weekly sales —
+          {tasksDone.sum ? '✓' : '○'} <strong>B7:</strong> Total weekly sales —
           type
           <code className="bg-slate-200 dark:bg-slate-700 px-1 ml-1">
             =SUM(B2:B6)
           </code>
         </div>
         <div className={tasksDone.avg ? 'text-green-600' : ''}>
-          {tasksDone.avg ? 'âœ“' : 'â—‹'} <strong>Any cell:</strong> Average daily
+          {tasksDone.avg ? '✓' : '○'} <strong>Any cell:</strong> Average daily
           sales —
           <code className="bg-slate-200 dark:bg-slate-700 px-1 ml-1">
             =AVERAGE(B2:B6)
           </code>
         </div>
         <div className={tasksDone.ifc ? 'text-green-600' : ''}>
-          {tasksDone.ifc ? 'âœ“' : 'â—‹'} <strong>D2:D6:</strong> Show "Over" if
-          Sales â‰¥ Goal, else "Under" — using
+          {tasksDone.ifc ? '✓' : '○'} <strong>D2:D6:</strong> Show "Over" if
+          Sales ≥ Goal, else "Under" — using
           <code className="bg-slate-200 dark:bg-slate-700 px-1 ml-1">
             =IF(B2&gt;=C2,"Over","Under")
           </code>{' '}

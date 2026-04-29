@@ -147,4 +147,137 @@ export const CIVICS_SCENARIOS = [
     explanation:
       'Mayors are the chief executives of cities and towns. They appoint officials to manage city departments and enforce local laws and ordinances.',
   },
+  // ── New scenarios ─────────────────────────────────────────────────────
+  {
+    id: 'congress_declares_war',
+    difficulty: 'medium',
+    tags: ['federal', 'legislative', 'war_powers'],
+    text: 'Congress votes to formally declare war on a foreign nation.',
+    correctBranch: 'legislative',
+    correctLevel: 'federal',
+    correctPowerType: 'passes_laws',
+    explanation:
+      'The Constitution gives Congress — not the President — the power to formally declare war. This is a key legislative power intended to prevent any single person from leading the country into war alone.',
+  },
+  {
+    id: 'president_executive_order',
+    difficulty: 'medium',
+    tags: ['federal', 'executive', 'executive_power'],
+    text: 'The President signs an executive order directing all federal agencies to adopt a new environmental policy.',
+    correctBranch: 'executive',
+    correctLevel: 'federal',
+    correctPowerType: 'enforces_laws',
+    explanation:
+      'Executive orders are official directives signed by the President that have the force of law and are used to manage federal operations. They do not require Congressional approval.',
+  },
+  {
+    id: 'state_legislature_education',
+    difficulty: 'easy',
+    tags: ['state', 'legislative', 'education'],
+    text: 'The state legislature passes a law requiring all students to pass a standardized exit exam to graduate high school.',
+    correctBranch: 'legislative',
+    correctLevel: 'state',
+    correctPowerType: 'passes_laws',
+    explanation:
+      'Education policy is largely a state responsibility under the 10th Amendment. State legislatures set education standards and requirements within their states.',
+  },
+  {
+    id: 'override_veto',
+    difficulty: 'hard',
+    tags: ['federal', 'legislative', 'checks_and_balances'],
+    text: 'The President vetoes a bill, but both the House and Senate vote by a two-thirds majority to override the veto.',
+    correctBranch: 'legislative',
+    correctLevel: 'federal',
+    correctPowerType: 'check_on_executive',
+    explanation:
+      "Congress can override a presidential veto with a two-thirds majority in both chambers. This is the legislative check on the executive's veto power.",
+  },
+  {
+    id: 'federal_court_injunction',
+    difficulty: 'hard',
+    tags: ['federal', 'judicial', 'judicial_review'],
+    text: 'A federal district court issues an injunction blocking a presidential executive order from taking effect.',
+    correctBranch: 'judicial',
+    correctLevel: 'federal',
+    correctPowerType: 'check_on_executive',
+    explanation:
+      'Federal courts can issue injunctions blocking executive actions they find unconstitutional or illegal. This is a judicial check on executive power.',
+  },
+  {
+    id: 'state_driver_license',
+    difficulty: 'easy',
+    tags: ['state', 'executive', 'enforces_laws'],
+    text: "The state DMV (Department of Motor Vehicles) issues driver's licenses and enforces traffic laws.",
+    correctBranch: 'executive',
+    correctLevel: 'state',
+    correctPowerType: 'enforces_laws',
+    explanation:
+      'State executive departments and agencies implement and enforce state laws. The DMV is a state executive agency; issuing licenses is an executive function.',
+  },
+  {
+    id: 'house_appropriations',
+    difficulty: 'medium',
+    tags: ['federal', 'legislative', 'budget'],
+    text: 'The House of Representatives passes a spending bill that funds all federal agencies for the next year.',
+    correctBranch: 'legislative',
+    correctLevel: 'federal',
+    correctPowerType: 'passes_laws',
+    explanation:
+      'The Constitution gives Congress the "power of the purse." All federal spending bills must originate in the House of Representatives. Without congressional approval, the executive branch cannot spend money.',
+  },
+  {
+    id: 'local_zoning_board',
+    difficulty: 'easy',
+    tags: ['local', 'legislative', 'zoning'],
+    text: 'The county zoning board approves a new housing development plan.',
+    correctBranch: 'legislative',
+    correctLevel: 'local',
+    correctPowerType: 'passes_laws',
+    explanation:
+      'Local zoning and planning boards are quasi-legislative bodies that regulate land use within a local jurisdiction. Their decisions have the force of local law.',
+  },
+  {
+    id: 'supreme_court_appeals',
+    difficulty: 'medium',
+    tags: ['federal', 'judicial', 'appellate'],
+    text: 'The Supreme Court agrees to hear an appeal from a citizen who believes their civil rights were violated by a state law.',
+    correctBranch: 'judicial',
+    correctLevel: 'federal',
+    correctPowerType: 'judicial_review',
+    explanation:
+      'The Supreme Court is the highest court in the land and can hear appeals from lower courts. When it reviews whether a law violates the Constitution, that is judicial review.',
+  },
+  {
+    id: 'state_governor_pardons',
+    difficulty: 'medium',
+    tags: ['state', 'executive', 'pardon'],
+    text: 'The governor grants a pardon to a prisoner convicted of a state crime.',
+    correctBranch: 'executive',
+    correctLevel: 'state',
+    correctPowerType: 'enforces_laws',
+    explanation:
+      "Governors have the power to pardon individuals convicted of state crimes, reducing or eliminating their sentence. This is an executive power, mirroring the President's pardon power at the federal level.",
+  },
+  {
+    id: 'congress_investigates',
+    difficulty: 'hard',
+    tags: ['federal', 'legislative', 'oversight'],
+    text: 'A Senate committee subpoenas officials from the executive branch to testify about how federal money was spent.',
+    correctBranch: 'legislative',
+    correctLevel: 'federal',
+    correctPowerType: 'check_on_executive',
+    explanation:
+      'Congress has oversight power over the executive branch and can compel officials to testify through subpoenas. This keeps the executive branch accountable to the legislature.',
+  },
+  {
+    id: 'county_sheriff',
+    difficulty: 'easy',
+    tags: ['local', 'executive', 'law_enforcement'],
+    text: "The county sheriff's department enforces laws and patrols unincorporated areas of the county.",
+    correctBranch: 'executive',
+    correctLevel: 'local',
+    correctPowerType: 'enforces_laws',
+    explanation:
+      'The county sheriff is an elected executive official who runs law enforcement for the county. Enforcing laws is a core executive function at all levels of government.',
+  },
 ];

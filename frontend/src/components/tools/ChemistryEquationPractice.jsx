@@ -18,6 +18,9 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
   const [statistics, setStatistics] = useState({ correct: 0, total: 0 });
   const [difficulty, setDifficulty] = useState('all');
   const [notice, setNotice] = useState('');
+  // Reaction-type mode state
+  const [typeGuess, setTypeGuess] = useState(null);
+  const [typeAnswered, setTypeAnswered] = useState(false);
 
   const isDark = dark;
 
@@ -144,7 +147,21 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
       setFeedback(null);
       setShowHint(false);
       setShowAnswer(false);
+      setTypeGuess(null);
+      setTypeAnswered(false);
     }
+  };
+
+  // Reaction-type mode: check the student's type guess
+  const checkTypeGuess = (guessedType) => {
+    if (typeAnswered || !currentEquation) return;
+    const isCorrect = guessedType === currentEquation.type;
+    setTypeGuess(guessedType);
+    setTypeAnswered(true);
+    setStatistics((prev) => ({
+      correct: prev.correct + (isCorrect ? 1 : 0),
+      total: prev.total + 1,
+    }));
   };
 
   // Initialize on mount
@@ -262,8 +279,8 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
               mode === tab.id
                 ? 'border-green-600 text-green-600'
                 : isDark
-                ? 'border-transparent text-gray-400 hover:text-gray-200'
-                : 'border-transparent text-gray-600 hover:text-gray-900'
+                  ? 'border-transparent text-gray-400 hover:text-gray-200'
+                  : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
             {tab.label}
@@ -490,30 +507,61 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
             </div>
           )}
 
-          {/* Reaction Type Filter for Reaction Type Mode */}
+          {/* Reaction Type ID Mode — student guesses the type */}
           {mode === 'reaction-type' && (
             <div className="mb-4">
               <p className="text-sm font-semibold mb-2">
-                Identify the reaction type:
+                What type of reaction is this?
               </p>
               <div className="flex flex-wrap gap-2">
-                {reactionTypes.map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => {
-                      loadNewEquation(type);
-                      setFeedback(null);
-                    }}
-                    className={`px-4 py-2 rounded-lg font-semibold transition ${
-                      isDark
-                        ? 'bg-gray-600 text-gray-100 hover:bg-gray-500'
-                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                    }`}
-                  >
-                    {type.replace(/_/g, ' ')}
-                  </button>
-                ))}
+                {reactionTypes.map((type) => {
+                  const isSelected = typeGuess === type;
+                  const isCorrectType =
+                    typeAnswered && type === currentEquation?.type;
+                  let btnClass = isDark
+                    ? 'bg-gray-600 text-gray-100 hover:bg-gray-500'
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300';
+                  if (typeAnswered) {
+                    if (isCorrectType)
+                      btnClass =
+                        'bg-green-600 text-white ring-2 ring-green-400';
+                    else if (isSelected) btnClass = 'bg-red-600 text-white';
+                  }
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => checkTypeGuess(type)}
+                      disabled={typeAnswered}
+                      className={`px-4 py-2 rounded-lg font-semibold transition ${btnClass} ${typeAnswered ? 'cursor-default' : ''}`}
+                    >
+                      {type.replace(/_/g, ' ')}
+                    </button>
+                  );
+                })}
               </div>
+              {typeAnswered && (
+                <div
+                  className={`mt-3 p-3 rounded-lg text-sm font-semibold ${
+                    typeGuess === currentEquation?.type
+                      ? isDark
+                        ? 'bg-green-900/30 text-green-300'
+                        : 'bg-green-50 text-green-800'
+                      : isDark
+                        ? 'bg-red-900/30 text-red-300'
+                        : 'bg-red-50 text-red-800'
+                  }`}
+                >
+                  {typeGuess === currentEquation?.type
+                    ? `✓ Correct! This is a ${currentEquation.type.replace(/_/g, ' ')} reaction.`
+                    : `✗ Not quite. The correct type is: ${currentEquation?.type.replace(/_/g, ' ')}.`}
+                  <button
+                    onClick={() => loadNewEquation()}
+                    className="ml-4 px-3 py-1 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition"
+                  >
+                    Next Equation
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -570,8 +618,8 @@ export default function ChemistryEquationPractice({ onClose, dark = false }) {
                 ? 'bg-green-900 border-2 border-green-500 text-green-100'
                 : 'bg-green-100 border-2 border-green-500 text-green-800'
               : isDark
-              ? 'bg-red-900 border-2 border-red-500 text-red-100'
-              : 'bg-red-100 border-2 border-red-500 text-red-800'
+                ? 'bg-red-900 border-2 border-red-500 text-red-100'
+                : 'bg-red-100 border-2 border-red-500 text-red-800'
           }`}
         >
           {feedback.isCorrect ? (

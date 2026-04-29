@@ -64,7 +64,7 @@ function JobBoardSim({ onComplete }) {
               <div>
                 <div className="font-semibold">{r.title}</div>
                 <div className="text-xs opacity-70">
-                  {r.co} {r.remote ? 'Â· Remote' : 'Â· On-site'}
+                  {r.co} {r.remote ? '· Remote' : '· On-site'}
                 </div>
               </div>
               <button
@@ -72,7 +72,7 @@ function JobBoardSim({ onComplete }) {
                 onClick={() => setSaved(true)}
                 className="text-xs px-2 py-1 rounded border border-slate-300"
               >
-                â˜… Save
+                ★ Save
               </button>
             </li>
           ))}
