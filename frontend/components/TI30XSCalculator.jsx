@@ -431,6 +431,20 @@ export function TI30XSCalculator({ onClose }) {
   const [angleMode, setAngleMode] = useState('DEG'); // 'DEG' or 'RAD'
   const [showModeMenu, setShowModeMenu] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [lcdTheme, setLcdTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'classic';
+    try {
+      const saved = JSON.parse(
+        window.localStorage.getItem('ti30xs:prefs') || '{}'
+      );
+      return ['classic', 'amber', 'mono'].includes(saved.lcdTheme)
+        ? saved.lcdTheme
+        : 'classic';
+    } catch {
+      return 'classic';
+    }
+  });
   const [memory, setMemory] = useState({});
   const [storeArmed, setStoreArmed] = useState(false);
   const [recallArmed, setRecallArmed] = useState(false);
@@ -440,8 +454,28 @@ export function TI30XSCalculator({ onClose }) {
   const [constMode, setConstMode] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
-  const [opacity, setOpacity] = useState(1.0);
-  const [uiScale, setUiScale] = useState(1.0);
+  const [opacity, setOpacity] = useState(() => {
+    if (typeof window === 'undefined') return 1.0;
+    try {
+      const saved = JSON.parse(
+        window.localStorage.getItem('ti30xs:prefs') || '{}'
+      );
+      return typeof saved.opacity === 'number' ? saved.opacity : 1.0;
+    } catch {
+      return 1.0;
+    }
+  });
+  const [uiScale, setUiScale] = useState(() => {
+    if (typeof window === 'undefined') return 1.0;
+    try {
+      const saved = JSON.parse(
+        window.localStorage.getItem('ti30xs:prefs') || '{}'
+      );
+      return typeof saved.uiScale === 'number' ? saved.uiScale : 1.0;
+    } catch {
+      return 1.0;
+    }
+  });
   const [isMobileViewport, setIsMobileViewport] = useState(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false;
     return window.matchMedia('(max-width: 768px)').matches;
@@ -457,6 +491,32 @@ export function TI30XSCalculator({ onClose }) {
   useEffect(() => {
     kbdActiveRef.current = kbdActive;
   }, [kbdActive]);
+
+  // Persist user preferences across sessions
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(
+        'ti30xs:prefs',
+        JSON.stringify({ opacity, uiScale, lcdTheme })
+      );
+    } catch {
+      /* ignore quota / privacy mode */
+    }
+  }, [opacity, uiScale, lcdTheme]);
+
+  // Persist user preferences across sessions
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(
+        'ti30xs:prefs',
+        JSON.stringify({ opacity, uiScale, lcdTheme })
+      );
+    } catch {
+      /* ignore quota / privacy mode */
+    }
+  }, [opacity, uiScale, lcdTheme]);
 
   // When user clicks anywhere on the calculator, keep keyboard input on the LCD.
   useEffect(() => {
@@ -1345,19 +1405,27 @@ export function TI30XSCalculator({ onClose }) {
     let textClass = 'text-white';
 
     if (isAccent) {
-      bgClass = 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500';
+      // Highlight 2nd key when shift is engaged
+      if (keyData.id === 'k_2nd' && shift2nd) {
+        bgClass =
+          'bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 ring-2 ring-emerald-300/70 shadow-[0_0_12px_rgba(16,185,129,0.55)]';
+      } else {
+        bgClass = 'bg-slate-700 hover:bg-slate-600 active:bg-slate-500';
+      }
     } else if (isSys) {
-      bgClass = 'bg-gray-600 hover:bg-gray-500 active:bg-gray-400';
+      bgClass = 'bg-slate-600 hover:bg-slate-500 active:bg-slate-400';
     } else if (isFn) {
-      bgClass = 'bg-gray-800 hover:bg-gray-700 active:bg-gray-600';
+      bgClass = 'bg-slate-800 hover:bg-slate-700 active:bg-slate-600';
     } else if (isNum) {
-      bgClass = 'bg-gray-900 hover:bg-gray-800 active:bg-gray-700';
-      textClass = 'text-white font-bold';
+      // Real TI-30XS number keys are light cream with dark text
+      bgClass =
+        'bg-slate-100 hover:bg-white active:bg-slate-200 border border-slate-300';
+      textClass = 'text-slate-900 font-bold';
     } else if (isOp) {
       bgClass = 'bg-blue-600 hover:bg-blue-500 active:bg-blue-400';
       textClass = 'text-white font-bold';
     } else if (isNav) {
-      bgClass = 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500';
+      bgClass = 'bg-slate-700 hover:bg-slate-600 active:bg-slate-500';
     }
 
     if (isOp) {
@@ -1514,6 +1582,14 @@ export function TI30XSCalculator({ onClose }) {
           0%, 49% { opacity: 1; }
           50%, 100% { opacity: 0; }
         }
+        .ti30xs-calc {
+          /* Inset top highlight for premium bezel feel */
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.08),
+            inset 0 -1px 0 rgba(0,0,0,0.5),
+            0 30px 60px -15px rgba(0,0,0,0.7),
+            0 10px 20px -10px rgba(0,0,0,0.5);
+        }
         .ti30xs-calc .row1 .key {
           width: calc(var(--u) * 0.92);
           /* Reduce effective gap for row 1 by shrinking margins into the grid gap */
@@ -1530,64 +1606,136 @@ export function TI30XSCalculator({ onClose }) {
           width: var(--u);
           height: var(--rowH);
         }
+        .ti30xs-calc .key {
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.08),
+            0 2px 0 rgba(0,0,0,0.4),
+            0 1px 2px rgba(0,0,0,0.3);
+        }
+        .ti30xs-calc .key:active {
+          transform: translateY(1px);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.04),
+            0 1px 0 rgba(0,0,0,0.4);
+        }
         .ti30xs-calc .opKey {
           width: calc(var(--u) * 0.78);
           height: calc(var(--rowH) * 0.92);
           border-radius: calc(var(--rowH) * 0.55);
-          background: rgba(60, 70, 85, 0.9);
+          background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.25),
+            0 2px 4px rgba(0,0,0,0.4);
         }
         .ti30xs-calc .opKey:hover {
-          background: rgba(80, 90, 105, 0.95);
+          background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
         }
         .ti30xs-calc .opKey:active {
-          background: rgba(50, 60, 75, 0.85);
+          background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+          transform: translateY(1px);
         }
         .ti30xs-calc .key--enter {
           width: calc(var(--u) * 1.25);
           justify-self: start;
           border-radius: calc(var(--rowH) * 0.6);
         }
+        .ti30xs-calc .chrome-btn {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 1.5rem; height: 1.5rem; border-radius: 9999px;
+          color: #e2e8f0; font-size: 0.75rem; font-weight: 700;
+          background: rgba(51,65,85,0.85);
+          border: 1px solid rgba(255,255,255,0.08);
+          transition: background 0.15s, color 0.15s;
+        }
+        .ti30xs-calc .chrome-btn:hover { background: rgba(71,85,105,0.95); color: #fff; }
+        .ti30xs-calc .chrome-btn.danger:hover { background: #dc2626; color: #fff; }
+        .ti30xs-calc .panel {
+          background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+          border: 1px solid rgba(148,163,184,0.2);
+          border-radius: 0.75rem;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+          color: #e2e8f0;
+        }
+        .ti30xs-calc .panel h4 {
+          font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+          color: #94a3b8; font-weight: 700; margin-bottom: 0.35rem;
+        }
+        .ti30xs-calc .theme-chip {
+          padding: 0.2rem 0.55rem; border-radius: 0.4rem;
+          font-size: 0.7rem; font-weight: 600;
+          border: 1px solid rgba(148,163,184,0.25);
+          background: rgba(30,41,59,0.6);
+          color: #cbd5e1; cursor: pointer;
+        }
+        .ti30xs-calc .theme-chip.active {
+          background: #2563eb; color: #fff; border-color: #3b82f6;
+        }
       `}</style>
       {/* Calculator Shell */}
       <div
-        className="ti30xs-calc bg-gradient-to-b from-gray-800 to-gray-900 shadow-2xl flex flex-col relative"
+        className="ti30xs-calc bg-gradient-to-b from-slate-800 via-slate-900 to-black flex flex-col relative"
         style={{
           ...shellStyle,
           ...calculatorStyle,
         }}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold z-10"
-          aria-label="Close Calculator"
-        >
-          ×
-        </button>
-
-        {/* Settings Toggle */}
-        <button
-          onClick={() => setShowSettings(!showSettings)}
-          className="absolute top-2 left-2 w-6 h-6 rounded-full bg-gray-600 hover:bg-gray-500 text-white text-xs font-bold z-10"
-          aria-label="Settings"
-        >
-          ⚙
-        </button>
+        {/* Chrome control cluster */}
+        <div className="absolute top-2 left-2 right-2 flex items-center justify-between z-10">
+          <button
+            onClick={() => {
+              setShowSettings(!showSettings);
+              setShowHelp(false);
+            }}
+            className="chrome-btn"
+            aria-label="Settings"
+            title="Settings"
+            data-ti30xs-nodrag
+          >
+            ⚙
+          </button>
+          <button
+            onClick={() => {
+              setShowHelp(!showHelp);
+              setShowSettings(false);
+            }}
+            className="chrome-btn"
+            aria-label="Keyboard shortcuts"
+            title="Keyboard shortcuts"
+            data-ti30xs-nodrag
+          >
+            ?
+          </button>
+          <button
+            onClick={onClose}
+            className="chrome-btn danger"
+            aria-label="Close Calculator"
+            title="Close"
+            data-ti30xs-nodrag
+          >
+            ×
+          </button>
+        </div>
 
         {/* Settings Panel */}
         {showSettings && (
           <div
-            className="settings-panel absolute top-12 left-2 bg-gray-700 rounded-lg p-3 shadow-lg z-20"
+            className="settings-panel panel absolute top-12 left-2 p-3 z-20"
             data-ti30xs-nodrag
             style={{
               width: isMobileViewport
                 ? 'min(92vw, 320px)'
-                : 'clamp(200px, 30vw, 280px)',
+                : 'clamp(220px, 30vw, 280px)',
             }}
           >
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div>
-                <label className="text-white text-xs">Opacity</label>
+                <h4>Display</h4>
+                <label className="text-xs text-slate-300 flex items-center justify-between">
+                  <span>Opacity</span>
+                  <span className="text-slate-400 tabular-nums">
+                    {Math.round(opacity * 100)}%
+                  </span>
+                </label>
                 <input
                   type="range"
                   min="0.3"
@@ -1595,11 +1743,33 @@ export function TI30XSCalculator({ onClose }) {
                   step="0.1"
                   value={opacity}
                   onChange={(e) => setOpacity(parseFloat(e.target.value))}
-                  className="w-full"
+                  className="w-full accent-blue-500"
                 />
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {[
+                    { id: 'classic', label: 'Classic' },
+                    { id: 'amber', label: 'Amber' },
+                    { id: 'mono', label: 'Mono' },
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => setLcdTheme(t.id)}
+                      className={`theme-chip ${lcdTheme === t.id ? 'active' : ''}`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div>
-                <label className="text-white text-xs">UI Scale</label>
+                <h4>Layout</h4>
+                <label className="text-xs text-slate-300 flex items-center justify-between">
+                  <span>UI Scale</span>
+                  <span className="text-slate-400 tabular-nums">
+                    {uiScale.toFixed(1)}×
+                  </span>
+                </label>
                 <input
                   type="range"
                   min="0.8"
@@ -1607,23 +1777,110 @@ export function TI30XSCalculator({ onClose }) {
                   step="0.1"
                   value={uiScale}
                   onChange={(e) => setUiScale(parseFloat(e.target.value))}
-                  className="w-full"
+                  className="w-full accent-blue-500"
                 />
               </div>
             </div>
           </div>
         )}
 
+        {/* Help Panel */}
+        {showHelp && (
+          <div
+            className="panel absolute top-12 right-2 p-3 z-20"
+            data-ti30xs-nodrag
+            style={{
+              width: isMobileViewport
+                ? 'min(92vw, 320px)'
+                : 'clamp(220px, 32vw, 290px)',
+            }}
+          >
+            <h4>Keyboard Shortcuts</h4>
+            <ul className="text-xs space-y-1 text-slate-200">
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  0–9
+                </kbd>{' '}
+                &nbsp;digits
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  + − × ÷
+                </kbd>{' '}
+                &nbsp;operators
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  Enter
+                </kbd>{' '}
+                /{' '}
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  =
+                </kbd>{' '}
+                &nbsp;evaluate
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  Backspace
+                </kbd>{' '}
+                &nbsp;delete
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  Esc
+                </kbd>{' '}
+                &nbsp;clear
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  ( )
+                </kbd>{' '}
+                &nbsp;parentheses
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  .
+                </kbd>{' '}
+                &nbsp;decimal
+              </li>
+              <li>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  ←
+                </kbd>{' '}
+                /{' '}
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-100 font-mono">
+                  →
+                </kbd>{' '}
+                &nbsp;move cursor
+              </li>
+            </ul>
+            <p className="text-[10px] text-slate-400 mt-2">
+              Click the LCD first to capture keyboard input.
+            </p>
+          </div>
+        )}
+
         {/* Branding */}
         <div
-          className="text-center text-gray-400"
+          className="text-center"
           style={{
-            fontSize: 'calc(var(--u) * 0.35)',
-            fontWeight: 'bold',
             marginBottom: 'calc(var(--u) * 0.3)',
+            paddingTop: 'calc(var(--u) * 0.05)',
           }}
         >
-          TI-30XS
+          <div
+            className="text-slate-500 font-semibold tracking-[0.2em]"
+            style={{ fontSize: 'calc(var(--u) * 0.14)' }}
+          >
+            TEXAS INSTRUMENTS
+          </div>
+          <div
+            className="text-slate-300 font-bold tracking-wide"
+            style={{ fontSize: 'calc(var(--u) * 0.32)', lineHeight: 1.1 }}
+          >
+            TI-30XS{' '}
+            <span className="text-slate-500 font-normal">MultiView</span>
+          </div>
         </div>
 
         {/* LCD Display */}
@@ -1632,7 +1889,7 @@ export function TI30XSCalculator({ onClose }) {
           tabIndex={0}
           aria-label="Calculator input"
           data-ti30xs-nodrag
-          className="bg-gray-900 rounded-lg overflow-hidden border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="rounded-lg overflow-hidden border-[3px] border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-inner"
           style={lcdStyle}
           onClick={(e) => {
             lcdRef.current?.focus();
@@ -1672,7 +1929,11 @@ export function TI30XSCalculator({ onClose }) {
           >
             <span>{angleMode}</span>
             <span className="flex items-center gap-2">
-              {shift2nd && <span className="text-green-400">2nd</span>}
+              {shift2nd && (
+                <span className="text-emerald-300 font-bold px-1 rounded bg-emerald-900/40 ring-1 ring-emerald-400/40">
+                  2nd
+                </span>
+              )}
               {insertMode && <span>INS</span>}
               {hypMode && <span>HYP</span>}
               {mixedNumberMode && <span>MIX</span>}
@@ -1682,7 +1943,15 @@ export function TI30XSCalculator({ onClose }) {
           </div>
 
           {/* LCD content */}
-          <div className="bg-green-50 text-gray-900 flex-1 p-2 flex flex-col justify-end relative">
+          <div
+            className={`flex-1 p-2 flex flex-col justify-end relative ${
+              lcdTheme === 'amber'
+                ? 'bg-amber-100 text-amber-950'
+                : lcdTheme === 'mono'
+                  ? 'bg-slate-200 text-slate-900'
+                  : 'bg-green-50 text-gray-900'
+            }`}
+          >
             <div
               style={{
                 fontSize: 'calc(var(--u) * 0.24)',
@@ -1724,39 +1993,42 @@ export function TI30XSCalculator({ onClose }) {
         {/* Mode Menu */}
         {showModeMenu && (
           <div
-            className="absolute top-32 left-8 bg-gray-800 rounded-lg p-3 shadow-xl z-30 border border-gray-600"
+            className="panel absolute top-32 left-8 p-3 z-30"
             data-ti30xs-nodrag
+            style={{ minWidth: '180px' }}
           >
-            <div className="text-white text-xs font-bold mb-2">
-              Mode Settings
+            <h4>Angle Mode</h4>
+            <div className="space-y-1">
+              <button
+                className={`block w-full text-left px-3 py-1.5 rounded text-xs font-semibold transition ${
+                  angleMode === 'DEG'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                }`}
+                onClick={() => {
+                  setAngleMode('DEG');
+                  setShowModeMenu(false);
+                }}
+              >
+                Degrees
+              </button>
+              <button
+                className={`block w-full text-left px-3 py-1.5 rounded text-xs font-semibold transition ${
+                  angleMode === 'RAD'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                }`}
+                onClick={() => {
+                  setAngleMode('RAD');
+                  setShowModeMenu(false);
+                }}
+              >
+                Radians
+              </button>
             </div>
             <button
-              className={`block w-full text-left px-3 py-1 rounded ${
-                angleMode === 'DEG' ? 'bg-blue-600' : 'bg-gray-700'
-              } text-white text-xs mb-1`}
-              onClick={() => {
-                setAngleMode('DEG');
-                setShowModeMenu(false);
-              }}
-            >
-              Degrees
-            </button>
-            <button
-              className={`block w-full text-left px-3 py-1 rounded ${
-                angleMode === 'RAD' ? 'bg-blue-600' : 'bg-gray-700'
-              } text-white text-xs`}
-              onClick={() => {
-                setAngleMode('RAD');
-                setShowModeMenu(false);
-              }}
-            >
-              Radians
-            </button>
-            <button
-              className="block w-full text-center px-3 py-1 rounded bg-gray-600 hover:bg-gray-500 text-white text-xs mt-2"
-              onClick={() => {
-                setShowModeMenu(false);
-              }}
+              className="block w-full text-center px-3 py-1.5 mt-3 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold transition"
+              onClick={() => setShowModeMenu(false)}
             >
               Close
             </button>

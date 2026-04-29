@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
  * Schema:
  *   {
  *     dl: { [moduleId]: { score: 0..100, mastered: bool, attempts: n, lastAt: ISO } },
+ *     tutorials: { [moduleId]: { completed: bool, completedAt: ISO, attempts: n } },
  *     badges: { foundation: bool, pro: bool },
  *     proctored: bool,                // instructor toggle
  *     journal: { [yyyy-mm-dd]: string },
@@ -58,6 +59,7 @@ export const PRO_MODULES = [
 
 const empty = () => ({
   dl: {},
+  tutorials: {},
   badges: { foundation: false, pro: false },
   proctored: false,
   journal: {},
@@ -72,7 +74,14 @@ export function loadProgress(userId) {
     const raw = window.localStorage.getItem(KEY(userId));
     if (!raw) return empty();
     const parsed = JSON.parse(raw);
-    return { ...empty(), ...parsed };
+    const base = empty();
+    return {
+      ...base,
+      ...parsed,
+      dl: parsed.dl || {},
+      tutorials: parsed.tutorials || {},
+      badges: { ...base.badges, ...(parsed.badges || {}) },
+    };
   } catch {
     return empty();
   }
@@ -99,14 +108,42 @@ export function recomputeBadges(state) {
 
 export function setModuleResult(userId, moduleId, score) {
   const state = loadProgress(userId);
+  state.dl = state.dl || {};
+  state.tutorials = state.tutorials || {};
   const prev = state.dl[moduleId] || { attempts: 0 };
+  const tutorial = state.tutorials?.[moduleId] || {};
   state.dl[moduleId] = {
     score: Math.max(0, Math.min(100, Math.round(score))),
     mastered: score >= MASTERY_THRESHOLD,
+    tutorialCompleted: !!tutorial.completed || !!prev.tutorialCompleted,
+    tutorialCompletedAt:
+      tutorial.completedAt || prev.tutorialCompletedAt || null,
     attempts: (prev.attempts || 0) + 1,
     lastAt: new Date().toISOString(),
   };
   state.badges = recomputeBadges(state);
+  save(userId, state);
+  return state;
+}
+
+export function recordTutorialCompletion(userId, moduleId, metadata = {}) {
+  const state = loadProgress(userId);
+  state.dl = state.dl || {};
+  state.tutorials = state.tutorials || {};
+  const prev = state.tutorials[moduleId] || { attempts: 0 };
+  const completedAt = new Date().toISOString();
+  state.tutorials[moduleId] = {
+    ...prev,
+    ...metadata,
+    completed: true,
+    attempts: (prev.attempts || 0) + 1,
+    completedAt,
+  };
+  state.dl[moduleId] = {
+    ...(state.dl[moduleId] || { attempts: 0 }),
+    tutorialCompleted: true,
+    tutorialCompletedAt: completedAt,
+  };
   save(userId, state);
   return state;
 }

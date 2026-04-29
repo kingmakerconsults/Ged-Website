@@ -186,6 +186,16 @@ export default function WorkforceHub({ onBack, userId = 'anon' }) {
     loadOverview();
   }, [loadOverview]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const handler = () => {
+      loadOverview();
+    };
+    window.addEventListener('workforce:activity-logged', handler);
+    return () =>
+      window.removeEventListener('workforce:activity-logged', handler);
+  }, [loadOverview]);
+
   async function handleCreatePlan() {
     setProgramBusy(true);
     setOverviewError('');

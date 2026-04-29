@@ -24492,10 +24492,7 @@ function AppHeader({
             title="Mr. Smith's Learning Canvas"
           >
             <AppIcon name="home" tone="sky" size={20} />
-            <span className="hidden xl:inline">
-              Mr. Smith's Learning Canvas
-            </span>
-            <span className="xl:hidden">Mr. Smith's</span>
+            <span>Mr. Smith's Learning Canvas</span>
           </button>
           <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
             <button
@@ -28625,7 +28622,7 @@ function App({ externalTheme, onThemeChange }) {
         />
       );
     }
-    if (normalizedRole === 'instructor') {
+    if (normalizedRole === 'instructor' || normalizedRole === 'teacher') {
       return (
         <InstructorDashboard
           user={currentUser}
@@ -30928,11 +30925,21 @@ function InstructorDashboard({ user, token, onLogout }) {
                         Active Students
                       </div>
                       <div className="text-4xl font-bold">
-                        {
-                          students.filter(
-                            (s) => s.subjects && s.subjects.length > 0
-                          ).length
-                        }
+                        {(() => {
+                          const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+                          return students.filter((s) => {
+                            if (
+                              Array.isArray(s.subjects) &&
+                              s.subjects.length > 0
+                            )
+                              return true;
+                            if (s.last_attempt_at) {
+                              const t = new Date(s.last_attempt_at).getTime();
+                              return Number.isFinite(t) && t >= cutoff;
+                            }
+                            return false;
+                          }).length;
+                        })()}
                       </div>
                     </div>
                   </div>
@@ -31130,11 +31137,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState('');
-  // Force-load Question Audit tab first for super admin
-  const [activeTab, setActiveTab] = useState('question-audit'); // organizations, users, activity, question-audit
+  const [activeTab, setActiveTab] = useState('organizations'); // organizations, users, activity, question-audit
   // Prevent repeated fetch loops when API returns empty/500
   const usersLoadAttempted = useRef(false);
   const activityLoadAttempted = useRef(false);
+  // Super-admin user status modal
+  const [userStatusTarget, setUserStatusTarget] = useState(null);
+  const [statusBusy, setStatusBusy] = useState(false);
+  const [statusError, setStatusError] = useState('');
 
   const loadOrganizations = useCallback(async () => {
     setLoadingOrgs(true);
@@ -31187,6 +31197,39 @@ function SuperAdminDashboard({ user, token, onLogout }) {
       setLoadingActivity(false);
     }
   }, [token]);
+
+  const updateUserStatus = useCallback(
+    async (userId, status) => {
+      setStatusBusy(true);
+      setStatusError('');
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/admin/users/${userId}/status`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ account_status: status }),
+          }
+        );
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setStatusError(body?.error || 'Failed to update status');
+          return;
+        }
+        setUserStatusTarget(null);
+        usersLoadAttempted.current = false;
+        loadUsers();
+      } catch (err) {
+        setStatusError(err?.message || 'Failed to update status');
+      } finally {
+        setStatusBusy(false);
+      }
+    },
+    [token, loadUsers]
+  );
 
   const loadOrgSummary = useCallback(
     async (orgId) => {
@@ -31276,6 +31319,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <button
               type="button"
               onClick={loadOrganizations}
@@ -31322,14 +31366,6 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             </button>
           </div>
         </header>
-
-        {/* TEMP: Debug banner to ensure Questions Catalog is visible */}
-        <div className="mb-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-200 p-3">
-          Debug: Rendering Questions Catalog below to verify visibility.
-        </div>
-        <section className="rounded-3xl border-subtle panel-surface shadow-sm mb-6">
-          <SuperAdminAllQuestions />
-        </section>
 
         {/* Platform Stats Overview */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -31432,6 +31468,17 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           >
             Question Audit
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('question-reports')}
+            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+              activeTab === 'question-reports'
+                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+            }`}
+          >
+            Question Reports
+          </button>
         </div>
 
         {/* Organizations Tab */}
@@ -31505,7 +31552,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                            {formatDateTime(org.recentActivity)}
+                            {formatDateTime(org.lastActivityAt)}
                           </td>
                           <td className="px-6 py-4">
                             <button
@@ -31595,6 +31642,12 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                         Last Login
                       </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-subtle panel-surface">
@@ -31604,14 +31657,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                         className="hover:bg-surface-soft transition"
                       >
                         <td className="px-4 py-3 font-medium text-primary">
-                          {u.name || '�'}
+                          {u.name || '—'}
                         </td>
                         <td className="px-4 py-3 text-secondary">{u.email}</td>
                         <td className="px-4 py-3">
                           <AdminRoleBadge role={u.role} />
                         </td>
                         <td className="px-4 py-3 text-secondary">
-                          {u.organization_name || '�'}
+                          {u.organization_name || '—'}
                         </td>
                         <td className="px-4 py-3 text-secondary">
                           {u.quiz_attempt_count || 0}
@@ -31619,10 +31672,33 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                         <td className="px-4 py-3 text-secondary">
                           {u.average_scaled_score != null
                             ? Math.round(u.average_scaled_score)
-                            : '�'}
+                            : '—'}
                         </td>
                         <td className="px-4 py-3 text-muted text-xs">
                           {formatDateTime(u.last_login_at)}
+                        </td>
+                        <td className="px-4 py-3 text-xs">
+                          <span
+                            className={
+                              u.account_status === 'active'
+                                ? 'inline-flex rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5'
+                                : u.account_status === 'denied' ||
+                                    u.account_status === 'archived'
+                                  ? 'inline-flex rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5'
+                                  : 'inline-flex rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 px-2 py-0.5'
+                            }
+                          >
+                            {u.account_status || 'active'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <button
+                            type="button"
+                            onClick={() => setUserStatusTarget(u)}
+                            className="btn-ghost px-2.5 py-1 text-xs font-semibold rounded-full"
+                          >
+                            Manage
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -31686,7 +31762,111 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             )}
           </section>
         )}
+
+        {/* Question Audit Tab */}
+        {activeTab === 'question-audit' && (
+          <section className="rounded-3xl border-subtle panel-surface shadow-sm">
+            <SuperAdminAllQuestions />
+          </section>
+        )}
+
+        {/* Question Reports Tab (global) */}
+        {activeTab === 'question-reports' && (
+          <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-primary mb-1">
+              Question Reports
+            </h2>
+            <p className="text-sm text-muted mb-4">
+              Triage every question report submitted across the platform.
+            </p>
+            <InstructorReportsPanel
+              endpointBase="/api/admin/question-reports"
+              showGlobalFilters={true}
+            />
+          </section>
+        )}
       </div>
+
+      {/* User account-status modal (super admin) */}
+      {userStatusTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl panel-surface p-6 shadow-2xl">
+            <h3 className="text-lg font-semibold text-primary mb-1">
+              Manage User
+            </h3>
+            <p className="text-sm text-secondary mb-1">
+              {userStatusTarget.name || userStatusTarget.email}
+            </p>
+            <p className="text-xs text-muted mb-4">
+              Current status:{' '}
+              <span className="font-mono">
+                {userStatusTarget.account_status || 'active'}
+              </span>
+            </p>
+
+            {statusError && (
+              <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-2 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
+                {statusError}
+              </div>
+            )}
+
+            <div className="space-y-2 mb-4">
+              <p className="text-xs font-semibold text-muted uppercase">
+                Set status
+              </p>
+              {[
+                {
+                  v: 'active',
+                  label: 'Active',
+                  desc: 'User can sign in normally',
+                },
+                {
+                  v: 'pending_approval',
+                  label: 'Pending Approval',
+                  desc: 'Awaiting admin approval',
+                },
+                {
+                  v: 'pending_org',
+                  label: 'Pending Org',
+                  desc: 'Needs org assignment',
+                },
+                { v: 'denied', label: 'Denied', desc: 'Membership rejected' },
+                {
+                  v: 'archived',
+                  label: 'Archived',
+                  desc: 'Soft-removed from system',
+                },
+              ].map((opt) => (
+                <button
+                  key={opt.v}
+                  type="button"
+                  disabled={
+                    statusBusy ||
+                    (userStatusTarget.account_status || 'active') === opt.v
+                  }
+                  onClick={() => updateUserStatus(userStatusTarget.id, opt.v)}
+                  className="w-full text-left px-3 py-2 rounded-lg border border-subtle hover:bg-surface-soft transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="font-semibold text-sm">{opt.label}</div>
+                  <div className="text-xs text-muted">{opt.desc}</div>
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              disabled={statusBusy}
+              onClick={() => {
+                setUserStatusTarget(null);
+                setStatusError('');
+              }}
+              className="w-full btn-ghost px-4 py-2 text-sm font-semibold rounded-lg"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -31699,9 +31879,37 @@ function OrgAdminDashboard({ user, token, onLogout }) {
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('overview'); // overview, users, activity
+  const [activeTab, setActiveTab] = useState('overview');
   const usersLoadAttempted = useRef(false);
   const activityLoadAttempted = useRef(false);
+  // Per-student drill-down (reuses instructor modal)
+  const [detailStudent, setDetailStudent] = useState(null);
+  // User row action menu state
+  const [userAction, setUserAction] = useState(null); // {user, mode: 'role'|'deactivate'}
+  const [actionBusy, setActionBusy] = useState(false);
+  const [actionError, setActionError] = useState('');
+  // Audit log
+  const [auditEntries, setAuditEntries] = useState([]);
+  const [loadingAudit, setLoadingAudit] = useState(false);
+  const auditLoadAttempted = useRef(false);
+  // Invitations
+  const [invitations, setInvitations] = useState([]);
+  const [loadingInvites, setLoadingInvites] = useState(false);
+  const invitesLoadAttempted = useRef(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState('student');
+  const [lastInviteToken, setLastInviteToken] = useState(null);
+  // Settings (branding)
+  const [orgSettings, setOrgSettings] = useState(null);
+  const [loadingSettings, setLoadingSettings] = useState(false);
+  const settingsLoadAttempted = useRef(false);
+  const [settingsForm, setSettingsForm] = useState({
+    display_name: '',
+    logo_url: '',
+    brand_color: '',
+  });
+  const [settingsSaving, setSettingsSaving] = useState(false);
+  const [settingsMessage, setSettingsMessage] = useState('');
 
   const loadSummary = useCallback(async () => {
     setLoading(true);
@@ -31750,6 +31958,230 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     }
   }, [token]);
 
+  const loadAuditLog = useCallback(async () => {
+    setLoadingAudit(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(
+        `${API_BASE_URL}/api/org/audit-log?limit=200`,
+        {
+          headers,
+        }
+      );
+      setAuditEntries(Array.isArray(data?.entries) ? data.entries : []);
+    } catch (err) {
+      console.error('Failed to load audit log:', err);
+      setAuditEntries([]);
+    } finally {
+      setLoadingAudit(false);
+    }
+  }, [token]);
+
+  const loadInvitations = useCallback(async () => {
+    setLoadingInvites(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(`${API_BASE_URL}/api/org/invitations`, {
+        headers,
+      });
+      setInvitations(Array.isArray(data?.invitations) ? data.invitations : []);
+    } catch (err) {
+      console.error('Failed to load invitations:', err);
+      setInvitations([]);
+    } finally {
+      setLoadingInvites(false);
+    }
+  }, [token]);
+
+  const loadOrgSettings = useCallback(async () => {
+    setLoadingSettings(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(`${API_BASE_URL}/api/org/settings`, {
+        headers,
+      });
+      const o = data?.organization || null;
+      setOrgSettings(o);
+      if (o) {
+        setSettingsForm({
+          display_name: o.display_name || '',
+          logo_url: o.logo_url || '',
+          brand_color: o.brand_color || '',
+        });
+      }
+    } catch (err) {
+      console.error('Failed to load org settings:', err);
+      setOrgSettings(null);
+    } finally {
+      setLoadingSettings(false);
+    }
+  }, [token]);
+
+  const submitInvitation = useCallback(
+    async (e) => {
+      e?.preventDefault?.();
+      const email = (inviteEmail || '').trim().toLowerCase();
+      if (!email || !email.includes('@')) return;
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/org/invitations`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ email, role: inviteRole }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          alert(body?.error || 'Failed to create invitation');
+          return;
+        }
+        setLastInviteToken(body?.token || null);
+        setInviteEmail('');
+        loadInvitations();
+      } catch (err) {
+        alert(err?.message || 'Failed to create invitation');
+      }
+    },
+    [inviteEmail, inviteRole, token, loadInvitations]
+  );
+
+  const revokeInvitation = useCallback(
+    async (id) => {
+      if (!window.confirm('Revoke this invitation?')) return;
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/org/invitations/${id}`, {
+          method: 'DELETE',
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        });
+        if (!res.ok) throw new Error('Failed');
+        loadInvitations();
+      } catch (err) {
+        alert(err?.message || 'Failed to revoke invitation');
+      }
+    },
+    [token, loadInvitations]
+  );
+
+  const saveOrgSettings = useCallback(
+    async (e) => {
+      e?.preventDefault?.();
+      setSettingsSaving(true);
+      setSettingsMessage('');
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/org/settings`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify(settingsForm),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setSettingsMessage(body?.error || 'Failed to save');
+        } else {
+          setSettingsMessage('Saved.');
+          loadOrgSettings();
+        }
+      } catch (err) {
+        setSettingsMessage(err?.message || 'Failed to save');
+      } finally {
+        setSettingsSaving(false);
+      }
+    },
+    [settingsForm, token, loadOrgSettings]
+  );
+
+  const changeUserRole = useCallback(
+    async (userId, newRole) => {
+      setActionBusy(true);
+      setActionError('');
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/org/users/${userId}/role`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ role: newRole }),
+          }
+        );
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setActionError(body?.error || 'Failed to change role');
+          return;
+        }
+        setUserAction(null);
+        usersLoadAttempted.current = false;
+        loadUsers();
+      } catch (err) {
+        setActionError(err?.message || 'Failed to change role');
+      } finally {
+        setActionBusy(false);
+      }
+    },
+    [token, loadUsers]
+  );
+
+  const setUserActive = useCallback(
+    async (userId, active) => {
+      setActionBusy(true);
+      setActionError('');
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/org/users/${userId}/active`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ active }),
+          }
+        );
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setActionError(body?.error || 'Failed to update');
+          return;
+        }
+        setUserAction(null);
+        usersLoadAttempted.current = false;
+        loadUsers();
+      } catch (err) {
+        setActionError(err?.message || 'Failed to update');
+      } finally {
+        setActionBusy(false);
+      }
+    },
+    [token, loadUsers]
+  );
+
+  const downloadCsv = useCallback(
+    async (path, filename) => {
+      try {
+        const res = await fetch(`${API_BASE_URL}${path}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        });
+        if (!res.ok) throw new Error('Export failed');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        alert(err?.message || 'Export failed');
+      }
+    },
+    [token]
+  );
+
   useEffect(() => {
     loadSummary();
   }, [loadSummary]);
@@ -31773,6 +32205,27 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     ) {
       activityLoadAttempted.current = true;
       loadActivity();
+    } else if (
+      activeTab === 'audit' &&
+      !auditLoadAttempted.current &&
+      !loadingAudit
+    ) {
+      auditLoadAttempted.current = true;
+      loadAuditLog();
+    } else if (
+      activeTab === 'invitations' &&
+      !invitesLoadAttempted.current &&
+      !loadingInvites
+    ) {
+      invitesLoadAttempted.current = true;
+      loadInvitations();
+    } else if (
+      activeTab === 'settings' &&
+      !settingsLoadAttempted.current &&
+      !loadingSettings
+    ) {
+      settingsLoadAttempted.current = true;
+      loadOrgSettings();
     }
   }, [
     activeTab,
@@ -31780,8 +32233,14 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     activity.length,
     loadingUsers,
     loadingActivity,
+    loadingAudit,
+    loadingInvites,
+    loadingSettings,
     loadUsers,
     loadActivity,
+    loadAuditLog,
+    loadInvitations,
+    loadOrgSettings,
   ]);
 
   const organizationName =
@@ -31807,6 +32266,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <button
               type="button"
               onClick={loadSummary}
@@ -31977,6 +32437,39 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               >
                 Curriculum
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('invitations')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'invitations'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Invitations
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('audit')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'audit'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Audit Log
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('settings')}
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+                  activeTab === 'settings'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+                }`}
+              >
+                Settings
+              </button>
             </div>
 
             {/* Overview Tab */}
@@ -32000,13 +32493,24 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             {/* Users Tab */}
             {activeTab === 'users' && (
               <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <div className="mb-4">
-                  <h2 className="text-xl font-semibold text-primary">
-                    Organization Users
-                  </h2>
-                  <p className="text-sm text-muted mt-1">
-                    Manage users within your organization
-                  </p>
+                <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-xl font-semibold text-primary">
+                      Organization Users
+                    </h2>
+                    <p className="text-sm text-muted mt-1">
+                      Manage users within your organization
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      downloadCsv('/api/org/users.csv', 'users.csv')
+                    }
+                    className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+                  >
+                    Export CSV
+                  </button>
                 </div>
 
                 {loadingUsers ? (
@@ -32042,42 +32546,116 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                           <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                             Last Login
                           </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Status
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Actions
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-subtle panel-surface">
-                        {users.map((u) => (
-                          <tr
-                            key={u.id}
-                            className="hover:bg-surface-soft transition"
-                          >
-                            <td className="px-4 py-3 font-medium text-primary">
-                              {u.name || '�'}
-                            </td>
-                            <td className="px-4 py-3 text-secondary">
-                              {u.email}
-                            </td>
-                            <td className="px-4 py-3">
-                              <AdminRoleBadge role={u.role} />
-                            </td>
-                            <td className="px-4 py-3 text-secondary">
-                              {u.quiz_attempt_count || 0}
-                            </td>
-                            <td className="px-4 py-3 text-secondary">
-                              {u.average_scaled_score != null
-                                ? Math.round(u.average_scaled_score)
-                                : '�'}
-                            </td>
-                            <td
-                              className="px-4 py-3 text-xs text-secondary"
-                              title={describeAllStudentTestDates(u.test_dates)}
+                        {users.map((u) => {
+                          const isInactive = !!u.deactivated_at;
+                          const isStudent =
+                            String(u.role || '').toLowerCase() === 'student';
+                          const isSuper =
+                            String(u.role || '').toLowerCase() ===
+                            'super_admin';
+                          return (
+                            <tr
+                              key={u.id}
+                              className={
+                                isInactive
+                                  ? 'opacity-60 hover:bg-surface-soft transition'
+                                  : 'hover:bg-surface-soft transition'
+                              }
                             >
-                              {describeNextStudentTestDate(u.test_dates)}
-                            </td>
-                            <td className="px-4 py-3 text-muted text-xs">
-                              {formatDateTime(u.last_login_at)}
-                            </td>
-                          </tr>
-                        ))}
+                              <td className="px-4 py-3 font-medium text-primary">
+                                {u.name || '—'}
+                              </td>
+                              <td className="px-4 py-3 text-secondary">
+                                {u.email}
+                              </td>
+                              <td className="px-4 py-3">
+                                <AdminRoleBadge role={u.role} />
+                              </td>
+                              <td className="px-4 py-3 text-secondary">
+                                {u.quiz_attempt_count || 0}
+                              </td>
+                              <td className="px-4 py-3 text-secondary">
+                                {u.average_scaled_score != null
+                                  ? Math.round(u.average_scaled_score)
+                                  : '—'}
+                              </td>
+                              <td
+                                className="px-4 py-3 text-xs text-secondary"
+                                title={describeAllStudentTestDates(
+                                  u.test_dates
+                                )}
+                              >
+                                {describeNextStudentTestDate(u.test_dates)}
+                              </td>
+                              <td className="px-4 py-3 text-muted text-xs">
+                                {formatDateTime(u.last_login_at)}
+                              </td>
+                              <td className="px-4 py-3 text-xs">
+                                {isInactive ? (
+                                  <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-red-700 dark:bg-red-900/30 dark:text-red-300">
+                                    Inactive
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                                    Active
+                                  </span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex flex-wrap gap-1">
+                                  {isStudent && (
+                                    <button
+                                      type="button"
+                                      onClick={() => setDetailStudent(u)}
+                                      className="btn-primary px-2.5 py-1 text-xs font-semibold rounded-full shadow-sm"
+                                    >
+                                      Details
+                                    </button>
+                                  )}
+                                  {!isSuper && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setUserAction({
+                                            user: u,
+                                            mode: 'role',
+                                          })
+                                        }
+                                        className="btn-ghost px-2.5 py-1 text-xs font-semibold rounded-full"
+                                      >
+                                        Role
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setUserAction({
+                                            user: u,
+                                            mode: 'deactivate',
+                                          })
+                                        }
+                                        className="btn-ghost px-2.5 py-1 text-xs font-semibold rounded-full"
+                                      >
+                                        {isInactive
+                                          ? 'Reactivate'
+                                          : 'Deactivate'}
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -32088,13 +32666,27 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             {/* Activity Tab */}
             {activeTab === 'activity' && (
               <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-                <div className="mb-4">
-                  <h2 className="text-xl font-semibold text-primary">
-                    Recent Organization Activity
-                  </h2>
-                  <p className="text-sm text-muted mt-1">
-                    Latest quiz attempts within your organization
-                  </p>
+                <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-xl font-semibold text-primary">
+                      Recent Organization Activity
+                    </h2>
+                    <p className="text-sm text-muted mt-1">
+                      Latest quiz attempts within your organization
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      downloadCsv(
+                        '/api/org/activity.csv?limit=2000',
+                        'activity.csv'
+                      )
+                    }
+                    className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+                  >
+                    Export CSV
+                  </button>
                 </div>
 
                 {loadingActivity ? (
@@ -32140,6 +32732,22 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             {activeTab === 'question-audit' && (
               <section className="rounded-3xl border-subtle panel-surface shadow-sm">
                 <SuperAdminAllQuestions />
+              </section>
+            )}
+
+            {/* Question Reports Tab (global) */}
+            {activeTab === 'question-reports' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-primary mb-1">
+                  Question Reports
+                </h2>
+                <p className="text-sm text-muted mb-4">
+                  Triage every question report submitted across the platform.
+                </p>
+                <InstructorReportsPanel
+                  endpointBase="/api/admin/question-reports"
+                  showGlobalFilters={true}
+                />
               </section>
             )}
 
@@ -32206,9 +32814,491 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                 <InstructorCurriculumPanel />
               </section>
             )}
+
+            {/* Invitations Tab */}
+            {activeTab === 'invitations' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-xl font-semibold text-primary">
+                      Invitations
+                    </h2>
+                    <p className="text-sm text-muted mt-1">
+                      Send signup invitations to new users in your organization.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      invitesLoadAttempted.current = false;
+                      loadInvitations();
+                    }}
+                    className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+                  >
+                    Refresh
+                  </button>
+                </div>
+
+                <form
+                  onSubmit={submitInvitation}
+                  className="mb-6 flex flex-wrap gap-2 items-end p-4 rounded-xl bg-surface-soft"
+                >
+                  <div className="flex-1 min-w-[220px]">
+                    <label className="block text-xs font-semibold text-muted mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={inviteEmail}
+                      onChange={(e) => setInviteEmail(e.target.value)}
+                      placeholder="user@example.com"
+                      className="w-full px-3 py-2 rounded-lg border border-subtle bg-page text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-muted mb-1">
+                      Role
+                    </label>
+                    <select
+                      value={inviteRole}
+                      onChange={(e) => setInviteRole(e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-subtle bg-page text-sm"
+                    >
+                      <option value="student">Student</option>
+                      <option value="instructor">Instructor</option>
+                      <option value="org_admin">Org Admin</option>
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn-primary px-4 py-2 text-sm font-semibold rounded-full shadow-sm"
+                  >
+                    Send Invite
+                  </button>
+                </form>
+
+                {lastInviteToken && (
+                  <div className="mb-4 p-3 rounded-lg border border-blue-200 bg-blue-50 text-sm text-blue-800 dark:border-blue-700 dark:bg-blue-900/20 dark:text-blue-200">
+                    <div className="font-semibold mb-1">Invitation token</div>
+                    <code className="block break-all text-xs">
+                      {lastInviteToken}
+                    </code>
+                    <p className="text-xs mt-1 opacity-80">
+                      Share this token with the recipient (email delivery is not
+                      yet wired). Token is shown once.
+                    </p>
+                  </div>
+                )}
+
+                {loadingInvites ? (
+                  <p className="text-sm text-muted">Loading invitations...</p>
+                ) : invitations.length === 0 ? (
+                  <p className="text-sm text-muted">No invitations yet.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-subtle text-sm">
+                      <thead className="bg-surface-soft">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Email
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Role
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Status
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Expires
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Created
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-subtle panel-surface">
+                        {invitations.map((inv) => {
+                          const status = inv.accepted_at
+                            ? {
+                                label: 'Accepted',
+                                cls: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
+                              }
+                            : inv.revoked_at
+                              ? {
+                                  label: 'Revoked',
+                                  cls: 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200',
+                                }
+                              : new Date(inv.expires_at).getTime() < Date.now()
+                                ? {
+                                    label: 'Expired',
+                                    cls: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200',
+                                  }
+                                : {
+                                    label: 'Pending',
+                                    cls: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+                                  };
+                          const canRevoke = !inv.accepted_at && !inv.revoked_at;
+                          return (
+                            <tr
+                              key={inv.id}
+                              className="hover:bg-surface-soft transition"
+                            >
+                              <td className="px-4 py-3 text-secondary">
+                                {inv.email}
+                              </td>
+                              <td className="px-4 py-3">
+                                <AdminRoleBadge role={inv.role} />
+                              </td>
+                              <td className="px-4 py-3">
+                                <span
+                                  className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${status.cls}`}
+                                >
+                                  {status.label}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-muted text-xs">
+                                {formatDateTime(inv.expires_at)}
+                              </td>
+                              <td className="px-4 py-3 text-muted text-xs">
+                                {formatDateTime(inv.created_at)}
+                              </td>
+                              <td className="px-4 py-3">
+                                {canRevoke && (
+                                  <button
+                                    type="button"
+                                    onClick={() => revokeInvitation(inv.id)}
+                                    className="btn-ghost px-2.5 py-1 text-xs font-semibold rounded-full"
+                                  >
+                                    Revoke
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* Audit Log Tab */}
+            {activeTab === 'audit' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-xl font-semibold text-primary">
+                      Audit Log
+                    </h2>
+                    <p className="text-sm text-muted mt-1">
+                      Recent admin actions within your organization (last 200).
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      auditLoadAttempted.current = false;
+                      loadAuditLog();
+                    }}
+                    className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+                  >
+                    Refresh
+                  </button>
+                </div>
+                {loadingAudit ? (
+                  <p className="text-sm text-muted">Loading audit log...</p>
+                ) : auditEntries.length === 0 ? (
+                  <p className="text-sm text-muted">No audit entries.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-subtle text-sm">
+                      <thead className="bg-surface-soft">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            When
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Actor
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Role
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Action
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Target
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-subtle panel-surface">
+                        {auditEntries.map((e) => (
+                          <tr
+                            key={e.id}
+                            className="hover:bg-surface-soft transition"
+                          >
+                            <td className="px-4 py-3 text-muted text-xs">
+                              {formatDateTime(e.created_at)}
+                            </td>
+                            <td className="px-4 py-3 text-secondary text-xs">
+                              {e.actor_email || `#${e.actor_user_id || '—'}`}
+                            </td>
+                            <td className="px-4 py-3">
+                              <AdminRoleBadge role={e.actor_role} />
+                            </td>
+                            <td className="px-4 py-3 font-mono text-xs text-primary">
+                              {e.action}
+                            </td>
+                            <td className="px-4 py-3 text-muted text-xs">
+                              {e.target_type
+                                ? `${e.target_type}${e.target_id ? `#${e.target_id}` : ''}`
+                                : '—'}
+                            </td>
+                            <td className="px-4 py-3 text-xs">
+                              <span
+                                className={
+                                  e.status === 'denied'
+                                    ? 'inline-flex rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5'
+                                    : 'inline-flex rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5'
+                                }
+                              >
+                                {e.status || 'ok'}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* Settings Tab */}
+            {activeTab === 'settings' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold text-primary">
+                    Organization Settings
+                  </h2>
+                  <p className="text-sm text-muted mt-1">
+                    Customize your organization's display name, logo, and brand
+                    color.
+                  </p>
+                </div>
+                {loadingSettings ? (
+                  <p className="text-sm text-muted">Loading settings...</p>
+                ) : !orgSettings ? (
+                  <p className="text-sm text-muted">
+                    Settings are unavailable (feature may be disabled for your
+                    plan).
+                  </p>
+                ) : (
+                  <form
+                    onSubmit={saveOrgSettings}
+                    className="max-w-xl space-y-4"
+                  >
+                    <div>
+                      <label className="block text-xs font-semibold text-muted mb-1">
+                        Display Name
+                      </label>
+                      <input
+                        type="text"
+                        value={settingsForm.display_name}
+                        onChange={(e) =>
+                          setSettingsForm((s) => ({
+                            ...s,
+                            display_name: e.target.value,
+                          }))
+                        }
+                        maxLength={255}
+                        className="w-full px-3 py-2 rounded-lg border border-subtle bg-page text-sm"
+                        placeholder={orgSettings.name || 'Organization name'}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-muted mb-1">
+                        Logo URL
+                      </label>
+                      <input
+                        type="url"
+                        value={settingsForm.logo_url}
+                        onChange={(e) =>
+                          setSettingsForm((s) => ({
+                            ...s,
+                            logo_url: e.target.value,
+                          }))
+                        }
+                        maxLength={2048}
+                        className="w-full px-3 py-2 rounded-lg border border-subtle bg-page text-sm"
+                        placeholder="https://..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-muted mb-1">
+                        Brand Color (hex, e.g. #2563eb)
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={settingsForm.brand_color}
+                          onChange={(e) =>
+                            setSettingsForm((s) => ({
+                              ...s,
+                              brand_color: e.target.value,
+                            }))
+                          }
+                          maxLength={20}
+                          pattern="^#?[0-9a-fA-F]{3,8}$"
+                          className="flex-1 px-3 py-2 rounded-lg border border-subtle bg-page text-sm font-mono"
+                          placeholder="#2563eb"
+                        />
+                        {settingsForm.brand_color && (
+                          <span
+                            className="w-8 h-8 rounded-lg border border-subtle"
+                            style={{
+                              backgroundColor:
+                                settingsForm.brand_color.startsWith('#')
+                                  ? settingsForm.brand_color
+                                  : `#${settingsForm.brand_color}`,
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 pt-2">
+                      <button
+                        type="submit"
+                        disabled={settingsSaving}
+                        className="btn-primary px-4 py-2 text-sm font-semibold rounded-full shadow-sm disabled:opacity-50"
+                      >
+                        {settingsSaving ? 'Saving...' : 'Save'}
+                      </button>
+                      {settingsMessage && (
+                        <span className="text-sm text-muted">
+                          {settingsMessage}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-muted pt-2 border-t border-subtle">
+                      <div>Plan: {orgSettings.plan_tier || '—'}</div>
+                      <div>Seats: {orgSettings.seat_limit ?? 'unlimited'}</div>
+                      <div>
+                        Status: {orgSettings.subscription_status || '—'}
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </section>
+            )}
           </>
         )}
       </div>
+
+      {/* Per-student detail modal */}
+      {detailStudent && (
+        <InstructorStudentDetail
+          student={detailStudent}
+          onClose={() => setDetailStudent(null)}
+        />
+      )}
+
+      {/* Role-change / deactivate modal */}
+      {userAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl panel-surface p-6 shadow-2xl">
+            <h3 className="text-lg font-semibold text-primary mb-2">
+              {userAction.mode === 'role'
+                ? 'Change Role'
+                : userAction.user.deactivated_at
+                  ? 'Reactivate User'
+                  : 'Deactivate User'}
+            </h3>
+            <p className="text-sm text-secondary mb-4">
+              {userAction.user.name || userAction.user.email}
+            </p>
+
+            {actionError && (
+              <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-2 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
+                {actionError}
+              </div>
+            )}
+
+            {userAction.mode === 'role' ? (
+              <div className="space-y-2 mb-4">
+                {['student', 'instructor', 'org_admin'].map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    disabled={
+                      actionBusy ||
+                      String(userAction.user.role || '').toLowerCase() === r
+                    }
+                    onClick={() => changeUserRole(userAction.user.id, r)}
+                    className="w-full text-left px-4 py-2 rounded-lg border border-subtle hover:bg-surface-soft transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="font-semibold capitalize">
+                      {r.replace('_', ' ')}
+                    </span>
+                    {String(userAction.user.role || '').toLowerCase() === r && (
+                      <span className="ml-2 text-xs text-muted">(current)</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-3 mb-4">
+                <p className="text-sm text-muted">
+                  {userAction.user.deactivated_at
+                    ? 'This will restore the user account and allow login.'
+                    : 'This will prevent the user from logging in. Their data is preserved.'}
+                </p>
+                <button
+                  type="button"
+                  disabled={actionBusy}
+                  onClick={() =>
+                    setUserActive(
+                      userAction.user.id,
+                      !!userAction.user.deactivated_at
+                    )
+                  }
+                  className={
+                    userAction.user.deactivated_at
+                      ? 'w-full btn-primary px-4 py-2 text-sm font-semibold rounded-lg disabled:opacity-50'
+                      : 'w-full px-4 py-2 text-sm font-semibold rounded-lg bg-red-600 hover:bg-red-700 text-white disabled:opacity-50'
+                  }
+                >
+                  {actionBusy
+                    ? 'Working...'
+                    : userAction.user.deactivated_at
+                      ? 'Reactivate'
+                      : 'Deactivate'}
+                </button>
+              </div>
+            )}
+
+            <button
+              type="button"
+              disabled={actionBusy}
+              onClick={() => {
+                setUserAction(null);
+                setActionError('');
+              }}
+              className="w-full btn-ghost px-4 py-2 text-sm font-semibold rounded-lg"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

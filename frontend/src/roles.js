@@ -15,7 +15,7 @@ export const ROLES = Object.freeze({
 export function normalizeRole(role) {
   const r = typeof role === 'string' ? role.toLowerCase().trim() : '';
   if (r === 'super_admin' || r === 'superadmin') return ROLES.SUPER_ADMIN;
-  if (r === 'org_admin' || r === 'orgadmin' || r === 'admin') return ROLES.ORG_ADMIN;
+  if (r === 'org_admin' || r === 'orgadmin') return ROLES.ORG_ADMIN;
   if (r === 'instructor' || r === 'teacher') return ROLES.INSTRUCTOR;
   return ROLES.STUDENT;
 }
@@ -38,7 +38,9 @@ export function isOrgAdminOrAbove(role) {
 }
 export function isInstructorOrAbove(role) {
   const r = normalizeRole(role);
-  return r === ROLES.SUPER_ADMIN || r === ROLES.ORG_ADMIN || r === ROLES.INSTRUCTOR;
+  return (
+    r === ROLES.SUPER_ADMIN || r === ROLES.ORG_ADMIN || r === ROLES.INSTRUCTOR
+  );
 }
 
 export function roleLabel(role) {

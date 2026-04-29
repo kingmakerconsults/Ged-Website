@@ -56,6 +56,7 @@ export default function ProgramDashboard({
   ).length;
   const completionPct = pct(completed, milestones.length);
   const interviewSummary = overview?.interviewSummary || {};
+  const learningSummary = overview?.learningSummary || {};
   const recentActivity = Array.isArray(overview?.recentActivity)
     ? overview.recentActivity.slice(0, 5)
     : [];
@@ -137,11 +138,16 @@ export default function ProgramDashboard({
         </div>
       ) : null}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <Metric
           label="Milestones"
           value={`${completionPct}%`}
           subtext={`${completed}/${milestones.length || 0} complete`}
+        />
+        <Metric
+          label="Tutorials"
+          value={learningSummary.tutorial_completions || 0}
+          subtext={`${learningSummary.module_completions || 0} module checks`}
         />
         <Metric
           label="Mock interviews"

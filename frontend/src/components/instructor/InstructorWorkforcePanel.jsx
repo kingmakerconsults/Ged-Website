@@ -278,6 +278,9 @@ export default function InstructorWorkforcePanel({ students = [] }) {
                     Milestones
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                    Tutorials
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                     Interviews
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
@@ -310,6 +313,12 @@ export default function InstructorWorkforcePanel({ students = [] }) {
                       <td className="px-4 py-3 text-secondary">
                         {row.completed_milestones || 0}/
                         {row.total_milestones || 0} ({progressPct}%)
+                      </td>
+                      <td className="px-4 py-3 text-secondary">
+                        {row.tutorial_completions || 0}
+                        <span className="ml-1 text-xs text-muted">
+                          ({row.module_completions || 0} checks)
+                        </span>
                       </td>
                       <td className="px-4 py-3 text-secondary">
                         {row.interview_sessions || 0}

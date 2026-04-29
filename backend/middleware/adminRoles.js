@@ -44,7 +44,7 @@ function isSuperAdmin(role) {
 
 function isOrgAdmin(role) {
   const r = normalizeRoleValue(role);
-  return r === 'org_admin' || r === 'admin';
+  return r === 'org_admin' || r === 'orgadmin';
 }
 
 function isInstructor(role) {

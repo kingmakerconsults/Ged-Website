@@ -887,6 +887,13 @@ function randomId() {
   return crypto.randomBytes(16).toString('hex');
 }
 
+function randomInt(maxExclusive) {
+  const max = Math.floor(Number(maxExclusive));
+  if (!Number.isFinite(max) || max <= 0) return 0;
+  if (typeof crypto.randomInt === 'function') return crypto.randomInt(max);
+  return Math.floor(Math.random() * max);
+}
+
 // AI Question Bank helpers
 function buildQuestionFingerprint(q) {
   // normalize fields that define uniqueness
@@ -4090,7 +4097,13 @@ Do NOT include section labels or headings.`;
 
 async function generateWithGemini_OneCall(subject, prompt) {
   return generationLimit(async () => {
-    const payload = { contents: [{ parts: [{ text: prompt }] }] };
+    const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.95,
+      },
+    };
     const raw = await callGemini(payload);
     const arr = parseGeminiResponse(raw);
     if (!Array.isArray(arr)) throw new Error('Invalid JSON from Gemini');
@@ -10675,6 +10688,7 @@ function buildTopicPrompt_VarietyPack(
   );
 
   const canonicalSubject = isRlaSubject(subject) ? RLA_SUBJECT_LABEL : subject;
+  const randomizationKey = randomId();
   const skillDescription = (SMITH_A_SKILL_MAP[subject] ||
     SMITH_A_SKILL_MAP[canonicalSubject])?.[topic];
   const skillFocusLine = skillDescription
@@ -10812,6 +10826,8 @@ Rules:
 
   return `${STRICT_JSON_HEADER_SHARED}
 SUBJECT STYLE: GED ${subject} — Topic Pack on "${topic}"
+RANDOMIZATION KEY: ${randomizationKey}
+Use the randomization key only to vary numeric values, scenarios, option order, and question order. Do not include it in the output.
 Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.
 ${MIX_RULES}
 ${smithAGuardrails}
@@ -11539,20 +11555,11 @@ function groupedShuffle(items) {
     groups.get(k).push(it);
   });
 
-  const groupKeys = Array.from(groups.keys());
-  for (let i = groupKeys.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [groupKeys[i], groupKeys[j]] = [groupKeys[j], groupKeys[i]];
-  }
+  const groupKeys = shuffleArray(Array.from(groups.keys()));
 
   const out = [];
   for (const k of groupKeys) {
-    const g = groups.get(k);
-    for (let i = g.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [g[i], g[j]] = [g[j], g[i]];
-    }
-    out.push(...g);
+    out.push(...shuffleArray(groups.get(k)));
   }
   return out;
 }
@@ -23857,7 +23864,9 @@ const getPremadeQuestions = (subject, count, options = {}) => {
   const ordered = targetTier
     ? orderQuestionsForTierTarget(allQuestions, targetTier)
     : shuffleArray(allQuestions);
-  return ordered.slice(0, count);
+  return targetTier
+    ? selectRandomizedTierWindow(ordered, count)
+    : ordered.slice(0, count);
 };
 
 // Normalize challenge tags from quiz data to match catalog format
@@ -24013,10 +24022,20 @@ function clampDuration(mins) {
 function shuffleArray(arr) {
   const a = Array.isArray(arr) ? arr.slice() : [];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = randomInt(i + 1);
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function selectRandomizedTierWindow(orderedQuestions, requestedCount) {
+  const ordered = Array.isArray(orderedQuestions) ? orderedQuestions : [];
+  const count = Math.max(0, Math.floor(Number(requestedCount) || 0));
+  const take = Math.min(count, ordered.length);
+  if (take <= 0) return [];
+
+  const windowSize = Math.min(ordered.length, Math.max(take, take * 4 + 8));
+  return shuffleArray(ordered.slice(0, windowSize)).slice(0, take);
 }
 
 function isValidMC(question) {
@@ -24287,9 +24306,14 @@ app.post(
         ? orderQuestionsForTierTarget(pool, targetTier)
         : shuffleArray(pool);
 
-      const questions = orderedPool
-        .slice(0, questionsNeeded)
-        .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+      const selectedPool = targetTier
+        ? selectRandomizedTierWindow(orderedPool, questionsNeeded)
+        : orderedPool.slice(0, questionsNeeded);
+
+      const questions = selectedPool.map((q, idx) => ({
+        ...q,
+        questionNumber: idx + 1,
+      }));
       return res.json({
         title: isOlympicsMode ? 'Olympics Practice' : 'Practice Session',
         durationMinutes,
@@ -25244,6 +25268,14 @@ app.get('/api/workforce/overview', requireAuth, async (req, res) => {
         ORDER BY artifact_type`,
       [actor.id]
     );
+    const learningSummary = await db.one(
+      `SELECT COUNT(DISTINCT COALESCE(tool_id, id::text)) FILTER (WHERE activity_type = 'tutorial_completed')::int AS tutorial_completions,
+            COUNT(DISTINCT COALESCE(tool_id, id::text)) FILTER (WHERE activity_type = 'module_completed')::int AS module_completions,
+              MAX(occurred_at) FILTER (WHERE activity_type IN ('tutorial_completed', 'module_completed')) AS last_learning_at
+         FROM workforce_activity_events
+        WHERE user_id = $1`,
+      [actor.id]
+    );
     return res.json({
       ok: true,
       activePlan,
@@ -25251,6 +25283,7 @@ app.get('/api/workforce/overview', requireAuth, async (req, res) => {
       recentActivity,
       interviewSummary,
       artifactSummary,
+      learningSummary,
     });
   } catch (err) {
     console.error('[/api/workforce/overview] failed:', err);
@@ -25597,14 +25630,18 @@ app.get(
                 COUNT(DISTINCT m.id) FILTER (WHERE m.status = 'completed')::int AS completed_milestones,
                 COUNT(DISTINCT m.id)::int AS total_milestones,
                 COUNT(DISTINCT s.id)::int AS interview_sessions,
+                COUNT(DISTINCT COALESCE(e.tool_id, e.id::text)) FILTER (WHERE e.activity_type = 'tutorial_completed')::int AS tutorial_completions,
+                COUNT(DISTINCT COALESCE(e.tool_id, e.id::text)) FILTER (WHERE e.activity_type = 'module_completed')::int AS module_completions,
                 NULLIF(MAX(GREATEST(
                   COALESCE(p.updated_at, 'epoch'::timestamptz),
-                  COALESCE(s.updated_at, 'epoch'::timestamptz)
+                  COALESCE(s.updated_at, 'epoch'::timestamptz),
+                  COALESCE(e.occurred_at, 'epoch'::timestamptz)
                 )), 'epoch'::timestamptz) AS last_workforce_at
            FROM users u
            LEFT JOIN workforce_plans p ON p.user_id = u.id AND p.archived_at IS NULL
            LEFT JOIN workforce_milestones m ON m.plan_id = p.id
            LEFT JOIN interview_sessions s ON s.user_id = u.id
+           LEFT JOIN workforce_activity_events e ON e.user_id = u.id
           WHERE u.organization_id = $1
             AND COALESCE(u.role, 'student') IN ('student', 'learner')
           GROUP BY u.id, u.name, u.email

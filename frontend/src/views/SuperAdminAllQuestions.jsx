@@ -215,6 +215,14 @@ const GENERIC_OPTIONS = new Set([
   'unknown',
 ]);
 
+const PLACEHOLDER_OPTION_PATTERNS = [
+  /^(?:option|choice|answer)\s*[a-d1-4]?$/i,
+  /^[a-d]$/i,
+  /^(?:plausible|incorrect|correct)?\s*(?:answer|option|choice)\s*\d+$/i,
+  /^distractor\s*\d*$/i,
+  /^placeholder/i,
+];
+
 function stripHtml(value) {
   if (typeof value !== 'string') return '';
   return value.replace(/<[^>]*>/g, ' ');
@@ -853,16 +861,15 @@ function buildAuditIssues(question) {
     const genericCount = answerTexts.filter((t) =>
       GENERIC_OPTIONS.has(t.toLowerCase())
     ).length;
-    const shortCount = answerTokens.filter((t) => t.length <= 2).length;
+    const placeholderCount = answerTexts.filter((t) =>
+      PLACEHOLDER_OPTION_PATTERNS.some((pattern) => pattern.test(t))
+    ).length;
 
-    if (
-      lowOverlap &&
-      (genericCount >= 2 || shortCount >= answerTokens.length)
-    ) {
+    if (lowOverlap && (genericCount >= 2 || placeholderCount >= 2)) {
       addIssue('FILLER_MISMATCH', {
         field: 'answerOptions',
         raw: answerTexts.join(' | '),
-        patternKey: `filler-${genericCount}-${shortCount}`,
+        patternKey: `filler-${genericCount}-${placeholderCount}`,
       });
     }
   }
@@ -2241,7 +2248,7 @@ function AuditQuestionDisplay({
                 >
                   <div className="flex items-start gap-4">
                     <div
-                      className={`w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full font-bold text-sm border-2 ${
+                      className={`w-8 h-8 shrink-0 flex items-center justify-center rounded-full font-bold text-sm border-2 ${
                         isCorrect
                           ? 'bg-green-500 text-white border-green-500'
                           : 'bg-slate-100 text-slate-500 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600'

@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Central registry for every SVG asset under /public/icons/.
+ * Central registry for every SVG asset under frontend/Icons/.
  * Use semantic names — the registry maps them to the file paths.
  *
  * Goals:
@@ -10,50 +10,119 @@ import React from 'react';
  *   - Tone the icons to match the surrounding text via CSS filter presets.
  */
 
-// Semantic name -> public path
+// Semantic name -> frontend/Icons asset URL
 export const ICON_PATHS = Object.freeze({
   // Subjects / categories
-  math: '/icons/math-svgrepo-com.svg',
-  rla: '/icons/book-closed-svgrepo-com.svg',
-  read: '/icons/read-svgrepo-com.svg',
-  socialStudies: '/icons/globe-svgrepo-com.svg',
-  world: '/icons/world-svgrepo-com.svg',
-  parthenon: '/icons/parthenon-svgrepo-com.svg',
-  sphinx: '/icons/sphinx-svgrepo-com.svg',
-  statueOfLiberty: '/icons/statue-of-liberty-svgrepo-com.svg',
-  science: '/icons/double-helix-svgrepo-com.svg',
-  cell: '/icons/cell-svgrepo-com.svg',
-  molecular: '/icons/molecular-svgrepo-com.svg',
-  organism: '/icons/organic-organism-svgrepo-com.svg',
-  geneSequencing: '/icons/gene-sequencing-svgrepo-com.svg',
-  geneStructure: '/icons/gene-structure-svgrepo-com.svg',
-  geneticAlgorithm: '/icons/genetic-algorithm-svgrepo-com.svg',
-  geneticData: '/icons/genetic-data-svgrepo-com.svg',
-  geneticResearch: '/icons/genetic-research-svgrepo-com.svg',
-  supercoil: '/icons/supercoil-svgrepo-com.svg',
-  workforce: '/icons/briefcase-svgrepo-com.svg',
-  bank: '/icons/bank-svgrepo-com.svg',
-  fireProtection: '/icons/fire-protection-svgrepo-com.svg',
+  math: new URL('../../../Icons/math-svgrepo-com.svg', import.meta.url).href,
+  rla: new URL('../../../Icons/book-closed-svgrepo-com.svg', import.meta.url)
+    .href,
+  read: new URL('../../../Icons/read-svgrepo-com.svg', import.meta.url).href,
+  socialStudies: new URL(
+    '../../../Icons/globe-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  world: new URL('../../../Icons/world-svgrepo-com.svg', import.meta.url).href,
+  parthenon: new URL(
+    '../../../Icons/parthenon-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  sphinx: new URL('../../../Icons/sphinx-svgrepo-com.svg', import.meta.url)
+    .href,
+  statueOfLiberty: new URL(
+    '../../../Icons/statue-of-liberty-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  science: new URL(
+    '../../../Icons/double-helix-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  cell: new URL('../../../Icons/cell-svgrepo-com.svg', import.meta.url).href,
+  molecular: new URL(
+    '../../../Icons/molecular-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  organism: new URL(
+    '../../../Icons/organic-organism-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  geneSequencing: new URL(
+    '../../../Icons/gene-sequencing-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  geneStructure: new URL(
+    '../../../Icons/gene-structure-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  geneticAlgorithm: new URL(
+    '../../../Icons/genetic-algorithm-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  geneticData: new URL(
+    '../../../Icons/genetic-data-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  geneticResearch: new URL(
+    '../../../Icons/genetic-research-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  supercoil: new URL(
+    '../../../Icons/supercoil-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  workforce: new URL(
+    '../../../Icons/briefcase-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  bank: new URL('../../../Icons/bank-svgrepo-com.svg', import.meta.url).href,
+  fireProtection: new URL(
+    '../../../Icons/fire-protection-svgrepo-com.svg',
+    import.meta.url
+  ).href,
 
   // Navigation / dashboard
-  dashboard: '/icons/chart-pie-svgrepo-com.svg',
-  home: '/icons/house-svgrepo-com.svg',
-  knowledge: '/icons/knowledge-svgrepo-com.svg',
-  student: '/icons/student-svgrepo-com.svg',
+  dashboard: new URL(
+    '../../../Icons/chart-pie-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  dataTrends: new URL(
+    '../../../Icons/data-trends-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  home: new URL('../../../Icons/house-svgrepo-com.svg', import.meta.url).href,
+  knowledge: new URL(
+    '../../../Icons/knowledge-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  school: new URL('../../../Icons/school-svgrepo-com.svg', import.meta.url)
+    .href,
+  student: new URL('../../../Icons/student-svgrepo-com.svg', import.meta.url)
+    .href,
 
   // Theme
-  sun: '/icons/sun-svgrepo-com.svg',
-  moon: '/icons/moon-svgrepo-com.svg',
-  sleeping: '/icons/sleeping-svgrepo-com.svg',
+  sun: new URL('../../../Icons/sun-svgrepo-com.svg', import.meta.url).href,
+  moon: new URL('../../../Icons/sleeping-svgrepo-com.svg', import.meta.url)
+    .href,
+  sleeping: new URL('../../../Icons/sleeping-svgrepo-com.svg', import.meta.url)
+    .href,
 
   // Actions
-  pencil: '/icons/pencil-svgrepo-com.svg',
-  writing: '/icons/writing-svgrepo-com.svg',
-  eye: '/icons/eye-svgrepo-com.svg',
-  headphones: '/icons/headphones-svgrepo-com.svg',
-  correct: '/icons/correct-success-tick-svgrepo-com.svg',
-  remove:
-    '/icons/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com (1).svg',
+  pencil: new URL('../../../Icons/pencil-svgrepo-com.svg', import.meta.url)
+    .href,
+  writing: new URL('../../../Icons/writing-svgrepo-com.svg', import.meta.url)
+    .href,
+  eye: new URL('../../../Icons/eye-svgrepo-com.svg', import.meta.url).href,
+  headphones: new URL(
+    '../../../Icons/headphones-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  correct: new URL(
+    '../../../Icons/correct-success-tick-svgrepo-com.svg',
+    import.meta.url
+  ).href,
+  remove: new URL(
+    '../../../Icons/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com (1).svg',
+    import.meta.url
+  ).href,
 });
 
 // Quick semantic aliases for common UI verbs
@@ -67,9 +136,11 @@ export const ICON_ALIASES = Object.freeze({
   curriculum: 'rla',
   syllabus: 'read',
   calendar: 'knowledge',
-  progress: 'dashboard',
-  myClass: 'student',
-  workTogether: 'student',
+  progress: 'dataTrends',
+  myClass: 'school',
+  workTogether: 'world',
+  quiz: 'pencil',
+  test: 'pencil',
   logout: 'home',
   finance: 'bank',
   safety: 'fireProtection',

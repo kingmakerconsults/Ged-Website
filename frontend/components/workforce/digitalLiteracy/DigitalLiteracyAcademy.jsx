@@ -17,6 +17,7 @@ import { BUCKETS, findModule } from './modules/index.js';
 function ModuleRow({ mod, status, onOpen }) {
   const score = status?.score;
   const mastered = status?.mastered;
+  const tutorialCompleted = status?.tutorialCompleted;
   return (
     <button
       type="button"
@@ -29,16 +30,34 @@ function ModuleRow({ mod, status, onOpen }) {
             ? 'bg-green-500 text-white'
             : score != null
               ? 'bg-amber-300 text-amber-900'
-              : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
+              : tutorialCompleted
+                ? 'bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200'
+                : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
         }`}
         aria-hidden="true"
       >
-        {mastered ? '✓' : score != null ? score : ''}
+        {mastered ? '✓' : score != null ? score : tutorialCompleted ? 'T' : ''}
       </span>
       <div className="flex-1">
         <div className="font-semibold text-sm">{mod.title}</div>
         <div className="text-xs opacity-70">
           {mod.standardId} · {mod.standardLabel}
+        </div>
+        <div className="mt-1 flex flex-wrap gap-1.5">
+          <span
+            className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+              tutorialCompleted
+                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200'
+                : 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300'
+            }`}
+          >
+            {tutorialCompleted ? 'Tutorial done' : 'Tutorial open'}
+          </span>
+          {score != null ? (
+            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+              Knowledge {score}%
+            </span>
+          ) : null}
         </div>
       </div>
       <span className="text-xs text-teal-700 dark:text-teal-300 font-semibold">
@@ -106,6 +125,12 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
     (m) => progress.dl[m]?.mastered
   ).length;
   const proCount = PRO_MODULES.filter((m) => progress.dl[m]?.mastered).length;
+  const foundationTutorialCount = FOUNDATION_MODULES.filter(
+    (m) => progress.dl[m]?.tutorialCompleted
+  ).length;
+  const proTutorialCount = PRO_MODULES.filter(
+    (m) => progress.dl[m]?.tutorialCompleted
+  ).length;
 
   if (activeId) {
     const mod = findModule(activeId);
@@ -155,6 +180,9 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
           <div className="text-xs mt-1 opacity-80">
             Core Digital Skills standards (Buckets A–C, 17 modules)
           </div>
+          <div className="text-xs mt-1 opacity-90">
+            Tutorials: {foundationTutorialCount}/{FOUNDATION_MODULES.length}
+          </div>
         </div>
         <div className="rounded-xl p-4 bg-gradient-to-r from-cyan-700 to-emerald-700 text-white">
           <div className="text-xs uppercase opacity-80">Digital Ready Pro</div>
@@ -171,6 +199,9 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
           </div>
           <div className="text-xs mt-1 opacity-80">
             All 22 modules including Bucket D (modern + workforce).
+          </div>
+          <div className="text-xs mt-1 opacity-90">
+            Tutorials: {proTutorialCount}/{PRO_MODULES.length}
           </div>
         </div>
       </div>
@@ -224,8 +255,8 @@ export default function DigitalLiteracyAcademy({ userId, onBack }) {
         <strong>About mastery:</strong> Each module combines a hands-on sim (60%
         of the score) with a knowledge check (40%). Reach 85% combined to master
         a module and earn its certificate. Modules can be retaken any time. The
-        Foundation badge unlocks at all 17 Core Digital Skills–aligned standards mastered;
-        the Pro badge unlocks at all 22 modules.
+        Foundation badge unlocks at all 17 Core Digital Skills–aligned standards
+        mastered; the Pro badge unlocks at all 22 modules.
       </div>
     </WorkforceSectionFrame>
   );

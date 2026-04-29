@@ -63,7 +63,20 @@ function StatusPill({ status }) {
   );
 }
 
-function ReportRow({ report, onUpdate }) {
+function buildReportQuestionKey(report) {
+  const parts = [];
+  if (report.source) parts.push(report.source);
+  if (report.subject) parts.push(report.subject);
+  if (report.quiz_code) parts.push(report.quiz_code);
+  if (report.question_id) {
+    parts.push(`question ${report.question_id}`);
+  } else if (report.question_index != null) {
+    parts.push(`index ${report.question_index}`);
+  }
+  return parts.length ? parts.join(' / ') : 'unmatched question report';
+}
+
+function ReportRow({ report, onUpdate, endpointBase }) {
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState(report.resolution_note || '');
   const [editingNote, setEditingNote] = useState(false);
@@ -71,13 +84,10 @@ function ReportRow({ report, onUpdate }) {
   const setStatus = async (newStatus) => {
     setBusy(true);
     try {
-      const updated = await apiFetch(
-        `/api/instructor/question-reports/${report.id}`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({ status: newStatus }),
-        }
-      );
+      const updated = await apiFetch(`${endpointBase}/${report.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: newStatus }),
+      });
       onUpdate?.({ ...report, ...updated });
     } catch (e) {
       console.warn('[reports] status update failed', e);
@@ -89,13 +99,10 @@ function ReportRow({ report, onUpdate }) {
   const saveNote = async () => {
     setBusy(true);
     try {
-      const updated = await apiFetch(
-        `/api/instructor/question-reports/${report.id}`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({ resolutionNote: note }),
-        }
-      );
+      const updated = await apiFetch(`${endpointBase}/${report.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ resolutionNote: note }),
+      });
       onUpdate?.({ ...report, ...updated });
       setEditingNote(false);
     } catch (e) {
@@ -147,6 +154,9 @@ function ReportRow({ report, onUpdate }) {
           {report.quiz_code ? ` (${report.quiz_code})` : ''}
         </div>
       )}
+      <div style={{ fontSize: 12, color: '#64748b', marginBottom: 6 }}>
+        <strong>Question key:</strong> {buildReportQuestionKey(report)}
+      </div>
       {report.question_text && (
         <div
           style={{
@@ -279,17 +289,31 @@ function ReportRow({ report, onUpdate }) {
   );
 }
 
-export default function InstructorReportsPanel() {
+export default function InstructorReportsPanel({
+  endpointBase = '/api/instructor/question-reports',
+  showGlobalFilters = false,
+}) {
   const [reports, setReports] = useState([]);
   const [summary, setSummary] = useState({ total: 0 });
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('open');
+  const [subjectFilter, setSubjectFilter] = useState('all');
+  const [sourceFilter, setSourceFilter] = useState('all');
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const qs = filter === 'all' ? '' : `?status=${filter}`;
-      const data = await apiFetch(`/api/instructor/question-reports${qs}`);
+      const params = new URLSearchParams();
+      if (filter !== 'all') params.set('status', filter);
+      if (showGlobalFilters && subjectFilter !== 'all') {
+        params.set('subject', subjectFilter);
+      }
+      if (showGlobalFilters && sourceFilter !== 'all') {
+        params.set('source', sourceFilter);
+      }
+      if (showGlobalFilters) params.set('limit', '200');
+      const qs = params.toString() ? `?${params.toString()}` : '';
+      const data = await apiFetch(`${endpointBase}${qs}`);
       setReports(Array.isArray(data?.reports) ? data.reports : []);
       setSummary(data?.summary || { total: 0 });
     } catch (e) {
@@ -298,7 +322,7 @@ export default function InstructorReportsPanel() {
     } finally {
       setLoading(false);
     }
-  }, [filter]);
+  }, [endpointBase, filter, showGlobalFilters, sourceFilter, subjectFilter]);
 
   useEffect(() => {
     load();
@@ -362,6 +386,63 @@ export default function InstructorReportsPanel() {
           ↻ Refresh
         </button>
       </div>
+      {showGlobalFilters && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            marginBottom: 12,
+            flexWrap: 'wrap',
+          }}
+        >
+          <label style={{ fontSize: 12, color: '#475569', fontWeight: 700 }}>
+            Subject
+            <select
+              value={subjectFilter}
+              onChange={(e) => setSubjectFilter(e.target.value)}
+              style={{
+                marginLeft: 6,
+                fontSize: 12,
+                padding: '4px 8px',
+                borderRadius: 8,
+                border: '1px solid #cbd5e1',
+                background: '#ffffff',
+              }}
+            >
+              <option value="all">All</option>
+              <option value="Math">Math</option>
+              <option value="Science">Science</option>
+              <option value="Social Studies">Social Studies</option>
+              <option value="RLA">RLA</option>
+            </select>
+          </label>
+          <label style={{ fontSize: 12, color: '#475569', fontWeight: 700 }}>
+            Source
+            <select
+              value={sourceFilter}
+              onChange={(e) => setSourceFilter(e.target.value)}
+              style={{
+                marginLeft: 6,
+                fontSize: 12,
+                padding: '4px 8px',
+                borderRadius: 8,
+                border: '1px solid #cbd5e1',
+                background: '#ffffff',
+              }}
+            >
+              <option value="all">All</option>
+              <option value="premade">Premade</option>
+              <option value="ai">AI</option>
+              <option value="practice">Practice</option>
+              <option value="pop_quiz">Pop Quiz</option>
+              <option value="vocabulary">Vocabulary</option>
+              <option value="collab">Collab</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </label>
+        </div>
+      )}
       {loading && (
         <div style={{ color: '#64748b', fontSize: 13 }}>Loading reports…</div>
       )}
@@ -380,7 +461,12 @@ export default function InstructorReportsPanel() {
         </div>
       )}
       {reports.map((r) => (
-        <ReportRow key={r.id} report={r} onUpdate={onUpdate} />
+        <ReportRow
+          key={r.id}
+          report={r}
+          onUpdate={onUpdate}
+          endpointBase={endpointBase}
+        />
       ))}
     </div>
   );

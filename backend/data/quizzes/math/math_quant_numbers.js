@@ -214,7 +214,7 @@ module.exports = [
       {
         text: '\\(\\frac{20}{3}\\)',
         rationale:
-          'Correct because the mean equals the sum of the values divided by the count, so the mean of 4, 7, and 9 is \\((4 + 7 + 9)/3 = 20/3\\).',
+          'Correct because the mean equals the sum of the values divided by the count, so the mean of 4, 7, and 9 is \\(\\frac{4 + 7 + 9}{3} = \\frac{20}{3}\\).',
         isCorrect: true,
       },
       {

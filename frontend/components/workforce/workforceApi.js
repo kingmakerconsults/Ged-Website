@@ -86,5 +86,22 @@ export function logWorkforceActivity(payload = {}) {
   return workforceApiFetch('/api/workforce/activity', {
     method: 'POST',
     body: JSON.stringify(payload),
+  }).then((data) => {
+    if (typeof window !== 'undefined') {
+      try {
+        window.dispatchEvent(
+          new CustomEvent('workforce:activity-logged', {
+            detail: {
+              activityType: payload?.activityType || payload?.activity_type,
+              sectionId: payload?.sectionId || payload?.section_id,
+              toolId: payload?.toolId || payload?.tool_id,
+            },
+          })
+        );
+      } catch {
+        /* ignore event errors */
+      }
+    }
+    return data;
   });
 }

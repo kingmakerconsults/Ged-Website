@@ -8,6 +8,7 @@
 //   'essay'          — shared turn-based essay editor
 
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const db = require('./db');
 
 // Shared between REST and socket modules so REST handlers (e.g. session
@@ -21,9 +22,25 @@ function generateRoomCode() {
   const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let suffix = '';
   for (let i = 0; i < 3; i++) {
-    suffix += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+    suffix += ALPHABET[randomInt(ALPHABET.length)];
   }
   return `GED${suffix}`;
+}
+
+function randomInt(maxExclusive) {
+  const max = Math.floor(Number(maxExclusive));
+  if (!Number.isFinite(max) || max <= 0) return 0;
+  if (typeof crypto.randomInt === 'function') return crypto.randomInt(max);
+  return Math.floor(Math.random() * max);
+}
+
+function shuffleArray(list) {
+  const shuffled = Array.isArray(list) ? list.slice() : [];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = randomInt(i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 async function generateUniqueRoomCode() {
@@ -530,7 +547,7 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
     const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let s = '';
     for (let i = 0; i < 6; i++) {
-      s += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+      s += ALPHABET[randomInt(ALPHABET.length)];
     }
     return s;
   }
@@ -1759,8 +1776,10 @@ function attachCollabSockets(io, { getAllQuizzes }) {
             }
           }
           if (matching.length) {
-            const pick = matching[Math.floor(Math.random() * matching.length)];
-            snapshotQuestions = pick.questions.slice(0, 10);
+            const pick = matching[randomInt(matching.length)];
+            snapshotQuestions = shuffleArray(pick.questions)
+              .slice(0, 10)
+              .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
             snapshotTitle = pick.title || snapshotTitle;
           }
 
