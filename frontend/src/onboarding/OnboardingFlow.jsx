@@ -37,9 +37,7 @@ function authFetch(url, token, opts = {}) {
     ...opts,
     headers: {
       'Content-Type': 'application/json',
-      ...(effectiveToken
-        ? { Authorization: `Bearer ${effectiveToken}` }
-        : {}),
+      ...(effectiveToken ? { Authorization: `Bearer ${effectiveToken}` } : {}),
       ...(opts.headers || {}),
     },
   });
