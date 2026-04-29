@@ -9,7 +9,18 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
   const isMyTurn = state.essayTurn === currentUserId;
   const [draft, setDraft] = useState(state.essayContent || '');
   const [showPassages, setShowPassages] = useState(true);
+  const [showFormat, setShowFormat] = useState(false);
   const debounceRef = useRef(null);
+
+  // Close the Essay Format pop-out on Escape.
+  useEffect(() => {
+    if (!showFormat) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setShowFormat(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showFormat]);
 
   const topic = state.essayTopic || null;
   const prompt = state.essayPrompt || 'Write a collaborative essay.';
@@ -164,15 +175,25 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
                 <div className="text-xs uppercase tracking-wider text-slate-500">
                   Collaborative Essay
                 </div>
-                {!showPassages && (
+                <div className="flex items-center gap-3">
                   <button
                     type="button"
-                    onClick={() => setShowPassages(true)}
+                    onClick={() => setShowFormat(true)}
                     className="text-xs text-indigo-700 hover:text-indigo-900 underline"
+                    title="Open the GED essay format guide in a pop-out"
                   >
-                    Show passages ▶
+                    📐 Essay Format
                   </button>
-                )}
+                  {!showPassages && (
+                    <button
+                      type="button"
+                      onClick={() => setShowPassages(true)}
+                      className="text-xs text-indigo-700 hover:text-indigo-900 underline"
+                    >
+                      Show passages ▶
+                    </button>
+                  )}
+                </div>
               </div>
               {topic && (
                 <div className="text-base font-bold text-slate-900 mt-1">
@@ -236,6 +257,240 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
           </div>
         </div>
       </div>
+
+      {showFormat && <EssayFormatModal onClose={() => setShowFormat(false)} />}
+    </div>
+  );
+}
+
+const FORMAT_SECTIONS = [
+  {
+    title: 'Introduction Paragraph',
+    accent: 'blue',
+    guidance:
+      'State which author presents the stronger argument. Introduce both passages and preview your main points.',
+    template:
+      "The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].",
+  },
+  {
+    title: 'Body Paragraph #1 — Strong Evidence',
+    accent: 'green',
+    guidance:
+      "Present the first piece of strong evidence from the more convincing author. Quote or paraphrase, then explain why it's persuasive.",
+    template:
+      'First, [Stronger Author\'s Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].',
+  },
+  {
+    title: 'Body Paragraph #2 — More Strong Evidence',
+    accent: 'green',
+    guidance:
+      'Present a second piece of strong evidence from the more convincing author. Show how it further supports their argument.',
+    template:
+      'Furthermore, [Stronger Author\'s Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].',
+  },
+  {
+    title: 'Body Paragraph #3 — The Weaker Argument',
+    accent: 'amber',
+    guidance:
+      "Identify a weakness in the opposing author's argument. Explain why their evidence is less convincing or flawed.",
+    template:
+      'In contrast, the argument presented by [Weaker Author\'s Last Name] is not as well-supported. A key weakness is the author\'s reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].',
+  },
+  {
+    title: 'Conclusion Paragraph',
+    accent: 'purple',
+    guidance:
+      "Restate your position and summarize why the stronger author's evidence is more persuasive. Close with a final thought.",
+    template:
+      "In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].",
+  },
+];
+
+const ACCENT_CLASSES = {
+  blue: {
+    chip: 'bg-blue-50 border-blue-200 text-blue-900',
+    bar: 'border-blue-500',
+    label: 'text-blue-700',
+  },
+  green: {
+    chip: 'bg-green-50 border-green-200 text-green-900',
+    bar: 'border-green-500',
+    label: 'text-green-700',
+  },
+  amber: {
+    chip: 'bg-amber-50 border-amber-200 text-amber-900',
+    bar: 'border-amber-500',
+    label: 'text-amber-700',
+  },
+  purple: {
+    chip: 'bg-purple-50 border-purple-200 text-purple-900',
+    bar: 'border-purple-500',
+    label: 'text-purple-700',
+  },
+};
+
+function EssayFormatModal({ onClose }) {
+  // Floating, draggable, resizable window. We avoid a backdrop so the user
+  // can keep writing while this is open. Position is anchored top-right on
+  // first open, then becomes free-floating once dragged.
+  const INITIAL_W = 480;
+  const INITIAL_H = 560;
+  const MIN_W = 320;
+  const MIN_H = 240;
+  const [size, setSize] = useState({ w: INITIAL_W, h: INITIAL_H });
+  const [pos, setPos] = useState(() => {
+    if (typeof window === 'undefined') return { x: 40, y: 80 };
+    return {
+      x: Math.max(16, window.innerWidth - INITIAL_W - 32),
+      y: 80,
+    };
+  });
+  const [minimized, setMinimized] = useState(false);
+  const dragRef = useRef(null);
+  const resizeRef = useRef(null);
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startPos = { ...pos };
+    dragRef.current = { startX, startY, startPos };
+    const onMove = (ev) => {
+      const dx = ev.clientX - dragRef.current.startX;
+      const dy = ev.clientY - dragRef.current.startY;
+      const maxX = window.innerWidth - 80;
+      const maxY = window.innerHeight - 40;
+      setPos({
+        x: Math.max(
+          -((size.w || INITIAL_W) - 120),
+          Math.min(maxX, startPos.x + dx)
+        ),
+        y: Math.max(0, Math.min(maxY, startPos.y + dy)),
+      });
+    };
+    const onUp = () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  };
+
+  const onResizeStart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startSize = { ...size };
+    resizeRef.current = { startX, startY, startSize };
+    const onMove = (ev) => {
+      const dx = ev.clientX - resizeRef.current.startX;
+      const dy = ev.clientY - resizeRef.current.startY;
+      setSize({
+        w: Math.max(MIN_W, Math.min(window.innerWidth - 40, startSize.w + dx)),
+        h: Math.max(MIN_H, Math.min(window.innerHeight - 40, startSize.h + dy)),
+      });
+    };
+    const onUp = () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  };
+
+  const style = {
+    position: 'fixed',
+    left: pos.x,
+    top: pos.y,
+    width: size.w,
+    height: minimized ? 'auto' : size.h,
+    zIndex: 1000,
+  };
+
+  return (
+    <div
+      style={style}
+      className="rounded-lg bg-white shadow-2xl border border-slate-300 flex flex-col overflow-hidden relative"
+      role="dialog"
+      aria-label="Essay Format Guide"
+    >
+      <div
+        onMouseDown={onDragStart}
+        className="flex items-center justify-between px-4 py-2 border-b border-slate-200 bg-slate-100 cursor-move select-none"
+        title="Drag to move"
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-slate-400">⋮⋮</span>
+          <h2 className="text-sm font-bold text-slate-900 truncate">
+            📐 GED Essay Format
+          </h2>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setMinimized((m) => !m)}
+            className="text-slate-500 hover:text-slate-900 px-2 py-0.5 text-sm rounded hover:bg-slate-200"
+            aria-label={minimized ? 'Expand' : 'Minimize'}
+            title={minimized ? 'Expand' : 'Minimize'}
+          >
+            {minimized ? '▢' : '–'}
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-500 hover:text-red-600 px-2 py-0.5 text-base leading-none rounded hover:bg-slate-200"
+            aria-label="Close essay format"
+            title="Close"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+
+      {!minimized && (
+        <>
+          <div className="overflow-y-auto px-4 py-3 space-y-4 flex-1">
+            <p className="text-xs text-slate-600">
+              Drag the title bar to move. Drag the bottom-right corner to
+              resize. Click <span aria-hidden>–</span> to minimize.
+            </p>
+            {FORMAT_SECTIONS.map((s) => {
+              const a = ACCENT_CLASSES[s.accent] || ACCENT_CLASSES.blue;
+              return (
+                <section key={s.title}>
+                  <h3 className="text-sm font-bold text-slate-900 mb-2">
+                    {s.title}
+                  </h3>
+                  <div className={`mb-2 p-2 rounded border text-xs ${a.chip}`}>
+                    <strong>Essay Format:</strong> {s.guidance}
+                  </div>
+                  <div
+                    className={`p-2 bg-gray-50 border-l-4 rounded text-xs text-gray-700 font-mono leading-relaxed ${a.bar}`}
+                  >
+                    <div className={`font-bold mb-1 ${a.label}`}>
+                      Template Structure:
+                    </div>
+                    {s.template}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+
+          {/* Resize handle */}
+          <div
+            onMouseDown={onResizeStart}
+            className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize"
+            style={{
+              background:
+                'linear-gradient(135deg, transparent 0 50%, #94a3b8 50% 60%, transparent 60% 70%, #94a3b8 70% 80%, transparent 80%)',
+            }}
+            title="Drag to resize"
+            aria-label="Resize"
+          />
+        </>
+      )}
     </div>
   );
 }
