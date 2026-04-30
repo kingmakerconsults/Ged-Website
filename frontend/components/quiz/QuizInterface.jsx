@@ -1010,12 +1010,13 @@ export function QuizInterface({
                         border: '1px solid var(--warning-border)',
                       }}
                     >
-                      ⚠️ Numeric answers only. Enter numbers, decimals, or
-                      fractions (e.g., 42, 3.14, 1/2, 25%).
+                      Use the keypad to enter your answer. Accepted formats:
+                      whole numbers (42), decimals (3.14), fractions (3/4 or 1
+                      1/2), powers (2^3), square roots (√9), percents (25%).
                     </p>
                   )}
-                  {/* Use MathInputWithPad for Math subjects */}
-                  {/math/i.test(subject || quiz?.subject || '') ? (
+                  {/* Use MathInputWithPad for Math and Science subjects */}
+                  {/math|science/i.test(subject || quiz?.subject || '') ? (
                     <MathInputWithPad
                       value={answers[currentIndex] || ''}
                       onChange={(newValue) => {
@@ -1369,6 +1370,35 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     if (MATH_EQUIV.PERCENT_RE.test(s)) return parsePercent(s);
     if (MATH_EQUIV.CURRENCY_RE.test(s)) return parseCurrency(s);
     if (MATH_EQUIV.MIXED_RE.test(s)) return parseMixed(s);
+    // Power with fraction exponent: a^(p/q)
+    const pfe = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+)\/(\d+)\)$/);
+    if (pfe) {
+      const r = Math.pow(Number(pfe[1]), Number(pfe[2]) / Number(pfe[3]));
+      if (Number.isFinite(r)) return r;
+    }
+    // Power with paren: a^(b)
+    const ppe = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+(?:\.\d+)?)\)$/);
+    if (ppe) {
+      const r = Math.pow(Number(ppe[1]), Number(ppe[2]));
+      if (Number.isFinite(r)) return r;
+    }
+    // Simple power: a^b (must come before fraction to avoid stripping ^)
+    const pw = s.match(/^(-?\d+(?:\.\d+)?)\^(-?\d+(?:\.\d+)?)$/);
+    if (pw) {
+      const r = Math.pow(Number(pw[1]), Number(pw[2]));
+      if (Number.isFinite(r)) return r;
+    }
+    // Square root: √N or √(N)
+    const sqm = s.match(/^√\(?(\d+(?:\.\d+)?)\)?$/);
+    if (sqm) {
+      const r = Math.sqrt(Number(sqm[1]));
+      if (Number.isFinite(r)) return r;
+    }
+    const sqt = s.match(/^sqrt\((\d+(?:\.\d+)?)\)$/i);
+    if (sqt) {
+      const r = Math.sqrt(Number(sqt[1]));
+      if (Number.isFinite(r)) return r;
+    }
     if (MATH_EQUIV.FRACTION_RE.test(s)) return parseFraction(s);
     if (MATH_EQUIV.RATIO_RE.test(s)) return parseRatio(s);
     // plain number (allow commas)
@@ -1668,6 +1698,35 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
           return null;
         const frac = num / den;
         return whole >= 0 ? whole + frac : whole - frac;
+      }
+      // Power with fraction exponent: a^(p/q)
+      const pfe2 = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+)\/(\d+)\)$/);
+      if (pfe2) {
+        const r = Math.pow(Number(pfe2[1]), Number(pfe2[2]) / Number(pfe2[3]));
+        if (Number.isFinite(r)) return r;
+      }
+      // Power with paren: a^(b)
+      const ppe2 = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+(?:\.\d+)?)\)$/);
+      if (ppe2) {
+        const r = Math.pow(Number(ppe2[1]), Number(ppe2[2]));
+        if (Number.isFinite(r)) return r;
+      }
+      // Simple power: a^b
+      const pw2 = s.match(/^(-?\d+(?:\.\d+)?)\^(-?\d+(?:\.\d+)?)$/);
+      if (pw2) {
+        const r = Math.pow(Number(pw2[1]), Number(pw2[2]));
+        if (Number.isFinite(r)) return r;
+      }
+      // Square root: √N or √(N)
+      const sqm2 = s.match(/^√\(?(\d+(?:\.\d+)?)\)?$/);
+      if (sqm2) {
+        const r = Math.sqrt(Number(sqm2[1]));
+        if (Number.isFinite(r)) return r;
+      }
+      const sqt2 = s.match(/^sqrt\((\d+(?:\.\d+)?)\)$/i);
+      if (sqt2) {
+        const r = Math.sqrt(Number(sqt2[1]));
+        if (Number.isFinite(r)) return r;
       }
       if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
         const [a, b] = s.split('/').map((t) => t.trim());

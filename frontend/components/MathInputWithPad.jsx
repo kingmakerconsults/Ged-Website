@@ -1,8 +1,45 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useMemo } from 'react';
 
 // Math Input with Pad Component
 // Reusable onscreen calculator pad for all math fill-in questions
 // Pure client-side, no AI or backend calls
+
+/**
+ * Convert a plain-text math expression to approximate KaTeX for the live preview.
+ * Handles: fractions (3/4), mixed numbers (1 3/4), powers (2^3), sqrt (√9), pi (π).
+ */
+function textToKaTeX(text) {
+  if (!text || !text.trim()) return '';
+  let s = text.trim();
+
+  // Mixed number: "1 3/4" → "1\frac{3}{4}"
+  s = s.replace(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/, '$1\\frac{$2}{$3}');
+
+  // Whole-expression fraction: "3/4" → "\frac{3}{4}"
+  if (/^-?\d+\s*\/\s*\d+$/.test(s)) {
+    s = s.replace(/^(-?\d+)\s*\/\s*(\d+)$/, '\\frac{$1}{$2}');
+  }
+
+  // Power with fraction exponent: "4^(1/2)" → "4^{\frac{1}{2}}"
+  s = s.replace(/\^\((-?\d+)\/(\d+)\)/g, '^{\\frac{$1}{$2}}');
+  // Power with paren: "2^(3)" → "2^{3}"
+  s = s.replace(/\^\((-?[\d.]+)\)/g, '^{$1}');
+  // Simple power: "2^3" → "2^{3}"
+  s = s.replace(/\^(-?[\d.]+)/g, '^{$1}');
+
+  // Square root with parens: "√(16)" → "\sqrt{16}"
+  s = s.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
+  // Square root: "√9" → "\sqrt{9}"
+  s = s.replace(/√([\d.]+)/g, '\\sqrt{$1}');
+
+  // π → \pi
+  s = s.replace(/π/g, '\\pi');
+  // × and ÷
+  s = s.replace(/×/g, '\\times');
+  s = s.replace(/÷/g, '\\div');
+
+  return s;
+}
 
 const MathInputWithPad = ({
   value = '',
@@ -157,7 +194,7 @@ const MathInputWithPad = ({
         placeholder={placeholder}
         disabled={disabled}
         className={`
-          w-full px-4 py-3 mb-3 text-lg border-2 rounded-lg placeholder:text-gray-500
+          w-full px-4 py-3 mb-2 text-lg border-2 rounded-lg placeholder:text-gray-500
           ${
             disabled
               ? 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'
@@ -173,6 +210,38 @@ const MathInputWithPad = ({
         }}
         aria-label="Math answer input"
       />
+
+      {/* Live Math Preview — renders typed expression using KaTeX when available */}
+      {value &&
+        value.trim() &&
+        (() => {
+          const katexSrc = textToKaTeX(value.trim());
+          let previewHtml = null;
+          try {
+            if (window.katex && katexSrc) {
+              previewHtml = window.katex.renderToString(katexSrc, {
+                throwOnError: false,
+                displayMode: false,
+              });
+            }
+          } catch (_) {
+            previewHtml = null;
+          }
+          if (!previewHtml) return null;
+          return (
+            <div
+              className="mb-2 px-3 py-2 rounded-lg border text-center text-xl"
+              style={{
+                background: 'var(--surface-primary, #f8fafc)',
+                border: '1px dashed var(--accent-blue, #3b82f6)',
+                color: 'var(--text-primary, #111827)',
+                minHeight: '2.5rem',
+              }}
+              aria-label="Math preview"
+              dangerouslySetInnerHTML={{ __html: previewHtml }}
+            />
+          );
+        })()}
 
       {/* Math Keypad */}
       <div
@@ -271,6 +340,18 @@ const MathInputWithPad = ({
           >
             Clear
           </button>
+        </div>
+
+        {/* Input hints */}
+        <div
+          className="mt-2 text-xs text-center"
+          style={{ color: 'var(--text-muted, #6b7280)' }}
+        >
+          <span>
+            Fraction: <strong>3/4</strong> · Mixed: <strong>1 3/4</strong> ·
+            Power: <strong>2^3</strong> · Root: <strong>√9</strong> · Decimal:{' '}
+            <strong>0.75</strong>
+          </span>
         </div>
       </div>
     </div>

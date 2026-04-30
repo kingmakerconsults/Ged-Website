@@ -32323,7 +32323,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             </section>
 
             {/* Tab Navigation */}
-            <div className="flex gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-xl p-1">
+            <div className="flex flex-wrap gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-xl p-1">
               <button
                 type="button"
                 onClick={() => setActiveTab('overview')}

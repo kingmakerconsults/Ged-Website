@@ -188,6 +188,64 @@
   }
 
   /**
+   * Try to evaluate a power or root expression.
+   * Handles: a^b, a^(b), a^(p/q), √N, √(N), sqrt(N)
+   */
+  function parsePowerOrRootExpression(s) {
+    if (!s) return null;
+
+    // Square root: √N or √(N)
+    var sqrtMatch = s.match(/^√\(?(\d+(?:\.\d+)?)\)?$/);
+    if (sqrtMatch) {
+      var n = parseFloat(sqrtMatch[1]);
+      if (Number.isFinite(n) && n >= 0) return Math.sqrt(n);
+    }
+
+    // sqrt(N) text form
+    var sqrtTextMatch = s.match(/^sqrt\((\d+(?:\.\d+)?)\)$/i);
+    if (sqrtTextMatch) {
+      var n2 = parseFloat(sqrtTextMatch[1]);
+      if (Number.isFinite(n2) && n2 >= 0) return Math.sqrt(n2);
+    }
+
+    // Power with fraction exponent: a^(p/q)
+    var powerFracMatch = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+)\/(\d+)\)$/);
+    if (powerFracMatch) {
+      var base = parseFloat(powerFracMatch[1]);
+      var num = parseFloat(powerFracMatch[2]);
+      var den = parseFloat(powerFracMatch[3]);
+      if (Number.isFinite(base) && Number.isFinite(num) && den !== 0) {
+        var result = Math.pow(base, num / den);
+        return Number.isFinite(result) ? result : null;
+      }
+    }
+
+    // Power with parenthesized exponent: a^(b)
+    var powerParenMatch = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+(?:\.\d+)?)\)$/);
+    if (powerParenMatch) {
+      var base2 = parseFloat(powerParenMatch[1]);
+      var exp2 = parseFloat(powerParenMatch[2]);
+      if (Number.isFinite(base2) && Number.isFinite(exp2)) {
+        var result2 = Math.pow(base2, exp2);
+        return Number.isFinite(result2) ? result2 : null;
+      }
+    }
+
+    // Simple power: a^b
+    var powerMatch = s.match(/^(-?\d+(?:\.\d+)?)\^(-?\d+(?:\.\d+)?)$/);
+    if (powerMatch) {
+      var base3 = parseFloat(powerMatch[1]);
+      var exp3 = parseFloat(powerMatch[2]);
+      if (Number.isFinite(base3) && Number.isFinite(exp3)) {
+        var result3 = Math.pow(base3, exp3);
+        return Number.isFinite(result3) ? result3 : null;
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Try to extract a numeric value from text
    * Handles: plain numbers, decimals, fractions, percents, scientific notation, currency
    */
@@ -200,6 +258,10 @@
     // Try scientific notation first
     const sciValue = parseScientificNotation(normalized);
     if (sciValue !== null) return sciValue;
+
+    // Try power/root expressions (must come before fraction check)
+    const powerRootValue = parsePowerOrRootExpression(normalized);
+    if (powerRootValue !== null) return powerRootValue;
 
     // Handle percents (already stripped by normalizeAnswer, but check for % in original)
     if (String(text).includes('%')) {
@@ -263,12 +325,13 @@
     var epsilon = options.epsilon !== undefined ? options.epsilon : EPSILON;
     var questionText = options.questionText || '';
 
-    // Only apply flexible math grading for math/numeric questions
+    // Only apply flexible math grading for math/numeric/science questions
     var isMathQuestion =
       questionType === 'math' ||
       questionType === 'numeric' ||
       subject === 'Math' ||
-      subject === 'Mathematics';
+      subject === 'Mathematics' ||
+      subject === 'Science';
 
     if (!isMathQuestion) {
       // For non-math questions, use strict string comparison (normalized)

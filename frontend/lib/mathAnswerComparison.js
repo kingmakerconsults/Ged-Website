@@ -184,6 +184,65 @@ function parseScientificNotation(text) {
 }
 
 /**
+ * Try to evaluate a power or root expression.
+ * Handles: a^b, a^(b), a^(p/q), √N, √(N), sqrt(N)
+ * NOTE: expects normalized input (no spaces, lowercase).
+ */
+function parsePowerOrRootExpression(s) {
+  if (!s) return null;
+
+  // Square root: √N or √(N)
+  const sqrtMatch = s.match(/^√\(?(\d+(?:\.\d+)?)\)?$/);
+  if (sqrtMatch) {
+    const n = parseFloat(sqrtMatch[1]);
+    if (Number.isFinite(n) && n >= 0) return Math.sqrt(n);
+  }
+
+  // sqrt(N) text form
+  const sqrtTextMatch = s.match(/^sqrt\((\d+(?:\.\d+)?)\)$/i);
+  if (sqrtTextMatch) {
+    const n = parseFloat(sqrtTextMatch[1]);
+    if (Number.isFinite(n) && n >= 0) return Math.sqrt(n);
+  }
+
+  // Power with fraction exponent: a^(p/q) — must come before simple power
+  const powerFracMatch = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+)\/(\d+)\)$/);
+  if (powerFracMatch) {
+    const base = parseFloat(powerFracMatch[1]);
+    const num = parseFloat(powerFracMatch[2]);
+    const den = parseFloat(powerFracMatch[3]);
+    if (Number.isFinite(base) && Number.isFinite(num) && den !== 0) {
+      const result = Math.pow(base, num / den);
+      return Number.isFinite(result) ? result : null;
+    }
+  }
+
+  // Power with parenthesized exponent: a^(b)
+  const powerParenMatch = s.match(/^(-?\d+(?:\.\d+)?)\^\((-?\d+(?:\.\d+)?)\)$/);
+  if (powerParenMatch) {
+    const base = parseFloat(powerParenMatch[1]);
+    const exp = parseFloat(powerParenMatch[2]);
+    if (Number.isFinite(base) && Number.isFinite(exp)) {
+      const result = Math.pow(base, exp);
+      return Number.isFinite(result) ? result : null;
+    }
+  }
+
+  // Simple power: a^b (e.g. 2^3 = 8, 10^-2 = 0.01)
+  const powerMatch = s.match(/^(-?\d+(?:\.\d+)?)\^(-?\d+(?:\.\d+)?)$/);
+  if (powerMatch) {
+    const base = parseFloat(powerMatch[1]);
+    const exp = parseFloat(powerMatch[2]);
+    if (Number.isFinite(base) && Number.isFinite(exp)) {
+      const result = Math.pow(base, exp);
+      return Number.isFinite(result) ? result : null;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Try to extract a numeric value from text
  * Handles: plain numbers, decimals, fractions, percents, scientific notation, currency
  */
@@ -196,6 +255,10 @@ export function extractNumericValue(text) {
   // Try scientific notation first
   const sciValue = parseScientificNotation(normalized);
   if (sciValue !== null) return sciValue;
+
+  // Try power/root expressions (must come before fraction check to avoid misparse of a^(p/q))
+  const powerRootValue = parsePowerOrRootExpression(normalized);
+  if (powerRootValue !== null) return powerRootValue;
 
   // Handle percents (already stripped by normalizeAnswer, but check for % in original)
   if (String(text).includes('%')) {
@@ -253,12 +316,13 @@ export function areNumericallySame(val1, val2, epsilon = EPSILON) {
 export function compareAnswers(correctAnswer, userAnswer, options = {}) {
   const { questionType, subject, epsilon = EPSILON, questionText } = options;
 
-  // Only apply flexible math grading for math/numeric questions
+  // Only apply flexible math grading for math/numeric/science questions
   const isMathQuestion =
     questionType === 'math' ||
     questionType === 'numeric' ||
     subject === 'Math' ||
-    subject === 'Mathematics';
+    subject === 'Mathematics' ||
+    subject === 'Science';
 
   if (!isMathQuestion) {
     // For non-math questions, use strict string comparison (normalized)
