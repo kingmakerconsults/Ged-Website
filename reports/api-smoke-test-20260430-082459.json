@@ -1,0 +1,1898 @@
+{
+  "generatedAt": "2026-04-30T12:24:54.310Z",
+  "base": "http://localhost:3002",
+  "rolesTested": [
+    "student",
+    "instructor",
+    "support",
+    "orgAdmin",
+    "superAdmin"
+  ],
+  "routes": [
+    {
+      "path": "/api/all-quizzes",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 344,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/programs",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/organizations",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 31,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/vocabulary/all",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 7,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/vocabulary/Math",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 4,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/vocabulary-quiz/Math",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 4,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/science/chemistry/random-equation",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 2,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/career-paths",
+      "auth": "public",
+      "role": "public",
+      "status": 200,
+      "ms": 3,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/scores",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 26,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/quiz-attempts",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/onboarding/state",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 77,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/streak",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 29,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/quota",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/recommendations",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/membership-request",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 44,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/classes",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 19,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/next-task",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 40,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/mastery",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/badges",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 41,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/notifications",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/user/career-interests",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/overview",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 125,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/plans",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 39,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/artifacts",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 39,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/interview-sessions",
+      "auth": "user",
+      "role": "student",
+      "status": 200,
+      "ms": 43,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/organizations",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/users",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/activity/recent",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/classes",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/search",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/question-reports",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/readiness",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/activity",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/ged-results",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/domain-weaknesses",
+      "auth": "admin",
+      "role": "student",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/scores",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/quiz-attempts",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/onboarding/state",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 55,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/streak",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/quota",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/recommendations",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/membership-request",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 44,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/classes",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/next-task",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 40,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/mastery",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 47,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/badges",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 40,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/notifications",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/user/career-interests",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/overview",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 115,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/plans",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 38,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/artifacts",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 43,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/interview-sessions",
+      "auth": "user",
+      "role": "instructor",
+      "status": 200,
+      "ms": 41,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/organizations",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/users",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/activity/recent",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/classes",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/search",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/question-reports",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 403,
+      "ms": 1,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/readiness",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 200,
+      "ms": 28,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/reports/activity",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 200,
+      "ms": 283,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/reports/ged-results",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/reports/domain-weaknesses",
+      "auth": "admin",
+      "role": "instructor",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/scores",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/quiz-attempts",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/onboarding/state",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 60,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/streak",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/quota",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/recommendations",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/membership-request",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 43,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/classes",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/next-task",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 39,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/mastery",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 29,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/badges",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 46,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/notifications",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/user/career-interests",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 19,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/overview",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 119,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/plans",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 46,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/artifacts",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 47,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/interview-sessions",
+      "auth": "user",
+      "role": "support",
+      "status": 200,
+      "ms": 43,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/organizations",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/users",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/activity/recent",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 4,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/classes",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/search",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/question-reports",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/readiness",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/activity",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/ged-results",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/domain-weaknesses",
+      "auth": "admin",
+      "role": "support",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        401,
+        403
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/scores",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 19,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/quiz-attempts",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/onboarding/state",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 67,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/streak",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/quota",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/recommendations",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/membership-request",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 39,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/classes",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/next-task",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 37,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/mastery",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/badges",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 41,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/notifications",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/user/career-interests",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/overview",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 111,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/plans",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 43,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/artifacts",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 44,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/interview-sessions",
+      "auth": "user",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 42,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/organizations",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/users",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 403,
+      "ms": 2,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/activity/recent",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 403,
+      "ms": 11,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 400,
+      "ms": 6,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/classes",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/search",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 49,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 500,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/question-reports",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 403,
+      "ms": 3,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/reports/readiness",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 27,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/activity",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 283,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/ged-results",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 28,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/domain-weaknesses",
+      "auth": "admin",
+      "role": "orgAdmin",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/scores",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/quiz-attempts",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/onboarding/state",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 62,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/streak",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/quota",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 22,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/recommendations",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 32,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/me/membership-request",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 43,
+      "expected": [
+        200,
+        404
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/classes",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 20,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/next-task",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 46,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/mastery",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 25,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/student/badges",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 40,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/notifications",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/user/career-interests",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 23,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/overview",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 117,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/plans",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 40,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/artifacts",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 40,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/workforce/interview-sessions",
+      "auth": "user",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 48,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/organizations",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 21,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/users",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 39,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/activity/recent",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 400,
+      "ms": 3,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/classes",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/search",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 50,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 500,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": false
+    },
+    {
+      "path": "/api/admin/question-reports",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 41,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/readiness",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/activity",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 320,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/ged-results",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 24,
+      "expected": [
+        200
+      ],
+      "pass": true
+    },
+    {
+      "path": "/api/admin/reports/domain-weaknesses",
+      "auth": "admin",
+      "role": "superAdmin",
+      "status": 200,
+      "ms": 29,
+      "expected": [
+        200
+      ],
+      "pass": true
+    }
+  ],
+  "summary": {
+    "totalCalls": 153,
+    "pass": 141,
+    "fail": 12,
+    "perRole": {
+      "student": {
+        "calls": 29,
+        "pass": 29,
+        "fail": 0
+      },
+      "instructor": {
+        "calls": 29,
+        "pass": 25,
+        "fail": 4
+      },
+      "support": {
+        "calls": 29,
+        "pass": 29,
+        "fail": 0
+      },
+      "orgAdmin": {
+        "calls": 29,
+        "pass": 23,
+        "fail": 6
+      },
+      "superAdmin": {
+        "calls": 29,
+        "pass": 27,
+        "fail": 2
+      }
+    }
+  },
+  "failures": [
+    {
+      "role": "instructor",
+      "path": "/api/admin/reports/readiness",
+      "auth": "admin",
+      "status": 200,
+      "expected": [
+        401,
+        403
+      ],
+      "bodySnippet": "{\"subjects\":{\"rla\":{\"ready\":2,\"almostReady\":0,\"needMoreStudy\":0,\"meanScore\":169},\"math\":{\"ready\":0,\"almostReady\":3,\"needMoreStudy\":1,\"meanScore\":133},\"science\":{\"ready\":0,\"almostReady\":0,\"needMoreStud…"
+    },
+    {
+      "role": "instructor",
+      "path": "/api/admin/reports/activity",
+      "auth": "admin",
+      "status": 200,
+      "expected": [
+        401,
+        403
+      ],
+      "bodySnippet": "{\"last30Days\":{\"activeStudents\":14,\"totalMinutes\":0},\"last60Days\":{\"activeStudents\":14,\"totalMinutes\":0},\"last90Days\":{\"activeStudents\":14,\"totalMinutes\":0},\"allTime\":{\"activeStudents\":14,\"totalMinute…"
+    },
+    {
+      "role": "instructor",
+      "path": "/api/admin/reports/ged-results",
+      "auth": "admin",
+      "status": 200,
+      "expected": [
+        401,
+        403
+      ],
+      "bodySnippet": "{\"last3Months\":{\"total\":0,\"passed\":0,\"bySubject\":{}},\"last6Months\":{\"total\":0,\"passed\":0,\"bySubject\":{}},\"last12Months\":{\"total\":0,\"passed\":0,\"bySubject\":{}},\"allTime\":{\"total\":0,\"passed\":0,\"bySubject…"
+    },
+    {
+      "role": "instructor",
+      "path": "/api/admin/reports/domain-weaknesses",
+      "auth": "admin",
+      "status": 200,
+      "expected": [
+        401,
+        403
+      ],
+      "bodySnippet": "{\"weaknesses\":[]}"
+    },
+    {
+      "role": "orgAdmin",
+      "path": "/api/admin/organizations",
+      "auth": "admin",
+      "status": 403,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"Super admin only\"}"
+    },
+    {
+      "role": "orgAdmin",
+      "path": "/api/admin/users",
+      "auth": "admin",
+      "status": 403,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"Super admin only\"}"
+    },
+    {
+      "role": "orgAdmin",
+      "path": "/api/admin/activity/recent",
+      "auth": "admin",
+      "status": 403,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"Super admin only\"}"
+    },
+    {
+      "role": "orgAdmin",
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "status": 400,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"No organization scope\"}"
+    },
+    {
+      "role": "orgAdmin",
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "status": 500,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"Failed to fetch student\"}"
+    },
+    {
+      "role": "orgAdmin",
+      "path": "/api/admin/question-reports",
+      "auth": "admin",
+      "status": 403,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"Forbidden\"}"
+    },
+    {
+      "role": "superAdmin",
+      "path": "/api/admin/org-summary",
+      "auth": "admin",
+      "status": 400,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"No organization scope\"}"
+    },
+    {
+      "role": "superAdmin",
+      "path": "/api/admin/students/export",
+      "auth": "admin",
+      "status": 500,
+      "expected": [
+        200
+      ],
+      "bodySnippet": "{\"error\":\"Failed to fetch student\"}"
+    }
+  ],
+  "totalCalls": 8
+}

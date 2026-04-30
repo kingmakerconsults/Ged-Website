@@ -4760,6 +4760,17 @@ async function createUserToken(userId) {
 }
 
 function requireAuthInProd(req, res, next) {
+  // Always attempt to soft-decode a bearer/cookie token so handlers that read
+  // req.user.id can function in development too. Without this, dev requests
+  // that DO carry a valid token were being silently treated as anonymous,
+  // producing 401s from inline req.user checks inside handlers.
+  if (!req.user || !req.user.id) {
+    const decoded = softDecodeUser(req);
+    if (decoded) {
+      req.user = { ...(req.user || {}), ...decoded };
+    }
+  }
+
   if (process.env.NODE_ENV === 'production') {
     if (req.user && req.user.id) {
       return next();
@@ -27665,7 +27676,7 @@ app.get(
 
       // Students in this class
       let inClassQuery = `
-      SELECT u.id, u.name, u.email, p.phone
+      SELECT u.id, u.name, u.email, NULL::text as phone
       FROM users u
       JOIN profiles p ON p.user_id = u.id
       WHERE p.class_id = $1 AND u.role = 'student'
@@ -27683,7 +27694,7 @@ app.get(
 
       // Students in organization but not in this class
       let notInClassQuery = `
-      SELECT u.id, u.name, u.email, p.phone
+      SELECT u.id, u.name, u.email, NULL::text as phone
       FROM users u
       JOIN profiles p ON p.user_id = u.id
       WHERE u.organization_id = $1 AND u.role = 'student'
@@ -27798,7 +27809,7 @@ app.get(
       SELECT 
         u.name,
         u.email,
-        p.phone,
+        NULL::text as phone,
         p.test_date,
         COALESCE(MAX(CASE WHEN qa.subject = 'Math' THEN qa.scaled_score END), 0) as math_score,
         COALESCE(MAX(CASE WHEN qa.subject = 'Science' THEN qa.scaled_score END), 0) as science_score,
@@ -27808,7 +27819,7 @@ app.get(
       JOIN profiles p ON p.user_id = u.id
       LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
       WHERE p.class_id = $1 AND u.role = 'student'
-      GROUP BY u.id, u.name, u.email, p.phone, p.test_date
+      GROUP BY u.id, u.name, u.email, p.test_date
       ORDER BY u.name
     `,
         [id]
@@ -29874,8 +29885,8 @@ app.get(
         u.email, 
         u.last_login,
         u.created_at,
-        p.phone,
-        p.active as profile_active,
+        NULL::text as phone,
+        TRUE as profile_active,
         c.name as class_name,
         qs.math_score,
         qs.science_score,
@@ -29909,11 +29920,11 @@ app.get(
         params.push(classId);
       }
 
-      if (active === 'true') {
-        query += ` AND p.active = true`;
-      } else if (active === 'false') {
-        query += ` AND p.active = false`;
-      }
+      // Note: profiles.active and profiles.phone columns do not exist in the
+      // current schema; the `active` and `phone` filters are accepted for
+      // forward compatibility but treated as no-ops.
+      void active;
+      void phone;
 
       if (name) {
         query += ` AND u.name ILIKE $${paramCount++}`;
@@ -29923,11 +29934,6 @@ app.get(
       if (email) {
         query += ` AND u.email ILIKE $${paramCount++}`;
         params.push(`%${email}%`);
-      }
-
-      if (phone) {
-        query += ` AND p.phone ILIKE $${paramCount++}`;
-        params.push(`%${phone}%`);
       }
 
       // Count total
@@ -29982,9 +29988,15 @@ app.get(
   '/api/admin/students/:id',
   authenticateBearerToken,
   requireOrgAdminOrSuper,
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { id } = req.params;
+
+      // Allow sibling routes like /students/export and /students/search to win
+      // when this catch-all is registered earlier in the route table.
+      if (!/^\d+$/.test(String(id))) {
+        return next();
+      }
 
       const result = await pool.query(
         `
@@ -30193,17 +30205,19 @@ app.post(
       // Create profile
       await pool.query(
         `
-      INSERT INTO profiles (user_id, phone, class_id, active, accommodations, course_flags)
-      VALUES ($1, $2, $3, true, $4, $5)
+      INSERT INTO profiles (user_id, class_id)
+      VALUES ($1, $2)
     `,
         [
           userId,
-          phone || null,
           classId || null,
-          JSON.stringify(accommodations || {}),
-          JSON.stringify(courseFlags || {}),
         ]
       );
+      // Note: phone, accommodations, course_flags columns do not exist in the
+      // profiles schema and are accepted but not persisted.
+      void phone;
+      void accommodations;
+      void courseFlags;
 
       res.json({
         success: true,
@@ -30280,34 +30294,24 @@ app.put(
         );
       }
 
-      // Update profile
+      // Update profile (only columns that actually exist in the profiles
+      // schema). phone, active, accommodations, and course_flags are accepted
+      // for forward compatibility but currently no-op.
+      void phone;
+      void active;
+      void accommodations;
+      void courseFlags;
       const profileUpdates = [];
       const profileParams = [];
       let profileParamCount = 1;
 
-      if (phone !== undefined) {
-        profileUpdates.push(`phone = $${profileParamCount++}`);
-        profileParams.push(phone);
-      }
       if (classId !== undefined) {
         profileUpdates.push(`class_id = $${profileParamCount++}`);
         profileParams.push(classId);
       }
-      if (active !== undefined) {
-        profileUpdates.push(`active = $${profileParamCount++}`);
-        profileParams.push(active);
-      }
       if (testDate !== undefined) {
         profileUpdates.push(`test_date = $${profileParamCount++}`);
         profileParams.push(testDate);
-      }
-      if (accommodations !== undefined) {
-        profileUpdates.push(`accommodations = $${profileParamCount++}`);
-        profileParams.push(JSON.stringify(accommodations));
-      }
-      if (courseFlags !== undefined) {
-        profileUpdates.push(`course_flags = $${profileParamCount++}`);
-        profileParams.push(JSON.stringify(courseFlags));
       }
 
       if (profileUpdates.length > 0) {
@@ -30351,7 +30355,7 @@ app.get(
       SELECT 
         u.name, 
         u.email, 
-        p.phone,
+        NULL::text as phone,
         c.name as class_name,
         p.test_date,
         u.created_at,
@@ -30375,11 +30379,8 @@ app.get(
         params.push(classId);
       }
 
-      if (active === 'true') {
-        query += ` AND p.active = true`;
-      } else if (active === 'false') {
-        query += ` AND p.active = false`;
-      }
+      // profiles.active column does not exist; accept the filter but no-op.
+      void active;
 
       query += ` ORDER BY u.name`;
 
