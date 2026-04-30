@@ -103,15 +103,98 @@ export default function useCollabSocket({
     });
     sock.on('essay:content_changed', (d) => {
       setRoomState((s) =>
-        s ? { ...s, state: { ...s.state, essayContent: d.content } } : s
+        s
+          ? {
+              ...s,
+              state: {
+                ...s.state,
+                essayContent: d.content,
+                ...(d.draft !== undefined
+                  ? { currentParagraphDraft: d.draft }
+                  : {}),
+              },
+            }
+          : s
       );
       setLastEvent({ type: 'essay:content_changed', data: d });
     });
+    sock.on('essay:slot_updated', (d) => {
+      setRoomState((s) => {
+        if (!s) return s;
+        const jig = s.state?.essayJigsaw;
+        if (!jig || !Array.isArray(jig.slots)) return s;
+        const slots = jig.slots.map((slot) =>
+          slot.key === d.slotKey ? { ...slot, content: d.content } : slot
+        );
+        return {
+          ...s,
+          state: {
+            ...s.state,
+            essayJigsaw: { ...jig, slots },
+            essayContent: d.stitched ?? s.state.essayContent,
+          },
+        };
+      });
+      setLastEvent({ type: 'essay:slot_updated', data: d });
+    });
     sock.on('essay:turn_changed', (d) => {
       setRoomState((s) =>
-        s ? { ...s, state: { ...s.state, essayTurn: d.nextUserId } } : s
+        s
+          ? {
+              ...s,
+              state: {
+                ...s.state,
+                essayTurn: d.nextUserId,
+                essayTimer: {
+                  ...(s.state?.essayTimer || {}),
+                  turnDeadline:
+                    d.turnDeadline !== undefined
+                      ? d.turnDeadline
+                      : s.state?.essayTimer?.turnDeadline,
+                },
+              },
+            }
+          : s
       );
       setLastEvent({ type: 'essay:turn_changed', data: d });
+    });
+    sock.on('essay:started', (d) => {
+      setRoomState((s) =>
+        s
+          ? {
+              ...s,
+              status: 'active',
+              state: {
+                ...s.state,
+                essayMode: d.mode,
+                essayJigsaw: d.jigsaw || s.state?.essayJigsaw,
+                essayTurn:
+                  d.essayTurn !== undefined ? d.essayTurn : s.state?.essayTurn,
+                essayTimer: {
+                  ...(s.state?.essayTimer || {}),
+                  turnDeadline: d.turnDeadline,
+                  sessionDeadline: d.sessionDeadline,
+                },
+              },
+            }
+          : s
+      );
+      setLastEvent({ type: 'essay:started', data: d });
+    });
+    sock.on('essay:turn_timeout', (d) => {
+      setLastEvent({ type: 'essay:turn_timeout', data: d });
+    });
+    sock.on('essay:session_timeout', (d) => {
+      setLastEvent({ type: 'essay:session_timeout', data: d });
+    });
+    sock.on('essay:submitted', (d) => {
+      setLastEvent({ type: 'essay:submitted', data: d });
+    });
+    sock.on('essay:ai_review_ready', (d) => {
+      setRoomState((s) =>
+        s ? { ...s, state: { ...s.state, aiReview: d.aiReview } } : s
+      );
+      setLastEvent({ type: 'essay:ai_review_ready', data: d });
     });
     sock.on('matchmaking:matched', (d) => {
       setLastEvent({ type: 'matchmaking:matched', data: d });

@@ -10,6 +10,14 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const db = require('./db');
+const {
+  buildJigsawSlots,
+  stitchJigsaw,
+  commitParagraph,
+  renderRoundRobin,
+  normalizeEssayConfig,
+} = require('./src/collabEssayModes');
+const { scoreEssayWithAI } = require('./src/essayScoringService');
 
 // Shared between REST and socket modules so REST handlers (e.g. session
 // create) can emit "class:session_started" presence events.
@@ -369,6 +377,10 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
 
         const initialEssayTurn =
           sessionType === 'essay' ? Number(user.id) : null;
+        const essayDefaults =
+          sessionType === 'essay'
+            ? normalizeEssayConfig(config || {})
+            : { essayMode: 'free', essayTimer: null, essayJigsawFormat: null };
         const initialState = {
           phase: 'lobby',
           currentQuestion: 0,
@@ -384,6 +396,17 @@ function registerCollabRest(app, { authenticateBearerToken, getAllQuizzes }) {
               : null,
           essayTopic:
             sessionType === 'essay' ? config?.essayTopic || null : null,
+          // ----- new collab essay fields (mode + timer + per-mode buffers) -----
+          essayMode: essayDefaults.essayMode,
+          essayTimer: essayDefaults.essayTimer,
+          essayJigsawFormat: essayDefaults.essayJigsawFormat,
+          // round_robin: committed paragraphs + in-flight draft
+          essayParagraphs: [],
+          currentParagraphDraft: '',
+          // jigsaw: { format, slots:[{key,label,order,assigneeUserId,content}] }
+          essayJigsaw: null,
+          // ai review (filled in after submit)
+          aiReview: null,
         };
 
         const roomCode = await generateUniqueRoomCode();
@@ -1151,6 +1174,317 @@ function attachCollabSockets(io, { getAllQuizzes }) {
   const nsp = io.of('/collab');
   _collabNsp = nsp;
 
+  // ---- Essay timer registry (in-memory) ----
+  // Map<sessionId, { turnTimer:Timeout|null, sessionTimer:Timeout|null,
+  //                  turnDeadline:number|null, sessionDeadline:number|null }>
+  const essayTimers = new Map();
+
+  function clearEssayTimers(sessionId, which = 'all') {
+    const entry = essayTimers.get(sessionId);
+    if (!entry) return;
+    if ((which === 'all' || which === 'turn') && entry.turnTimer) {
+      clearTimeout(entry.turnTimer);
+      entry.turnTimer = null;
+      entry.turnDeadline = null;
+    }
+    if ((which === 'all' || which === 'session') && entry.sessionTimer) {
+      clearTimeout(entry.sessionTimer);
+      entry.sessionTimer = null;
+      entry.sessionDeadline = null;
+    }
+    if (!entry.turnTimer && !entry.sessionTimer) {
+      essayTimers.delete(sessionId);
+    }
+  }
+
+  function getOrCreateEssayTimerEntry(sessionId) {
+    let entry = essayTimers.get(sessionId);
+    if (!entry) {
+      entry = {
+        turnTimer: null,
+        sessionTimer: null,
+        turnDeadline: null,
+        sessionDeadline: null,
+      };
+      essayTimers.set(sessionId, entry);
+    }
+    return entry;
+  }
+
+  // Re-arm or set a per-turn timer using the (possibly already-set) deadline
+  // in session_state. When fired, auto-pass the turn.
+  async function armPerTurnTimer(sessionId) {
+    const session = await loadSessionById(sessionId);
+    if (!session || session.session_type !== 'essay') return;
+    const state = session.session_state || {};
+    const deadlineIso = state.essayTimer?.turnDeadline || null;
+    clearEssayTimers(sessionId, 'turn');
+    if (!deadlineIso) return;
+    const ms = new Date(deadlineIso).getTime() - Date.now();
+    if (!Number.isFinite(ms)) return;
+    const entry = getOrCreateEssayTimerEntry(sessionId);
+    entry.turnDeadline = deadlineIso;
+    entry.turnTimer = setTimeout(
+      () => onPerTurnTimeout(sessionId).catch(() => {}),
+      Math.max(0, ms)
+    );
+  }
+
+  async function armSessionTimer(sessionId) {
+    const session = await loadSessionById(sessionId);
+    if (!session || session.session_type !== 'essay') return;
+    const state = session.session_state || {};
+    const deadlineIso = state.essayTimer?.sessionDeadline || null;
+    clearEssayTimers(sessionId, 'session');
+    if (!deadlineIso) return;
+    const ms = new Date(deadlineIso).getTime() - Date.now();
+    if (!Number.isFinite(ms)) return;
+    const entry = getOrCreateEssayTimerEntry(sessionId);
+    entry.sessionDeadline = deadlineIso;
+    entry.sessionTimer = setTimeout(
+      () => onSessionTimeout(sessionId).catch(() => {}),
+      Math.max(0, ms)
+    );
+  }
+
+  // Auto-pass the current turn (round_robin / free). Jigsaw doesn't use turns;
+  // for jigsaw we just clear the per-turn deadline and notify clients.
+  async function onPerTurnTimeout(sessionId) {
+    const session = await loadSessionById(sessionId);
+    if (!session || session.session_type !== 'essay') return;
+    if (session.status === 'complete') return;
+    const state = session.session_state || {};
+    const mode = state.essayMode || 'free';
+    nsp
+      .to(`session:${sessionId}`)
+      .emit('essay:turn_timeout', { mode, at: new Date().toISOString() });
+    if (mode === 'jigsaw') {
+      // For jigsaw the per-turn timer is repurposed as a soft reminder only.
+      return;
+    }
+    await advanceEssayTurn(sessionId, { reason: 'timeout' });
+  }
+
+  async function onSessionTimeout(sessionId) {
+    const session = await loadSessionById(sessionId);
+    if (!session || session.session_type !== 'essay') return;
+    if (session.status === 'complete') return;
+    nsp
+      .to(`session:${sessionId}`)
+      .emit('essay:session_timeout', { at: new Date().toISOString() });
+    await finalizeEssaySubmission(sessionId, {
+      submittedBy: null,
+      reason: 'session_timeout',
+    });
+  }
+
+  // Compute the next per-turn deadline ISO from state.essayTimer; null if disabled.
+  function computeNextTurnDeadline(state) {
+    const secs = state?.essayTimer?.perTurnSeconds;
+    if (!Number.isFinite(secs) || secs <= 0) return null;
+    return new Date(Date.now() + secs * 1000).toISOString();
+  }
+
+  // Rotate the essay turn to the next participant; returns the new state delta.
+  async function advanceEssayTurn(sessionId, { reason } = {}) {
+    const session = await loadSessionById(sessionId);
+    if (!session || session.session_type !== 'essay') return null;
+    const state = session.session_state || {};
+    const mode = state.essayMode || 'free';
+    if (mode === 'jigsaw') return null; // jigsaw has no turn rotation
+    const participants = await loadParticipants(sessionId);
+    const ids = participants
+      .map((p) => p.user_id)
+      .filter((id) => id != null);
+    if (ids.length === 0) return null;
+    const currIdx = ids.indexOf(state.essayTurn);
+    const nextId = ids[(currIdx + 1 + ids.length) % ids.length] || ids[0];
+    const nextDisplay =
+      participants.find((p) => p.user_id === nextId)?.display_name ||
+      'Partner';
+
+    const next = { ...state };
+    // round_robin: commit any in-flight draft into the paragraphs list before passing
+    if (mode === 'round_robin') {
+      next.essayParagraphs = commitParagraph(
+        state.essayParagraphs,
+        state.essayTurn,
+        state.currentParagraphDraft
+      );
+      next.currentParagraphDraft = '';
+      next.essayContent = renderRoundRobin(next.essayParagraphs, '');
+    }
+    next.essayTurn = nextId;
+    next.essayHistory = [
+      ...(state.essayHistory || []),
+      {
+        fromUserId: state.essayTurn,
+        at: new Date().toISOString(),
+        reason: reason || 'pass',
+      },
+    ];
+    // Refresh per-turn deadline
+    const newTurnDeadline = computeNextTurnDeadline(next);
+    next.essayTimer = {
+      ...(state.essayTimer || {}),
+      turnDeadline: newTurnDeadline,
+    };
+    await db.none(
+      `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
+      [JSON.stringify(next), sessionId]
+    );
+    nsp.to(`session:${sessionId}`).emit('essay:turn_changed', {
+      nextUserId: nextId,
+      displayName: nextDisplay,
+      reason: reason || 'pass',
+      turnDeadline: newTurnDeadline,
+    });
+    // Re-arm timer for the new turn holder
+    armPerTurnTimer(sessionId).catch(() => {});
+    // Emit room-state so paragraph commits propagate
+    if (mode === 'round_robin') {
+      const probeSocket = (await nsp.in(`session:${sessionId}`).fetchSockets())[0];
+      if (probeSocket) {
+        await emitRoomState(probeSocket, sessionId, { toAll: true });
+      }
+    }
+    return next;
+  }
+
+  // Finalize an essay submission (manual or session_timeout). Marks the
+  // session complete, broadcasts essay:submitted, kicks off AI review, then
+  // broadcasts essay:ai_review_ready.
+  async function finalizeEssaySubmission(sessionId, opts = {}) {
+    const { submittedBy = null, reason = 'manual' } = opts;
+    const session = await loadSessionById(sessionId);
+    if (!session || session.session_type !== 'essay') return;
+    if (session.status === 'complete') return;
+    const state = session.session_state || {};
+    const mode = state.essayMode || 'free';
+    // Compute the final stitched/merged essay content per mode
+    let finalContent = '';
+    let finalState = { ...state, phase: 'complete' };
+    if (mode === 'round_robin') {
+      // Commit any in-flight draft from the current turn holder before stitching.
+      const merged = commitParagraph(
+        state.essayParagraphs,
+        state.essayTurn,
+        state.currentParagraphDraft
+      );
+      finalState.essayParagraphs = merged;
+      finalState.currentParagraphDraft = '';
+      finalContent = renderRoundRobin(merged, '');
+    } else if (mode === 'jigsaw') {
+      finalContent = stitchJigsaw(state.essayJigsaw);
+    } else {
+      finalContent = String(state.essayContent || '');
+    }
+    finalState.essayContent = finalContent;
+    finalState.essaySubmittedBy = submittedBy;
+    finalState.essaySubmittedAt = new Date().toISOString();
+    finalState.essaySubmitReason = reason;
+    finalState.aiReview = { status: 'pending', generatedAt: null };
+    // Clear deadlines on the persisted state too
+    finalState.essayTimer = {
+      ...(state.essayTimer || {}),
+      turnDeadline: null,
+      sessionDeadline: null,
+    };
+
+    await db.none(
+      `UPDATE collab_sessions
+          SET status = 'complete', session_state = $1
+        WHERE id = $2`,
+      [JSON.stringify(finalState), sessionId]
+    );
+    clearEssayTimers(sessionId, 'all');
+
+    nsp.to(`session:${sessionId}`).emit('essay:submitted', {
+      submittedBy,
+      content: finalContent,
+      reason,
+    });
+    const probeSocket = (await nsp.in(`session:${sessionId}`).fetchSockets())[0];
+    if (probeSocket) {
+      await emitRoomState(probeSocket, sessionId, { toAll: true });
+    }
+
+    // Fire-and-forget AI review (no DB persistence to essay_scores)
+    runCollabEssayAIReview(sessionId, finalContent).catch((err) =>
+      console.error(
+        '[collab] essay AI review pipeline error:',
+        err?.message || err
+      )
+    );
+  }
+
+  async function runCollabEssayAIReview(sessionId, finalContent) {
+    const text = String(finalContent || '').trim();
+    let aiReview;
+    if (!text) {
+      aiReview = {
+        status: 'error',
+        generatedAt: new Date().toISOString(),
+        error: 'Essay was empty.',
+      };
+    } else {
+      const result = await scoreEssayWithAI(text, {
+        completion: true,
+        logTag: 'COLLAB-ESSAY-AI',
+      });
+      if (result.ok) {
+        aiReview = {
+          status: 'ready',
+          generatedAt: new Date().toISOString(),
+          ...result.normalized,
+        };
+      } else {
+        aiReview = {
+          status: 'error',
+          generatedAt: new Date().toISOString(),
+          error: result.error || 'AI review unavailable',
+        };
+      }
+    }
+    try {
+      const session = await loadSessionById(sessionId);
+      if (!session) return;
+      const merged = { ...(session.session_state || {}), aiReview };
+      await db.none(
+        `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
+        [JSON.stringify(merged), sessionId]
+      );
+      nsp
+        .to(`session:${sessionId}`)
+        .emit('essay:ai_review_ready', { aiReview });
+      const probeSocket = (await nsp.in(`session:${sessionId}`).fetchSockets())[0];
+      if (probeSocket) {
+        await emitRoomState(probeSocket, sessionId, { toAll: true });
+      }
+    } catch (err) {
+      console.error(
+        '[collab] failed to persist AI review:',
+        err?.message || err
+      );
+    }
+  }
+
+  // On startup, rehydrate timers for any in-progress essay session whose
+  // deadlines are still in the future. Fires once shortly after attach.
+  setTimeout(() => {
+    db.manyOrNone(
+      `SELECT id FROM collab_sessions
+        WHERE session_type = 'essay' AND status != 'complete'`
+    )
+      .then((rows) => {
+        for (const r of rows || []) {
+          armPerTurnTimer(r.id).catch(() => {});
+          armSessionTimer(r.id).catch(() => {});
+        }
+      })
+      .catch(() => {});
+  }, 1000).unref();
+
   // Periodic cleanup: stale matchmaking entries (> 5 min) and expired sessions
   setInterval(async () => {
     try {
@@ -1627,23 +1961,157 @@ function attachCollabSockets(io, { getAllQuizzes }) {
 
     // ---------- Essay events ----------
 
-    socket.on('essay:update', async ({ content } = {}) => {
+    // Host transitions an essay session from 'lobby' -> 'active'. For jigsaw
+    // mode this is when slots get assigned; for any timed mode this is when
+    // the session/turn deadlines are computed.
+    socket.on('essay:start', async (_payload, ack) => {
+      const sessionId = socket.data.sessionId;
+      if (!sessionId) return ack && ack({ error: 'not in session' });
+      try {
+        const session = await loadSessionById(sessionId);
+        if (!session || session.session_type !== 'essay') {
+          return ack && ack({ error: 'not essay session' });
+        }
+        if (session.host_id && session.host_id !== user.id) {
+          return ack && ack({ error: 'host only' });
+        }
+        if (session.status === 'complete') {
+          return ack && ack({ error: 'session already complete' });
+        }
+        const state = session.session_state || {};
+        if (state.phase === 'active') {
+          if (ack) ack({ ok: true, alreadyActive: true });
+          return;
+        }
+        const participants = await loadParticipants(sessionId);
+        const ids = participants
+          .map((p) => p.user_id)
+          .filter((id) => id != null);
+        const mode = state.essayMode || 'free';
+        const next = { ...state, phase: 'active' };
+
+        if (mode === 'jigsaw') {
+          const fmt = state.essayJigsawFormat || '5-paragraph';
+          next.essayJigsaw = buildJigsawSlots(fmt, ids);
+          next.essayContent = '';
+          next.essayTurn = null; // jigsaw doesn't use turns
+        } else {
+          // free / round_robin: ensure turn holder is the first participant
+          if (!ids.includes(state.essayTurn)) {
+            next.essayTurn = ids[0] || state.essayTurn;
+          }
+          if (mode === 'round_robin') {
+            next.essayParagraphs = state.essayParagraphs || [];
+            next.currentParagraphDraft = '';
+          }
+        }
+
+        // Compute deadlines from configured durations
+        const timer = state.essayTimer || {};
+        const turnDeadline =
+          mode !== 'jigsaw' && Number(timer.perTurnSeconds) > 0
+            ? new Date(Date.now() + timer.perTurnSeconds * 1000).toISOString()
+            : null;
+        const sessionDeadline =
+          Number(timer.totalSeconds) > 0
+            ? new Date(Date.now() + timer.totalSeconds * 1000).toISOString()
+            : null;
+        next.essayTimer = {
+          perTurnSeconds: timer.perTurnSeconds || null,
+          totalSeconds: timer.totalSeconds || null,
+          turnDeadline,
+          sessionDeadline,
+        };
+
+        await db.none(
+          `UPDATE collab_sessions
+              SET status = 'active', session_state = $1
+            WHERE id = $2`,
+          [JSON.stringify(next), sessionId]
+        );
+        nsp.to(`session:${sessionId}`).emit('essay:started', {
+          mode,
+          turnDeadline,
+          sessionDeadline,
+          jigsaw: next.essayJigsaw || null,
+          essayTurn: next.essayTurn,
+        });
+        await emitRoomState(socket, sessionId, { toAll: true });
+        if (turnDeadline) armPerTurnTimer(sessionId).catch(() => {});
+        if (sessionDeadline) armSessionTimer(sessionId).catch(() => {});
+        if (ack) ack({ ok: true });
+      } catch (err) {
+        console.error('[collab] essay:start error:', err);
+        if (ack) ack({ error: 'failed' });
+      }
+    });
+
+    socket.on('essay:update', async (payload = {}) => {
       const sessionId = socket.data.sessionId;
       if (!sessionId) return;
       try {
         const session = await loadSessionById(sessionId);
         if (!session || session.session_type !== 'essay') return;
-        if (session.session_state?.essayTurn !== user.id) return; // not your turn
-        const newState = {
-          ...(session.session_state || {}),
-          essayContent: String(content || ''),
-        };
+        if (session.status === 'complete') return;
+        const state = session.session_state || {};
+        const mode = state.essayMode || 'free';
+        const content = String(payload.content || '');
+
+        if (mode === 'jigsaw') {
+          const slotKey = payload.slotKey;
+          const jigsaw = state.essayJigsaw;
+          if (!slotKey || !jigsaw || !Array.isArray(jigsaw.slots)) return;
+          const slot = jigsaw.slots.find((s) => s.key === slotKey);
+          if (!slot || slot.assigneeUserId !== user.id) return; // not your slot
+          slot.content = content;
+          const newJigsaw = { ...jigsaw, slots: [...jigsaw.slots] };
+          const merged = stitchJigsaw(newJigsaw);
+          const next = {
+            ...state,
+            essayJigsaw: newJigsaw,
+            essayContent: merged,
+          };
+          await db.none(
+            `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
+            [JSON.stringify(next), sessionId]
+          );
+          socket.to(`session:${sessionId}`).emit('essay:slot_updated', {
+            slotKey,
+            content,
+            editingUserId: user.id,
+            stitched: merged,
+          });
+          return;
+        }
+
+        if (mode === 'round_robin') {
+          if (state.essayTurn !== user.id) return; // not your turn
+          const next = {
+            ...state,
+            currentParagraphDraft: content,
+            essayContent: renderRoundRobin(state.essayParagraphs, content),
+          };
+          await db.none(
+            `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
+            [JSON.stringify(next), sessionId]
+          );
+          socket.to(`session:${sessionId}`).emit('essay:content_changed', {
+            content: next.essayContent,
+            draft: content,
+            editingUserId: user.id,
+          });
+          return;
+        }
+
+        // free mode (legacy behavior)
+        if (state.essayTurn !== user.id) return;
+        const next = { ...state, essayContent: content };
         await db.none(
           `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
-          [JSON.stringify(newState), sessionId]
+          [JSON.stringify(next), sessionId]
         );
         socket.to(`session:${sessionId}`).emit('essay:content_changed', {
-          content: newState.essayContent,
+          content,
           editingUserId: user.id,
         });
       } catch (err) {
@@ -1659,7 +2127,12 @@ function attachCollabSockets(io, { getAllQuizzes }) {
         if (!session || session.session_type !== 'essay') {
           return ack && ack({ error: 'not essay session' });
         }
-        if (session.session_state?.essayTurn !== user.id) {
+        const state = session.session_state || {};
+        const mode = state.essayMode || 'free';
+        if (mode === 'jigsaw') {
+          return ack && ack({ error: 'jigsaw mode does not use turns' });
+        }
+        if (state.essayTurn !== user.id) {
           return ack && ack({ error: 'not your turn' });
         }
         const participants = await loadParticipants(sessionId);
@@ -1667,27 +2140,7 @@ function attachCollabSockets(io, { getAllQuizzes }) {
           .map((p) => p.user_id)
           .filter((id) => id != null);
         if (ids.length < 2) return ack && ack({ error: 'need partner' });
-        const currIdx = ids.indexOf(user.id);
-        const nextId = ids[(currIdx + 1) % ids.length];
-        const nextDisplay =
-          participants.find((p) => p.user_id === nextId)?.display_name ||
-          'Partner';
-        const newState = {
-          ...(session.session_state || {}),
-          essayTurn: nextId,
-          essayHistory: [
-            ...(session.session_state?.essayHistory || []),
-            { fromUserId: user.id, at: new Date().toISOString() },
-          ],
-        };
-        await db.none(
-          `UPDATE collab_sessions SET session_state = $1 WHERE id = $2`,
-          [JSON.stringify(newState), sessionId]
-        );
-        nsp.to(`session:${sessionId}`).emit('essay:turn_changed', {
-          nextUserId: nextId,
-          displayName: nextDisplay,
-        });
+        await advanceEssayTurn(sessionId, { reason: 'pass' });
         if (ack) ack({ ok: true });
       } catch (err) {
         console.error('[collab] essay:pass_turn error:', err);
@@ -1697,8 +2150,8 @@ function attachCollabSockets(io, { getAllQuizzes }) {
 
     // Finalize the collaborative essay. Any participant in the room may hit
     // the Submit button — once submitted the room status flips to 'complete'
-    // so the review screen renders for everyone. The current essay text and
-    // turn history are preserved in session_state.
+    // so the review screen renders for everyone. AI review is then run
+    // server-side and broadcast via essay:ai_review_ready.
     socket.on('essay:submit', async (_payload, ack) => {
       const sessionId = socket.data.sessionId;
       if (!sessionId) return ack && ack({ error: 'not in session' });
@@ -1711,23 +2164,10 @@ function attachCollabSockets(io, { getAllQuizzes }) {
           if (ack) ack({ ok: true, alreadyComplete: true });
           return;
         }
-        const finalState = {
-          ...(session.session_state || {}),
-          phase: 'complete',
-          essaySubmittedBy: user.id,
-          essaySubmittedAt: new Date().toISOString(),
-        };
-        await db.none(
-          `UPDATE collab_sessions
-              SET status = 'complete', session_state = $1
-            WHERE id = $2`,
-          [JSON.stringify(finalState), sessionId]
-        );
-        nsp.to(`session:${sessionId}`).emit('essay:submitted', {
+        await finalizeEssaySubmission(sessionId, {
           submittedBy: user.id,
-          content: finalState.essayContent || '',
+          reason: 'manual',
         });
-        await emitRoomState(socket, sessionId, { toAll: true });
         if (ack) ack({ ok: true });
       } catch (err) {
         console.error('[collab] essay:submit error:', err);

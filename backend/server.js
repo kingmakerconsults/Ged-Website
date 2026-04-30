@@ -103,6 +103,7 @@ const {
   deriveChallengeTags,
   buildFallbackResponse,
 } = require('./src/essayRubric');
+const { scoreEssayWithAI } = require('./src/essayScoringService');
 const {
   buildComprehensivePlan,
 } = require('./src/exams/buildComprehensivePlan');
@@ -18489,24 +18490,6 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
     return res.status(400).json({ error: 'Essay text is required.' });
   }
 
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
-  if (!apiKey) {
-    console.error('[ESSAY-SCORE] API key not configured on the server.');
-    return res.status(500).json({ error: 'Server configuration error.' });
-  }
-
-  const prompt = buildEssayScoringPrompt(essayText, completion);
-
-  const payload = {
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: ESSAY_RESPONSE_SCHEMA,
-    },
-  };
-
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
   console.log('[ESSAY-SCORE] Scoring request received', {
     userId,
     completion: completion ?? null,
@@ -18514,113 +18497,100 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
     promptId: promptId || null,
   });
 
+  const result = await scoreEssayWithAI(essayText, {
+    completion,
+    logTag: 'ESSAY-SCORE',
+  });
+  if (!result.ok) {
+    return res.status(200).json(result.normalized);
+  }
+  const normalized = result.normalized;
+
+  const total = normalized.overallScore;
   try {
-    const response = await http.post(apiUrl, payload);
-    const normalized = normalizeEssayResponse(response.data);
-    if (!normalized) {
-      throw new Error('AI response was not parseable');
-    }
-
-    // Apply heuristic caps and derive challenge tags
-    const heuristics = analyzeEssayHeuristics(essayText);
-    const warnings = applyHeuristicCaps(normalized, heuristics);
-    deriveChallengeTags(normalized, heuristics);
-    if (warnings.length) {
-      console.log('[ESSAY-SCORE] Heuristic warnings:', warnings);
-    }
-
-    const total = normalized.overallScore;
-    try {
-      const wordCount = essayText.trim().split(/\s+/).filter(Boolean).length;
-      const feedbackJson = JSON.stringify({
-        trait1: {
-          feedback: normalized.trait1.feedback,
-          strengths: normalized.trait1.strengths,
-          nextSteps: normalized.trait1.nextSteps,
-        },
-        trait2: {
-          feedback: normalized.trait2.feedback,
-          strengths: normalized.trait2.strengths,
-          nextSteps: normalized.trait2.nextSteps,
-        },
-        trait3: {
-          feedback: normalized.trait3.feedback,
-          strengths: normalized.trait3.strengths,
-          nextSteps: normalized.trait3.nextSteps,
-        },
-        overallFeedback: normalized.overallFeedback,
-      });
-      await pool.query(
-        `INSERT INTO essay_scores (user_id, total_score, prompt_id, trait1_score, trait2_score, trait3_score, feedback, word_count)
+    const wordCount = essayText.trim().split(/\s+/).filter(Boolean).length;
+    const feedbackJson = JSON.stringify({
+      trait1: {
+        feedback: normalized.trait1.feedback,
+        strengths: normalized.trait1.strengths,
+        nextSteps: normalized.trait1.nextSteps,
+      },
+      trait2: {
+        feedback: normalized.trait2.feedback,
+        strengths: normalized.trait2.strengths,
+        nextSteps: normalized.trait2.nextSteps,
+      },
+      trait3: {
+        feedback: normalized.trait3.feedback,
+        strengths: normalized.trait3.strengths,
+        nextSteps: normalized.trait3.nextSteps,
+      },
+      overallFeedback: normalized.overallFeedback,
+    });
+    await pool.query(
+      `INSERT INTO essay_scores (user_id, total_score, prompt_id, trait1_score, trait2_score, trait3_score, feedback, word_count)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-        [
-          userId,
-          total,
-          promptId || null,
-          normalized.trait1.score,
-          normalized.trait2.score,
-          normalized.trait3.score,
-          feedbackJson,
-          wordCount,
-        ]
-      );
-      console.log('[ESSAY-SCORE] Saved total score', {
+      [
         userId,
         total,
-        traits: [
-          normalized.trait1.score,
-          normalized.trait2.score,
-          normalized.trait3.score,
-        ],
-        promptId: promptId || null,
-      });
-    } catch (dbErr) {
-      console.warn(
-        '[ESSAY-SCORE] Failed to persist total score:',
-        dbErr?.message || dbErr
-      );
-    }
-
-    // Challenge tags integration
-    try {
-      const tags = normalized.challenge_tags || [];
-      for (const rawTag of tags) {
-        if (!rawTag || typeof rawTag !== 'string') continue;
-        const t = rawTag.trim().toLowerCase();
-        if (!t) continue;
-        try {
-          await pool.query(
-            `INSERT INTO essay_challenge_log (user_id, challenge_tag, essay_id, source) VALUES ($1, $2, $3, 'essay')`,
-            [userId, t, promptId || null]
-          );
-        } catch (_e) {}
-        await upsertChallengeStat(userId, t, false, 'essay');
-        const active = await userHasActiveChallenge(userId, t);
-        if (!active) {
-          await createSuggestion(
-            userId,
-            t,
-            'add',
-            'essay',
-            'AI grader found this in your writing'
-          );
-        }
-      }
-    } catch (e) {
-      console.warn(
-        '[ESSAY-SCORE] challenge tag processing failed:',
-        e?.message || e
-      );
-    }
-
-    return res.json(normalized);
-  } catch (error) {
-    const errMsg = error?.response
-      ? JSON.stringify(error.response.data)
-      : error?.message || String(error);
-    console.error('[ESSAY-SCORE] AI scoring failed:', errMsg);
-    return res.status(200).json(buildFallbackResponse());
+        promptId || null,
+        normalized.trait1.score,
+        normalized.trait2.score,
+        normalized.trait3.score,
+        feedbackJson,
+        wordCount,
+      ]
+    );
+    console.log('[ESSAY-SCORE] Saved total score', {
+      userId,
+      total,
+      traits: [
+        normalized.trait1.score,
+        normalized.trait2.score,
+        normalized.trait3.score,
+      ],
+      promptId: promptId || null,
+    });
+  } catch (dbErr) {
+    console.warn(
+      '[ESSAY-SCORE] Failed to persist total score:',
+      dbErr?.message || dbErr
+    );
   }
+
+  // Challenge tags integration
+  try {
+    const tags = normalized.challenge_tags || [];
+    for (const rawTag of tags) {
+      if (!rawTag || typeof rawTag !== 'string') continue;
+      const t = rawTag.trim().toLowerCase();
+      if (!t) continue;
+      try {
+        await pool.query(
+          `INSERT INTO essay_challenge_log (user_id, challenge_tag, essay_id, source) VALUES ($1, $2, $3, 'essay')`,
+          [userId, t, promptId || null]
+        );
+      } catch (_e) {}
+      await upsertChallengeStat(userId, t, false, 'essay');
+      const active = await userHasActiveChallenge(userId, t);
+      if (!active) {
+        await createSuggestion(
+          userId,
+          t,
+          'add',
+          'essay',
+          'AI grader found this in your writing'
+        );
+      }
+    }
+  } catch (e) {
+    console.warn(
+      '[ESSAY-SCORE] challenge tag processing failed:',
+      e?.message || e
+    );
+  }
+
+  return res.json(normalized);
 });
 
 // NOTE: files for this store should be uploaded once via a separate script/tool,

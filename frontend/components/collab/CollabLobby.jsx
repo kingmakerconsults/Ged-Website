@@ -20,13 +20,53 @@ export default function CollabLobby({
   };
 
   const startSession = () => {
-    emit('instructor:start', {}, () => {});
+    if (roomState.sessionType === 'essay') {
+      emit('essay:start', {}, () => {});
+    } else {
+      emit('instructor:start', {}, () => {});
+    }
   };
 
   const joinLocked = !!roomState.state?.joinLocked;
   const toggleJoinLock = () => {
     emit('instructor:set_join_lock', { locked: !joinLocked }, () => {});
   };
+
+  // Essay session preview (mode + timer summary; jigsaw slot preview).
+  const isEssay = roomState.sessionType === 'essay';
+  const essayMode = roomState.state?.essayMode || 'free';
+  const essayTimer = roomState.state?.essayTimer || {};
+  const essayJigsawFormat = roomState.state?.essayJigsawFormat || '5-paragraph';
+  const formatLabels = {
+    intro: 'Introduction',
+    body1: 'Body Paragraph 1',
+    body2: 'Body Paragraph 2',
+    body3: 'Body Paragraph 3',
+    conclusion: 'Conclusion',
+  };
+  const previewSlots =
+    isEssay && essayMode === 'jigsaw'
+      ? ['intro', 'body1', 'body2', 'body3', 'conclusion'].map((key, i) => ({
+          key,
+          label: formatLabels[key],
+          assignee:
+            roomState.participants && roomState.participants[i]
+              ? roomState.participants[i].displayName
+              : null,
+        }))
+      : null;
+  const fmtSecs = (s) => {
+    if (!Number.isFinite(s) || s <= 0) return null;
+    if (s < 60) return `${s}s`;
+    const m = Math.round(s / 60);
+    return `${m} min`;
+  };
+  const modeLabel =
+    essayMode === 'jigsaw'
+      ? `🧩 Jigsaw (${essayJigsawFormat})`
+      : essayMode === 'round_robin'
+        ? '🔁 Round Robin by Paragraph'
+        : '✍️ Free / Pass-Turn';
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -107,13 +147,57 @@ export default function CollabLobby({
           </ul>
         </div>
 
+        {isEssay && (
+          <div className="border-t border-slate-200 dark:border-slate-700 pt-4 mb-4 space-y-2">
+            <div className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+              Essay Setup
+            </div>
+            <div className="text-xs text-slate-600 dark:text-slate-300">
+              <span className="font-semibold">Mode:</span> {modeLabel}
+            </div>
+            {(fmtSecs(essayTimer.perTurnSeconds) ||
+              fmtSecs(essayTimer.totalSeconds)) && (
+              <div className="text-xs text-slate-600 dark:text-slate-300">
+                <span className="font-semibold">Timer:</span>{' '}
+                {fmtSecs(essayTimer.perTurnSeconds)
+                  ? `${fmtSecs(essayTimer.perTurnSeconds)} per turn`
+                  : 'no per-turn'}{' '}
+                •{' '}
+                {fmtSecs(essayTimer.totalSeconds)
+                  ? `${fmtSecs(essayTimer.totalSeconds)} total`
+                  : 'no total cap'}
+              </div>
+            )}
+            {previewSlots && (
+              <div>
+                <div className="text-xs text-slate-600 dark:text-slate-300 mb-1">
+                  <span className="font-semibold">Slot preview</span> (assigned
+                  by join order at Start):
+                </div>
+                <ul className="text-xs space-y-0.5 pl-4 list-disc text-slate-700 dark:text-slate-200">
+                  {previewSlots.map((s) => (
+                    <li key={s.key}>
+                      <span className="font-semibold">{s.label}:</span>{' '}
+                      {s.assignee || (
+                        <span className="text-slate-400 italic">
+                          (no participant yet)
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex gap-2">
           {isHost && (
             <button
               onClick={startSession}
               className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md"
             >
-              Start Session
+              {isEssay ? 'Start Essay' : 'Start Session'}
             </button>
           )}
           {!isHost && (

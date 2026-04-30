@@ -193,6 +193,9 @@ export default function CollabView() {
       quizId: prefillQuiz,
       title: '',
       essayTopic: ESSAY_TOPICS[0],
+      essayMode: 'free',
+      essayPerTurnSeconds: 0, // 0 = off
+      essayTotalSeconds: 0, // 0 = off
       // Generated-quiz options (mirrors Practice Session)
       genDuration: 20,
       genMode: 'single-subject',
@@ -452,6 +455,10 @@ export default function CollabView() {
         body.config = {
           essayPrompt: buildEssayPromptForTopic(topic),
           essayTopic: topic,
+          essayMode: form.essayMode || 'free',
+          essayPerTurnSeconds: Number(form.essayPerTurnSeconds) || 0,
+          essayTotalSeconds: Number(form.essayTotalSeconds) || 0,
+          essayJigsawFormat: '5-paragraph',
         };
       }
       const res = await fetch(`${apiBase}/api/collab/sessions`, {
@@ -974,24 +981,123 @@ export default function CollabView() {
                 ) : null}
               </>
             ) : (
-              <div>
-                <label className={labelCls}>Essay Topic</label>
-                <select
-                  value={form.essayTopic}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, essayTopic: e.target.value }))
-                  }
-                  className={inputCls}
-                >
-                  {ESSAY_TOPICS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
+              <div className="space-y-3">
+                <div>
+                  <label className={labelCls}>Essay Topic</label>
+                  <select
+                    value={form.essayTopic}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, essayTopic: e.target.value }))
+                    }
+                    className={inputCls}
+                  >
+                    {ESSAY_TOPICS.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className={labelCls}>Collaboration Mode</label>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      {
+                        value: 'free',
+                        label: '✍️ Free / Pass-Turn',
+                        desc: 'Take turns editing one shared essay (current behavior).',
+                      },
+                      {
+                        value: 'round_robin',
+                        label: '🔁 Round Robin by Paragraph',
+                        desc: 'Each turn writes one paragraph; committed paragraphs become read-only.',
+                      },
+                      {
+                        value: 'jigsaw',
+                        label: '🧩 Jigsaw',
+                        desc: 'Each participant gets an assigned slot (Intro/Body/Conclusion). Stitched on submit.',
+                      },
+                    ].map((m) => (
+                      <button
+                        key={m.value}
+                        type="button"
+                        onClick={() =>
+                          setForm((f) => ({ ...f, essayMode: m.value }))
+                        }
+                        className={`collab-toggle flex-1 min-w-[160px] px-3 py-2 rounded border text-sm font-medium ${
+                          form.essayMode === m.value ? 'is-active' : ''
+                        }`}
+                        title={m.desc}
+                      >
+                        {m.label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    {form.essayMode === 'free' &&
+                      'One shared editor; only the turn holder can type. Use Pass Turn to hand off.'}
+                    {form.essayMode === 'round_robin' &&
+                      'Each turn = one paragraph. Once you pass, your paragraph is locked in.'}
+                    {form.essayMode === 'jigsaw' &&
+                      'Participants are assigned Intro / Body 1–3 / Conclusion in join order; everyone writes in parallel.'}
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className={labelCls}>Per-turn timer</label>
+                    <select
+                      value={form.essayPerTurnSeconds}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          essayPerTurnSeconds: Number(e.target.value),
+                        }))
+                      }
+                      disabled={form.essayMode === 'jigsaw'}
+                      className={inputCls}
+                    >
+                      <option value={0}>Off</option>
+                      <option value={60}>60 seconds</option>
+                      <option value={120}>2 minutes</option>
+                      <option value={180}>3 minutes</option>
+                      <option value={300}>5 minutes</option>
+                      <option value={600}>10 minutes</option>
+                    </select>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      {form.essayMode === 'jigsaw'
+                        ? 'Not used in Jigsaw mode.'
+                        : 'On expiry, the turn auto-passes to the next person.'}
+                    </p>
+                  </div>
+                  <div>
+                    <label className={labelCls}>Whole-session timer</label>
+                    <select
+                      value={form.essayTotalSeconds}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          essayTotalSeconds: Number(e.target.value),
+                        }))
+                      }
+                      className={inputCls}
+                    >
+                      <option value={0}>Off</option>
+                      <option value={600}>10 minutes</option>
+                      <option value={1200}>20 minutes</option>
+                      <option value={1800}>30 minutes</option>
+                      <option value={2700}>45 minutes</option>
+                      <option value={3600}>60 minutes</option>
+                    </select>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      On expiry, the essay is auto-submitted and reviewed.
+                    </p>
+                  </div>
+                </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Both partners will see this topic and can open the full Essay
-                  Practice Tool (with passages) once the session starts.
+                  Practice Tool (with passages) once the session starts. After
+                  submit, an AI review (overall + 3 trait scores) is shown to
+                  everyone.
                 </p>
               </div>
             )}
