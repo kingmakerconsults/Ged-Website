@@ -196,8 +196,6 @@ export function AuthScreen({ onLogin }) {
     }
   };
 
-  console.log('[AuthScreen] Rendering with Gmail login');
-
   const shellClassName = [
     'min-h-screen flex items-center justify-center px-4 py-12 transition-colors duration-300',
     isDarkTheme

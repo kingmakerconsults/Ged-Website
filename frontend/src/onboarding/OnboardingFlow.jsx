@@ -404,6 +404,17 @@ function OnboardingTour({ token, initialState, onComplete }) {
                             [subj]: next || 'scheduled',
                           });
                         }}
+                        onClick={(e) => {
+                          try {
+                            e.currentTarget.showPicker?.();
+                          } catch (_) {}
+                        }}
+                        onFocus={(e) => {
+                          try {
+                            e.currentTarget.showPicker?.();
+                          } catch (_) {}
+                        }}
+                        style={{ cursor: 'pointer' }}
                       />
                     )}
                   </div>

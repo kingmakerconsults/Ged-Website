@@ -44,6 +44,7 @@ export async function devLoginAs(role = 'student') {
 export const DEV_ROLES = [
   { value: 'student', label: 'Student' },
   { value: 'instructor', label: 'Instructor' },
+  { value: 'support', label: 'Support' },
   { value: 'orgAdmin', label: 'Org Admin' },
   { value: 'superAdmin', label: 'Super Admin' },
 ];

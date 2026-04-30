@@ -52,8 +52,17 @@ function isInstructor(role) {
   return r === 'instructor' || r === 'teacher';
 }
 
+function isSupport(role) {
+  const r = normalizeRoleValue(role);
+  return r === 'support';
+}
+
 function isInstructorOrAbove(role) {
   return isSuperAdmin(role) || isOrgAdmin(role) || isInstructor(role);
+}
+
+function isSupportOrAbove(role) {
+  return isInstructorOrAbove(role) || isSupport(role);
 }
 
 // Middleware functions
@@ -101,13 +110,27 @@ function requireInstructorOrOrgAdminOrSuper(req, res, next) {
   return next();
 }
 
+// This allows the read-only "support" role plus instructors and admins.
+// Use ONLY on GET endpoints — support is strictly read-only.
+function requireSupportOrAbove(req, res, next) {
+  if (!req.user || !isSupportOrAbove(req.user.role)) {
+    _fireAudit(req, 'admin.access.denied.support_or_above', 'denied');
+    return res.status(403).json({ error: 'Support/Instructor/Admin only' });
+  }
+  _fireAudit(req, 'admin.access.support_or_above', 'ok');
+  return next();
+}
+
 module.exports = {
   requireSuperAdmin,
   requireOrgAdmin,
   requireOrgAdminOrSuper,
   requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   isSuperAdmin,
   isOrgAdmin,
   isInstructor,
+  isSupport,
   isInstructorOrAbove,
+  isSupportOrAbove,
 };

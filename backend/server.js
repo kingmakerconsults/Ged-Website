@@ -2709,6 +2709,7 @@ const {
   requireSuperAdmin,
   requireOrgAdmin,
   requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
 } = require('./middleware/adminRoles');
 const { assertUserIsActive } = require('./utils/userPresence');
 const {
@@ -10230,6 +10231,7 @@ if (DEV_LOGIN_ENABLED) {
       const emailMap = {
         student: 'dev.student@test.local',
         instructor: 'dev.instructor@test.local',
+        support: 'dev.support@test.local',
         orgAdmin: 'dev.orgadmin@test.local',
         superAdmin: 'dev.superadmin@test.local',
       };
@@ -19868,7 +19870,7 @@ app.get(
   _requireFlag('INSTRUCTOR_ROSTER_UI'),
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const studentId = parseInt(req.params.userId, 10);
@@ -20011,7 +20013,7 @@ app.get(
   '/api/instructor/classes',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const orgId = req.user.organization_id;
@@ -20080,7 +20082,7 @@ app.get(
   '/api/instructor/classes/:classId/roster',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const classId = parseInt(req.params.classId, 10);
@@ -20167,7 +20169,7 @@ app.get(
   '/api/instructor/classes/:classId/curriculum',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const classId = parseInt(req.params.classId, 10);
@@ -20370,7 +20372,7 @@ app.get(
   '/api/instructor/classes/:classId/notes',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const classId = parseInt(req.params.classId, 10);
@@ -20633,7 +20635,7 @@ app.get(
   '/api/instructor/assignments',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const orgId = req.user.organization_id;
@@ -21643,7 +21645,7 @@ app.get(
   '/api/instructor/students',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const orgId = req.user.organization_id;
@@ -21704,7 +21706,7 @@ app.get(
   '/api/instructor/activity/recent',
   logAdminAccess,
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const orgId = req.user.organization_id;
@@ -25619,7 +25621,7 @@ app.get(
 app.get(
   '/api/instructor/workforce/summary',
   requireAuth,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const orgId = req.user?.organization_id;
@@ -29353,6 +29355,7 @@ function _isInstructorOrAdminRole(role) {
   return (
     r === 'instructor' ||
     r === 'teacher' ||
+    r === 'support' ||
     r === 'org_admin' ||
     r === 'admin' ||
     r === 'super_admin' ||
@@ -30415,7 +30418,7 @@ app.get(
 app.get(
   '/api/admin/reports/readiness',
   authenticateBearerToken,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;
@@ -30530,7 +30533,7 @@ app.get(
 app.get(
   '/api/admin/reports/activity',
   authenticateBearerToken,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;
@@ -30645,7 +30648,7 @@ app.get(
 app.get(
   '/api/admin/reports/ged-results',
   authenticateBearerToken,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;
@@ -30925,7 +30928,7 @@ app.get(
 app.get(
   '/api/admin/reports/domain-weaknesses',
   authenticateBearerToken,
-  requireInstructorOrOrgAdminOrSuper,
+  requireSupportOrAbove,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;

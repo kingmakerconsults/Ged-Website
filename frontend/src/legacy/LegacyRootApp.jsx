@@ -1,4 +1,4 @@
-﻿import React, {
+import React, {
   useState,
   useEffect,
   useMemo,
@@ -3220,24 +3220,28 @@ function sanitizeUnicode(s) {
   try {
     let t = s;
     // Chemical formulas and units
-    t = t.replace(/H\uFFFD\uFFFDO/g, 'H2O');
-    t = t.replace(/g\/cm\uFFFD/g, 'g/cm�');
-    t = t.replace(/cm\uFFFD/g, 'cm�');
+    t = t.replace(/H\uFFFD\uFFFDO/g, 'H₂O');
+    t = t.replace(/g\/cm\uFFFD/g, 'g/cm³');
+    t = t.replace(/cm\uFFFD/g, 'cm³');
     // Degree symbol
-    t = t.replace(/\uFFFDC/g, '�C');
+    t = t.replace(/\uFFFDC/g, '°C');
+    t = t.replace(/\uFFFDF/g, '°F');
     // Common math superscripts in text blocks
-    t = t.replace(/([abc])\uFFFD/g, '$1�');
-    // Ranges like 35�22
-    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1�$2');
+    t = t.replace(/([abc])\uFFFD/g, '$1²');
+    t = t.replace(/x\uFFFD/g, 'x²');
+    // Ranges like 35–22
+    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1–$2');
     // Not-equal patterns
-    t = t.replace(/\uFFFD\uFFFD 0/g, '? 0');
+    t = t.replace(/\uFFFD\uFFFD 0/g, '≠ 0');
     // Topic labels and ellipsis
-    t = t.replace(/Topic A\uFFFDZ/g, 'Topic A�Z');
-    t = t.replace(/More in this topic\uFFFD/g, 'More in this topic�');
+    t = t.replace(/Topic A\uFFFDZ/g, 'Topic A–Z');
+    t = t.replace(/More in this topic\uFFFD/g, 'More in this topic…');
     // Arrow in genetics example
-    t = t.replace(/pp \uFFFD/g, 'pp ?');
+    t = t.replace(/pp \uFFFD/g, 'pp →');
     // Strip stray emoji diamonds
-    t = t.replace(/\uFFFD\uFFFD??/g, '');
+    t = t.replace(/\uFFFD\uFFFD\uFE0F?/g, '');
+    // Final fallback: drop any remaining replacement chars
+    t = t.replace(/\uFFFD/g, '');
     return t;
   } catch (_e) {
     return s;
@@ -24464,6 +24468,10 @@ function AppHeader({
     : 'U';
   const isProfileActive = activePanel === 'profile';
   const isSettingsActive = activePanel === 'settings';
+  const isDashboardActive = activePanel === 'dashboard';
+  const isQuizzesActive = activePanel === 'quizzes';
+  const isProgressActive = activePanel === 'progress';
+  const isMyClassActive = activePanel === 'myclass';
   const isDark = theme === 'dark';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -24495,36 +24503,50 @@ function AppHeader({
             <span>Mr. Smith's Learning Canvas</span>
           </button>
           <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
-            <button
-              onClick={onShowHome}
-              className="nav-link flex items-center gap-1.5 whitespace-nowrap"
-              type="button"
-            >
-              <AppIcon name="dashboard" tone="slate" size={16} />
-              Dashboard
-            </button>
-            <button
-              onClick={onShowQuizzes}
-              className="nav-link flex items-center gap-1.5 whitespace-nowrap"
-              type="button"
-              aria-controls="quizzes"
-            >
-              <AppIcon name="pencil" tone="slate" size={16} />
-              Quizzes
-            </button>
-            <button
-              onClick={onShowProgress}
-              className="nav-link flex items-center gap-1.5 whitespace-nowrap"
-              type="button"
-              aria-controls="progress"
-            >
-              <AppIcon name="progress" tone="slate" size={16} />
-              Progress
-            </button>
-            {onShowMyClass && (
+            {currentUser && (
+              <button
+                onClick={onShowHome}
+                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
+                  isDashboardActive ? 'nav-link-active' : ''
+                }`}
+                type="button"
+              >
+                <AppIcon name="dashboard" tone="slate" size={16} />
+                Dashboard
+              </button>
+            )}
+            {currentUser && (
+              <button
+                onClick={onShowQuizzes}
+                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
+                  isQuizzesActive ? 'nav-link-active' : ''
+                }`}
+                type="button"
+                aria-controls="quizzes"
+              >
+                <AppIcon name="pencil" tone="slate" size={16} />
+                Quizzes
+              </button>
+            )}
+            {currentUser && (
+              <button
+                onClick={onShowProgress}
+                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
+                  isProgressActive ? 'nav-link-active' : ''
+                }`}
+                type="button"
+                aria-controls="progress"
+              >
+                <AppIcon name="progress" tone="slate" size={16} />
+                Progress
+              </button>
+            )}
+            {currentUser && onShowMyClass && (
               <button
                 onClick={onShowMyClass}
-                className="nav-link flex items-center gap-1.5 whitespace-nowrap"
+                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
+                  isMyClassActive ? 'nav-link-active' : ''
+                }`}
                 type="button"
                 aria-controls="myclass"
               >
@@ -24662,7 +24684,7 @@ function AppHeader({
                         }`}
                       >
                         <AppIcon
-                          name="knowledge"
+                          name="gear"
                           tone={isDark ? 'white' : 'slate'}
                           size={16}
                         />
@@ -24692,35 +24714,49 @@ function AppHeader({
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-subtle px-4 pb-4 pt-3">
           <nav className="grid gap-2">
-            <button
-              type="button"
-              onClick={() => handleMobileAction(onShowHome)}
-              className="btn-ghost justify-start flex items-center gap-1.5"
-            >
-              <AppIcon name="dashboard" tone="slate" size={16} />
-              Dashboard
-            </button>
-            <button
-              type="button"
-              onClick={() => handleMobileAction(onShowQuizzes)}
-              className="btn-ghost justify-start flex items-center gap-1.5"
-            >
-              <AppIcon name="pencil" tone="slate" size={16} />
-              Quizzes
-            </button>
-            <button
-              type="button"
-              onClick={() => handleMobileAction(onShowProgress)}
-              className="btn-ghost justify-start flex items-center gap-1.5"
-            >
-              <AppIcon name="progress" tone="slate" size={16} />
-              Progress
-            </button>
-            {onShowMyClass && (
+            {currentUser && (
+              <button
+                type="button"
+                onClick={() => handleMobileAction(onShowHome)}
+                className={`btn-ghost justify-start flex items-center gap-1.5 ${
+                  isDashboardActive ? 'nav-link-active' : ''
+                }`}
+              >
+                <AppIcon name="dashboard" tone="slate" size={16} />
+                Dashboard
+              </button>
+            )}
+            {currentUser && (
+              <button
+                type="button"
+                onClick={() => handleMobileAction(onShowQuizzes)}
+                className={`btn-ghost justify-start flex items-center gap-1.5 ${
+                  isQuizzesActive ? 'nav-link-active' : ''
+                }`}
+              >
+                <AppIcon name="pencil" tone="slate" size={16} />
+                Quizzes
+              </button>
+            )}
+            {currentUser && (
+              <button
+                type="button"
+                onClick={() => handleMobileAction(onShowProgress)}
+                className={`btn-ghost justify-start flex items-center gap-1.5 ${
+                  isProgressActive ? 'nav-link-active' : ''
+                }`}
+              >
+                <AppIcon name="progress" tone="slate" size={16} />
+                Progress
+              </button>
+            )}
+            {currentUser && onShowMyClass && (
               <button
                 type="button"
                 onClick={() => handleMobileAction(onShowMyClass)}
-                className="btn-ghost justify-start flex items-center gap-1.5"
+                className={`btn-ghost justify-start flex items-center gap-1.5 ${
+                  isMyClassActive ? 'nav-link-active' : ''
+                }`}
               >
                 <AppIcon name="myClass" tone="slate" size={16} />
                 My Class
@@ -24756,7 +24792,7 @@ function AppHeader({
                     isSettingsActive ? 'nav-link-active' : ''
                   }`}
                 >
-                  <AppIcon name="knowledge" tone="slate" size={16} />
+                  <AppIcon name="gear" tone="slate" size={16} />
                   Settings
                 </button>
                 <button
@@ -28868,6 +28904,7 @@ function App({ externalTheme, onThemeChange }) {
               onCoverageSubjectChange={handleCoverageSubjectChange}
               onReloadCoverage={loadContentCoverage}
               coverageSubjects={COVERAGE_SUBJECTS}
+              onOpenSettings={goToSettings}
             />
           );
         }
@@ -29044,13 +29081,7 @@ function App({ externalTheme, onThemeChange }) {
           onShowQuizzes={confirmThenNav(goToQuizzes)}
           onShowProgress={confirmThenNav(goToProgress)}
           onShowMyClass={goToMyClass ? confirmThenNav(goToMyClass) : undefined}
-          activePanel={
-            activeView === 'profile'
-              ? 'profile'
-              : activeView === 'settings'
-                ? 'settings'
-                : null
-          }
+          activePanel={activeView || null}
           theme={preferences.theme}
           onToggleTheme={toggleThemePreference}
           quotaRefreshKey={quotaRefreshKey}
@@ -29201,7 +29232,7 @@ function App({ externalTheme, onThemeChange }) {
             alt="Kingmakerconsults logo"
             className="h-48 w-auto object-contain"
           />
-          <p>Kingmakerconsults Copyright &copy;</p>
+          <p>{`© ${new Date().getFullYear()} Kingmakerconsults`}</p>
         </footer>
       </div>
     </>
@@ -29243,6 +29274,7 @@ function ProfileView({
   onCoverageSubjectChange,
   onReloadCoverage,
   coverageSubjects = [],
+  onOpenSettings,
 }) {
   const profile = data?.profile || {};
   const challengeOptions = Array.isArray(data?.challengeOptions)
@@ -29714,22 +29746,13 @@ function ProfileView({
             )}
 
             {showProfileOnboardingBanner && (
-              <div
-                className="onboarding-banner text-slate-900"
-                style={{
-                  border: '1px solid #f6c',
-                  background: '#fff0f6',
-                  padding: '1rem',
-                  borderRadius: '0.5rem',
-                  color: '#0f172a',
-                }}
-              >
+              <div className="onboarding-banner rounded-lg border border-pink-300 bg-pink-50 p-4 text-slate-900 dark:border-pink-500/40 dark:bg-pink-900/20 dark:text-pink-100">
                 <strong>
                   {onboardingComplete
                     ? 'A few items still need your attention:'
                     : 'Welcome! Before we start, fill this out so we can build you a plan:'}
                 </strong>
-                <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
+                <ol className="list-decimal pl-5 text-sm text-slate-700 dark:text-pink-200 space-y-1 mt-2">
                   {profileMissingItems.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -29748,7 +29771,7 @@ function ProfileView({
                     id="completeLaterBtn"
                     type="button"
                     onClick={onCompleteLater}
-                    className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900"
+                    className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900 dark:text-pink-100"
                     aria-label="Skip onboarding for now"
                   >
                     Complete Later
@@ -29987,9 +30010,13 @@ function ProfileView({
                     <dd className="text-primary">{reminderLabel}</dd>
                   </div>
                 </dl>
-                <p className="text-xs text-muted">
-                  Adjust these settings anytime from the Settings panel.
-                </p>
+                <button
+                  type="button"
+                  onClick={() => onOpenSettings?.()}
+                  className="text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400"
+                >
+                  Open Settings →
+                </button>
               </article>
             </div>
 
@@ -37925,55 +37952,82 @@ function StartScreen({
               id="quizzes"
               className="grid grid-cols-1 md:grid-cols-3 gap-6 subject-bar"
             >
-              {SUBJECT_DISPLAY_ORDER.filter(
-                (subjectName) => AppData && AppData[subjectName]
-              ).map((subjectName) => {
-                const iconMap = {
-                  Math: '/icons/math-svgrepo-com.svg',
-                  Science: '/icons/double-helix-svgrepo-com.svg',
-                  'Social Studies': '/icons/globe-svgrepo-com.svg',
-                  'Reasoning Through Language Arts (RLA)':
-                    '/icons/book-closed-svgrepo-com.svg',
-                  RLA: '/icons/book-closed-svgrepo-com.svg',
-                  'Workforce Readiness': '/icons/briefcase-svgrepo-com.svg',
-                };
-                const iconPath =
-                  iconMap[subjectName] || '/icons/knowledge-svgrepo-com.svg';
-                const premadeTotal = getPremadeQuizTotal(subjectName);
-                const premadeLabel =
-                  premadeTotal === 1
-                    ? '1 premade quiz ready'
-                    : `${premadeTotal} premade quizzes ready`;
-                const subjectKeyShort =
-                  SUBJECT_SHORT_LABELS[subjectName] || subjectName;
-                const isWorkforce = subjectName === 'Workforce Readiness';
-                return (
-                  <SubjectCard
-                    key={subjectName}
-                    subject={subjectName}
-                    icon={iconPath}
-                    onClick={() => {
-                      if (isWorkforce) {
-                        if (typeof window !== 'undefined') {
-                          window.location.assign('/workforce');
-                        }
-                        return;
-                      }
-                      openSubjectPremades(subjectName);
-                    }}
-                    className="bg-surface border border-subtle"
-                  >
-                    <div
-                      className="text-sm text-primary"
-                      data-subject={subjectKeyShort}
-                    >
-                      {isWorkforce
-                        ? 'Digital Literacy Academy + job tools'
-                        : premadeLabel}
-                    </div>
-                  </SubjectCard>
+              {(() => {
+                const availableSubjects = SUBJECT_DISPLAY_ORDER.filter(
+                  (subjectName) => AppData && AppData[subjectName]
                 );
-              })}
+                if (availableSubjects.length === 0) {
+                  return (
+                    <div className="md:col-span-3 panel card text-center space-y-3 p-6">
+                      <h3 className="text-lg font-semibold text-primary">
+                        Subjects are still loading
+                      </h3>
+                      <p className="text-sm text-secondary">
+                        We couldn't load any subjects yet. Please try refreshing
+                        the page.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (typeof window !== 'undefined') {
+                            window.location.reload();
+                          }
+                        }}
+                        className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold"
+                      >
+                        Refresh
+                      </button>
+                    </div>
+                  );
+                }
+                return availableSubjects.map((subjectName) => {
+                  const iconMap = {
+                    Math: '/icons/math-svgrepo-com.svg',
+                    Science: '/icons/double-helix-svgrepo-com.svg',
+                    'Social Studies': '/icons/globe-svgrepo-com.svg',
+                    'Reasoning Through Language Arts (RLA)':
+                      '/icons/book-closed-svgrepo-com.svg',
+                    RLA: '/icons/book-closed-svgrepo-com.svg',
+                    'Workforce Readiness': '/icons/briefcase-svgrepo-com.svg',
+                  };
+                  const iconPath =
+                    iconMap[subjectName] || '/icons/knowledge-svgrepo-com.svg';
+                  const premadeTotal = getPremadeQuizTotal(subjectName);
+                  const premadeLabel =
+                    premadeTotal === 1
+                      ? '1 premade quiz ready'
+                      : `${premadeTotal} premade quizzes ready`;
+                  const subjectKeyShort =
+                    SUBJECT_SHORT_LABELS[subjectName] || subjectName;
+                  const isWorkforce = subjectName === 'Workforce Readiness';
+                  return (
+                    <SubjectCard
+                      key={subjectName}
+                      subject={subjectName}
+                      icon={iconPath}
+                      onClick={() => {
+                        if (isWorkforce) {
+                          if (typeof window !== 'undefined') {
+                            window.location.assign('/workforce');
+                          }
+                          return;
+                        }
+                        openSubjectPremades(subjectName);
+                      }}
+                      className="bg-surface border border-subtle"
+                    >
+                      <div
+                        className="text-sm text-primary"
+                        data-subject={subjectKeyShort}
+                      >
+                        {isWorkforce
+                          ? 'Digital Literacy Academy + job tools'
+                          : premadeLabel}
+                      </div>
+                    </SubjectCard>
+                  );
+                });
+              })()}
             </div>
           </section>
         </div>

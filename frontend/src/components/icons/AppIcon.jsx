@@ -80,14 +80,20 @@ export const ICON_PATHS = Object.freeze({
   ).href,
 
   // Navigation / dashboard
-  dashboard: new URL(
-    '../../../Icons/chart-pie-svgrepo-com.svg',
-    import.meta.url
-  ).href,
+  dashboard: new URL('../../../Icons/idea-svgrepo-com.svg', import.meta.url)
+    .href,
+  chartPie: new URL('../../../Icons/chart-pie-svgrepo-com.svg', import.meta.url)
+    .href,
   dataTrends: new URL(
     '../../../Icons/data-trends-svgrepo-com.svg',
     import.meta.url
   ).href,
+  target: new URL('../../../Icons/target-svgrepo-com.svg', import.meta.url)
+    .href,
+  bagpack: new URL('../../../Icons/bagpack-svgrepo-com.svg', import.meta.url)
+    .href,
+  like: new URL('../../../Icons/like-svgrepo-com.svg', import.meta.url).href,
+  idea: new URL('../../../Icons/idea-svgrepo-com.svg', import.meta.url).href,
   home: new URL('../../../Icons/house-svgrepo-com.svg', import.meta.url).href,
   knowledge: new URL(
     '../../../Icons/knowledge-svgrepo-com.svg',
@@ -125,6 +131,42 @@ export const ICON_PATHS = Object.freeze({
   ).href,
 });
 
+// Inline SVGs for icons not present in the asset folder. Rendered as a real
+// <svg> so we can color them via `stroke`/`fill` from `ICON_TONE_COLORS`,
+// which is more reliable than the CSS-filter retint trick used for monochrome
+// raster-style assets.
+export const INLINE_SVGS = Object.freeze({
+  // Cog/settings gear (24x24 viewBox, stroke-based outline)
+  gear: (
+    <>
+      <path d="M19.14 12.94a7.49 7.49 0 0 0 .05-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.49 7.49 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.95 2h-3.9a.5.5 0 0 0-.5.42l-.36 2.54c-.58.24-1.13.55-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.66 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7.49 7.49 0 0 0 0 1.88L2.78 14.16a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.49.39 1.04.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.9a.5.5 0 0 0 .5-.42l.36-2.54c.58-.24 1.13-.55 1.62-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58Z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  // Sign-out / logout: door with arrow pointing right out of it (24x24 viewBox)
+  signOut: (
+    <>
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <path d="M16 17l5-5-5-5" />
+      <path d="M21 12H9" />
+    </>
+  ),
+});
+
+// Tone color values that pair with INLINE_SVGS (because filter-based retint
+// only works for raster/black SVG art, not for live <svg> elements).
+export const ICON_TONE_COLORS = Object.freeze({
+  current: 'currentColor',
+  white: '#ffffff',
+  black: '#000000',
+  slate: '#64748b',
+  sky: '#0284c7',
+  emerald: '#10b981',
+  amber: '#f59e0b',
+  rose: '#e11d48',
+  purple: '#7c3aed',
+});
+
 // Quick semantic aliases for common UI verbs
 export const ICON_ALIASES = Object.freeze({
   edit: 'pencil',
@@ -136,12 +178,12 @@ export const ICON_ALIASES = Object.freeze({
   curriculum: 'rla',
   syllabus: 'read',
   calendar: 'knowledge',
-  progress: 'dataTrends',
-  myClass: 'school',
-  workTogether: 'world',
-  quiz: 'pencil',
-  test: 'pencil',
-  logout: 'home',
+  progress: 'target',
+  myClass: 'bagpack',
+  workTogether: 'like',
+  quiz: 'writing',
+  test: 'writing',
+  logout: 'signOut',
   finance: 'bank',
   safety: 'fireProtection',
 });
@@ -164,10 +206,15 @@ export const ICON_TONES = Object.freeze({
     'brightness(0) saturate(100%) invert(35%) sepia(45%) saturate(1500%) hue-rotate(245deg) brightness(95%) contrast(95%)',
 });
 
-function resolvePath(name) {
+function resolveKey(name) {
   if (!name) return null;
   const aliasTarget = ICON_ALIASES[name];
-  const key = aliasTarget || name;
+  return aliasTarget || name;
+}
+
+function resolvePath(name) {
+  const key = resolveKey(name);
+  if (!key) return null;
   return ICON_PATHS[key] || null;
 }
 
@@ -192,7 +239,43 @@ export default function AppIcon({
   style,
   ...rest
 }) {
-  const src = resolvePath(name);
+  const key = resolveKey(name);
+  if (!key) return null;
+
+  // Inline SVG path: render a real <svg> so we can color it via stroke/fill.
+  if (INLINE_SVGS[key]) {
+    const color = ICON_TONE_COLORS[tone] || ICON_TONE_COLORS.current;
+    const finalStyle = {
+      width: size,
+      height: size,
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      flexShrink: 0,
+      ...(style || null),
+    };
+    const a11yProps = alt
+      ? { role: 'img', 'aria-label': alt }
+      : { 'aria-hidden': true };
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={color}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className}
+        style={finalStyle}
+        {...a11yProps}
+        {...rest}
+      >
+        {title ? <title>{title}</title> : null}
+        {INLINE_SVGS[key]}
+      </svg>
+    );
+  }
+
+  const src = ICON_PATHS[key];
   if (!src) return null;
   const filter = ICON_TONES[tone] || ICON_TONES.current;
   const finalStyle = {

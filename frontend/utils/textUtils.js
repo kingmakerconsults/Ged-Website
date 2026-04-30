@@ -141,6 +141,15 @@ export function decodeHtmlEntities(value) {
   return ENTITY_DECODER.value;
 }
 
+// Sentinels: legacy window.TextSanitizer helpers were never assigned in this
+// codebase. Declaring them as undefined lets the guarded fallback branches
+// below execute without throwing ReferenceError.
+const tokenizeMathSegments = undefined;
+const restoreMathSegments = undefined;
+const stripTextMacroInPlain = undefined;
+const applyPhraseSpacingRepairs = undefined;
+const normalizeCurrencyOutsideMath = undefined;
+
 export function neutralizeUnpairedDollarSigns(text) {
   if (typeof text !== 'string' || text.indexOf('$') === -1) {
     return text;

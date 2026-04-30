@@ -455,11 +455,6 @@ function ProfileView({
                     profile.organization_name ||
                     'No organization assigned'}
                 </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {profile.organizationName || profile.organization_name
-                    ? 'Provided by your administrator.'
-                    : 'Ask your instructor for a join code if you should be in an organization.'}
-                </p>
               </div>
             </div>
           </section>
@@ -522,7 +517,7 @@ function ProfileView({
                         Date
                         <input
                           type="date"
-                          className="tp-date profile-date-input rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                          className="tp-date profile-date-input rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 cursor-pointer"
                           data-subject={entry.subject}
                           value={isNotScheduled ? '' : edits.testDate || ''}
                           onChange={(event) =>
@@ -532,13 +527,23 @@ function ProfileView({
                               event.target.value
                             )
                           }
+                          onClick={(event) => {
+                            try {
+                              event.currentTarget.showPicker?.();
+                            } catch (_) {}
+                          }}
+                          onFocus={(event) => {
+                            try {
+                              event.currentTarget.showPicker?.();
+                            } catch (_) {}
+                          }}
                           disabled={savingThisSubject || isNotScheduled}
                         />
                       </label>
-                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-slate-600">
+                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200">
                         <input
                           type="checkbox"
-                          className="tp-not-scheduled h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                          className="tp-not-scheduled h-5 w-5 rounded border-2 border-slate-400 dark:border-slate-500 accent-emerald-600 focus:ring-2 focus:ring-emerald-500"
                           data-subject={entry.subject}
                           checked={!!isNotScheduled}
                           onChange={(event) =>
@@ -570,10 +575,10 @@ function ProfileView({
                           disabled={savingThisSubject}
                         />
                       </label>
-                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-slate-600">
+                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200">
                         <input
                           type="checkbox"
-                          className="tp-passed h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                          className="tp-passed h-5 w-5 rounded border-2 border-slate-400 dark:border-slate-500 accent-emerald-600 focus:ring-2 focus:ring-emerald-500"
                           data-subject={entry.subject}
                           checked={!!edits.passed}
                           onChange={(event) =>

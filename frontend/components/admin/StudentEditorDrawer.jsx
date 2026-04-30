@@ -316,7 +316,17 @@ export default function StudentEditorDrawer({
                   onChange={(e) =>
                     setFormData({ ...formData, testDate: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  onClick={(e) => {
+                    try {
+                      e.currentTarget.showPicker?.();
+                    } catch (_) {}
+                  }}
+                  onFocus={(e) => {
+                    try {
+                      e.currentTarget.showPicker?.();
+                    } catch (_) {}
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
                 />
               </div>
 
@@ -444,8 +454,8 @@ export default function StudentEditorDrawer({
                           {score >= 145
                             ? '✓ Ready'
                             : score >= 135
-                            ? 'Almost Ready'
-                            : 'Needs Study'}
+                              ? 'Almost Ready'
+                              : 'Needs Study'}
                         </div>
                       </div>
                     )

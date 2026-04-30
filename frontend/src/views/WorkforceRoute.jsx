@@ -1,4 +1,5 @@
-import React, { Suspense, lazy, useMemo } from 'react';
+import React, { Suspense, lazy, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PlatformHeader from '../../components/layout/PlatformHeader.jsx';
 
 const WorkforceHub = lazy(
@@ -41,15 +42,12 @@ class WorkforceErrorBoundary extends React.Component {
           <pre className="whitespace-pre-wrap text-sm bg-surface p-3 rounded border border-subtle">
             {String(this.state.error?.stack || this.state.error)}
           </pre>
-          <button
-            type="button"
-            onClick={() => {
-              if (typeof window !== 'undefined') window.location.assign('/');
-            }}
-            className="mt-4 px-4 py-2 rounded bg-blue-600 text-white"
+          <a
+            href="/?nav=dashboard"
+            className="mt-4 inline-block px-4 py-2 rounded bg-blue-600 text-white no-underline"
           >
             Back to dashboard
-          </button>
+          </a>
         </div>
       );
     }
@@ -59,13 +57,10 @@ class WorkforceErrorBoundary extends React.Component {
 
 export default function WorkforceRoute() {
   const userId = useMemo(readUserId, []);
-  const goHome = () => {
-    if (typeof window !== 'undefined') {
-      window.location.assign('/');
-    }
-  };
-  // eslint-disable-next-line no-console
-  console.log('[WorkforceRoute] mounted, userId =', userId);
+  const navigate = useNavigate();
+  const goHome = useCallback(() => {
+    navigate('/?nav=dashboard');
+  }, [navigate]);
   return (
     <div className="min-h-screen bg-page text-primary">
       <PlatformHeader />

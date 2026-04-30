@@ -110,7 +110,7 @@ export default function PlatformHeader() {
                 className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
               >
-                <AppIcon name="dashboard" tone="slate" size={16} />
+                <AppIcon name="dashboard" tone="current" size={16} />
                 Dashboard
               </button>
               <button
@@ -118,7 +118,7 @@ export default function PlatformHeader() {
                 className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
               >
-                <AppIcon name="pencil" tone="slate" size={16} />
+                <AppIcon name="quiz" tone="current" size={16} />
                 Quizzes
               </button>
               <button
@@ -126,7 +126,7 @@ export default function PlatformHeader() {
                 className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
               >
-                <AppIcon name="progress" tone="slate" size={16} />
+                <AppIcon name="progress" tone="current" size={16} />
                 Progress
               </button>
               {user && (
@@ -245,7 +245,7 @@ export default function PlatformHeader() {
                           className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-left transition-colors text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800"
                         >
                           <AppIcon
-                            name="knowledge"
+                            name="gear"
                             tone={isDark ? 'white' : 'slate'}
                             size={16}
                           />
@@ -285,7 +285,7 @@ export default function PlatformHeader() {
               type="button"
               className="nav-link text-left flex items-center gap-2"
             >
-              <AppIcon name="dashboard" tone="slate" size={16} />
+              <AppIcon name="dashboard" tone="current" size={16} />
               Dashboard
             </button>
             <button
@@ -293,7 +293,7 @@ export default function PlatformHeader() {
               type="button"
               className="nav-link text-left flex items-center gap-2"
             >
-              <AppIcon name="pencil" tone="slate" size={16} />
+              <AppIcon name="quiz" tone="current" size={16} />
               Quizzes
             </button>
             <button
@@ -301,7 +301,7 @@ export default function PlatformHeader() {
               type="button"
               className="nav-link text-left flex items-center gap-2"
             >
-              <AppIcon name="progress" tone="slate" size={16} />
+              <AppIcon name="progress" tone="current" size={16} />
               Progress
             </button>
             {user && (
@@ -319,7 +319,7 @@ export default function PlatformHeader() {
                   type="button"
                   className="nav-link text-left flex items-center gap-2"
                 >
-                  <AppIcon name="knowledge" tone="slate" size={16} />
+                  <AppIcon name="gear" tone="slate" size={16} />
                   Settings
                 </button>
                 <a
