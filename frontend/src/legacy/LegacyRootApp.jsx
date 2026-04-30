@@ -24468,10 +24468,6 @@ function AppHeader({
     : 'U';
   const isProfileActive = activePanel === 'profile';
   const isSettingsActive = activePanel === 'settings';
-  const isDashboardActive = activePanel === 'dashboard';
-  const isQuizzesActive = activePanel === 'quizzes';
-  const isProgressActive = activePanel === 'progress';
-  const isMyClassActive = activePanel === 'myclass';
   const isDark = theme === 'dark';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -24503,54 +24499,40 @@ function AppHeader({
             <span>Mr. Smith's Learning Canvas</span>
           </button>
           <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
-            {currentUser && (
-              <button
-                onClick={onShowHome}
-                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
-                  isDashboardActive ? 'nav-link-active' : ''
-                }`}
-                type="button"
-              >
-                <AppIcon name="dashboard" tone="slate" size={16} />
-                Dashboard
-              </button>
-            )}
-            {currentUser && (
-              <button
-                onClick={onShowQuizzes}
-                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
-                  isQuizzesActive ? 'nav-link-active' : ''
-                }`}
-                type="button"
-                aria-controls="quizzes"
-              >
-                <AppIcon name="pencil" tone="slate" size={16} />
-                Quizzes
-              </button>
-            )}
-            {currentUser && (
-              <button
-                onClick={onShowProgress}
-                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
-                  isProgressActive ? 'nav-link-active' : ''
-                }`}
-                type="button"
-                aria-controls="progress"
-              >
-                <AppIcon name="progress" tone="slate" size={16} />
-                Progress
-              </button>
-            )}
-            {currentUser && onShowMyClass && (
+            <button
+              onClick={onShowHome}
+              className="nav-link flex items-center gap-1.5 whitespace-nowrap"
+              type="button"
+            >
+              <AppIcon name="dashboard" tone="amber" size={16} />
+              Dashboard
+            </button>
+            <button
+              onClick={onShowQuizzes}
+              className="nav-link flex items-center gap-1.5 whitespace-nowrap"
+              type="button"
+              aria-controls="quizzes"
+            >
+              <AppIcon name="pencil" tone="sky" size={16} />
+              Quizzes
+            </button>
+            <button
+              onClick={onShowProgress}
+              className="nav-link flex items-center gap-1.5 whitespace-nowrap"
+              type="button"
+              aria-controls="progress"
+            >
+              <AppIcon name="progress" tone="emerald" size={16} />
+              Progress
+            </button>
+            {onShowMyClass && (
               <button
                 onClick={onShowMyClass}
-                className={`nav-link flex items-center gap-1.5 whitespace-nowrap ${
-                  isMyClassActive ? 'nav-link-active' : ''
-                }`}
+                className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
                 aria-controls="myclass"
               >
-                <AppIcon name="myClass" tone="slate" size={16} />
+                <AppIcon name="myClass" tone="purple" size={16} />
                 My Class
               </button>
             )}
@@ -24664,7 +24646,7 @@ function AppHeader({
                       >
                         <AppIcon
                           name="student"
-                          tone={isDark ? 'white' : 'slate'}
+                          tone="sky"
                           size={16}
                         />
                         Profile
@@ -24684,8 +24666,8 @@ function AppHeader({
                         }`}
                       >
                         <AppIcon
-                          name="gear"
-                          tone={isDark ? 'white' : 'slate'}
+                          name="knowledge"
+                          tone="emerald"
                           size={16}
                         />
                         Settings
@@ -24714,51 +24696,37 @@ function AppHeader({
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-subtle px-4 pb-4 pt-3">
           <nav className="grid gap-2">
-            {currentUser && (
-              <button
-                type="button"
-                onClick={() => handleMobileAction(onShowHome)}
-                className={`btn-ghost justify-start flex items-center gap-1.5 ${
-                  isDashboardActive ? 'nav-link-active' : ''
-                }`}
-              >
-                <AppIcon name="dashboard" tone="slate" size={16} />
-                Dashboard
-              </button>
-            )}
-            {currentUser && (
-              <button
-                type="button"
-                onClick={() => handleMobileAction(onShowQuizzes)}
-                className={`btn-ghost justify-start flex items-center gap-1.5 ${
-                  isQuizzesActive ? 'nav-link-active' : ''
-                }`}
-              >
-                <AppIcon name="pencil" tone="slate" size={16} />
-                Quizzes
-              </button>
-            )}
-            {currentUser && (
-              <button
-                type="button"
-                onClick={() => handleMobileAction(onShowProgress)}
-                className={`btn-ghost justify-start flex items-center gap-1.5 ${
-                  isProgressActive ? 'nav-link-active' : ''
-                }`}
-              >
-                <AppIcon name="progress" tone="slate" size={16} />
-                Progress
-              </button>
-            )}
-            {currentUser && onShowMyClass && (
+            <button
+              type="button"
+              onClick={() => handleMobileAction(onShowHome)}
+              className="btn-ghost justify-start flex items-center gap-1.5"
+            >
+              <AppIcon name="dashboard" tone="amber" size={16} />
+              Dashboard
+            </button>
+            <button
+              type="button"
+              onClick={() => handleMobileAction(onShowQuizzes)}
+              className="btn-ghost justify-start flex items-center gap-1.5"
+            >
+              <AppIcon name="pencil" tone="sky" size={16} />
+              Quizzes
+            </button>
+            <button
+              type="button"
+              onClick={() => handleMobileAction(onShowProgress)}
+              className="btn-ghost justify-start flex items-center gap-1.5"
+            >
+              <AppIcon name="progress" tone="emerald" size={16} />
+              Progress
+            </button>
+            {onShowMyClass && (
               <button
                 type="button"
                 onClick={() => handleMobileAction(onShowMyClass)}
-                className={`btn-ghost justify-start flex items-center gap-1.5 ${
-                  isMyClassActive ? 'nav-link-active' : ''
-                }`}
+                className="btn-ghost justify-start flex items-center gap-1.5"
               >
-                <AppIcon name="myClass" tone="slate" size={16} />
+                <AppIcon name="myClass" tone="purple" size={16} />
                 My Class
               </button>
             )}
@@ -24782,7 +24750,7 @@ function AppHeader({
                     isProfileActive ? 'nav-link-active' : ''
                   }`}
                 >
-                  <AppIcon name="student" tone="slate" size={16} />
+                  <AppIcon name="student" tone="sky" size={16} />
                   Profile
                 </button>
                 <button
@@ -24792,7 +24760,7 @@ function AppHeader({
                     isSettingsActive ? 'nav-link-active' : ''
                   }`}
                 >
-                  <AppIcon name="gear" tone="slate" size={16} />
+                  <AppIcon name="knowledge" tone="emerald" size={16} />
                   Settings
                 </button>
                 <button
@@ -28904,7 +28872,6 @@ function App({ externalTheme, onThemeChange }) {
               onCoverageSubjectChange={handleCoverageSubjectChange}
               onReloadCoverage={loadContentCoverage}
               coverageSubjects={COVERAGE_SUBJECTS}
-              onOpenSettings={goToSettings}
             />
           );
         }
@@ -29081,7 +29048,13 @@ function App({ externalTheme, onThemeChange }) {
           onShowQuizzes={confirmThenNav(goToQuizzes)}
           onShowProgress={confirmThenNav(goToProgress)}
           onShowMyClass={goToMyClass ? confirmThenNav(goToMyClass) : undefined}
-          activePanel={activeView || null}
+          activePanel={
+            activeView === 'profile'
+              ? 'profile'
+              : activeView === 'settings'
+                ? 'settings'
+                : null
+          }
           theme={preferences.theme}
           onToggleTheme={toggleThemePreference}
           quotaRefreshKey={quotaRefreshKey}
@@ -29232,7 +29205,7 @@ function App({ externalTheme, onThemeChange }) {
             alt="Kingmakerconsults logo"
             className="h-48 w-auto object-contain"
           />
-          <p>{`© ${new Date().getFullYear()} Kingmakerconsults`}</p>
+          <p>Kingmakerconsults Copyright &copy;</p>
         </footer>
       </div>
     </>
@@ -29274,7 +29247,6 @@ function ProfileView({
   onCoverageSubjectChange,
   onReloadCoverage,
   coverageSubjects = [],
-  onOpenSettings,
 }) {
   const profile = data?.profile || {};
   const challengeOptions = Array.isArray(data?.challengeOptions)
@@ -29746,13 +29718,22 @@ function ProfileView({
             )}
 
             {showProfileOnboardingBanner && (
-              <div className="onboarding-banner rounded-lg border border-pink-300 bg-pink-50 p-4 text-slate-900 dark:border-pink-500/40 dark:bg-pink-900/20 dark:text-pink-100">
+              <div
+                className="onboarding-banner text-slate-900"
+                style={{
+                  border: '1px solid #f6c',
+                  background: '#fff0f6',
+                  padding: '1rem',
+                  borderRadius: '0.5rem',
+                  color: '#0f172a',
+                }}
+              >
                 <strong>
                   {onboardingComplete
                     ? 'A few items still need your attention:'
                     : 'Welcome! Before we start, fill this out so we can build you a plan:'}
                 </strong>
-                <ol className="list-decimal pl-5 text-sm text-slate-700 dark:text-pink-200 space-y-1 mt-2">
+                <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
                   {profileMissingItems.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -29771,7 +29752,7 @@ function ProfileView({
                     id="completeLaterBtn"
                     type="button"
                     onClick={onCompleteLater}
-                    className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900 dark:text-pink-100"
+                    className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900"
                     aria-label="Skip onboarding for now"
                   >
                     Complete Later
@@ -30010,13 +29991,9 @@ function ProfileView({
                     <dd className="text-primary">{reminderLabel}</dd>
                   </div>
                 </dl>
-                <button
-                  type="button"
-                  onClick={() => onOpenSettings?.()}
-                  className="text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400"
-                >
-                  Open Settings →
-                </button>
+                <p className="text-xs text-muted">
+                  Adjust these settings anytime from the Settings panel.
+                </p>
               </article>
             </div>
 
@@ -30955,11 +30932,7 @@ function InstructorDashboard({ user, token, onLogout }) {
                         {(() => {
                           const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
                           return students.filter((s) => {
-                            if (
-                              Array.isArray(s.subjects) &&
-                              s.subjects.length > 0
-                            )
-                              return true;
+                            if (Array.isArray(s.subjects) && s.subjects.length > 0) return true;
                             if (s.last_attempt_at) {
                               const t = new Date(s.last_attempt_at).getTime();
                               return Number.isFinite(t) && t >= cutoff;
@@ -31709,8 +31682,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                             className={
                               u.account_status === 'active'
                                 ? 'inline-flex rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5'
-                                : u.account_status === 'denied' ||
-                                    u.account_status === 'archived'
+                                : u.account_status === 'denied' || u.account_status === 'archived'
                                   ? 'inline-flex rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5'
                                   : 'inline-flex rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 px-2 py-0.5'
                             }
@@ -31825,10 +31797,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
               {userStatusTarget.name || userStatusTarget.email}
             </p>
             <p className="text-xs text-muted mb-4">
-              Current status:{' '}
-              <span className="font-mono">
-                {userStatusTarget.account_status || 'active'}
-              </span>
+              Current status: <span className="font-mono">{userStatusTarget.account_status || 'active'}</span>
             </p>
 
             {statusError && (
@@ -31838,31 +31807,13 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             )}
 
             <div className="space-y-2 mb-4">
-              <p className="text-xs font-semibold text-muted uppercase">
-                Set status
-              </p>
+              <p className="text-xs font-semibold text-muted uppercase">Set status</p>
               {[
-                {
-                  v: 'active',
-                  label: 'Active',
-                  desc: 'User can sign in normally',
-                },
-                {
-                  v: 'pending_approval',
-                  label: 'Pending Approval',
-                  desc: 'Awaiting admin approval',
-                },
-                {
-                  v: 'pending_org',
-                  label: 'Pending Org',
-                  desc: 'Needs org assignment',
-                },
+                { v: 'active', label: 'Active', desc: 'User can sign in normally' },
+                { v: 'pending_approval', label: 'Pending Approval', desc: 'Awaiting admin approval' },
+                { v: 'pending_org', label: 'Pending Org', desc: 'Needs org assignment' },
                 { v: 'denied', label: 'Denied', desc: 'Membership rejected' },
-                {
-                  v: 'archived',
-                  label: 'Archived',
-                  desc: 'Soft-removed from system',
-                },
+                { v: 'archived', label: 'Archived', desc: 'Soft-removed from system' },
               ].map((opt) => (
                 <button
                   key={opt.v}
@@ -31989,12 +31940,9 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     setLoadingAudit(true);
     try {
       const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
-      const data = await fetchJSON(
-        `${API_BASE_URL}/api/org/audit-log?limit=200`,
-        {
-          headers,
-        }
-      );
+      const data = await fetchJSON(`${API_BASE_URL}/api/org/audit-log?limit=200`, {
+        headers,
+      });
       setAuditEntries(Array.isArray(data?.entries) ? data.entries : []);
     } catch (err) {
       console.error('Failed to load audit log:', err);
@@ -32617,9 +32565,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                               </td>
                               <td
                                 className="px-4 py-3 text-xs text-secondary"
-                                title={describeAllStudentTestDates(
-                                  u.test_dates
-                                )}
+                                title={describeAllStudentTestDates(u.test_dates)}
                               >
                                 {describeNextStudentTestDate(u.test_dates)}
                               </td>
@@ -32950,49 +32896,25 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                       <tbody className="divide-y divide-subtle panel-surface">
                         {invitations.map((inv) => {
                           const status = inv.accepted_at
-                            ? {
-                                label: 'Accepted',
-                                cls: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-                              }
+                            ? { label: 'Accepted', cls: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' }
                             : inv.revoked_at
-                              ? {
-                                  label: 'Revoked',
-                                  cls: 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200',
-                                }
+                              ? { label: 'Revoked', cls: 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200' }
                               : new Date(inv.expires_at).getTime() < Date.now()
-                                ? {
-                                    label: 'Expired',
-                                    cls: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200',
-                                  }
-                                : {
-                                    label: 'Pending',
-                                    cls: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-                                  };
-                          const canRevoke = !inv.accepted_at && !inv.revoked_at;
+                                ? { label: 'Expired', cls: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200' }
+                                : { label: 'Pending', cls: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' };
+                          const canRevoke =
+                            !inv.accepted_at && !inv.revoked_at;
                           return (
-                            <tr
-                              key={inv.id}
-                              className="hover:bg-surface-soft transition"
-                            >
-                              <td className="px-4 py-3 text-secondary">
-                                {inv.email}
-                              </td>
+                            <tr key={inv.id} className="hover:bg-surface-soft transition">
+                              <td className="px-4 py-3 text-secondary">{inv.email}</td>
+                              <td className="px-4 py-3"><AdminRoleBadge role={inv.role} /></td>
                               <td className="px-4 py-3">
-                                <AdminRoleBadge role={inv.role} />
-                              </td>
-                              <td className="px-4 py-3">
-                                <span
-                                  className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${status.cls}`}
-                                >
+                                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs ${status.cls}`}>
                                   {status.label}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-muted text-xs">
-                                {formatDateTime(inv.expires_at)}
-                              </td>
-                              <td className="px-4 py-3 text-muted text-xs">
-                                {formatDateTime(inv.created_at)}
-                              </td>
+                              <td className="px-4 py-3 text-muted text-xs">{formatDateTime(inv.expires_at)}</td>
+                              <td className="px-4 py-3 text-muted text-xs">{formatDateTime(inv.created_at)}</td>
                               <td className="px-4 py-3">
                                 {canRevoke && (
                                   <button
@@ -33046,57 +32968,30 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                     <table className="min-w-full divide-y divide-subtle text-sm">
                       <thead className="bg-surface-soft">
                         <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            When
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Actor
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Role
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Action
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Target
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
-                            Status
-                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">When</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">Actor</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">Role</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">Action</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">Target</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-subtle panel-surface">
                         {auditEntries.map((e) => (
-                          <tr
-                            key={e.id}
-                            className="hover:bg-surface-soft transition"
-                          >
+                          <tr key={e.id} className="hover:bg-surface-soft transition">
+                            <td className="px-4 py-3 text-muted text-xs">{formatDateTime(e.created_at)}</td>
+                            <td className="px-4 py-3 text-secondary text-xs">{e.actor_email || `#${e.actor_user_id || '—'}`}</td>
+                            <td className="px-4 py-3"><AdminRoleBadge role={e.actor_role} /></td>
+                            <td className="px-4 py-3 font-mono text-xs text-primary">{e.action}</td>
                             <td className="px-4 py-3 text-muted text-xs">
-                              {formatDateTime(e.created_at)}
-                            </td>
-                            <td className="px-4 py-3 text-secondary text-xs">
-                              {e.actor_email || `#${e.actor_user_id || '—'}`}
-                            </td>
-                            <td className="px-4 py-3">
-                              <AdminRoleBadge role={e.actor_role} />
-                            </td>
-                            <td className="px-4 py-3 font-mono text-xs text-primary">
-                              {e.action}
-                            </td>
-                            <td className="px-4 py-3 text-muted text-xs">
-                              {e.target_type
-                                ? `${e.target_type}${e.target_id ? `#${e.target_id}` : ''}`
-                                : '—'}
+                              {e.target_type ? `${e.target_type}${e.target_id ? `#${e.target_id}` : ''}` : '—'}
                             </td>
                             <td className="px-4 py-3 text-xs">
-                              <span
-                                className={
-                                  e.status === 'denied'
-                                    ? 'inline-flex rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5'
-                                    : 'inline-flex rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5'
-                                }
-                              >
+                              <span className={
+                                e.status === 'denied'
+                                  ? 'inline-flex rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5'
+                                  : 'inline-flex rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5'
+                              }>
                                 {e.status || 'ok'}
                               </span>
                             </td>
@@ -33117,22 +33012,17 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                     Organization Settings
                   </h2>
                   <p className="text-sm text-muted mt-1">
-                    Customize your organization's display name, logo, and brand
-                    color.
+                    Customize your organization's display name, logo, and brand color.
                   </p>
                 </div>
                 {loadingSettings ? (
                   <p className="text-sm text-muted">Loading settings...</p>
                 ) : !orgSettings ? (
                   <p className="text-sm text-muted">
-                    Settings are unavailable (feature may be disabled for your
-                    plan).
+                    Settings are unavailable (feature may be disabled for your plan).
                   </p>
                 ) : (
-                  <form
-                    onSubmit={saveOrgSettings}
-                    className="max-w-xl space-y-4"
-                  >
+                  <form onSubmit={saveOrgSettings} className="max-w-xl space-y-4">
                     <div>
                       <label className="block text-xs font-semibold text-muted mb-1">
                         Display Name
@@ -33141,10 +33031,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                         type="text"
                         value={settingsForm.display_name}
                         onChange={(e) =>
-                          setSettingsForm((s) => ({
-                            ...s,
-                            display_name: e.target.value,
-                          }))
+                          setSettingsForm((s) => ({ ...s, display_name: e.target.value }))
                         }
                         maxLength={255}
                         className="w-full px-3 py-2 rounded-lg border border-subtle bg-page text-sm"
@@ -33159,10 +33046,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                         type="url"
                         value={settingsForm.logo_url}
                         onChange={(e) =>
-                          setSettingsForm((s) => ({
-                            ...s,
-                            logo_url: e.target.value,
-                          }))
+                          setSettingsForm((s) => ({ ...s, logo_url: e.target.value }))
                         }
                         maxLength={2048}
                         className="w-full px-3 py-2 rounded-lg border border-subtle bg-page text-sm"
@@ -33178,10 +33062,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                           type="text"
                           value={settingsForm.brand_color}
                           onChange={(e) =>
-                            setSettingsForm((s) => ({
-                              ...s,
-                              brand_color: e.target.value,
-                            }))
+                            setSettingsForm((s) => ({ ...s, brand_color: e.target.value }))
                           }
                           maxLength={20}
                           pattern="^#?[0-9a-fA-F]{3,8}$"
@@ -33192,10 +33073,9 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                           <span
                             className="w-8 h-8 rounded-lg border border-subtle"
                             style={{
-                              backgroundColor:
-                                settingsForm.brand_color.startsWith('#')
-                                  ? settingsForm.brand_color
-                                  : `#${settingsForm.brand_color}`,
+                              backgroundColor: settingsForm.brand_color.startsWith('#')
+                                ? settingsForm.brand_color
+                                : `#${settingsForm.brand_color}`,
                             }}
                           />
                         )}
@@ -33210,17 +33090,13 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                         {settingsSaving ? 'Saving...' : 'Save'}
                       </button>
                       {settingsMessage && (
-                        <span className="text-sm text-muted">
-                          {settingsMessage}
-                        </span>
+                        <span className="text-sm text-muted">{settingsMessage}</span>
                       )}
                     </div>
                     <div className="text-xs text-muted pt-2 border-t border-subtle">
                       <div>Plan: {orgSettings.plan_tier || '—'}</div>
                       <div>Seats: {orgSettings.seat_limit ?? 'unlimited'}</div>
-                      <div>
-                        Status: {orgSettings.subscription_status || '—'}
-                      </div>
+                      <div>Status: {orgSettings.subscription_status || '—'}</div>
                     </div>
                   </form>
                 )}
@@ -37952,82 +37828,55 @@ function StartScreen({
               id="quizzes"
               className="grid grid-cols-1 md:grid-cols-3 gap-6 subject-bar"
             >
-              {(() => {
-                const availableSubjects = SUBJECT_DISPLAY_ORDER.filter(
-                  (subjectName) => AppData && AppData[subjectName]
-                );
-                if (availableSubjects.length === 0) {
-                  return (
-                    <div className="md:col-span-3 panel card text-center space-y-3 p-6">
-                      <h3 className="text-lg font-semibold text-primary">
-                        Subjects are still loading
-                      </h3>
-                      <p className="text-sm text-secondary">
-                        We couldn't load any subjects yet. Please try refreshing
-                        the page.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (typeof window !== 'undefined') {
-                            window.location.reload();
-                          }
-                        }}
-                        className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold"
-                      >
-                        Refresh
-                      </button>
-                    </div>
-                  );
-                }
-                return availableSubjects.map((subjectName) => {
-                  const iconMap = {
-                    Math: '/icons/math-svgrepo-com.svg',
-                    Science: '/icons/double-helix-svgrepo-com.svg',
-                    'Social Studies': '/icons/globe-svgrepo-com.svg',
-                    'Reasoning Through Language Arts (RLA)':
-                      '/icons/book-closed-svgrepo-com.svg',
-                    RLA: '/icons/book-closed-svgrepo-com.svg',
-                    'Workforce Readiness': '/icons/briefcase-svgrepo-com.svg',
-                  };
-                  const iconPath =
-                    iconMap[subjectName] || '/icons/knowledge-svgrepo-com.svg';
-                  const premadeTotal = getPremadeQuizTotal(subjectName);
-                  const premadeLabel =
-                    premadeTotal === 1
-                      ? '1 premade quiz ready'
-                      : `${premadeTotal} premade quizzes ready`;
-                  const subjectKeyShort =
-                    SUBJECT_SHORT_LABELS[subjectName] || subjectName;
-                  const isWorkforce = subjectName === 'Workforce Readiness';
-                  return (
-                    <SubjectCard
-                      key={subjectName}
-                      subject={subjectName}
-                      icon={iconPath}
-                      onClick={() => {
-                        if (isWorkforce) {
-                          if (typeof window !== 'undefined') {
-                            window.location.assign('/workforce');
-                          }
-                          return;
+              {SUBJECT_DISPLAY_ORDER.filter(
+                (subjectName) => AppData && AppData[subjectName]
+              ).map((subjectName) => {
+                const iconMap = {
+                  Math: '/icons/math-svgrepo-com.svg',
+                  Science: '/icons/double-helix-svgrepo-com.svg',
+                  'Social Studies': '/icons/globe-svgrepo-com.svg',
+                  'Reasoning Through Language Arts (RLA)':
+                    '/icons/book-closed-svgrepo-com.svg',
+                  RLA: '/icons/book-closed-svgrepo-com.svg',
+                  'Workforce Readiness': '/icons/briefcase-svgrepo-com.svg',
+                };
+                const iconPath =
+                  iconMap[subjectName] || '/icons/knowledge-svgrepo-com.svg';
+                const premadeTotal = getPremadeQuizTotal(subjectName);
+                const premadeLabel =
+                  premadeTotal === 1
+                    ? '1 premade quiz ready'
+                    : `${premadeTotal} premade quizzes ready`;
+                const subjectKeyShort =
+                  SUBJECT_SHORT_LABELS[subjectName] || subjectName;
+                const isWorkforce = subjectName === 'Workforce Readiness';
+                return (
+                  <SubjectCard
+                    key={subjectName}
+                    subject={subjectName}
+                    icon={iconPath}
+                    onClick={() => {
+                      if (isWorkforce) {
+                        if (typeof window !== 'undefined') {
+                          window.location.assign('/workforce');
                         }
-                        openSubjectPremades(subjectName);
-                      }}
-                      className="bg-surface border border-subtle"
+                        return;
+                      }
+                      openSubjectPremades(subjectName);
+                    }}
+                    className="bg-surface border border-subtle"
+                  >
+                    <div
+                      className="text-sm text-primary"
+                      data-subject={subjectKeyShort}
                     >
-                      <div
-                        className="text-sm text-primary"
-                        data-subject={subjectKeyShort}
-                      >
-                        {isWorkforce
-                          ? 'Digital Literacy Academy + job tools'
-                          : premadeLabel}
-                      </div>
-                    </SubjectCard>
-                  );
-                });
-              })()}
+                      {isWorkforce
+                        ? 'Digital Literacy Academy + job tools'
+                        : premadeLabel}
+                    </div>
+                  </SubjectCard>
+                );
+              })}
             </div>
           </section>
         </div>

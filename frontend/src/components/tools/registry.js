@@ -22,6 +22,16 @@ import ElectoralCollegeSimulator from '../../../tools/ElectoralCollegeSimulator'
 import ConstitutionExplorer from '../../../tools/ConstitutionExplorer';
 import EconomicsGraphTool from '../../../tools/EconomicsGraphTool';
 
+import TypingPractice from './rla/TypingPractice';
+import GrammarDrill from './rla/GrammarDrill';
+import VocabInContext from './rla/VocabInContext';
+import TransitionPicker from './rla/TransitionPicker';
+import EvidenceHighlighter from './rla/EvidenceHighlighter';
+import SentenceCombiner from './rla/SentenceCombiner';
+import EssayOutlineBuilder from './rla/EssayOutlineBuilder';
+import ReadingSpeedTrainer from './rla/ReadingSpeedTrainer';
+import PunctuationFix from './rla/PunctuationFix';
+
 /**
  * @typedef {Object} ToolEntry
  * @property {string} id           Stable ID used for routing/persistence.
@@ -169,10 +179,78 @@ const SOCIAL_TOOLS = [
   },
 ];
 
+const RLA_TOOLS = [
+  {
+    id: 'typing-practice',
+    name: 'Typing Practice',
+    icon: '⌨️',
+    description: 'Build typing speed and accuracy with GED-flavored sentences.',
+    component: TypingPractice,
+  },
+  {
+    id: 'grammar-drill',
+    name: 'Grammar Drill',
+    icon: '✏️',
+    description:
+      'Quick MCQs on subject-verb agreement, punctuation, and modifiers.',
+    component: GrammarDrill,
+  },
+  {
+    id: 'vocab-in-context',
+    name: 'Vocabulary in Context',
+    icon: '📚',
+    description: 'Determine word meaning from how it is used in a sentence.',
+    component: VocabInContext,
+  },
+  {
+    id: 'transition-picker',
+    name: 'Transition Word Picker',
+    icon: '🔗',
+    description: 'Choose the best connector to link two related sentences.',
+    component: TransitionPicker,
+  },
+  {
+    id: 'evidence-highlighter',
+    name: 'Evidence Highlighter',
+    icon: '🔍',
+    description: 'Click the sentence that best supports a claim.',
+    component: EvidenceHighlighter,
+  },
+  {
+    id: 'sentence-combiner',
+    name: 'Sentence Combiner',
+    icon: '🧩',
+    description: 'Merge choppy sentences into one polished sentence.',
+    component: SentenceCombiner,
+  },
+  {
+    id: 'essay-outline',
+    name: 'Essay Outline Builder',
+    icon: '🗒️',
+    description: 'Scaffold a thesis, evidence, and counterclaim outline.',
+    component: EssayOutlineBuilder,
+  },
+  {
+    id: 'reading-speed',
+    name: 'Reading Speed Trainer',
+    icon: '⏱️',
+    description: 'Time a passage, then check comprehension with a quick MCQ.',
+    component: ReadingSpeedTrainer,
+  },
+  {
+    id: 'punctuation-fix',
+    name: 'Punctuation Fix',
+    icon: '❗',
+    description:
+      'Repair commas, semicolons, and apostrophes in real sentences.',
+    component: PunctuationFix,
+  },
+];
+
 export const TOOL_REGISTRY = {
   Math: MATH_TOOLS,
   Science: SCIENCE_TOOLS,
-  'Reasoning Through Language Arts (RLA)': [],
+  'Reasoning Through Language Arts (RLA)': RLA_TOOLS,
   'Social Studies': SOCIAL_TOOLS,
 };
 

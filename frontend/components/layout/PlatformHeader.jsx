@@ -112,7 +112,7 @@ export default function PlatformHeader() {
                 className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
               >
-                <AppIcon name="dashboard" tone="current" size={16} />
+                <AppIcon name="dashboard" tone="amber" size={16} />
                 Dashboard
               </button>
               <button
@@ -120,7 +120,7 @@ export default function PlatformHeader() {
                 className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
               >
-                <AppIcon name="quiz" tone="current" size={16} />
+                <AppIcon name="quiz" tone="sky" size={16} />
                 Quizzes
               </button>
               <button
@@ -128,7 +128,7 @@ export default function PlatformHeader() {
                 className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                 type="button"
               >
-                <AppIcon name="progress" tone="current" size={16} />
+                <AppIcon name="progress" tone="emerald" size={16} />
                 Progress
               </button>
               {user && (
@@ -137,7 +137,7 @@ export default function PlatformHeader() {
                   className="nav-link flex items-center gap-1.5 whitespace-nowrap"
                   type="button"
                 >
-                  <AppIcon name="myClass" tone="current" size={16} />
+                  <AppIcon name="myClass" tone="purple" size={16} />
                   My Class
                 </button>
               )}
@@ -246,7 +246,7 @@ export default function PlatformHeader() {
                         >
                           <AppIcon
                             name="student"
-                            tone={isDark ? 'white' : 'slate'}
+                            tone="sky"
                             size={16}
                           />
                           Profile
@@ -262,7 +262,7 @@ export default function PlatformHeader() {
                         >
                           <AppIcon
                             name="gear"
-                            tone={isDark ? 'white' : 'slate'}
+                            tone="emerald"
                             size={16}
                           />
                           Settings
@@ -301,7 +301,7 @@ export default function PlatformHeader() {
               type="button"
               className="nav-link text-left flex items-center gap-2"
             >
-              <AppIcon name="dashboard" tone="current" size={16} />
+              <AppIcon name="dashboard" tone="amber" size={16} />
               Dashboard
             </button>
             <button
@@ -309,7 +309,7 @@ export default function PlatformHeader() {
               type="button"
               className="nav-link text-left flex items-center gap-2"
             >
-              <AppIcon name="quiz" tone="current" size={16} />
+              <AppIcon name="quiz" tone="sky" size={16} />
               Quizzes
             </button>
             <button
@@ -317,7 +317,7 @@ export default function PlatformHeader() {
               type="button"
               className="nav-link text-left flex items-center gap-2"
             >
-              <AppIcon name="progress" tone="current" size={16} />
+              <AppIcon name="progress" tone="emerald" size={16} />
               Progress
             </button>
             {user && (
@@ -326,7 +326,7 @@ export default function PlatformHeader() {
                 type="button"
                 className="nav-link text-left flex items-center gap-2"
               >
-                <AppIcon name="myClass" tone="current" size={16} />
+                <AppIcon name="myClass" tone="purple" size={16} />
                 My Class
               </button>
             )}
@@ -337,7 +337,7 @@ export default function PlatformHeader() {
                   type="button"
                   className="nav-link text-left flex items-center gap-2"
                 >
-                  <AppIcon name="student" tone="slate" size={16} />
+                  <AppIcon name="student" tone="sky" size={16} />
                   Profile
                 </button>
                 <button
@@ -345,7 +345,7 @@ export default function PlatformHeader() {
                   type="button"
                   className="nav-link text-left flex items-center gap-2"
                 >
-                  <AppIcon name="gear" tone="slate" size={16} />
+                  <AppIcon name="gear" tone="emerald" size={16} />
                   Settings
                 </button>
                 <a
