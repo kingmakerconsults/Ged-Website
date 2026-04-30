@@ -36385,11 +36385,14 @@ function StartScreen({
             </div>
             {(selectedSubject === 'Math' ||
               selectedSubject === 'Science' ||
-              selectedSubject === 'Social Studies') && (
+              selectedSubject === 'Social Studies' ||
+              selectedSubject === 'Reasoning Through Language Arts (RLA)') && (
               <div className="flex flex-wrap gap-2">
                 {(selectedSubject === 'Math' ||
                   selectedSubject === 'Science' ||
-                  selectedSubject === 'Social Studies') && (
+                  selectedSubject === 'Social Studies' ||
+                  selectedSubject ===
+                    'Reasoning Through Language Arts (RLA)') && (
                   <button
                     onClick={() => {
                       setToolsModalSubject(selectedSubject);
@@ -36401,7 +36404,12 @@ function StartScreen({
                       color: heroAccentColor,
                     }}
                   >
-                    🛠️ {selectedSubject} Tools
+                    🛠️{' '}
+                    {selectedSubject ===
+                    'Reasoning Through Language Arts (RLA)'
+                      ? 'RLA'
+                      : selectedSubject}{' '}
+                    Tools
                   </button>
                 )}
                 {selectedSubject === 'Math' && (
