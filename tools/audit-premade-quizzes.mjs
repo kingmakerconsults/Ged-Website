@@ -297,10 +297,7 @@ async function main() {
   const stamp = ts();
   const reportsDir = path.join(root, 'reports');
   fs.mkdirSync(reportsDir, { recursive: true });
-  const jsonPath = path.join(
-    reportsDir,
-    `premade-quiz-quality-${stamp}.json`
-  );
+  const jsonPath = path.join(reportsDir, `premade-quiz-quality-${stamp}.json`);
   fs.writeFileSync(jsonPath, JSON.stringify(results, null, 2));
 
   // Markdown summary
@@ -356,9 +353,7 @@ async function main() {
   mdLines.push('## Quizzes failing >5% of questions (top 50)');
   mdLines.push('| File | Quiz | Subject | Q# | Flagged | Fail % |');
   mdLines.push('|---|---|---|---:|---:|---:|');
-  for (const q of failedQuizzes
-    .filter((q) => q.failPct > 5)
-    .slice(0, 50)) {
+  for (const q of failedQuizzes.filter((q) => q.failPct > 5).slice(0, 50)) {
     mdLines.push(
       `| ${q.filePath} | ${q.quizTitle} (${q.quizId}) | ${q.subject} | ${q.count} | ${q.flagged} | ${q.failPct}% |`
     );
@@ -367,10 +362,7 @@ async function main() {
   mdLines.push(
     `Full per-quiz matrix and a sample of up to ${FLAGGED_CAP} flagged questions are in the JSON report.`
   );
-  const mdPath = path.join(
-    reportsDir,
-    `premade-quiz-quality-${stamp}.md`
-  );
+  const mdPath = path.join(reportsDir, `premade-quiz-quality-${stamp}.md`);
   fs.writeFileSync(mdPath, mdLines.join('\n') + '\n');
 
   console.log(

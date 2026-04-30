@@ -30208,10 +30208,7 @@ app.post(
       INSERT INTO profiles (user_id, class_id)
       VALUES ($1, $2)
     `,
-        [
-          userId,
-          classId || null,
-        ]
+        [userId, classId || null]
       );
       // Note: phone, accommodations, course_flags columns do not exist in the
       // profiles schema and are accepted but not persisted.

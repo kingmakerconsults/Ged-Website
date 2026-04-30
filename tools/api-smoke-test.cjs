@@ -20,7 +20,11 @@ const ROUTES = [
   { path: '/api/vocabulary/all', auth: 'public', expected: [200] },
   { path: '/api/vocabulary/Math', auth: 'public', expected: [200, 404] },
   { path: '/api/vocabulary-quiz/Math', auth: 'public', expected: [200, 404] },
-  { path: '/api/science/chemistry/random-equation', auth: 'public', expected: [200] },
+  {
+    path: '/api/science/chemistry/random-equation',
+    auth: 'public',
+    expected: [200],
+  },
   { path: '/api/workforce/career-paths', auth: 'public', expected: [200] },
 
   // Auth required (any logged-in user)
@@ -54,7 +58,11 @@ const ROUTES = [
   { path: '/api/admin/reports/readiness', auth: 'admin', expected: [200] },
   { path: '/api/admin/reports/activity', auth: 'admin', expected: [200] },
   { path: '/api/admin/reports/ged-results', auth: 'admin', expected: [200] },
-  { path: '/api/admin/reports/domain-weaknesses', auth: 'admin', expected: [200] },
+  {
+    path: '/api/admin/reports/domain-weaknesses',
+    auth: 'admin',
+    expected: [200],
+  },
 ];
 
 const ADMIN_ROLES = new Set(['orgAdmin', 'superAdmin']);
@@ -132,7 +140,8 @@ async function main() {
     },
     failures: [],
   };
-  for (const r of ROLES) results.summary.perRole[r] = { calls: 0, pass: 0, fail: 0 };
+  for (const r of ROLES)
+    results.summary.perRole[r] = { calls: 0, pass: 0, fail: 0 };
 
   // Public routes called once (no token)
   for (const route of ROUTES.filter((r) => r.auth === 'public')) {
@@ -247,8 +256,12 @@ async function main() {
   console.log(
     JSON.stringify(
       {
-        json: path.relative(path.join(__dirname, '..'), jsonPath).replace(/\\/g, '/'),
-        md: path.relative(path.join(__dirname, '..'), mdPath).replace(/\\/g, '/'),
+        json: path
+          .relative(path.join(__dirname, '..'), jsonPath)
+          .replace(/\\/g, '/'),
+        md: path
+          .relative(path.join(__dirname, '..'), mdPath)
+          .replace(/\\/g, '/'),
         total: results.summary.totalCalls,
         pass: results.summary.pass,
         fail: results.summary.fail,
