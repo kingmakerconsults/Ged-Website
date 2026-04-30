@@ -20,11 +20,38 @@ export default function CollabLobby({
   };
 
   const startSession = () => {
-    if (roomState.sessionType === 'essay') {
-      emit('essay:start', {}, () => {});
-    } else {
-      emit('instructor:start', {}, () => {});
-    }
+    const isEssaySession = roomState.sessionType === 'essay';
+    const event = isEssaySession ? 'essay:start' : 'instructor:start';
+
+    // The newer backend ack-handles `essay:start`; older deploys still only
+    // know about `instructor:start`. If the new event never acks (no
+    // listener registered), fall back so the host isn't stuck in the lobby.
+    let acked = false;
+    const timer = setTimeout(() => {
+      if (acked) return;
+      if (isEssaySession) {
+        console.warn(
+          '[collab] essay:start did not ack — falling back to instructor:start'
+        );
+        emit('instructor:start', {}, (resp) => {
+          if (resp && resp.error) {
+            console.error('[collab] instructor:start fallback failed:', resp.error);
+            alert(`Could not start session: ${resp.error}`);
+          }
+        });
+      } else {
+        console.warn(`[collab] ${event} did not ack within 3s`);
+      }
+    }, 3000);
+
+    emit(event, {}, (resp) => {
+      acked = true;
+      clearTimeout(timer);
+      if (resp && resp.error) {
+        console.error(`[collab] ${event} failed:`, resp.error);
+        alert(`Could not start session: ${resp.error}`);
+      }
+    });
   };
 
   const joinLocked = !!roomState.state?.joinLocked;

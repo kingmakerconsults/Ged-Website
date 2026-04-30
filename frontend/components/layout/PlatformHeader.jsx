@@ -12,6 +12,8 @@
 // to call its internal `goTo*` shortcuts.
 import React, { useEffect, useState } from 'react';
 import AppIcon from '../../src/components/icons/AppIcon.jsx';
+import QuotaPill from '../../src/components/quota/QuotaPill.jsx';
+import NotificationBell from '../../src/components/notifications/NotificationBell.jsx';
 
 function readUser() {
   try {
@@ -130,6 +132,16 @@ export default function PlatformHeader() {
                 Progress
               </button>
               {user && (
+                <button
+                  onClick={() => go('myclass')}
+                  className="nav-link flex items-center gap-1.5 whitespace-nowrap"
+                  type="button"
+                >
+                  <AppIcon name="myClass" tone="current" size={16} />
+                  My Class
+                </button>
+              )}
+              {user && (
                 <a
                   href="/collab"
                   className="px-2.5 xl:px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full no-underline inline-flex items-center gap-1.5 whitespace-nowrap"
@@ -170,6 +182,10 @@ export default function PlatformHeader() {
             </button>
             {user && (
               <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+                <div className="hidden xl:flex">
+                  <QuotaPill />
+                </div>
+                <NotificationBell />
                 <div className="relative">
                   <button
                     type="button"
@@ -304,6 +320,16 @@ export default function PlatformHeader() {
               <AppIcon name="progress" tone="current" size={16} />
               Progress
             </button>
+            {user && (
+              <button
+                onClick={() => go('myclass')}
+                type="button"
+                className="nav-link text-left flex items-center gap-2"
+              >
+                <AppIcon name="myClass" tone="current" size={16} />
+                My Class
+              </button>
+            )}
             {user && (
               <>
                 <button

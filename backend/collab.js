@@ -1293,15 +1293,12 @@ function attachCollabSockets(io, { getAllQuizzes }) {
     const mode = state.essayMode || 'free';
     if (mode === 'jigsaw') return null; // jigsaw has no turn rotation
     const participants = await loadParticipants(sessionId);
-    const ids = participants
-      .map((p) => p.user_id)
-      .filter((id) => id != null);
+    const ids = participants.map((p) => p.user_id).filter((id) => id != null);
     if (ids.length === 0) return null;
     const currIdx = ids.indexOf(state.essayTurn);
     const nextId = ids[(currIdx + 1 + ids.length) % ids.length] || ids[0];
     const nextDisplay =
-      participants.find((p) => p.user_id === nextId)?.display_name ||
-      'Partner';
+      participants.find((p) => p.user_id === nextId)?.display_name || 'Partner';
 
     const next = { ...state };
     // round_robin: commit any in-flight draft into the paragraphs list before passing
@@ -1343,7 +1340,9 @@ function attachCollabSockets(io, { getAllQuizzes }) {
     armPerTurnTimer(sessionId).catch(() => {});
     // Emit room-state so paragraph commits propagate
     if (mode === 'round_robin') {
-      const probeSocket = (await nsp.in(`session:${sessionId}`).fetchSockets())[0];
+      const probeSocket = (
+        await nsp.in(`session:${sessionId}`).fetchSockets()
+      )[0];
       if (probeSocket) {
         await emitRoomState(probeSocket, sessionId, { toAll: true });
       }
@@ -1404,7 +1403,9 @@ function attachCollabSockets(io, { getAllQuizzes }) {
       content: finalContent,
       reason,
     });
-    const probeSocket = (await nsp.in(`session:${sessionId}`).fetchSockets())[0];
+    const probeSocket = (
+      await nsp.in(`session:${sessionId}`).fetchSockets()
+    )[0];
     if (probeSocket) {
       await emitRoomState(probeSocket, sessionId, { toAll: true });
     }
@@ -1457,7 +1458,9 @@ function attachCollabSockets(io, { getAllQuizzes }) {
       nsp
         .to(`session:${sessionId}`)
         .emit('essay:ai_review_ready', { aiReview });
-      const probeSocket = (await nsp.in(`session:${sessionId}`).fetchSockets())[0];
+      const probeSocket = (
+        await nsp.in(`session:${sessionId}`).fetchSockets()
+      )[0];
       if (probeSocket) {
         await emitRoomState(probeSocket, sessionId, { toAll: true });
       }
@@ -1472,7 +1475,7 @@ function attachCollabSockets(io, { getAllQuizzes }) {
   // On startup, rehydrate timers for any in-progress essay session whose
   // deadlines are still in the future. Fires once shortly after attach.
   setTimeout(() => {
-    db.manyOrNone(
+    db.many(
       `SELECT id FROM collab_sessions
         WHERE session_type = 'essay' AND status != 'complete'`
     )

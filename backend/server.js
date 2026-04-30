@@ -30999,7 +30999,7 @@ if (require.main === module) {
       requireSuperAdmin,
       async (req, res) => {
         try {
-          const rows = await db.manyOrNone(`
+          const rows = await db.many(`
           SELECT id, subject, topic, question_json, created_at
           FROM ai_question_bank
           ORDER BY created_at DESC

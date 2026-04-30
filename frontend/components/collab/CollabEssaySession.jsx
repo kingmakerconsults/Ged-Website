@@ -271,10 +271,7 @@ export default function CollabEssaySession({ roomState, currentUserId, emit }) {
               {(timer.turnDeadline || timer.sessionDeadline) && (
                 <div className="mt-2 flex items-center gap-2 flex-wrap">
                   {mode !== 'jigsaw' && timer.turnDeadline && (
-                    <CountdownPill
-                      label="Turn"
-                      deadline={timer.turnDeadline}
-                    />
+                    <CountdownPill label="Turn" deadline={timer.turnDeadline} />
                   )}
                   {timer.sessionDeadline && (
                     <CountdownPill
